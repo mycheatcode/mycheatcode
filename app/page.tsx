@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Section } from './utils/progressionSystem';
+import { addLog, createSampleLog } from './utils/progressionSystem';
 import { useSectionRadar } from './utils/useSectionRadar';
 import SectionProgressModal from '../components/SectionProgressModal';
 import { generateShareCard } from './utils/engagementSystem';
