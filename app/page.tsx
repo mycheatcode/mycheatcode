@@ -140,46 +140,6 @@ const debugProgression = () => {
   }
 };
 
-  const addIncrementalProgress = () => {
-    console.log('Current test step:', testStep);
-
-    // Define the exact progression steps
-    const progressSteps = [
-      // Pre-Game progression
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-1', cheatName: 'Pre-Game Cheat 1', description: 'First log in Pre-Game' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-1', cheatName: 'Pre-Game Cheat 1', description: 'Second log in Pre-Game (reaches Orange)' },
-
-      // In-Game progression
-      { section: 'In-Game', cheatId: 'ingame-cheat-1', cheatName: 'In-Game Cheat 1', description: 'First log in In-Game' },
-      { section: 'In-Game', cheatId: 'ingame-cheat-1', cheatName: 'In-Game Cheat 1', description: 'Second log in In-Game (reaches Orange)' },
-
-      // Continue Pre-Game to Yellow
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-2', cheatName: 'Pre-Game Cheat 2', description: 'Second unique cheat in Pre-Game' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-2', cheatName: 'Pre-Game Cheat 2', description: 'Fourth log in Pre-Game' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-1', cheatName: 'Pre-Game Cheat 1', description: 'Fifth log in Pre-Game' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-2', cheatName: 'Pre-Game Cheat 2', description: 'Sixth log in Pre-Game (reaches Yellow)' },
-
-      // Continue to Green
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-3', cheatName: 'Pre-Game Cheat 3', description: 'Third unique cheat in Pre-Game' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-1', cheatName: 'Pre-Game Cheat 1', description: '8th log' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-2', cheatName: 'Pre-Game Cheat 2', description: '9th log' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-3', cheatName: 'Pre-Game Cheat 3', description: '10th log' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-1', cheatName: 'Pre-Game Cheat 1', description: '11th log' },
-      { section: 'Pre-Game', cheatId: 'pregame-cheat-2', cheatName: 'Pre-Game Cheat 2', description: '12th log (reaches Green!)' },
-    ];
-
-    if (testStep >= progressSteps.length) {
-      console.log('All progression steps completed!');
-      return;
-    }
-
-    const step = progressSteps[testStep];
-    console.log('Adding step:', step);
-
-    addLog(createSampleLog(step.cheatId, step.cheatName, step.section as Section));
-    setTestStep(prev => prev + 1);
-  };
-
   // Calculate overall percentage based on section radar system
   const calculateOverallPercentage = () => {
     return getRadarScore();
