@@ -161,7 +161,7 @@ export async function runGreenHoldMaintenanceJob(): Promise<{
 
     // Count unique days with activity
     const logDates = new Set();
-    recentLogs?.forEach(log => {
+    recentLogs?.forEach((log: any) => {
       const logDate = new Date(log.timestamp).toDateString();
       logDates.add(logDate);
     });

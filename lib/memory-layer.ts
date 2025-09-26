@@ -212,8 +212,8 @@ export async function calculateSectionProgress(userId: string, section: SectionT
   if (logsError) throw new Error(`Failed to fetch section logs: ${logsError.message}`);
 
   // Get unique codes and total valid logs
-  const validLogs = logs?.filter(log => log.counted) || [];
-  const uniqueCodeIds = new Set(validLogs.map(log => log.code_id));
+  const validLogs = logs?.filter((log: any) => log.counted) || [];
+  const uniqueCodeIds = new Set(validLogs.map((log: any) => log.code_id));
   const totalValidLogs = validLogs.length;
   const uniqueCodesUsed = uniqueCodeIds.size;
 
@@ -228,7 +228,7 @@ export async function calculateSectionProgress(userId: string, section: SectionT
   if (codesError) throw new Error(`Failed to fetch active codes: ${codesError.message}`);
 
   const sectionScore = activeCodes && activeCodes.length > 0
-    ? Math.round(activeCodes.reduce((sum, code) => sum + code.power_pct, 0) / activeCodes.length)
+    ? Math.round(activeCodes.reduce((sum: number, code: any) => sum + code.power_pct, 0) / activeCodes.length)
     : 0;
 
   // Determine color based on guardrails
@@ -311,7 +311,7 @@ export async function calculateRadarState(userId: string): Promise<RadarState> {
   };
 
   // Map section progress to radar scores
-  sectionProgress?.forEach(progress => {
+  sectionProgress?.forEach((progress: any) => {
     scores[`${progress.section}_score` as keyof typeof scores] = progress.section_score;
   });
 
