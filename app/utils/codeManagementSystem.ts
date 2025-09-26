@@ -47,20 +47,22 @@ export function getCodeManagementState(): CodeManagementState {
     const sections: Section[] = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
     const sectionManagement: Record<Section, SectionCodeManagement> = {} as Record<Section, SectionCodeManagement>;
 
-    sections.forEach(section => {
-      sectionManagement[section] = {
-        sectionId: section,
-        activeCodes: [],
-        archivedCodes: [],
-        totalCreated: 0
-      };
-    });
+    sections.forEach((section) => {
+  sectionManagement[section] = {
+    sectionId: section,
+    activeCodes: [],
+    archivedCodes: [],
+    totalCodesCreated: 0,   // ✅ match interface
+    totalActiveCodes: 0     // ✅ also required by the interface
+  };
+});
 
     return {
       sections: sectionManagement,
       globalStats: {
         totalCodesCreated: 0,
         totalArchivedCodes: 0,
+        totalActiveCodes: 0,   // ✅ add this
         lastActivity: Date.now()
       }
     };
