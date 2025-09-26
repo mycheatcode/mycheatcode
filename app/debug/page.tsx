@@ -3,14 +3,24 @@
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+
 export default function DebugPage() {
   const [debugInfo, setDebugInfo] = useState<any>({});
   const [testResult, setTestResult] = useState<string>('');
   const [loading, setLoading] = useState(false);
-
-  const supabase = createClientComponentClient();
+  const [supabase, setSupabase] = useState<any>(null);
 
   useEffect(() => {
+    // Initialize Supabase client
+    try {
+      const client = createClientComponentClient();
+      setSupabase(client);
+    } catch (error) {
+      console.error('Failed to create Supabase client:', error);
+    }
+
     // Check environment variables
     const envCheck = {
       supabaseUrl: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -21,6 +31,11 @@ export default function DebugPage() {
   }, []);
 
   const testConnection = async () => {
+    if (!supabase) {
+      setTestResult('Supabase client not initialized');
+      return;
+    }
+
     setLoading(true);
     setTestResult('Testing connection...');
 
@@ -41,6 +56,11 @@ export default function DebugPage() {
   };
 
   const testSignup = async () => {
+    if (!supabase) {
+      setTestResult('Supabase client not initialized');
+      return;
+    }
+
     setLoading(true);
     setTestResult('Testing signup...');
 
@@ -63,6 +83,11 @@ export default function DebugPage() {
   };
 
   const signOut = async () => {
+    if (!supabase) {
+      setTestResult('Supabase client not initialized');
+      return;
+    }
+
     setLoading(true);
     setTestResult('Signing out...');
 
@@ -103,21 +128,21 @@ export default function DebugPage() {
             <div className="space-x-4">
               <button
                 onClick={testConnection}
-                disabled={loading}
+                disabled={loading || !supabase}
                 className="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded disabled:opacity-50"
               >
                 Test Connection
               </button>
               <button
                 onClick={testSignup}
-                disabled={loading}
+                disabled={loading || !supabase}
                 className="bg-green-600 hover:bg-green-700 px-4 py-2 rounded disabled:opacity-50"
               >
                 Test Signup
               </button>
               <button
                 onClick={signOut}
-                disabled={loading}
+                disabled={loading || !supabase}
                 className="bg-red-600 hover:bg-red-700 px-4 py-2 rounded disabled:opacity-50"
               >
                 Sign Out
