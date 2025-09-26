@@ -21,7 +21,10 @@ export default function Home() {
   const router = useRouter();
 
   const { radarState, isLoading, getSectionScore, getRadarScore, getSectionColor, getSectionColorAsHex, getRadarStats, getGreenHold } = useSectionRadar();
-  const { activeCard, showShareCard, dismissShareCard } = useShareCard();
+  const { activeCard, showShareCard, dismissShareCard } = useShareCard();// Safely read any saved progression snapshot from localStorage
+const rawUserProg =
+  typeof window !== 'undefined' ? localStorage.getItem('userProgression') : null;
+const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
   // Get section progression info for radar visualization (now based on section radar system)
   const getSectionProgressInfo = (sectionName: string) => {
@@ -121,22 +124,21 @@ export default function Home() {
     window.location.reload();
   };
 
-  // Debug function to check current state
-  const debugProgression = () => {
-    console.log('Current progression:', progression);
-    console.log('Overall percentage:', calculateOverallPercentage());
-    console.log('LocalStorage userProgression:', localStorage.getItem('userProgression'));
+  // Debug function to check current state (safe)
+const debugProgression = () => {
+  console.log('Current progression:', userProgression);
+  console.log('Overall percentage:', calculateOverallPercentage());
+  console.log('LocalStorage userProgression:', localStorage.getItem('userProgression'));
 
-    if (progression) {
-      Object.entries(progression.sections).forEach(([section, data]) => {
-        console.log(`${section}:`, {
-          color: data.color,
-          totalLogs: data.totalLogs,
-          uniqueCodes: data.uniqueCheatCodes.size
-        });
-      });
-    }
-  };
+  if (userProgression?.sections) {
+    Object.entries(userProgression.sections).forEach(([section, data]: any) => {
+      console.log('Section:', section);
+      console.log('Data color:', data.color);
+      console.log('totalLogs:', data.totalLogs);
+      console.log('uniqueCodes:', data?.uniqueCheatCodes?.size ?? '(n/a)');
+    });
+  }
+};
 
   const addIncrementalProgress = () => {
     console.log('Current test step:', testStep);
