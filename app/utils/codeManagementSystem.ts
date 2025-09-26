@@ -19,17 +19,18 @@ export interface SectionCodeManagement {
   sectionId: Section;
   activeCodes: ManagedCheatCode[];
   archivedCodes: ManagedCheatCode[];
-  totalCodesCreated: number;
-  lastCodeCreated: number;
+  totalCodesCreated: number;   // keep
+  totalArchivedCodes: number;  // keep
 }
 
 export interface CodeManagementState {
   sections: Record<Section, SectionCodeManagement>;
   globalStats: {
-    totalCodesCreated: number;
-    totalArchivedCodes: number;
-    lastActivity: number;
+    totalCodesCreated: number;    // keep
+    totalArchivedCodes: number;   // keep
+    totalActiveCodes: number;     // <-- ADD THIS
   };
+  lastActivity: Date;
 }
 
 // Constants
@@ -49,12 +50,12 @@ export function getCodeManagementState(): CodeManagementState {
 
     sections.forEach((section) => {
   sectionManagement[section] = {
-    sectionId: section,
-    activeCodes: [],
-    archivedCodes: [],
-    totalCodesCreated: 0,   // ✅ match interface
-    totalActiveCodes: 0     // ✅ also required by the interface
-  };
+  sectionId: section,
+  activeCodes: [],
+  archivedCodes: [],
+  totalCodesCreated: 0,
+  totalArchivedCodes: 0,
+};
 });
 
     return {
