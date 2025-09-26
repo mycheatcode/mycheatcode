@@ -1,15 +1,20 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+type Sender = 'user' | 'coach';
+
 interface Message {
-  id: number;
+  id: string;            // use string IDs to avoid collisions
   text: string;
-  sender: 'user' | 'coach';
+  sender: Sender;
   timestamp: Date;
 }
+
+/** tiny helper for unique ids */
+const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
 export default function ChatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -22,11 +27,23 @@ export default function ChatPage() {
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
+  /** ---- duplication guards ---- */
+  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply per send
+  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is scheduled only once
+  const messageIds = useRef<Set<string>>(new Set());      // dedupe by id
+  const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const appendMessage = (msg: Message) => {
+    if (messageIds.current.has(msg.id)) return; // dedupe
+    messageIds.current.add(msg.id);
+    setMessages(prev => [...prev, msg]);
+  };
+
   const handleBack = () => {
-    // Check if we have a stored referrer, otherwise fall back to router.back()
     const referrer = localStorage.getItem('chatReferrer');
     if (referrer) {
-      localStorage.removeItem('chatReferrer'); // Clean up
+      localStorage.removeItem('chatReferrer');
       router.push(referrer);
     } else {
       router.back();
@@ -37,17 +54,14 @@ export default function ChatPage() {
   useEffect(() => {
     if (initialized) return;
 
-    console.log('Initializing chat page...');
-
     // Load stored topic
     const storedTopic = localStorage.getItem('selectedTopic');
     if (storedTopic) {
       try {
         const topic = JSON.parse(storedTopic);
         setSelectedTopic(topic);
-        console.log('Loaded topic:', topic.title);
-      } catch (error) {
-        console.error('Error parsing stored topic:', error);
+      } catch {
+        // ignore corrupt topic
       }
     }
 
@@ -55,86 +69,97 @@ export default function ChatPage() {
     const chatHistory = localStorage.getItem('chatHistory');
     if (chatHistory) {
       try {
-        const parsedHistory = JSON.parse(chatHistory);
-        if (parsedHistory.isRestoringChat && parsedHistory.messages && parsedHistory.messages.length > 0) {
-          console.log('Restoring chat with', parsedHistory.messages.length, 'messages');
-          const restoredMessages = parsedHistory.messages.map((msg: any) => ({
-            ...msg,
-            timestamp: new Date(msg.timestamp)
-          }));
-          setMessages(restoredMessages);
+        const parsed = JSON.parse(chatHistory);
+        if (parsed.isRestoringChat && Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+          const restored: Message[] = parsed.messages.map((m: any) => {
+            const msg: Message = {
+              id: String(m.id ?? uid()),
+              text: m.text,
+              sender: m.sender as Sender,
+              timestamp: new Date(m.timestamp),
+            };
+            messageIds.current.add(msg.id);
+            return msg;
+          });
+          setMessages(restored);
           setIsRestoringChat(true);
           setHasStarted(true);
           setInitialized(true);
           localStorage.removeItem('chatHistory');
-          console.log('Chat restored successfully, messages:', restoredMessages);
           return;
         }
-      } catch (error) {
-        console.error('Error restoring chat:', error);
+      } catch {
         localStorage.removeItem('chatHistory');
       }
     }
 
-    // Start new chat
-    console.log('Starting new chat');
+    // Start new chat (welcome)
     setHasStarted(true);
     setIsTyping(true);
     setInitialized(true);
 
-    const timeoutId = setTimeout(() => {
-      let welcomeText = "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
+    if (!pendingWelcome.current) {
+      pendingWelcome.current = true;
+      welcomeTimeout.current = setTimeout(() => {
+        const stored = localStorage.getItem('selectedTopic');
+        let welcomeText =
+          "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
 
-      if (storedTopic) {
-        try {
-          const topic = JSON.parse(storedTopic);
-          welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
-        } catch (error) {
-          console.error('Error parsing stored topic:', error);
+        if (stored) {
+          try {
+            const topic = JSON.parse(stored);
+            welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
+          } catch {
+            // ignore
+          }
         }
-      }
 
-      const welcomeMessage: Message = {
-        id: 1,
-        text: welcomeText,
-        sender: 'coach',
-        timestamp: new Date()
-      };
+        appendMessage({
+          id: uid(),
+          text: welcomeText,
+          sender: 'coach',
+          timestamp: new Date(),
+        });
+        setIsTyping(false);
+      }, 1200);
+    }
 
-      setMessages([welcomeMessage]);
-      setIsTyping(false);
-      console.log('New chat initialized');
-    }, 2000);
-
-    return () => clearTimeout(timeoutId);
+    return () => {
+      if (replyTimeout.current) clearTimeout(replyTimeout.current);
+      if (welcomeTimeout.current) clearTimeout(welcomeTimeout.current);
+    };
   }, [initialized]);
 
   const sendMessage = () => {
-    if (!inputText.trim()) return;
+    const trimmed = inputText.trim();
+    if (!trimmed) return;
+    if (pendingCoachReply.current) return; // prevent double-send while a reply is pending
 
     // Add user message
-    const userMessage: Message = {
-      id: Date.now(),
-      text: inputText,
+    const userMsg: Message = {
+      id: uid(),
+      text: trimmed,
       sender: 'user',
-      timestamp: new Date()
+      timestamp: new Date(),
     };
-
-    setMessages(prev => [...prev, userMessage]);
+    appendMessage(userMsg);
     setInputText('');
     setIsTyping(true);
 
-    // Simulate coach response after delay
-    setTimeout(() => {
-      const coachMessage: Message = {
-        id: Date.now() + 1,
-        text: "I hear you. Let's dive deeper into this. Can you tell me more about what specifically happens in that moment? What thoughts go through your head?",
+    // One—and only one—coach reply
+    pendingCoachReply.current = true;
+    if (replyTimeout.current) clearTimeout(replyTimeout.current);
+    replyTimeout.current = setTimeout(() => {
+      appendMessage({
+        id: uid(),
+        text:
+          "I hear you. Let's dive deeper into this. Can you tell me more about what specifically happens in that moment? What thoughts go through your head?",
         sender: 'coach',
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, coachMessage]);
+        timestamp: new Date(),
+      });
       setIsTyping(false);
-    }, 2000);
+      pendingCoachReply.current = false;
+    }, 1200);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -226,12 +251,13 @@ export default function ChatPage() {
             />
             <button
               onClick={sendMessage}
-              disabled={!inputText.trim()}
+              disabled={!inputText.trim() || pendingCoachReply.current}
               className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                inputText.trim()
+                inputText.trim() && !pendingCoachReply.current
                   ? 'bg-zinc-800 text-white'
                   : 'bg-white text-black'
               }`}
+              type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -240,7 +266,6 @@ export default function ChatPage() {
             </button>
           </div>
         </div>
-
       </div>
 
       {/* Desktop Design */}
@@ -252,6 +277,7 @@ export default function ChatPage() {
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
                 className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                type="button"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -262,6 +288,7 @@ export default function ChatPage() {
               <button
                 onClick={handleBack}
                 className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                type="button"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -270,7 +297,7 @@ export default function ChatPage() {
               <div className="text-white text-xl font-bold">mycheatcode.ai</div>
             </div>
             <div className="text-white text-lg font-semibold">Live Chat</div>
-            <div className="w-[180px]"></div> {/* Spacer to center the Live Chat text */}
+            <div className="w-[180px]"></div>
           </div>
 
           {/* Topic Indicator */}
@@ -395,12 +422,13 @@ export default function ChatPage() {
               />
               <button
                 onClick={sendMessage}
-                disabled={!inputText.trim()}
+                disabled={!inputText.trim() || pendingCoachReply.current}
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  inputText.trim()
+                  inputText.trim() && !pendingCoachReply.current
                     ? 'bg-zinc-800 text-white'
                     : 'bg-white text-black'
                 }`}
+                type="button"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="12" y1="19" x2="12" y2="5"></line>
