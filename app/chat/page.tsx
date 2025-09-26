@@ -130,12 +130,15 @@ export default function ChatPage() {
     };
   }, [initialized]);
 
-  const sendMessage = () => {
+  /** ----------------------------------------------------------------
+   * sendMessage: adds user msg, calls /api/echo, appends AI reply
+   * ---------------------------------------------------------------- */
+  const sendMessage = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
     if (pendingCoachReply.current) return; // prevent double-send while a reply is pending
 
-    // Add user message
+    // Add user message immediately
     const userMsg: Message = {
       id: uid(),
       text: trimmed,
@@ -145,25 +148,53 @@ export default function ChatPage() {
     appendMessage(userMsg);
     setInputText('');
     setIsTyping(true);
-
-    // One—and only one—coach reply
     pendingCoachReply.current = true;
-    if (replyTimeout.current) clearTimeout(replyTimeout.current);
-    replyTimeout.current = setTimeout(() => {
+
+    // Build a short history for the API (last ~8 turns)
+    const history = messages.slice(-8).map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.text,
+    }));
+
+    try {
+      const res = await fetch('/api/echo', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          text: trimmed,
+          topic: selectedTopic?.title ?? null,
+          history,
+        }),
+      });
+
+      const data = await res.json();
+      const replyText =
+        data?.ok && typeof data.reply === 'string'
+          ? data.reply
+          : "Hmm—something didn't come through on my end. Mind trying that again?";
+
       appendMessage({
         id: uid(),
-        text:
-          "I hear you. Let's dive deeper into this. Can you tell me more about what specifically happens in that moment? What thoughts go through your head?",
+        text: replyText,
         sender: 'coach',
         timestamp: new Date(),
       });
+    } catch (err) {
+      console.error('sendMessage error:', err);
+      appendMessage({
+        id: uid(),
+        text: 'I hit a snag reaching the server. Can you resend that?',
+        sender: 'coach',
+        timestamp: new Date(),
+      });
+    } finally {
       setIsTyping(false);
       pendingCoachReply.current = false;
-    }, 1200);
+    }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && !isTyping && !pendingCoachReply.current) {
       e.preventDefault();
       sendMessage();
     }
@@ -251,9 +282,9 @@ export default function ChatPage() {
             />
             <button
               onClick={sendMessage}
-              disabled={!inputText.trim() || pendingCoachReply.current}
+              disabled={!inputText.trim() || isTyping || pendingCoachReply.current}
               className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                inputText.trim() && !pendingCoachReply.current
+                inputText.trim() && !isTyping && !pendingCoachReply.current
                   ? 'bg-zinc-800 text-white'
                   : 'bg-white text-black'
               }`}
@@ -422,9 +453,9 @@ export default function ChatPage() {
               />
               <button
                 onClick={sendMessage}
-                disabled={!inputText.trim() || pendingCoachReply.current}
+                disabled={!inputText.trim() || isTyping || pendingCoachReply.current}
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  inputText.trim() && !pendingCoachReply.current
+                  inputText.trim() && !isTyping && !pendingCoachReply.current
                     ? 'bg-zinc-800 text-white'
                     : 'bg-white text-black'
                 }`}
