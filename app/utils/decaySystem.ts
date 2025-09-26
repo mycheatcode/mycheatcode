@@ -1,4 +1,5 @@
 import { CheatCodePower } from './cheatCodePowerSystem';
+import { ManagedCheatCode } from './codeManagementSystem';
 import { Section } from './progressionSystem';
 
 // Decay configuration
@@ -154,10 +155,10 @@ export function applyDecayToCheatCode(
 
 // Check and apply decay if enough time has passed (for periodic background checks)
 export function checkAndApplyDecayIfNeeded(
-  cheatCodes: CheatCodePower[],
+  cheatCodes: ManagedCheatCode[],
   getSectionColor: (section: Section) => 'red' | 'orange' | 'yellow' | 'green',
   currentTime: number = Date.now()
-): { decayApplied: boolean; updatedCodes: CheatCodePower[] } {
+): { decayApplied: boolean; updatedCodes: ManagedCheatCode[] } {
   const decayState = getDecayState();
 
   // Only run decay if enough time has passed since last check (24 hours)
@@ -169,8 +170,8 @@ export function checkAndApplyDecayIfNeeded(
     if (code.archived) {
       return code;
     }
-    const sectionColor = getSectionColor(code.section);
-    return applyDecayToCheatCode(code, sectionColor, currentTime);
+    const sectionColor = getSectionColor(code.section as Section);
+    return applyDecayToCheatCode(code, sectionColor, currentTime) as ManagedCheatCode;
   });
 
   // Update last decay check
@@ -182,11 +183,11 @@ export function checkAndApplyDecayIfNeeded(
 
 // Apply decay to multiple cheat codes with their section colors (legacy function - kept for compatibility)
 export function applyDecayToCheatCodes(
-  cheatCodes: CheatCodePower[],
+  cheatCodes: ManagedCheatCode[],
   getSectionColor: (section: Section) => 'red' | 'orange' | 'yellow' | 'green',
   currentTime: number = Date.now(),
   excludeCheatCodeId?: string
-): CheatCodePower[] {
+): ManagedCheatCode[] {
   const decayState = getDecayState();
 
   // Only run decay if we've crossed a midnight boundary since last check
@@ -205,8 +206,8 @@ export function applyDecayToCheatCodes(
       return code;
     }
 
-    const sectionColor = getSectionColor(code.section);
-    return applyDecayToCheatCode(code, sectionColor, currentTime);
+    const sectionColor = getSectionColor(code.section as Section);
+    return applyDecayToCheatCode(code, sectionColor, currentTime) as ManagedCheatCode;
   });
 
   // Update last decay check

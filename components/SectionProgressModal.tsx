@@ -55,7 +55,9 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
       if (logsNeeded > 0) requirements.push(`${logsNeeded} more logs`);
       if (codesNeeded > 0) requirements.push(`${codesNeeded} more unique cheat codes`);
 
-      return `To reach ${getColorName(nextColor)}: ${requirements.join(' and ')}`;
+      if (nextColor) {
+        return `To reach ${getColorName(nextColor)}: ${requirements.join(' and ')}`;
+      }
     }
     return '';
   };

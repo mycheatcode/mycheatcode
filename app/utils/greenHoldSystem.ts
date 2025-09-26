@@ -76,16 +76,17 @@ export function getGreenHoldState(): GreenHoldState {
       };
       longestHolds[section] = {
         sectionId: section,
-        duration: 0,
+        holdDuration: 0,
         startTime: 0,
-        endTime: 0
+        endTime: 0,
+        achievedMilestones: []
       };
     });
 
     return {
       activeTimers,
       longestHolds,
-      lastUpdated: Date.now()
+      allTimeRecords: []
     };
   }
 
@@ -135,17 +136,17 @@ export function getConsistencyState(): ConsistencyState {
     sections.forEach(section => {
       sectionConsistency[section] = {
         sectionId: section,
-        logs: [],
-        currentStreak: 0,
-        lastLogTimestamp: 0,
-        isInGracePeriod: false,
-        gracePeriodEnd: 0
+        lastActivityTimestamp: 0,
+        consecutiveInactiveDays: 0,
+        sevenDayStreak: false,
+        activeDaysInWeek: 0,
+        weeklyActivityLog: []
       };
     });
 
     return {
       sectionConsistency,
-      lastUpdated: Date.now()
+      lastMaintenanceCheck: Date.now()
     };
   }
 

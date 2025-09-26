@@ -32,7 +32,8 @@ export default function ShareCard({ data, onShare, onDismiss, className = '' }: 
     const shareTexts = {
       green_hold: `${data.title} in ${data.subtitle} 💚 Locked in with mycheatcode.ai`,
       full_radar: `${data.title} 🎯 Locked In. No Days Off. Built with mycheatcode.ai`,
-      milestone: `${data.title} - ${data.subtitle} Built with mycheatcode.ai`
+      milestone: `${data.title} - ${data.subtitle} Built with mycheatcode.ai`,
+      radar_snapshot: `${data.title} 🎯 Section Snapshot Built with mycheatcode.ai`
     };
 
     const text = shareTexts[data.type] || `${data.title} - Built with mycheatcode.ai`;

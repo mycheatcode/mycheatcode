@@ -320,7 +320,7 @@ export function useSectionRadar() {
     if (!powerProfile) return [];
 
     const sectionCodes = Object.values(powerProfile.cheatCodes).filter(
-      code => code.section === section && !code.archived
+      code => code.section === section
     );
 
     return sectionCodes.map(code => ({

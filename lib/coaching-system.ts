@@ -229,7 +229,7 @@ export function updateConversationState(
   }
 
   // Update readiness signals
-  Object.keys(analysis.signals).forEach(key => {
+  (Object.keys(analysis.signals) as Array<keyof typeof analysis.signals>).forEach(key => {
     if (analysis.signals[key]) {
       newState.readiness_signals[key] = true;
     }

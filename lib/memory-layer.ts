@@ -430,10 +430,12 @@ export async function getProgress(userId: string): Promise<{
       .order('section')
   ]);
 
+  let radarState: RadarState;
   if (radarResult.error) {
     // Create empty radar state if none exists
-    const emptyRadar = await calculateRadarState(userId);
-    radarResult.data = emptyRadar;
+    radarState = await calculateRadarState(userId);
+  } else {
+    radarState = radarResult.data;
   }
 
   if (progressResult.error) {
@@ -441,7 +443,7 @@ export async function getProgress(userId: string): Promise<{
   }
 
   return {
-    radar_state: radarResult.data,
+    radar_state: radarState,
     section_progress: progressResult.data || []
   };
 }

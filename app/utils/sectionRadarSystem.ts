@@ -1,6 +1,6 @@
-import { CheatCodePower, UserPowerProfile, Section } from './cheatCodePowerSystem';
-import { UserProgression, SectionProgress } from './progressionSystem';
-import { applyDecayToCheatCodes } from './decaySystem';
+import { CheatCodePower, UserPowerProfile } from './cheatCodePowerSystem';
+import { UserProgression, SectionProgress, Section } from './progressionSystem';
+import { applyDecayToCheatCode } from './decaySystem';
 import {
   startGreenHoldTimer,
   stopGreenHoldTimer,
@@ -164,17 +164,17 @@ export function calculateRadarState(
       return tempSectionScore.color;
     };
 
-    const decayedCodes = applyDecayToCheatCodes(
-      Object.values(powerProfile.cheatCodes),
-      getSectionColorForDecay
-    );
+    const decayedCheatCodes: Record<string, CheatCodePower> = {};
+
+    Object.values(powerProfile.cheatCodes).forEach(code => {
+      const sectionColor = getSectionColorForDecay(code.section as Section);
+      const decayedCode = applyDecayToCheatCode(code, sectionColor);
+      decayedCheatCodes[code.cheatCodeId] = decayedCode;
+    });
 
     workingPowerProfile = {
       ...powerProfile,
-      cheatCodes: decayedCodes.reduce((acc, code) => {
-        acc[code.cheatCodeId] = code;
-        return acc;
-      }, {} as Record<string, CheatCodePower>)
+      cheatCodes: decayedCheatCodes
     };
   }
 
