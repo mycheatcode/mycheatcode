@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 type Sender = 'user' | 'coach';
 
 interface Message {
-  id: string;      // string IDs to avoid collisions
+  id: string;
   text: string;
   sender: Sender;
   timestamp: Date;
@@ -27,11 +27,13 @@ export default function ChatPage() {
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  /** ---- duplication / flow guards ---- */
-  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply is queued at a time
-  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is sent only once
+  /** ---- duplication guards ---- */
+  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply per send
+  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is scheduled only once
   const messageIds = useRef<Set<string>>(new Set());      // dedupe by id
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const appendMessage = (msg: Message) => {
     if (messageIds.current.has(msg.id)) return; // dedupe
@@ -40,7 +42,7 @@ export default function ChatPage() {
   };
 
   const handleBack = () => {
-    const referrer = localStorage.getItem('chatReferrer');
+    const referrer = typeof window !== 'undefined' ? localStorage.getItem('chatReferrer') : null;
     if (referrer) {
       localStorage.removeItem('chatReferrer');
       router.push(referrer);
@@ -49,12 +51,12 @@ export default function ChatPage() {
     }
   };
 
-  // Initialize once on mount
+  // Initialize everything once on mount
   useEffect(() => {
     if (initialized) return;
 
     // Load stored topic
-    const storedTopic = localStorage.getItem('selectedTopic');
+    const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
     if (storedTopic) {
       try {
         const topic = JSON.parse(storedTopic);
@@ -65,7 +67,7 @@ export default function ChatPage() {
     }
 
     // Check if we're restoring a previous chat
-    const chatHistory = localStorage.getItem('chatHistory');
+    const chatHistory = typeof window !== 'undefined' ? localStorage.getItem('chatHistory') : null;
     if (chatHistory) {
       try {
         const parsed = JSON.parse(chatHistory);
@@ -92,42 +94,66 @@ export default function ChatPage() {
       }
     }
 
-    // Start new chat — coach leads immediately
+    // Start new chat (welcome)
     setHasStarted(true);
+    setIsTyping(true);
     setInitialized(true);
 
     if (!pendingWelcome.current) {
       pendingWelcome.current = true;
+      welcomeTimeout.current = setTimeout(() => {
+        const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
+        let welcomeText =
+          "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
 
-      const stored = localStorage.getItem('selectedTopic');
-      let welcomeText =
-        "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
+        if (stored) {
+          try {
+            const topic = JSON.parse(stored);
+            welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
+          } catch {
+            // ignore
+          }
+        }
 
-      if (stored) {
-        try {
-          const topic = JSON.parse(stored);
-          welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
-        } catch {}
-      }
-
-      appendMessage({
-        id: uid(),
-        text: welcomeText,
-        sender: 'coach',
-        timestamp: new Date(),
-      });
+        appendMessage({
+          id: uid(),
+          text: welcomeText,
+          sender: 'coach',
+          timestamp: new Date(),
+        });
+        setIsTyping(false);
+      }, 900);
     }
 
     return () => {
       if (replyTimeout.current) clearTimeout(replyTimeout.current);
+      if (welcomeTimeout.current) clearTimeout(welcomeTimeout.current);
     };
   }, [initialized]);
 
-  const sendMessage = () => {
+  /** Build the payload the API expects */
+  const buildChatPayload = (msgs: Message[]) => {
+    // convert to OpenAI-style roles
+    const history = msgs.map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.text,
+    }));
+    // Include topic context up front if present
+    if (selectedTopic?.title) {
+      history.unshift({
+        role: 'system',
+        content: `User focus/topic: ${selectedTopic.title}${selectedTopic.description ? ` — ${selectedTopic.description}` : ''}`,
+      } as any);
+    }
+    return { messages: history };
+  };
+
+  const sendMessage = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
+    if (pendingCoachReply.current) return; // prevent double-send while a reply is pending
 
-    // Add user message immediately
+    // Add user message locally
     const userMsg: Message = {
       id: uid(),
       text: trimmed,
@@ -136,26 +162,48 @@ export default function ChatPage() {
     };
     appendMessage(userMsg);
     setInputText('');
-
-    // queue exactly one coach reply
     setIsTyping(true);
     pendingCoachReply.current = true;
-    if (replyTimeout.current) clearTimeout(replyTimeout.current);
-    replyTimeout.current = setTimeout(() => {
+
+    // Focus textarea after send (nice UX)
+    if (inputRef.current) inputRef.current.focus();
+
+    try {
+      // Build context INCLUDING the message we just appended
+      const contextForApi = buildChatPayload([...messages, userMsg]);
+
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(contextForApi),
+      });
+
+      if (!res.ok) {
+        throw new Error(`API ${res.status}`);
+      }
+
+      const data = await res.json();
+
       appendMessage({
         id: uid(),
-        text:
-          "I hear you. Let's dive deeper into this. Can you tell me more about what specifically happens in that moment? What thoughts go through your head?",
+        text: data.reply || "Hmm, I couldn’t generate a reply. Try again?",
         sender: 'coach',
         timestamp: new Date(),
       });
+    } catch (err) {
+      appendMessage({
+        id: uid(),
+        text: "⚠️ Oops, something went wrong reaching the coach. Please try again.",
+        sender: 'coach',
+        timestamp: new Date(),
+      });
+    } finally {
       setIsTyping(false);
       pendingCoachReply.current = false;
-    }, 1200);
+    }
   };
 
-  // Use onKeyDown (more reliable than onKeyPress)
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -234,9 +282,10 @@ export default function ChatPage() {
         <div className="p-4 border-t border-zinc-800 bg-black flex-shrink-0">
           <div className="relative">
             <textarea
+              ref={inputRef}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
               className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-12 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors"
               rows={1}
@@ -244,9 +293,11 @@ export default function ChatPage() {
             />
             <button
               onClick={sendMessage}
-              disabled={!inputText.trim()}
+              disabled={!inputText.trim() || pendingCoachReply.current}
               className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                inputText.trim() ? 'bg-zinc-800 text-white' : 'bg-white text-black'
+                inputText.trim() && !pendingCoachReply.current
+                  ? 'bg-zinc-800 text-white'
+                  : 'bg-white text-black'
               }`}
               type="button"
             >
@@ -403,9 +454,10 @@ export default function ChatPage() {
           <div className="p-8 border-t border-zinc-800 bg-black">
             <div className="max-w-4xl mx-auto relative">
               <textarea
+                ref={inputRef}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={handleKeyDown}
+                onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-14 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors text-base"
                 rows={2}
@@ -413,9 +465,11 @@ export default function ChatPage() {
               />
               <button
                 onClick={sendMessage}
-                disabled={!inputText.trim()}
+                disabled={!inputText.trim() || pendingCoachReply.current}
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  inputText.trim() ? 'bg-zinc-800 text-white' : 'bg-white text-black'
+                  inputText.trim() && !pendingCoachReply.current
+                    ? 'bg-zinc-800 text-white'
+                    : 'bg-white text-black'
                 }`}
                 type="button"
               >
