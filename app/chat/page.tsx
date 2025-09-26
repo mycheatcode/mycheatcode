@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 type Sender = 'user' | 'coach';
 
 interface Message {
-  id: string;            // use string IDs to avoid collisions
+  id: string;      // string IDs to avoid collisions
   text: string;
   sender: Sender;
   timestamp: Date;
@@ -27,12 +27,11 @@ export default function ChatPage() {
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  /** ---- duplication guards ---- */
-  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply per send
-  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is scheduled only once
+  /** ---- duplication / flow guards ---- */
+  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply is queued at a time
+  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is sent only once
   const messageIds = useRef<Set<string>>(new Set());      // dedupe by id
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const appendMessage = (msg: Message) => {
     if (messageIds.current.has(msg.id)) return; // dedupe
@@ -50,7 +49,7 @@ export default function ChatPage() {
     }
   };
 
-  // Initialize everything once on mount
+  // Initialize once on mount
   useEffect(() => {
     if (initialized) return;
 
@@ -93,50 +92,40 @@ export default function ChatPage() {
       }
     }
 
-    // Start new chat (welcome)
+    // Start new chat — coach leads immediately
     setHasStarted(true);
-    setIsTyping(true);
     setInitialized(true);
 
     if (!pendingWelcome.current) {
       pendingWelcome.current = true;
-      welcomeTimeout.current = setTimeout(() => {
-        const stored = localStorage.getItem('selectedTopic');
-        let welcomeText =
-          "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
 
-        if (stored) {
-          try {
-            const topic = JSON.parse(stored);
-            welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
-          } catch {
-            // ignore
-          }
-        }
+      const stored = localStorage.getItem('selectedTopic');
+      let welcomeText =
+        "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
 
-        appendMessage({
-          id: uid(),
-          text: welcomeText,
-          sender: 'coach',
-          timestamp: new Date(),
-        });
-        setIsTyping(false);
-      }, 1200);
+      if (stored) {
+        try {
+          const topic = JSON.parse(stored);
+          welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
+        } catch {}
+      }
+
+      appendMessage({
+        id: uid(),
+        text: welcomeText,
+        sender: 'coach',
+        timestamp: new Date(),
+      });
     }
 
     return () => {
       if (replyTimeout.current) clearTimeout(replyTimeout.current);
-      if (welcomeTimeout.current) clearTimeout(welcomeTimeout.current);
     };
   }, [initialized]);
 
-  /** ----------------------------------------------------------------
-   * sendMessage: adds user msg, calls /api/echo, appends AI reply
-   * ---------------------------------------------------------------- */
-  const sendMessage = async () => {
+  const sendMessage = () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
-    if (pendingCoachReply.current) return; // prevent double-send while a reply is pending
 
     // Add user message immediately
     const userMsg: Message = {
@@ -147,54 +136,27 @@ export default function ChatPage() {
     };
     appendMessage(userMsg);
     setInputText('');
+
+    // queue exactly one coach reply
     setIsTyping(true);
     pendingCoachReply.current = true;
-
-    // Build a short history for the API (last ~8 turns)
-    const history = messages.slice(-8).map(m => ({
-      role: m.sender === 'user' ? 'user' : 'assistant',
-      content: m.text,
-    }));
-
-    try {
-      const res = await fetch('/api/echo', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({
-          text: trimmed,
-          topic: selectedTopic?.title ?? null,
-          history,
-        }),
-      });
-
-      const data = await res.json();
-      const replyText =
-        data?.ok && typeof data.reply === 'string'
-          ? data.reply
-          : "Hmm—something didn't come through on my end. Mind trying that again?";
-
+    if (replyTimeout.current) clearTimeout(replyTimeout.current);
+    replyTimeout.current = setTimeout(() => {
       appendMessage({
         id: uid(),
-        text: replyText,
+        text:
+          "I hear you. Let's dive deeper into this. Can you tell me more about what specifically happens in that moment? What thoughts go through your head?",
         sender: 'coach',
         timestamp: new Date(),
       });
-    } catch (err) {
-      console.error('sendMessage error:', err);
-      appendMessage({
-        id: uid(),
-        text: 'I hit a snag reaching the server. Can you resend that?',
-        sender: 'coach',
-        timestamp: new Date(),
-      });
-    } finally {
       setIsTyping(false);
       pendingCoachReply.current = false;
-    }
+    }, 1200);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey && !isTyping && !pendingCoachReply.current) {
+  // Use onKeyDown (more reliable than onKeyPress)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
     }
@@ -274,7 +236,7 @@ export default function ChatPage() {
             <textarea
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Share what's on your mind..."
               className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-12 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors"
               rows={1}
@@ -282,11 +244,9 @@ export default function ChatPage() {
             />
             <button
               onClick={sendMessage}
-              disabled={!inputText.trim() || isTyping || pendingCoachReply.current}
+              disabled={!inputText.trim()}
               className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                inputText.trim() && !isTyping && !pendingCoachReply.current
-                  ? 'bg-zinc-800 text-white'
-                  : 'bg-white text-black'
+                inputText.trim() ? 'bg-zinc-800 text-white' : 'bg-white text-black'
               }`}
               type="button"
             >
@@ -445,7 +405,7 @@ export default function ChatPage() {
               <textarea
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Share what's on your mind..."
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-14 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors text-base"
                 rows={2}
@@ -453,11 +413,9 @@ export default function ChatPage() {
               />
               <button
                 onClick={sendMessage}
-                disabled={!inputText.trim() || isTyping || pendingCoachReply.current}
+                disabled={!inputText.trim()}
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  inputText.trim() && !isTyping && !pendingCoachReply.current
-                    ? 'bg-zinc-800 text-white'
-                    : 'bg-white text-black'
+                  inputText.trim() ? 'bg-zinc-800 text-white' : 'bg-white text-black'
                 }`}
                 type="button"
               >
