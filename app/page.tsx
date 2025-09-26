@@ -164,8 +164,8 @@ const debugProgression = () => {
     const sectionScore = radarState.sectionScores[section as Section];
     if (sectionScore?.color === 'green') {
       const gh = getGreenHold(section as Section);
-      if (gh && gh.hasActiveHold) {
-        greenHoldData[section] = gh.currentDuration; // minutes or days per your hook
+      if (gh?.hasActiveHold) {
+        greenHoldData[section] = gh.currentDuration; // minutes or days depending on your hook
       }
     }
   });
@@ -187,9 +187,6 @@ const debugProgression = () => {
     },
     greenHoldData,
   });
-
-  showShareCard(shareCard);
-};
 
     showShareCard(shareCard);
   };
