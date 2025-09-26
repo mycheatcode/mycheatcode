@@ -24,3 +24,73 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Page transition animations - using Tailwind classes now */
+
+/* Radar animations */
+@keyframes radarBreathe {
+  0% { transform: scale(1) scaleX(1) scaleY(1); }
+  15% { transform: scale(1.02) scaleX(1.01) scaleY(1.03); }
+  30% { transform: scale(0.98) scaleX(1.02) scaleY(0.99); }
+  45% { transform: scale(1.01) scaleX(0.99) scaleY(1.02); }
+  60% { transform: scale(1.03) scaleX(1.01) scaleY(0.98); }
+  75% { transform: scale(0.99) scaleX(1.03) scaleY(1.01); }
+  90% { transform: scale(1.01) scaleX(0.98) scaleY(1.02); }
+  100% { transform: scale(1) scaleX(1) scaleY(1); }
+}
+
+.radar-breathe {
+  animation: radarBreathe 8s ease-in-out infinite;
+  transform-origin: center center;
+}
+
+@keyframes zoomIntoSection {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(8);
+    opacity: 0.3;
+  }
+}
+
+.page-zoom-container {
+  transition: none;
+}
+
+.page-zoom-active {
+  animation: zoomIntoSection 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform-origin: var(--zoom-origin-x) var(--zoom-origin-y);
+}
+
+.page-transition-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  z-index: 999;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.page-transition-active {
+  animation: fadeInOverlay 0.8s ease-out forwards;
+}
+
+@keyframes fadeInOverlay {
+  0% { opacity: 0; }
+  70% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.radar-section {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.radar-section:hover {
+  opacity: 0.8;
+}
