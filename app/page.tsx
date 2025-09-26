@@ -155,37 +155,41 @@ const debugProgression = () => {
   };
 
   const handleShare = () => {
-    if (!radarState) return;
+  if (!radarState) return;
 
-    // Get Green Hold durations for display
-    const greenHoldData: Record<string, number> = {};
-    Object.keys(radarState.sectionScores).forEach(section => {
-      const sectionScore = radarState.sectionScores[section as Section];
-      if (sectionScore?.color === 'green') {
-        const greenHold = getGreenHold(section as Section);
-        if (greenHold?.isActive) {
-          greenHoldData[section] = greenHold.currentDuration;
-        }
+  // Collect Green Hold durations for display
+  const greenHoldData: Record<string, number> = {};
+
+  Object.keys(radarState.sectionScores).forEach((section) => {
+    const sectionScore = radarState.sectionScores[section as Section];
+    if (sectionScore?.color === 'green') {
+      const gh = getGreenHold(section as Section);
+      if (gh && gh.hasActiveHold) {
+        greenHoldData[section] = gh.currentDuration; // minutes or days per your hook
       }
-    });
+    }
+  });
 
-    const shareCard = generateShareCard('radar_snapshot', {
-      title: `${Math.round(radarState.radarScore)}% Mental Performance`,
-      subtitle: 'Locked in.',
-      radarData: {
-        preGame: radarState.sectionScores['Pre-Game']?.score || 0,
-        preGameColor: radarState.sectionScores['Pre-Game']?.color || 'red',
-        inGame: radarState.sectionScores['In-Game']?.score || 0,
-        inGameColor: radarState.sectionScores['In-Game']?.color || 'red',
-        postGame: radarState.sectionScores['Post-Game']?.score || 0,
-        postGameColor: radarState.sectionScores['Post-Game']?.color || 'red',
-        offCourt: radarState.sectionScores['Off Court']?.score || 0,
-        offCourtColor: radarState.sectionScores['Off Court']?.color || 'red',
-        lockerRoom: radarState.sectionScores['Locker Room']?.score || 0,
-        lockerRoomColor: radarState.sectionScores['Locker Room']?.color || 'red'
-      },
-      greenHoldData
-    });
+  const shareCard = generateShareCard('radar_snapshot', {
+    title: `${Math.round(radarState.radarScore)}% Mental Performance`,
+    subtitle: 'Locked in.',
+    radarData: {
+      preGame: radarState.sectionScores['Pre-Game']?.score || 0,
+      preGameColor: radarState.sectionScores['Pre-Game']?.color || 'red',
+      inGame: radarState.sectionScores['In-Game']?.score || 0,
+      inGameColor: radarState.sectionScores['In-Game']?.color || 'red',
+      postGame: radarState.sectionScores['Post-Game']?.score || 0,
+      postGameColor: radarState.sectionScores['Post-Game']?.color || 'red',
+      offCourt: radarState.sectionScores['Off Court']?.score || 0,
+      offCourtColor: radarState.sectionScores['Off Court']?.color || 'red',
+      lockerRoom: radarState.sectionScores['Locker Room']?.score || 0,
+      lockerRoomColor: radarState.sectionScores['Locker Room']?.color || 'red',
+    },
+    greenHoldData,
+  });
+
+  showShareCard(shareCard);
+};
 
     showShareCard(shareCard);
   };
