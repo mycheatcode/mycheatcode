@@ -1,9 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
 
 export default function SignupPage() {
   const [email, setEmail] = useState('');
@@ -14,9 +17,19 @@ export default function SignupPage() {
   const [success, setSuccess] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [supabase, setSupabase] = useState<any>(null);
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    // Initialize Supabase client
+    try {
+      const client = createClientComponentClient();
+      setSupabase(client);
+    } catch (error) {
+      console.error('Failed to create Supabase client:', error);
+    }
+  }, []);
 
   const handleBack = () => {
     // Check if we have a stored referrer, otherwise go to welcome page
@@ -58,6 +71,11 @@ export default function SignupPage() {
     e.preventDefault();
     setError('');
     setSuccess('');
+
+    if (!supabase) {
+      setError('Authentication system not ready. Please try again.');
+      return;
+    }
 
     if (!validateForm()) return;
 
@@ -205,14 +223,14 @@ export default function SignupPage() {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !supabase}
               className={`w-full py-4 rounded-xl text-lg font-bold transition-all ${
-                loading
+                loading || !supabase
                   ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
                   : 'bg-white text-black hover:bg-gray-100 active:scale-98'
               }`}
             >
-              {loading ? 'Creating Account...' : 'Create Account'}
+              {loading ? 'Creating Account...' : !supabase ? 'Initializing...' : 'Create Account'}
             </button>
           </form>
 
@@ -348,14 +366,14 @@ export default function SignupPage() {
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !supabase}
                 className={`w-full py-4 rounded-xl text-lg font-bold transition-all ${
-                  loading
+                  loading || !supabase
                     ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
                     : 'bg-white text-black hover:bg-gray-100 active:scale-98'
                 }`}
               >
-                {loading ? 'Creating Account...' : 'Create Account'}
+                {loading ? 'Creating Account...' : !supabase ? 'Initializing...' : 'Create Account'}
               </button>
             </form>
 
