@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Section } from './utils/progressionSystem';
-import { addLog, createSampleLog } from './utils/progressionSystem';
 import { useSectionRadar } from './utils/useSectionRadar';
 import SectionProgressModal from '../components/SectionProgressModal';
 import { generateShareCard } from './utils/engagementSystem';
@@ -127,15 +126,16 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   // Debug function to check current state (safe)
 const debugProgression = () => {
   console.log('Current progression:', userProgression);
-  console.log('Overall percentage:', calculateOverallPercentage());
+  console.log('Overall percentage:', calculateOverallPercentage?.());
   console.log('LocalStorage userProgression:', localStorage.getItem('userProgression'));
 
   if (userProgression?.sections) {
     Object.entries(userProgression.sections).forEach(([section, data]: any) => {
-      console.log('Section:', section);
-      console.log('Data color:', data.color);
-      console.log('totalLogs:', data.totalLogs);
-      console.log('uniqueCodes:', data?.uniqueCheatCodes?.size ?? '(n/a)');
+      console.log(`${section}:`, {
+        color: data.color,
+        totalLogs: data.totalLogs,
+        uniqueCodes: data?.uniqueCheatCodes?.size ?? '(n/a)',
+      });
     });
   }
 };
