@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { UserSessionManager } from '../utils/userSession';
 
 interface Message {
   id: number;
@@ -49,8 +50,11 @@ export default function ChatHistory() {
 
   // Initialize chat sessions data
   useEffect(() => {
-    // Mock data - in real app this would come from database
-    const initialChatSessions: ChatSession[] = [
+    // Load real user chat sessions
+    const userSessions = UserSessionManager.getUserChatSessions();
+
+    // If no real sessions exist, show sample data for demonstration
+    const initialChatSessions: ChatSession[] = userSessions.length > 0 ? userSessions : [
     {
       id: '1',
       title: 'Free throw line nerves',
@@ -300,6 +304,10 @@ export default function ChatHistory() {
 
   const confirmDelete = () => {
     if (chatToDelete) {
+      // Delete from storage
+      UserSessionManager.deleteChatSession(chatToDelete);
+
+      // Update local state
       setChatSessions(prevSessions =>
         prevSessions.filter(chat => chat.id !== chatToDelete)
       );

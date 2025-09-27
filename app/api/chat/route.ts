@@ -1,162 +1,159 @@
-import OpenAI from "openai";
-import { getCoachingSystemPrompt, analyzeMessage, updateConversationState, createInitialConversationState } from '../../../lib/coaching-system';
-import { CreateChatRequest, CreateChatResponse, SectionType } from '../../../lib/types';
+// app/api/chat/route.ts
 
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+type ChatMsg = { role: 'system' | 'user' | 'assistant'; content: string };
 
-// Valid sections - the source of truth
-const VALID_SECTIONS = ['pre_game', 'in_game', 'post_game', 'locker_room', 'off_court'] as const;
+const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+// Tune these easily later:
+const TEMPERATURE = 0.7;
+const PRESENCE_PENALTY = 0.6;
+const FREQUENCY_PENALTY = 0.7;
 
-function normalizeSection(section: string): SectionType | null {
-  if (!section || typeof section !== 'string') {
-    return null;
-  }
+// How long to wait (in total message turns) before offering a code unless explicitly asked.
+// 3–5 coach questions ≈ 6–10 total turns. Start at 8; tweak as you like.
+const MIN_TURNS_FOR_CODE = Number(process.env.COACH_MIN_TURNS ?? 8);
 
-  // Normalize: lowercase, convert dashes/spaces to underscores
-  const normalized = section.toLowerCase()
-    .replace(/[-\s]+/g, '_')
-    .trim();
+// Words/phrases that count as explicitly asking for a code
+const EXPLICIT_CODE_REGEX =
+  /(cheat[\s-]?code|make (me )?a code|create (a )?code|give (me )?(a )?code|build (a )?code)/i;
 
-  console.log(`[/api/chat] Normalized section: "${section}" -> "${normalized}"`);
+// Hard, non-negotiable coaching system prompt
+const SYSTEM_PROMPT = `
+You are MyCheatCode: a calm, premium basketball mental performance coach.
 
-  // Check if it's a valid section
-  if (VALID_SECTIONS.includes(normalized as SectionType)) {
-    return normalized as SectionType;
-  }
+Objectives:
+- Guide first, then prescribe. Ask 3–5 focused questions before proposing a cheat code unless the user explicitly asks for one.
+- Be concise, direct, and practical. Vary your openings; avoid repeating the same first sentence style.
+- Never use the em dash character. Avoid starting with “It sounds like” or “Sounds like” more than once per conversation.
+- Keep language basketball-native. No therapy jargon. Do not say “meditation.” Say “reset,” “breathing reset,” “focus reset,” or “visual reset.”
+- Prefer specific, on-court actions and quick resets an athlete can do during play or between possessions.
 
-  return null;
+Conversation cadence:
+1) Discovery: ask targeted questions to map scenario (when, where, defender type, common mistake, feeling/trigger).
+2) Synthesis: summarize pattern in one line.
+3) Prescription: propose exactly one cheat code (unless asked for multiple) in the format below.
+4) Refinement: ask one smart tweak and confirm save.
+
+Cheat Code format (use these exact labels):
+Title: <short and punchy>
+Trigger: <the exact moment it should fire>
+Cue phrase: <3–6 words the athlete can say/think>
+First action: <one small physical or tactical action>
+If/Then: <one decision rule for the next beat>
+Reps: <how to practice it (on-court or quick solo)>
+
+Style:
+- Confident, minimal, specific. No emojis. No fluff.
+`;
+
+// Utility: remove forbidden characters and do tiny cleanup
+function sanitizeReply(text: string): string {
+  // Remove em dashes if any slipped through
+  let out = text.replace(/\u2014/g, '-');
+
+  // Reduce repetitive openings if present
+  out = out.replace(/^(It sounds like|Sounds like)\b[:,]?\s*/i, 'Got it. ');
+
+  // Trim double spaces produced by replacements
+  out = out.replace(/\s{2,}/g, ' ').trim();
+  return out;
 }
 
 export async function POST(req: Request) {
-  const startedAt = Date.now();
-
   try {
-    if (!client.apiKey) {
-      console.error("[/api/chat] Missing OPENAI_API_KEY");
-      return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 });
+    const body = await req.json();
+
+    // Expect: { messages: [{role, content}...], meta?: { primaryIssue?: string, turns?: number } }
+    const clientMessages = Array.isArray(body?.messages) ? (body.messages as ChatMsg[]) : [];
+    const meta = body?.meta || {};
+    const lastUser = [...clientMessages].reverse().find(m => m.role === 'user')?.content ?? '';
+    const userExplicitlyAskedForCode = EXPLICIT_CODE_REGEX.test(lastUser);
+
+    const turns = Number(meta?.turns ?? clientMessages.length);
+    const shouldGateCode = !userExplicitlyAskedForCode && turns < MIN_TURNS_FOR_CODE;
+
+    const messages: ChatMsg[] = [];
+
+    // 1) Core identity
+    messages.push({ role: 'system', content: SYSTEM_PROMPT });
+
+    // 2) Light memory/context
+    if (meta?.primaryIssue) {
+      messages.push({
+        role: 'system',
+        content: `Primary issue (persisted): ${String(meta.primaryIssue)}`,
+      });
     }
 
-    // Parse and log the raw body for debugging
-    const body = await req.json().catch(() => null);
-    console.log('[/api/chat] Raw request body:', JSON.stringify(body, null, 2));
-
-    if (!body) {
-      console.error("[/api/chat] Failed to parse JSON body");
-      return Response.json({ error: "Invalid JSON body" }, { status: 400 });
+    // 3) Phase gate
+    if (shouldGateCode) {
+      messages.push({
+        role: 'system',
+        content:
+          'Do not propose a cheat code yet. Ask one focused question to clarify situation, defender type, where the hesitation occurs, and the most common mistake. Keep it concise.',
+      });
+    } else {
+      messages.push({
+        role: 'system',
+        content:
+          'You may propose exactly one cheat code now (unless the user asked for multiple). Use the required Cheat Code format labels.',
+      });
     }
 
-    // Extract and validate section
-    const rawSection = body.section;
-    const normalizedSection = normalizeSection(rawSection);
-
-    if (!normalizedSection) {
-      console.warn(`[/api/chat] Invalid section: "${rawSection}". Valid sections: ${VALID_SECTIONS.join(', ')}`);
-      return Response.json({
-        error: `Missing or invalid section. Valid sections: ${VALID_SECTIONS.join(', ')}`,
-        received: rawSection
-      }, { status: 400 });
+    // 4) User + assistant history from client
+    for (const m of clientMessages) {
+      // Ensure roles are valid strings; coerce content to string
+      if (m?.role && typeof m.content === 'string') {
+        messages.push({ role: m.role, content: m.content });
+      }
     }
 
-    // Extract message
-    const message = body.message;
-    if (!message || typeof message !== 'string' || message.trim().length === 0) {
-      console.warn(`[/api/chat] Invalid message: "${message}"`);
-      return Response.json({
-        error: "Missing or invalid message. Must be a non-empty string.",
-        received: message
-      }, { status: 400 });
+    // Call OpenAI (chat.completions)
+    const openaiKey = process.env.OPENAI_API_KEY;
+    if (!openaiKey) {
+      return new Response(
+        JSON.stringify({ error: 'Server is missing OPENAI_API_KEY' }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
     }
 
-    console.log(`[/api/chat] Processing: section="${normalizedSection}", message="${message.substring(0, 50)}..."`);
-
-    // Initialize or get conversation state
-    // For now, we'll create a new session each time - you can enhance this later
-    const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-    let conversationState = createInitialConversationState(sessionId, normalizedSection);
-
-    // Update conversation state based on user message
-    conversationState = updateConversationState(conversationState, message, false);
-
-    // Get active codes for this section (mock for now - you can implement actual lookup)
-    const activeCodes: string[] = []; // TODO: Fetch from database
-
-    // Generate system prompt
-    const systemPrompt = getCoachingSystemPrompt(normalizedSection, activeCodes);
-
-    // Prepare the conversation for OpenAI
-    const openAIMessages = [
-      { role: "system" as const, content: systemPrompt },
-      { role: "user" as const, content: message }
-    ];
-
-    console.log(`[/api/chat] Calling OpenAI with ${openAIMessages.length} messages`);
-
-    const model = process.env.OPENAI_MODEL || "gpt-4o";
-    const completion = await client.chat.completions.create({
-      model,
-      temperature: 0.7,
-      max_tokens: 500,
-      presence_penalty: 0.1,
-      frequency_penalty: 0.1,
-      messages: openAIMessages,
+    const resp = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${openaiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: MODEL,
+        temperature: TEMPERATURE,
+        presence_penalty: PRESENCE_PENALTY,
+        frequency_penalty: FREQUENCY_PENALTY,
+        messages,
+      }),
     });
 
-    const coachReply = completion.choices?.[0]?.message?.content?.trim() ||
-      "I'm here to help. Tell me more about what's on your mind.";
+    if (!resp.ok) {
+      const errText = await resp.text().catch(() => '');
+      return new Response(
+        JSON.stringify({ error: `OpenAI error ${resp.status}`, detail: errText.slice(0, 500) }),
+        { status: 500, headers: { 'Content-Type': 'application/json' } }
+      );
+    }
 
-    // Update conversation state based on coach response
-    conversationState = updateConversationState(conversationState, coachReply, true);
+    const data = await resp.json();
 
-    // Check if the response contains a code offer
-    const containsCodeOffer = coachReply.toLowerCase().includes('save this as a cheat code?');
-    const isValidOffer = containsCodeOffer && conversationState.question_count >= 3; // Simplified check
+    const raw = data?.choices?.[0]?.message?.content ?? '';
+    const reply = sanitizeReply(String(raw || 'Let’s keep going. What part of that moment feels hardest?'));
 
-    // Create messages for response (you can enhance this with real database storage)
-    const userMessage = {
-      id: `msg_${Date.now()}_user`,
-      session_id: sessionId,
-      role: 'user' as const,
-      text: message,
-      created_at: new Date().toISOString()
-    };
-
-    const coachMessage = {
-      id: `msg_${Date.now()}_coach`,
-      session_id: sessionId,
-      role: 'assistant' as const,
-      text: coachReply,
-      created_at: new Date().toISOString()
-    };
-
-    const response: CreateChatResponse = {
-      session_id: sessionId,
-      message: userMessage,
-      coach_response: coachMessage,
-      conversation_state: {
-        question_count: conversationState.question_count,
-        readiness_signals: conversationState.readiness_signals,
-        can_offer_code: conversationState.question_count >= 3 &&
-          Object.values(conversationState.readiness_signals).filter(Boolean).length >= 4,
-        contains_code_offer: containsCodeOffer,
-        is_valid_offer: isValidOffer
-      }
-    };
-
-    const tookMs = Date.now() - startedAt;
-    console.log(`[/api/chat] Success: model=${model}, section=${normalizedSection}, took=${tookMs}ms`);
-
-    return Response.json(response, { status: 200 });
-
-  } catch (err: any) {
-    const msg = err?.message || String(err);
-    console.error("[/api/chat] ERROR:", msg, err);
-    return Response.json({
-      error: "Internal server error. Please try again.",
-      details: process.env.NODE_ENV === 'development' ? msg : undefined
-    }, { status: 500 });
+    return new Response(JSON.stringify({ reply }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (e: any) {
+    return new Response(JSON.stringify({ error: 'Unexpected server error', detail: String(e?.message || e) }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
   }
 }

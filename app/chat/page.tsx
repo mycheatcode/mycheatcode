@@ -16,19 +16,13 @@ interface Message {
 /** tiny helper for unique ids */
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
-/** Map a topic title/description to a server section slug the API expects */
-function inferSectionFromTopic(topic?: { title?: string; description?: string } | null): string {
-  const t = `${topic?.title ?? ''} ${topic?.description ?? ''}`.toLowerCase();
-
-  // tune these heuristics to your taxonomy on the server
-  if (/\b(pre[-\s]?game|warm[-\s]?up|before game)\b/.test(t)) return 'pre_game';
-  if (/\b(in[-\s]?game|during game|on court|in match|live)\b/.test(t)) return 'in_game';
-  if (/\b(post[-\s]?game|after game|review|debrief)\b/.test(t)) return 'post_game';
-  if (/\b(locker|locker room)\b/.test(t)) return 'locker_room';
-  if (/\b(off[-\s]?court|life|school|work|home)\b/.test(t)) return 'off_court';
-
-  // default to in_game if unsure
-  return 'in_game';
+/** simple heuristic to capture a primary issue from early user messages */
+function extractPrimaryIssue(text: string): string | null {
+  const t = text.trim();
+  if (t.length < 8) return null;
+  // ignore very generic greetings
+  if (/^(hi|hey|hello|yo|sup)\b/i.test(t)) return null;
+  return t.slice(0, 140); // keep it short for context
 }
 
 export default function ChatPage() {
@@ -42,16 +36,16 @@ export default function ChatPage() {
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  /** ---- duplication guards ---- */
-  const pendingCoachReply = useRef<boolean>(false);       // ensures only 1 coach reply per send
-  const pendingWelcome = useRef<boolean>(false);          // ensures welcome is scheduled only once
-  const messageIds = useRef<Set<string>>(new Set());      // dedupe by id
+  /** duplication guards */
+  const pendingCoachReply = useRef<boolean>(false);
+  const pendingWelcome = useRef<boolean>(false);
+  const messageIds = useRef<Set<string>>(new Set());
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   const appendMessage = (msg: Message) => {
-    if (messageIds.current.has(msg.id)) return; // dedupe
+    if (messageIds.current.has(msg.id)) return;
     messageIds.current.add(msg.id);
     setMessages(prev => [...prev, msg]);
   };
@@ -66,22 +60,22 @@ export default function ChatPage() {
     }
   };
 
-  // Initialize everything once on mount
+  // Initialize once
   useEffect(() => {
     if (initialized) return;
 
-    // Load stored topic
+    // Load stored topic (if any)
     const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
     if (storedTopic) {
       try {
         const topic = JSON.parse(storedTopic);
         setSelectedTopic(topic);
       } catch {
-        // ignore corrupt topic
+        // ignore
       }
     }
 
-    // Check if we're restoring a previous chat
+    // Try to restore prior chat
     const chatHistory = typeof window !== 'undefined' ? localStorage.getItem('chatHistory') : null;
     if (chatHistory) {
       try {
@@ -109,7 +103,7 @@ export default function ChatPage() {
       }
     }
 
-    // Start new chat (coach opens)
+    // New chat: coach opens
     setHasStarted(true);
     setIsTyping(true);
     setInitialized(true);
@@ -119,12 +113,12 @@ export default function ChatPage() {
       welcomeTimeout.current = setTimeout(() => {
         const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
         let welcomeText =
-          "Hey! I'm your personal mental performance coach. I'm here to help you build a custom cheat code for whatever's on your mind. What's going on in your game right now?";
+          "Hey — I’m your mental performance coach. Tell me what’s happening in your game right now and I’ll help you dial in a plan.";
 
         if (stored) {
           try {
             const topic = JSON.parse(stored);
-            welcomeText = `I see you're dealing with: "${topic.title}". This is really common, and we can definitely work through this together. Let's start by understanding what's happening in those moments. Can you walk me through what it feels like when this happens?`;
+            welcomeText = `Locked in. I see you’re focused on: “${topic.title}”. Walk me through a recent moment where this showed up — where on the floor were you, who was guarding you, and what did you feel?`;
           } catch {
             // ignore
           }
@@ -146,10 +140,46 @@ export default function ChatPage() {
     };
   }, [initialized]);
 
+  /** Build payload the API expects */
+  const buildChatPayload = (msgs: Message[]) => {
+    const history = msgs.map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.text,
+    }));
+
+    // Put topic context at the front if present
+    if (selectedTopic?.title) {
+      history.unshift({
+        role: 'system',
+        content: `User focus/topic: ${selectedTopic.title}${selectedTopic.description ? ` - ${selectedTopic.description}` : ''}`,
+      } as any);
+    }
+
+    // Meta: primary issue + number of turns
+    const primaryIssue = typeof window !== 'undefined' ? localStorage.getItem('primary_issue') : null;
+
+    return {
+      messages: history,
+      meta: {
+        primaryIssue: primaryIssue || undefined,
+        turns: history.length,
+      },
+    };
+  };
+
   const sendMessage = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
-    if (pendingCoachReply.current) return; // prevent double-send while a reply is pending
+    if (pendingCoachReply.current) return;
+
+    // Capture a primary issue early if we do not have one yet
+    const existingPI = typeof window !== 'undefined' ? localStorage.getItem('primary_issue') : null;
+    if (!existingPI) {
+      const guess = extractPrimaryIssue(trimmed);
+      if (guess && typeof window !== 'undefined') {
+        localStorage.setItem('primary_issue', guess);
+      }
+    }
 
     // Add user message locally
     const userMsg: Message = {
@@ -163,40 +193,32 @@ export default function ChatPage() {
     setIsTyping(true);
     pendingCoachReply.current = true;
 
-    // Focus textarea after send (nice UX)
+    // Keep focus on the input for fast back-and-forth
     if (inputRef.current) inputRef.current.focus();
 
     try {
-      // IMPORTANT: your server route currently expects { section, message }
-      const section = inferSectionFromTopic(selectedTopic);
+      const payload = buildChatPayload([...messages, userMsg]);
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ section, message: trimmed }),
+        body: JSON.stringify(payload),
       });
 
       if (!res.ok) {
-        // surface 401/400 clearly in the UI
-        const errText = res.status === 401
-          ? 'You need to sign in before chatting.'
-          : res.status === 400
-          ? 'Missing or invalid chat data. Please try again.'
-          : `Coach error (${res.status}).`;
-        throw new Error(errText);
+        throw new Error(`API ${res.status}`);
       }
 
       const data = await res.json();
-
       appendMessage({
         id: uid(),
-        text: data.coach_response?.text || "Hmm, I couldn't generate a reply. Try again?",
+        text: data.reply || 'Let’s keep going. What part of that moment feels hardest?',
         sender: 'coach',
         timestamp: new Date(),
       });
-    } catch (err: any) {
+    } catch (err) {
       appendMessage({
         id: uid(),
-        text: `⚠️ ${err?.message ?? 'Oops, something went wrong reaching the coach. Please try again.'}`,
+        text: '⚠️ Could not reach the coach. Try again.',
         sender: 'coach',
         timestamp: new Date(),
       });
@@ -206,7 +228,7 @@ export default function ChatPage() {
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -215,7 +237,7 @@ export default function ChatPage() {
 
   return (
     <div className="bg-black min-h-screen text-white font-sans">
-      {/* Mobile Design */}
+      {/* Mobile */}
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
         <div className="p-4 bg-black border-b border-zinc-800 flex-shrink-0">
@@ -243,13 +265,10 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Chat Messages */}
+        {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
           {messages.map((message) => (
-            <div
-              key={message.id}
-              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-            >
+            <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               {message.sender === 'user' ? (
                 <div className="max-w-[75%] p-3 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
                   <div className="text-[15px] leading-relaxed">{message.text}</div>
@@ -259,7 +278,7 @@ export default function ChatPage() {
                 </div>
               ) : (
                 <div className="w-full p-3">
-                  <div className="text-[15px] leading-relaxed text-white">{message.text}</div>
+                  <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
                   <div className="text-xs mt-2 text-zinc-400">
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
@@ -281,14 +300,14 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Input Area */}
+        {/* Input */}
         <div className="p-4 border-t border-zinc-800 bg-black flex-shrink-0">
           <div className="relative">
             <textarea
               ref={inputRef}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              onKeyDown={handleKeyDown}
+              onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
               className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-12 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors"
               rows={1}
@@ -297,11 +316,7 @@ export default function ChatPage() {
             <button
               onClick={sendMessage}
               disabled={!inputText.trim() || pendingCoachReply.current}
-              className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${
-                inputText.trim() && !pendingCoachReply.current
-                  ? 'bg-zinc-800 text-white'
-                  : 'bg-white text-black'
-              }`}
+              className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
               type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -313,9 +328,9 @@ export default function ChatPage() {
         </div>
       </div>
 
-      {/* Desktop Design */}
+      {/* Desktop */}
       <div className="hidden lg:flex min-h-screen relative">
-        {/* Header with Menu Button */}
+        {/* Header */}
         <div className="absolute top-0 left-0 right-0 p-4 z-20 bg-black border-b border-zinc-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -367,7 +382,7 @@ export default function ChatPage() {
           )}
         </div>
 
-        {/* Sidebar Navigation */}
+        {/* Sidebar */}
         <div className={`absolute top-0 left-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="p-6 pt-20 border-b border-zinc-800">
             <div className="text-white text-xl font-bold">Navigation</div>
@@ -403,24 +418,12 @@ export default function ChatPage() {
           </nav>
         </div>
 
-        {/* Overlay when menu is open */}
-        {menuOpen && (
-          <div
-            className="absolute inset-0 bg-black bg-opacity-50 z-5"
-            onClick={() => setMenuOpen(false)}
-          ></div>
-        )}
-
-        {/* Main Chat Area */}
+        {/* Main Chat */}
         <div className="flex-1 flex flex-col" style={{ paddingTop: selectedTopic ? '200px' : '80px' }}>
-          {/* Chat Messages */}
           <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full">
             <div className="space-y-6">
               {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
+                <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {message.sender === 'user' ? (
                     <div className="max-w-[65%] p-5 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
                       <div className="text-base leading-relaxed">{message.text}</div>
@@ -430,7 +433,7 @@ export default function ChatPage() {
                     </div>
                   ) : (
                     <div className="w-full p-5">
-                      <div className="text-base leading-relaxed text-white">{message.text}</div>
+                      <div className="text-base leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
                       <div className="text-sm mt-3 text-zinc-400">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
@@ -453,14 +456,14 @@ export default function ChatPage() {
             </div>
           </div>
 
-          {/* Input Area */}
+          {/* Input */}
           <div className="p-8 border-t border-zinc-800 bg-black">
             <div className="max-w-4xl mx-auto relative">
               <textarea
                 ref={inputRef}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                onKeyDown={handleKeyDown}
+                onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-14 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors text-base"
                 rows={2}
@@ -469,16 +472,12 @@ export default function ChatPage() {
               <button
                 onClick={sendMessage}
                 disabled={!inputText.trim() || pendingCoachReply.current}
-                className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${
-                  inputText.trim() && !pendingCoachReply.current
-                    ? 'bg-zinc-800 text-white'
-                    : 'bg-white text-black'
-                }`}
+                className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
                 type="button"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="12" y1="19" x2="12" y2="5"></line>
-                  <polyline points="5,12 12,5 19,12"></polyline>
+                  <polyline points="5,12 12,5 9,12"></polyline>
                 </svg>
               </button>
             </div>

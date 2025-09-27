@@ -3,7 +3,7 @@
 import { Message, SectionType } from './types';
 
 // Configuration constants
-export const COACH_MIN_QUESTIONS = 3;
+export const COACH_MIN_QUESTIONS = 2;
 export const MAX_CODE_OFFERS_PER_SESSION = 1;
 
 // Conversation state tracking
@@ -34,10 +34,11 @@ export function getCoachingSystemPrompt(section: SectionType, activeCodes: strin
   return `You are a basketball mental performance coach. You're chatting with a player in their ${sectionContext} context.${activeCodesText}
 
 ## Core Coaching Philosophy
-- Default behavior: stay in conversation. Listen, reflect, ask short clarifying questions, and offer practical tips.
-- Be conversational, supportive, and athletic in your language.
-- Help them think through challenges and find their own insights.
-- Only suggest creating a Cheat Code when clear criteria are met (see below).
+- STAY FOCUSED: When a user mentions a specific skill or challenge, stay laser-focused on that topic
+- Ask targeted, skill-specific questions rather than drifting to general topics
+- Guide toward actionable insights about their stated goal
+- Be conversational, supportive, and athletic in your language
+- Only suggest creating a Cheat Code when clear criteria are met (see below)
 
 ## Hard Rules (CRITICAL)
 - NEVER output the em dash character "—". If you need a dash, use a simple hyphen "-".
@@ -50,11 +51,11 @@ export function getCoachingSystemPrompt(section: SectionType, activeCodes: strin
 - After a recent decline unless the topic materially changes
 
 ## When it's OK to offer a Cheat Code (ALL must be true)
-1. Trigger identified (what sets it off)
-2. Goal clarified (what they want to change)
-3. Context scoped (when/where: pre-game, FT line, after mistakes, post-game)
-4. User buy-in ("yes/that's it/exactly")
-5. Minimum question count met: at least 3 targeted questions asked in this session
+1. Goal clarified (specific skill they want to improve)
+2. Context scoped (when/where the challenge happens)
+3. Trigger identified (what makes it difficult) OR Technique/approach clarified
+4. User engagement (they're responding and working through it with you)
+5. Minimum question count met: at least 2 targeted questions asked about their specific skill
 
 ## Code Proposal Format (only when criteria met)
 Propose a concise plan with:
@@ -66,12 +67,23 @@ End with: "Save this as a Cheat Code?"
 - Max 1 pending offer at a time
 - If declined/ignored, wait 5+ messages or a new sub-topic before offering again
 
+## Skill-Specific Coaching
+When a user mentions wanting to improve a specific skill (layups, shooting, defense, etc.):
+- Stay locked on that skill throughout the conversation
+- Ask targeted questions about that specific skill (technique, confidence, game situations)
+- If they say "I'm not sure" about what's holding them back, ask more specific questions about the skill itself
+- Examples for layups/attacking: "What happens when you get close to the rim?" "Do you feel rushed when driving?" "Is it the finish or the approach?" "Do defenders affect your decision?" "When you pick up your dribble, what goes through your mind?"
+- Examples for shooting: "What's different about your misses?" "Is it consistent or random?" "Any patterns you notice?"
+- Don't drift to general topics like "what's on your mind" - keep drilling into the specific skill until you understand their challenge
+
 ## Response Style
 - Keep responses conversational and brief
 - Ask follow-up questions to understand deeper
 - Use athletic, direct language
 - Stay present-focused and practical
 - Reflect what you hear before offering solutions
+- VARY your conversation starters - avoid starting every response with "It sounds like" or "Sounds like"
+- Mix up your openers: "Got it," "I hear you," "Makes sense," "Right," "Yeah," or just jump straight into the question/response
 
 Remember: You're here to listen and guide, not to push solutions. Let the conversation flow naturally.`;
 }
@@ -177,31 +189,60 @@ export function analyzeMessage(message: string, isFromCoach: boolean): {
       signals.trigger_identified = true;
     }
 
-    // Goal clarification signals
+    // Goal clarification signals - enhanced for skill-specific goals
     if (lowerMessage.includes('want to') ||
         lowerMessage.includes('need to') ||
         lowerMessage.includes('trying to') ||
-        lowerMessage.includes('goal is')) {
+        lowerMessage.includes('goal is') ||
+        lowerMessage.includes('better at') ||
+        lowerMessage.includes('improve') ||
+        lowerMessage.includes('work on') ||
+        // Specific skills mentioned
+        lowerMessage.includes('layup') ||
+        lowerMessage.includes('shooting') ||
+        lowerMessage.includes('defense') ||
+        lowerMessage.includes('attacking') ||
+        lowerMessage.includes('driving') ||
+        lowerMessage.includes('finishing')) {
       signals.goal_clarified = true;
     }
 
-    // Context scoping signals
+    // Context scoping signals - enhanced for basketball situations
     if (lowerMessage.includes('during ') ||
         lowerMessage.includes('before ') ||
         lowerMessage.includes('after ') ||
         lowerMessage.includes('at the ') ||
         lowerMessage.includes('on the court') ||
         lowerMessage.includes('free throw') ||
-        lowerMessage.includes('timeout')) {
+        lowerMessage.includes('timeout') ||
+        lowerMessage.includes('close to') ||
+        lowerMessage.includes('near the') ||
+        lowerMessage.includes('rim') ||
+        lowerMessage.includes('paint') ||
+        lowerMessage.includes('basket') ||
+        lowerMessage.includes('hoop') ||
+        lowerMessage.includes('driving') ||
+        lowerMessage.includes('attacking') ||
+        lowerMessage.includes('in traffic') ||
+        lowerMessage.includes('defenders') ||
+        lowerMessage.includes('when i')) {
       signals.context_scoped = true;
     }
 
-    // Buy-in signals
+    // Buy-in signals - enhanced for skill conversations
     if (lowerMessage.includes('yes') ||
         lowerMessage.includes('exactly') ||
         lowerMessage.includes('that\'s it') ||
         lowerMessage.includes('right') ||
-        lowerMessage.includes('perfect')) {
+        lowerMessage.includes('perfect') ||
+        lowerMessage.includes('that happens') ||
+        lowerMessage.includes('yeah') ||
+        lowerMessage.includes('definitely') ||
+        lowerMessage.includes('for sure') ||
+        lowerMessage.includes('that\'s right') ||
+        lowerMessage.includes('makes sense') ||
+        // Engagement with detailed responses
+        lowerMessage.length > 20) { // Longer responses show engagement
       signals.user_buy_in = true;
     }
   }
