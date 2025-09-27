@@ -134,13 +134,28 @@ export default function ChatPage() {
 
       // Show coach message immediately (no delay)
       const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
-      let welcomeText =
-        "Hey — I'm your mental performance coach. Tell me what's happening in your game right now and I'll help you dial in a plan.";
+
+      // Varied welcome messages for fresh feel
+      const welcomeMessages = [
+        "What's good! I'm here to help you level up your mental game. What's been on your mind lately with basketball?",
+        "Hey there! Ready to work on some mental performance stuff? What's going on in your game right now?",
+        "What's up! I'm your mental performance coach. Tell me what's happening out there on the court.",
+        "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
+        "Hey! I help players dial in their mental game. What's going on with your basketball right now?"
+      ];
+
+      let welcomeText = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
 
       if (stored) {
         try {
           const topic = JSON.parse(stored);
-          welcomeText = `Locked in. I see you're focused on: "${topic.title}". Walk me through a recent moment where this showed up — where on the floor were you, who was guarding you, and what did you feel?`;
+          const topicMessages = [
+            `I see you're focused on: "${topic.title}". Walk me through what happened the last time this came up.`,
+            `Ah, working on "${topic.title}". Tell me about a recent time when this was an issue for you.`,
+            `Got it, "${topic.title}" is what we're tackling. What does this usually look like when it happens?`,
+            `Cool, so "${topic.title}" is on your mind. When did you last deal with this situation?`
+          ];
+          welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
         } catch {
           // ignore
         }
