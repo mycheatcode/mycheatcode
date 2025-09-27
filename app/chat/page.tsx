@@ -135,13 +135,13 @@ export default function ChatPage() {
       // Show coach message immediately (no delay)
       const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
-      // Varied welcome messages for fresh feel
+      // Varied welcome messages for fresh feel - all personal and direct
       const welcomeMessages = [
         "What's good! I'm here to help you level up your mental game. What's been on your mind lately with basketball?",
-        "Hey there! Ready to work on some mental performance stuff? What's going on in your game right now?",
+        "Hey there! Ready to work on your mental performance? What's going on in your game right now?",
         "What's up! I'm your mental performance coach. Tell me what's happening out there on the court.",
         "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
-        "Hey! I help players dial in their mental game. What's going on with your basketball right now?"
+        "Hey! I'm here to help you dial in your mental game. What's going on with your basketball right now?"
       ];
 
       let welcomeText = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
