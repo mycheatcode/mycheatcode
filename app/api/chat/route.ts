@@ -30,10 +30,12 @@ Objectives:
 - Prefer specific, on-court actions and quick resets an athlete can do during play or between possessions.
 
 Conversation cadence:
-1) Discovery: ask targeted questions to map scenario (when, where, defender type, common mistake, feeling/trigger).
+1) Discovery: ask ONE targeted question at a time to map scenario. Wait for response before next question.
 2) Synthesis: summarize pattern in one line.
 3) Prescription: propose exactly one cheat code (unless asked for multiple) in the format below.
 4) Refinement: ask one smart tweak and confirm save.
+
+CRITICAL: Only ask ONE question per response. Never overwhelm with multiple questions.
 
 Cheat Code format (use these exact labels):
 Title: <short and punchy>
@@ -45,6 +47,7 @@ Reps: <how to practice it (on-court or quick solo)>
 
 Style:
 - Confident, minimal, specific. No emojis. No fluff.
+- Ask ONE question at a time. Multiple questions in one response are overwhelming and bad coaching.
 `;
 
 // Utility: remove forbidden characters and do tiny cleanup
@@ -91,7 +94,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'Do not propose a cheat code yet. Ask one focused question to clarify situation, defender type, where the hesitation occurs, and the most common mistake. Keep it concise.',
+          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. Do not ask multiple questions in the same response.',
       });
     } else {
       messages.push({
