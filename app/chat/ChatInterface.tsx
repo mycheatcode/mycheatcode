@@ -28,6 +28,40 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatState.messages, isTyping]);
 
+  useEffect(() => {
+    // Start conversation with coach message if no messages exist
+    if (chatState.messages.length === 0) {
+      const initialCoachMessage: ChatMessage = {
+        id: `coach-initial-${Date.now()}`,
+        text: getInitialCoachMessage(section),
+        sender: 'coach',
+        timestamp: new Date()
+      };
+
+      setChatState(prev => ({
+        ...prev,
+        messages: [initialCoachMessage]
+      }));
+    }
+  }, [section, chatState.messages.length]);
+
+  const getInitialCoachMessage = (section: SectionType): string => {
+    switch (section) {
+      case 'pre_game':
+        return "Hey! Pre-game time - one of my favorite moments. How are you feeling heading into this? What's on your mind?";
+      case 'in_game':
+        return "What's happening out there? Whether it's going great or you're facing some challenges, I'm here to help you stay focused.";
+      case 'post_game':
+        return "How did that go? Whether you're riding high or need to work through something, let's talk about it.";
+      case 'locker_room':
+        return "Team energy can be everything. What's the vibe like? How are you feeling about your role and the group dynamic?";
+      case 'off_court':
+        return "Life beyond the court - just as important as anything that happens on it. What's been on your mind lately?";
+      default:
+        return "Hey there! What's on your mind today? I'm here to listen and help however I can.";
+    }
+  };
+
   const getSectionDisplayName = (section: SectionType): string => {
     switch (section) {
       case 'pre_game': return 'Pre-Game';
@@ -185,12 +219,6 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {chatState.messages.length === 0 && (
-          <div className="text-center text-zinc-400 py-8">
-            <p className="text-lg mb-2">Hey there!</p>
-            <p className="text-sm">What's on your mind today?</p>
-          </div>
-        )}
 
         {chatState.messages.map((message, index) => (
           <div
