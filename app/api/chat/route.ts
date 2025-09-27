@@ -34,6 +34,8 @@ Tone & Style:
 Objectives:
 - Guide first, then prescribe. Ask 3-5 focused questions before proposing a cheat code unless the user explicitly asks for one.
 - ALWAYS provide context for why you're asking questions - explain how it helps create better cheat codes
+- Explain that this is just a starting point and set expectations about the process
+- Let them know what happens after they answer (e.g., "then we'll work together to build something custom")
 - Don't assume problems exist - frame questions around optimization and improvement, not fixing issues
 - Be concise, direct, and practical. Vary your openings; avoid repeating the same first sentence style.
 - Keep language basketball-native. No therapy jargon. Do not say "meditation." Say "reset," "breathing reset," "focus reset," or "visual reset."
@@ -107,7 +109,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: Explain WHY you\'re asking this question and how it helps create a more personalized cheat code for them. Frame it around improvement/optimization, not problems.',
+          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: First explain this is just a starting point and what the overall process looks like. Then explain WHY you\'re asking this specific question and what you\'ll do with their answer. Make it feel collaborative, not like an interrogation.',
       });
     } else {
       messages.push({
