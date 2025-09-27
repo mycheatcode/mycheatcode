@@ -44,6 +44,28 @@ export default function ChatPage() {
   const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
+  // Helper to detect if a message contains a cheat code
+  const isCheatCode = (text: string): boolean => {
+    return text.includes('Title:') && text.includes('Trigger:') && text.includes('Cue phrase:');
+  };
+
+  // Helper to parse cheat code from text
+  const parseCheatCode = (text: string) => {
+    const lines = text.split('\n');
+    const cheatCode: any = {};
+
+    lines.forEach(line => {
+      if (line.startsWith('Title:')) cheatCode.title = line.replace('Title:', '').trim();
+      if (line.startsWith('Trigger:')) cheatCode.trigger = line.replace('Trigger:', '').trim();
+      if (line.startsWith('Cue phrase:')) cheatCode.cuePhrase = line.replace('Cue phrase:', '').trim();
+      if (line.startsWith('First action:')) cheatCode.firstAction = line.replace('First action:', '').trim();
+      if (line.startsWith('If/Then:')) cheatCode.ifThen = line.replace('If/Then:', '').trim();
+      if (line.startsWith('Reps:')) cheatCode.reps = line.replace('Reps:', '').trim();
+    });
+
+    return cheatCode;
+  };
+
   const appendMessage = (msg: Message) => {
     if (messageIds.current.has(msg.id)) return;
     messageIds.current.add(msg.id);
@@ -276,7 +298,34 @@ export default function ChatPage() {
                 </div>
               ) : (
                 <div className="w-full p-3">
-                  <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                  {isCheatCode(message.text) ? (
+                    // Special formatting for cheat codes
+                    <div>
+                      <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4 mb-3">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                          <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                        </div>
+                        {(() => {
+                          const cheatCode = parseCheatCode(message.text);
+                          return (
+                            <div className="space-y-2">
+                              <div className="text-white font-bold text-lg">{cheatCode.title}</div>
+                              <div className="space-y-1.5 text-sm">
+                                <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
+                                <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
+                                <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
+                                {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
+                                <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                              </div>
+                            </div>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                  )}
                   <div className="text-xs mt-2 text-zinc-400">
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
@@ -431,7 +480,34 @@ export default function ChatPage() {
                     </div>
                   ) : (
                     <div className="w-full p-5">
-                      <div className="text-base leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                      {isCheatCode(message.text) ? (
+                        // Special formatting for cheat codes
+                        <div>
+                          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6 mb-4">
+                            <div className="flex items-center gap-2 mb-4">
+                              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                              <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                            </div>
+                            {(() => {
+                              const cheatCode = parseCheatCode(message.text);
+                              return (
+                                <div className="space-y-3">
+                                  <div className="text-white font-bold text-xl">{cheatCode.title}</div>
+                                  <div className="space-y-2 text-base">
+                                    <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
+                                    <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
+                                    <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
+                                    {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
+                                    <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                                  </div>
+                                </div>
+                              );
+                            })()}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-base leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                      )}
                       <div className="text-sm mt-3 text-zinc-400">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
