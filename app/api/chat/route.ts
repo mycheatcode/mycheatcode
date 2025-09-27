@@ -11,12 +11,55 @@ const PRESENCE_PENALTY = 0.6;
 const FREQUENCY_PENALTY = 0.7;
 
 // How long to wait (in total message turns) before offering a code unless explicitly asked.
-// 3–5 coach questions ≈ 6–10 total turns. Start at 8; tweak as you like.
-const MIN_TURNS_FOR_CODE = Number(process.env.COACH_MIN_TURNS ?? 8);
+// Need substantial conversation with specific details before offering code
+const MIN_TURNS_FOR_CODE = Number(process.env.COACH_MIN_TURNS ?? 20);
 
 // Words/phrases that count as explicitly asking for a code
 const EXPLICIT_CODE_REGEX =
   /(cheat[\s-]?code|make (me )?a code|create (a )?code|give (me )?(a )?code|build (a )?code)/i;
+
+// Check if conversation has sufficient detail for a meaningful cheat code
+function hasSubstantialConversation(messages: ChatMsg[]): boolean {
+  const userMessages = messages.filter(m => m.role === 'user');
+
+  // Need at least 6 user messages with substance for a truly comprehensive conversation
+  if (userMessages.length < 6) return false;
+
+  // Check each message for substance
+  const substantialMessages = userMessages.filter(m => {
+    const content = m.content.toLowerCase().trim();
+
+    // Exclude vague responses - be much more strict
+    if (content.length < 20 ||
+        /^(idk|idrk|i don't know|not sure|maybe|whatever|yeah|ok|fine|sure|nothing|no|yes|layups)[\s.,!?]*$/i.test(content) ||
+        /^(i don't really know|i don't really|not really|kinda|sorta|i want|i just)[\s.,!?]*$/i.test(content) ||
+        /^(i find them hard|they're hard|it's hard)[\s.,!?]*$/i.test(content)) {
+      return false;
+    }
+
+    return true;
+  });
+
+  // Need at least 5 substantial messages (not counting vague ones)
+  if (substantialMessages.length < 5) return false;
+
+  const allUserText = substantialMessages.map(m => m.content.toLowerCase()).join(' ');
+
+  // Look for multiple specific technical details
+  const technicalDetails = (allUserText.match(/\b(pick up the ball|dribble|defender|traffic|contact|finish|technique|approach|timing|speed|angle|footwork|hands|vision|decision|mechanics|form|release)\b/g) || []).length;
+
+  // Look for multiple specific moments or triggers described
+  const specificMoments = (allUserText.match(/\b(when i|happens when|right when|as soon as|gets fast|pressure|rushed|stuck|commits|commits me|in the moment|during|while)\b/g) || []).length;
+
+  // Look for clear solution-oriented language
+  const solutionLanguage = /\b(want to get better at|need help with|trying to improve|struggling with|having trouble with|want to work on|help me)\b/.test(allUserText);
+
+  // Look for emotional/mental state descriptions
+  const mentalState = /\b(feel|think|mind|confidence|nervous|focused|pressure|anxiety|doubt|worry)\b/.test(allUserText);
+
+  // Need multiple technical details, multiple moments, solution language, AND mental state discussion
+  return technicalDetails >= 2 && specificMoments >= 2 && solutionLanguage && mentalState;
+}
 
 // Hard, non-negotiable coaching system prompt
 const SYSTEM_PROMPT = `
@@ -90,7 +133,8 @@ export async function POST(req: Request) {
     const userExplicitlyAskedForCode = EXPLICIT_CODE_REGEX.test(lastUser);
 
     const turns = Number(meta?.turns ?? clientMessages.length);
-    const shouldGateCode = !userExplicitlyAskedForCode && turns < MIN_TURNS_FOR_CODE;
+    const hasEnoughDetail = hasSubstantialConversation(clientMessages);
+    const shouldGateCode = !userExplicitlyAskedForCode && (turns < MIN_TURNS_FOR_CODE || !hasEnoughDetail);
 
     const messages: ChatMsg[] = [];
 
@@ -116,7 +160,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'You may propose exactly one cheat code now (unless the user asked for multiple). Use the required Cheat Code format labels.',
+          'You may propose exactly one cheat code now (unless the user asked for multiple). CRITICAL: ONLY create a cheat code if you have ALL of these details from substantial conversation: (1) specific basketball technique/situation they want to improve, (2) clear trigger or moment when the challenge happens, (3) what they want to achieve or change, (4) enough detail about their specific challenge to create actionable steps. If ANY of these are missing or if the conversation has been too vague (short responses, "idk", "idrk", "not sure"), ask ONE more targeted question to get the missing detail. When you DO create a cheat code, first explain what the code will help them with in 1-2 sentences, then present the formatted cheat code using the required format labels.',
       });
     }
 
