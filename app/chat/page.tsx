@@ -49,6 +49,29 @@ export default function ChatPage() {
     return text.includes('Title:') && text.includes('Trigger:') && text.includes('Cue phrase:');
   };
 
+  // Helper to split message into intro text and cheat code
+  const splitCheatCodeMessage = (text: string) => {
+    const lines = text.split('\n');
+    let cheatCodeStartIndex = -1;
+
+    // Find where the cheat code structure starts
+    for (let i = 0; i < lines.length; i++) {
+      if (lines[i].startsWith('Title:')) {
+        cheatCodeStartIndex = i;
+        break;
+      }
+    }
+
+    if (cheatCodeStartIndex === -1) {
+      return { intro: text, cheatCodeText: '' };
+    }
+
+    const intro = lines.slice(0, cheatCodeStartIndex).join('\n').trim();
+    const cheatCodeText = lines.slice(cheatCodeStartIndex).join('\n').trim();
+
+    return { intro, cheatCodeText };
+  };
+
   // Helper to parse cheat code from text
   const parseCheatCode = (text: string) => {
     const lines = text.split('\n');
@@ -314,29 +337,40 @@ export default function ChatPage() {
               ) : (
                 <div className="w-full p-3">
                   {isCheatCode(message.text) ? (
-                    // Special formatting for cheat codes
+                    // Special formatting for cheat codes with intro text
                     <div>
-                      <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4 mb-3">
-                        <div className="flex items-center gap-2 mb-3">
-                          <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                          <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
-                        </div>
-                        {(() => {
-                          const cheatCode = parseCheatCode(message.text);
-                          return (
-                            <div className="space-y-2">
-                              <div className="text-white font-bold text-lg">{cheatCode.title}</div>
-                              <div className="space-y-1.5 text-sm">
-                                <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
-                                <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
-                                <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
-                                {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
-                                <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                      {(() => {
+                        const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
+                        const cheatCode = parseCheatCode(cheatCodeText);
+                        return (
+                          <div>
+                            {/* Coach introduction text */}
+                            {intro && (
+                              <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap mb-4">
+                                {intro}
+                              </div>
+                            )}
+
+                            {/* Cheat code box */}
+                            <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4">
+                              <div className="flex items-center gap-2 mb-3">
+                                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                              </div>
+                              <div className="space-y-2">
+                                <div className="text-white font-bold text-lg">{cheatCode.title}</div>
+                                <div className="space-y-1.5 text-sm">
+                                  <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
+                                  <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
+                                  <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
+                                  {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
+                                  <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                                </div>
                               </div>
                             </div>
-                          );
-                        })()}
-                      </div>
+                          </div>
+                        );
+                      })()}
                     </div>
                   ) : (
                     <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
@@ -496,29 +530,40 @@ export default function ChatPage() {
                   ) : (
                     <div className="w-full p-5">
                       {isCheatCode(message.text) ? (
-                        // Special formatting for cheat codes
+                        // Special formatting for cheat codes with intro text
                         <div>
-                          <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6 mb-4">
-                            <div className="flex items-center gap-2 mb-4">
-                              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                              <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
-                            </div>
-                            {(() => {
-                              const cheatCode = parseCheatCode(message.text);
-                              return (
-                                <div className="space-y-3">
-                                  <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                  <div className="space-y-2 text-base">
-                                    <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
-                                    <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
-                                    <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
-                                    {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
-                                    <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                          {(() => {
+                            const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
+                            const cheatCode = parseCheatCode(cheatCodeText);
+                            return (
+                              <div>
+                                {/* Coach introduction text */}
+                                {intro && (
+                                  <div className="text-base leading-relaxed text-white whitespace-pre-wrap mb-6">
+                                    {intro}
+                                  </div>
+                                )}
+
+                                {/* Cheat code box */}
+                                <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6">
+                                  <div className="flex items-center gap-2 mb-4">
+                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                    <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                                  </div>
+                                  <div className="space-y-3">
+                                    <div className="text-white font-bold text-xl">{cheatCode.title}</div>
+                                    <div className="space-y-2 text-base">
+                                      <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
+                                      <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
+                                      <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
+                                      {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
+                                      <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                                    </div>
                                   </div>
                                 </div>
-                              );
-                            })()}
-                          </div>
+                              </div>
+                            );
+                          })()}
                         </div>
                       ) : (
                         <div className="text-base leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
