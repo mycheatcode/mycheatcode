@@ -105,33 +105,31 @@ export default function ChatPage() {
 
     // New chat: coach opens
     setHasStarted(true);
-    setIsTyping(true);
     setInitialized(true);
 
     if (!pendingWelcome.current) {
       pendingWelcome.current = true;
-      welcomeTimeout.current = setTimeout(() => {
-        const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
-        let welcomeText =
-          "Hey — I’m your mental performance coach. Tell me what’s happening in your game right now and I’ll help you dial in a plan.";
 
-        if (stored) {
-          try {
-            const topic = JSON.parse(stored);
-            welcomeText = `Locked in. I see you’re focused on: “${topic.title}”. Walk me through a recent moment where this showed up — where on the floor were you, who was guarding you, and what did you feel?`;
-          } catch {
-            // ignore
-          }
+      // Show coach message immediately (no delay)
+      const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
+      let welcomeText =
+        "Hey — I'm your mental performance coach. Tell me what's happening in your game right now and I'll help you dial in a plan.";
+
+      if (stored) {
+        try {
+          const topic = JSON.parse(stored);
+          welcomeText = `Locked in. I see you're focused on: "${topic.title}". Walk me through a recent moment where this showed up — where on the floor were you, who was guarding you, and what did you feel?`;
+        } catch {
+          // ignore
         }
+      }
 
-        appendMessage({
-          id: uid(),
-          text: welcomeText,
-          sender: 'coach',
-          timestamp: new Date(),
-        });
-        setIsTyping(false);
-      }, 900);
+      appendMessage({
+        id: uid(),
+        text: welcomeText,
+        sender: 'coach',
+        timestamp: new Date(),
+      });
     }
 
     return () => {
