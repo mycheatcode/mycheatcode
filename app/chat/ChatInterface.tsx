@@ -30,7 +30,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
 
   useEffect(() => {
     // Start conversation with coach message if no messages exist
-    if (chatState.messages.length === 0) {
+    if (chatState.messages.length === 0 && section) {
       const initialCoachMessage: ChatMessage = {
         id: `coach-initial-${Date.now()}`,
         text: getInitialCoachMessage(section),
@@ -38,12 +38,14 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         timestamp: new Date()
       };
 
+      console.log('Adding initial coach message:', initialCoachMessage);
+
       setChatState(prev => ({
         ...prev,
         messages: [initialCoachMessage]
       }));
     }
-  }, [section, chatState.messages.length]);
+  }, [section]);
 
   const getInitialCoachMessage = (section: SectionType): string => {
     switch (section) {

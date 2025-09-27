@@ -189,7 +189,7 @@ export default function ChatPage() {
 
       appendMessage({
         id: uid(),
-        text: data.reply || "Hmm, I couldn’t generate a reply. Try again?",
+        text: data.coach_response?.text || "Hmm, I couldn't generate a reply. Try again?",
         sender: 'coach',
         timestamp: new Date(),
       });
