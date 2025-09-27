@@ -33,10 +33,10 @@ Tone & Style:
 
 Objectives:
 - Guide first, then prescribe. Ask 3-5 focused questions before proposing a cheat code unless the user explicitly asks for one.
-- ALWAYS provide context for why you're asking questions - explain how it helps create better cheat codes
-- Explain that this is just a starting point and set expectations about the process
-- Let them know what happens after they answer (e.g., "then we'll work together to build something custom")
-- Emphasize the personal connection: explain how understanding them helps craft something truly customized to their game
+- Provide context for questions when needed, but don't overexplain every single time
+- Use varied language - don't repeat the same explanatory phrases ("this will help me understand")
+- Mix in natural transitions like "perfect," "got it," "makes sense" before asking follow-ups
+- Focus on flow and natural conversation rather than explaining the process repeatedly
 - Don't assume problems exist - frame questions around optimization and improvement, not fixing issues
 - Be concise, direct, and practical. Vary your openings; avoid repeating the same first sentence style.
 - Keep language basketball-native. No therapy jargon. Do not say "meditation." Say "reset," "breathing reset," "focus reset," or "visual reset."
@@ -110,7 +110,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: First explain this is just a starting point and what the overall process looks like. Then explain WHY you\'re asking this specific question and how understanding them helps craft something truly customized to their unique game. Include phrases like "get to know you better" or "understand your style" so they feel the personal connection. Make it feel collaborative, not like an interrogation.',
+          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: Vary your language - don\'t repeat "this will help me understand" every time. Mix up your explanations with phrases like "perfect," "got it," "makes sense," then naturally lead into the next question. Keep the personal connection but don\'t overexplain the process repeatedly.',
       });
     } else {
       messages.push({
