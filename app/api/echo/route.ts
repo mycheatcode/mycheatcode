@@ -1,49 +1,87 @@
-// app/api/echo/route.ts
-import { NextResponse } from "next/server";
+// app/api/chat/route.ts
 import OpenAI from "openai";
 
-export const runtime = "edge";
-const MODEL = process.env.OPENAI_MODEL ?? "gpt-4o-mini";
+export const runtime = "nodejs"; // safer for SDK + env
+
+const client = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Minimal shape we expect from the client
+type UiMessage = { id?: string; text: string; sender: "user" | "coach" };
 
 export async function POST(req: Request) {
+  const startedAt = Date.now();
+
   try {
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ ok: false, error: "Missing OPENAI_API_KEY" }, { status: 500 });
+    // ---- Validate env first (common source of 500s) ----
+    if (!client.apiKey) {
+      console.error("[/api/chat] Missing OPENAI_API_KEY");
+      return Response.json({ error: "Missing OPENAI_API_KEY" }, { status: 500 });
     }
 
-    const { text, topic, history } = await req.json();
+    const body = await req.json().catch(() => null);
 
-    if (!text || typeof text !== "string") {
-      return NextResponse.json({ ok: false, error: "No text provided" }, { status: 400 });
+    if (!body || !Array.isArray(body.messages)) {
+      console.error("[/api/chat] Bad body:", body);
+      return Response.json(
+        { error: "Invalid body. Expected { messages: UiMessage[] }" },
+        { status: 400 }
+      );
     }
 
-    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+    const messages: UiMessage[] = body.messages;
+    const topic = body.topic as { title?: string; description?: string } | undefined;
 
-    const messages = [
-      {
-        role: "system",
-        content: `
-You are a certified mental performance coach for basketball players.
-Keep replies 2–4 sentences. Be warm, practical, and concise.
-Avoid saying "meditation"; prefer "breathing reset" or "awareness reset".
-      `,
-      },
-      ...(Array.isArray(history) ? history : []),
-      { role: "user", content: topic ? `(${topic}) ${text}` : text },
-    ];
+    // Last user utterance
+    const lastUser = [...messages]
+      .reverse()
+      .find((m) => m && m.sender === "user" && typeof m.text === "string")?.text;
+
+    if (!lastUser) {
+      return Response.json(
+        { error: "No user message provided." },
+        { status: 400 }
+      );
+    }
+
+    // Build system prompt
+    const systemPrompt =
+      `You are a supportive, succinct mental performance coach. ` +
+      `Offer practical questions and next steps. If user mentions a sport or a “cheat code”, tailor the coaching. ` +
+      (topic?.title ? `Session focus: "${topic.title}". ` : "") +
+      (topic?.description ? `Context: ${topic.description}. ` : "");
+
+    // Turn UI messages into OpenAI chat messages
+    const history = messages.map((m) => ({
+      role: m.sender === "user" ? ("user" as const) : ("assistant" as const),
+      content: m.text,
+    }));
+
+    // Call OpenAI
+    const model = process.env.OPENAI_MODEL || "gpt-4o-mini";
 
     const completion = await client.chat.completions.create({
-      model: MODEL,
-      messages,
-      temperature: 0.6,
-      max_tokens: 300,
+      model,
+      temperature: 0.7,
+      messages: [
+        { role: "system", content: systemPrompt },
+        ...history,
+        { role: "user", content: lastUser },
+      ],
     });
 
-    const reply = completion.choices?.[0]?.message?.content?.trim() || "I didn’t catch that.";
+    const reply =
+      completion.choices?.[0]?.message?.content?.trim() ||
+      "I'm here. Tell me a bit more so I can help.";
 
-    return NextResponse.json({ ok: true, reply });
-  } catch (err) {
-    console.error("Chat error:", err);
-    return NextResponse.json({ ok: false, error: "Server error" }, { status: 500 });
+    const tookMs = Date.now() - startedAt;
+    console.log(`[/api/chat] ok model=${model} in ${tookMs}ms`);
+
+    return Response.json({ reply }, { status: 200 });
+  } catch (err: any) {
+    const msg = err?.message || String(err);
+    console.error("[/api/chat] ERROR:", msg, err);
+    return Response.json({ error: msg }, { status: 500 });
   }
 }

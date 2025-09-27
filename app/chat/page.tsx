@@ -16,6 +16,21 @@ interface Message {
 /** tiny helper for unique ids */
 const uid = () => `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
 
+/** Map a topic title/description to a server section slug the API expects */
+function inferSectionFromTopic(topic?: { title?: string; description?: string } | null): string {
+  const t = `${topic?.title ?? ''} ${topic?.description ?? ''}`.toLowerCase();
+
+  // tune these heuristics to your taxonomy on the server
+  if (/\b(pre[-\s]?game|warm[-\s]?up|before game)\b/.test(t)) return 'pre_game';
+  if (/\b(in[-\s]?game|during game|on court|in match|live)\b/.test(t)) return 'in_game';
+  if (/\b(post[-\s]?game|after game|review|debrief)\b/.test(t)) return 'post_game';
+  if (/\b(locker|locker room)\b/.test(t)) return 'locker_room';
+  if (/\b(off[-\s]?court|life|school|work|home)\b/.test(t)) return 'off_court';
+
+  // default to in_game if unsure
+  return 'in_game';
+}
+
 export default function ChatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -94,7 +109,7 @@ export default function ChatPage() {
       }
     }
 
-    // Start new chat (welcome)
+    // Start new chat (coach opens)
     setHasStarted(true);
     setIsTyping(true);
     setInitialized(true);
@@ -131,23 +146,6 @@ export default function ChatPage() {
     };
   }, [initialized]);
 
-  /** Build the payload the API expects */
-  const buildChatPayload = (msgs: Message[]) => {
-    // convert to OpenAI-style roles
-    const history = msgs.map(m => ({
-      role: m.sender === 'user' ? 'user' : 'assistant',
-      content: m.text,
-    }));
-    // Include topic context up front if present
-    if (selectedTopic?.title) {
-      history.unshift({
-        role: 'system',
-        content: `User focus/topic: ${selectedTopic.title}${selectedTopic.description ? ` — ${selectedTopic.description}` : ''}`,
-      } as any);
-    }
-    return { messages: history };
-  };
-
   const sendMessage = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
@@ -169,17 +167,22 @@ export default function ChatPage() {
     if (inputRef.current) inputRef.current.focus();
 
     try {
-      // Build context INCLUDING the message we just appended
-      const contextForApi = buildChatPayload([...messages, userMsg]);
-
+      // IMPORTANT: your server route currently expects { section, message }
+      const section = inferSectionFromTopic(selectedTopic);
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(contextForApi),
+        body: JSON.stringify({ section, message: trimmed }),
       });
 
       if (!res.ok) {
-        throw new Error(`API ${res.status}`);
+        // surface 401/400 clearly in the UI
+        const errText = res.status === 401
+          ? 'You need to sign in before chatting.'
+          : res.status === 400
+          ? 'Missing or invalid chat data. Please try again.'
+          : `Coach error (${res.status}).`;
+        throw new Error(errText);
       }
 
       const data = await res.json();
@@ -190,10 +193,10 @@ export default function ChatPage() {
         sender: 'coach',
         timestamp: new Date(),
       });
-    } catch (err) {
+    } catch (err: any) {
       appendMessage({
         id: uid(),
-        text: "⚠️ Oops, something went wrong reaching the coach. Please try again.",
+        text: `⚠️ ${err?.message ?? 'Oops, something went wrong reaching the coach. Please try again.'}`,
         sender: 'coach',
         timestamp: new Date(),
       });
@@ -203,7 +206,7 @@ export default function ChatPage() {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       sendMessage();
@@ -285,7 +288,7 @@ export default function ChatPage() {
               ref={inputRef}
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyDown}
               placeholder="Share what's on your mind..."
               className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-12 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors"
               rows={1}
@@ -457,7 +460,7 @@ export default function ChatPage() {
                 ref={inputRef}
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                onKeyPress={handleKeyPress}
+                onKeyDown={handleKeyDown}
                 placeholder="Share what's on your mind..."
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 pr-14 text-white placeholder-zinc-500 resize-none focus:outline-none focus:border-zinc-500 transition-colors text-base"
                 rows={2}
