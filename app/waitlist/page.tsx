@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
   roleOptions,
@@ -13,7 +12,7 @@ import {
   type WaitlistApiResponse
 } from '@/lib/waitlist-types';
 
-export default function WaitlistPage() {
+function WaitlistContent() {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState<WaitlistSignupData>({
     email: '',
@@ -138,11 +137,11 @@ export default function WaitlistPage() {
       <main className="max-w-6xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-16">
-          <Link href="/" className="inline-block mb-8">
+          <div className="inline-block mb-8">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               MyCheatCode
             </h1>
-          </Link>
+          </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">
             Your Mental Game.<br />Unlocked.
           </h2>
@@ -449,11 +448,11 @@ function SuccessView() {
           </div>
 
           {/* Logo */}
-          <Link href="/" className="inline-block mb-6">
+          <div className="inline-block mb-6">
             <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
               MyCheatCode
             </h1>
-          </Link>
+          </div>
 
           <h2 className="text-3xl font-bold mb-4 text-white">
             You're on the list!
@@ -493,5 +492,13 @@ function SuccessView() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function WaitlistPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>}>
+      <WaitlistContent />
+    </Suspense>
   );
 }
