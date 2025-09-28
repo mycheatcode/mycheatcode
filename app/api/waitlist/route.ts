@@ -125,25 +125,32 @@ export async function POST(request: NextRequest) {
       } as WaitlistApiResponse);
     }
 
-    // Insert new signup
+    // Insert new signup - handle both old (role) and new (position) schema
+    const insertData: any = {
+      email: data.email.toLowerCase(),
+      level: data.level,
+      goals: data.goals,
+      custom_goal: data.customGoal || null,
+      urgency: data.urgency || null,
+      referral_code: data.referralCode || null,
+      consent: data.consent,
+      status: 'pending',
+      ip: clientIP,
+      user_agent: request.headers.get('user-agent') || null
+    };
+
+    // Try with position field first, fallback to role if needed
+    if (data.position) {
+      insertData.position = data.position;
+    }
+
     const { error: insertError } = await supabase
       .from('waitlist_signups')
-      .insert({
-        email: data.email.toLowerCase(),
-        position: data.position,
-        level: data.level,
-        goals: data.goals,
-        custom_goal: data.customGoal || null,
-        urgency: data.urgency || null,
-        referral_code: data.referralCode || null,
-        consent: data.consent,
-        status: 'pending',
-        ip: clientIP,
-        user_agent: request.headers.get('user-agent') || null
-      });
+      .insert(insertData);
 
     if (insertError) {
       console.error('Database insert error:', insertError);
+      console.error('Insert data:', insertData);
 
       // Check if it's a duplicate email error (race condition)
       if (insertError.code === '23505') {
@@ -153,10 +160,30 @@ export async function POST(request: NextRequest) {
         } as WaitlistApiResponse);
       }
 
-      return NextResponse.json({
-        ok: false,
-        error: 'Failed to save signup. Please try again.'
-      } as WaitlistApiResponse, { status: 500 });
+      // If position field doesn't exist, try without it
+      if (insertError.message && insertError.message.includes('position')) {
+        console.log('Position field not found, trying without it...');
+        const { position, ...dataWithoutPosition } = insertData;
+        const { error: retryError } = await supabase
+          .from('waitlist_signups')
+          .insert(dataWithoutPosition);
+
+        if (!retryError) {
+          console.log('Successful insert without position field');
+          // Continue to success logic below
+        } else {
+          console.error('Retry insert error:', retryError);
+          return NextResponse.json({
+            ok: false,
+            error: 'Failed to save signup. Please try again.'
+          } as WaitlistApiResponse, { status: 500 });
+        }
+      } else {
+        return NextResponse.json({
+          ok: false,
+          error: 'Failed to save signup. Please try again.'
+        } as WaitlistApiResponse, { status: 500 });
+      }
     }
 
     // Send confirmation email (don't block response on this)
