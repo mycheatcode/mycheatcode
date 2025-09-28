@@ -24,7 +24,7 @@ export default function WaitlistSuccessPage() {
 
           {/* Main Message */}
           <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
-            You're confirmed! 🏀
+            You're confirmed!
           </h1>
 
           <p className="text-xl text-zinc-300 mb-8 leading-relaxed">
@@ -57,18 +57,9 @@ export default function WaitlistSuccessPage() {
             <ShareButtons />
           </div>
 
-          {/* Navigation */}
-          <div className="space-y-4">
-            <Link
-              href="/"
-              className="inline-block px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-200"
-            >
-              Back to Home
-            </Link>
-
-            <div className="text-sm text-zinc-400">
-              <p>Questions? Email us at <a href="mailto:hello@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">hello@mycheatcode.ai</a></p>
-            </div>
+          {/* Contact */}
+          <div className="text-sm text-zinc-400">
+            <p>Questions? Email us at <a href="mailto:hello@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">hello@mycheatcode.ai</a></p>
           </div>
         </div>
       </main>
@@ -76,8 +67,10 @@ export default function WaitlistSuccessPage() {
   );
 }
 
+'use client';
+
 function ShareButtons() {
-  const shareText = 'I just joined the mycheatcode.ai waitlist 🏀';
+  const shareText = 'I just joined the mycheatcode.ai waitlist';
   const shareUrl = 'https://mycheatcode.ai/waitlist';
 
   const handleTwitterShare = () => {
