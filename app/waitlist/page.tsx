@@ -203,7 +203,7 @@ function WaitlistContent() {
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Mental Cheat Codes</h4>
+                    <h4 className="text-xl font-bold text-white mb-2">Mental Cheat Codes</h4>
                     <p className="text-zinc-300 leading-relaxed">Personalized mental strategies that help you break through mental barriers, unlock your game and give you an instant edge in clutch moments.</p>
                   </div>
                 </div>
@@ -213,7 +213,7 @@ function WaitlistContent() {
                     <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">AI-Powered Coaching</h4>
+                    <h4 className="text-xl font-bold text-white mb-2">AI-Powered Coaching</h4>
                     <p className="text-zinc-300 leading-relaxed">Advanced AI trained on proven sports psychology methods, delivering expert-level coaching insights instantly, available 24/7.</p>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ function WaitlistContent() {
                     <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Performance Analytics</h4>
+                    <h4 className="text-xl font-bold text-white mb-2">Performance Analytics</h4>
                     <p className="text-zinc-300 leading-relaxed">Track your mental game improvements with data-driven insights that show real progress over time.</p>
                   </div>
                 </div>
