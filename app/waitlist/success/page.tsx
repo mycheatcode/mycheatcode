@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 export default function WaitlistSuccessPage() {
@@ -66,8 +68,6 @@ export default function WaitlistSuccessPage() {
     </div>
   );
 }
-
-'use client';
 
 function ShareButtons() {
   const shareText = 'I just joined the mycheatcode.ai waitlist';
