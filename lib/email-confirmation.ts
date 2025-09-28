@@ -58,7 +58,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
     const { data, error } = await resend.emails.send({
       from: 'MyCheatCode <noreply@mycheatcode.ai>',
       to: [email],
-      subject: '🏀 Confirm your spot on the MyCheatCode waitlist',
+      subject: 'Confirm your spot on the MyCheatCode waitlist',
       html: `
         <!DOCTYPE html>
         <html>
@@ -75,23 +75,20 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
               <h1 style="font-size: 24px; font-weight: bold; background: linear-gradient(to right, #ffffff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 20px 0;">
                 MyCheatCode
               </h1>
-              <div style="width: 60px; height: 60px; background: linear-gradient(to right, #f59e0b, #ef4444); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 20px;">
-                <span style="font-size: 30px;">🏀</span>
-              </div>
             </div>
 
             <!-- Main Content -->
             <div style="background-color: #111111; border: 1px solid #333333; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
               <h2 style="font-size: 28px; font-weight: bold; color: #ffffff; margin: 0 0 20px 0; text-align: center;">
-                You're Almost In!
+                You're In. Let's Unlock Your Game.
               </h2>
 
               <p style="font-size: 16px; color: #d1d5db; line-height: 1.6; margin: 0 0 20px 0;">
-                Thanks for joining the MyCheatCode early access list! You're one step away from unlocking the mental game that will transform your basketball performance.
+                Thanks for joining MyCheatCode. You've taken the first step toward mastering the mental side of basketball and building cheat codes that give you a real advantage.
               </p>
 
               <p style="font-size: 16px; color: #d1d5db; line-height: 1.6; margin: 0 0 30px 0;">
-                Click the button below to confirm your email and secure your spot:
+                To confirm your spot on the early access list, just hit the button below.
               </p>
 
               <!-- CTA Button -->
@@ -114,15 +111,15 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
               <ul style="margin: 0; padding: 0; list-style: none;">
                 <li style="display: flex; align-items: flex-start; margin-bottom: 12px;">
                   <span style="color: #f59e0b; margin-right: 10px; margin-top: 2px;">•</span>
-                  <span style="color: #d1d5db; font-size: 14px;">We'll send you exclusive updates as we build your AI basketball coach</span>
+                  <span style="color: #d1d5db; font-size: 14px;"><strong>Early Access:</strong> You'll be among the first to test it out when we launch.</span>
                 </li>
                 <li style="display: flex; align-items: flex-start; margin-bottom: 12px;">
                   <span style="color: #f59e0b; margin-right: 10px; margin-top: 2px;">•</span>
-                  <span style="color: #d1d5db; font-size: 14px;">You'll get early access before the public launch</span>
+                  <span style="color: #d1d5db; font-size: 14px;"><strong>Exclusive Updates:</strong> Get behind-the-scenes progress and drops before anyone else.</span>
                 </li>
                 <li style="display: flex; align-items: flex-start;">
                   <span style="color: #f59e0b; margin-right: 10px; margin-top: 2px;">•</span>
-                  <span style="color: #d1d5db; font-size: 14px;">Your feedback will help shape the final product</span>
+                  <span style="color: #d1d5db; font-size: 14px;"><strong>Have a Voice:</strong> We'll ask for your feedback to help shape MyCheatCode into the ultimate mental performance tool for hoopers.</span>
                 </li>
               </ul>
             </div>
@@ -130,20 +127,11 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
             <!-- Footer -->
             <div style="text-align: center; color: #6b7280; font-size: 14px;">
               <p style="margin: 0 0 10px 0;">
-                Questions? Reply to this email or contact us at
-                <a href="mailto:hello@mycheatcode.ai" style="color: #3b82f6;">hello@mycheatcode.ai</a>
+                Contact: <a href="mailto:team@mycheatcode.ai" style="color: #3b82f6;">team@mycheatcode.ai</a>
               </p>
               <p style="margin: 0; font-size: 12px;">
-                MyCheatCode • Unlocking Your Mental Game
-              </p>
-            </div>
-
-            <!-- Unsubscribe -->
-            <div style="text-align: center; margin-top: 30px;">
-              <p style="font-size: 12px; color: #6b7280; margin: 0;">
-                Don't want these emails?
                 <a href="${process.env.NEXT_PUBLIC_SITE_URL}/waitlist/unsubscribe?email=${encodeURIComponent(email)}" style="color: #6b7280; text-decoration: underline;">
-                  Unsubscribe
+                  Unsubscribe anytime.
                 </a>
               </p>
             </div>
