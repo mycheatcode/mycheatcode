@@ -489,12 +489,6 @@ function SuccessView() {
               </button>
             </div>
 
-            <Link
-              href="/"
-              className="inline-block mt-8 text-zinc-500 hover:text-zinc-300 transition-colors text-sm"
-            >
-              ← Back to home
-            </Link>
           </div>
         </div>
       </main>
