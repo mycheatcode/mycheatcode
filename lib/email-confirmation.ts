@@ -2,8 +2,6 @@ import { Resend } from 'resend';
 import { createHmac, timingSafeEqual } from 'crypto';
 import type { ConfirmationTokenPayload } from './waitlist-types';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 // Generate a signed token for email confirmation
 export function generateConfirmationToken(email: string): string {
   const payload: ConfirmationTokenPayload = {
@@ -52,6 +50,9 @@ export function verifyConfirmationToken(token: string): { valid: boolean; email?
 // Send confirmation email
 export async function sendConfirmationEmail(email: string): Promise<{ success: boolean; error?: string }> {
   try {
+    // Initialize Resend inside the function to avoid build-time issues
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     const confirmationToken = generateConfirmationToken(email);
     const confirmationUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/waitlist/confirm?token=${confirmationToken}`;
 
