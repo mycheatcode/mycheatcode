@@ -277,7 +277,7 @@ function WaitlistContent() {
             <div className="text-center">
               <div className="bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 border border-zinc-700/50 rounded-xl p-6">
                 <h3 className="text-xl font-bold text-white mb-2">Almost Ready</h3>
-                <p className="text-zinc-400">The future of mental performance is almost here. Be the first to take advantage.</p>
+                <p className="text-zinc-400">The future of mental performance is almost here. Be the first to get the advantage.</p>
               </div>
             </div>
 
