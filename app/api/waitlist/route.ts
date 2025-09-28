@@ -148,6 +148,8 @@ export async function POST(request: NextRequest) {
     if (data.goals && data.goals.length > 0) {
       // Try as array first, fallback to string
       insertData.goals = data.goals;
+      // Also set single goal for backward compatibility
+      insertData.goal = data.goals[0]; // Use first goal as primary
     }
 
     // Add custom goal if provided
@@ -172,13 +174,14 @@ export async function POST(request: NextRequest) {
       }
 
       // Try different approaches based on the error
-      if (insertError.message && (insertError.message.includes('position') || insertError.message.includes('goals') || insertError.message.includes('custom_goal') || insertError.message.includes('role'))) {
+      if (insertError.message && (insertError.message.includes('position') || insertError.message.includes('goals') || insertError.message.includes('goal') || insertError.message.includes('custom_goal') || insertError.message.includes('role'))) {
         console.log('Field compatibility issue, trying minimal insert...');
 
         // Try with just the basic fields that definitely exist
         const minimalData = {
           email: data.email.toLowerCase(),
           role: 'Player', // Required field in old schema
+          goal: data.goals && data.goals.length > 0 ? data.goals[0] : 'Confidence & Self-Belief', // Default goal
           level: data.level,
           urgency: data.urgency || null,
           referral_code: data.referralCode || null,
