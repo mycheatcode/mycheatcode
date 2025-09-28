@@ -479,6 +479,7 @@ function WaitlistContent() {
               <p className="text-center text-sm text-zinc-500 mt-6">
                 Free to join. No spam, ever.
               </p>
+              {/* Trigger deployment */}
             </div>
             </form>
             </div>
