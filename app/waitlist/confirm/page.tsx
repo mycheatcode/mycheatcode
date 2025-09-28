@@ -30,7 +30,7 @@ function ConfirmContent() {
         setEmail(verification.email);
 
         // Update the user's status in the database
-        const response = await fetch('/api/waitlist/confirm', {
+        const response = await fetch('/api/waitlist/confirm-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
