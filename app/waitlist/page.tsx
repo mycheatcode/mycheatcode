@@ -479,7 +479,7 @@ function WaitlistContent() {
               <p className="text-center text-sm text-zinc-500 mt-6">
                 Free to join. No spam, ever.
               </p>
-              {/* Force fresh deployment */}
+              {/* Deploy scannability changes now */}
             </div>
             </form>
             </div>
