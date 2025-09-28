@@ -12,11 +12,11 @@ export type Level = typeof levelOptions[number];
 export const goalOptions = [
   'Confidence & Self-Belief',
   'Handling Pressure Moments (free throws, clutch shots, big games)',
-  'Consistency & Focus (play at your best every game, avoid streaks)',
-  'Resetting After Mistakes or Slumps (shake off a bad play, shooting slump, tough loss)',
+  'Consistency & Focus (play at your best every game, avoid slumps)',
+  'Resetting After Mistakes or Losses (shake off a bad play, missed shots or tough losses)',
   'Attacking & Finishing at the Rim (confidence vs defenders, decision-making at the hoop)',
   'Leadership & Mental Toughness (being a vocal leader, motivating the team, staying calm)',
-  'Playing with Freedom & Joy (less stress, more fun, enjoying the game again)',
+  'Playing with Freedom & Joy (less stress, more fun, enjoying the game)',
   'All of the Above',
   'Other'
 ] as const;

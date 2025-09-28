@@ -361,7 +361,7 @@ function WaitlistContent() {
             {/* Goals Selection */}
             <div>
               <label className="block text-sm font-medium text-white mb-3">
-                What do you want MyCheatCode to help you with? (Select all that apply)
+                What aspects do you want MyCheatCode to help you with? (Select all that apply)
               </label>
               <div className="space-y-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                 {goalOptions.map(goal => (
