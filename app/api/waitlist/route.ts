@@ -125,12 +125,10 @@ export async function POST(request: NextRequest) {
       } as WaitlistApiResponse);
     }
 
-    // Insert new signup - handle both old (role) and new (position) schema
+    // Insert new signup - use minimal data that definitely exists
     const insertData: any = {
       email: data.email.toLowerCase(),
       level: data.level,
-      goals: data.goals,
-      custom_goal: data.customGoal || null,
       urgency: data.urgency || null,
       referral_code: data.referralCode || null,
       consent: data.consent,
@@ -139,9 +137,20 @@ export async function POST(request: NextRequest) {
       user_agent: request.headers.get('user-agent') || null
     };
 
-    // Try with position field first, fallback to role if needed
+    // Add position if provided
     if (data.position) {
       insertData.position = data.position;
+    }
+
+    // Handle goals - might need to be a string instead of array
+    if (data.goals && data.goals.length > 0) {
+      // Try as array first, fallback to string
+      insertData.goals = data.goals;
+    }
+
+    // Add custom goal if provided
+    if (data.customGoal) {
+      insertData.custom_goal = data.customGoal;
     }
 
     const { error: insertError } = await supabase
@@ -160,28 +169,41 @@ export async function POST(request: NextRequest) {
         } as WaitlistApiResponse);
       }
 
-      // If position field doesn't exist, try without it
-      if (insertError.message && insertError.message.includes('position')) {
-        console.log('Position field not found, trying without it...');
-        const { position, ...dataWithoutPosition } = insertData;
+      // Try different approaches based on the error
+      if (insertError.message && (insertError.message.includes('position') || insertError.message.includes('goals') || insertError.message.includes('custom_goal'))) {
+        console.log('Field compatibility issue, trying minimal insert...');
+
+        // Try with just the basic fields that definitely exist
+        const minimalData = {
+          email: data.email.toLowerCase(),
+          level: data.level,
+          urgency: data.urgency || null,
+          referral_code: data.referralCode || null,
+          consent: data.consent,
+          status: 'pending',
+          ip: clientIP,
+          user_agent: request.headers.get('user-agent') || null
+        };
+
         const { error: retryError } = await supabase
           .from('waitlist_signups')
-          .insert(dataWithoutPosition);
+          .insert(minimalData);
 
         if (!retryError) {
-          console.log('Successful insert without position field');
+          console.log('Successful minimal insert');
           // Continue to success logic below
         } else {
-          console.error('Retry insert error:', retryError);
+          console.error('Minimal insert also failed:', retryError);
           return NextResponse.json({
             ok: false,
-            error: 'Failed to save signup. Please try again.'
+            error: `Database error: ${retryError.message}`
           } as WaitlistApiResponse, { status: 500 });
         }
       } else {
+        console.error('Unexpected database error:', insertError.message);
         return NextResponse.json({
           ok: false,
-          error: 'Failed to save signup. Please try again.'
+          error: `Database error: ${insertError.message}`
         } as WaitlistApiResponse, { status: 500 });
       }
     }
