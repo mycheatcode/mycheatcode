@@ -10,12 +10,14 @@ export type Level = typeof levelOptions[number];
 
 // Goal options
 export const goalOptions = [
-  'Confidence',
-  'Game Anxiety',
-  'Focus',
-  'Shooting Slump',
-  'Finishing at Rim',
-  'Leadership',
+  'Confidence & Self-Belief',
+  'Handling Pressure Moments (free throws, clutch shots, big games)',
+  'Consistency & Focus (play at your best every game, avoid streaks)',
+  'Resetting After Mistakes or Slumps (shake off a bad play, shooting slump, tough loss)',
+  'Attacking & Finishing at the Rim (confidence vs defenders, decision-making at the hoop)',
+  'Leadership & Mental Toughness (being a vocal leader, motivating the team, staying calm)',
+  'Playing with Freedom & Joy (less stress, more fun, enjoying the game again)',
+  'All of the Above',
   'Other'
 ] as const;
 export type Goal = typeof goalOptions[number];
@@ -58,8 +60,10 @@ export const waitlistSignupSchema = z.object({
     errorMap: () => ({ message: 'Please select your level' })
   }),
 
-  goal: z.string()
-    .min(1, 'Please select your primary goal'),
+  goals: z.array(z.string())
+    .min(1, 'Please select at least one goal'),
+
+  customGoal: z.string().optional(),
 
   urgency: z.enum(urgencyOptions).optional(),
 
@@ -80,7 +84,8 @@ export interface WaitlistSignup {
   email: string;
   role: Role;
   level: Level;
-  goal: string;
+  goals: string[];
+  custom_goal?: string;
   urgency?: Urgency;
   referral_code?: string;
   consent: boolean;

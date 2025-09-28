@@ -18,7 +18,8 @@ function WaitlistContent() {
     email: '',
     role: 'Player',
     level: 'High School',
-    goal: '',
+    goals: [],
+    customGoal: '',
     urgency: undefined,
     referralCode: '',
     consent: false,
@@ -64,7 +65,7 @@ function WaitlistContent() {
     }
   }, [submitCooldown]);
 
-  const handleInputChange = (field: keyof WaitlistSignupData, value: string | boolean | undefined) => {
+  const handleInputChange = (field: keyof WaitlistSignupData, value: string | boolean | undefined | string[]) => {
     setFormData(prev => ({ ...prev, [field]: value }));
 
     // Clear field error when user starts typing
@@ -72,6 +73,46 @@ function WaitlistContent() {
       setErrors(prev => {
         const newErrors = { ...prev };
         delete newErrors[field];
+        return newErrors;
+      });
+    }
+  };
+
+  const handleGoalChange = (goal: string, checked: boolean) => {
+    setFormData(prev => {
+      let newGoals = [...prev.goals];
+
+      if (goal === 'All of the Above') {
+        if (checked) {
+          // Select all goals except "Other"
+          newGoals = goalOptions.filter(g => g !== 'Other' && g !== 'All of the Above');
+          newGoals.push('All of the Above');
+        } else {
+          // Deselect all
+          newGoals = [];
+        }
+      } else {
+        if (checked) {
+          // Remove "All of the Above" if selecting individual items
+          newGoals = newGoals.filter(g => g !== 'All of the Above');
+          // Add the new goal
+          if (!newGoals.includes(goal)) {
+            newGoals.push(goal);
+          }
+        } else {
+          // Remove the goal
+          newGoals = newGoals.filter(g => g !== goal);
+        }
+      }
+
+      return { ...prev, goals: newGoals };
+    });
+
+    // Clear field error
+    if (errors.goals) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.goals;
         return newErrors;
       });
     }
@@ -317,24 +358,39 @@ function WaitlistContent() {
               )}
             </div>
 
-            {/* Primary Goal */}
+            {/* Goals Selection */}
             <div>
-              <select
-                id="goal"
-                value={formData.goal}
-                onChange={(e) => handleInputChange('goal', e.target.value)}
-                className="w-full px-4 py-4 bg-zinc-900/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-zinc-900 text-white transition-all duration-200"
-                required
-                aria-invalid={!!errors.goal}
-                aria-describedby={errors.goal ? 'goal-error' : undefined}
-              >
-                <option value="">What's your biggest mental challenge?</option>
+              <label className="block text-sm font-medium text-white mb-3">
+                What do you want MyCheatCode to help you with? (Select all that apply)
+              </label>
+              <div className="space-y-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                 {goalOptions.map(goal => (
-                  <option key={goal} value={goal}>{goal}</option>
+                  <label key={goal} className="flex items-start gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.goals.includes(goal)}
+                      onChange={(e) => handleGoalChange(goal, e.target.checked)}
+                      className="mt-1 w-4 h-4 text-blue-500 bg-zinc-800 border-zinc-600 rounded focus:ring-blue-500/50 focus:ring-2"
+                    />
+                    <span className="text-sm text-zinc-300 leading-relaxed">{goal}</span>
+                  </label>
                 ))}
-              </select>
-              {errors.goal && (
-                <p id="goal-error" className="mt-2 text-sm text-red-400" role="alert">{errors.goal}</p>
+
+                {/* Custom Goal Input - Only show if "Other" is selected */}
+                {formData.goals.includes('Other') && (
+                  <div className="mt-3">
+                    <input
+                      type="text"
+                      placeholder="Please specify..."
+                      value={formData.customGoal || ''}
+                      onChange={(e) => handleInputChange('customGoal', e.target.value)}
+                      className="w-full px-3 py-2 bg-zinc-800 border border-zinc-600 rounded-lg focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 text-white placeholder-zinc-400 text-sm"
+                    />
+                  </div>
+                )}
+              </div>
+              {errors.goals && (
+                <p id="goals-error" className="mt-2 text-sm text-red-400" role="alert">{errors.goals}</p>
               )}
             </div>
 
