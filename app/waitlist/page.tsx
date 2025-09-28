@@ -183,28 +183,28 @@ function WaitlistContent() {
               MyCheatCode
             </h1>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white">
+          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-white">
             Your Mental Game.<br />Unlocked.
           </h2>
-          <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-12">
             The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-start">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Left side - Benefits & Use Cases */}
-          <div className="space-y-8">
+          <div className="space-y-12">
             {/* Key Benefits */}
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">How It Works</h3>
+              <h3 className="text-4xl font-bold text-white mb-8">How It Works</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
                     <div className="w-3 h-3 bg-red-500 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Mental Cheat Codes</h4>
-                    <p className="text-zinc-400">Personalized mental strategies that help you break through mental barriers, unlock your game and give you an instant edge in clutch moments.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">Mental Cheat Codes</h4>
+                    <p className="text-zinc-300 leading-relaxed">Personalized mental strategies that help you break through mental barriers, unlock your game and give you an instant edge in clutch moments.</p>
                   </div>
                 </div>
 
@@ -213,8 +213,8 @@ function WaitlistContent() {
                     <div className="w-3 h-3 bg-orange-500 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">AI-Powered Coaching</h4>
-                    <p className="text-zinc-400">Advanced AI trained on proven sports psychology methods, delivering expert-level coaching insights instantly, available 24/7.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">AI-Powered Coaching</h4>
+                    <p className="text-zinc-300 leading-relaxed">Advanced AI trained on proven sports psychology methods, delivering expert-level coaching insights instantly, available 24/7.</p>
                   </div>
                 </div>
 
@@ -223,8 +223,8 @@ function WaitlistContent() {
                     <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                   </div>
                   <div>
-                    <h4 className="font-semibold text-white mb-1">Performance Analytics</h4>
-                    <p className="text-zinc-400">Track your mental game improvements with data-driven insights that show real progress over time.</p>
+                    <h4 className="text-lg font-bold text-white mb-2">Performance Analytics</h4>
+                    <p className="text-zinc-300 leading-relaxed">Track your mental game improvements with data-driven insights that show real progress over time.</p>
                   </div>
                 </div>
               </div>
@@ -232,7 +232,7 @@ function WaitlistContent() {
 
             {/* Use Cases */}
             <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Upgrade Every Part of Your Game</h3>
+              <h3 className="text-4xl font-bold text-white mb-8">Upgrade Every Part of Your Game</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                   <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center mb-3">
@@ -240,8 +240,8 @@ function WaitlistContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                   </div>
-                  <h4 className="font-semibold text-white mb-1">Confidence Issues</h4>
-                  <p className="text-sm text-zinc-400">Overthinking, self-doubt, and nerves</p>
+                  <h4 className="text-base font-bold text-white mb-2">Confidence Issues</h4>
+                  <p className="text-sm text-zinc-300">Overthinking, self-doubt, and nerves</p>
                 </div>
                 <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                   <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center mb-3">
@@ -249,8 +249,8 @@ function WaitlistContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
-                  <h4 className="font-semibold text-white mb-1">Pressure Situations</h4>
-                  <p className="text-sm text-zinc-400">Free throws, clutch shots, big games</p>
+                  <h4 className="text-base font-bold text-white mb-2">Pressure Situations</h4>
+                  <p className="text-sm text-zinc-300">Free throws, clutch shots, big games</p>
                 </div>
                 <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                   <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center mb-3">
@@ -258,8 +258,8 @@ function WaitlistContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
-                  <h4 className="font-semibold text-white mb-1">Consistency</h4>
-                  <p className="text-sm text-zinc-400">Peak performance game after game</p>
+                  <h4 className="text-base font-bold text-white mb-2">Consistency</h4>
+                  <p className="text-sm text-zinc-300">Peak performance game after game</p>
                 </div>
                 <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                   <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center mb-3">
@@ -267,8 +267,8 @@ function WaitlistContent() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
                     </svg>
                   </div>
-                  <h4 className="font-semibold text-white mb-1">Focus & Flow</h4>
-                  <p className="text-sm text-zinc-400">Staying locked in and in the zone</p>
+                  <h4 className="text-base font-bold text-white mb-2">Focus & Flow</h4>
+                  <p className="text-sm text-zinc-300">Staying locked in and in the zone</p>
                 </div>
               </div>
             </div>
@@ -276,8 +276,8 @@ function WaitlistContent() {
             {/* Coming Soon */}
             <div className="text-center">
               <div className="bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 border border-zinc-700/50 rounded-xl p-6">
-                <h3 className="text-xl font-bold text-white mb-2">Almost Ready</h3>
-                <p className="text-zinc-400">The future of mental performance is almost here. Be the first to get the advantage.</p>
+                <h3 className="text-2xl font-bold text-white mb-4">Almost Ready</h3>
+                <p className="text-lg text-zinc-300">The future of mental performance is almost here. Be the first to get the advantage.</p>
               </div>
             </div>
 
@@ -287,12 +287,12 @@ function WaitlistContent() {
           <div className="lg:sticky lg:top-8">
             <div className="bg-zinc-900/30 border border-zinc-700/50 rounded-2xl p-8">
               <div className="text-center mb-8">
-                <h3 className="text-2xl font-bold text-white mb-2">Join The Waitlist</h3>
-                <p className="text-zinc-400">Be the first to unlock your potential</p>
+                <h3 className="text-3xl font-bold text-white mb-3">Join The Waitlist</h3>
+                <p className="text-lg text-zinc-300">Be the first to unlock your potential</p>
               </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-1">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* General Error */}
             {errors.general && (
               <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
@@ -302,16 +302,13 @@ function WaitlistContent() {
 
             {/* Email */}
             <div>
-              <label htmlFor="email" className="block text-lg font-semibold text-white mb-3">
-                Email Address
-              </label>
               <input
                 type="email"
                 id="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 className="w-full px-4 py-4 bg-zinc-900/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-zinc-900 text-white placeholder-zinc-400 transition-all duration-200"
-                placeholder="Enter your email address"
+                placeholder="Your email address"
                 required
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? 'email-error' : undefined}
@@ -322,10 +319,7 @@ function WaitlistContent() {
             </div>
 
             {/* Position */}
-            <div className="pt-6">
-              <label htmlFor="position" className="block text-lg font-semibold text-white mb-3">
-                Basketball Position
-              </label>
+            <div>
               <select
                 id="position"
                 value={formData.position}
@@ -347,10 +341,7 @@ function WaitlistContent() {
             </div>
 
             {/* Level */}
-            <div className="pt-6">
-              <label htmlFor="level" className="block text-lg font-semibold text-white mb-3">
-                Competition Level
-              </label>
+            <div>
               <select
                 id="level"
                 value={formData.level}
@@ -370,11 +361,10 @@ function WaitlistContent() {
             </div>
 
             {/* Goals Selection */}
-            <div className="pt-8">
-              <label className="block text-lg font-semibold text-white mb-4">
-                Mental Performance Goals
+            <div>
+              <label className="block text-sm font-medium text-white mb-3">
+                What aspects do you want MyCheatCode to help you with? (Select all that apply)
               </label>
-              <p className="text-zinc-400 mb-4">What aspects do you want MyCheatCode to help you with? (Select all that apply)</p>
               <div className="space-y-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                 {goalOptions.map(goal => (
                   <label key={goal} className="flex items-start gap-3 cursor-pointer">
@@ -407,10 +397,7 @@ function WaitlistContent() {
             </div>
 
             {/* Urgency */}
-            <div className="pt-8">
-              <label htmlFor="urgency" className="block text-lg font-semibold text-white mb-3">
-                Timeline
-              </label>
+            <div>
               <select
                 id="urgency"
                 value={formData.urgency || ''}
@@ -437,7 +424,7 @@ function WaitlistContent() {
           />
 
             {/* Consent */}
-            <div className="pt-10 border-t border-zinc-800">
+            <div>
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -448,7 +435,7 @@ function WaitlistContent() {
                   aria-invalid={!!errors.consent}
                   aria-describedby={errors.consent ? 'consent-error' : undefined}
                 />
-                <span className="text-base text-zinc-300 leading-relaxed font-medium">
+                <span className="text-sm text-zinc-400 leading-relaxed">
                   Yes, send me early access and launch updates
                 </span>
               </label>
@@ -458,12 +445,11 @@ function WaitlistContent() {
             </div>
 
             {/* Submit Button */}
-            <div className="pt-8">
-              <button
-                type="submit"
-                disabled={isSubmitting || submitCooldown > 0}
-                className="w-full px-6 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-zinc-700 disabled:to-zinc-700 disabled:cursor-not-allowed text-white font-bold text-lg rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/25"
-              >
+            <button
+              type="submit"
+              disabled={isSubmitting || submitCooldown > 0}
+              className="w-full px-6 py-4 bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-700 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+            >
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -479,8 +465,6 @@ function WaitlistContent() {
               <p className="text-center text-sm text-zinc-500 mt-6">
                 Free to join. No spam, ever.
               </p>
-              {/* Deploy scannability changes now */}
-            </div>
             </form>
             </div>
           </div>
