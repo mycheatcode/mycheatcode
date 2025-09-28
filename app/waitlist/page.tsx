@@ -292,7 +292,7 @@ function WaitlistContent() {
               </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-1">
             {/* General Error */}
             {errors.general && (
               <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl" role="alert">
@@ -302,13 +302,16 @@ function WaitlistContent() {
 
             {/* Email */}
             <div>
+              <label htmlFor="email" className="block text-lg font-semibold text-white mb-3">
+                Email Address
+              </label>
               <input
                 type="email"
                 id="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
                 className="w-full px-4 py-4 bg-zinc-900/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-zinc-900 text-white placeholder-zinc-400 transition-all duration-200"
-                placeholder="Your email address"
+                placeholder="Enter your email address"
                 required
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? 'email-error' : undefined}
@@ -319,7 +322,10 @@ function WaitlistContent() {
             </div>
 
             {/* Position */}
-            <div>
+            <div className="pt-6">
+              <label htmlFor="position" className="block text-lg font-semibold text-white mb-3">
+                Basketball Position
+              </label>
               <select
                 id="position"
                 value={formData.position}
@@ -341,7 +347,10 @@ function WaitlistContent() {
             </div>
 
             {/* Level */}
-            <div>
+            <div className="pt-6">
+              <label htmlFor="level" className="block text-lg font-semibold text-white mb-3">
+                Competition Level
+              </label>
               <select
                 id="level"
                 value={formData.level}
@@ -361,10 +370,11 @@ function WaitlistContent() {
             </div>
 
             {/* Goals Selection */}
-            <div>
-              <label className="block text-sm font-medium text-white mb-3">
-                What aspects do you want MyCheatCode to help you with? (Select all that apply)
+            <div className="pt-8">
+              <label className="block text-lg font-semibold text-white mb-4">
+                Mental Performance Goals
               </label>
+              <p className="text-zinc-400 mb-4">What aspects do you want MyCheatCode to help you with? (Select all that apply)</p>
               <div className="space-y-3 bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                 {goalOptions.map(goal => (
                   <label key={goal} className="flex items-start gap-3 cursor-pointer">
@@ -397,14 +407,17 @@ function WaitlistContent() {
             </div>
 
             {/* Urgency */}
-            <div>
+            <div className="pt-8">
+              <label htmlFor="urgency" className="block text-lg font-semibold text-white mb-3">
+                Timeline
+              </label>
               <select
                 id="urgency"
                 value={formData.urgency || ''}
                 onChange={(e) => handleInputChange('urgency', e.target.value || undefined)}
                 className="w-full px-4 py-4 bg-zinc-900/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-zinc-900 text-white transition-all duration-200"
               >
-                <option value="">When do you need this?</option>
+                <option value="">When do you need this? (Optional)</option>
                 {urgencyOptions.map(urgency => (
                   <option key={urgency} value={urgency}>{urgency}</option>
                 ))}
@@ -424,7 +437,7 @@ function WaitlistContent() {
           />
 
             {/* Consent */}
-            <div>
+            <div className="pt-10 border-t border-zinc-800">
               <label className="flex items-start gap-3 cursor-pointer">
                 <input
                   type="checkbox"
@@ -435,7 +448,7 @@ function WaitlistContent() {
                   aria-invalid={!!errors.consent}
                   aria-describedby={errors.consent ? 'consent-error' : undefined}
                 />
-                <span className="text-sm text-zinc-400 leading-relaxed">
+                <span className="text-base text-zinc-300 leading-relaxed font-medium">
                   Yes, send me early access and launch updates
                 </span>
               </label>
@@ -445,11 +458,12 @@ function WaitlistContent() {
             </div>
 
             {/* Submit Button */}
-            <button
-              type="submit"
-              disabled={isSubmitting || submitCooldown > 0}
-              className="w-full px-6 py-4 bg-zinc-800 hover:bg-zinc-700 disabled:bg-zinc-700 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
-            >
+            <div className="pt-8">
+              <button
+                type="submit"
+                disabled={isSubmitting || submitCooldown > 0}
+                className="w-full px-6 py-5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-zinc-700 disabled:to-zinc-700 disabled:cursor-not-allowed text-white font-bold text-lg rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg hover:shadow-blue-500/25"
+              >
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
@@ -465,6 +479,7 @@ function WaitlistContent() {
               <p className="text-center text-sm text-zinc-500 mt-6">
                 Free to join. No spam, ever.
               </p>
+            </div>
             </form>
             </div>
           </div>
