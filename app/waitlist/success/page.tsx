@@ -8,7 +8,7 @@ export default function WaitlistSuccessPage() {
       {/* Header */}
       <header className="border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Link href="/" className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
+          <Link href="/" className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
             MyCheatCode
           </Link>
         </div>
