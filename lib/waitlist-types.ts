@@ -1,8 +1,17 @@
 import { z } from 'zod';
 
-// Role options
-export const roleOptions = ['Player', 'Coach', 'Parent', 'Trainer'] as const;
-export type Role = typeof roleOptions[number];
+// Position options
+export const positionOptions = [
+  'Point Guard',
+  'Shooting Guard',
+  'Small Forward',
+  'Power Forward',
+  'Center',
+  'Combo Guard',
+  'Stretch Forward',
+  'Other'
+] as const;
+export type Position = typeof positionOptions[number];
 
 // Level options
 export const levelOptions = ['Middle School', 'High School', 'College', 'Pro', 'Other'] as const;
@@ -52,8 +61,8 @@ export const waitlistSignupSchema = z.object({
       return !disposableEmailDomains.includes(domain);
     }, 'Please use a non-disposable email address'),
 
-  role: z.enum(roleOptions, {
-    errorMap: () => ({ message: 'Please select your role' })
+  position: z.enum(positionOptions, {
+    errorMap: () => ({ message: 'Please select your position' })
   }),
 
   level: z.enum(levelOptions, {
@@ -82,7 +91,7 @@ export type WaitlistSignupData = z.infer<typeof waitlistSignupSchema>;
 export interface WaitlistSignup {
   id: string;
   email: string;
-  role: Role;
+  position: Position;
   level: Level;
   goals: string[];
   custom_goal?: string;

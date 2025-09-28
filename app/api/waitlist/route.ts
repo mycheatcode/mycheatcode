@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
       .from('waitlist_signups')
       .insert({
         email: data.email.toLowerCase(),
-        role: data.role,
+        position: data.position,
         level: data.level,
         goals: data.goals,
         custom_goal: data.customGoal || null,

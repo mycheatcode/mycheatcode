@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import {
-  roleOptions,
+  positionOptions,
   levelOptions,
   goalOptions,
   urgencyOptions,
@@ -16,7 +16,7 @@ function WaitlistContent() {
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState<WaitlistSignupData>({
     email: '',
-    role: 'Player',
+    position: '' as any, // Will be validated on submit
     level: 'High School',
     goals: [],
     customGoal: '',
@@ -318,23 +318,25 @@ function WaitlistContent() {
               )}
             </div>
 
-            {/* Role */}
+            {/* Position */}
             <div>
               <select
-                id="role"
-                value={formData.role}
-                onChange={(e) => handleInputChange('role', e.target.value)}
+                id="position"
+                value={formData.position}
+                onChange={(e) => handleInputChange('position', e.target.value)}
                 className="w-full px-4 py-4 bg-zinc-900/50 border border-zinc-700/50 rounded-xl focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 focus:bg-zinc-900 text-white transition-all duration-200"
                 required
-                aria-invalid={!!errors.role}
-                aria-describedby={errors.role ? 'role-error' : undefined}
+                aria-invalid={!!errors.position}
+                aria-describedby={errors.position ? 'position-error' : undefined}
               >
-                {roleOptions.map(role => (
-                  <option key={role} value={role}>{role}</option>
+                <option value="">Select your primary position</option>
+                {positionOptions.map(position => (
+                  <option key={position} value={position}>{position}</option>
                 ))}
               </select>
-              {errors.role && (
-                <p id="role-error" className="mt-2 text-sm text-red-400" role="alert">{errors.role}</p>
+              <p className="mt-2 text-sm text-zinc-500">We'll use this to personalize your cheat codes and coaching prompts.</p>
+              {errors.position && (
+                <p id="position-error" className="mt-2 text-sm text-red-400" role="alert">{errors.position}</p>
               )}
             </div>
 
