@@ -65,7 +65,7 @@ export default function WaitlistPage() {
     }
   }, [submitCooldown]);
 
-  const handleInputChange = (field: keyof WaitlistSignupData, value: string | boolean) => {
+  const handleInputChange = (field: keyof WaitlistSignupData, value: string | boolean | undefined) => {
     setFormData(prev => ({ ...prev, [field]: value }));
 
     // Clear field error when user starts typing
