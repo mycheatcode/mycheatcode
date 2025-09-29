@@ -10,6 +10,13 @@ import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
 
 export default function Home() {
+  const router = useRouter();
+
+  // Redirect to waitlist
+  useEffect(() => {
+    router.push('/waitlist');
+  }, [router]);
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [legendExpanded, setLegendExpanded] = useState(false);
   const [clickedSection, setClickedSection] = useState<string | null>(null);
