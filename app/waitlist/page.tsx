@@ -183,8 +183,8 @@ function WaitlistContent() {
               MyCheatCode
             </h1>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
-            Your Mental Game.<br />Unlocked.
+          <h2 className="text-4xl md:text-6xl font-bold mb-8 text-white">
+            Unlock Your<br />Limitless Potential
           </h2>
           <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-12">
             The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.
@@ -196,7 +196,7 @@ function WaitlistContent() {
           <div className="space-y-12">
             {/* Key Benefits */}
             <div>
-              <h3 className="text-4xl font-bold text-white mb-8">How It Works</h3>
+              <h3 className="text-3xl font-bold text-white mb-8">How It Works</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-4">
                   <div className="w-8 h-8 bg-red-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
@@ -232,7 +232,7 @@ function WaitlistContent() {
 
             {/* Use Cases */}
             <div>
-              <h3 className="text-4xl font-bold text-white mb-8">Upgrade Every Part of Your Game</h3>
+              <h3 className="text-3xl font-bold text-white mb-8">Upgrade Every Part of Your Game</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-xl p-4">
                   <div className="w-8 h-8 bg-orange-500/20 rounded-lg flex items-center justify-center mb-3">
@@ -276,7 +276,7 @@ function WaitlistContent() {
             {/* Coming Soon */}
             <div className="text-center">
               <div className="bg-gradient-to-r from-zinc-800/50 to-zinc-900/50 border border-zinc-700/50 rounded-xl p-6">
-                <h3 className="text-2xl font-bold text-white mb-4">Almost Ready</h3>
+                <h3 className="text-2xl font-bold text-white mb-4">Coming Soon</h3>
                 <p className="text-lg text-zinc-300">The future of mental performance is almost here. Be the first to get the advantage.</p>
               </div>
             </div>
