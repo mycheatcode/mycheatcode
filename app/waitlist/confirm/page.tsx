@@ -111,7 +111,7 @@ function ConfirmContent() {
 
             {/* Contact */}
             <div className="text-sm text-zinc-400">
-              <p>Questions? Email us at <a href="mailto:hello@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">hello@mycheatcode.ai</a></p>
+              <p>Questions? Email us at <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">team@mycheatcode.ai</a></p>
             </div>
           </div>
         </main>
@@ -163,7 +163,7 @@ function ConfirmContent() {
 
           {/* Contact */}
           <div className="text-sm text-zinc-400">
-            <p>Need help? Email us at <a href="mailto:hello@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">hello@mycheatcode.ai</a></p>
+            <p>Need help? Email us at <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">team@mycheatcode.ai</a></p>
           </div>
         </div>
       </main>
