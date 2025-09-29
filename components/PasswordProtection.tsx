@@ -15,7 +15,10 @@ const PROTECTED_ROUTES = [
   '/onboarding',
   '/start',
   '/welcome',
-  '/debug'
+  '/debug',
+  '/signup',
+  '/auth',
+  '/login'
 ];
 
 export default function PasswordProtection({ children }: { children: React.ReactNode }) {
@@ -26,16 +29,24 @@ export default function PasswordProtection({ children }: { children: React.React
   const router = useRouter();
 
   useEffect(() => {
-    // Check if current route needs protection
-    const needsProtection = PROTECTED_ROUTES.some(route =>
-      pathname === route || (route !== '/' && pathname.startsWith(route))
+    // List of routes that should be PUBLIC (not protected)
+    const PUBLIC_ROUTES = [
+      '/waitlist',
+      '/api'
+    ];
+
+    // Check if current route is public
+    const isPublicRoute = PUBLIC_ROUTES.some(route =>
+      pathname === route || pathname.startsWith(route)
     );
 
-    if (!needsProtection) {
+    if (isPublicRoute) {
       setIsAuthenticated(true);
       setIsLoading(false);
       return;
     }
+
+    // All other routes are protected by default
 
     // Check if already authenticated
     const authenticated = sessionStorage.getItem('dev_authenticated') === 'true';
