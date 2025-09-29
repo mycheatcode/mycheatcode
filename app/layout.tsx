@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
 import NotificationToast from "@/components/NotificationToast";
+import PasswordProtection from "@/components/PasswordProtection";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <PageTransition>
-          {children}
-        </PageTransition>
+        <PasswordProtection>
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </PasswordProtection>
         <NotificationToast />
       </body>
     </html>
