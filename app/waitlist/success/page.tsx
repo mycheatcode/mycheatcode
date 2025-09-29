@@ -33,6 +33,12 @@ export default function WaitlistSuccessPage() {
             Check your email to secure your spot. We'll notify you as soon as early access is available.
           </p>
 
+          <div className="bg-amber-900/20 border border-amber-700/50 rounded-lg p-4 mb-8">
+            <p className="text-amber-200 text-sm">
+              📧 <strong>Don't see the email?</strong> Check your spam/junk folder - sometimes our emails end up there!
+            </p>
+          </div>
+
           {/* Additional Info */}
           <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-6 mb-8">
             <h2 className="text-lg font-semibold text-white mb-3">What happens next?</h2>

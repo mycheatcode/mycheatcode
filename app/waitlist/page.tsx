@@ -475,77 +475,64 @@ function WaitlistContent() {
 }
 
 function SuccessView() {
-  const [shareText] = useState('I just joined the mycheatcode.ai waitlist');
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyLink = async () => {
-    try {
-      await navigator.clipboard.writeText(`${shareText} - https://mycheatcode.ai/waitlist`);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
-      console.error('Failed to copy:', error);
-    }
-  };
-
-  const handleTwitterShare = () => {
-    const url = encodeURIComponent('https://mycheatcode.ai/waitlist');
-    const text = encodeURIComponent(shareText);
-    window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
-  };
-
   return (
     <div className="min-h-screen bg-black text-white">
-      <main className="min-h-screen flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md text-center">
+      {/* Header */}
+      <header className="border-b border-zinc-800">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            MyCheatCode
+          </h1>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="flex items-center justify-center min-h-[calc(100vh-80px)] px-4">
+        <div className="max-w-lg text-center">
           {/* Success Icon */}
-          <div className="w-20 h-20 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-8">
+          <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-8">
             <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
 
-          {/* Logo */}
-          <div className="inline-block mb-6">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
-              MyCheatCode
-            </h1>
-          </div>
+          {/* Main Message */}
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-white to-zinc-300 bg-clip-text text-transparent">
+            Submission Entered
+          </h1>
 
-          <h2 className="text-3xl font-bold mb-4 text-white">
-            You're on the list!
-          </h2>
-
-          <p className="text-lg text-zinc-400 mb-8 leading-relaxed">
-            Check your email to confirm your spot. We'll notify you as soon as early access is available.
+          <p className="text-xl text-zinc-300 mb-8 leading-relaxed">
+            Check your email to secure your spot. We'll notify you as soon as early access is available.
           </p>
 
-          {/* Share Section */}
-          <div className="space-y-6">
-            <p className="text-sm text-zinc-500">Share with your team:</p>
+          <div className="bg-amber-900/20 border border-amber-700/50 rounded-lg p-4 mb-8">
+            <p className="text-amber-200 text-sm">
+              📧 <strong>Don't see the email?</strong> Check your spam/junk folder - sometimes our emails end up there!
+            </p>
+          </div>
 
-            <div className="flex gap-3 justify-center">
-              <button
-                onClick={handleTwitterShare}
-                className="px-4 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
-              >
-                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-                Share on X
-              </button>
+          {/* Additional Info */}
+          <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-6 mb-8">
+            <h2 className="text-lg font-semibold text-white mb-3">What happens next?</h2>
+            <ul className="text-left text-zinc-300 space-y-2">
+              <li className="flex items-start gap-2">
+                <span className="text-blue-400 mt-1">•</span>
+                <span>We'll send you updates as we build your AI basketball coach</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-400 mt-1">•</span>
+                <span>You'll get early access before the public launch</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-blue-400 mt-1">•</span>
+                <span>Your feedback will help shape the final product</span>
+              </li>
+            </ul>
+          </div>
 
-              <button
-                onClick={handleCopyLink}
-                className="px-4 py-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-xl"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                {copied ? 'Copied!' : 'Copy Link'}
-              </button>
-            </div>
-
+          {/* Contact */}
+          <div className="text-sm text-zinc-400">
+            <p>Questions? Email us at <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">team@mycheatcode.ai</a></p>
           </div>
         </div>
       </main>
