@@ -183,7 +183,7 @@ function WaitlistContent() {
               MyCheatCode
             </h1>
           </div>
-          <h2 className="text-5xl md:text-7xl font-bold mb-8 text-white">
+          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white">
             Your Mental Game.<br />Unlocked.
           </h2>
           <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-12">
