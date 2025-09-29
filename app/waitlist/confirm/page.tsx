@@ -19,27 +19,22 @@ function ConfirmContent() {
       }
 
       try {
-        // Verify the token
-        const verification = verifyConfirmationToken(token);
-
-        if (!verification.valid || !verification.email) {
-          setStatus('expired');
-          return;
-        }
-
-        setEmail(verification.email);
-
-        // Update the user's status in the database
+        // Send token to server for verification and confirmation
         const response = await fetch('/api/waitlist/confirm-email', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ email: verification.email }),
+          body: JSON.stringify({ token }),
         });
 
-        if (response.ok) {
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          setEmail(data.email);
           setStatus('success');
+        } else if (data.expired) {
+          setStatus('expired');
         } else {
           setStatus('error');
         }
