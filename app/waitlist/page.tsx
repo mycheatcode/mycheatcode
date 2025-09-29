@@ -17,7 +17,7 @@ function WaitlistContent() {
   const [formData, setFormData] = useState<WaitlistSignupData>({
     email: '',
     position: '' as any, // Will be validated on submit
-    level: '',
+    level: '' as any, // Will be validated on submit
     goals: [],
     customGoal: '',
     urgency: undefined,
