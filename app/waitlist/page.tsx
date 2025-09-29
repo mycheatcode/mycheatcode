@@ -17,7 +17,7 @@ function WaitlistContent() {
   const [formData, setFormData] = useState<WaitlistSignupData>({
     email: '',
     position: '' as any, // Will be validated on submit
-    level: 'High School',
+    level: '',
     goals: [],
     customGoal: '',
     urgency: undefined,
@@ -184,7 +184,7 @@ function WaitlistContent() {
             </h1>
           </div>
           <h2 className="text-4xl md:text-6xl font-bold mb-8 text-white">
-            Unlock Your<br />Limitless Potential
+            Unlock Your<br />Unlimited Potential
           </h2>
           <p className="text-xl md:text-2xl text-zinc-300 max-w-3xl mx-auto leading-relaxed mb-12">
             The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.
@@ -351,6 +351,7 @@ function WaitlistContent() {
                 aria-invalid={!!errors.level}
                 aria-describedby={errors.level ? 'level-error' : undefined}
               >
+                <option value="">Select your level of play</option>
                 {levelOptions.map(level => (
                   <option key={level} value={level}>{level}</option>
                 ))}
