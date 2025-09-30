@@ -398,7 +398,7 @@ function WaitlistContent() {
                   <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 rounded-xl p-4 border border-green-500/20">
                     <div className="flex items-center justify-between mb-3">
                       <span className="text-sm text-green-300 font-medium">Recovery Process</span>
-                      <span className="text-xs text-gray-400">< 30 seconds</span>
+                      <span className="text-xs text-gray-400">&lt; 30 seconds</span>
                     </div>
 
                     {/* Recovery Steps */}
