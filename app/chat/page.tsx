@@ -466,15 +466,57 @@ export default function ChatPage() {
                               <div className="flex items-center gap-2 mb-3">
                                 <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                               </div>
-                              <div className="space-y-2">
-                                <div className="text-white font-bold text-lg">{cheatCode.title}</div>
-                                <div className="space-y-1.5 text-sm">
-                                  {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                  {cheatCode.when && <div><span className="text-green-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                  {cheatCode.how && <div><span className="text-orange-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                  {cheatCode.why && <div><span className="text-purple-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                  {cheatCode.phrase && <div><span className="text-yellow-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                  {cheatCode.practice && <div><span className="text-cyan-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
+                              <div className="space-y-3">
+                                <div className="text-white font-bold text-lg mb-4">{cheatCode.title}</div>
+                                <div className="space-y-3 text-sm">
+                                  {cheatCode.what && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-12 h-6 bg-blue-500/20 border border-blue-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-blue-300 font-semibold text-xs">WHAT</span>
+                                      </div>
+                                      <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                                    </div>
+                                  )}
+                                  {cheatCode.when && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-12 h-6 bg-green-500/20 border border-green-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-green-300 font-semibold text-xs">WHEN</span>
+                                      </div>
+                                      <div className="text-white leading-relaxed">{cheatCode.when}</div>
+                                    </div>
+                                  )}
+                                  {cheatCode.how && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-12 h-6 bg-orange-500/20 border border-orange-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-orange-300 font-semibold text-xs">HOW</span>
+                                      </div>
+                                      <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
+                                    </div>
+                                  )}
+                                  {cheatCode.why && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-12 h-6 bg-purple-500/20 border border-purple-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-purple-300 font-semibold text-xs">WHY</span>
+                                      </div>
+                                      <div className="text-white leading-relaxed">{cheatCode.why}</div>
+                                    </div>
+                                  )}
+                                  {cheatCode.phrase && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-16 h-6 bg-yellow-500/20 border border-yellow-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-yellow-300 font-semibold text-xs">PHRASE</span>
+                                      </div>
+                                      <div className="text-white font-medium">"{cheatCode.phrase}"</div>
+                                    </div>
+                                  )}
+                                  {cheatCode.practice && (
+                                    <div className="flex gap-3">
+                                      <div className="flex-shrink-0 w-16 h-6 bg-cyan-500/20 border border-cyan-400/30 rounded-md flex items-center justify-center">
+                                        <span className="text-cyan-300 font-semibold text-xs">PRACTICE</span>
+                                      </div>
+                                      <div className="text-white leading-relaxed">{cheatCode.practice}</div>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -659,15 +701,57 @@ export default function ChatPage() {
                                   <div className="flex items-center gap-2 mb-4">
                                     <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                                   </div>
-                                  <div className="space-y-3">
-                                    <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                    <div className="space-y-2 text-base">
-                                      {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                      {cheatCode.when && <div><span className="text-green-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                      {cheatCode.how && <div><span className="text-orange-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                      {cheatCode.why && <div><span className="text-purple-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                      {cheatCode.phrase && <div><span className="text-yellow-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                      {cheatCode.practice && <div><span className="text-cyan-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
+                                  <div className="space-y-4">
+                                    <div className="text-white font-bold text-xl mb-5">{cheatCode.title}</div>
+                                    <div className="space-y-4 text-base">
+                                      {cheatCode.what && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-14 h-7 bg-blue-500/20 border border-blue-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-blue-300 font-semibold text-xs">WHAT</span>
+                                          </div>
+                                          <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.when && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-14 h-7 bg-green-500/20 border border-green-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-green-300 font-semibold text-xs">WHEN</span>
+                                          </div>
+                                          <div className="text-white leading-relaxed">{cheatCode.when}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.how && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-14 h-7 bg-orange-500/20 border border-orange-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-orange-300 font-semibold text-xs">HOW</span>
+                                          </div>
+                                          <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.why && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-14 h-7 bg-purple-500/20 border border-purple-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-purple-300 font-semibold text-xs">WHY</span>
+                                          </div>
+                                          <div className="text-white leading-relaxed">{cheatCode.why}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.phrase && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-18 h-7 bg-yellow-500/20 border border-yellow-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-yellow-300 font-semibold text-xs">PHRASE</span>
+                                          </div>
+                                          <div className="text-white font-medium">"{cheatCode.phrase}"</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.practice && (
+                                        <div className="flex gap-4">
+                                          <div className="flex-shrink-0 w-18 h-7 bg-cyan-500/20 border border-cyan-400/30 rounded-md flex items-center justify-center">
+                                            <span className="text-cyan-300 font-semibold text-xs">PRACTICE</span>
+                                          </div>
+                                          <div className="text-white leading-relaxed">{cheatCode.practice}</div>
+                                        </div>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
