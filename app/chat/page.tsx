@@ -469,12 +469,12 @@ export default function ChatPage() {
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
                                 <div className="space-y-1.5 text-sm">
-                                  {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                  {cheatCode.when && <div><span className="text-blue-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                  {cheatCode.how && <div><span className="text-blue-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                  {cheatCode.why && <div><span className="text-blue-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                  {cheatCode.phrase && <div><span className="text-blue-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                  {cheatCode.practice && <div><span className="text-blue-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
+                                  {cheatCode.what && <div><span className="text-gray-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                  {cheatCode.when && <div><span className="text-gray-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                  {cheatCode.how && <div><span className="text-gray-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                  {cheatCode.why && <div><span className="text-gray-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                  {cheatCode.phrase && <div><span className="text-gray-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                  {cheatCode.practice && <div><span className="text-gray-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                 </div>
                               </div>
                             </div>
@@ -662,12 +662,12 @@ export default function ChatPage() {
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
                                     <div className="space-y-2 text-base">
-                                      {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                      {cheatCode.when && <div><span className="text-blue-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                      {cheatCode.how && <div><span className="text-blue-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                      {cheatCode.why && <div><span className="text-blue-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                      {cheatCode.phrase && <div><span className="text-blue-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                      {cheatCode.practice && <div><span className="text-blue-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
+                                      {cheatCode.what && <div><span className="text-gray-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                      {cheatCode.when && <div><span className="text-gray-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                      {cheatCode.how && <div><span className="text-gray-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                      {cheatCode.why && <div><span className="text-gray-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                      {cheatCode.phrase && <div><span className="text-gray-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                      {cheatCode.practice && <div><span className="text-gray-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                     </div>
                                   </div>
                                 </div>
