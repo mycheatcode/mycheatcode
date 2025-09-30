@@ -461,64 +461,22 @@ export default function ChatPage() {
                               </div>
                             )}
 
-                            {/* Cheat code box - styled like My Codes page */}
-                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all">
-                              {/* Header */}
-                              <div className="flex justify-between items-start mb-4">
-                                <div className="flex-1">
-                                  <div className="text-white text-lg font-semibold mb-2 leading-tight">
-                                    🏀 {cheatCode.title}
-                                  </div>
-                                  <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                                    Cheat Code
-                                  </div>
-                                </div>
-                                <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl">
-                                  <span className="text-sm">⚡</span>
-                                  <span className="text-zinc-300 text-sm font-medium">
-                                    Ready to Use
-                                  </span>
-                                </div>
+                            {/* Cheat code box - original design with new structure */}
+                            <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4">
+                              <div className="flex items-center gap-2 mb-3">
+                                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
                               </div>
-
-                              {/* Cheat Code Sections */}
-                              <div className="space-y-3 text-sm">
-                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
-                                  <div className="text-blue-300 font-medium mb-1">What</div>
-                                  <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                              <div className="space-y-2">
+                                <div className="text-white font-bold text-lg">{cheatCode.title}</div>
+                                <div className="space-y-1.5 text-sm">
+                                  {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                  {cheatCode.when && <div><span className="text-green-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                  {cheatCode.how && <div><span className="text-orange-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                  {cheatCode.why && <div><span className="text-purple-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                  {cheatCode.phrase && <div><span className="text-yellow-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                  {cheatCode.practice && <div><span className="text-cyan-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                 </div>
-
-                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
-                                  <div className="text-green-300 font-medium mb-1">When</div>
-                                  <div className="text-white leading-relaxed">{cheatCode.when}</div>
-                                </div>
-
-                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
-                                  <div className="text-orange-300 font-medium mb-1">How</div>
-                                  <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
-                                </div>
-
-                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
-                                  <div className="text-purple-300 font-medium mb-1">Why</div>
-                                  <div className="text-white leading-relaxed">{cheatCode.why}</div>
-                                </div>
-
-                                {cheatCode.phrase && (
-                                  <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg p-3">
-                                    <div className="text-blue-300 font-medium mb-1">Cheat Code Phrase</div>
-                                    <div className="text-white font-semibold text-center text-lg">"{cheatCode.phrase}"</div>
-                                  </div>
-                                )}
-
-                                {cheatCode.practice && (
-                                  <div className="bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-3">
-                                    <div className="text-yellow-300 font-medium mb-1 flex items-center gap-1">
-                                      <span>💡</span>
-                                      <span>Practice</span>
-                                    </div>
-                                    <div className="text-white leading-relaxed">{cheatCode.practice}</div>
-                                  </div>
-                                )}
                               </div>
                             </div>
                           </div>
@@ -697,64 +655,22 @@ export default function ChatPage() {
                                   </div>
                                 )}
 
-                                {/* Cheat code box - desktop styled like My Codes page */}
-                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 transition-all">
-                                  {/* Header */}
-                                  <div className="flex justify-between items-start mb-6">
-                                    <div className="flex-1">
-                                      <div className="text-white text-xl font-semibold mb-2 leading-tight">
-                                        🏀 {cheatCode.title}
-                                      </div>
-                                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                                        Cheat Code
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl">
-                                      <span className="text-base">⚡</span>
-                                      <span className="text-zinc-300 text-sm font-medium">
-                                        Ready to Use
-                                      </span>
-                                    </div>
+                                {/* Cheat code box - original design with new structure */}
+                                <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6">
+                                  <div className="flex items-center gap-2 mb-4">
+                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                                    <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
                                   </div>
-
-                                  {/* Cheat Code Sections */}
-                                  <div className="space-y-4 text-base">
-                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
-                                      <div className="text-blue-300 font-medium mb-2">What</div>
-                                      <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                                  <div className="space-y-3">
+                                    <div className="text-white font-bold text-xl">{cheatCode.title}</div>
+                                    <div className="space-y-2 text-base">
+                                      {cheatCode.what && <div><span className="text-blue-300 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                      {cheatCode.when && <div><span className="text-green-300 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                      {cheatCode.how && <div><span className="text-orange-300 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                      {cheatCode.why && <div><span className="text-purple-300 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                      {cheatCode.phrase && <div><span className="text-yellow-300 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                      {cheatCode.practice && <div><span className="text-cyan-300 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                     </div>
-
-                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
-                                      <div className="text-green-300 font-medium mb-2">When</div>
-                                      <div className="text-white leading-relaxed">{cheatCode.when}</div>
-                                    </div>
-
-                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
-                                      <div className="text-orange-300 font-medium mb-2">How</div>
-                                      <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
-                                    </div>
-
-                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
-                                      <div className="text-purple-300 font-medium mb-2">Why</div>
-                                      <div className="text-white leading-relaxed">{cheatCode.why}</div>
-                                    </div>
-
-                                    {cheatCode.phrase && (
-                                      <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg p-4">
-                                        <div className="text-blue-300 font-medium mb-2">Cheat Code Phrase</div>
-                                        <div className="text-white font-semibold text-center text-xl">"{cheatCode.phrase}"</div>
-                                      </div>
-                                    )}
-
-                                    {cheatCode.practice && (
-                                      <div className="bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-4">
-                                        <div className="text-yellow-300 font-medium mb-2 flex items-center gap-2">
-                                          <span>💡</span>
-                                          <span>Practice</span>
-                                        </div>
-                                        <div className="text-white leading-relaxed">{cheatCode.practice}</div>
-                                      </div>
-                                    )}
                                   </div>
                                 </div>
                               </div>
