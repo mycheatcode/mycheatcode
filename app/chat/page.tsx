@@ -481,10 +481,24 @@ export default function ChatPage() {
                                 <div className="mt-4 space-y-2">
                                   <div className="flex justify-between items-center">
                                     <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                    <span className="text-white text-sm font-semibold">0%</span>
+                                    <span className="text-white text-sm font-semibold">10%</span>
                                   </div>
                                   <div className="w-full h-5 bg-white/5 rounded-full overflow-hidden relative">
-                                    <div className="h-full bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
+                                    <div
+                                      className="h-full rounded-full transition-all duration-300 ease-out"
+                                      style={{
+                                        background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 100%)',
+                                        width: '10%'
+                                      }}
+                                    ></div>
+                                    {/* Subtle highlight overlay for premium feel */}
+                                    <div
+                                      className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
+                                      style={{
+                                        background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+                                        width: '10%'
+                                      }}
+                                    ></div>
                                   </div>
                                   <p className="text-xs text-zinc-400">Log a usage to activate this code and build its strength</p>
                                 </div>
@@ -693,10 +707,24 @@ export default function ChatPage() {
                                     <div className="mt-4 space-y-2">
                                       <div className="flex justify-between items-center">
                                         <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                        <span className="text-white text-sm font-semibold">0%</span>
+                                        <span className="text-white text-sm font-semibold">10%</span>
                                       </div>
                                       <div className="w-full h-6 bg-white/5 rounded-full overflow-hidden relative">
-                                        <div className="h-full bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
+                                        <div
+                                          className="h-full rounded-full transition-all duration-300 ease-out"
+                                          style={{
+                                            background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 100%)',
+                                            width: '10%'
+                                          }}
+                                        ></div>
+                                        {/* Subtle highlight overlay for premium feel */}
+                                        <div
+                                          className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
+                                          style={{
+                                            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
+                                            width: '10%'
+                                          }}
+                                        ></div>
                                       </div>
                                       <p className="text-xs text-zinc-400">Log a usage to activate this code and build its strength</p>
                                     </div>
