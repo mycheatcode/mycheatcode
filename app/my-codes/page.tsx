@@ -718,7 +718,7 @@ export default function MyCodesPage() {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black border-b border-zinc-800">
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
