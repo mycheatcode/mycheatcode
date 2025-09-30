@@ -461,11 +461,10 @@ export default function ChatPage() {
                               </div>
                             )}
 
-                            {/* Cheat code box - original design with new structure */}
-                            <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4">
+                            {/* Cheat code box - My Codes page background with simple layout */}
+                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
                               <div className="flex items-center gap-2 mb-3">
-                                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                                <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                               </div>
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
@@ -655,11 +654,10 @@ export default function ChatPage() {
                                   </div>
                                 )}
 
-                                {/* Cheat code box - original design with new structure */}
-                                <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6">
+                                {/* Cheat code box - My Codes page background with simple layout */}
+                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
                                   <div className="flex items-center gap-2 mb-4">
-                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                    <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
+                                    <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                                   </div>
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
