@@ -46,7 +46,7 @@ export default function ChatPage() {
 
   // Helper to detect if a message contains a cheat code
   const isCheatCode = (text: string): boolean => {
-    return text.includes('Title:') && text.includes('Trigger:') && text.includes('Cue phrase:');
+    return text.includes('**What:**') && text.includes('**When:**') && text.includes('**How:**') && text.includes('**Why:**');
   };
 
   // Helper to split message into intro text and cheat code
@@ -54,9 +54,9 @@ export default function ChatPage() {
     const lines = text.split('\n');
     let cheatCodeStartIndex = -1;
 
-    // Find where the cheat code structure starts
+    // Find where the cheat code structure starts (look for the title with emoji)
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i].startsWith('Title:')) {
+      if (lines[i].includes('🏀') || lines[i].startsWith('**What:**')) {
         cheatCodeStartIndex = i;
         break;
       }
@@ -74,17 +74,26 @@ export default function ChatPage() {
 
   // Helper to parse cheat code from text
   const parseCheatCode = (text: string) => {
-    const lines = text.split('\n');
     const cheatCode: any = {};
 
-    lines.forEach(line => {
-      if (line.startsWith('Title:')) cheatCode.title = line.replace('Title:', '').trim();
-      if (line.startsWith('Trigger:')) cheatCode.trigger = line.replace('Trigger:', '').trim();
-      if (line.startsWith('Cue phrase:')) cheatCode.cuePhrase = line.replace('Cue phrase:', '').trim();
-      if (line.startsWith('First action:')) cheatCode.firstAction = line.replace('First action:', '').trim();
-      if (line.startsWith('If/Then:')) cheatCode.ifThen = line.replace('If/Then:', '').trim();
-      if (line.startsWith('Reps:')) cheatCode.reps = line.replace('Reps:', '').trim();
-    });
+    // Extract title (look for emoji and title)
+    const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
+    cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
+
+    // Extract sections
+    const whatMatch = text.match(/\*\*What:\*\*\s*([^*]+?)(?=\*\*When:|$)/s);
+    const whenMatch = text.match(/\*\*When:\*\*\s*([^*]+?)(?=\*\*How:|$)/s);
+    const howMatch = text.match(/\*\*How:\*\*\s*([^*]+?)(?=\*\*Why:|$)/s);
+    const whyMatch = text.match(/\*\*Why:\*\*\s*([^*]+?)(?=\*\*Cheat Code Phrase:|$)/s);
+    const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/s);
+    const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*(.+?)$/s);
+
+    cheatCode.what = whatMatch ? whatMatch[1].trim() : '';
+    cheatCode.when = whenMatch ? whenMatch[1].trim() : '';
+    cheatCode.how = howMatch ? howMatch[1].trim() : '';
+    cheatCode.why = whyMatch ? whyMatch[1].trim() : '';
+    cheatCode.phrase = phraseMatch ? (phraseMatch[1] || phraseMatch[2]).trim() : '';
+    cheatCode.practice = practiceMatch ? practiceMatch[1].trim() : '';
 
     return cheatCode;
   };
@@ -227,12 +236,23 @@ export default function ChatPage() {
             id: uid(),
             text: `Perfect. This cheat code will turn pressure into precision. Here's your free throw lockdown routine:
 
-Title: Free Throw Lockdown
-Trigger: When you step to the free throw line
-Cue phrase: "My line, my time"
-First action: Take 3 slow dribbles while looking at the rim, feeling the ball
-If/Then: If you feel rushed or hear crowd noise, repeat the cue phrase and take one more slow dribble
-Reps: Practice this exact routine 10 times at the end of every practice`,
+**🏀 Free Throw Lockdown**
+
+**What:** A 3-step routine that transforms pressure into precision at the free throw line
+
+**When:** Every time you step to the free throw line, especially in pressure situations
+
+**How:**
+1. Take 3 slow, controlled dribbles while staring at the rim
+2. Feel the ball's texture and weight in your hands
+3. Say "My line, my time" as you prepare to shoot
+4. If you feel rushed or hear crowd noise, repeat the phrase and take one more slow dribble
+
+**Why:** This routine creates a mental bubble that blocks out distractions and locks you into muscle memory. The phrase reminds you that this moment belongs to you, not the pressure.
+
+**Cheat Code Phrase:** "My line, my time"
+
+💡 **Practice:** Run this exact routine 10 times at the end of every practice to make it automatic`,
             sender: 'coach' as Sender,
             timestamp: new Date(),
           }
@@ -441,21 +461,64 @@ Reps: Practice this exact routine 10 times at the end of every practice`,
                               </div>
                             )}
 
-                            {/* Cheat code box */}
-                            <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-4">
-                              <div className="flex items-center gap-2 mb-3">
-                                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
-                              </div>
-                              <div className="space-y-2">
-                                <div className="text-white font-bold text-lg">{cheatCode.title}</div>
-                                <div className="space-y-1.5 text-sm">
-                                  <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
-                                  <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
-                                  <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
-                                  {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
-                                  <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                            {/* Cheat code box - styled like My Codes page */}
+                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all">
+                              {/* Header */}
+                              <div className="flex justify-between items-start mb-4">
+                                <div className="flex-1">
+                                  <div className="text-white text-lg font-semibold mb-2 leading-tight">
+                                    🏀 {cheatCode.title}
+                                  </div>
+                                  <div className="text-zinc-400 text-sm uppercase tracking-wide">
+                                    Cheat Code
+                                  </div>
                                 </div>
+                                <div className="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl">
+                                  <span className="text-sm">⚡</span>
+                                  <span className="text-zinc-300 text-sm font-medium">
+                                    Ready to Use
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Cheat Code Sections */}
+                              <div className="space-y-3 text-sm">
+                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
+                                  <div className="text-blue-300 font-medium mb-1">What</div>
+                                  <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                                </div>
+
+                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
+                                  <div className="text-green-300 font-medium mb-1">When</div>
+                                  <div className="text-white leading-relaxed">{cheatCode.when}</div>
+                                </div>
+
+                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
+                                  <div className="text-orange-300 font-medium mb-1">How</div>
+                                  <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
+                                </div>
+
+                                <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-3">
+                                  <div className="text-purple-300 font-medium mb-1">Why</div>
+                                  <div className="text-white leading-relaxed">{cheatCode.why}</div>
+                                </div>
+
+                                {cheatCode.phrase && (
+                                  <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg p-3">
+                                    <div className="text-blue-300 font-medium mb-1">Cheat Code Phrase</div>
+                                    <div className="text-white font-semibold text-center text-lg">"{cheatCode.phrase}"</div>
+                                  </div>
+                                )}
+
+                                {cheatCode.practice && (
+                                  <div className="bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-3">
+                                    <div className="text-yellow-300 font-medium mb-1 flex items-center gap-1">
+                                      <span>💡</span>
+                                      <span>Practice</span>
+                                    </div>
+                                    <div className="text-white leading-relaxed">{cheatCode.practice}</div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                           </div>
@@ -634,21 +697,64 @@ Reps: Practice this exact routine 10 times at the end of every practice`,
                                   </div>
                                 )}
 
-                                {/* Cheat code box */}
-                                <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-xl p-6">
-                                  <div className="flex items-center gap-2 mb-4">
-                                    <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-                                    <span className="text-blue-300 text-sm font-semibold uppercase tracking-wide">Cheat Code</span>
-                                  </div>
-                                  <div className="space-y-3">
-                                    <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                    <div className="space-y-2 text-base">
-                                      <div><span className="text-blue-300 font-medium">Trigger:</span> <span className="text-white">{cheatCode.trigger}</span></div>
-                                      <div><span className="text-blue-300 font-medium">Cue phrase:</span> <span className="text-white">"{cheatCode.cuePhrase}"</span></div>
-                                      <div><span className="text-blue-300 font-medium">First action:</span> <span className="text-white">{cheatCode.firstAction}</span></div>
-                                      {cheatCode.ifThen && <div><span className="text-blue-300 font-medium">If/Then:</span> <span className="text-white">{cheatCode.ifThen}</span></div>}
-                                      <div><span className="text-blue-300 font-medium">Reps:</span> <span className="text-white">{cheatCode.reps}</span></div>
+                                {/* Cheat code box - desktop styled like My Codes page */}
+                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 transition-all">
+                                  {/* Header */}
+                                  <div className="flex justify-between items-start mb-6">
+                                    <div className="flex-1">
+                                      <div className="text-white text-xl font-semibold mb-2 leading-tight">
+                                        🏀 {cheatCode.title}
+                                      </div>
+                                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
+                                        Cheat Code
+                                      </div>
                                     </div>
+                                    <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-xl">
+                                      <span className="text-base">⚡</span>
+                                      <span className="text-zinc-300 text-sm font-medium">
+                                        Ready to Use
+                                      </span>
+                                    </div>
+                                  </div>
+
+                                  {/* Cheat Code Sections */}
+                                  <div className="space-y-4 text-base">
+                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
+                                      <div className="text-blue-300 font-medium mb-2">What</div>
+                                      <div className="text-white leading-relaxed">{cheatCode.what}</div>
+                                    </div>
+
+                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
+                                      <div className="text-green-300 font-medium mb-2">When</div>
+                                      <div className="text-white leading-relaxed">{cheatCode.when}</div>
+                                    </div>
+
+                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
+                                      <div className="text-orange-300 font-medium mb-2">How</div>
+                                      <div className="text-white leading-relaxed whitespace-pre-line">{cheatCode.how}</div>
+                                    </div>
+
+                                    <div className="bg-zinc-800/50 border border-white/10 rounded-lg p-4">
+                                      <div className="text-purple-300 font-medium mb-2">Why</div>
+                                      <div className="text-white leading-relaxed">{cheatCode.why}</div>
+                                    </div>
+
+                                    {cheatCode.phrase && (
+                                      <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-lg p-4">
+                                        <div className="text-blue-300 font-medium mb-2">Cheat Code Phrase</div>
+                                        <div className="text-white font-semibold text-center text-xl">"{cheatCode.phrase}"</div>
+                                      </div>
+                                    )}
+
+                                    {cheatCode.practice && (
+                                      <div className="bg-yellow-600/10 border border-yellow-500/30 rounded-lg p-4">
+                                        <div className="text-yellow-300 font-medium mb-2 flex items-center gap-2">
+                                          <span>💡</span>
+                                          <span>Practice</span>
+                                        </div>
+                                        <div className="text-white leading-relaxed">{cheatCode.practice}</div>
+                                      </div>
+                                    )}
                                   </div>
                                 </div>
                               </div>
