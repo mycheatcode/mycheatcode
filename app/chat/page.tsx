@@ -461,8 +461,8 @@ export default function ChatPage() {
                               </div>
                             )}
 
-                            {/* Cheat code box - My Codes page background with simple layout */}
-                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+                            {/* Cheat code box - My Codes page background with improved contrast */}
+                            <div className="bg-zinc-800/50 border border-white/20 rounded-2xl p-4">
                               <div className="flex items-center gap-2 mb-3">
                                 <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                               </div>
@@ -654,8 +654,8 @@ export default function ChatPage() {
                                   </div>
                                 )}
 
-                                {/* Cheat code box - My Codes page background with simple layout */}
-                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+                                {/* Cheat code box - My Codes page background with improved contrast */}
+                                <div className="bg-zinc-800/50 border border-white/20 rounded-2xl p-6">
                                   <div className="flex items-center gap-2 mb-4">
                                     <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                                   </div>
