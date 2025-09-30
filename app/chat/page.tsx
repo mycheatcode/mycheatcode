@@ -234,25 +234,24 @@ export default function ChatPage() {
           },
           {
             id: uid(),
-            text: `Perfect. This cheat code will turn pressure into precision. Here's your free throw lockdown routine:
+            text: `Perfect. Here's your free throw lockdown routine:
 
 **🏀 Free Throw Lockdown**
 
-**What:** A 3-step routine that transforms pressure into precision at the free throw line
+**What:** 3-step routine for pressure-free free throws
 
-**When:** Every time you step to the free throw line, especially in pressure situations
+**When:** At the free throw line, especially in clutch moments
 
 **How:**
-1. Take 3 slow, controlled dribbles while staring at the rim
-2. Feel the ball's texture and weight in your hands
-3. Say "My line, my time" as you prepare to shoot
-4. If you feel rushed or hear crowd noise, repeat the phrase and take one more slow dribble
+• 3 slow dribbles while staring at the rim
+• Feel the ball's texture and weight
+• Say "My line, my time" before shooting
 
-**Why:** This routine creates a mental bubble that blocks out distractions and locks you into muscle memory. The phrase reminds you that this moment belongs to you, not the pressure.
+**Why:** Creates a mental bubble that blocks distractions and activates muscle memory
 
 **Cheat Code Phrase:** "My line, my time"
 
-💡 **Practice:** Run this exact routine 10 times at the end of every practice to make it automatic`,
+**Practice:** 10 reps after every practice`,
             sender: 'coach' as Sender,
             timestamp: new Date(),
           }
