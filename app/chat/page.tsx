@@ -461,37 +461,37 @@ export default function ChatPage() {
                               </div>
                             )}
 
-                            {/* Cheat code box - Black background with modern clean design */}
-                            <div className="bg-black border border-white/10 rounded-2xl p-4">
+                            {/* Cheat code box - Matching My Codes page design */}
+                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
                               <div className="flex items-center gap-2 mb-3">
-                                <span className="text-zinc-500 text-sm uppercase tracking-wide">Cheat Code</span>
+                                <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                               </div>
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
                                 <div className="space-y-1.5 text-sm">
-                                  {cheatCode.what && <div><span className="text-blue-400 font-medium">What:</span> <span className="text-gray-200">{cheatCode.what}</span></div>}
-                                  {cheatCode.when && <div><span className="text-blue-400 font-medium">When:</span> <span className="text-gray-200">{cheatCode.when}</span></div>}
-                                  {cheatCode.how && <div><span className="text-blue-400 font-medium">How:</span> <span className="text-gray-200 whitespace-pre-line">{cheatCode.how}</span></div>}
-                                  {cheatCode.why && <div><span className="text-blue-400 font-medium">Why:</span> <span className="text-gray-200">{cheatCode.why}</span></div>}
-                                  {cheatCode.phrase && <div><span className="text-blue-400 font-medium">Cheat Code Phrase:</span> <span className="text-gray-200">"{cheatCode.phrase}"</span></div>}
-                                  {cheatCode.practice && <div><span className="text-blue-400 font-medium">Practice:</span> <span className="text-gray-200">{cheatCode.practice}</span></div>}
+                                  {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                  {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                  {cheatCode.how && <div><span className="text-zinc-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                  {cheatCode.why && <div><span className="text-zinc-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                  {cheatCode.phrase && <div><span className="text-zinc-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                  {cheatCode.practice && <div><span className="text-zinc-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                 </div>
 
-                                {/* Power Bar - Set at zero for new cheat code */}
+                                {/* Power Bar - Matching My Codes page exactly */}
                                 <div className="mt-4 space-y-2">
-                                  <div className="flex items-center justify-between">
-                                    <span className="text-sm font-medium text-white">Power Level</span>
-                                    <span className="text-sm font-bold text-red-400">0%</span>
+                                  <div className="flex justify-between items-center">
+                                    <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
+                                    <span className="text-white text-sm font-semibold">0%</span>
                                   </div>
-                                  <div className="w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
-                                    <div className="h-3 bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
+                                  <div className="w-full h-5 bg-white/5 rounded-full overflow-hidden relative">
+                                    <div className="h-full bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
                                   </div>
                                   <p className="text-xs text-zinc-400">Log a usage to activate this code and build its strength</p>
                                 </div>
 
                                 {/* Add to My Codes Button */}
-                                <div className="mt-4 pt-3 border-t border-white/10">
-                                  <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
+                                <div className="mt-4 pt-3 border-t border-white/5">
+                                  <button className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors border border-white/10">
                                     Add to "My Codes"
                                   </button>
                                 </div>
@@ -673,37 +673,37 @@ export default function ChatPage() {
                                   </div>
                                 )}
 
-                                {/* Cheat code box - Black background with modern clean design */}
-                                <div className="bg-black border border-white/10 rounded-2xl p-6">
+                                {/* Cheat code box - Matching My Codes page design */}
+                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
                                   <div className="flex items-center gap-2 mb-4">
-                                    <span className="text-zinc-500 text-sm uppercase tracking-wide">Cheat Code</span>
+                                    <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                                   </div>
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
                                     <div className="space-y-2 text-base">
-                                      {cheatCode.what && <div><span className="text-blue-400 font-medium">What:</span> <span className="text-gray-200">{cheatCode.what}</span></div>}
-                                      {cheatCode.when && <div><span className="text-blue-400 font-medium">When:</span> <span className="text-gray-200">{cheatCode.when}</span></div>}
-                                      {cheatCode.how && <div><span className="text-blue-400 font-medium">How:</span> <span className="text-gray-200 whitespace-pre-line">{cheatCode.how}</span></div>}
-                                      {cheatCode.why && <div><span className="text-blue-400 font-medium">Why:</span> <span className="text-gray-200">{cheatCode.why}</span></div>}
-                                      {cheatCode.phrase && <div><span className="text-blue-400 font-medium">Cheat Code Phrase:</span> <span className="text-gray-200">"{cheatCode.phrase}"</span></div>}
-                                      {cheatCode.practice && <div><span className="text-blue-400 font-medium">Practice:</span> <span className="text-gray-200">{cheatCode.practice}</span></div>}
+                                      {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
+                                      {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
+                                      {cheatCode.how && <div><span className="text-zinc-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
+                                      {cheatCode.why && <div><span className="text-zinc-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
+                                      {cheatCode.phrase && <div><span className="text-zinc-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
+                                      {cheatCode.practice && <div><span className="text-zinc-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
                                     </div>
 
-                                    {/* Power Bar - Set at zero for new cheat code */}
+                                    {/* Power Bar - Matching My Codes page exactly */}
                                     <div className="mt-4 space-y-2">
-                                      <div className="flex items-center justify-between">
-                                        <span className="text-sm font-medium text-white">Power Level</span>
-                                        <span className="text-sm font-bold text-red-400">0%</span>
+                                      <div className="flex justify-between items-center">
+                                        <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
+                                        <span className="text-white text-sm font-semibold">0%</span>
                                       </div>
-                                      <div className="w-full bg-zinc-800 rounded-full h-3 overflow-hidden">
-                                        <div className="h-3 bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
+                                      <div className="w-full h-6 bg-white/5 rounded-full overflow-hidden relative">
+                                        <div className="h-full bg-gradient-to-r from-red-500 via-orange-500 via-yellow-500 to-green-500 opacity-20 w-full"></div>
                                       </div>
                                       <p className="text-xs text-zinc-400">Log a usage to activate this code and build its strength</p>
                                     </div>
 
                                     {/* Add to My Codes Button */}
-                                    <div className="mt-4 pt-3 border-t border-white/10">
-                                      <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition-colors">
+                                    <div className="mt-4 pt-3 border-t border-white/5">
+                                      <button className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors border border-white/10">
                                         Add to "My Codes"
                                       </button>
                                     </div>
