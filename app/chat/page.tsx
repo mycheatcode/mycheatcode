@@ -109,6 +109,10 @@ export default function ChatPage() {
   useEffect(() => {
     if (initialized) return;
 
+    // Check for demo mode via URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const isDemoMode = urlParams.get('demo') === 'true';
+
     // Load stored topic (if any)
     const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
     if (storedTopic) {
@@ -156,9 +160,7 @@ export default function ChatPage() {
       pendingWelcome.current = true;
 
       // Check if we should show the demo conversation
-      const showDemo = typeof window !== 'undefined' ? localStorage.getItem('showDemoConversation') === 'true' : false;
-
-      if (showDemo) {
+      if (isDemoMode) {
         // Create demo conversation for screenshots
         const demoMessages = [
           {
