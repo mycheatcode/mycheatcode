@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation';
 export default function CommunityTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
-  const [isPremiumUser, setIsPremiumUser] = useState(false); // Mock premium status
   const router = useRouter();
 
   const categories = ['All', 'Pre-Game', 'Off Court', 'Post-Game', 'In-Game', 'Locker Room'];
@@ -19,7 +18,6 @@ export default function CommunityTopics() {
       context: "When all eyes are on you and your heart starts racing",
       stats: "247 players worked through this",
       trending: "HOT",
-      premium: false,
       category: "Pre-Game"
     },
     {
@@ -28,7 +26,6 @@ export default function CommunityTopics() {
       context: "That shooting slump that just won't break",
       stats: "189 players found their rhythm",
       trending: null,
-      premium: false,
       category: "In-Game"
     },
     {
@@ -37,7 +34,6 @@ export default function CommunityTopics() {
       context: "Putting in work but still riding the bench",
       stats: "156 players changed the game",
       trending: null,
-      premium: false,
       category: "Off Court"
     },
     {
@@ -46,7 +42,6 @@ export default function CommunityTopics() {
       context: "When the sideline stress hits harder than the defense",
       stats: "203 players found peace",
       trending: null,
-      premium: true,
       category: "Off Court"
     },
     {
@@ -55,7 +50,6 @@ export default function CommunityTopics() {
       context: "Fourth quarter and your mind goes blank",
       stats: "92 players built ice veins",
       trending: "NEW",
-      premium: false,
       category: "In-Game"
     },
     {
@@ -64,7 +58,6 @@ export default function CommunityTopics() {
       context: "When your mind won't stop running plays at 2am",
       stats: "134 players got better rest",
       trending: null,
-      premium: false,
       category: "Pre-Game"
     },
     {
@@ -73,7 +66,6 @@ export default function CommunityTopics() {
       context: "Feeling frozen out of the offense",
       stats: "108 players got involved",
       trending: null,
-      premium: false,
       category: "Locker Room"
     },
     {
@@ -82,7 +74,6 @@ export default function CommunityTopics() {
       context: "Leading when you're still figuring it out yourself",
       stats: "67 captains leveled up",
       trending: null,
-      premium: true,
       category: "Locker Room"
     },
     {
@@ -91,7 +82,6 @@ export default function CommunityTopics() {
       context: "From starter to bench - finding your way back",
       stats: "145 players earned it back",
       trending: null,
-      premium: false,
       category: "Post-Game"
     },
     {
@@ -100,18 +90,12 @@ export default function CommunityTopics() {
       context: "When bad calls throw off your whole game",
       stats: "178 players stayed locked in",
       trending: null,
-      premium: false,
       category: "In-Game"
     }
   ];
 
 
   const handleTopicSelect = (topic: any) => {
-    if (topic.premium && !isPremiumUser) {
-      // Show locked state for premium topics
-      return;
-    }
-
     // Store in localStorage and navigate immediately
     localStorage.setItem('selectedTopic', JSON.stringify({
       id: topic.id,
@@ -128,35 +112,11 @@ export default function CommunityTopics() {
 
 
   const getTopicCardClasses = (topic: any) => {
-    const isLocked = topic.premium && !isPremiumUser;
-
-    let baseClasses = 'relative p-5 rounded-2xl border transition-all cursor-pointer ';
-
-    if (isLocked) {
-      baseClasses += 'opacity-50 ';
-    } else if (topic.premium) {
-      baseClasses += 'bg-white/5 border-white/25 hover:bg-white/8 active:scale-98 hover:scale-[1.02] ';
-    } else {
-      baseClasses += 'bg-white/[0.03] border-white/15 hover:bg-white/8 active:scale-98 hover:scale-[1.02] ';
-    }
-
-    return baseClasses;
+    return 'relative p-5 rounded-2xl border transition-all cursor-pointer bg-white/[0.03] border-white/15 hover:bg-white/8 active:scale-98 hover:scale-[1.02]';
   };
 
   const getDesktopTopicCardClasses = (topic: any) => {
-    const isLocked = topic.premium && !isPremiumUser;
-
-    let baseClasses = 'relative p-6 rounded-2xl border transition-all cursor-pointer ';
-
-    if (isLocked) {
-      baseClasses += 'opacity-50 ';
-    } else if (topic.premium) {
-      baseClasses += 'bg-white/5 border-white/25 hover:bg-white/8 hover:scale-[1.02] ';
-    } else {
-      baseClasses += 'bg-white/[0.03] border-white/15 hover:bg-white/8 hover:scale-[1.02] ';
-    }
-
-    return baseClasses;
+    return 'relative p-6 rounded-2xl border transition-all cursor-pointer bg-white/[0.03] border-white/15 hover:bg-white/8 hover:scale-[1.02]';
   };
 
   const getCategoryCount = (category: string) => {
@@ -256,24 +216,6 @@ export default function CommunityTopics() {
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
                   {topic.trending}
-                </div>
-              )}
-              {topic.premium && (
-                <div className={`absolute top-3 right-3 px-2 py-1 rounded-lg text-xs font-bold flex items-center gap-1 ${
-                  isPremiumUser
-                    ? 'bg-gradient-to-r from-white to-zinc-300 text-black'
-                    : 'bg-zinc-700 text-zinc-300 border border-zinc-600'
-                }`}>
-                  {isPremiumUser ? (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                  ) : (
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                    </svg>
-                  )}
-                  PRO
                 </div>
               )}
 
@@ -443,24 +385,6 @@ export default function CommunityTopics() {
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
                     {topic.trending}
-                  </div>
-                )}
-                {topic.premium && (
-                  <div className={`absolute top-4 right-4 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 ${
-                    isPremiumUser
-                      ? 'bg-gradient-to-r from-white to-zinc-300 text-black'
-                      : 'bg-zinc-700 text-zinc-300 border border-zinc-600'
-                  }`}>
-                    {isPremiumUser ? (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                      </svg>
-                    ) : (
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-                      </svg>
-                    )}
-                    PRO
                   </div>
                 )}
 
