@@ -328,9 +328,9 @@ export default function ChatPage() {
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               {message.sender === 'user' ? (
-                <div className="max-w-[75%] p-3 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
+                <div className="max-w-[75%] px-4 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-md shadow-lg">
                   <div className="text-[15px] leading-relaxed">{message.text}</div>
-                  <div className="text-xs mt-2 text-zinc-400">
+                  <div className="text-xs mt-2 text-blue-100 opacity-80">
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
@@ -415,9 +415,8 @@ export default function ChatPage() {
               className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
               type="button"
             >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="12" y1="19" x2="12" y2="5"></line>
-                <polyline points="5,12 12,5 19,12"></polyline>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
               </svg>
             </button>
           </div>
@@ -521,9 +520,9 @@ export default function ChatPage() {
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {message.sender === 'user' ? (
-                    <div className="max-w-[65%] p-5 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
+                    <div className="max-w-[65%] px-5 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-2xl rounded-br-md shadow-lg">
                       <div className="text-base leading-relaxed">{message.text}</div>
-                      <div className="text-sm mt-3 text-zinc-400">
+                      <div className="text-sm mt-3 text-blue-100 opacity-80">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
@@ -609,9 +608,8 @@ export default function ChatPage() {
                 className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
                 type="button"
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="12" y1="19" x2="12" y2="5"></line>
-                  <polyline points="5,12 12,5 9,12"></polyline>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
                 </svg>
               </button>
             </div>
