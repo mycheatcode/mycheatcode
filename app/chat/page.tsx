@@ -481,14 +481,14 @@ export default function ChatPage() {
                                 <div className="mt-4 space-y-2">
                                   <div className="flex justify-between items-center">
                                     <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                    <span className="text-white text-sm font-semibold">10%</span>
+                                    <span className="text-white text-sm font-semibold">75%</span>
                                   </div>
                                   <div className="w-full h-5 bg-white/5 rounded-full overflow-hidden relative">
                                     <div
                                       className="h-full rounded-full transition-all duration-300 ease-out"
                                       style={{
-                                        background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 100%)',
-                                        width: '10%'
+                                        background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 26.67%, #FFA500 33.33%, #FFA500 66.67%, #FFFF00 73.33%, #FFFF00 100%)',
+                                        width: '75%'
                                       }}
                                     ></div>
                                     {/* Subtle highlight overlay for premium feel */}
@@ -496,7 +496,7 @@ export default function ChatPage() {
                                       className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
                                       style={{
                                         background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                                        width: '10%'
+                                        width: '75%'
                                       }}
                                     ></div>
                                   </div>
@@ -707,14 +707,14 @@ export default function ChatPage() {
                                     <div className="mt-4 space-y-2">
                                       <div className="flex justify-between items-center">
                                         <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                        <span className="text-white text-sm font-semibold">10%</span>
+                                        <span className="text-white text-sm font-semibold">75%</span>
                                       </div>
                                       <div className="w-full h-6 bg-white/5 rounded-full overflow-hidden relative">
                                         <div
                                           className="h-full rounded-full transition-all duration-300 ease-out"
                                           style={{
-                                            background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 100%)',
-                                            width: '10%'
+                                            background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 26.67%, #FFA500 33.33%, #FFA500 66.67%, #FFFF00 73.33%, #FFFF00 100%)',
+                                            width: '75%'
                                           }}
                                         ></div>
                                         {/* Subtle highlight overlay for premium feel */}
@@ -722,7 +722,7 @@ export default function ChatPage() {
                                           className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
                                           style={{
                                             background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                                            width: '10%'
+                                            width: '75%'
                                           }}
                                         ></div>
                                       </div>
