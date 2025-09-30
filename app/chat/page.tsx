@@ -80,13 +80,13 @@ export default function ChatPage() {
     const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
     cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
 
-    // Extract sections
-    const whatMatch = text.match(/\*\*What:\*\*\s*([^*]+?)(?=\*\*When:|$)/s);
-    const whenMatch = text.match(/\*\*When:\*\*\s*([^*]+?)(?=\*\*How:|$)/s);
-    const howMatch = text.match(/\*\*How:\*\*\s*([^*]+?)(?=\*\*Why:|$)/s);
-    const whyMatch = text.match(/\*\*Why:\*\*\s*([^*]+?)(?=\*\*Cheat Code Phrase:|$)/s);
-    const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/s);
-    const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*(.+?)$/s);
+    // Extract sections using [\s\S] instead of /s flag for compatibility
+    const whatMatch = text.match(/\*\*What:\*\*\s*([\s\S]*?)(?=\*\*When:|$)/);
+    const whenMatch = text.match(/\*\*When:\*\*\s*([\s\S]*?)(?=\*\*How:|$)/);
+    const howMatch = text.match(/\*\*How:\*\*\s*([\s\S]*?)(?=\*\*Why:|$)/);
+    const whyMatch = text.match(/\*\*Why:\*\*\s*([\s\S]*?)(?=\*\*Cheat Code Phrase:|$)/);
+    const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/);
+    const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*([\s\S]*?)$/m);
 
     cheatCode.what = whatMatch ? whatMatch[1].trim() : '';
     cheatCode.when = whenMatch ? whenMatch[1].trim() : '';
