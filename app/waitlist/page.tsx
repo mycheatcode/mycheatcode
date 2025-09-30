@@ -277,50 +277,158 @@ function WaitlistContent() {
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            <div className="group">
-              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
-                <div className="bg-black rounded-2xl p-8 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-6">
-                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {/* Pressure Moments */}
+            <div className="group relative">
+              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
+                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
+                  {/* Animated Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Icon with Pulse Animation */}
+                  <div className="relative w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl animate-pulse opacity-50"></div>
+                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
+
                   <h3 className="text-xl font-bold text-white mb-4">Pressure Moments</h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed mb-6">
                     Clutch free throws, game-winning shots, big games. Get personalized techniques to stay calm and execute when it matters most.
                   </p>
+
+                  {/* Visual Demo */}
+                  <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-xl p-4 border border-red-500/20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-red-300 font-medium">Game Scenario</span>
+                      <span className="text-xs text-gray-400">4th Quarter • 0:05</span>
+                    </div>
+                    <div className="text-xs text-gray-300 mb-3">Game-winning free throws</div>
+
+                    {/* Heart Rate Visualization */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-gray-400">Heart Rate: Elevated → Controlled</span>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="bg-black/50 rounded-full h-2 overflow-hidden">
+                      <div className="bg-gradient-to-r from-red-500 to-orange-500 h-full rounded-full transition-all duration-2000 group-hover:w-full w-3/4"></div>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-1">Mental State: Focused</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="group">
-              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
-                <div className="bg-black rounded-2xl p-8 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-6">
-                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {/* Confidence Building */}
+            <div className="group relative">
+              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
+                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
+                  {/* Animated Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Icon with Growth Animation */}
+                  <div className="relative w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl animate-pulse opacity-50"></div>
+                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
+
                   <h3 className="text-xl font-bold text-white mb-4">Confidence Building</h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed mb-6">
                     Overcome self-doubt and overthinking. Build unshakeable confidence that shows up consistently in your performance.
                   </p>
+
+                  {/* Confidence Meter */}
+                  <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-sm text-blue-300 font-medium">Confidence Level</span>
+                      <span className="text-xs text-gray-400">Real-time tracking</span>
+                    </div>
+
+                    {/* Confidence Bars */}
+                    <div className="space-y-2 mb-3">
+                      {[
+                        { label: 'Shot Selection', value: 85 },
+                        { label: 'Decision Making', value: 92 },
+                        { label: 'Body Language', value: 78 }
+                      ].map((item, index) => (
+                        <div key={item.label} className="flex items-center gap-3">
+                          <span className="text-xs text-gray-400 w-20">{item.label}</span>
+                          <div className="flex-1 bg-black/50 rounded-full h-2 overflow-hidden">
+                            <div
+                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all duration-1000 group-hover:opacity-100 opacity-70"
+                              style={{ width: `${item.value}%`, transitionDelay: `${index * 200}ms` }}
+                            ></div>
+                          </div>
+                          <span className="text-xs text-gray-400 w-8">{item.value}%</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="text-xs text-blue-300">↗ Trending upward</div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <div className="group">
-              <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-transform duration-300">
-                <div className="bg-black rounded-2xl p-8 h-full">
-                  <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center mb-6">
-                    <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {/* Mental Recovery */}
+            <div className="group relative">
+              <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
+                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
+                  {/* Animated Background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+                  {/* Icon with Recovery Animation */}
+                  <div className="relative w-14 h-14 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl animate-pulse opacity-50"></div>
+                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
+
                   <h3 className="text-xl font-bold text-white mb-4">Mental Recovery</h3>
-                  <p className="text-gray-400 leading-relaxed">
+                  <p className="text-gray-400 leading-relaxed mb-6">
                     Bounce back from missed shots, bad calls, and tough losses. Learn to reset your mindset instantly and stay in the game.
                   </p>
+
+                  {/* Recovery Timeline */}
+                  <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 rounded-xl p-4 border border-green-500/20">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm text-green-300 font-medium">Recovery Process</span>
+                      <span className="text-xs text-gray-400">< 30 seconds</span>
+                    </div>
+
+                    {/* Recovery Steps */}
+                    <div className="space-y-2">
+                      {[
+                        { step: 'Acknowledge', time: '2s', status: 'complete' },
+                        { step: 'Breathe & Reset', time: '5s', status: 'complete' },
+                        { step: 'Refocus', time: '3s', status: 'active' },
+                        { step: 'Next Play Mindset', time: '1s', status: 'pending' }
+                      ].map((item, index) => (
+                        <div key={item.step} className="flex items-center gap-3">
+                          <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                            item.status === 'complete' ? 'bg-green-400' :
+                            item.status === 'active' ? 'bg-green-400 animate-pulse' : 'bg-gray-600'
+                          }`}></div>
+                          <span className={`text-xs flex-1 transition-colors duration-300 ${
+                            item.status === 'complete' || item.status === 'active' ? 'text-green-300' : 'text-gray-500'
+                          }`}>
+                            {item.step}
+                          </span>
+                          <span className="text-xs text-gray-400">{item.time}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="mt-3 flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span className="text-xs text-green-300">Recovery in progress...</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
