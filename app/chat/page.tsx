@@ -155,6 +155,94 @@ export default function ChatPage() {
     if (!pendingWelcome.current) {
       pendingWelcome.current = true;
 
+      // Check if we should show the demo conversation
+      const showDemo = typeof window !== 'undefined' ? localStorage.getItem('showDemoConversation') === 'true' : false;
+
+      if (showDemo) {
+        // Create demo conversation for screenshots
+        const demoMessages = [
+          {
+            id: uid(),
+            text: "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
+            sender: 'coach',
+            timestamp: new Date(Date.now() - 8 * 60000),
+          },
+          {
+            id: uid(),
+            text: "My free throws. I get nervous late in games and miss easy ones",
+            sender: 'user',
+            timestamp: new Date(Date.now() - 7 * 60000),
+          },
+          {
+            id: uid(),
+            text: "Got it. When do you notice the nerves most? Before the shot, while you are stepping to the line, or right as you release?",
+            sender: 'coach',
+            timestamp: new Date(Date.now() - 6 * 60000),
+          },
+          {
+            id: uid(),
+            text: "Mostly while I am stepping to the line and everyone's watching me. I feel rushed and want to get it over with",
+            sender: 'user',
+            timestamp: new Date(Date.now() - 5 * 60000),
+          },
+          {
+            id: uid(),
+            text: "Do you have any specific thoughts when you're there at the line? What do you say to yourself before you shoot?",
+            sender: 'coach',
+            timestamp: new Date(Date.now() - 4 * 60000),
+          },
+          {
+            id: uid(),
+            text: "I just think \"don't miss\" and then I rush it",
+            sender: 'user',
+            timestamp: new Date(Date.now() - 3 * 60000),
+          },
+          {
+            id: uid(),
+            text: "So the thought of missing speeds you up. Do you notice it in your body too?",
+            sender: 'coach',
+            timestamp: new Date(Date.now() - 2 * 60000),
+          },
+          {
+            id: uid(),
+            text: "Yeah, a bit, I feel tense and my hands get kind of jumpy",
+            sender: 'user',
+            timestamp: new Date(Date.now() - 90000),
+          },
+          {
+            id: uid(),
+            text: "That's pressure talking. Let's flip it. What if every free throw had the exact same short routine? One that slowed you down and locked you in and blocked out all of those thoughts and feelings that don't help. Want me to give you a cheat code for that?",
+            sender: 'coach',
+            timestamp: new Date(Date.now() - 60000),
+          },
+          {
+            id: uid(),
+            text: "Yeah, please",
+            sender: 'user',
+            timestamp: new Date(Date.now() - 30000),
+          },
+          {
+            id: uid(),
+            text: `Perfect. This cheat code will turn pressure into precision. Here's your free throw lockdown routine:
+
+Title: Free Throw Lockdown
+Trigger: When you step to the free throw line
+Cue phrase: "My line, my time"
+First action: Take 3 slow dribbles while looking at the rim, feeling the ball
+If/Then: If you feel rushed or hear crowd noise, repeat the cue phrase and take one more slow dribble
+Reps: Practice this exact routine 10 times at the end of every practice`,
+            sender: 'coach',
+            timestamp: new Date(),
+          }
+        ];
+
+        demoMessages.forEach(msg => {
+          messageIds.current.add(msg.id);
+        });
+        setMessages(demoMessages);
+        return;
+      }
+
       // Show coach message immediately (no delay)
       const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
