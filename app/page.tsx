@@ -50,41 +50,41 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
     return (
       <g mask={`url(#${mask})`} className={animateClass}>
-        {/* Base red ring - starts from inner circle, extends to first divider */}
-        <circle cx={centerX} cy={centerY} r="25" fill={`url(#heatmap25${gradientSuffix})`}/>
+        {/* Base red ring - center to first divider (r=25 to r=45) */}
+        <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`} stroke="#000" strokeWidth="20"/>
 
-        {/* Orange ring - appears at 25% average power, extends to second divider */}
+        {/* Orange ring - first to second divider (r=45 to r=65) */}
         {powerPercentage >= 25 && (
-          <circle cx={centerX} cy={centerY} r="50" fill={`url(#heatmap50${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="55" fill="none" stroke={`url(#heatmap50${gradientSuffix})`} strokeWidth="20"/>
         )}
 
-        {/* Yellow ring - appears at 50% average power, extends to third divider */}
+        {/* Yellow ring - second to third divider (r=65 to r=85) */}
         {powerPercentage >= 50 && (
-          <circle cx={centerX} cy={centerY} r="75" fill={`url(#heatmap75${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="75" fill="none" stroke={`url(#heatmap75${gradientSuffix})`} strokeWidth="20"/>
         )}
 
-        {/* Green ring - appears at 75% average power, extends to fourth divider */}
+        {/* Green ring - third to fourth divider (r=85 to r=105) */}
         {powerPercentage >= 75 && (
-          <circle cx={centerX} cy={centerY} r="100" fill={`url(#heatmap100${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="95" fill="none" stroke={`url(#heatmap100${gradientSuffix})`} strokeWidth="20"/>
         )}
 
-        {/* Limitless ring - appears at 100% average power, extends to outer edge */}
+        {/* Limitless ring - fourth to outer divider (r=105 to r=125) */}
         {powerPercentage >= 100 && (
-          <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="115" fill="none" stroke={`url(#heatmap100${gradientSuffix})`} strokeWidth="20"/>
         )}
 
         {/* Growth potential ring - shows next level target */}
         {(() => {
-          let targetRadius = 50; // Default to Orange target (now aligned with dividers)
+          let targetRadius = 55; // Default to Orange target (now aligned with ring centers)
           let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
 
           if (powerPercentage >= 75) {
             // At Green, show Limitless target
-            targetRadius = 125;
+            targetRadius = 115;
             targetColor = 'rgba(0, 255, 0, 0.4)';
           } else if (powerPercentage >= 50) {
             // At Yellow, show Green target
-            targetRadius = 100;
+            targetRadius = 95;
             targetColor = 'rgba(0, 255, 0, 0.4)';
           } else if (powerPercentage >= 25) {
             // At Orange, show Yellow target
@@ -92,7 +92,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
             targetColor = 'rgba(255, 255, 0, 0.4)';
           } else {
             // At Red, show Orange target
-            targetRadius = 50;
+            targetRadius = 55;
             targetColor = 'rgba(255, 165, 0, 0.4)';
           }
 
