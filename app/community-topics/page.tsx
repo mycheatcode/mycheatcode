@@ -558,12 +558,12 @@ export default function CommunityTopics() {
           {/* Load More Link - Only show for "All" category when there are more topics */}
           {hasMoreTopics() && (
             <div className="text-center py-4">
-              <span
+              <button
                 onClick={loadMoreTopics}
-                className="text-white underline cursor-pointer hover:opacity-70 transition-opacity"
+                className="px-4 py-2 border border-zinc-600 text-white text-sm rounded-lg cursor-pointer hover:border-zinc-500 hover:bg-zinc-800 transition-all"
               >
                 Load more
-              </span>
+              </button>
             </div>
           )}
 
@@ -747,12 +747,12 @@ export default function CommunityTopics() {
             {/* Load More Link - Only show for "All" category when there are more topics */}
             {hasMoreTopics() && (
               <div className="text-center py-6">
-                <span
+                <button
                   onClick={loadMoreTopics}
-                  className="text-white underline cursor-pointer hover:opacity-70 transition-opacity text-lg"
+                  className="px-6 py-3 border border-zinc-600 text-white text-sm rounded-lg cursor-pointer hover:border-zinc-500 hover:bg-zinc-800 transition-all"
                 >
                   Load more
-                </span>
+                </button>
               </div>
             )}
 
