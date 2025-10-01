@@ -80,6 +80,10 @@ export default function ChatPage() {
     const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
     cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
 
+    // Extract subtitle/phrase (look for italic text with quotes)
+    const subtitleMatch = text.match(/\*"([^"]+)"\*/);
+    cheatCode.subtitle = subtitleMatch ? subtitleMatch[1].trim() : '';
+
     // Extract sections using [\s\S] instead of /s flag for compatibility
     const whatMatch = text.match(/\*\*What:\*\*\s*([\s\S]*?)(?=\*\*When:|$)/);
     const whenMatch = text.match(/\*\*When:\*\*\s*([\s\S]*?)(?=\*\*How:|$)/);
@@ -469,6 +473,7 @@ export default function ChatPage() {
                               </div>
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
+                                {cheatCode.subtitle && <div className="text-zinc-300 text-sm italic mb-2">"{cheatCode.subtitle}"</div>}
                                 <div className="space-y-1.5 text-sm">
                                   {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
                                   {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
@@ -695,6 +700,7 @@ export default function ChatPage() {
                                   </div>
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
+                                    {cheatCode.subtitle && <div className="text-zinc-300 text-base italic mb-3">"{cheatCode.subtitle}"</div>}
                                     <div className="space-y-2 text-base">
                                       {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
                                       {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
