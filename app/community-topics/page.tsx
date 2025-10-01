@@ -22,75 +22,75 @@ export default function CommunityTopics() {
     },
     {
       id: 2,
-      quote: "My shot isn't falling and I'm completely in my head about it",
-      context: "That shooting slump that just won't break",
-      stats: "189 players found their rhythm",
+      quote: "I want to lock in and stay in attack mode all game",
+      context: "Maintaining that killer instinct for 4 quarters straight",
+      stats: "198 players stayed aggressive",
       trending: null,
       category: "In-Game"
     },
     {
       id: 3,
-      quote: "Coach won't play me even though I'm grinding in practice",
-      context: "Putting in work but still riding the bench",
-      stats: "156 players changed the game",
+      quote: "I lose confidence after I miss my first few shots",
+      context: "When early misses spiral into a rough shooting night",
+      stats: "156 players found their rhythm",
       trending: null,
-      category: "Off Court"
-    },
-    {
-      id: 4,
-      quote: "My parents are putting way too much pressure on me",
-      context: "When the sideline stress hits harder than the defense",
-      stats: "203 players found peace",
-      trending: null,
-      category: "Off Court"
-    },
-    {
-      id: 5,
-      quote: "I choke in clutch time when the game's on the line",
-      context: "Fourth quarter and your mind goes blank",
-      stats: "92 players built ice veins",
-      trending: "NEW",
       category: "In-Game"
     },
     {
-      id: 6,
-      quote: "I can't sleep the night before games",
-      context: "When your mind won't stop running plays at 2am",
-      stats: "134 players got better rest",
+      id: 4,
+      quote: "I want to play with confidence no matter who we're up against",
+      context: "Bringing the same energy whether it's scrimmage or state finals",
+      stats: "203 players found their swagger",
       trending: null,
       category: "Pre-Game"
     },
     {
-      id: 7,
-      quote: "My teammates don't pass me the ball",
-      context: "Feeling frozen out of the offense",
-      stats: "108 players got involved",
-      trending: null,
-      category: "Locker Room"
-    },
-    {
-      id: 8,
-      quote: "I just became team captain and I'm stressed about leading",
-      context: "Leading when you're still figuring it out yourself",
-      stats: "67 captains leveled up",
-      trending: null,
-      category: "Locker Room"
-    },
-    {
-      id: 9,
-      quote: "I lost my starting spot and I don't know how to bounce back",
-      context: "From starter to bench - finding your way back",
-      stats: "145 players earned it back",
-      trending: null,
+      id: 5,
+      quote: "I replay every mistake I made after games",
+      context: "When your mind won't stop showing you the lowlights",
+      stats: "134 players moved forward",
+      trending: "NEW",
       category: "Post-Game"
     },
     {
-      id: 10,
-      quote: "The refs are terrible and it's getting in my head",
-      context: "When bad calls throw off your whole game",
-      stats: "178 players stayed locked in",
+      id: 6,
+      quote: "I feel like my teammates don't really respect me",
+      context: "Earning your place in the locker room hierarchy",
+      stats: "108 players earned respect",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 7,
+      quote: "My shot isn't falling and I'm completely in my head about it",
+      context: "That shooting slump that just won't break",
+      stats: "189 players found their stroke",
       trending: null,
       category: "In-Game"
+    },
+    {
+      id: 8,
+      quote: "Coach won't play me even though I'm grinding in practice",
+      context: "Putting in work but still riding the bench",
+      stats: "145 players changed the game",
+      trending: null,
+      category: "Off Court"
+    },
+    {
+      id: 9,
+      quote: "I want to become the loudest leader on the court",
+      context: "Finding your voice and commanding respect",
+      stats: "67 players stepped up",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 10,
+      quote: "My parents are putting way too much pressure on me",
+      context: "When the sideline stress hits harder than the defense",
+      stats: "178 players found balance",
+      trending: null,
+      category: "Off Court"
     }
   ];
 
