@@ -744,32 +744,32 @@ const debugProgression = () => {
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
           <div className="absolute left-6 top-24">
-            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-4 pr-10 backdrop-blur-sm relative">
+            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6 pr-12 backdrop-blur-sm relative">
               <button
                 onClick={() => setLegendExpanded(!legendExpanded)}
-                className="absolute top-4 right-4 text-zinc-500 hover:text-zinc-300 transition-colors"
+                className="absolute top-6 right-6 text-zinc-500 hover:text-zinc-300 transition-colors"
               >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-45' : ''}`}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-45' : ''}`}>
                   <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                 </svg>
               </button>
 
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-red-500 shadow-lg shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-sm font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4 group cursor-default">
+                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
                 </div>
-                <div className="flex items-center gap-3 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-orange-500 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-sm font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
+                <div className="flex items-center gap-4 group cursor-default">
+                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
                 </div>
-                <div className="flex items-center gap-3 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-sm font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
+                <div className="flex items-center gap-4 group cursor-default">
+                  <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
                 </div>
-                <div className="flex items-center gap-3 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-sm font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
+                <div className="flex items-center gap-4 group cursor-default">
+                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
                 </div>
               </div>
 
