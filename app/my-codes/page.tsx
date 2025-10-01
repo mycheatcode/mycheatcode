@@ -640,44 +640,46 @@ export default function MyCodesPage() {
           <div className="text-white text-xl font-bold">mycheatcode.ai</div>
         </div>
 
-        {/* Sidebar Navigation */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          <div className="p-6 pt-20 border-b border-zinc-800">
-            <div className="text-white text-xl font-bold">Navigation</div>
-          </div>
+        {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
+        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="pt-20"></div>
 
-          <nav className="flex-1 p-4">
-            <div className="space-y-2">
-              <Link href="/" className="flex items-center gap-3 p-3 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-lg cursor-pointer transition-colors">
+          <nav className="flex-1">
+            <div>
+              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
-              <Link href="/community-topics" className="flex items-center gap-3 p-3 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-lg cursor-pointer transition-colors">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-                </svg>
-                <span>Topics</span>
-              </Link>
-              <div className="flex items-center gap-3 p-3 bg-zinc-800 rounded-lg text-white font-medium">
+              <div className="flex items-center gap-3 p-4 text-white font-medium relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </div>
-              <Link href="/chat-history" className="flex items-center gap-3 p-3 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-lg cursor-pointer transition-colors">
+              <Link href="/waitlist" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                <span>Early Access</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
-              <div className="flex items-center gap-3 p-3 text-zinc-400 hover:bg-zinc-800 hover:text-white rounded-lg cursor-pointer transition-colors">
+              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
                 <span>Profile</span>
-              </div>
+              </Link>
             </div>
           </nav>
         </div>
