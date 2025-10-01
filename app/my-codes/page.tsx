@@ -900,7 +900,7 @@ export default function MyCodesPage() {
                         const content = rest.join('**: ');
                         return (
                           <div key={index}>
-                            <span className="text-zinc-400 font-medium">{label}:</span>{' '}
+                            <span className="text-zinc-300 font-medium">{label}:</span>{' '}
                             <span>{content}</span>
                           </div>
                         );
@@ -936,7 +936,7 @@ export default function MyCodesPage() {
                   className={`text-sm font-medium transition-colors hover:opacity-70 ${
                     selectedCode.archived
                       ? 'text-green-400'
-                      : 'text-orange-400'
+                      : 'text-zinc-400'
                   }`}
                 >
                   {selectedCode.archived ? 'Reactivate' : 'Archive'}
@@ -948,7 +948,7 @@ export default function MyCodesPage() {
                 <div className="mb-3 p-3 bg-zinc-800/50 border border-zinc-700/50 rounded-lg">
                   <div className="flex items-center gap-2 text-xs text-zinc-400">
                     <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div>
-                    <span>This code is archived and doesn't count toward your section progress</span>
+                    <span>This code is archived and doesn't count toward your average Cheat Code Power</span>
                   </div>
                 </div>
               )}
@@ -957,7 +957,7 @@ export default function MyCodesPage() {
                 <div className="mb-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
                   <div className="flex items-center gap-2 text-xs text-green-400">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                    <span>This code is active and contributing to your section progress</span>
+                    <span>This code is active and contributing to your average Cheat Code Power</span>
                   </div>
                 </div>
               )}
