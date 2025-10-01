@@ -476,7 +476,6 @@ export default function ChatPage() {
                               </div>
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
-                                {cheatCode.subtitle && <div className="text-zinc-300 text-sm italic mb-2">"{cheatCode.subtitle}"</div>}
                                 <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">{cheatCode.category}</div>
                                 <div className="space-y-1.5 text-sm">
                                   {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
@@ -704,7 +703,6 @@ export default function ChatPage() {
                                   </div>
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                    {cheatCode.subtitle && <div className="text-zinc-300 text-base italic mb-3">"{cheatCode.subtitle}"</div>}
                                     <div className="text-zinc-400 text-sm uppercase tracking-wide mb-3">{cheatCode.category}</div>
                                     <div className="space-y-2 text-base">
                                       {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
