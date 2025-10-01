@@ -48,6 +48,30 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
   const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
 
+  // Professional design tokens
+  const DESIGN_TOKENS = {
+    BG_BASE: '#0F1012',
+    PLATE_CENTER: '#0E0E11',
+    PLATE_EDGE: '#17181C',
+    RING_STROKE: 'rgba(255,255,255,0.22)',
+    RING_INNER_SHADOW: 'rgba(0,0,0,0.18)',
+    WEDGE_TOP_OPACITY: 0.85,
+    WEDGE_GRADIENT_LIGHTEN: 0.12, // 12% lighter at center
+    WEDGE_RIM_GLOW: 'rgba(255,255,255,0.06)',
+    POLY_FILL_OPACITY: 0.28,
+    POLY_STROKE: '#ffffff',
+    POLY_UNDER_STROKE: 'rgba(0,0,0,0.25)',
+    POINT_DOT_RADIUS: 3.5,
+    POINT_DOT_GLOW: 'rgba(255,255,255,0.18)',
+    LABEL_COLOR: 'rgba(255,255,255,0.72)',
+    LABEL_WEIGHT: 600,
+    LABEL_SPACING: '0.04em',
+    CONNECTOR_LINE: 'rgba(255,255,255,0.18)',
+    LEGEND_BADGE_BG: 'rgba(255,255,255,0.06)',
+    LEGEND_BORDER: 'rgba(255,255,255,0.10)',
+    SHADOW_GLOBAL: '0 6px 8px rgba(0,0,0,0.35)'
+  };
+
   // Calculate angle for category index
   const getAngle = (i: number) => START_ANGLE + i * ANGLE_STEP;
 
@@ -66,6 +90,101 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   };
 
+  // Helper to lighten colors for gradients
+  const lightenColor = (color: string, percent: number) => {
+    if (color.startsWith('#')) {
+      const hex = color.substring(1);
+      const num = parseInt(hex, 16);
+      const r = Math.min(255, Math.floor((num >> 16) * (1 + percent)));
+      const g = Math.min(255, Math.floor(((num >> 8) & 0x00FF) * (1 + percent)));
+      const b = Math.min(255, Math.floor((num & 0x0000FF) * (1 + percent)));
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    return color;
+  };
+
+  // Step 1: Professional background plate with global shadow
+  const renderProfessionalPlate = (centerX: number, centerY: number, maxRadius: number, isDesktop: boolean) => {
+    const plateId = `professional-plate${isDesktop ? '-desktop' : ''}`;
+    const shadowId = `global-shadow${isDesktop ? '-desktop' : ''}`;
+
+    return (
+      <g>
+        <defs>
+          <radialGradient id={plateId} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={DESIGN_TOKENS.PLATE_CENTER} />
+            <stop offset="100%" stopColor={DESIGN_TOKENS.PLATE_EDGE} />
+          </radialGradient>
+          <filter id={shadowId} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+            <feOffset dx="0" dy="6" result="offset"/>
+            <feFlood floodColor="#000000" floodOpacity="0.35"/>
+            <feComposite in2="offset" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle
+          cx={centerX}
+          cy={centerY}
+          r={maxRadius + 25}
+          fill={`url(#${plateId})`}
+          filter={`url(#${shadowId})`}
+        />
+      </g>
+    );
+  };
+
+  // Step 2: Professional concentric rings with inner shadows
+  const renderProfessionalRings = (centerX: number, centerY: number, maxRadius: number, isDesktop: boolean) => {
+    const ringRadii = [45, 65, 85, 105, 125];
+    const innerShadowId = `ring-inner-shadow${isDesktop ? '-desktop' : ''}`;
+
+    return (
+      <g>
+        <defs>
+          <filter id={innerShadowId} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+            <feOffset dx="0" dy="0" result="inner-offset"/>
+            <feFlood floodColor={DESIGN_TOKENS.RING_INNER_SHADOW}/>
+            <feComposite in2="inner-offset" operator="in"/>
+            <feComposite in="SourceGraphic" operator="over"/>
+          </filter>
+        </defs>
+        {ringRadii.map((radius, i) => (
+          <circle
+            key={radius}
+            cx={centerX}
+            cy={centerY}
+            r={radius}
+            fill="none"
+            stroke={DESIGN_TOKENS.RING_STROKE}
+            strokeWidth={i === ringRadii.length - 1 ? "1.5" : "1"}
+            filter={`url(#${innerShadowId})`}
+          />
+        ))}
+        {/* Compass tick marks */}
+        {[0, Math.PI/2, Math.PI, 3*Math.PI/2].map((angle, i) => {
+          const outer = getCoordinates(centerX, centerY, angle, maxRadius);
+          const inner = getCoordinates(centerX, centerY, angle, maxRadius - 8);
+          return (
+            <line
+              key={i}
+              x1={inner.x}
+              y1={inner.y}
+              x2={outer.x}
+              y2={outer.y}
+              stroke={DESIGN_TOKENS.RING_STROKE}
+              strokeWidth="1"
+            />
+          );
+        })}
+      </g>
+    );
+  };
+
   const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
     const progress = getSectionProgressInfo(sectionName);
     const { color, powerPercentage } = progress;
@@ -80,58 +199,127 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
     const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
 
+    // Step 3: Professional wedges with radial gradients and rim glow
+    const wedgeGradientId = `wedge-gradient-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+    const rimGlowId = `rim-glow-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+
+    // Get base colors for this wedge
+    const getWedgeColor = (level: number) => {
+      const colors = {
+        25: '#FF0000',  // Red
+        50: '#FFA500',  // Orange
+        75: '#FFFF00',  // Yellow
+        100: '#00FF00'  // Green
+      };
+      return colors[level as keyof typeof colors] || '#FF0000';
+    };
+
     return (
       <g className={animateClass}>
         <defs>
           <mask id={maskId}>
             <path d={wedgePath} fill="white"/>
           </mask>
+
+          {/* Professional radial gradients for each level */}
+          <radialGradient id={`${wedgeGradientId}-25`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={lightenColor('#FF0000', DESIGN_TOKENS.WEDGE_GRADIENT_LIGHTEN)} />
+            <stop offset="100%" stopColor="#FF0000" />
+          </radialGradient>
+          <radialGradient id={`${wedgeGradientId}-50`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={lightenColor('#FFA500', DESIGN_TOKENS.WEDGE_GRADIENT_LIGHTEN)} />
+            <stop offset="100%" stopColor="#FFA500" />
+          </radialGradient>
+          <radialGradient id={`${wedgeGradientId}-75`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={lightenColor('#FFFF00', DESIGN_TOKENS.WEDGE_GRADIENT_LIGHTEN)} />
+            <stop offset="100%" stopColor="#FFFF00" />
+          </radialGradient>
+          <radialGradient id={`${wedgeGradientId}-100`} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={lightenColor('#00FF00', DESIGN_TOKENS.WEDGE_GRADIENT_LIGHTEN)} />
+            <stop offset="100%" stopColor="#00FF00" />
+          </radialGradient>
+
+          {/* Rim glow filter */}
+          <filter id={rimGlowId} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+            <feOffset dx="0" dy="0" result="glow"/>
+            <feFlood floodColor={DESIGN_TOKENS.WEDGE_RIM_GLOW}/>
+            <feComposite in2="glow" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
-        <g mask={`url(#${maskId})`}>
+
+        <g mask={`url(#${maskId})`} opacity={DESIGN_TOKENS.WEDGE_TOP_OPACITY}>
           {/* Base red ring - always present, from center to first divider */}
-          <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r="45"
+            fill={`url(#${wedgeGradientId}-25)`}
+            filter={`url(#${rimGlowId})`}
+          />
 
-          {/* Orange ring - appears at 25% average power, to second divider */}
+          {/* Orange ring - appears at 25% average power */}
           {powerPercentage >= 25 && (
-            <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="65"
+              fill={`url(#${wedgeGradientId}-50)`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
-          {/* Yellow ring - appears at 50% average power, to third divider */}
+          {/* Yellow ring - appears at 50% average power */}
           {powerPercentage >= 50 && (
-            <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="85"
+              fill={`url(#${wedgeGradientId}-75)`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
-          {/* Green ring - appears at 75% average power, to fourth divider */}
+          {/* Green ring - appears at 75% average power */}
           {powerPercentage >= 75 && (
-            <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="105"
+              fill={`url(#${wedgeGradientId}-100)`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
-          {/* Limitless ring - appears at 100% average power, to outer edge */}
+          {/* Limitless ring - appears at 100% average power */}
           {powerPercentage >= 100 && (
-            <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="125"
+              fill={`url(#${wedgeGradientId}-100)`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
           {/* Growth potential ring - shows next level target */}
           {(() => {
-            let targetRadius = 65; // Default to Orange target
-            let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
+            let targetRadius = 65;
+            let targetColor = 'rgba(255, 165, 0, 0.4)';
 
             if (powerPercentage >= 75) {
-              // At Green, show Limitless target
               targetRadius = 125;
               targetColor = 'rgba(0, 255, 0, 0.4)';
             } else if (powerPercentage >= 50) {
-              // At Yellow, show Green target
               targetRadius = 105;
               targetColor = 'rgba(0, 255, 0, 0.4)';
             } else if (powerPercentage >= 25) {
-              // At Orange, show Yellow target
               targetRadius = 85;
               targetColor = 'rgba(255, 255, 0, 0.4)';
-            } else {
-              // At Red, show Orange target
-              targetRadius = 65;
-              targetColor = 'rgba(255, 165, 0, 0.4)';
             }
 
             return (
@@ -517,11 +705,11 @@ const debugProgression = () => {
 
               </defs>
 
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* Professional background plate */}
+              {renderProfessionalPlate(180, 160, 125, false)}
+
+              {/* Professional concentric rings */}
+              {renderProfessionalRings(180, 160, 125, false)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -934,11 +1122,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* Professional background plate */}
+              {renderProfessionalPlate(240, 220, 125, true)}
+
+              {/* Professional concentric rings */}
+              {renderProfessionalRings(240, 220, 125, true)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
