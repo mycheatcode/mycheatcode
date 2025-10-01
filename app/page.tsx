@@ -453,9 +453,10 @@ const debugProgression = () => {
               </defs>
 
               <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="100" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="75" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="50" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -930,9 +931,10 @@ const debugProgression = () => {
               </defs>
 
               <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="100" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="75" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="50" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
