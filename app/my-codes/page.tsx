@@ -578,25 +578,6 @@ export default function MyCodesPage() {
                 </div>
               </div>
 
-              {/* Decay Warning */}
-              {(() => {
-                const decayStatus = getDecayStatus(code);
-                if (decayStatus) {
-                  return (
-                    <div className="mb-2 p-2 bg-orange-500/10 border border-orange-500/20 rounded-lg">
-                      <div className={`flex items-center gap-1 text-xs font-medium ${decayStatus.color}`}>
-                        <span>{decayStatus.icon}</span>
-                        {decayStatus.status === 'decaying' ? (
-                          <span>Decaying - Use now to stop power loss!</span>
-                        ) : (
-                          <span>Decay starts in {decayStatus.hoursUntilDecay}h - Use to prevent!</span>
-                        )}
-                      </div>
-                    </div>
-                  );
-                }
-                return null;
-              })()}
 
               {/* Last Session */}
               <div className="flex justify-between items-center pt-2 border-t border-white/5">
@@ -821,25 +802,6 @@ export default function MyCodesPage() {
                   </div>
                 </div>
 
-                {/* Decay Warning - Desktop */}
-                {(() => {
-                  const decayStatus = getDecayStatus(code);
-                  if (decayStatus) {
-                    return (
-                      <div className="mb-3 p-3 bg-orange-500/10 border border-orange-500/20 rounded-lg">
-                        <div className={`flex items-center gap-2 text-sm font-medium ${decayStatus.color}`}>
-                          <span>{decayStatus.icon}</span>
-                          {decayStatus.status === 'decaying' ? (
-                            <span>Decaying - Use now to stop power loss!</span>
-                          ) : (
-                            <span>Decay starts in {decayStatus.hoursUntilDecay}h - Use to prevent!</span>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  }
-                  return null;
-                })()}
 
                 {/* Last Session */}
                 <div className="flex justify-between items-center pt-3 border-t border-white/5">
