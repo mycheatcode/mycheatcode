@@ -75,6 +75,30 @@ export default function MyCodesPage() {
       sessionsCompleted: 4,
       summary: "Visualization routine 30 minutes before game: see yourself making key plays, feeling confident, and leading your team. End with three power phrases about your strengths.",
       topicId: 3
+    },
+    {
+      id: 4,
+      title: "Clutch Time Mentality",
+      category: "In-Game",
+      power: 83,
+      streak: 6,
+      streakType: 'fire',
+      lastSession: "Yesterday",
+      sessionsCompleted: 11,
+      summary: "In pressure moments, slow down your breathing and think 'This is why I practice.' Trust your instincts, play aggressive, and remember that great players want the ball in these moments.",
+      topicId: 4
+    },
+    {
+      id: 5,
+      title: "Coach Communication",
+      category: "Off Court",
+      power: 42,
+      streak: 2,
+      streakType: 'calendar',
+      lastSession: "2 days ago",
+      sessionsCompleted: 6,
+      summary: "Approach coach conversations with curiosity, not defensiveness. Ask 'What can I work on?' instead of explaining why something went wrong. Listen first, respond second.",
+      topicId: 5
     }
   ]);
   const router = useRouter();
@@ -441,7 +465,7 @@ export default function MyCodesPage() {
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
           <div className="text-center">
-            <div className="text-white text-2xl font-bold">3</div>
+            <div className="text-white text-2xl font-bold">5</div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
           </div>
           <div className="text-center">
@@ -691,7 +715,7 @@ export default function MyCodesPage() {
           {/* Stats Summary */}
           <div className="grid grid-cols-3 gap-8 mb-8">
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">3</div>
+              <div className="text-white text-3xl font-bold mb-2">5</div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
             </div>
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
