@@ -48,24 +48,21 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
   const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
 
-  // Professional dashboard design constants
-  const DASHBOARD = {
-    BACKGROUND: '#0F0F11',
+  // Subtle polish design constants
+  const POLISH = {
+    PLATE_CENTER: '#0E0E11',
+    PLATE_EDGE: '#17181C',
+    SHADOW_BLUR: 8,
+    SHADOW_OPACITY: 0.25,
+    INNER_RING_OPACITY: 0.2,
     OUTER_RING_OPACITY: 0.3,
-    INNER_RING_OPACITY: 0.15,
-    WEDGE_STROKE_OPACITY: 0.08,
-    POLYGON_FILL_OPACITY: 0.25,
-    POLYGON_STROKE: '#00D4FF', // Brand accent color
-    VERTEX_DOT_SIZE: 2.5,
-    LABEL_OPACITY: 0.7,
-    LEGEND_OPACITY: 0.7,
-    // Muted wedge colors for professional look
-    WEDGE_COLORS: {
-      RED: '#E53E3E',
-      ORANGE: '#DD6B20',
-      YELLOW: '#D69E2E',
-      GREEN: '#38A169'
-    }
+    WEDGE_RIM_GLOW: 'rgba(255,255,255,0.08)',
+    POLYGON_FILL_OPACITY: 0.28,
+    VERTEX_DOT_SIZE: 3.5,
+    VERTEX_DOT_GLOW: 'rgba(255,255,255,0.15)',
+    CONNECTOR_LINE: 'rgba(255,255,255,0.2)',
+    BADGE_BG: 'rgba(255,255,255,0.06)',
+    BADGE_BORDER: 'rgba(255,255,255,0.1)'
   };
 
   // Calculate angle for category index
@@ -86,20 +83,42 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   };
 
-  // Clean flat background
-  const renderFlatBackground = (centerX: number, centerY: number, maxRadius: number) => {
+  // Step 1: Subtle background plate with gradient and soft shadow
+  const renderSubtlePlate = (centerX: number, centerY: number, maxRadius: number, isDesktop: boolean) => {
+    const plateId = `subtle-plate${isDesktop ? '-desktop' : ''}`;
+    const shadowId = `soft-shadow${isDesktop ? '-desktop' : ''}`;
+
     return (
-      <circle
-        cx={centerX}
-        cy={centerY}
-        r={maxRadius + 20}
-        fill={DASHBOARD.BACKGROUND}
-      />
+      <g>
+        <defs>
+          <radialGradient id={plateId} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={POLISH.PLATE_CENTER} />
+            <stop offset="100%" stopColor={POLISH.PLATE_EDGE} />
+          </radialGradient>
+          <filter id={shadowId} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation={POLISH.SHADOW_BLUR}/>
+            <feOffset dx="0" dy="4" result="offset"/>
+            <feFlood floodColor="#000000" floodOpacity={POLISH.SHADOW_OPACITY}/>
+            <feComposite in2="offset" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle
+          cx={centerX}
+          cy={centerY}
+          r={maxRadius + 20}
+          fill={`url(#${plateId})`}
+          filter={`url(#${shadowId})`}
+        />
+      </g>
     );
   };
 
-  // Professional ring hierarchy - clean and minimal
-  const renderProfessionalRings = (centerX: number, centerY: number, maxRadius: number) => {
+  // Step 2: Polished rings with better hierarchy
+  const renderPolishedRings = (centerX: number, centerY: number, maxRadius: number) => {
     const ringRadii = [45, 65, 85, 105, 125];
 
     return (
@@ -113,54 +132,27 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
               cy={centerY}
               r={radius}
               fill="none"
-              stroke={`rgba(255,255,255,${isOuterRing ? DASHBOARD.OUTER_RING_OPACITY : DASHBOARD.INNER_RING_OPACITY})`}
-              strokeWidth={isOuterRing ? "2" : "1"}
+              stroke={`rgba(255,255,255,${isOuterRing ? POLISH.OUTER_RING_OPACITY : POLISH.INNER_RING_OPACITY})`}
+              strokeWidth={isOuterRing ? "1.2" : "0.8"}
             />
           );
         })}
-      </g>
-    );
-  };
-
-  // Crisp data polygon with brand accent
-  const renderDataPolygon = (centerX: number, centerY: number, maxRadius: number) => {
-    if (!radarState) return null;
-
-    const polygonPoints: string[] = [];
-    const vertices: Array<{x: number, y: number}> = [];
-
-    CATEGORIES.forEach((category, i) => {
-      const sectionScore = radarState.sectionScores[category as Section];
-      const percentage = sectionScore?.score || 0;
-      const radius = (percentage / 100) * maxRadius;
-      const angle = getAngle(i);
-      const point = getCoordinates(centerX, centerY, angle, radius);
-
-      polygonPoints.push(`${point.x},${point.y}`);
-      vertices.push(point);
-    });
-
-    return (
-      <g>
-        {/* Data polygon with brand accent fill */}
-        <polygon
-          points={polygonPoints.join(' ')}
-          fill={`${DASHBOARD.POLYGON_STROKE}${Math.round(DASHBOARD.POLYGON_FILL_OPACITY * 255).toString(16).padStart(2, '0')}`}
-          stroke={DASHBOARD.POLYGON_STROKE}
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-
-        {/* Vertex dots */}
-        {vertices.map((vertex, i) => (
-          <circle
-            key={i}
-            cx={vertex.x}
-            cy={vertex.y}
-            r={DASHBOARD.VERTEX_DOT_SIZE}
-            fill={DASHBOARD.POLYGON_STROKE}
-          />
-        ))}
+        {/* Optional tick marks at cardinal points */}
+        {[0, Math.PI/2, Math.PI, 3*Math.PI/2].map((angle, i) => {
+          const outer = getCoordinates(centerX, centerY, angle, maxRadius);
+          const inner = getCoordinates(centerX, centerY, angle, maxRadius - 6);
+          return (
+            <line
+              key={i}
+              x1={inner.x}
+              y1={inner.y}
+              x2={outer.x}
+              y2={outer.y}
+              stroke={`rgba(255,255,255,${POLISH.INNER_RING_OPACITY})`}
+              strokeWidth="0.8"
+            />
+          );
+        })}
       </g>
     );
   };
@@ -179,12 +171,26 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
     const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
 
+    // Step 3: Subtle wedge gradients and rim glow
+    const rimGlowId = `rim-glow-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+
     return (
       <g className={animateClass}>
         <defs>
           <mask id={maskId}>
             <path d={wedgePath} fill="white"/>
           </mask>
+          {/* Subtle rim glow for wedge separation */}
+          <filter id={rimGlowId} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+            <feOffset dx="0" dy="0" result="glow"/>
+            <feFlood floodColor={POLISH.WEDGE_RIM_GLOW}/>
+            <feComposite in2="glow" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
 
         <g mask={`url(#${maskId})`}>
@@ -193,9 +199,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
             cx={centerX}
             cy={centerY}
             r="45"
-            fill={DASHBOARD.WEDGE_COLORS.RED}
-            stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-            strokeWidth="1"
+            fill={`url(#heatmap25${gradientSuffix})`}
+            filter={`url(#${rimGlowId})`}
           />
 
           {/* Orange ring - appears at 25% average power, to second divider */}
@@ -204,9 +209,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
               cx={centerX}
               cy={centerY}
               r="65"
-              fill={DASHBOARD.WEDGE_COLORS.ORANGE}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
+              fill={`url(#heatmap50${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
             />
           )}
 
@@ -216,9 +220,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
               cx={centerX}
               cy={centerY}
               r="85"
-              fill={DASHBOARD.WEDGE_COLORS.YELLOW}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
+              fill={`url(#heatmap75${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
             />
           )}
 
@@ -228,9 +231,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
               cx={centerX}
               cy={centerY}
               r="105"
-              fill={DASHBOARD.WEDGE_COLORS.GREEN}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
+              fill={`url(#heatmap100${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
             />
           )}
 
@@ -240,9 +242,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
               cx={centerX}
               cy={centerY}
               r="125"
-              fill={DASHBOARD.WEDGE_COLORS.GREEN}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
+              fill={`url(#heatmap100${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
             />
           )}
 
@@ -496,20 +497,20 @@ const debugProgression = () => {
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-3 py-2.5 backdrop-blur-sm">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#E53E3E'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Activated</span>
+                  <div className="w-2 h-2 rounded-full bg-red-500 shadow-md shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Activated</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#DD6B20'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Rising</span>
+                  <div className="w-2 h-2 rounded-full bg-orange-500 shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Rising</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#D69E2E'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Elevated</span>
+                  <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-md shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Elevated</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#38A169'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Limitless</span>
+                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-md shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Limitless</span>
                 </div>
                 <button
                   onClick={() => setLegendExpanded(!legendExpanded)}
@@ -652,11 +653,11 @@ const debugProgression = () => {
 
               </defs>
 
-              {/* Flat dark background */}
-              {renderFlatBackground(180, 160, 125)}
+              {/* Step 1: Subtle background plate */}
+              {renderSubtlePlate(180, 160, 125, false)}
 
-              {/* Professional ring hierarchy */}
-              {renderProfessionalRings(180, 160, 125)}
+              {/* Step 2: Polished rings */}
+              {renderPolishedRings(180, 160, 125)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -673,8 +674,6 @@ const debugProgression = () => {
               {/* Clickable radar sections */}
               {renderClickableWedges(180, 160, 125)}
 
-              {/* Data polygon overlay */}
-              {renderDataPolygon(180, 160, 125)}
 
               <g fill="none">
                 {renderSpokes(180, 160, 125)}
@@ -688,7 +687,7 @@ const debugProgression = () => {
               {/* Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="280" y="18" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>PRE-GAME</text>
+                <text x="280" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="315" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -697,7 +696,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="350" y="162" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>IN-GAME</text>
+                <text x="350" y="162" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
@@ -706,7 +705,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="230" y="317" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>POST-GAME</text>
+                <text x="230" y="317" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -715,7 +714,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="6" y="180" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>OFF-COURT</text>
+                <text x="6" y="180" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
@@ -724,7 +723,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="55" y="18" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>LOCKER ROOM</text>
+                <text x="55" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="105" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -919,20 +918,20 @@ const debugProgression = () => {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#E53E3E'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Activated</span>
+                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#DD6B20'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Rising</span>
+                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#D69E2E'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Elevated</span>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#38A169'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Limitless</span>
+                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
                 </div>
               </div>
 
@@ -1071,11 +1070,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              {/* Flat dark background */}
-              {renderFlatBackground(240, 220, 125)}
+              {/* Step 1: Subtle background plate */}
+              {renderSubtlePlate(240, 220, 125, true)}
 
-              {/* Professional ring hierarchy */}
-              {renderProfessionalRings(240, 220, 125)}
+              {/* Step 2: Polished rings */}
+              {renderPolishedRings(240, 220, 125)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -1092,8 +1091,6 @@ const debugProgression = () => {
               {/* Clickable radar sections - Desktop */}
               {renderClickableWedges(240, 220, 125)}
 
-              {/* Data polygon overlay */}
-              {renderDataPolygon(240, 220, 125)}
 
               <g fill="none">
                 {renderSpokes(240, 220, 125)}
@@ -1107,7 +1104,7 @@ const debugProgression = () => {
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="350" y="78" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>PRE-GAME</text>
+                <text x="350" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="395" cy="74" r="8" fill="#00FF00" opacity="0.9" />
@@ -1116,7 +1113,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="410" y="222" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>IN-GAME</text>
+                <text x="410" y="222" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
@@ -1125,7 +1122,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="300" y="382" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>POST-GAME</text>
+                <text x="300" y="382" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -1134,7 +1131,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="62" y="240" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>OFF-COURT</text>
+                <text x="62" y="240" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
@@ -1143,7 +1140,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="105" y="78" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>LOCKER ROOM</text>
+                <text x="105" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="170" cy="74" r="8" fill="#00FF00" opacity="0.9" />
