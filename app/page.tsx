@@ -294,8 +294,8 @@ const debugProgression = () => {
                   onClick={() => setLegendExpanded(!legendExpanded)}
                   className="ml-1 text-zinc-500 hover:text-zinc-300 transition-colors"
                 >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-45' : ''}`}>
-                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-180' : ''}`}>
+                    <path d="M7 10l5 5 5-5z"/>
                   </svg>
                 </button>
               </div>
@@ -749,8 +749,8 @@ const debugProgression = () => {
                 onClick={() => setLegendExpanded(!legendExpanded)}
                 className="absolute top-6 right-6 text-zinc-500 hover:text-zinc-300 transition-colors"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-45' : ''}`}>
-                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-180' : ''}`}>
+                  <path d="M7 10l5 5 5-5z"/>
                 </svg>
               </button>
 
