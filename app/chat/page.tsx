@@ -236,7 +236,7 @@ export default function ChatPage() {
             id: uid(),
             text: `Perfect. Here's your free throw lockdown routine:
 
-**🏀 Free Throw Lockdown**
+**🏀 Free Throw Lockdown - "My line, my time"**
 
 **What:** 3-step routine for pressure-free free throws
 
