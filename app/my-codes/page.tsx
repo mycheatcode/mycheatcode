@@ -42,63 +42,39 @@ export default function MyCodesPage() {
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([
     {
       id: 1,
-      title: "Free Throw Confidence",
-      category: "Pre-Game",
-      power: 100,
-      streak: 5,
+      title: "Free Throw Lockdown",
+      category: "In-Game",
+      power: 95,
+      streak: 8,
       streakType: 'fire',
-      lastSession: "2 hours ago",
-      sessionsCompleted: 12,
-      summary: "Use the '3-breath reset' technique: take 3 deep breaths, visualize the ball going through the net, and remind yourself 'I've made thousands of these.' Focus on your routine, not the crowd.",
+      lastSession: "1 hour ago",
+      sessionsCompleted: 18,
+      summary: "Master the 3-step mental reset: controlled breath (2-count inhale, 3-count exhale), say 'My line, my time' while visualizing success. Perfect for clutch moments.",
       topicId: 1
     },
     {
       id: 2,
       title: "Handling Shooting Slumps",
       category: "In-Game",
-      power: 75,
+      power: 62,
       streak: 3,
       streakType: 'fire',
       lastSession: "Yesterday",
-      sessionsCompleted: 8,
+      sessionsCompleted: 9,
       summary: "When shots aren't falling, shift focus to 'process over outcome.' Focus on your form, follow-through, and leg drive. Remind yourself: 'Good shots will fall, trust the process.'",
       topicId: 2
     },
     {
       id: 3,
-      title: "Coach Communication",
-      category: "Off Court",
-      power: 50,
+      title: "Pre-Game Confidence Boost",
+      category: "Pre-Game",
+      power: 28,
       streak: 1,
       streakType: 'calendar',
-      lastSession: "Yesterday",
-      sessionsCompleted: 5,
-      summary: "Approach coach conversations with curiosity, not defensiveness. Ask 'What can I work on?' instead of explaining why something went wrong. Listen first, respond second.",
-      topicId: 3
-    },
-    {
-      id: 4,
-      title: "Pre-Game Sleep Routine",
-      category: "Pre-Game",
-      power: 25,
-      streak: 0,
-      streakType: 'new',
       lastSession: "3 days ago",
-      sessionsCompleted: 2,
-      summary: "Wind down 2 hours before bed: no screens, read or listen to calming music, practice light stretching, and visualize successful plays. Keep bedroom cool and dark.",
-      topicId: 6
-    },
-    {
-      id: 5,
-      title: "Clutch Time Mentality",
-      category: "In-Game",
-      power: 75,
-      streak: 7,
-      streakType: 'fire',
-      lastSession: "This morning",
-      sessionsCompleted: 9,
-      summary: "In pressure moments, slow down your breathing and think 'This is why I practice.' Trust your instincts, play aggressive, and remember that great players want the ball in these moments.",
-      topicId: 5
+      sessionsCompleted: 4,
+      summary: "Visualization routine 30 minutes before game: see yourself making key plays, feeling confident, and leading your team. End with three power phrases about your strengths.",
+      topicId: 3
     },
     {
       id: 6,
@@ -538,11 +514,11 @@ export default function MyCodesPage() {
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
           <div className="text-center">
-            <div className="text-white text-2xl font-bold">10</div>
+            <div className="text-white text-2xl font-bold">3</div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
           </div>
           <div className="text-center">
-            <div className="text-white text-2xl font-bold">78%</div>
+            <div className="text-white text-2xl font-bold">62%</div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Avg Power</div>
           </div>
           <div className="text-center">
@@ -807,11 +783,11 @@ export default function MyCodesPage() {
           {/* Stats Summary */}
           <div className="grid grid-cols-3 gap-8 mb-8">
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">10</div>
+              <div className="text-white text-3xl font-bold mb-2">3</div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
             </div>
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">78%</div>
+              <div className="text-white text-3xl font-bold mb-2">62%</div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Avg Power</div>
             </div>
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
