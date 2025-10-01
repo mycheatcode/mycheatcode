@@ -585,7 +585,7 @@ export default function ChatPage() {
       {/* Desktop */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header */}
-        <div className="absolute top-0 left-0 right-0 p-4 z-20 bg-black border-b border-zinc-800">
+        <div className="fixed top-0 left-0 right-0 p-4 z-20 bg-black border-b border-zinc-800">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
@@ -637,7 +637,7 @@ export default function ChatPage() {
         </div>
 
         {/* Sidebar */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`fixed top-0 left-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="p-6 pt-20 border-b border-zinc-800">
             <div className="text-white text-xl font-bold">Navigation</div>
           </div>
