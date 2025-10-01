@@ -36,7 +36,7 @@ export default function CommunityTopics() {
       stats: "156 players found their rhythm",
       trending: null,
       category: "In-Game",
-      customStarter: "What's up? So you feel like you loose confidence after you miss your first few shots? How many misses does it take you to start feeling that way and what goes through your head?"
+      customStarter: "Ahh, this is something a lot of players deal with. Don't worry, we'll create a cheat code so misses don't get in your head. Tell me, how many misses does it take before you feel that way, and what's going through your mind?"
     },
     {
       id: 4,
