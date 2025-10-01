@@ -48,6 +48,20 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
   const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
 
+  // 3D Faux effect styling tokens
+  const LIGHT_DIR = { x: -1, y: -1 }; // Light from top-left
+  const DEPTH_OFFSET = 8; // Pixel offset for side faces
+  const PLATE_GRADIENT = {
+    center: '#1b1b1b',
+    edge: '#0e0e0e'
+  };
+  const WEDGE_TOP_OPACITY = 0.85;
+  const WEDGE_SIDE_DARKEN = 0.14; // 14% darker for side faces
+  const POLYGON_FILL_OPACITY = 0.25;
+  const UNDER_STROKE_OPACITY = 0.25;
+  const RINGS_OPACITY = 0.25;
+  const INNER_SHADOW_OPACITY = 0.15;
+
   // Calculate angle for category index
   const getAngle = (i: number) => START_ANGLE + i * ANGLE_STEP;
 
@@ -66,6 +80,54 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   };
 
+  // Helper function to darken a color by percentage
+  const darkenColor = (color: string, percent: number) => {
+    // Simple approach: reduce RGB values by percentage
+    if (color.startsWith('#')) {
+      const hex = color.substring(1);
+      const num = parseInt(hex, 16);
+      const r = Math.floor((num >> 16) * (1 - percent));
+      const g = Math.floor(((num >> 8) & 0x00FF) * (1 - percent));
+      const b = Math.floor((num & 0x0000FF) * (1 - percent));
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+    return color; // Fallback if not hex
+  };
+
+  // Create 3D plate background with radial gradient
+  const render3DPlate = (centerX: number, centerY: number, maxRadius: number, isDesktop: boolean) => {
+    const plateId = `plate-gradient${isDesktop ? '-desktop' : ''}`;
+    const shadowId = `plate-shadow${isDesktop ? '-desktop' : ''}`;
+
+    return (
+      <g>
+        <defs>
+          <radialGradient id={plateId} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={PLATE_GRADIENT.center} />
+            <stop offset="100%" stopColor={PLATE_GRADIENT.edge} />
+          </radialGradient>
+          <filter id={shadowId} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="8"/>
+            <feOffset dx="0" dy="12" result="offset"/>
+            <feFlood floodColor="#000000" floodOpacity="0.3"/>
+            <feComposite in2="offset" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle
+          cx={centerX}
+          cy={centerY}
+          r={maxRadius + 20}
+          fill={`url(#${plateId})`}
+          filter={`url(#${shadowId})`}
+        />
+      </g>
+    );
+  };
+
   const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
     const progress = getSectionProgressInfo(sectionName);
     const { color, powerPercentage } = progress;
@@ -80,14 +142,42 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
     const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
 
+    // Create offset for 3D side face
+    const offsetX = LIGHT_DIR.x * DEPTH_OFFSET;
+    const offsetY = LIGHT_DIR.y * DEPTH_OFFSET;
+    const sideFacePath = createWedgePath(centerX + offsetX, centerY + offsetY, maxRadius, startAngle, endAngle);
+    const sideMaskId = `wedge-side-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+
     return (
       <g className={animateClass}>
         <defs>
           <mask id={maskId}>
             <path d={wedgePath} fill="white"/>
           </mask>
+          <mask id={sideMaskId}>
+            <path d={sideFacePath} fill="white"/>
+          </mask>
         </defs>
-        <g mask={`url(#${maskId})`}>
+
+        {/* 3D Side faces (behind) - darker versions */}
+        <g mask={`url(#${sideMaskId})`} opacity={WEDGE_TOP_OPACITY * 0.7}>
+          <circle cx={centerX + offsetX} cy={centerY + offsetY} r="45" fill={darkenColor('#FF0000', WEDGE_SIDE_DARKEN)}/>
+          {powerPercentage >= 25 && (
+            <circle cx={centerX + offsetX} cy={centerY + offsetY} r="65" fill={darkenColor('#FFA500', WEDGE_SIDE_DARKEN)}/>
+          )}
+          {powerPercentage >= 50 && (
+            <circle cx={centerX + offsetX} cy={centerY + offsetY} r="85" fill={darkenColor('#FFFF00', WEDGE_SIDE_DARKEN)}/>
+          )}
+          {powerPercentage >= 75 && (
+            <circle cx={centerX + offsetX} cy={centerY + offsetY} r="105" fill={darkenColor('#00FF00', WEDGE_SIDE_DARKEN)}/>
+          )}
+          {powerPercentage >= 100 && (
+            <circle cx={centerX + offsetX} cy={centerY + offsetY} r="125" fill={darkenColor('#00FF00', WEDGE_SIDE_DARKEN)}/>
+          )}
+        </g>
+
+        {/* Top faces (main wedge) */}
+        <g mask={`url(#${maskId})`} opacity={WEDGE_TOP_OPACITY}>
           {/* Base red ring - always present, from center to first divider */}
           <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
 
@@ -517,11 +607,14 @@ const debugProgression = () => {
 
               </defs>
 
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* 3D Plate background */}
+              {render3DPlate(180, 160, 125, false)}
+
+              <circle cx="180" cy="160" r="125" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="180" cy="160" r="105" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="180" cy="160" r="85" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="180" cy="160" r="65" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="180" cy="160" r="45" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -934,11 +1027,14 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* 3D Plate background */}
+              {render3DPlate(240, 220, 125, true)}
+
+              <circle cx="240" cy="220" r="125" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="240" cy="220" r="105" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="240" cy="220" r="85" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="240" cy="220" r="65" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
+              <circle cx="240" cy="220" r="45" fill="none" stroke={`rgba(255,255,255,${RINGS_OPACITY})`} strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
