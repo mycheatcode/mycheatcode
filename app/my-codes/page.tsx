@@ -54,14 +54,14 @@ export default function MyCodesPage() {
     },
     {
       id: 2,
-      title: "Handling Shooting Slumps",
-      category: "In-Game",
+      title: "Team Chemistry Builder",
+      category: "Locker Room",
       power: 62,
       streak: 3,
       streakType: 'fire',
       lastSession: "Yesterday",
       sessionsCompleted: 9,
-      summary: "When shots aren't falling, shift focus to 'process over outcome.' Focus on your form, follow-through, and leg drive. Remind yourself: 'Good shots will fall, trust the process.'",
+      summary: "Be the first to celebrate teammates' success and first to encourage after mistakes. Ask about their lives outside basketball. Lead by example in effort and attitude.",
       topicId: 2
     },
     {
