@@ -555,14 +555,16 @@ export default function CommunityTopics() {
             </div>
           ))}
 
-          {/* Load More Button - Only show for "All" category when there are more topics */}
+          {/* Load More Link - Only show for "All" category when there are more topics */}
           {hasMoreTopics() && (
-            <button
-              onClick={loadMoreTopics}
-              className="w-full bg-white/5 border border-white/20 rounded-2xl p-4 text-white font-medium hover:bg-white/10 transition-all active:scale-98"
-            >
-              Load More ({topics.length - displayCount} remaining)
-            </button>
+            <div className="text-center py-4">
+              <span
+                onClick={loadMoreTopics}
+                className="text-white underline cursor-pointer hover:opacity-70 transition-opacity"
+              >
+                Load more
+              </span>
+            </div>
           )}
 
           {/* Custom Topic Card */}
@@ -742,14 +744,16 @@ export default function CommunityTopics() {
               </div>
             ))}
 
-            {/* Load More Button - Only show for "All" category when there are more topics */}
+            {/* Load More Link - Only show for "All" category when there are more topics */}
             {hasMoreTopics() && (
-              <button
-                onClick={loadMoreTopics}
-                className="w-full bg-white/5 border border-white/20 rounded-2xl p-6 text-white font-medium hover:bg-white/10 transition-all hover:scale-[1.02]"
-              >
-                Load More ({topics.length - displayCount} remaining)
-              </button>
+              <div className="text-center py-6">
+                <span
+                  onClick={loadMoreTopics}
+                  className="text-white underline cursor-pointer hover:opacity-70 transition-opacity text-lg"
+                >
+                  Load more
+                </span>
+              </div>
             )}
 
             {/* Custom Topic Card */}
