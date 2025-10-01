@@ -84,6 +84,9 @@ export default function ChatPage() {
     const subtitleMatch = text.match(/\*"([^"]+)"\*/);
     cheatCode.subtitle = subtitleMatch ? subtitleMatch[1].trim() : '';
 
+    // Assign a category based on content (you can make this more sophisticated)
+    cheatCode.category = 'In-Game'; // Default for free throw situation
+
     // Extract sections using [\s\S] instead of /s flag for compatibility
     const whatMatch = text.match(/\*\*What:\*\*\s*([\s\S]*?)(?=\*\*When:|$)/);
     const whenMatch = text.match(/\*\*When:\*\*\s*([\s\S]*?)(?=\*\*How:|$)/);
@@ -474,6 +477,7 @@ export default function ChatPage() {
                               <div className="space-y-2">
                                 <div className="text-white font-bold text-lg">{cheatCode.title}</div>
                                 {cheatCode.subtitle && <div className="text-zinc-300 text-sm italic mb-2">"{cheatCode.subtitle}"</div>}
+                                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">{cheatCode.category}</div>
                                 <div className="space-y-1.5 text-sm">
                                   {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
                                   {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
@@ -701,6 +705,7 @@ export default function ChatPage() {
                                   <div className="space-y-3">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
                                     {cheatCode.subtitle && <div className="text-zinc-300 text-base italic mb-3">"{cheatCode.subtitle}"</div>}
+                                    <div className="text-zinc-400 text-sm uppercase tracking-wide mb-3">{cheatCode.category}</div>
                                     <div className="space-y-2 text-base">
                                       {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
                                       {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
