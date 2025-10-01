@@ -201,8 +201,8 @@ export default function MyCodesPage() {
 
   // Get real power from power system
   const getRealPower = (cheatCode: CheatCode) => {
-    const powerData = getCheatCodePower(cheatCode.id.toString());
-    return powerData ? Math.round(powerData.powerPercentage) : cheatCode.power;
+    // For demo purposes, just return the basic power value
+    return cheatCode.power;
   };
 
   // Get decay status for a cheat code
