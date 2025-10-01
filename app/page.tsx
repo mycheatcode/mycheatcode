@@ -42,74 +42,154 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   };
 
   // Render progression rings for a section (now based on cheat code power)
-  const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, mask: string, animateClass: string, isDesktop: boolean) => {
+  // Radar chart mathematical constants
+  const CATEGORIES = ["Pre-Game", "In-Game", "Post-Game", "Off Court", "Locker Room"];
+  const N = CATEGORIES.length; // 5
+  const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
+  const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
+
+  // Calculate angle for category index
+  const getAngle = (i: number) => START_ANGLE + i * ANGLE_STEP;
+
+  // Calculate coordinates for given angle and radius
+  const getCoordinates = (centerX: number, centerY: number, angle: number, radius: number) => ({
+    x: centerX + radius * Math.cos(angle),
+    y: centerY + radius * Math.sin(angle)
+  });
+
+  // Generate SVG path for equal wedge sectors
+  const createWedgePath = (centerX: number, centerY: number, maxRadius: number, startAngle: number, endAngle: number) => {
+    const start = getCoordinates(centerX, centerY, startAngle, maxRadius);
+    const end = getCoordinates(centerX, centerY, endAngle, maxRadius);
+    const largeArc = (endAngle - startAngle) > Math.PI ? 1 : 0;
+
+    return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
+  };
+
+  const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
     const progress = getSectionProgressInfo(sectionName);
     const { color, powerPercentage } = progress;
 
     const gradientSuffix = isDesktop ? 'Desktop' : '';
 
+    const maxRadius = 125;
+    const startAngle = getAngle(sectionIndex);
+    const endAngle = startAngle + ANGLE_STEP;
+
+    // Create mask for this specific wedge
+    const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+    const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
+
     return (
-      <g mask={`url(#${mask})`} className={animateClass}>
-        {/* Base red ring - always present, from center to first divider */}
-        <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
+      <g className={animateClass}>
+        <defs>
+          <mask id={maskId}>
+            <path d={wedgePath} fill="white"/>
+          </mask>
+        </defs>
+        <g mask={`url(#${maskId})`}>
+          {/* Base red ring - always present, from center to first divider */}
+          <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
 
-        {/* Orange ring - appears at 25% average power, to second divider */}
-        {powerPercentage >= 25 && (
-          <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
-        )}
+          {/* Orange ring - appears at 25% average power, to second divider */}
+          {powerPercentage >= 25 && (
+            <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
+          )}
 
-        {/* Yellow ring - appears at 50% average power, to third divider */}
-        {powerPercentage >= 50 && (
-          <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
-        )}
+          {/* Yellow ring - appears at 50% average power, to third divider */}
+          {powerPercentage >= 50 && (
+            <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
+          )}
 
-        {/* Green ring - appears at 75% average power, to fourth divider */}
-        {powerPercentage >= 75 && (
-          <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
-        )}
+          {/* Green ring - appears at 75% average power, to fourth divider */}
+          {powerPercentage >= 75 && (
+            <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
+          )}
 
-        {/* Limitless ring - appears at 100% average power, to outer edge */}
-        {powerPercentage >= 100 && (
-          <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
-        )}
+          {/* Limitless ring - appears at 100% average power, to outer edge */}
+          {powerPercentage >= 100 && (
+            <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
+          )}
 
-        {/* Growth potential ring - shows next level target */}
-        {(() => {
-          let targetRadius = 65; // Default to Orange target
-          let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
+          {/* Growth potential ring - shows next level target */}
+          {(() => {
+            let targetRadius = 65; // Default to Orange target
+            let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
 
-          if (powerPercentage >= 75) {
-            // At Green, show Limitless target
-            targetRadius = 125;
-            targetColor = 'rgba(0, 255, 0, 0.4)';
-          } else if (powerPercentage >= 50) {
-            // At Yellow, show Green target
-            targetRadius = 105;
-            targetColor = 'rgba(0, 255, 0, 0.4)';
-          } else if (powerPercentage >= 25) {
-            // At Orange, show Yellow target
-            targetRadius = 85;
-            targetColor = 'rgba(255, 255, 0, 0.4)';
-          } else {
-            // At Red, show Orange target
-            targetRadius = 65;
-            targetColor = 'rgba(255, 165, 0, 0.4)';
-          }
+            if (powerPercentage >= 75) {
+              // At Green, show Limitless target
+              targetRadius = 125;
+              targetColor = 'rgba(0, 255, 0, 0.4)';
+            } else if (powerPercentage >= 50) {
+              // At Yellow, show Green target
+              targetRadius = 105;
+              targetColor = 'rgba(0, 255, 0, 0.4)';
+            } else if (powerPercentage >= 25) {
+              // At Orange, show Yellow target
+              targetRadius = 85;
+              targetColor = 'rgba(255, 255, 0, 0.4)';
+            } else {
+              // At Red, show Orange target
+              targetRadius = 65;
+              targetColor = 'rgba(255, 165, 0, 0.4)';
+            }
 
-          return (
-            <circle
-              cx={centerX}
-              cy={centerY}
-              r={targetRadius}
-              fill="none"
-              stroke={targetColor}
-              strokeWidth="2"
-              strokeDasharray="8,4"
-            />
-          );
-        })()}
+            return (
+              <circle
+                cx={centerX}
+                cy={centerY}
+                r={targetRadius}
+                fill="none"
+                stroke={targetColor}
+                strokeWidth="2"
+                strokeDasharray="8,4"
+              />
+            );
+          })()}
+        </g>
       </g>
     );
+  };
+
+  // Generate equally spaced divider lines (spokes)
+  const renderSpokes = (centerX: number, centerY: number, maxRadius: number) => {
+    return CATEGORIES.map((_, i) => {
+      const angle = getAngle(i);
+      const end = getCoordinates(centerX, centerY, angle, maxRadius);
+
+      return (
+        <line
+          key={i}
+          x1={centerX}
+          y1={centerY}
+          x2={end.x}
+          y2={end.y}
+          stroke="rgba(255,255,255,0.1)"
+          strokeWidth="1"
+          strokeLinecap="round"
+        />
+      );
+    });
+  };
+
+  // Generate clickable wedge sections
+  const renderClickableWedges = (centerX: number, centerY: number, maxRadius: number) => {
+    return CATEGORIES.map((category, i) => {
+      const startAngle = getAngle(i);
+      const endAngle = startAngle + ANGLE_STEP;
+      const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
+
+      return (
+        <g key={i}>
+          <path
+            d={wedgePath}
+            fill="transparent"
+            className="radar-section"
+            onClick={(e) => handleSectionClick(category, e)}
+          />
+        </g>
+      );
+    });
   };
 
   // Add incremental logs for testing progression
@@ -435,21 +515,6 @@ const debugProgression = () => {
                   <stop offset="100%" stopColor="#FF0000" stopOpacity="1"/>
                 </radialGradient>
 
-                <mask id="mask1">
-                  <path d="M 180 160 L 180 35 A 125 125 0 0 1 286.8 96.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask2">
-                  <path d="M 180 160 L 286.8 96.4 A 125 125 0 0 1 256.8 264.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask3">
-                  <path d="M 180 160 L 256.8 264.4 A 125 125 0 0 1 103.2 264.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask4">
-                  <path d="M 180 160 L 103.2 264.4 A 125 125 0 0 1 73.2 96.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask5">
-                  <path d="M 180 160 L 73.2 96.4 A 125 125 0 0 1 180 35 Z" fill="white"/>
-                </mask>
               </defs>
 
               <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
@@ -464,64 +529,18 @@ const debugProgression = () => {
               </g>
 
               {/* Section progress visualization with layered rings */}
-              {renderProgressionRings('Pre-Game', 180, 160, 'mask1', 'animate-group-1', false)}
-              {renderProgressionRings('In-Game', 180, 160, 'mask2', 'animate-group-2', false)}
-              {renderProgressionRings('Post-Game', 180, 160, 'mask3', 'animate-group-3', false)}
-              {renderProgressionRings('Off Court', 180, 160, 'mask4', 'animate-group-4', false)}
-              {renderProgressionRings('Locker Room', 180, 160, 'mask5', 'animate-group-5', false)}
+              {renderProgressionRings('Pre-Game', 180, 160, 0, 'animate-group-1', false)}
+              {renderProgressionRings('In-Game', 180, 160, 1, 'animate-group-2', false)}
+              {renderProgressionRings('Post-Game', 180, 160, 2, 'animate-group-3', false)}
+              {renderProgressionRings('Off Court', 180, 160, 3, 'animate-group-4', false)}
+              {renderProgressionRings('Locker Room', 180, 160, 4, 'animate-group-5', false)}
 
               {/* Clickable radar sections */}
-              <g>
-                <path
-                  d="M 180 160 L 180 35 A 125 125 0 0 1 286.8 96.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Pre-Game', e)}
-                />
-              </g>
+              {renderClickableWedges(180, 160, 125)}
 
-              <g>
-                <path
-                  d="M 180 160 L 286.8 96.4 A 125 125 0 0 1 256.8 264.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('In-Game', e)}
-                />
-              </g>
 
-              <g>
-                <path
-                  d="M 180 160 L 258.3 247.4 A 125 125 0 0 1 101.7 247.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Post-Game', e)}
-                />
-              </g>
-
-              <g>
-                <path
-                  d="M 180 160 L 101.7 247.4 A 125 125 0 0 1 71.7 95.1 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Off Court', e)}
-                />
-              </g>
-
-              <g>
-                <path
-                  d="M 180 160 L 71.7 95.1 A 125 125 0 0 1 180 35 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Locker Room', e)}
-                />
-              </g>
-
-              <g stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeLinecap="round" fill="none">
-                <line x1="180" y1="160" x2="180" y2="35"/>
-                <line x1="180" y1="160" x2="286.8" y2="96.4"/>
-                <line x1="180" y1="160" x2="256.8" y2="264.4"/>
-                <line x1="180" y1="160" x2="103.2" y2="264.4"/>
-                <line x1="180" y1="160" x2="73.2" y2="96.4"/>
+              <g fill="none">
+                {renderSpokes(180, 160, 125)}
               </g>
 
               <circle cx="180" cy="160" r="10" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
@@ -913,21 +932,6 @@ const debugProgression = () => {
                   <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
                   <stop offset="100%" stopColor="#FF0000" stopOpacity="1"/>
                 </radialGradient>
-                <mask id="mask1-desktop">
-                  <path d="M 240 220 L 240 95 A 125 125 0 0 1 346.8 156.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask2-desktop">
-                  <path d="M 240 220 L 346.8 156.4 A 125 125 0 0 1 316.8 324.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask3-desktop">
-                  <path d="M 240 220 L 316.8 324.4 A 125 125 0 0 1 163.2 324.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask4-desktop">
-                  <path d="M 240 220 L 163.2 324.4 A 125 125 0 0 1 133.2 156.4 Z" fill="white"/>
-                </mask>
-                <mask id="mask5-desktop">
-                  <path d="M 240 220 L 133.2 156.4 A 125 125 0 0 1 240 95 Z" fill="white"/>
-                </mask>
               </defs>
 
               <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
@@ -942,64 +946,18 @@ const debugProgression = () => {
               </g>
 
               {/* Section progress visualization with layered rings - Desktop */}
-              {renderProgressionRings('Pre-Game', 240, 220, 'mask1-desktop', 'animate-group-desktop-1', true)}
-              {renderProgressionRings('In-Game', 240, 220, 'mask2-desktop', 'animate-group-desktop-2', true)}
-              {renderProgressionRings('Post-Game', 240, 220, 'mask3-desktop', 'animate-group-desktop-3', true)}
-              {renderProgressionRings('Off Court', 240, 220, 'mask4-desktop', 'animate-group-desktop-4', true)}
-              {renderProgressionRings('Locker Room', 240, 220, 'mask5-desktop', 'animate-group-desktop-5', true)}
+              {renderProgressionRings('Pre-Game', 240, 220, 0, 'animate-group-desktop-1', true)}
+              {renderProgressionRings('In-Game', 240, 220, 1, 'animate-group-desktop-2', true)}
+              {renderProgressionRings('Post-Game', 240, 220, 2, 'animate-group-desktop-3', true)}
+              {renderProgressionRings('Off Court', 240, 220, 3, 'animate-group-desktop-4', true)}
+              {renderProgressionRings('Locker Room', 240, 220, 4, 'animate-group-desktop-5', true)}
 
               {/* Clickable radar sections - Desktop */}
-              <g>
-                <path
-                  d="M 240 220 L 240 95 A 125 125 0 0 1 346.8 156.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Pre-Game', e)}
-                />
-              </g>
+              {renderClickableWedges(240, 220, 125)}
 
-              <g>
-                <path
-                  d="M 240 220 L 346.8 156.4 A 125 125 0 0 1 316.8 324.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('In-Game', e)}
-                />
-              </g>
 
-              <g>
-                <path
-                  d="M 240 220 L 318.3 307.4 A 125 125 0 0 1 161.7 307.4 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Post-Game', e)}
-                />
-              </g>
-
-              <g>
-                <path
-                  d="M 240 220 L 161.7 307.4 A 125 125 0 0 1 131.7 155.1 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Off Court', e)}
-                />
-              </g>
-
-              <g>
-                <path
-                  d="M 240 220 L 131.7 155.1 A 125 125 0 0 1 240 95 Z"
-                  fill="transparent"
-                  className="radar-section"
-                  onClick={(e) => handleSectionClick('Locker Room', e)}
-                />
-              </g>
-
-              <g stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeLinecap="round" fill="none">
-                <line x1="240" y1="220" x2="240" y2="95"/>
-                <line x1="240" y1="220" x2="346.8" y2="156.4"/>
-                <line x1="240" y1="220" x2="316.8" y2="324.4"/>
-                <line x1="240" y1="220" x2="163.2" y2="324.4"/>
-                <line x1="240" y1="220" x2="133.2" y2="156.4"/>
+              <g fill="none">
+                {renderSpokes(240, 220, 125)}
               </g>
 
               <circle cx="240" cy="220" r="11.5" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
