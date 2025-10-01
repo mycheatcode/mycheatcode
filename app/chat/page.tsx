@@ -253,7 +253,7 @@ export default function ChatPage() {
 
 **How:**
 • Step to the line and take your position
-• One controlled breath: 4-count inhale, 6-count exhale
+• One controlled breath: 2-count inhale, 3-count exhale
 • Say "My line, my time" while visualizing the ball going in
 
 **Why:** The exhale activates your parasympathetic nervous system (reduces stress), while the phrase creates psychological ownership and confidence
@@ -266,7 +266,7 @@ export default function ChatPage() {
           },
           {
             id: uid(),
-            text: "Here's the key: that 6-count exhale is scientifically proven to calm your nervous system in 2-3 seconds. The phrase isn't just motivation - it's claiming mental territory. Most players rush to the line feeling like the crowd owns that moment. When you say 'My line, my time,' you're literally taking control back.\n\nTry it right now - do that breath pattern and say the phrase. Feel different? That's your body switching from fight-or-flight to focused confidence.",
+            text: "Here's the key: that 3-count exhale is scientifically proven to calm your nervous system in under 5 seconds - perfect for the 10-second rule. The phrase isn't just motivation - it's claiming mental territory. Most players rush to the line feeling like the crowd owns that moment. When you say 'My line, my time,' you're literally taking control back.\n\nTry it right now - do that breath pattern and say the phrase. Feel different? That's your body switching from fight-or-flight to focused confidence.",
             sender: 'coach' as Sender,
             timestamp: new Date(Date.now() + 5000),
           }
