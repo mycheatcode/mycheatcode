@@ -91,6 +91,299 @@ export default function CommunityTopics() {
       stats: "178 players found balance",
       trending: null,
       category: "Off Court"
+    },
+    // Additional Pre-Game topics
+    {
+      id: 11,
+      quote: "I can't sleep the night before big games",
+      context: "When your mind won't stop running plays at 2am",
+      stats: "134 players got better rest",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 12,
+      quote: "I overthink my pre-game routine and psych myself out",
+      context: "When preparation becomes procrastination",
+      stats: "89 players simplified their approach",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 13,
+      quote: "I get intimidated by the other team's size and athleticism",
+      context: "Walking into the gym and feeling outmatched",
+      stats: "167 players found their edge",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 14,
+      quote: "I put too much pressure on myself to have perfect games",
+      context: "Setting impossible standards before tip-off",
+      stats: "212 players embraced imperfection",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 15,
+      quote: "I worry about disappointing my teammates before games",
+      context: "Carrying the weight of others' expectations",
+      stats: "145 players played freely",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 16,
+      quote: "I get stuck in my head during warm-ups",
+      context: "When shots aren't falling in practice and doubt creeps in",
+      stats: "78 players stayed confident",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 17,
+      quote: "I feel like I need to prove myself every single game",
+      context: "The pressure to validate your spot on the team",
+      stats: "156 players played with freedom",
+      trending: null,
+      category: "Pre-Game"
+    },
+    {
+      id: 18,
+      quote: "I compare myself to other players before games start",
+      context: "Measuring yourself against the competition",
+      stats: "123 players focused inward",
+      trending: null,
+      category: "Pre-Game"
+    },
+    // Additional In-Game topics
+    {
+      id: 19,
+      quote: "I make one mistake and it ruins my whole game",
+      context: "When a single error snowballs into disaster",
+      stats: "234 players bounced back",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 20,
+      quote: "I get frustrated when my teammates make bad plays",
+      context: "Staying composed when others struggle",
+      stats: "167 players stayed locked in",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 21,
+      quote: "The crowd noise throws off my concentration",
+      context: "When the environment becomes overwhelming",
+      stats: "89 players tuned out distractions",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 22,
+      quote: "I play scared when we have a big lead",
+      context: "Protecting instead of attacking",
+      stats: "145 players stayed aggressive",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 23,
+      quote: "I can't handle when refs make bad calls against me",
+      context: "When officiating affects your mental game",
+      stats: "198 players stayed focused",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 24,
+      quote: "I get tired and my decision-making falls apart",
+      context: "Mental fatigue in crucial moments",
+      stats: "112 players stayed sharp",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 25,
+      quote: "I freeze up when coach calls a play for me",
+      context: "The pressure of being the go-to option",
+      stats: "87 players stepped up",
+      trending: null,
+      category: "In-Game"
+    },
+    {
+      id: 26,
+      quote: "I play differently when scouts are watching",
+      context: "Performing under recruiting pressure",
+      stats: "134 players stayed natural",
+      trending: null,
+      category: "In-Game"
+    },
+    // Additional Post-Game topics
+    {
+      id: 27,
+      quote: "I beat myself up for days after bad performances",
+      context: "When losses follow you home",
+      stats: "156 players learned to reset",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 28,
+      quote: "I can't enjoy wins because I only see what went wrong",
+      context: "Perfectionism stealing your joy",
+      stats: "89 players celebrated progress",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 29,
+      quote: "I avoid watching film because it's too painful",
+      context: "When self-analysis becomes self-torture",
+      stats: "123 players embraced growth",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 30,
+      quote: "I get angry and take it out on my family after losses",
+      context: "Bringing the frustration home",
+      stats: "78 players found healthy outlets",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 31,
+      quote: "I compare my stats to everyone else's after games",
+      context: "When numbers become your worth",
+      stats: "167 players focused on impact",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 32,
+      quote: "I lie awake replaying every possession",
+      context: "When your mind won't let the game end",
+      stats: "145 players found peace",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 33,
+      quote: "I feel guilty when we lose and I played well",
+      context: "Individual success in team failure",
+      stats: "112 players balanced perspective",
+      trending: null,
+      category: "Post-Game"
+    },
+    {
+      id: 34,
+      quote: "I make excuses instead of owning my mistakes",
+      context: "Protecting your ego instead of growing",
+      stats: "134 players took ownership",
+      trending: null,
+      category: "Post-Game"
+    },
+    // Additional Locker Room topics
+    {
+      id: 35,
+      quote: "I don't know how to handle conflict with teammates",
+      context: "When team chemistry gets rocky",
+      stats: "89 players improved relationships",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 36,
+      quote: "I feel left out of the team's inner circle",
+      context: "Being on the outside looking in",
+      stats: "123 players found their place",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 37,
+      quote: "I struggle to give constructive feedback to teammates",
+      context: "Leading without creating enemies",
+      stats: "67 players became better leaders",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 38,
+      quote: "I take team criticism too personally",
+      context: "When feedback feels like attacks",
+      stats: "156 players grew thicker skin",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 39,
+      quote: "I don't know how to motivate teammates who've given up",
+      context: "Lifting others when they're down",
+      stats: "78 players inspired change",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 40,
+      quote: "I feel like I have to choose sides in team drama",
+      context: "Navigating locker room politics",
+      stats: "145 players stayed neutral",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 41,
+      quote: "I'm intimidated by the veteran players",
+      context: "Earning respect from the established guys",
+      stats: "134 players found their voice",
+      trending: null,
+      category: "Locker Room"
+    },
+    {
+      id: 42,
+      quote: "I don't know how to celebrate without being cocky",
+      context: "Balancing confidence with humility",
+      stats: "89 players found the balance",
+      trending: null,
+      category: "Locker Room"
+    },
+    // Additional Off Court topics
+    {
+      id: 43,
+      quote: "I'm worried about my basketball future after high school",
+      context: "Uncertainty about the next level",
+      stats: "167 players found clarity",
+      trending: null,
+      category: "Off Court"
+    },
+    {
+      id: 44,
+      quote: "I struggle to balance basketball with school and social life",
+      context: "When the game takes over everything",
+      stats: "123 players found balance",
+      trending: null,
+      category: "Off Court"
+    },
+    {
+      id: 45,
+      quote: "I feel like I'm not improving fast enough",
+      context: "Impatience with your development",
+      stats: "198 players trusted the process",
+      trending: null,
+      category: "Off Court"
+    },
+    {
+      id: 46,
+      quote: "I compare my recruiting situation to my teammates",
+      context: "When others get the offers you want",
+      stats: "112 players focused on their journey",
+      trending: null,
+      category: "Off Court"
     }
   ];
 
