@@ -436,19 +436,19 @@ const debugProgression = () => {
                 </radialGradient>
 
                 <mask id="mask1">
-                  <path d="M 180 160 L 180 35 A 125 125 0 0 1 289.6 91.6 Z" fill="white"/>
+                  <path d="M 180 160 L 180 35 A 125 125 0 0 1 286.8 96.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask2">
-                  <path d="M 180 160 L 289.6 91.6 A 125 125 0 0 1 270.4 228.4 Z" fill="white"/>
+                  <path d="M 180 160 L 286.8 96.4 A 125 125 0 0 1 256.8 264.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask3">
-                  <path d="M 180 160 L 270.4 228.4 A 125 125 0 0 1 89.6 228.4 Z" fill="white"/>
+                  <path d="M 180 160 L 256.8 264.4 A 125 125 0 0 1 103.2 264.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask4">
-                  <path d="M 180 160 L 89.6 228.4 A 125 125 0 0 1 70.4 91.6 Z" fill="white"/>
+                  <path d="M 180 160 L 103.2 264.4 A 125 125 0 0 1 73.2 96.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask5">
-                  <path d="M 180 160 L 70.4 91.6 A 125 125 0 0 1 180 35 Z" fill="white"/>
+                  <path d="M 180 160 L 73.2 96.4 A 125 125 0 0 1 180 35 Z" fill="white"/>
                 </mask>
               </defs>
 
@@ -473,7 +473,7 @@ const debugProgression = () => {
               {/* Clickable radar sections */}
               <g>
                 <path
-                  d="M 180 160 L 180 35 A 125 125 0 0 1 289.6 91.6 Z"
+                  d="M 180 160 L 180 35 A 125 125 0 0 1 286.8 96.4 Z"
                   fill="transparent"
                   className="radar-section"
                   onClick={(e) => handleSectionClick('Pre-Game', e)}
@@ -482,7 +482,7 @@ const debugProgression = () => {
 
               <g>
                 <path
-                  d="M 180 160 L 289.6 91.6 A 125 125 0 0 1 270.4 228.4 Z"
+                  d="M 180 160 L 286.8 96.4 A 125 125 0 0 1 256.8 264.4 Z"
                   fill="transparent"
                   className="radar-section"
                   onClick={(e) => handleSectionClick('In-Game', e)}
@@ -914,19 +914,19 @@ const debugProgression = () => {
                   <stop offset="100%" stopColor="#FF0000" stopOpacity="1"/>
                 </radialGradient>
                 <mask id="mask1-desktop">
-                  <path d="M 240 220 L 240 95 A 125 125 0 0 1 349.6 151.6 Z" fill="white"/>
+                  <path d="M 240 220 L 240 95 A 125 125 0 0 1 346.8 156.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask2-desktop">
-                  <path d="M 240 220 L 349.6 151.6 A 125 125 0 0 1 330.4 288.4 Z" fill="white"/>
+                  <path d="M 240 220 L 346.8 156.4 A 125 125 0 0 1 316.8 324.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask3-desktop">
-                  <path d="M 240 220 L 330.4 288.4 A 125 125 0 0 1 149.6 288.4 Z" fill="white"/>
+                  <path d="M 240 220 L 316.8 324.4 A 125 125 0 0 1 163.2 324.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask4-desktop">
-                  <path d="M 240 220 L 149.6 288.4 A 125 125 0 0 1 130.4 151.6 Z" fill="white"/>
+                  <path d="M 240 220 L 163.2 324.4 A 125 125 0 0 1 133.2 156.4 Z" fill="white"/>
                 </mask>
                 <mask id="mask5-desktop">
-                  <path d="M 240 220 L 130.4 151.6 A 125 125 0 0 1 240 95 Z" fill="white"/>
+                  <path d="M 240 220 L 133.2 156.4 A 125 125 0 0 1 240 95 Z" fill="white"/>
                 </mask>
               </defs>
 
@@ -951,7 +951,7 @@ const debugProgression = () => {
               {/* Clickable radar sections - Desktop */}
               <g>
                 <path
-                  d="M 240 220 L 240 95 A 125 125 0 0 1 349.6 151.6 Z"
+                  d="M 240 220 L 240 95 A 125 125 0 0 1 346.8 156.4 Z"
                   fill="transparent"
                   className="radar-section"
                   onClick={(e) => handleSectionClick('Pre-Game', e)}
@@ -960,7 +960,7 @@ const debugProgression = () => {
 
               <g>
                 <path
-                  d="M 240 220 L 349.6 151.6 A 125 125 0 0 1 330.4 288.4 Z"
+                  d="M 240 220 L 346.8 156.4 A 125 125 0 0 1 316.8 324.4 Z"
                   fill="transparent"
                   className="radar-section"
                   onClick={(e) => handleSectionClick('In-Game', e)}
