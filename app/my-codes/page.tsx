@@ -90,14 +90,14 @@ export default function MyCodesPage() {
     },
     {
       id: 5,
-      title: "Coach Communication",
-      category: "Off Court",
+      title: "Post-Game Mental Reset",
+      category: "Post-Game",
       power: 42,
       streak: 2,
       streakType: 'calendar',
       lastSession: "2 days ago",
       sessionsCompleted: 6,
-      summary: "Approach coach conversations with curiosity, not defensiveness. Ask 'What can I work on?' instead of explaining why something went wrong. Listen first, respond second.",
+      summary: "After each game, spend 10 minutes processing: write down 3 things you did well, 1 thing to improve, and set your mindset for the next game. This prevents negative spirals and builds confidence.",
       topicId: 5
     }
   ]);
