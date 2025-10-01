@@ -573,11 +573,8 @@ export default function CommunityTopics() {
             className="bg-white/5 border-2 border-dashed border-white/30 rounded-2xl p-6 flex flex-col items-center text-center transition-all cursor-pointer active:scale-98 hover:bg-white/8"
           >
             <div className="text-3xl mb-3">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                <ellipse cx="12" cy="8" rx="7" ry="5" fill="white" stroke="white"/>
-                <circle cx="8" cy="16" r="2" fill="white" stroke="white"/>
-                <circle cx="6" cy="19" r="1.2" fill="white" stroke="white"/>
-                <circle cx="4" cy="21" r="0.8" fill="white" stroke="white"/>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="1.5">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
             </div>
             <div className="text-xl font-bold text-white mb-2">Something else on your mind?</div>
@@ -763,11 +760,8 @@ export default function CommunityTopics() {
               className="bg-white/5 border-2 border-dashed border-white/30 rounded-2xl p-8 flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.02] hover:bg-white/8"
             >
               <div className="text-4xl mb-4">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
-                  <ellipse cx="12" cy="8" rx="7" ry="5" fill="white" stroke="white"/>
-                  <circle cx="8" cy="16" r="2" fill="white" stroke="white"/>
-                  <circle cx="6" cy="19" r="1.2" fill="white" stroke="white"/>
-                  <circle cx="4" cy="21" r="0.8" fill="white" stroke="white"/>
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="1.5">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                 </svg>
               </div>
               <div className="text-2xl font-bold text-white mb-3">Something else on your mind?</div>
