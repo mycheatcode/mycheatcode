@@ -49,7 +49,7 @@ export default function MyCodesPage() {
       streakType: 'fire',
       lastSession: "1 hour ago",
       sessionsCompleted: 18,
-      summary: "Master the 3-step mental reset: controlled breath (2-count inhale, 3-count exhale), say 'My line, my time' while visualizing success. Perfect for clutch moments.",
+      summary: "**What**: A 3-step mental reset routine for free throws\n\n**When**: Standing at the free throw line during pressure moments\n\n**How**: Take a controlled breath (2-count inhale, 3-count exhale), say 'My line, my time' while visualizing the ball going in\n\n**Why**: Creates consistency and focus under pressure by combining breathing, positive self-talk, and visualization\n\n**Cheat Code Phrase**: \"My line, my time\"",
       topicId: 1
     },
     {
@@ -61,7 +61,7 @@ export default function MyCodesPage() {
       streakType: 'fire',
       lastSession: "Yesterday",
       sessionsCompleted: 9,
-      summary: "Be the first to celebrate teammates' success and first to encourage after mistakes. Ask about their lives outside basketball. Lead by example in effort and attitude.",
+      summary: "**What**: Active leadership through genuine teammate support and connection\n\n**When**: In the locker room before/after games and during team interactions\n\n**How**: Be first to celebrate successes, first to encourage after mistakes, ask about teammates' lives outside basketball, lead by example in effort and attitude\n\n**Why**: Strong team chemistry elevates everyone's performance and creates a supportive environment where players thrive\n\n**Cheat Code Phrase**: \"Team first, always\"",
       topicId: 2
     },
     {
@@ -73,7 +73,7 @@ export default function MyCodesPage() {
       streakType: 'calendar',
       lastSession: "3 days ago",
       sessionsCompleted: 4,
-      summary: "Visualization routine 30 minutes before game: see yourself making key plays, feeling confident, and leading your team. End with three power phrases about your strengths.",
+      summary: "**What**: Mental preparation through visualization and positive affirmations\n\n**When**: 30 minutes before game time in a quiet space\n\n**How**: Visualize yourself making key plays, feeling confident, and leading your team. End with three power phrases about your specific strengths\n\n**Why**: Mental rehearsal primes your brain for success and builds unshakeable confidence before competition\n\n**Cheat Code Phrase**: \"I belong here\"",
       topicId: 3
     },
     {
@@ -85,7 +85,7 @@ export default function MyCodesPage() {
       streakType: 'fire',
       lastSession: "Yesterday",
       sessionsCompleted: 11,
-      summary: "In pressure moments, slow down your breathing and think 'This is why I practice.' Trust your instincts, play aggressive, and remember that great players want the ball in these moments.",
+      summary: "**What**: Mental approach for handling high-pressure game situations\n\n**When**: During clutch moments, close games, or when the pressure is highest\n\n**How**: Slow down your breathing, think 'This is why I practice,' trust your instincts, play aggressive, and embrace the moment\n\n**Why**: Great players are made in pressure moments - this mindset separates champions from everyone else\n\n**Cheat Code Phrase**: \"This is why I practice\"",
       topicId: 4
     },
     {
@@ -97,7 +97,7 @@ export default function MyCodesPage() {
       streakType: 'calendar',
       lastSession: "2 days ago",
       sessionsCompleted: 6,
-      summary: "After each game, spend 10 minutes processing: write down 3 things you did well, 1 thing to improve, and set your mindset for the next game. This prevents negative spirals and builds confidence.",
+      summary: "**What**: Structured post-game mental processing routine\n\n**When**: Within 30 minutes after every game ends\n\n**How**: Spend 10 minutes writing down 3 things you did well, 1 thing to improve, and set your mindset for the next game\n\n**Why**: Prevents negative mental spirals, builds confidence through recognizing progress, and maintains forward momentum\n\n**Cheat Code Phrase**: \"Learn, grow, next\"",
       topicId: 5
     }
   ]);
@@ -892,7 +892,22 @@ export default function MyCodesPage() {
               <div className="mb-6">
                 <h3 className="text-white font-semibold mb-3">Your Cheat Code Strategy</h3>
                 <div className="bg-zinc-800/50 border border-white/10 rounded-xl p-4">
-                  <p className="text-zinc-300 leading-relaxed">{selectedCode.summary}</p>
+                  <div className="text-zinc-300 leading-relaxed space-y-3">
+                    {selectedCode.summary.split('\\n\\n').map((section, index) => {
+                      if (section.startsWith('**')) {
+                        const [boldPart, ...rest] = section.split('**: ');
+                        const label = boldPart.replace(/\*\*/g, '');
+                        const content = rest.join('**: ');
+                        return (
+                          <div key={index}>
+                            <span className="text-blue-400 font-medium">{label}:</span>{' '}
+                            <span>{content}</span>
+                          </div>
+                        );
+                      }
+                      return <div key={index}>{section}</div>;
+                    })}
+                  </div>
                 </div>
               </div>
 
@@ -918,10 +933,10 @@ export default function MyCodesPage() {
               <div className="flex items-center justify-center py-3">
                 <button
                   onClick={() => toggleArchiveStatus(selectedCode.id)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`text-sm font-medium transition-colors hover:opacity-70 ${
                     selectedCode.archived
-                      ? 'bg-green-600/20 text-green-400 hover:bg-green-600/30 border border-green-600/30'
-                      : 'bg-orange-600/20 text-orange-400 hover:bg-orange-600/30 border border-orange-600/30'
+                      ? 'text-green-400'
+                      : 'text-orange-400'
                   }`}
                 >
                   {selectedCode.archived ? 'Reactivate' : 'Archive'}
