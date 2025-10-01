@@ -50,27 +50,27 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
     return (
       <g mask={`url(#${mask})`} className={animateClass}>
-        {/* Base red ring - always present */}
-        <circle cx={centerX} cy={centerY} r="35" fill={`url(#heatmap25${gradientSuffix})`}/>
+        {/* Base red ring - always present, aligned with first divider */}
+        <circle cx={centerX} cy={centerY} r="50" fill={`url(#heatmap25${gradientSuffix})`}/>
 
-        {/* Orange ring - appears at 25% average power */}
+        {/* Orange ring - appears at 25% average power, aligned with second divider */}
         {powerPercentage >= 25 && (
-          <circle cx={centerX} cy={centerY} r="55" fill={`url(#heatmap50${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="75" fill={`url(#heatmap50${gradientSuffix})`}/>
         )}
 
-        {/* Yellow ring - appears at 50% average power */}
+        {/* Yellow ring - appears at 50% average power, aligned with third divider */}
         {powerPercentage >= 50 && (
-          <circle cx={centerX} cy={centerY} r="75" fill={`url(#heatmap75${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="100" fill={`url(#heatmap75${gradientSuffix})`}/>
         )}
 
-        {/* Green ring - appears at 75% average power */}
+        {/* Green ring - appears at 75% average power, aligned with outer divider */}
         {powerPercentage >= 75 && (
-          <circle cx={centerX} cy={centerY} r="95" fill={`url(#heatmap100${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
         )}
 
         {/* Growth potential ring - shows next level target */}
         {(() => {
-          let targetRadius = 55; // Default to Orange target
+          let targetRadius = 75; // Default to Orange target (now aligned with dividers)
           let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
 
           if (powerPercentage >= 75) {
@@ -78,15 +78,15 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
             return null;
           } else if (powerPercentage >= 50) {
             // At Yellow, show Green target
-            targetRadius = 95;
+            targetRadius = 125;
             targetColor = 'rgba(0, 255, 0, 0.4)';
           } else if (powerPercentage >= 25) {
             // At Orange, show Yellow target
-            targetRadius = 75;
+            targetRadius = 100;
             targetColor = 'rgba(255, 255, 0, 0.4)';
           } else {
             // At Red, show Orange target
-            targetRadius = 55;
+            targetRadius = 75;
             targetColor = 'rgba(255, 165, 0, 0.4)';
           }
 
