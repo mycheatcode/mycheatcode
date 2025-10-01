@@ -592,7 +592,7 @@ export default function ChatPage() {
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header */}
         <div className="fixed top-0 left-0 right-0 p-4 z-20 bg-black border-b border-zinc-800">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between relative">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -616,7 +616,7 @@ export default function ChatPage() {
               </button>
               <div className="text-white text-xl font-bold">mycheatcode.ai</div>
             </div>
-            <div className="text-white text-lg font-semibold">Live Chat</div>
+            <div className="text-white text-lg font-semibold absolute left-1/2 transform -translate-x-1/2">Live Chat</div>
             <div className="w-[180px]"></div>
           </div>
 
