@@ -900,7 +900,7 @@ export default function MyCodesPage() {
                         const content = rest.join('**: ');
                         return (
                           <div key={index}>
-                            <span className="text-zinc-300 font-medium">{label}:</span>{' '}
+                            <span className="text-white font-medium">{label}:</span>{' '}
                             <span>{content}</span>
                           </div>
                         );
