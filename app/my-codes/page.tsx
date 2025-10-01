@@ -473,7 +473,7 @@ export default function MyCodesPage() {
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Avg Power</div>
           </div>
           <div className="text-center">
-            <div className="text-white text-2xl font-bold">5</div>
+            <div className="text-white text-2xl font-bold">14</div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
           </div>
         </div>
@@ -723,7 +723,7 @@ export default function MyCodesPage() {
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Avg Power</div>
             </div>
             <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">5</div>
+              <div className="text-white text-3xl font-bold mb-2">14</div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Day Streak</div>
             </div>
           </div>
