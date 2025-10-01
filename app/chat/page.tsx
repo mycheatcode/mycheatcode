@@ -247,20 +247,22 @@ export default function ChatPage() {
 
 *"My line, my time"*
 
-**What:** 3-step routine for pressure-free free throws
+**What:** Breath-centered routine for pressure-free free throws
 
 **When:** At the free throw line, especially in clutch moments
 
 **How:**
-• 3 slow dribbles while staring at the rim
-• Feel the ball's texture and weight
-• Say "My line, my time" before shooting
+• Take 1 deep breath - focus on the exhale
+• Say "My line, my time"
+• Optional: Add your personal dribble routine
 
-**Why:** Creates a mental bubble that blocks distractions and activates muscle memory
+**Why:** The breath calms your nervous system while the phrase claims ownership of the moment
 
 **Cheat Code Phrase:** "My line, my time"
 
-**Practice:** 10 reps after every practice`,
+**Practice:** 10 reps after every practice
+
+How does this sound to you? Do you currently have a dribble routine that you do? If so, let's add that at the end of the breath and cheat code phrase to make it more personal and lock it in.`,
             sender: 'coach' as Sender,
             timestamp: new Date(),
           }
