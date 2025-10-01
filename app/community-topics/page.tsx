@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 export default function CommunityTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [displayCount, setDisplayCount] = useState(10);
   const router = useRouter();
 
   const categories = ['All', 'Pre-Game', 'Off Court', 'Post-Game', 'In-Game', 'Locker Room'];
@@ -417,6 +418,32 @@ export default function CommunityTopics() {
     return topics.filter(topic => topic.category === category).length;
   };
 
+  const getFilteredTopics = () => {
+    let filteredTopics = activeCategory === 'All'
+      ? topics
+      : topics.filter(topic => topic.category === activeCategory);
+
+    // For "All" category, only show the specified display count
+    if (activeCategory === 'All') {
+      return filteredTopics.slice(0, displayCount);
+    }
+
+    return filteredTopics;
+  };
+
+  const hasMoreTopics = () => {
+    return activeCategory === 'All' && displayCount < topics.length;
+  };
+
+  const loadMoreTopics = () => {
+    setDisplayCount(prev => Math.min(prev + 10, topics.length));
+  };
+
+  // Reset display count when category changes
+  useEffect(() => {
+    setDisplayCount(10);
+  }, [activeCategory]);
+
   const handleStartBlankChat = () => {
     // Clear any stored topic data
     localStorage.removeItem('selectedTopic');
@@ -500,7 +527,7 @@ export default function CommunityTopics() {
 
         {/* Topics List */}
         <div className="px-4 pb-4 space-y-3">
-          {topics.filter(topic => activeCategory === 'All' || topic.category === activeCategory).map((topic) => (
+          {getFilteredTopics().map((topic) => (
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
@@ -527,6 +554,16 @@ export default function CommunityTopics() {
               </div>
             </div>
           ))}
+
+          {/* Load More Button - Only show for "All" category when there are more topics */}
+          {hasMoreTopics() && (
+            <button
+              onClick={loadMoreTopics}
+              className="w-full bg-white/5 border border-white/20 rounded-2xl p-4 text-white font-medium hover:bg-white/10 transition-all active:scale-98"
+            >
+              Load More ({topics.length - displayCount} remaining)
+            </button>
+          )}
 
           {/* Custom Topic Card */}
           <div
@@ -677,7 +714,7 @@ export default function CommunityTopics() {
 
           {/* Topics Grid */}
           <div className="grid grid-cols-1 gap-6">
-            {topics.filter(topic => activeCategory === 'All' || topic.category === activeCategory).map((topic) => (
+            {getFilteredTopics().map((topic) => (
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
@@ -704,6 +741,16 @@ export default function CommunityTopics() {
                 </div>
               </div>
             ))}
+
+            {/* Load More Button - Only show for "All" category when there are more topics */}
+            {hasMoreTopics() && (
+              <button
+                onClick={loadMoreTopics}
+                className="w-full bg-white/5 border border-white/20 rounded-2xl p-6 text-white font-medium hover:bg-white/10 transition-all hover:scale-[1.02]"
+              >
+                Load More ({topics.length - displayCount} remaining)
+              </button>
+            )}
 
             {/* Custom Topic Card */}
             <div
