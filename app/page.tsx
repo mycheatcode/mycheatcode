@@ -50,43 +50,49 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
     return (
       <g mask={`url(#${mask})`} className={animateClass}>
-        {/* Base red ring - always present, aligned with first divider */}
-        <circle cx={centerX} cy={centerY} r="50" fill={`url(#heatmap25${gradientSuffix})`}/>
+        {/* Base red ring - starts from inner circle, extends to first divider */}
+        <circle cx={centerX} cy={centerY} r="25" fill={`url(#heatmap25${gradientSuffix})`}/>
 
-        {/* Orange ring - appears at 25% average power, aligned with second divider */}
+        {/* Orange ring - appears at 25% average power, extends to second divider */}
         {powerPercentage >= 25 && (
-          <circle cx={centerX} cy={centerY} r="75" fill={`url(#heatmap50${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="50" fill={`url(#heatmap50${gradientSuffix})`}/>
         )}
 
-        {/* Yellow ring - appears at 50% average power, aligned with third divider */}
+        {/* Yellow ring - appears at 50% average power, extends to third divider */}
         {powerPercentage >= 50 && (
-          <circle cx={centerX} cy={centerY} r="100" fill={`url(#heatmap75${gradientSuffix})`}/>
+          <circle cx={centerX} cy={centerY} r="75" fill={`url(#heatmap75${gradientSuffix})`}/>
         )}
 
-        {/* Green ring - appears at 75% average power, aligned with outer divider */}
+        {/* Green ring - appears at 75% average power, extends to fourth divider */}
         {powerPercentage >= 75 && (
+          <circle cx={centerX} cy={centerY} r="100" fill={`url(#heatmap100${gradientSuffix})`}/>
+        )}
+
+        {/* Limitless ring - appears at 100% average power, extends to outer edge */}
+        {powerPercentage >= 100 && (
           <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
         )}
 
         {/* Growth potential ring - shows next level target */}
         {(() => {
-          let targetRadius = 75; // Default to Orange target (now aligned with dividers)
+          let targetRadius = 50; // Default to Orange target (now aligned with dividers)
           let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
 
           if (powerPercentage >= 75) {
-            // Already at Green - no growth ring
-            return null;
+            // At Green, show Limitless target
+            targetRadius = 125;
+            targetColor = 'rgba(0, 255, 0, 0.4)';
           } else if (powerPercentage >= 50) {
             // At Yellow, show Green target
-            targetRadius = 125;
+            targetRadius = 100;
             targetColor = 'rgba(0, 255, 0, 0.4)';
           } else if (powerPercentage >= 25) {
             // At Orange, show Yellow target
-            targetRadius = 100;
+            targetRadius = 75;
             targetColor = 'rgba(255, 255, 0, 0.4)';
           } else {
             // At Red, show Orange target
-            targetRadius = 75;
+            targetRadius = 50;
             targetColor = 'rgba(255, 165, 0, 0.4)';
           }
 
