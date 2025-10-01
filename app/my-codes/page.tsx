@@ -893,7 +893,7 @@ export default function MyCodesPage() {
                 <h3 className="text-white font-semibold mb-3">Your Cheat Code Strategy</h3>
                 <div className="bg-zinc-800/50 border border-white/10 rounded-xl p-4">
                   <div className="text-zinc-300 leading-relaxed space-y-3">
-                    {selectedCode.summary.split('\\n\\n').map((section, index) => {
+                    {selectedCode.summary.split('\n\n').map((section, index) => {
                       if (section.startsWith('**')) {
                         const [boldPart, ...rest] = section.split('**: ');
                         const label = boldPart.replace(/\*\*/g, '');
