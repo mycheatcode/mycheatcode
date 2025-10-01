@@ -296,13 +296,19 @@ export default function ChatPage() {
       if (stored) {
         try {
           const topic = JSON.parse(stored);
-          const topicMessages = [
-            `I see you're focused on: "${topic.title}". Walk me through what happened the last time this came up.`,
-            `Ah, working on "${topic.title}". Tell me about a recent time when this was an issue for you.`,
-            `Got it, "${topic.title}" is what we're tackling. What does this usually look like when it happens?`,
-            `Cool, so "${topic.title}" is on your mind. When did you last deal with this situation?`
-          ];
-          welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
+
+          // Use custom starter if available, otherwise use default topic messages
+          if (topic.customStarter) {
+            welcomeText = topic.customStarter;
+          } else {
+            const topicMessages = [
+              `I see you're focused on: "${topic.title}". Walk me through what happened the last time this came up.`,
+              `Ah, working on "${topic.title}". Tell me about a recent time when this was an issue for you.`,
+              `Got it, "${topic.title}" is what we're tackling. What does this usually look like when it happens?`,
+              `Cool, so "${topic.title}" is on your mind. When did you last deal with this situation?`
+            ];
+            welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
+          }
         } catch {
           // ignore
         }

@@ -35,7 +35,8 @@ export default function CommunityTopics() {
       context: "When early misses spiral into a rough shooting night",
       stats: "156 players found their rhythm",
       trending: null,
-      category: "In-Game"
+      category: "In-Game",
+      customStarter: "What's up? So you feel like you loose confidence after you miss your first few shots? How many misses does it take you to start feeling that way and what goes through your head?"
     },
     {
       id: 4,
@@ -394,7 +395,8 @@ export default function CommunityTopics() {
     localStorage.setItem('selectedTopic', JSON.stringify({
       id: topic.id,
       title: topic.quote,
-      description: topic.context
+      description: topic.context,
+      customStarter: topic.customStarter || null
     }));
 
     // Store where the user came from for proper back navigation
