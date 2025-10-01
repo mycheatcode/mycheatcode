@@ -48,6 +48,23 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
   const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
 
+  // Subtle polish design constants
+  const POLISH = {
+    PLATE_CENTER: '#0E0E11',
+    PLATE_EDGE: '#17181C',
+    SHADOW_BLUR: 8,
+    SHADOW_OPACITY: 0.25,
+    INNER_RING_OPACITY: 0.2,
+    OUTER_RING_OPACITY: 0.3,
+    WEDGE_RIM_GLOW: 'rgba(255,255,255,0.08)',
+    POLYGON_FILL_OPACITY: 0.28,
+    VERTEX_DOT_SIZE: 3.5,
+    VERTEX_DOT_GLOW: 'rgba(255,255,255,0.15)',
+    CONNECTOR_LINE: 'rgba(255,255,255,0.2)',
+    BADGE_BG: 'rgba(255,255,255,0.06)',
+    BADGE_BORDER: 'rgba(255,255,255,0.1)'
+  };
+
   // Calculate angle for category index
   const getAngle = (i: number) => START_ANGLE + i * ANGLE_STEP;
 
@@ -66,6 +83,80 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   };
 
+  // Step 1: Subtle background plate with gradient and soft shadow
+  const renderSubtlePlate = (centerX: number, centerY: number, maxRadius: number, isDesktop: boolean) => {
+    const plateId = `subtle-plate${isDesktop ? '-desktop' : ''}`;
+    const shadowId = `soft-shadow${isDesktop ? '-desktop' : ''}`;
+
+    return (
+      <g>
+        <defs>
+          <radialGradient id={plateId} cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor={POLISH.PLATE_CENTER} />
+            <stop offset="100%" stopColor={POLISH.PLATE_EDGE} />
+          </radialGradient>
+          <filter id={shadowId} x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation={POLISH.SHADOW_BLUR}/>
+            <feOffset dx="0" dy="4" result="offset"/>
+            <feFlood floodColor="#000000" floodOpacity={POLISH.SHADOW_OPACITY}/>
+            <feComposite in2="offset" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
+        <circle
+          cx={centerX}
+          cy={centerY}
+          r={maxRadius + 20}
+          fill={`url(#${plateId})`}
+          filter={`url(#${shadowId})`}
+        />
+      </g>
+    );
+  };
+
+  // Step 2: Polished rings with better hierarchy
+  const renderPolishedRings = (centerX: number, centerY: number, maxRadius: number) => {
+    const ringRadii = [45, 65, 85, 105, 125];
+
+    return (
+      <g>
+        {ringRadii.map((radius, i) => {
+          const isOuterRing = i === ringRadii.length - 1;
+          return (
+            <circle
+              key={radius}
+              cx={centerX}
+              cy={centerY}
+              r={radius}
+              fill="none"
+              stroke={`rgba(255,255,255,${isOuterRing ? POLISH.OUTER_RING_OPACITY : POLISH.INNER_RING_OPACITY})`}
+              strokeWidth={isOuterRing ? "1.2" : "0.8"}
+            />
+          );
+        })}
+        {/* Optional tick marks at cardinal points */}
+        {[0, Math.PI/2, Math.PI, 3*Math.PI/2].map((angle, i) => {
+          const outer = getCoordinates(centerX, centerY, angle, maxRadius);
+          const inner = getCoordinates(centerX, centerY, angle, maxRadius - 6);
+          return (
+            <line
+              key={i}
+              x1={inner.x}
+              y1={inner.y}
+              x2={outer.x}
+              y2={outer.y}
+              stroke={`rgba(255,255,255,${POLISH.INNER_RING_OPACITY})`}
+              strokeWidth="0.8"
+            />
+          );
+        })}
+      </g>
+    );
+  };
+
   const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
     const progress = getSectionProgressInfo(sectionName);
     const { color, powerPercentage } = progress;
@@ -80,35 +171,80 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
     const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
 
+    // Step 3: Subtle wedge gradients and rim glow
+    const rimGlowId = `rim-glow-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+
     return (
       <g className={animateClass}>
         <defs>
           <mask id={maskId}>
             <path d={wedgePath} fill="white"/>
           </mask>
+          {/* Subtle rim glow for wedge separation */}
+          <filter id={rimGlowId} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="1.5"/>
+            <feOffset dx="0" dy="0" result="glow"/>
+            <feFlood floodColor={POLISH.WEDGE_RIM_GLOW}/>
+            <feComposite in2="glow" operator="in"/>
+            <feMerge>
+              <feMergeNode/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
         </defs>
+
         <g mask={`url(#${maskId})`}>
           {/* Base red ring - always present, from center to first divider */}
-          <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r="45"
+            fill={`url(#heatmap25${gradientSuffix})`}
+            filter={`url(#${rimGlowId})`}
+          />
 
           {/* Orange ring - appears at 25% average power, to second divider */}
           {powerPercentage >= 25 && (
-            <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="65"
+              fill={`url(#heatmap50${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
           {/* Yellow ring - appears at 50% average power, to third divider */}
           {powerPercentage >= 50 && (
-            <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="85"
+              fill={`url(#heatmap75${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
           {/* Green ring - appears at 75% average power, to fourth divider */}
           {powerPercentage >= 75 && (
-            <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="105"
+              fill={`url(#heatmap100${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
           {/* Limitless ring - appears at 100% average power, to outer edge */}
           {powerPercentage >= 100 && (
-            <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
+            <circle
+              cx={centerX}
+              cy={centerY}
+              r="125"
+              fill={`url(#heatmap100${gradientSuffix})`}
+              filter={`url(#${rimGlowId})`}
+            />
           )}
 
           {/* Growth potential ring - shows next level target */}
@@ -517,11 +653,11 @@ const debugProgression = () => {
 
               </defs>
 
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* Step 1: Subtle background plate */}
+              {renderSubtlePlate(180, 160, 125, false)}
+
+              {/* Step 2: Polished rings */}
+              {renderPolishedRings(180, 160, 125)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -934,11 +1070,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              {/* Step 1: Subtle background plate */}
+              {renderSubtlePlate(240, 220, 125, true)}
+
+              {/* Step 2: Polished rings */}
+              {renderPolishedRings(240, 220, 125)}
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
