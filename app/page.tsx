@@ -48,25 +48,6 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   const ANGLE_STEP = (2 * Math.PI) / N; // 72° in radians
   const START_ANGLE = -Math.PI / 2; // 12 o'clock (top)
 
-  // Professional dashboard design constants
-  const DASHBOARD = {
-    BACKGROUND: '#0F0F11',
-    OUTER_RING_OPACITY: 0.3,
-    INNER_RING_OPACITY: 0.15,
-    WEDGE_STROKE_OPACITY: 0.08,
-    POLYGON_FILL_OPACITY: 0.25,
-    POLYGON_STROKE: '#00D4FF', // Brand accent color
-    VERTEX_DOT_SIZE: 2.5,
-    LABEL_OPACITY: 0.7,
-    LEGEND_OPACITY: 0.7,
-    // Muted wedge colors for professional look
-    WEDGE_COLORS: {
-      RED: '#E53E3E',
-      ORANGE: '#DD6B20',
-      YELLOW: '#D69E2E',
-      GREEN: '#38A169'
-    }
-  };
 
   // Calculate angle for category index
   const getAngle = (i: number) => START_ANGLE + i * ANGLE_STEP;
@@ -86,84 +67,6 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
     return `M ${centerX} ${centerY} L ${start.x} ${start.y} A ${maxRadius} ${maxRadius} 0 ${largeArc} 1 ${end.x} ${end.y} Z`;
   };
 
-  // Clean flat background
-  const renderFlatBackground = (centerX: number, centerY: number, maxRadius: number) => {
-    return (
-      <circle
-        cx={centerX}
-        cy={centerY}
-        r={maxRadius + 20}
-        fill={DASHBOARD.BACKGROUND}
-      />
-    );
-  };
-
-  // Professional ring hierarchy - clean and minimal
-  const renderProfessionalRings = (centerX: number, centerY: number, maxRadius: number) => {
-    const ringRadii = [45, 65, 85, 105, 125];
-
-    return (
-      <g>
-        {ringRadii.map((radius, i) => {
-          const isOuterRing = i === ringRadii.length - 1;
-          return (
-            <circle
-              key={radius}
-              cx={centerX}
-              cy={centerY}
-              r={radius}
-              fill="none"
-              stroke={`rgba(255,255,255,${isOuterRing ? DASHBOARD.OUTER_RING_OPACITY : DASHBOARD.INNER_RING_OPACITY})`}
-              strokeWidth={isOuterRing ? "2" : "1"}
-            />
-          );
-        })}
-      </g>
-    );
-  };
-
-  // Crisp data polygon with brand accent
-  const renderDataPolygon = (centerX: number, centerY: number, maxRadius: number) => {
-    if (!radarState) return null;
-
-    const polygonPoints: string[] = [];
-    const vertices: Array<{x: number, y: number}> = [];
-
-    CATEGORIES.forEach((category, i) => {
-      const sectionScore = radarState.sectionScores[category as Section];
-      const percentage = sectionScore?.score || 0;
-      const radius = (percentage / 100) * maxRadius;
-      const angle = getAngle(i);
-      const point = getCoordinates(centerX, centerY, angle, radius);
-
-      polygonPoints.push(`${point.x},${point.y}`);
-      vertices.push(point);
-    });
-
-    return (
-      <g>
-        {/* Data polygon with brand accent fill */}
-        <polygon
-          points={polygonPoints.join(' ')}
-          fill={`${DASHBOARD.POLYGON_STROKE}${Math.round(DASHBOARD.POLYGON_FILL_OPACITY * 255).toString(16).padStart(2, '0')}`}
-          stroke={DASHBOARD.POLYGON_STROKE}
-          strokeWidth="2"
-          strokeLinejoin="round"
-        />
-
-        {/* Vertex dots */}
-        {vertices.map((vertex, i) => (
-          <circle
-            key={i}
-            cx={vertex.x}
-            cy={vertex.y}
-            r={DASHBOARD.VERTEX_DOT_SIZE}
-            fill={DASHBOARD.POLYGON_STROKE}
-          />
-        ))}
-      </g>
-    );
-  };
 
   const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
     const progress = getSectionProgressInfo(sectionName);
@@ -189,61 +92,26 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
         <g mask={`url(#${maskId})`}>
           {/* Base red ring - always present, from center to first divider */}
-          <circle
-            cx={centerX}
-            cy={centerY}
-            r="45"
-            fill={DASHBOARD.WEDGE_COLORS.RED}
-            stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-            strokeWidth="1"
-          />
+          <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
 
           {/* Orange ring - appears at 25% average power, to second divider */}
           {powerPercentage >= 25 && (
-            <circle
-              cx={centerX}
-              cy={centerY}
-              r="65"
-              fill={DASHBOARD.WEDGE_COLORS.ORANGE}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
-            />
+            <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
           )}
 
           {/* Yellow ring - appears at 50% average power, to third divider */}
           {powerPercentage >= 50 && (
-            <circle
-              cx={centerX}
-              cy={centerY}
-              r="85"
-              fill={DASHBOARD.WEDGE_COLORS.YELLOW}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
-            />
+            <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
           )}
 
           {/* Green ring - appears at 75% average power, to fourth divider */}
           {powerPercentage >= 75 && (
-            <circle
-              cx={centerX}
-              cy={centerY}
-              r="105"
-              fill={DASHBOARD.WEDGE_COLORS.GREEN}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
-            />
+            <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
           )}
 
           {/* Limitless ring - appears at 100% average power, to outer edge */}
           {powerPercentage >= 100 && (
-            <circle
-              cx={centerX}
-              cy={centerY}
-              r="125"
-              fill={DASHBOARD.WEDGE_COLORS.GREEN}
-              stroke={`rgba(255,255,255,${DASHBOARD.WEDGE_STROKE_OPACITY})`}
-              strokeWidth="1"
-            />
+            <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
           )}
 
           {/* Growth potential ring - shows next level target */}
@@ -496,20 +364,20 @@ const debugProgression = () => {
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-3 py-2.5 backdrop-blur-sm">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#E53E3E'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Activated</span>
+                  <div className="w-2 h-2 rounded-full bg-red-500 shadow-md shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Activated</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#DD6B20'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Rising</span>
+                  <div className="w-2 h-2 rounded-full bg-orange-500 shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Rising</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#D69E2E'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Elevated</span>
+                  <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-md shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Elevated</span>
                 </div>
                 <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-3 h-1.5 rounded-sm" style={{backgroundColor: '#38A169'}}></div>
-                  <span className="text-white text-[10px] font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap">Limitless</span>
+                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-md shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Limitless</span>
                 </div>
                 <button
                   onClick={() => setLegendExpanded(!legendExpanded)}
@@ -652,11 +520,11 @@ const debugProgression = () => {
 
               </defs>
 
-              {/* Flat dark background */}
-              {renderFlatBackground(180, 160, 125)}
-
-              {/* Professional ring hierarchy */}
-              {renderProfessionalRings(180, 160, 125)}
+              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -673,8 +541,6 @@ const debugProgression = () => {
               {/* Clickable radar sections */}
               {renderClickableWedges(180, 160, 125)}
 
-              {/* Data polygon overlay */}
-              {renderDataPolygon(180, 160, 125)}
 
               <g fill="none">
                 {renderSpokes(180, 160, 125)}
@@ -688,7 +554,7 @@ const debugProgression = () => {
               {/* Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="280" y="18" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>PRE-GAME</text>
+                <text x="280" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="315" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -697,7 +563,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="350" y="162" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>IN-GAME</text>
+                <text x="350" y="162" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
@@ -706,7 +572,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="230" y="317" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>POST-GAME</text>
+                <text x="230" y="317" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -715,7 +581,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="6" y="180" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>OFF-COURT</text>
+                <text x="6" y="180" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
@@ -724,7 +590,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="55" y="18" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="11" fontWeight="600" letterSpacing="1.2" style={{textTransform: 'uppercase'}}>LOCKER ROOM</text>
+                <text x="55" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="105" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -919,20 +785,20 @@ const debugProgression = () => {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#E53E3E'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Activated</span>
+                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#DD6B20'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Rising</span>
+                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#D69E2E'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Elevated</span>
+                  <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-4 h-2 rounded-sm" style={{backgroundColor: '#38A169'}}></div>
-                  <span className="text-white text-base font-medium opacity-70 group-hover:opacity-100 transition-opacity duration-200">Limitless</span>
+                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
                 </div>
               </div>
 
@@ -1071,11 +937,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              {/* Flat dark background */}
-              {renderFlatBackground(240, 220, 125)}
-
-              {/* Professional ring hierarchy */}
-              {renderProfessionalRings(240, 220, 125)}
+              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -1092,8 +958,6 @@ const debugProgression = () => {
               {/* Clickable radar sections - Desktop */}
               {renderClickableWedges(240, 220, 125)}
 
-              {/* Data polygon overlay */}
-              {renderDataPolygon(240, 220, 125)}
 
               <g fill="none">
                 {renderSpokes(240, 220, 125)}
@@ -1107,7 +971,7 @@ const debugProgression = () => {
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="350" y="78" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>PRE-GAME</text>
+                <text x="350" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="395" cy="74" r="8" fill="#00FF00" opacity="0.9" />
@@ -1116,7 +980,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="410" y="222" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>IN-GAME</text>
+                <text x="410" y="222" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
@@ -1125,7 +989,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="300" y="382" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>POST-GAME</text>
+                <text x="300" y="382" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -1134,7 +998,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="62" y="240" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>OFF-COURT</text>
+                <text x="62" y="240" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
@@ -1143,7 +1007,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="105" y="78" textAnchor="middle" fill={`rgba(255,255,255,${DASHBOARD.LABEL_OPACITY})`} fontSize="13" fontWeight="600" letterSpacing="1.4" style={{textTransform: 'uppercase'}}>LOCKER ROOM</text>
+                <text x="105" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="170" cy="74" r="8" fill="#00FF00" opacity="0.9" />
