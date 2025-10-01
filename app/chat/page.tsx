@@ -247,24 +247,28 @@ export default function ChatPage() {
 
 *"My line, my time"*
 
-**What:** Breath-centered routine for pressure-free free throws
+**What:** 3-step mental reset for clutch free throws
 
-**When:** At the free throw line, especially in clutch moments
+**When:** Every free throw, especially in pressure moments
 
 **How:**
-• Take 1 deep breath - focus on the exhale
-• Say "My line, my time"
-• Optional: Add your personal dribble routine
+• Step to the line and take your position
+• One controlled breath: 4-count inhale, 6-count exhale
+• Say "My line, my time" while visualizing the ball going in
 
-**Why:** The breath calms your nervous system while the phrase claims ownership of the moment
+**Why:** The exhale activates your parasympathetic nervous system (reduces stress), while the phrase creates psychological ownership and confidence
 
 **Cheat Code Phrase:** "My line, my time"
 
-**Practice:** 10 reps after every practice
-
-How does this sound to you? Do you currently have a dribble routine that you do? If so, let's add that at the end of the breath and cheat code phrase to make it more personal and lock it in.`,
+**Practice:** 20 free throws daily using this exact sequence`,
             sender: 'coach' as Sender,
             timestamp: new Date(),
+          },
+          {
+            id: uid(),
+            text: "Here's the key: that 6-count exhale is scientifically proven to calm your nervous system in 2-3 seconds. The phrase isn't just motivation - it's claiming mental territory. Most players rush to the line feeling like the crowd owns that moment. When you say 'My line, my time,' you're literally taking control back.\n\nTry it right now - do that breath pattern and say the phrase. Feel different? That's your body switching from fight-or-flight to focused confidence.",
+            sender: 'coach' as Sender,
+            timestamp: new Date(Date.now() + 5000),
           }
         ];
 
