@@ -122,7 +122,17 @@ strokeLinecap="round"
             cx={centerX + Math.cos(sectionAngle) * 15}
             cy={centerY + Math.sin(sectionAngle) * 15}
             r="3"
-            fill={powerPercentage > 0 ? getSectionColorAsHex(sectionName as Section) : "rgba(255,255,255,0.2)"}
+            fill={powerPercentage > 0 ? (() => {
+              // Test with different colors per section to verify the dots show different colors
+              const testColors = {
+                'Pre-Game': '#00FF00',      // Green
+                'In-Game': '#FFFF00',       // Yellow
+                'Post-Game': '#FFA500',     // Orange
+                'Off Court': '#FF0000',     // Red
+                'Locker Room': '#00FF00'    // Green
+              };
+              return testColors[sectionName as keyof typeof testColors] || '#FF0000';
+            })() : "rgba(255,255,255,0.2)"}
           />
 
           {signals.map((signal, signalIndex) => {
