@@ -109,7 +109,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                 fill="none"
                 stroke={signal.color}
                 strokeWidth={signal.strokeWidth}
-strokeLinecap="square"
+strokeLinecap="round"
                 style={{
                   opacity: 0.08
                 }}
@@ -148,7 +148,7 @@ strokeLinecap="square"
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-    strokeLinecap="square"
+    strokeLinecap="round"
                     style={{
                       filter: `drop-shadow(0 0 8px ${signal.color}40)`,
                       opacity: 0.95
@@ -163,7 +163,7 @@ strokeLinecap="square"
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-    strokeLinecap="square"
+    strokeLinecap="round"
                     className="next-bar-blink"
                     style={{
                       filter: `drop-shadow(0 0 6px ${signal.color}30)`
