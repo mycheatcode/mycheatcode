@@ -82,10 +82,10 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
       // Classic wifi signal arcs - original traffic light colors
       const signals = [
-        { radius: 38, level: 25, color: 'red', strokeWidth: 14, name: 'red' },
-        { radius: 58, level: 50, color: 'orange', strokeWidth: 14, name: 'orange' },
-        { radius: 78, level: 75, color: 'yellow', strokeWidth: 14, name: 'yellow' },
-        { radius: 98, level: 100, color: 'green', strokeWidth: 14, name: 'green' }
+        { radius: 38, level: 25, color: '#ff0000', strokeWidth: 14, name: 'red' },
+        { radius: 58, level: 50, color: '#ff8c00', strokeWidth: 14, name: 'orange' },
+        { radius: 78, level: 75, color: '#ffd700', strokeWidth: 14, name: 'yellow' },
+        { radius: 98, level: 100, color: '#00ff00', strokeWidth: 14, name: 'green' }
       ];
 
       return (
@@ -124,11 +124,11 @@ strokeLinecap="round"
             r="3"
             fill={powerPercentage > 0 ? (() => {
               // Original traffic light color progression
-              if (powerPercentage >= 100) return 'green';
-              if (powerPercentage >= 75) return 'yellow';
-              if (powerPercentage >= 50) return 'orange';
-              if (powerPercentage >= 25) return 'red';
-              return 'red'; // Default red for any progress
+              if (powerPercentage >= 100) return '#00ff00';
+              if (powerPercentage >= 75) return '#ffd700';
+              if (powerPercentage >= 50) return '#ff8c00';
+              if (powerPercentage >= 25) return '#ff0000';
+              return '#ff0000'; // Default red for any progress
             })() : "rgba(255,255,255,0.2)"}
           />
 
