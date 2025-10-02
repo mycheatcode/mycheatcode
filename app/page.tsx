@@ -82,10 +82,10 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
       // Classic wifi signal arcs - using original radar gradient colors
       const signals = [
-        { radius: 38, level: 25, color: '#FF0000', strokeWidth: 7 }, // Red (heatmap25)
-        { radius: 58, level: 50, color: '#FFA500', strokeWidth: 7 }, // Orange (heatmap50)
-        { radius: 78, level: 75, color: '#FFFF00', strokeWidth: 7 }, // Yellow (heatmap75)
-        { radius: 98, level: 100, color: '#00FF00', strokeWidth: 7 } // Green (heatmap100)
+        { radius: 38, level: 25, color: '#FF0000', strokeWidth: 14 }, // Red (heatmap25)
+        { radius: 58, level: 50, color: '#FFA500', strokeWidth: 14 }, // Orange (heatmap50)
+        { radius: 78, level: 75, color: '#FFFF00', strokeWidth: 14 }, // Yellow (heatmap75)
+        { radius: 98, level: 100, color: '#00FF00', strokeWidth: 14 } // Green (heatmap100)
       ];
 
       return (
@@ -109,7 +109,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                 fill="none"
                 stroke={signal.color}
                 strokeWidth={signal.strokeWidth}
-strokeLinecap="round"
+strokeLinecap="square"
                 style={{
                   opacity: 0.08
                 }}
@@ -148,7 +148,7 @@ strokeLinecap="round"
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-    strokeLinecap="round"
+    strokeLinecap="square"
                     style={{
                       filter: `drop-shadow(0 0 8px ${signal.color}40)`,
                       opacity: 0.95
@@ -163,7 +163,7 @@ strokeLinecap="round"
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-    strokeLinecap="round"
+    strokeLinecap="square"
                     className="next-bar-blink"
                     style={{
                       filter: `drop-shadow(0 0 6px ${signal.color}30)`
@@ -198,7 +198,7 @@ strokeLinecap="round"
           y2={end.y}
           stroke="rgba(255,255,255,0.1)"
           strokeWidth="1"
-          strokeLinecap="round"
+          strokeLinecap="square"
         />
       );
     });
@@ -560,11 +560,11 @@ const debugProgression = () => {
 
               </defs>
 
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
 
 
               {/* Wifi section visualization */}
@@ -577,7 +577,7 @@ const debugProgression = () => {
               <circle cx="180" cy="160" r="6" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
 
               {/* Inner ring on top of everything */}
-              <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
 
               {/* Section Labels with Green Hold Badges */}
               <g>
@@ -969,11 +969,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
+              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="square"/>
 
               {/* Complete underlying layer - see-through */}
 
