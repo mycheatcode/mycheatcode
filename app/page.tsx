@@ -427,7 +427,7 @@ const debugProgression = () => {
           </div>
 
           <div className="flex-1 flex items-center justify-center overflow-visible">
-            <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible', filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.05))'}}>
+            <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible', filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.05)) blur(0.3px)'}}>
               <style>
                 {`
                   @keyframes pulseExpand1 {
@@ -520,11 +520,11 @@ const debugProgression = () => {
 
               </defs>
 
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -546,10 +546,10 @@ const debugProgression = () => {
                 {renderSpokes(180, 160, 125)}
               </g>
 
-              <circle cx="180" cy="160" r="10" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="10" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Inner ring on top of everything */}
-              <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Section Labels with Green Hold Badges */}
               <g>
@@ -846,7 +846,7 @@ const debugProgression = () => {
             </div>
 
             <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh]">
-            <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible', filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 60px rgba(255, 255, 255, 0.05))'}}>
+            <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible', filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 60px rgba(255, 255, 255, 0.05)) blur(0.3px)'}}>
               <style>
                 {`
                   @keyframes pulseExpandDesktop1 {
@@ -937,11 +937,11 @@ const debugProgression = () => {
                 </radialGradient>
               </defs>
 
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Complete underlying layer - see-through */}
               <g opacity="0.12" className="radar-breathe">
@@ -963,10 +963,10 @@ const debugProgression = () => {
                 {renderSpokes(240, 220, 125)}
               </g>
 
-              <circle cx="240" cy="220" r="11.5" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="11.5" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Inner ring on top of everything */}
-              <circle cx="240" cy="220" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1"/>
+              <circle cx="240" cy="220" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
