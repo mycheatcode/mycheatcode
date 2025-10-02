@@ -122,7 +122,7 @@ strokeLinecap="round"
             cx={centerX + Math.cos(sectionAngle) * 15}
             cy={centerY + Math.sin(sectionAngle) * 15}
             r="3"
-            fill={powerPercentage > 0 ? "#FF0000" : "rgba(255,255,255,0.2)"}
+            fill={powerPercentage > 0 ? getSectionColorAsHex(sectionName as Section) : "rgba(255,255,255,0.2)"}
           />
 
           {signals.map((signal, signalIndex) => {
