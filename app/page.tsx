@@ -376,14 +376,14 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`bg-gray-800 min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden bg-gray-800 min-h-screen relative pb-[90px] flex flex-col">
+      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
           <div className="text-white text-lg font-bold  tracking-wider">MYCHEATCODE.AI</div>
         </div>
@@ -751,7 +751,7 @@ const debugProgression = () => {
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-gray-800 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
@@ -797,7 +797,7 @@ const debugProgression = () => {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-gray-800 bg-opacity-60 z-5"
+            className="absolute inset-0 bg-black bg-opacity-60 z-5"
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
