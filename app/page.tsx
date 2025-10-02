@@ -432,55 +432,55 @@ const debugProgression = () => {
                 {`
                   @keyframes pulseExpand1 {
                     0%, 85%, 100% { transform: scale(1); opacity: 1; }
-                    25% { transform: scale(1.12); opacity: 1; }
+                    25% { transform: scale(1.06); opacity: 1; }
                   }
 
                   @keyframes pulseExpand2 {
                     0%, 70%, 100% { transform: scale(1); opacity: 1; }
-                    35% { transform: scale(1.08); opacity: 1; }
+                    35% { transform: scale(1.04); opacity: 1; }
                   }
 
                   @keyframes pulseExpand3 {
                     0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    15% { transform: scale(1.15); opacity: 1; }
+                    15% { transform: scale(1.07); opacity: 1; }
                   }
 
                   @keyframes pulseExpand4 {
                     0%, 75%, 100% { transform: scale(1); opacity: 1; }
-                    45% { transform: scale(1.1); opacity: 1; }
+                    45% { transform: scale(1.05); opacity: 1; }
                   }
 
                   @keyframes pulseExpand5 {
                     0%, 80%, 100% { transform: scale(1); opacity: 1; }
-                    30% { transform: scale(1.13); opacity: 1; }
+                    30% { transform: scale(1.06); opacity: 1; }
                   }
 
                   .animate-group-1 {
-                    animation: pulseExpand1 7.2s ease-in-out infinite;
+                    animation: pulseExpand1 7.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 0.3s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-2 {
-                    animation: pulseExpand2 8.1s ease-in-out infinite;
+                    animation: pulseExpand2 8.1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 2.7s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-3 {
-                    animation: pulseExpand3 6.8s ease-in-out infinite;
+                    animation: pulseExpand3 6.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 5.1s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-4 {
-                    animation: pulseExpand4 7.9s ease-in-out infinite;
+                    animation: pulseExpand4 7.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 1.8s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-5 {
-                    animation: pulseExpand5 7.5s ease-in-out infinite;
+                    animation: pulseExpand5 7.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 4.2s;
                     transform-origin: 180px 160px;
                   }
@@ -851,55 +851,55 @@ const debugProgression = () => {
                 {`
                   @keyframes pulseExpandDesktop1 {
                     0%, 85%, 100% { transform: scale(1); opacity: 1; }
-                    25% { transform: scale(1.12); opacity: 1; }
+                    25% { transform: scale(1.06); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop2 {
                     0%, 70%, 100% { transform: scale(1); opacity: 1; }
-                    35% { transform: scale(1.08); opacity: 1; }
+                    35% { transform: scale(1.04); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop3 {
                     0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    15% { transform: scale(1.15); opacity: 1; }
+                    15% { transform: scale(1.07); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop4 {
                     0%, 75%, 100% { transform: scale(1); opacity: 1; }
-                    45% { transform: scale(1.1); opacity: 1; }
+                    45% { transform: scale(1.05); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop5 {
                     0%, 80%, 100% { transform: scale(1); opacity: 1; }
-                    30% { transform: scale(1.13); opacity: 1; }
+                    30% { transform: scale(1.06); opacity: 1; }
                   }
 
                   .animate-group-desktop-1 {
-                    animation: pulseExpandDesktop1 7.2s ease-in-out infinite;
+                    animation: pulseExpandDesktop1 7.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 0.3s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-2 {
-                    animation: pulseExpandDesktop2 8.1s ease-in-out infinite;
+                    animation: pulseExpandDesktop2 8.1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 2.7s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-3 {
-                    animation: pulseExpandDesktop3 6.8s ease-in-out infinite;
+                    animation: pulseExpandDesktop3 6.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 5.1s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-4 {
-                    animation: pulseExpandDesktop4 7.9s ease-in-out infinite;
+                    animation: pulseExpandDesktop4 7.9s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 1.8s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-5 {
-                    animation: pulseExpandDesktop5 7.5s ease-in-out infinite;
+                    animation: pulseExpandDesktop5 7.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
                     animation-delay: 4.2s;
                     transform-origin: 240px 220px;
                   }
