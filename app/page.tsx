@@ -431,67 +431,67 @@ const debugProgression = () => {
               <style>
                 {`
                   @keyframes pulseExpand1 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    15% { transform: scale(1.015); opacity: 1; }
-                    30% { transform: scale(1.03); opacity: 1; }
-                    45% { transform: scale(1.015); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    15% { transform: scale(1.04); opacity: 1; }
+                    30% { transform: scale(1.08); opacity: 1; }
+                    45% { transform: scale(1.04); opacity: 1; }
                   }
 
                   @keyframes pulseExpand2 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    20% { transform: scale(1.01); opacity: 1; }
-                    40% { transform: scale(1.025); opacity: 1; }
-                    60% { transform: scale(1.01); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    20% { transform: scale(1.035); opacity: 1; }
+                    40% { transform: scale(1.07); opacity: 1; }
+                    60% { transform: scale(1.035); opacity: 1; }
                   }
 
                   @keyframes pulseExpand3 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    10% { transform: scale(1.02); opacity: 1; }
-                    25% { transform: scale(1.035); opacity: 1; }
-                    40% { transform: scale(1.02); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    10% { transform: scale(1.045); opacity: 1; }
+                    25% { transform: scale(1.09); opacity: 1; }
+                    40% { transform: scale(1.045); opacity: 1; }
                   }
 
                   @keyframes pulseExpand4 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    25% { transform: scale(1.012); opacity: 1; }
-                    50% { transform: scale(1.028); opacity: 1; }
-                    75% { transform: scale(1.012); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    25% { transform: scale(1.038); opacity: 1; }
+                    50% { transform: scale(1.075); opacity: 1; }
+                    75% { transform: scale(1.038); opacity: 1; }
                   }
 
                   @keyframes pulseExpand5 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    18% { transform: scale(1.018); opacity: 1; }
-                    35% { transform: scale(1.032); opacity: 1; }
-                    52% { transform: scale(1.018); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    18% { transform: scale(1.042); opacity: 1; }
+                    35% { transform: scale(1.085); opacity: 1; }
+                    52% { transform: scale(1.042); opacity: 1; }
                   }
 
                   .animate-group-1 {
                     animation: pulseExpand1 7.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 0.3s;
+                    animation-delay: 0s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-2 {
                     animation: pulseExpand2 8.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 2.7s;
+                    animation-delay: 1.2s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-3 {
                     animation: pulseExpand3 6.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 5.1s;
+                    animation-delay: 2.4s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-4 {
                     animation: pulseExpand4 7.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 1.8s;
+                    animation-delay: 3.6s;
                     transform-origin: 180px 160px;
                   }
 
                   .animate-group-5 {
                     animation: pulseExpand5 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 4.2s;
+                    animation-delay: 4.8s;
                     transform-origin: 180px 160px;
                   }
                 `}
@@ -860,67 +860,67 @@ const debugProgression = () => {
               <style>
                 {`
                   @keyframes pulseExpandDesktop1 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    15% { transform: scale(1.015); opacity: 1; }
-                    30% { transform: scale(1.03); opacity: 1; }
-                    45% { transform: scale(1.015); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    15% { transform: scale(1.04); opacity: 1; }
+                    30% { transform: scale(1.08); opacity: 1; }
+                    45% { transform: scale(1.04); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop2 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    20% { transform: scale(1.01); opacity: 1; }
-                    40% { transform: scale(1.025); opacity: 1; }
-                    60% { transform: scale(1.01); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    20% { transform: scale(1.035); opacity: 1; }
+                    40% { transform: scale(1.07); opacity: 1; }
+                    60% { transform: scale(1.035); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop3 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    10% { transform: scale(1.02); opacity: 1; }
-                    25% { transform: scale(1.035); opacity: 1; }
-                    40% { transform: scale(1.02); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    10% { transform: scale(1.045); opacity: 1; }
+                    25% { transform: scale(1.09); opacity: 1; }
+                    40% { transform: scale(1.045); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop4 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    25% { transform: scale(1.012); opacity: 1; }
-                    50% { transform: scale(1.028); opacity: 1; }
-                    75% { transform: scale(1.012); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    25% { transform: scale(1.038); opacity: 1; }
+                    50% { transform: scale(1.075); opacity: 1; }
+                    75% { transform: scale(1.038); opacity: 1; }
                   }
 
                   @keyframes pulseExpandDesktop5 {
-                    0%, 90%, 100% { transform: scale(1); opacity: 1; }
-                    18% { transform: scale(1.018); opacity: 1; }
-                    35% { transform: scale(1.032); opacity: 1; }
-                    52% { transform: scale(1.018); opacity: 1; }
+                    0%, 85%, 100% { transform: scale(1); opacity: 1; }
+                    18% { transform: scale(1.042); opacity: 1; }
+                    35% { transform: scale(1.085); opacity: 1; }
+                    52% { transform: scale(1.042); opacity: 1; }
                   }
 
                   .animate-group-desktop-1 {
                     animation: pulseExpandDesktop1 7.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 0.3s;
+                    animation-delay: 0s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-2 {
                     animation: pulseExpandDesktop2 8.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 2.7s;
+                    animation-delay: 1.2s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-3 {
                     animation: pulseExpandDesktop3 6.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 5.1s;
+                    animation-delay: 2.4s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-4 {
                     animation: pulseExpandDesktop4 7.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 1.8s;
+                    animation-delay: 3.6s;
                     transform-origin: 240px 220px;
                   }
 
                   .animate-group-desktop-5 {
                     animation: pulseExpandDesktop5 7.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-                    animation-delay: 4.2s;
+                    animation-delay: 4.8s;
                     transform-origin: 240px 220px;
                   }
                 `}
