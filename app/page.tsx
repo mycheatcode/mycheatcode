@@ -80,12 +80,12 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
       const sectionAngle = getAngle(sectionIndex) + ANGLE_STEP / 2; // Center of section
       const arcSpan = Math.PI / 3; // 60 degrees span for wider wifi signal
 
-      // Classic wifi signal arcs - using original radar gradient colors
+      // Classic wifi signal arcs - original traffic light colors
       const signals = [
-        { radius: 38, level: 25, color: '#E63946', strokeWidth: 14, name: 'activated' }, // Crimson - Activated
-        { radius: 58, level: 50, color: '#FF9F1C', strokeWidth: 14, name: 'rising' }, // Amber - Rising
-        { radius: 78, level: 75, color: '#F4D35E', strokeWidth: 14, name: 'elevated' }, // Soft Gold - Elevated
-        { radius: 98, level: 100, color: '#06D6A0', strokeWidth: 14, name: 'limitless' } // Teal Green - Limitless
+        { radius: 38, level: 25, color: 'red', strokeWidth: 14, name: 'red' },
+        { radius: 58, level: 50, color: 'orange', strokeWidth: 14, name: 'orange' },
+        { radius: 78, level: 75, color: 'yellow', strokeWidth: 14, name: 'yellow' },
+        { radius: 98, level: 100, color: 'green', strokeWidth: 14, name: 'green' }
       ];
 
       return (
@@ -123,12 +123,12 @@ strokeLinecap="round"
             cy={centerY + Math.sin(sectionAngle) * 15}
             r="3"
             fill={powerPercentage > 0 ? (() => {
-              // Premium color progression
-              if (powerPercentage >= 100) return '#06D6A0';  // Teal Green - Limitless
-              if (powerPercentage >= 75) return '#F4D35E';   // Soft Gold - Elevated
-              if (powerPercentage >= 50) return '#FF9F1C';   // Amber - Rising
-              if (powerPercentage >= 25) return '#E63946';   // Crimson - Activated
-              return '#E63946'; // Default crimson for any progress
+              // Original traffic light color progression
+              if (powerPercentage >= 100) return 'green';
+              if (powerPercentage >= 75) return 'yellow';
+              if (powerPercentage >= 50) return 'orange';
+              if (powerPercentage >= 25) return 'red';
+              return 'red'; // Default red for any progress
             })() : "rgba(255,255,255,0.2)"}
           />
 
@@ -153,11 +153,10 @@ strokeLinecap="round"
                   <path
                     d={arcPath}
                     fill="none"
-                    stroke={`url(#${signal.name}-gradient${isDesktop ? '-desktop' : ''})`}
+                    stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
                     strokeLinecap="round"
                     style={{
-                      filter: `drop-shadow(0 0 12px ${signal.color}60) drop-shadow(0 0 24px ${signal.color}30)`,
                       opacity: 1
                     }}
                   />
@@ -168,12 +167,11 @@ strokeLinecap="round"
                   <path
                     d={arcPath}
                     fill="none"
-                    stroke={`url(#${signal.name}-gradient${isDesktop ? '-desktop' : ''})`}
+                    stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
     strokeLinecap="round"
                     className="next-bar-blink"
                     style={{
-                      filter: `drop-shadow(0 0 8px ${signal.color}40) drop-shadow(0 0 16px ${signal.color}20)`
                     }}
                   />
                 )}
@@ -378,16 +376,16 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`studio-gradient-bg min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden studio-gradient-bg min-h-screen relative pb-[90px] flex flex-col">
+      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-lg font-black premium-display tracking-wider">MYCHEATCODE.AI</div>
+          <div className="text-white text-lg font-bold  tracking-wider">MYCHEATCODE.AI</div>
         </div>
 
         <div className="flex-1 flex flex-col p-4 pt-8 overflow-visible">
@@ -462,27 +460,9 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible studio-radial-glow">
-            <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible', filter: 'drop-shadow(0 0 30px rgba(230, 57, 70, 0.3)) drop-shadow(0 0 60px rgba(6, 214, 160, 0.2))'}}>
-              <defs>
-                {/* Premium Gradients */}
-                <linearGradient id="activated-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#E63946" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#B91D26" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="rising-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF9F1C" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#CC7F16" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="elevated-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F4D35E" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#C3A94B" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="limitless-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#06D6A0" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#05AB80" stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
+          <div className="flex-1 flex items-center justify-center overflow-visible ">
+            <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
+              <defs></defs>
               <style>
                 {`
                   @keyframes pulseExpand1 {
@@ -767,11 +747,11 @@ const debugProgression = () => {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl font-black premium-display tracking-wider">MYCHEATCODE.AI</div>
+          <div className="text-white text-xl font-bold  tracking-wider">MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 studio-gradient-bg border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
@@ -898,27 +878,9 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh] studio-radial-glow">
-            <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible', filter: 'drop-shadow(0 0 40px rgba(230, 57, 70, 0.4)) drop-shadow(0 0 80px rgba(6, 214, 160, 0.3))'}}>
-              <defs>
-                {/* Premium Gradients - Desktop */}
-                <linearGradient id="activated-gradient-desktop" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#E63946" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#B91D26" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="rising-gradient-desktop" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#FF9F1C" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#CC7F16" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="elevated-gradient-desktop" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#F4D35E" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#C3A94B" stopOpacity="0.8" />
-                </linearGradient>
-                <linearGradient id="limitless-gradient-desktop" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#06D6A0" stopOpacity="1" />
-                  <stop offset="100%" stopColor="#05AB80" stopOpacity="0.8" />
-                </linearGradient>
-              </defs>
+            <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh] ">
+            <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
+              <defs></defs>
               <style>
                 {`
                   @keyframes pulseExpandDesktop1 {
@@ -1108,7 +1070,7 @@ const debugProgression = () => {
             {!isLoading && radarState && (
               <>
                 <div className="text-white text-lg mb-3 body-text">
-                  Your overall progression: <strong className="text-3xl font-black premium-display">{calculateOverallPercentage()}%</strong>
+                  Your overall progression: <strong className="text-3xl font-bold ">{calculateOverallPercentage()}%</strong>
                 </div>
                 <div className="text-zinc-400 text-sm leading-relaxed">
                   Every elite player started exactly where you are now.<br/>
