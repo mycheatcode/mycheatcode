@@ -109,7 +109,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                 fill="none"
                 stroke={signal.color}
                 strokeWidth={signal.strokeWidth}
-                strokeLinecap="round"
+strokeLinecap="butt"
                 style={{
                   opacity: 0.08
                 }}
@@ -148,7 +148,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-                    strokeLinecap="round"
+    strokeLinecap="butt"
                     style={{
                       filter: `drop-shadow(0 0 8px ${signal.color}40)`,
                       opacity: 0.95
@@ -163,7 +163,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                     fill="none"
                     stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
-                    strokeLinecap="round"
+    strokeLinecap="butt"
                     className="next-bar-blink"
                     style={{
                       filter: `drop-shadow(0 0 6px ${signal.color}30)`
@@ -485,9 +485,10 @@ const debugProgression = () => {
                   }
 
                   @keyframes nextBarBlink {
-                    0%, 85% { opacity: 0.15; }
-                    90% { opacity: 0.45; }
-                    95%, 100% { opacity: 0.15; }
+                    0%, 80% { opacity: 0.15; }
+                    85% { opacity: 0.45; }
+                    92% { opacity: 0.45; }
+                    97%, 100% { opacity: 0.15; }
                   }
 
                   .next-bar-blink {
