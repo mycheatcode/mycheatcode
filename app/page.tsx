@@ -76,28 +76,64 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
       const progress = getSectionProgressInfo(sectionName);
       const { powerPercentage } = progress;
 
-      // Calculate the angle for this section
-      const sectionAngle = getAngle(sectionIndex) + ANGLE_STEP / 2; // Center of section
-      const arcSpan = Math.PI / 3; // 60 degrees span for wider wifi signal
+      // Calculate the angle for this section with spacing between sections
+      const baseSectionAngle = getAngle(sectionIndex);
+      const sectionAngle = baseSectionAngle + ANGLE_STEP / 2; // Center of section
+      const arcSpan = Math.PI / 4; // 45 degrees span to ensure sections don't touch
 
-      // Classic wifi signal arcs - progressively larger like the icon
+      // Solid color bars with spacing between them
       const signals = [
-        { radius: 35, level: 25, gradient: `heatmap25${gradientSuffix}`, strokeWidth: 12 },
-        { radius: 55, level: 50, gradient: `heatmap50${gradientSuffix}`, strokeWidth: 12 },
-        { radius: 75, level: 75, gradient: `heatmap75${gradientSuffix}`, strokeWidth: 12 },
-        { radius: 95, level: 100, gradient: `heatmap100${gradientSuffix}`, strokeWidth: 12 }
+        { radius: 35, level: 25, color: '#FF4444', strokeWidth: 8 }, // Red
+        { radius: 50, level: 50, color: '#FF8800', strokeWidth: 8 }, // Orange
+        { radius: 65, level: 75, color: '#FFBB00', strokeWidth: 8 }, // Yellow
+        { radius: 80, level: 100, color: '#44FF44', strokeWidth: 8 } // Green
       ];
 
       return (
         <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
           {/* Center dot for wifi source */}
           <circle
-            cx={centerX + Math.cos(sectionAngle) * 15}
-            cy={centerY + Math.sin(sectionAngle) * 15}
-            r="3"
-            fill={powerPercentage > 0 ? `url(#heatmap25${gradientSuffix})` : "rgba(255,255,255,0.2)"}
+            cx={centerX + Math.cos(sectionAngle) * 18}
+            cy={centerY + Math.sin(sectionAngle) * 18}
+            r="2.5"
+            fill={powerPercentage > 0 ? "#FF4444" : "rgba(255,255,255,0.2)"}
           />
 
+          {/* Heatmap transition areas between bars */}
+          {signals.map((signal, signalIndex) => {
+            if (signalIndex === 0) return null; // No transition before first bar
+
+            const isActive = powerPercentage >= signals[signalIndex - 1].level;
+            if (!isActive) return null;
+
+            const prevRadius = signals[signalIndex - 1].radius;
+            const currentRadius = signal.radius;
+            const midRadius = (prevRadius + currentRadius) / 2;
+
+            const startAngle = sectionAngle - arcSpan / 2;
+            const endAngle = sectionAngle + arcSpan / 2;
+
+            const x1 = centerX + Math.cos(startAngle) * midRadius;
+            const y1 = centerY + Math.sin(startAngle) * midRadius;
+            const x2 = centerX + Math.cos(endAngle) * midRadius;
+            const y2 = centerY + Math.sin(endAngle) * midRadius;
+
+            const transitionPath = `M ${x1} ${y1} A ${midRadius} ${midRadius} 0 0 1 ${x2} ${y2}`;
+
+            return (
+              <path
+                key={`transition-${signalIndex}`}
+                d={transitionPath}
+                fill="none"
+                stroke={`url(#heatmap${signals[signalIndex - 1].level}${gradientSuffix})`}
+                strokeWidth="4"
+                strokeLinecap="round"
+                style={{ opacity: 0.6 }}
+              />
+            );
+          })}
+
+          {/* Solid colored wifi signal bars */}
           {signals.map((signal, signalIndex) => {
             const isActive = powerPercentage >= signal.level;
             const startAngle = sectionAngle - arcSpan / 2;
@@ -117,22 +153,22 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                 <path
                   d={arcPath}
                   fill="none"
-                  stroke="rgba(255,255,255,0.08)"
+                  stroke="rgba(255,255,255,0.06)"
                   strokeWidth={signal.strokeWidth}
                   strokeLinecap="round"
                 />
 
-                {/* Active signal arc - classic wifi style */}
+                {/* Active signal arc - solid colors */}
                 {isActive && (
                   <path
                     d={arcPath}
                     fill="none"
-                    stroke={`url(#${signal.gradient})`}
+                    stroke={signal.color}
                     strokeWidth={signal.strokeWidth}
                     strokeLinecap="round"
                     style={{
-                      filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
-                      opacity: 0.95
+                      filter: `drop-shadow(0 0 6px ${signal.color}40)`,
+                      opacity: 0.9
                     }}
                   />
                 )}
