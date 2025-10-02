@@ -127,6 +127,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
           {signals.map((signal, signalIndex) => {
             const isActive = powerPercentage >= signal.level;
+            const isNextBar = !isActive && (signalIndex === 0 || powerPercentage >= signals[signalIndex - 1].level);
             const startAngle = sectionAngle - arcSpan / 2;
             const endAngle = sectionAngle + arcSpan / 2;
 
@@ -151,6 +152,21 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                     style={{
                       filter: `drop-shadow(0 0 8px ${signal.color}40)`,
                       opacity: 0.95
+                    }}
+                  />
+                )}
+
+                {/* Next bar blinking effect */}
+                {isNextBar && (
+                  <path
+                    d={arcPath}
+                    fill="none"
+                    stroke={signal.color}
+                    strokeWidth={signal.strokeWidth}
+                    strokeLinecap="round"
+                    className="next-bar-blink"
+                    style={{
+                      filter: `drop-shadow(0 0 6px ${signal.color}30)`
                     }}
                   />
                 )}
@@ -466,6 +482,15 @@ const debugProgression = () => {
                   @keyframes pulseExpand5 {
                     0%, 100% { transform: scale(1); opacity: 1; }
                     50% { transform: scale(1.085); opacity: 1; }
+                  }
+
+                  @keyframes nextBarBlink {
+                    0%, 100% { opacity: 0.3; }
+                    50% { opacity: 0.8; }
+                  }
+
+                  .next-bar-blink {
+                    animation: nextBarBlink 2s ease-in-out infinite;
                   }
 
                   .animate-group-1 {
@@ -873,6 +898,10 @@ const debugProgression = () => {
                   @keyframes pulseExpandDesktop5 {
                     0%, 100% { transform: scale(1); opacity: 1; }
                     50% { transform: scale(1.085); opacity: 1; }
+                  }
+
+                  .next-bar-blink {
+                    animation: nextBarBlink 2s ease-in-out infinite;
                   }
 
                   .animate-group-desktop-1 {
