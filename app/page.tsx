@@ -80,12 +80,12 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
       const sectionAngle = getAngle(sectionIndex) + ANGLE_STEP / 2; // Center of section
       const arcSpan = Math.PI / 3; // 60 degrees span for wider wifi signal
 
-      // Classic wifi signal arcs - progressively larger with solid colors
+      // Classic wifi signal arcs - using original radar gradient colors
       const signals = [
-        { radius: 38, level: 25, color: '#FF4444', strokeWidth: 10 }, // Red
-        { radius: 58, level: 50, color: '#FF8800', strokeWidth: 10 }, // Orange
-        { radius: 78, level: 75, color: '#FFBB00', strokeWidth: 10 }, // Yellow
-        { radius: 98, level: 100, color: '#44FF44', strokeWidth: 10 } // Green
+        { radius: 38, level: 25, color: '#FF0000', strokeWidth: 10 }, // Red (heatmap25)
+        { radius: 58, level: 50, color: '#FFA500', strokeWidth: 10 }, // Orange (heatmap50)
+        { radius: 78, level: 75, color: '#FFFF00', strokeWidth: 10 }, // Yellow (heatmap75)
+        { radius: 98, level: 100, color: '#00FF00', strokeWidth: 10 } // Green (heatmap100)
       ];
 
       return (
@@ -95,7 +95,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
             cx={centerX + Math.cos(sectionAngle) * 15}
             cy={centerY + Math.sin(sectionAngle) * 15}
             r="3"
-            fill={powerPercentage > 0 ? "#FF4444" : "rgba(255,255,255,0.2)"}
+            fill={powerPercentage > 0 ? "#FF0000" : "rgba(255,255,255,0.2)"}
           />
 
           {signals.map((signal, signalIndex) => {
