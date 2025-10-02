@@ -69,49 +69,72 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
 
   const renderGoalRings = (centerX: number, centerY: number, isDesktop: boolean) => {
-    const gradientSuffix = isDesktop ? 'Desktop' : '';
     const sections = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
     const colors = ['#FF453A', '#FF9F0A', '#30D158', '#007AFF', '#AF52DE']; // Apple-like colors
-    const strokeWidth = 8;
-    const spacing = 15;
-    const baseRadius = 40;
+    const strokeWidth = 4;
+    const ringSpacing = 6; // Space between individual rings
+    const sectionSpacing = 18; // Space between sections
+    const baseRadius = 35;
+    const levels = [25, 50, 75, 100]; // Progress thresholds
 
-    return sections.map((sectionName, index) => {
+    return sections.map((sectionName, sectionIndex) => {
       const progress = getSectionProgressInfo(sectionName);
-      const radius = baseRadius + (index * spacing);
-      const circumference = 2 * Math.PI * radius;
-      const progressOffset = circumference - (circumference * (progress.powerPercentage / 100));
+      const sectionColor = colors[sectionIndex];
 
       return (
-        <g key={`goal-ring-${index}`} className={isDesktop ? `animate-group-desktop-${index + 1}` : `animate-group-${index + 1}`}>
-          {/* Background ring */}
-          <circle
-            cx={centerX}
-            cy={centerY}
-            r={radius}
-            fill="none"
-            stroke="rgba(255,255,255,0.1)"
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-          />
+        <g key={`section-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          {levels.map((level, levelIndex) => {
+            const radius = baseRadius + (sectionIndex * sectionSpacing) + (levelIndex * ringSpacing);
+            const circumference = 2 * Math.PI * radius;
+            const isCompleted = progress.powerPercentage >= level;
+            const isCurrentLevel = progress.powerPercentage >= (levels[levelIndex - 1] || 0) && progress.powerPercentage < level;
 
-          {/* Progress ring */}
-          <circle
-            cx={centerX}
-            cy={centerY}
-            r={radius}
-            fill="none"
-            stroke={colors[index]}
-            strokeWidth={strokeWidth}
-            strokeLinecap="round"
-            strokeDasharray={circumference}
-            strokeDashoffset={progressOffset}
-            transform={`rotate(-90 ${centerX} ${centerY})`}
-            style={{
-              filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
-              transition: 'stroke-dashoffset 0.3s ease'
-            }}
-          />
+            // Calculate partial progress for the current level
+            let progressOffset = circumference;
+            if (isCompleted) {
+              progressOffset = 0; // Fully filled
+            } else if (isCurrentLevel && levelIndex > 0) {
+              const levelProgress = (progress.powerPercentage - levels[levelIndex - 1]) / (level - levels[levelIndex - 1]);
+              progressOffset = circumference - (circumference * levelProgress);
+            } else if (levelIndex === 0 && progress.powerPercentage < level) {
+              const levelProgress = progress.powerPercentage / level;
+              progressOffset = circumference - (circumference * levelProgress);
+            }
+
+            return (
+              <g key={`level-${levelIndex}`}>
+                {/* Background ring */}
+                <circle
+                  cx={centerX}
+                  cy={centerY}
+                  r={radius}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.08)"
+                  strokeWidth={strokeWidth}
+                  strokeLinecap="round"
+                />
+
+                {/* Progress ring */}
+                <circle
+                  cx={centerX}
+                  cy={centerY}
+                  r={radius}
+                  fill="none"
+                  stroke={sectionColor}
+                  strokeWidth={strokeWidth}
+                  strokeLinecap="round"
+                  strokeDasharray={circumference}
+                  strokeDashoffset={progressOffset}
+                  transform={`rotate(-90 ${centerX} ${centerY})`}
+                  style={{
+                    opacity: isCompleted ? 1 : (isCurrentLevel ? 0.8 : 0.3),
+                    filter: isCompleted ? 'drop-shadow(0 0 6px rgba(255,255,255,0.4))' : 'none',
+                    transition: 'stroke-dashoffset 0.3s ease, opacity 0.3s ease'
+                  }}
+                />
+              </g>
+            );
+          })}
         </g>
       );
     });
