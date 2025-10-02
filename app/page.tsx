@@ -82,10 +82,10 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
       // Classic wifi signal arcs - using original radar gradient colors
       const signals = [
-        { radius: 38, level: 25, color: '#FF0000', strokeWidth: 14 }, // Red (heatmap25)
-        { radius: 58, level: 50, color: '#FFA500', strokeWidth: 14 }, // Orange (heatmap50)
-        { radius: 78, level: 75, color: '#FFFF00', strokeWidth: 14 }, // Yellow (heatmap75)
-        { radius: 98, level: 100, color: '#00FF00', strokeWidth: 14 } // Green (heatmap100)
+        { radius: 38, level: 25, color: '#FF0000', strokeWidth: 7 }, // Red (heatmap25)
+        { radius: 58, level: 50, color: '#FFA500', strokeWidth: 7 }, // Orange (heatmap50)
+        { radius: 78, level: 75, color: '#FFFF00', strokeWidth: 7 }, // Yellow (heatmap75)
+        { radius: 98, level: 100, color: '#00FF00', strokeWidth: 7 } // Green (heatmap100)
       ];
 
       return (
