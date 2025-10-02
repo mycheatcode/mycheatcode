@@ -123,15 +123,12 @@ strokeLinecap="round"
             cy={centerY + Math.sin(sectionAngle) * 15}
             r="3"
             fill={powerPercentage > 0 ? (() => {
-              // Test with different colors per section to verify the dots show different colors
-              const testColors = {
-                'Pre-Game': '#00FF00',      // Green
-                'In-Game': '#FFFF00',       // Yellow
-                'Post-Game': '#FFA500',     // Orange
-                'Off Court': '#FF0000',     // Red
-                'Locker Room': '#00FF00'    // Green
-              };
-              return testColors[sectionName as keyof typeof testColors] || '#FF0000';
+              // Use the same color progression as wifi signals
+              if (powerPercentage >= 100) return '#00FF00';  // Green
+              if (powerPercentage >= 75) return '#FFFF00';   // Yellow
+              if (powerPercentage >= 50) return '#FFA500';   // Orange
+              if (powerPercentage >= 25) return '#FF0000';   // Red
+              return '#FF0000'; // Default red for any progress
             })() : "rgba(255,255,255,0.2)"}
           />
 
