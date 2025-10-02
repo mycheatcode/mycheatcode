@@ -68,7 +68,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   };
 
 
-  const renderWifiSignals = (centerX: number, centerY: number, isDesktop: boolean) => {
+  const renderWifiSections = (centerX: number, centerY: number, isDesktop: boolean) => {
     const sections = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
     const gradientSuffix = isDesktop ? 'Desktop' : '';
 
@@ -76,59 +76,49 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
       const progress = getSectionProgressInfo(sectionName);
       const { powerPercentage } = progress;
 
-      // Calculate angle for each section (72 degrees apart)
+      const maxRadius = 125;
       const startAngle = getAngle(sectionIndex);
-      const sectionAngle = startAngle + ANGLE_STEP / 2; // Center of the section
+      const endAngle = startAngle + ANGLE_STEP;
 
-      // Wifi signal bars - 4 levels
-      const bars = [
-        { radius: 45, height: 8, level: 25, gradient: `heatmap25${gradientSuffix}` },
-        { radius: 65, height: 12, level: 50, gradient: `heatmap50${gradientSuffix}` },
-        { radius: 85, height: 16, level: 75, gradient: `heatmap75${gradientSuffix}` },
-        { radius: 105, height: 20, level: 100, gradient: `heatmap100${gradientSuffix}` }
+      // Create mask for this specific wedge
+      const maskId = `wifi-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
+      const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
+
+      // Wifi signal rings - 4 levels
+      const rings = [
+        { radius: 45, level: 25, gradient: `heatmap25${gradientSuffix}` },
+        { radius: 65, level: 50, gradient: `heatmap50${gradientSuffix}` },
+        { radius: 85, level: 75, gradient: `heatmap75${gradientSuffix}` },
+        { radius: 105, level: 100, gradient: `heatmap100${gradientSuffix}` }
       ];
 
       return (
-        <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
-          {bars.map((bar, barIndex) => {
-            const isActive = powerPercentage >= bar.level;
-            const x1 = centerX + Math.cos(sectionAngle) * (bar.radius - bar.height/2);
-            const y1 = centerY + Math.sin(sectionAngle) * (bar.radius - bar.height/2);
-            const x2 = centerX + Math.cos(sectionAngle) * (bar.radius + bar.height/2);
-            const y2 = centerY + Math.sin(sectionAngle) * (bar.radius + bar.height/2);
+        <g key={`wifi-section-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          <defs>
+            <mask id={maskId}>
+              <path d={wedgePath} fill="white"/>
+            </mask>
+          </defs>
 
-            return (
-              <g key={`bar-${barIndex}`}>
-                {/* Background bar */}
-                <line
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="6"
-                  strokeLinecap="round"
+          <g mask={`url(#${maskId})`}>
+            {rings.map((ring, ringIndex) => {
+              const isActive = powerPercentage >= ring.level;
+
+              return isActive ? (
+                <circle
+                  key={`ring-${ringIndex}`}
+                  cx={centerX}
+                  cy={centerY}
+                  r={ring.radius}
+                  fill={`url(#${ring.gradient})`}
+                  style={{
+                    filter: 'blur(0.3px) drop-shadow(0 0 4px rgba(255,255,255,0.3))',
+                    opacity: 0.85
+                  }}
                 />
-
-                {/* Active bar */}
-                {isActive && (
-                  <line
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    stroke={`url(#${bar.gradient})`}
-                    strokeWidth="6"
-                    strokeLinecap="round"
-                    style={{
-                      filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.4))',
-                      opacity: 0.9
-                    }}
-                  />
-                )}
-              </g>
-            );
-          })}
+              ) : null;
+            })}
+          </g>
         </g>
       );
     });
@@ -512,8 +502,8 @@ const debugProgression = () => {
               <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
 
-              {/* Wifi signal visualization */}
-              {renderWifiSignals(180, 160, false)}
+              {/* Wifi section visualization */}
+              {renderWifiSections(180, 160, false)}
 
 
 
@@ -918,8 +908,8 @@ const debugProgression = () => {
 
               {/* Complete underlying layer - see-through */}
 
-              {/* Wifi signal visualization - Desktop */}
-              {renderWifiSignals(240, 220, true)}
+              {/* Wifi section visualization - Desktop */}
+              {renderWifiSections(240, 220, true)}
 
 
 
