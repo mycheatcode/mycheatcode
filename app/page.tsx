@@ -68,7 +68,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   };
 
 
-  const renderWifiSections = (centerX: number, centerY: number, isDesktop: boolean) => {
+  const renderWifiSignals = (centerX: number, centerY: number, isDesktop: boolean) => {
     const sections = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
     const gradientSuffix = isDesktop ? 'Desktop' : '';
 
@@ -76,49 +76,61 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
       const progress = getSectionProgressInfo(sectionName);
       const { powerPercentage } = progress;
 
-      const maxRadius = 125;
-      const startAngle = getAngle(sectionIndex);
-      const endAngle = startAngle + ANGLE_STEP;
+      // Calculate the angle for this section
+      const sectionAngle = getAngle(sectionIndex) + ANGLE_STEP / 2; // Center of section
+      const arcSpan = Math.PI / 6; // 30 degrees span for wifi signal
 
-      // Create mask for this specific wedge
-      const maskId = `wifi-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
-      const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
-
-      // Wifi signal rings - 4 levels
-      const rings = [
-        { radius: 45, level: 25, gradient: `heatmap25${gradientSuffix}` },
-        { radius: 65, level: 50, gradient: `heatmap50${gradientSuffix}` },
-        { radius: 85, level: 75, gradient: `heatmap75${gradientSuffix}` },
-        { radius: 105, level: 100, gradient: `heatmap100${gradientSuffix}` }
+      // Wifi signal arcs - 4 levels
+      const signals = [
+        { radius: 45, level: 25, gradient: `heatmap25${gradientSuffix}`, strokeWidth: 6 },
+        { radius: 65, level: 50, gradient: `heatmap50${gradientSuffix}`, strokeWidth: 7 },
+        { radius: 85, level: 75, gradient: `heatmap75${gradientSuffix}`, strokeWidth: 8 },
+        { radius: 105, level: 100, gradient: `heatmap100${gradientSuffix}`, strokeWidth: 9 }
       ];
 
       return (
-        <g key={`wifi-section-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
-          <defs>
-            <mask id={maskId}>
-              <path d={wedgePath} fill="white"/>
-            </mask>
-          </defs>
+        <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          {signals.map((signal, signalIndex) => {
+            const isActive = powerPercentage >= signal.level;
+            const startAngle = sectionAngle - arcSpan / 2;
+            const endAngle = sectionAngle + arcSpan / 2;
 
-          <g mask={`url(#${maskId})`}>
-            {rings.map((ring, ringIndex) => {
-              const isActive = powerPercentage >= ring.level;
+            // Calculate arc path
+            const x1 = centerX + Math.cos(startAngle) * signal.radius;
+            const y1 = centerY + Math.sin(startAngle) * signal.radius;
+            const x2 = centerX + Math.cos(endAngle) * signal.radius;
+            const y2 = centerY + Math.sin(endAngle) * signal.radius;
 
-              return isActive ? (
-                <circle
-                  key={`ring-${ringIndex}`}
-                  cx={centerX}
-                  cy={centerY}
-                  r={ring.radius}
-                  fill={`url(#${ring.gradient})`}
-                  style={{
-                    filter: 'blur(0.3px) drop-shadow(0 0 4px rgba(255,255,255,0.3))',
-                    opacity: 0.85
-                  }}
+            const arcPath = `M ${x1} ${y1} A ${signal.radius} ${signal.radius} 0 0 1 ${x2} ${y2}`;
+
+            return (
+              <g key={`signal-${signalIndex}`}>
+                {/* Background arc */}
+                <path
+                  d={arcPath}
+                  fill="none"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth={signal.strokeWidth}
+                  strokeLinecap="round"
                 />
-              ) : null;
-            })}
-          </g>
+
+                {/* Active signal arc */}
+                {isActive && (
+                  <path
+                    d={arcPath}
+                    fill="none"
+                    stroke={`url(#${signal.gradient})`}
+                    strokeWidth={signal.strokeWidth}
+                    strokeLinecap="round"
+                    style={{
+                      filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.4))',
+                      opacity: 0.9
+                    }}
+                  />
+                )}
+              </g>
+            );
+          })}
         </g>
       );
     });
@@ -503,7 +515,7 @@ const debugProgression = () => {
 
 
               {/* Wifi section visualization */}
-              {renderWifiSections(180, 160, false)}
+              {renderWifiSignals(180, 160, false)}
 
 
 
@@ -909,7 +921,7 @@ const debugProgression = () => {
               {/* Complete underlying layer - see-through */}
 
               {/* Wifi section visualization - Desktop */}
-              {renderWifiSections(240, 220, true)}
+              {renderWifiSignals(240, 220, true)}
 
 
 
