@@ -494,7 +494,7 @@ const debugProgression = () => {
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 8s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+                    animation: nextBarBlink 3s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
                   }
 
                   .animate-group-1 {
@@ -905,7 +905,7 @@ const debugProgression = () => {
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 8s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+                    animation: nextBarBlink 3s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
                   }
 
                   .animate-group-desktop-1 {
