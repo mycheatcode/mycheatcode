@@ -378,16 +378,16 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`studio-gradient-bg min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
+      <div className="lg:hidden studio-gradient-bg min-h-screen relative pb-[90px] flex flex-col">
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
+          <div className="text-white text-lg font-bold display-font">MYCHEATCODE.AI</div>
         </div>
 
         <div className="flex-1 flex flex-col p-4 pt-8 overflow-visible">
@@ -462,7 +462,7 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible">
+          <div className="flex-1 flex items-center justify-center overflow-visible studio-radial-glow">
             <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible', filter: 'drop-shadow(0 0 20px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 40px rgba(255, 255, 255, 0.05)) blur(0.3px)'}}>
               <style>
                 {`
@@ -588,7 +588,7 @@ const debugProgression = () => {
               {/* Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="280" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">PRE-GAME</text>
+                <text x="280" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="315" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -597,7 +597,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="350" y="162" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">IN-GAME</text>
+                <text x="350" y="162" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
@@ -606,7 +606,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="230" y="317" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">POST-GAME</text>
+                <text x="230" y="317" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -624,7 +624,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="55" y="18" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">LOCKER ROOM</text>
+                <text x="55" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="105" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -699,8 +699,8 @@ const debugProgression = () => {
 
         {/* Mobile Footer Navigation */}
         <div className="fixed bottom-0 left-0 right-0 lg:hidden">
-          <div className="h-8 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
-          <div className="bg-black">
+          <div className="h-8 bg-gradient-to-t from-black/80 via-black/60 to-transparent"></div>
+          <div className="bg-gradient-to-b from-black/90 to-black/70">
             <div className="flex">
               <Link href="/chat-history" className="flex-1 flex flex-col items-center justify-center py-3 text-zinc-400">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -737,7 +737,7 @@ const debugProgression = () => {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
@@ -748,11 +748,11 @@ const debugProgression = () => {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl font-bold">mycheatcode.ai</div>
+          <div className="text-white text-xl font-bold display-font">MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 studio-gradient-bg border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
@@ -798,7 +798,7 @@ const debugProgression = () => {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-50 z-5"
+            className="absolute inset-0 bg-black bg-opacity-60 z-5"
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
@@ -879,7 +879,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh]">
+            <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh] studio-radial-glow">
             <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible', filter: 'drop-shadow(0 0 30px rgba(255, 255, 255, 0.1)) drop-shadow(0 0 60px rgba(255, 255, 255, 0.05)) blur(0.3px)'}}>
               <style>
                 {`
@@ -995,7 +995,7 @@ const debugProgression = () => {
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="350" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">PRE-GAME</text>
+                <text x="350" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="395" cy="74" r="8" fill="#00FF00" opacity="0.9" />
@@ -1004,7 +1004,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="410" y="222" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">IN-GAME</text>
+                <text x="410" y="222" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
@@ -1013,7 +1013,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="300" y="382" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">POST-GAME</text>
+                <text x="300" y="382" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -1031,7 +1031,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="105" y="78" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">LOCKER ROOM</text>
+                <text x="105" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="170" cy="74" r="8" fill="#00FF00" opacity="0.9" />
@@ -1069,8 +1069,8 @@ const debugProgression = () => {
           <div className="text-center mb-6">
             {!isLoading && radarState && (
               <>
-                <div className="text-white text-lg mb-3">
-                  Your overall progression: <strong className="text-xl font-bold">{calculateOverallPercentage()}%</strong>
+                <div className="text-white text-lg mb-3 body-text">
+                  Your overall progression: <strong className="text-2xl font-bold display-font">{calculateOverallPercentage()}%</strong>
                 </div>
                 <div className="text-zinc-400 text-sm leading-relaxed">
                   Every elite player started exactly where you are now.<br/>
@@ -1080,7 +1080,7 @@ const debugProgression = () => {
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-white text-lg mb-3">
+                <div className="text-white text-lg mb-3 body-text">
                   Loading your progression...
                 </div>
                 <div className="text-zinc-400 text-sm leading-relaxed">
