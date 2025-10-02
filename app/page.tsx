@@ -378,14 +378,14 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`bg-zinc-900 min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
+      <div className="lg:hidden bg-zinc-900 min-h-screen relative pb-[90px] flex flex-col">
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
           <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
         </div>
@@ -684,7 +684,7 @@ const debugProgression = () => {
             <div className="flex flex-col gap-3">
               <button onClick={handleCreateCheatCode} className="w-full py-3.5 px-6 rounded-xl border-none text-[16px] font-bold cursor-pointer transition-all duration-200 bg-zinc-800 text-white hover:bg-zinc-700 active:scale-98 text-center relative">
                 Create Cheat Code
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-zinc-600"></div>
               </button>
               <Link href="/community-topics" className="w-full py-3.5 px-6 rounded-xl border border-zinc-700 text-[16px] font-semibold cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
@@ -699,8 +699,8 @@ const debugProgression = () => {
 
         {/* Mobile Footer Navigation */}
         <div className="fixed bottom-0 left-0 right-0 lg:hidden">
-          <div className="h-8 bg-gradient-to-t from-black via-black/90 to-transparent"></div>
-          <div className="bg-black">
+          <div className="h-8 bg-gradient-to-t from-zinc-900 via-zinc-900/90 to-transparent"></div>
+          <div className="bg-zinc-900">
             <div className="flex">
               <Link href="/chat-history" className="flex-1 flex flex-col items-center justify-center py-3 text-zinc-400">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -737,7 +737,7 @@ const debugProgression = () => {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-zinc-900">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
@@ -752,7 +752,7 @@ const debugProgression = () => {
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 bg-zinc-900 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
@@ -798,7 +798,7 @@ const debugProgression = () => {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-50 z-5"
+            className="absolute inset-0 bg-zinc-900 bg-opacity-50 z-5"
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
@@ -1094,7 +1094,7 @@ const debugProgression = () => {
           <div className="space-y-3 w-full max-w-2xl pb-6">
             <button onClick={handleCreateCheatCode} className="w-full py-3 px-8 rounded-xl border-none text-xl font-bold cursor-pointer transition-all duration-200 bg-zinc-800 text-white hover:bg-zinc-700 active:scale-98 text-center relative">
               Create Cheat Code
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-zinc-600"></div>
             </button>
             <Link href="/community-topics" className="w-full py-3 px-8 rounded-xl border border-zinc-700 text-xl font-semibold cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
