@@ -78,24 +78,32 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
       // Calculate the angle for this section
       const sectionAngle = getAngle(sectionIndex) + ANGLE_STEP / 2; // Center of section
-      const arcSpan = Math.PI / 6; // 30 degrees span for wifi signal
+      const arcSpan = Math.PI / 3; // 60 degrees span for wider wifi signal
 
-      // Wifi signal arcs - 4 levels
+      // Classic wifi signal arcs - progressively larger like the icon
       const signals = [
-        { radius: 45, level: 25, gradient: `heatmap25${gradientSuffix}`, strokeWidth: 6 },
-        { radius: 65, level: 50, gradient: `heatmap50${gradientSuffix}`, strokeWidth: 7 },
-        { radius: 85, level: 75, gradient: `heatmap75${gradientSuffix}`, strokeWidth: 8 },
-        { radius: 105, level: 100, gradient: `heatmap100${gradientSuffix}`, strokeWidth: 9 }
+        { radius: 35, level: 25, gradient: `heatmap25${gradientSuffix}`, strokeWidth: 12 },
+        { radius: 55, level: 50, gradient: `heatmap50${gradientSuffix}`, strokeWidth: 12 },
+        { radius: 75, level: 75, gradient: `heatmap75${gradientSuffix}`, strokeWidth: 12 },
+        { radius: 95, level: 100, gradient: `heatmap100${gradientSuffix}`, strokeWidth: 12 }
       ];
 
       return (
         <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          {/* Center dot for wifi source */}
+          <circle
+            cx={centerX + Math.cos(sectionAngle) * 15}
+            cy={centerY + Math.sin(sectionAngle) * 15}
+            r="3"
+            fill={powerPercentage > 0 ? `url(#heatmap25${gradientSuffix})` : "rgba(255,255,255,0.2)"}
+          />
+
           {signals.map((signal, signalIndex) => {
             const isActive = powerPercentage >= signal.level;
             const startAngle = sectionAngle - arcSpan / 2;
             const endAngle = sectionAngle + arcSpan / 2;
 
-            // Calculate arc path
+            // Calculate arc path for solid wifi arc
             const x1 = centerX + Math.cos(startAngle) * signal.radius;
             const y1 = centerY + Math.sin(startAngle) * signal.radius;
             const x2 = centerX + Math.cos(endAngle) * signal.radius;
@@ -105,16 +113,16 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
             return (
               <g key={`signal-${signalIndex}`}>
-                {/* Background arc */}
+                {/* Background arc (inactive state) */}
                 <path
                   d={arcPath}
                   fill="none"
-                  stroke="rgba(255,255,255,0.1)"
+                  stroke="rgba(255,255,255,0.08)"
                   strokeWidth={signal.strokeWidth}
                   strokeLinecap="round"
                 />
 
-                {/* Active signal arc */}
+                {/* Active signal arc - classic wifi style */}
                 {isActive && (
                   <path
                     d={arcPath}
@@ -123,8 +131,8 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                     strokeWidth={signal.strokeWidth}
                     strokeLinecap="round"
                     style={{
-                      filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.4))',
-                      opacity: 0.9
+                      filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
+                      opacity: 0.95
                     }}
                   />
                 )}
