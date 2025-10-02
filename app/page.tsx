@@ -68,90 +68,58 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   };
 
 
-  const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
-    const progress = getSectionProgressInfo(sectionName);
-    const { color, powerPercentage } = progress;
-
+  const renderGoalRings = (centerX: number, centerY: number, isDesktop: boolean) => {
     const gradientSuffix = isDesktop ? 'Desktop' : '';
+    const sections = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
+    const colors = ['#FF453A', '#FF9F0A', '#30D158', '#007AFF', '#AF52DE']; // Apple-like colors
+    const strokeWidth = 8;
+    const spacing = 15;
+    const baseRadius = 40;
 
-    const maxRadius = 125;
-    const startAngle = getAngle(sectionIndex);
-    const endAngle = startAngle + ANGLE_STEP;
+    return sections.map((sectionName, index) => {
+      const progress = getSectionProgressInfo(sectionName);
+      const radius = baseRadius + (index * spacing);
+      const circumference = 2 * Math.PI * radius;
+      const progressOffset = circumference - (circumference * (progress.powerPercentage / 100));
 
-    // Create mask for this specific wedge
-    const maskId = `wedge-mask-${sectionIndex}${gradientSuffix ? '-desktop' : ''}`;
-    const wedgePath = createWedgePath(centerX, centerY, maxRadius, startAngle, endAngle);
+      return (
+        <g key={`goal-ring-${index}`} className={isDesktop ? `animate-group-desktop-${index + 1}` : `animate-group-${index + 1}`}>
+          {/* Background ring */}
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r={radius}
+            fill="none"
+            stroke="rgba(255,255,255,0.1)"
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+          />
 
-    return (
-      <g className={animateClass}>
-        <defs>
-          <mask id={maskId}>
-            <path d={wedgePath} fill="white"/>
-          </mask>
-        </defs>
-
-        <g mask={`url(#${maskId})`}>
-          {/* Base red ring - always present, from center to first divider */}
-          <circle cx={centerX} cy={centerY} r="45" fill={`url(#heatmap25${gradientSuffix})`}/>
-
-          {/* Orange ring - appears at 25% average power, to second divider */}
-          {powerPercentage >= 25 && (
-            <circle cx={centerX} cy={centerY} r="65" fill={`url(#heatmap50${gradientSuffix})`}/>
-          )}
-
-          {/* Yellow ring - appears at 50% average power, to third divider */}
-          {powerPercentage >= 50 && (
-            <circle cx={centerX} cy={centerY} r="85" fill={`url(#heatmap75${gradientSuffix})`}/>
-          )}
-
-          {/* Green ring - appears at 75% average power, to fourth divider */}
-          {powerPercentage >= 75 && (
-            <circle cx={centerX} cy={centerY} r="105" fill={`url(#heatmap100${gradientSuffix})`}/>
-          )}
-
-          {/* Limitless ring - appears at 100% average power, to outer edge */}
-          {powerPercentage >= 100 && (
-            <circle cx={centerX} cy={centerY} r="125" fill={`url(#heatmap100${gradientSuffix})`}/>
-          )}
-
-          {/* Growth potential ring - shows next level target */}
-          {(() => {
-            let targetRadius = 65; // Default to Orange target
-            let targetColor = 'rgba(255, 165, 0, 0.4)'; // Orange
-
-            if (powerPercentage >= 75) {
-              // At Green, show Limitless target
-              targetRadius = 125;
-              targetColor = 'rgba(0, 255, 0, 0.4)';
-            } else if (powerPercentage >= 50) {
-              // At Yellow, show Green target
-              targetRadius = 105;
-              targetColor = 'rgba(0, 255, 0, 0.4)';
-            } else if (powerPercentage >= 25) {
-              // At Orange, show Yellow target
-              targetRadius = 85;
-              targetColor = 'rgba(255, 255, 0, 0.4)';
-            } else {
-              // At Red, show Orange target
-              targetRadius = 65;
-              targetColor = 'rgba(255, 165, 0, 0.4)';
-            }
-
-            return (
-              <circle
-                cx={centerX}
-                cy={centerY}
-                r={targetRadius}
-                fill="none"
-                stroke={targetColor}
-                strokeWidth="2"
-                strokeDasharray="8,4"
-              />
-            );
-          })()}
+          {/* Progress ring */}
+          <circle
+            cx={centerX}
+            cy={centerY}
+            r={radius}
+            fill="none"
+            stroke={colors[index]}
+            strokeWidth={strokeWidth}
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={progressOffset}
+            transform={`rotate(-90 ${centerX} ${centerY})`}
+            style={{
+              filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.3))',
+              transition: 'stroke-dashoffset 0.3s ease'
+            }}
+          />
         </g>
-      </g>
-    );
+      );
+    });
+  };
+
+  const renderProgressionRings = (sectionName: string, centerX: number, centerY: number, sectionIndex: number, animateClass: string, isDesktop: boolean) => {
+    // This function is now deprecated in favor of renderGoalRings
+    return null;
   };
 
   // Generate equally spaced divider lines (spokes)
@@ -526,27 +494,15 @@ const debugProgression = () => {
               <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
               <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
-              {/* Complete underlying layer - see-through */}
-              <g opacity="0.12" className="radar-breathe">
-                <circle cx="180" cy="160" r="125" fill="url(#heatmap100)"/>
-              </g>
 
-              {/* Section progress visualization with layered rings */}
-              {renderProgressionRings('Pre-Game', 180, 160, 0, 'animate-group-1', false)}
-              {renderProgressionRings('In-Game', 180, 160, 1, 'animate-group-2', false)}
-              {renderProgressionRings('Post-Game', 180, 160, 2, 'animate-group-3', false)}
-              {renderProgressionRings('Off Court', 180, 160, 3, 'animate-group-4', false)}
-              {renderProgressionRings('Locker Room', 180, 160, 4, 'animate-group-5', false)}
-
-              {/* Clickable radar sections */}
-              {renderClickableWedges(180, 160, 125)}
+              {/* Goal rings visualization */}
+              {renderGoalRings(180, 160, false)}
 
 
-              <g fill="none">
-                {renderSpokes(180, 160, 125)}
-              </g>
 
-              <circle cx="180" cy="160" r="10" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+
+              {/* Center dot */}
+              <circle cx="180" cy="160" r="6" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
 
               {/* Inner ring on top of everything */}
               <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
@@ -944,29 +900,15 @@ const debugProgression = () => {
               <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
               {/* Complete underlying layer - see-through */}
-              <g opacity="0.12" className="radar-breathe">
-                <circle cx="240" cy="220" r="125" fill="url(#heatmap100Desktop)"/>
-              </g>
 
-              {/* Section progress visualization with layered rings - Desktop */}
-              {renderProgressionRings('Pre-Game', 240, 220, 0, 'animate-group-desktop-1', true)}
-              {renderProgressionRings('In-Game', 240, 220, 1, 'animate-group-desktop-2', true)}
-              {renderProgressionRings('Post-Game', 240, 220, 2, 'animate-group-desktop-3', true)}
-              {renderProgressionRings('Off Court', 240, 220, 3, 'animate-group-desktop-4', true)}
-              {renderProgressionRings('Locker Room', 240, 220, 4, 'animate-group-desktop-5', true)}
-
-              {/* Clickable radar sections - Desktop */}
-              {renderClickableWedges(240, 220, 125)}
+              {/* Goal rings visualization - Desktop */}
+              {renderGoalRings(240, 220, true)}
 
 
-              <g fill="none">
-                {renderSpokes(240, 220, 125)}
-              </g>
 
-              <circle cx="240" cy="220" r="11.5" fill="#000" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
-              {/* Inner ring on top of everything */}
-              <circle cx="240" cy="220" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
+              {/* Center dot */}
+              <circle cx="240" cy="220" r="8" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
 
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
