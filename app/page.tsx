@@ -90,6 +90,33 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
       return (
         <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          {/* Transparent underlying layer showing full potential */}
+          {signals.map((signal, signalIndex) => {
+            const startAngle = sectionAngle - arcSpan / 2;
+            const endAngle = sectionAngle + arcSpan / 2;
+
+            const x1 = centerX + Math.cos(startAngle) * signal.radius;
+            const y1 = centerY + Math.sin(startAngle) * signal.radius;
+            const x2 = centerX + Math.cos(endAngle) * signal.radius;
+            const y2 = centerY + Math.sin(endAngle) * signal.radius;
+
+            const arcPath = `M ${x1} ${y1} A ${signal.radius} ${signal.radius} 0 0 1 ${x2} ${y2}`;
+
+            return (
+              <path
+                key={`potential-${signalIndex}`}
+                d={arcPath}
+                fill="none"
+                stroke={signal.color}
+                strokeWidth={signal.strokeWidth}
+                strokeLinecap="round"
+                style={{
+                  opacity: 0.15
+                }}
+              />
+            );
+          })}
+
           {/* Center dot for wifi source */}
           <circle
             cx={centerX + Math.cos(sectionAngle) * 15}
@@ -113,15 +140,6 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
 
             return (
               <g key={`signal-${signalIndex}`}>
-                {/* Background arc (inactive state) */}
-                <path
-                  d={arcPath}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth={signal.strokeWidth}
-                  strokeLinecap="round"
-                />
-
                 {/* Active signal arc - solid colors */}
                 {isActive && (
                   <path
