@@ -485,16 +485,13 @@ const debugProgression = () => {
                   }
 
                   @keyframes nextBarBlink {
-                    0%, 75% { opacity: 0.12; }
-                    80% { opacity: 0.18; }
-                    85% { opacity: 0.35; }
-                    90% { opacity: 0.35; }
-                    95% { opacity: 0.18; }
+                    0% { opacity: 0.12; }
+                    50% { opacity: 0.35; }
                     100% { opacity: 0.12; }
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 3s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+                    animation: nextBarBlink 3s ease-in-out infinite;
                   }
 
                   .animate-group-1 {
@@ -905,7 +902,7 @@ const debugProgression = () => {
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 3s cubic-bezier(0.4, 0.0, 0.6, 1.0) infinite;
+                    animation: nextBarBlink 3s ease-in-out infinite;
                   }
 
                   .animate-group-desktop-1 {
