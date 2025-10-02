@@ -68,70 +68,64 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
   };
 
 
-  const renderGoalRings = (centerX: number, centerY: number, isDesktop: boolean) => {
+  const renderWifiSignals = (centerX: number, centerY: number, isDesktop: boolean) => {
     const sections = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
-    const colors = ['#FF453A', '#FF9F0A', '#30D158', '#007AFF', '#AF52DE']; // Apple-like colors
-    const strokeWidth = 4;
-    const ringSpacing = 6; // Space between individual rings
-    const sectionSpacing = 18; // Space between sections
-    const baseRadius = 35;
-    const levels = [25, 50, 75, 100]; // Progress thresholds
+    const gradientSuffix = isDesktop ? 'Desktop' : '';
 
     return sections.map((sectionName, sectionIndex) => {
       const progress = getSectionProgressInfo(sectionName);
-      const sectionColor = colors[sectionIndex];
+      const { powerPercentage } = progress;
+
+      // Calculate angle for each section (72 degrees apart)
+      const startAngle = getAngle(sectionIndex);
+      const sectionAngle = startAngle + ANGLE_STEP / 2; // Center of the section
+
+      // Wifi signal bars - 4 levels
+      const bars = [
+        { radius: 45, height: 8, level: 25, gradient: `heatmap25${gradientSuffix}` },
+        { radius: 65, height: 12, level: 50, gradient: `heatmap50${gradientSuffix}` },
+        { radius: 85, height: 16, level: 75, gradient: `heatmap75${gradientSuffix}` },
+        { radius: 105, height: 20, level: 100, gradient: `heatmap100${gradientSuffix}` }
+      ];
 
       return (
-        <g key={`section-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
-          {levels.map((level, levelIndex) => {
-            const radius = baseRadius + (sectionIndex * sectionSpacing) + (levelIndex * ringSpacing);
-            const circumference = 2 * Math.PI * radius;
-            const isCompleted = progress.powerPercentage >= level;
-            const isCurrentLevel = progress.powerPercentage >= (levels[levelIndex - 1] || 0) && progress.powerPercentage < level;
-
-            // Calculate partial progress for the current level
-            let progressOffset = circumference;
-            if (isCompleted) {
-              progressOffset = 0; // Fully filled
-            } else if (isCurrentLevel && levelIndex > 0) {
-              const levelProgress = (progress.powerPercentage - levels[levelIndex - 1]) / (level - levels[levelIndex - 1]);
-              progressOffset = circumference - (circumference * levelProgress);
-            } else if (levelIndex === 0 && progress.powerPercentage < level) {
-              const levelProgress = progress.powerPercentage / level;
-              progressOffset = circumference - (circumference * levelProgress);
-            }
+        <g key={`wifi-${sectionIndex}`} className={isDesktop ? `animate-group-desktop-${sectionIndex + 1}` : `animate-group-${sectionIndex + 1}`}>
+          {bars.map((bar, barIndex) => {
+            const isActive = powerPercentage >= bar.level;
+            const x1 = centerX + Math.cos(sectionAngle) * (bar.radius - bar.height/2);
+            const y1 = centerY + Math.sin(sectionAngle) * (bar.radius - bar.height/2);
+            const x2 = centerX + Math.cos(sectionAngle) * (bar.radius + bar.height/2);
+            const y2 = centerY + Math.sin(sectionAngle) * (bar.radius + bar.height/2);
 
             return (
-              <g key={`level-${levelIndex}`}>
-                {/* Background ring */}
-                <circle
-                  cx={centerX}
-                  cy={centerY}
-                  r={radius}
-                  fill="none"
-                  stroke="rgba(255,255,255,0.08)"
-                  strokeWidth={strokeWidth}
+              <g key={`bar-${barIndex}`}>
+                {/* Background bar */}
+                <line
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="6"
                   strokeLinecap="round"
                 />
 
-                {/* Progress ring */}
-                <circle
-                  cx={centerX}
-                  cy={centerY}
-                  r={radius}
-                  fill="none"
-                  stroke={sectionColor}
-                  strokeWidth={strokeWidth}
-                  strokeLinecap="round"
-                  strokeDasharray={circumference}
-                  strokeDashoffset={progressOffset}
-                  transform={`rotate(-90 ${centerX} ${centerY})`}
-                  style={{
-                    opacity: isCompleted ? 1 : (isCurrentLevel ? 0.8 : 0.3),
-                    filter: isCompleted ? 'drop-shadow(0 0 6px rgba(255,255,255,0.4))' : 'none',
-                    transition: 'stroke-dashoffset 0.3s ease, opacity 0.3s ease'
-                  }}
-                />
+                {/* Active bar */}
+                {isActive && (
+                  <line
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={`url(#${bar.gradient})`}
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    style={{
+                      filter: 'drop-shadow(0 0 8px rgba(255,255,255,0.4))',
+                      opacity: 0.9
+                    }}
+                  />
+                )}
               </g>
             );
           })}
@@ -518,8 +512,8 @@ const debugProgression = () => {
               <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
 
 
-              {/* Goal rings visualization */}
-              {renderGoalRings(180, 160, false)}
+              {/* Wifi signal visualization */}
+              {renderWifiSignals(180, 160, false)}
 
 
 
@@ -924,8 +918,8 @@ const debugProgression = () => {
 
               {/* Complete underlying layer - see-through */}
 
-              {/* Goal rings visualization - Desktop */}
-              {renderGoalRings(240, 220, true)}
+              {/* Wifi signal visualization - Desktop */}
+              {renderWifiSignals(240, 220, true)}
 
 
 
