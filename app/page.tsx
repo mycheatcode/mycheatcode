@@ -376,16 +376,16 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`bg-gray-50 min-h-screen text-black font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
+      <div className="lg:hidden bg-gray-50 min-h-screen relative pb-[90px] flex flex-col">
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-lg font-bold  tracking-wider">MYCHEATCODE.AI</div>
+          <div className="text-black text-lg font-bold  tracking-wider">MYCHEATCODE.AI</div>
         </div>
 
         <div className="flex-1 flex flex-col p-4 pt-8 overflow-visible">
@@ -659,10 +659,10 @@ const debugProgression = () => {
           </div>
 
           <div className="mt-6 mb-8">
-            <div className="text-white text-center text-[15px] leading-6 mb-6">
+            <div className="text-black text-center text-[15px] leading-6 mb-6">
               {!isLoading && radarState && (
                 <>
-                  Your overall progression: <strong className="text-white font-bold text-[16px]">{calculateOverallPercentage()}%</strong>
+                  Your overall progression: <strong className="text-black font-bold text-[18px]">{calculateOverallPercentage()}%</strong>
                   <div className="text-zinc-500 text-[13px] mt-1 leading-5">
                     Every elite player started exactly where you are now.<br/>
                     Build cheat codes for each area to reach full power.
@@ -681,15 +681,15 @@ const debugProgression = () => {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button onClick={handleCreateCheatCode} className="w-full py-3.5 px-6 rounded-xl border-none text-[16px] font-bold cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+              <button onClick={handleCreateCheatCode} className="w-full py-3.5 px-6 rounded-xl border-none text-[16px] font-bold cursor-pointer transition-all duration-200 bg-black text-white hover:bg-gray-800 active:scale-98 text-center relative">
                 Create Cheat Code
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-3.5 px-6 rounded-xl border border-zinc-700 text-[16px] font-semibold cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-3.5 px-6 rounded-xl border border-zinc-700 text-[16px] font-semibold cursor-pointer transition-all duration-200 bg-transparent text-black hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
-              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-3">
+              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-black active:scale-98 text-center mt-3">
                 Share
               </button>
             </div>
@@ -739,7 +739,7 @@ const debugProgression = () => {
         <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            className="p-2 text-black hover:bg-zinc-800 rounded-lg transition-colors"
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -747,44 +747,44 @@ const debugProgression = () => {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl font-bold  tracking-wider">MYCHEATCODE.AI</div>
+          <div className="text-black text-xl font-bold  tracking-wider">MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 bg-gray-50 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
             <div>
-              <div className="flex items-center gap-3 p-4 text-white font-medium relative">
+              <div className="flex items-center gap-3 p-4 text-black font-medium relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
                 <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </div>
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-black cursor-pointer transition-colors relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
                 <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
-              <Link href="/waitlist" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/waitlist" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-black cursor-pointer transition-colors relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                 </svg>
                 <span>Early Access</span>
                 <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-black cursor-pointer transition-colors relative">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
                 <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
-              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-black cursor-pointer transition-colors">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
@@ -797,7 +797,7 @@ const debugProgression = () => {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-60 z-5"
+            className="absolute inset-0 bg-gray-50 bg-opacity-60 z-5"
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
@@ -1069,8 +1069,8 @@ const debugProgression = () => {
           <div className="text-center mb-6">
             {!isLoading && radarState && (
               <>
-                <div className="text-white text-lg mb-3 body-text">
-                  Your overall progression: <strong className="text-3xl font-bold ">{calculateOverallPercentage()}%</strong>
+                <div className="text-black text-lg mb-3 body-text">
+                  Your overall progression: <strong className="text-xl font-bold">{calculateOverallPercentage()}%</strong>
                 </div>
                 <div className="text-zinc-400 text-sm leading-relaxed">
                   Every elite player started exactly where you are now.<br/>
@@ -1080,7 +1080,7 @@ const debugProgression = () => {
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-white text-lg mb-3 body-text">
+                <div className="text-black text-lg mb-3 body-text">
                   Loading your progression...
                 </div>
                 <div className="text-zinc-400 text-sm leading-relaxed">
@@ -1092,15 +1092,15 @@ const debugProgression = () => {
           </div>
 
           <div className="space-y-3 w-full max-w-2xl pb-6">
-            <button onClick={handleCreateCheatCode} className="w-full py-3 px-8 rounded-xl border-none text-xl font-bold cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <button onClick={handleCreateCheatCode} className="w-full py-3 px-8 rounded-xl border-none text-xl font-bold cursor-pointer transition-all duration-200 bg-black text-white hover:bg-gray-800 active:scale-98 text-center relative">
               Create Cheat Code
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white"></div>
             </button>
-            <Link href="/community-topics" className="w-full py-3 px-8 rounded-xl border border-zinc-700 text-xl font-semibold cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+            <Link href="/community-topics" className="w-full py-3 px-8 rounded-xl border border-zinc-700 text-xl font-semibold cursor-pointer transition-all duration-200 bg-transparent text-black hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
               <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
             </Link>
-            <button onClick={handleShare} className="w-full py-3 px-0 text-lg font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-4">
+            <button onClick={handleShare} className="w-full py-3 px-0 text-lg font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-black active:scale-98 text-center mt-4">
               Share
             </button>
           </div>
