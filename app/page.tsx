@@ -111,7 +111,7 @@ const userProgression = rawUserProg ? JSON.parse(rawUserProg) : null;
                 strokeWidth={signal.strokeWidth}
                 strokeLinecap="round"
                 style={{
-                  opacity: 0.15
+                  opacity: 0.08
                 }}
               />
             );
@@ -485,12 +485,12 @@ const debugProgression = () => {
                   }
 
                   @keyframes nextBarBlink {
-                    0%, 100% { opacity: 0.3; }
-                    50% { opacity: 0.8; }
+                    0%, 100% { opacity: 0.15; }
+                    50% { opacity: 0.45; }
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 2s ease-in-out infinite;
+                    animation: nextBarBlink 4s ease-in-out infinite;
                   }
 
                   .animate-group-1 {
@@ -901,7 +901,7 @@ const debugProgression = () => {
                   }
 
                   .next-bar-blink {
-                    animation: nextBarBlink 2s ease-in-out infinite;
+                    animation: nextBarBlink 4s ease-in-out infinite;
                   }
 
                   .animate-group-desktop-1 {
