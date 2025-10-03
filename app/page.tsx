@@ -8,6 +8,7 @@ import { useSectionRadar } from './utils/useSectionRadar';
 import SectionProgressModal from '../components/SectionProgressModal';
 import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
+import FlowerProgress from '../components/FlowerProgress';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -374,6 +375,22 @@ const debugProgression = () => {
     setShowProgressModal(category as Section);
   };
 
+  const getFlowerProgressData = () => {
+    if (!radarState) return [75, 60, 90, 45, 80]; // Default values
+
+    // Map sections to FlowerProgress petal order
+    const sections: Section[] = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
+    return sections.map(section => radarState.sectionScores[section]?.score || 0);
+  };
+
+  const handleFlowerSectionClick = (sectionIndex: number) => {
+    const sections: Section[] = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
+    const section = sections[sectionIndex];
+    if (section) {
+      setShowProgressModal(section);
+    }
+  };
+
   return (
     <div
       className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
@@ -472,201 +489,12 @@ const debugProgression = () => {
           </div>
 
           <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh]">
-            <svg width="min(320px, 85vw)" height="min(320px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
-              <defs></defs>
-              <style>
-                {`
-                  @keyframes pulseExpand1 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.08); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpand2 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.07); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpand3 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.09); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpand4 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.075); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpand5 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.085); opacity: 1; }
-                  }
-
-                  @keyframes nextBarBlink {
-                    0% { opacity: 0.12; }
-                    50% { opacity: 0.35; }
-                    100% { opacity: 0.12; }
-                  }
-
-                  .next-bar-blink {
-                    animation: nextBarBlink 3s ease-in-out infinite;
-                  }
-
-                  .animate-group-1 {
-                    animation: pulseExpand1 7.2s linear infinite;
-                    animation-delay: 0s;
-                    transform-origin: 180px 160px;
-                  }
-
-                  .animate-group-2 {
-                    animation: pulseExpand2 8.1s linear infinite;
-                    animation-delay: 1.2s;
-                    transform-origin: 180px 160px;
-                  }
-
-                  .animate-group-3 {
-                    animation: pulseExpand3 6.8s linear infinite;
-                    animation-delay: 2.4s;
-                    transform-origin: 180px 160px;
-                  }
-
-                  .animate-group-4 {
-                    animation: pulseExpand4 7.9s linear infinite;
-                    animation-delay: 3.6s;
-                    transform-origin: 180px 160px;
-                  }
-
-                  .animate-group-5 {
-                    animation: pulseExpand5 7.5s linear infinite;
-                    animation-delay: 4.8s;
-                    transform-origin: 180px 160px;
-                  }
-                `}
-              </style>
-
-              <defs>
-                {/* Heat Map Gradients with smooth blending - as specified */}
-                <radialGradient id="heatmap100" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="30%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="35%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="50%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="60%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="75%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="85%" stopColor="#00FF00" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#00FF00" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap75" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="40%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="46.67%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="66.67%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="80%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FFFF00" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap50" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="60%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="65%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FFA500" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap25" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FF0000" stopOpacity="1"/>
-                </radialGradient>
-
-              </defs>
-
-              <circle cx="180" cy="160" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="180" cy="160" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-
-
-              {/* Wifi section visualization */}
-              {renderWifiSignals(180, 160, false)}
-
-
-
-
-              {/* Center dot */}
-              <circle cx="180" cy="160" r="6" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
-
-              {/* Inner ring on top of everything */}
-              <circle cx="180" cy="160" r="25" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-
-              {/* Section Labels with Green Hold Badges */}
-              <g>
-                {/* PRE-GAME */}
-                <text x="280" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
-                {getGreenHold('Pre-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="315" cy="14" r="6" fill="#00FF00" opacity="0.8" />
-                    <text x="315" y="17" textAnchor="middle" fill="#000" fontSize="8" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* IN-GAME */}
-                <text x="355" y="190" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
-                {getGreenHold('In-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
-                    <text x="380" y="161" textAnchor="middle" fill="#000" fontSize="8" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* POST-GAME */}
-                <text x="220" y="295" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
-                {getGreenHold('Post-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
-                    <text x="265" y="316" textAnchor="middle" fill="#000" fontSize="8" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* OFF-COURT */}
-                <text x="6" y="195" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
-                {getGreenHold('Off Court').hasActiveHold && (
-                  <g>
-                    <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
-                    <text x="45" y="179" textAnchor="middle" fill="#000" fontSize="8" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* LOCKER ROOM */}
-                <text x="70" y="25" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
-                {getGreenHold('Locker Room').hasActiveHold && (
-                  <g>
-                    <circle cx="105" cy="14" r="6" fill="#00FF00" opacity="0.8" />
-                    <text x="105" y="17" textAnchor="middle" fill="#000" fontSize="8" fontWeight="bold">H</text>
-                  </g>
-                )}
-              </g>
-
-              {/* Title underlines and connecting lines */}
-              <g stroke="#999" strokeWidth="0.8" fill="none" opacity="0.7">
-                {/* PRE-GAME */}
-                <line x1="245" y1="26" x2="315" y2="26"/>
-                <line x1="245" y1="26" x2="235" y2="37"/>
-
-                {/* IN-GAME */}
-                <line x1="330" y1="198" x2="370" y2="198"/>
-                <line x1="330" y1="198" x2="312" y2="179"/>
-
-                {/* POST-GAME */}
-                <line x1="175" y1="303" x2="245" y2="303"/>
-                <line x1="175" y1="303" x2="165" y2="284"/>
-
-                {/* OFF-COURT */}
-                <line x1="3" y1="203" x2="33" y2="203"/>
-                <line x1="33" y1="203" x2="48" y2="184"/>
-
-                {/* LOCKER ROOM */}
-                <line x1="35" y1="33" x2="105" y2="33"/>
-                <line x1="105" y1="33" x2="117" y2="44"/>
-              </g>
-
-            </svg>
+            <FlowerProgress
+              progressValues={getFlowerProgressData()}
+              size={320}
+              onClick={handleFlowerSectionClick}
+              className="w-full h-full"
+            />
           </div>
 
           <div className="mt-3 mb-4">
@@ -856,191 +684,13 @@ const debugProgression = () => {
             </div>
 
             <div className="flex items-center justify-center mb-0 overflow-visible -mt-8 h-[60vh]">
-            <svg width="min(900px, 85vw)" height="min(900px, 85vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
-              <defs></defs>
-              <style>
-                {`
-                  @keyframes pulseExpandDesktop1 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.08); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpandDesktop2 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.07); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpandDesktop3 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.09); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpandDesktop4 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.075); opacity: 1; }
-                  }
-
-                  @keyframes pulseExpandDesktop5 {
-                    0%, 100% { transform: scale(1); opacity: 1; }
-                    50% { transform: scale(1.085); opacity: 1; }
-                  }
-
-                  .next-bar-blink {
-                    animation: nextBarBlink 3s ease-in-out infinite;
-                  }
-
-                  .animate-group-desktop-1 {
-                    animation: pulseExpandDesktop1 7.2s linear infinite;
-                    animation-delay: 0s;
-                    transform-origin: 240px 220px;
-                  }
-
-                  .animate-group-desktop-2 {
-                    animation: pulseExpandDesktop2 8.1s linear infinite;
-                    animation-delay: 1.2s;
-                    transform-origin: 240px 220px;
-                  }
-
-                  .animate-group-desktop-3 {
-                    animation: pulseExpandDesktop3 6.8s linear infinite;
-                    animation-delay: 2.4s;
-                    transform-origin: 240px 220px;
-                  }
-
-                  .animate-group-desktop-4 {
-                    animation: pulseExpandDesktop4 7.9s linear infinite;
-                    animation-delay: 3.6s;
-                    transform-origin: 240px 220px;
-                  }
-
-                  .animate-group-desktop-5 {
-                    animation: pulseExpandDesktop5 7.5s linear infinite;
-                    animation-delay: 4.8s;
-                    transform-origin: 240px 220px;
-                  }
-                `}
-              </style>
-
-              <defs>
-                <radialGradient id="heatmap100Desktop" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="30%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="35%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="50%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="60%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="75%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="85%" stopColor="#00FF00" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#00FF00" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap75Desktop" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="40%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="46.67%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="66.67%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="80%" stopColor="#FFFF00" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FFFF00" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap50Desktop" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="60%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="65%" stopColor="#FFA500" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FFA500" stopOpacity="1"/>
-                </radialGradient>
-                <radialGradient id="heatmap25Desktop" cx="50%" cy="50%">
-                  <stop offset="0%" stopColor="#FF0000" stopOpacity="1"/>
-                  <stop offset="100%" stopColor="#FF0000" stopOpacity="1"/>
-                </radialGradient>
-              </defs>
-
-              <circle cx="240" cy="220" r="125" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="105" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="85" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="65" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-              <circle cx="240" cy="220" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="1" strokeLinecap="round"/>
-
-              {/* Complete underlying layer - see-through */}
-
-              {/* Wifi section visualization - Desktop */}
-              {renderWifiSignals(240, 220, true)}
-
-
-
-
-              {/* Center dot */}
-              <circle cx="240" cy="220" r="8" fill="rgba(255,255,255,0.8)" stroke="rgba(0,0,0,0.3)" strokeWidth="1"/>
-
-              {/* Desktop Section Labels with Green Hold Badges */}
-              <g>
-                {/* PRE-GAME */}
-                <text x="350" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
-                {getGreenHold('Pre-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="395" cy="74" r="8" fill="#00FF00" opacity="0.9" />
-                    <text x="395" y="78" textAnchor="middle" fill="#000" fontSize="10" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* IN-GAME */}
-                <text x="415" y="260" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
-                {getGreenHold('In-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
-                    <text x="445" y="222" textAnchor="middle" fill="#000" fontSize="10" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* POST-GAME */}
-                <text x="300" y="365" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
-                {getGreenHold('Post-Game').hasActiveHold && (
-                  <g>
-                    <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
-                    <text x="345" y="382" textAnchor="middle" fill="#000" fontSize="10" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* OFF-COURT */}
-                <text x="62" y="260" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
-                {getGreenHold('Off Court').hasActiveHold && (
-                  <g>
-                    <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
-                    <text x="25" y="240" textAnchor="middle" fill="#000" fontSize="10" fontWeight="bold">H</text>
-                  </g>
-                )}
-
-                {/* LOCKER ROOM */}
-                <text x="120" y="85" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
-                {getGreenHold('Locker Room').hasActiveHold && (
-                  <g>
-                    <circle cx="170" cy="74" r="8" fill="#00FF00" opacity="0.9" />
-                    <text x="170" y="78" textAnchor="middle" fill="#000" fontSize="10" fontWeight="bold">H</text>
-                  </g>
-                )}
-              </g>
-
-              {/* Title underlines and connecting lines */}
-              <g stroke="#999" strokeWidth="0.8" fill="none" opacity="0.7">
-                {/* PRE-GAME */}
-                <line x1="310" y1="86" x2="390" y2="86"/>
-                <line x1="310" y1="86" x2="300" y2="97"/>
-
-                {/* IN-GAME */}
-                <line x1="385" y1="268" x2="435" y2="268"/>
-                <line x1="385" y1="268" x2="367" y2="249"/>
-
-                {/* POST-GAME */}
-                <line x1="250" y1="373" x2="330" y2="373"/>
-                <line x1="250" y1="373" x2="240" y2="354"/>
-
-                {/* OFF-COURT */}
-                <line x1="50" y1="268" x2="106" y2="268"/>
-                <line x1="106" y1="268" x2="118" y2="249"/>
-
-                {/* LOCKER ROOM */}
-                <line x1="75" y1="93" x2="165" y2="93"/>
-                <line x1="165" y1="93" x2="177" y2="104"/>
-              </g>
-
-            </svg>
+            <FlowerProgress
+              progressValues={getFlowerProgressData()}
+              size={Math.min(900, window.innerWidth * 0.85)}
+              onClick={handleFlowerSectionClick}
+              className="w-full h-full"
+            />
+            </div>
           </div>
 
           <div className="text-center mb-5 -mt-3">
