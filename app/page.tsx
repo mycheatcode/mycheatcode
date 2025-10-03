@@ -683,7 +683,7 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 pb-6">
+            <div className="flex flex-col gap-2 pb-8">
               <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
@@ -1043,7 +1043,7 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-5 -mt-6">
+          <div className="text-center mb-5 -mt-3">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
@@ -1064,7 +1064,7 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="space-y-2 w-full max-w-2xl pb-4">
+          <div className="space-y-2 w-full max-w-2xl pb-8">
             <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
               <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
