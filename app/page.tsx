@@ -471,7 +471,7 @@ const debugProgression = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible -mt-4">
+          <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh]">
             <svg width="min(320px, 85vw)" height="min(320px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
@@ -855,7 +855,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-0 overflow-visible -mt-8">
+            <div className="flex items-center justify-center mb-0 overflow-visible -mt-8 h-[60vh]">
             <svg width="min(900px, 85vw)" height="min(900px, 85vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
