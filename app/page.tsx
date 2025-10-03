@@ -727,7 +727,6 @@ const debugProgression = () => {
               Share
             </button>
           </div>
-          </div>
         </div>
       </div>
 
