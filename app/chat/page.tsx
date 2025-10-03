@@ -533,7 +533,7 @@ export default function ChatPage() {
                     <TypingAnimation
                       key={message.id}
                       text={message.text}
-                      speed={80}
+                      speed={40}
                       className="text-[15px] leading-relaxed text-white whitespace-pre-wrap"
                     />
                   )}
@@ -773,7 +773,7 @@ export default function ChatPage() {
                         <TypingAnimation
                           key={message.id}
                           text={message.text}
-                          speed={80}
+                          speed={40}
                           className="text-base leading-relaxed text-white whitespace-pre-wrap"
                         />
                       )}
