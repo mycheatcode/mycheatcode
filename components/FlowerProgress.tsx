@@ -41,16 +41,22 @@ export default function FlowerProgress({
       // Convert progress percentages to 0-1 values
       const sectionProgress = progressValues.map(p => p / 100);
 
+      // Define specific petal angles to match label positions
+      const petalAngles = [
+        -3 * Math.PI / 4,  // Top-left (PRE-GAME)
+        -Math.PI / 4,      // Top-right (IN-GAME)
+        Math.PI / 4,       // Bottom-right (POST-GAME)
+        Math.PI / 2,       // Bottom (OFF COURT)
+        3 * Math.PI / 4    // Bottom-left (LOCKER ROOM)
+      ];
       const wedgeSize = TAU / numSections;
-      // Rotate so first petal points up
-      const rotationOffset = -Math.PI / 2;
 
       // FIRST: Draw ghost underlay showing 100% progress for all sections
       for (let sectionIdx = 0; sectionIdx < numSections; sectionIdx++) {
         const ghostProgress = 1.0; // Always show full progress for ghost
         const scaledProgress = 0.4 + (ghostProgress * 0.6); // Same scaling as real petals
 
-        const sectionStart = rotationOffset + sectionIdx * wedgeSize;
+        const sectionStart = petalAngles[sectionIdx];
 
         // Only draw every 3rd ring for the ghost to keep it subtle
         for (let ringIdx = 2; ringIdx < rings; ringIdx += 3) {
@@ -114,7 +120,7 @@ export default function FlowerProgress({
         const scaledProgress = 0.4 + (progress * 0.6);
 
         // This section's angular range (valley to valley)
-        const sectionStart = rotationOffset + sectionIdx * wedgeSize;
+        const sectionStart = petalAngles[sectionIdx];
 
         // Draw rings for this section based on scaled progress
         const maxRings = Math.ceil(rings * scaledProgress);
@@ -277,7 +283,7 @@ export default function FlowerProgress({
       ref={svgRef}
       width={size}
       height={size}
-      viewBox={`0 0 ${size} ${size}`}
+      viewBox={`-${size * 0.15} -${size * 0.15} ${size * 1.3} ${size * 1.3}`}
       className={className}
       shapeRendering="geometricPrecision"
       role="img"
@@ -289,18 +295,22 @@ export default function FlowerProgress({
       <g className="section-labels" style={{fontSize: size > 400 ? '12px' : '10px', fontFamily: 'var(--font-dm-sans)', fontWeight: '600', letterSpacing: '2px', fill: '#CCCCCC'}}>
         {(() => {
           const center = size / 2;
-          const labelRadius = size * 0.55; // Position labels outside the flower
-          const sections = ['PRE-GAME', 'IN-GAME', 'POST-GAME', 'OFF COURT', 'LOCKER ROOM'];
-          const rotationOffset = -Math.PI / 2;
-          const wedgeSize = (Math.PI * 2) / 5;
+          const labelRadius = size * 0.6; // Position labels further outside to avoid cutoff
 
-          return sections.map((sectionName, index) => {
-            // Calculate the center angle of each petal
-            const petalCenterAngle = rotationOffset + index * wedgeSize;
+          // Map sections to their actual petal positions (no top petal)
+          // Petal arrangement: Top-left, Top-right, Bottom-Right, Bottom, Bottom-Left
+          const sectionPositions = [
+            { name: 'PRE-GAME', angle: -3 * Math.PI / 4 },      // Top-left
+            { name: 'IN-GAME', angle: -Math.PI / 4 },           // Top-right
+            { name: 'POST-GAME', angle: Math.PI / 4 },          // Bottom-right
+            { name: 'OFF COURT', angle: Math.PI / 2 },          // Bottom
+            { name: 'LOCKER ROOM', angle: 3 * Math.PI / 4 }    // Bottom-left
+          ];
 
+          return sectionPositions.map((section, index) => {
             // Calculate label position
-            const labelX = center + labelRadius * Math.cos(petalCenterAngle);
-            const labelY = center + labelRadius * Math.sin(petalCenterAngle);
+            const labelX = center + labelRadius * Math.cos(section.angle);
+            const labelY = center + labelRadius * Math.sin(section.angle);
 
             return (
               <text
@@ -310,7 +320,7 @@ export default function FlowerProgress({
                 textAnchor="middle"
                 dominantBaseline="central"
               >
-                {sectionName}
+                {section.name}
               </text>
             );
           });
