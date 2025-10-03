@@ -296,15 +296,16 @@ export default function FlowerProgress({
           const sectionPositions = [
             { name: 'PRE-GAME', angle: -3 * Math.PI / 4 },      // Top-left
             { name: 'IN-GAME', angle: -Math.PI / 4 },           // Top-right
-            { name: 'POST-GAME', angle: Math.PI / 4 },          // Bottom-right
+            { name: 'POST-GAME', angle: Math.PI / 6, radiusMultiplier: 1.1 },          // Bottom-right (adjusted)
             { name: 'OFF COURT', angle: Math.PI / 2 },          // Bottom
-            { name: 'LOCKER ROOM', angle: 3 * Math.PI / 4 }    // Bottom-left
+            { name: 'LOCKER ROOM', angle: 2.3 * Math.PI / 4, radiusMultiplier: 1.1 }    // Bottom-left (adjusted)
           ];
 
           return sectionPositions.map((section, index) => {
-            // Calculate label position
-            const labelX = center + labelRadius * Math.cos(section.angle);
-            const labelY = center + labelRadius * Math.sin(section.angle);
+            // Calculate label position with optional radius multiplier
+            const adjustedRadius = labelRadius * (section.radiusMultiplier || 1);
+            const labelX = center + adjustedRadius * Math.cos(section.angle);
+            const labelY = center + adjustedRadius * Math.sin(section.angle);
 
             return (
               <text
