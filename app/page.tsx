@@ -385,79 +385,36 @@ const debugProgression = () => {
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
         <div className="flex-1 flex flex-col px-4 pt-4 overflow-visible min-h-0">
-          <div className="text-center mb-4 text-[22px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+          <div className="text-center mb-3 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-4 px-1 relative">
-            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-4 py-3 backdrop-blur-sm">
-              <div className="flex items-center gap-2.5">
-                <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-red-500 shadow-md shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Activated</span>
+          <div className="flex justify-center mb-2 px-1">
+            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-3 py-1.5 backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 group cursor-default">
+                  <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                  <span className="text-zinc-400 text-[8px] font-medium">Activated</span>
                 </div>
-                <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-orange-500 shadow-md shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Rising</span>
+                <div className="flex items-center gap-1 group cursor-default">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
+                  <span className="text-zinc-400 text-[8px] font-medium">Rising</span>
                 </div>
-                <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-md shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Elevated</span>
+                <div className="flex items-center gap-1 group cursor-default">
+                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
+                  <span className="text-zinc-400 text-[8px] font-medium">Elevated</span>
                 </div>
-                <div className="flex items-center gap-1.5 group cursor-default">
-                  <div className="w-2 h-2 rounded-full bg-green-500 shadow-md shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
-                  <span className="text-zinc-400 text-[10px] font-medium group-hover:text-zinc-300 transition-colors duration-200 whitespace-nowrap">Limitless</span>
+                <div className="flex items-center gap-1 group cursor-default">
+                  <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                  <span className="text-zinc-400 text-[8px] font-medium">Limitless</span>
                 </div>
-                <button
-                  onClick={() => setLegendExpanded(!legendExpanded)}
-                  className="ml-1 text-zinc-500 hover:text-zinc-300 transition-colors"
-                >
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-180' : ''}`}>
-                    <path d="M7 10l5 5 5-5z"/>
-                  </svg>
-                </button>
               </div>
             </div>
-
-            {legendExpanded && (
-              <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-10 bg-zinc-900/90 border border-zinc-800/60 rounded-2xl px-3 py-3 backdrop-blur-md shadow-xl max-w-[90vw]">
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-500 shadow-sm shadow-red-500/30 mt-1 flex-shrink-0"></div>
-                    <div className="text-[9px] text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium">Activated</div>
-                      Foundation level - First cheat code created. Building initial mental frameworks and awareness.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-orange-500 shadow-sm shadow-orange-500/30 mt-1 flex-shrink-0"></div>
-                    <div className="text-[9px] text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium">Rising</div>
-                      Development level - Consistent practice building momentum. Skills becoming more natural.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-sm shadow-yellow-400/30 mt-1 flex-shrink-0"></div>
-                    <div className="text-[9px] text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium">Elevated</div>
-                      Advanced level - Peak performance moments frequent. Can access cheat codes under pressure.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-500/30 mt-1 flex-shrink-0"></div>
-                    <div className="text-[9px] text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium">Limitless</div>
-                      Elite level - Unconscious competence. Cheat codes integrated and automatic in all situations.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
-          <div className="flex items-center justify-center overflow-visible">
-            <svg width="min(240px, 65vw)" height="min(240px, 65vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
+          <div className="flex-1 flex items-center justify-center overflow-visible">
+            <svg width="min(320px, 85vw)" height="min(320px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
                 {`
@@ -654,37 +611,28 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="mt-4 mb-6">
-            <div className="text-white text-center app-body mb-3">
+          <div className="mt-3 mb-4">
+            <div className="text-white text-center app-body mb-2">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[14px] mb-2 app-body">Your overall progression: <span className="text-[18px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                  <div className="text-zinc-400 text-[12px] leading-4 max-w-[240px] mx-auto">
-                    Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
-                  </div>
+                  <div className="text-[12px] mb-1 app-body">Your overall progression: <span className="text-[16px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                 </>
               )}
               {(isLoading || !radarState) && (
                 <>
-                  Loading your progression...
-                  <div className="text-zinc-500 text-[13px] mt-1 leading-5">
-                    Every elite player started exactly where you are now.<br/>
-                    Build cheat codes for each area to reach full power.
-                  </div>
+                  <div className="text-[12px] app-body">Loading your progression...</div>
                 </>
               )}
             </div>
 
-            <div className="flex flex-col gap-2 pb-4">
-              <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <div className="flex gap-2 pb-3">
+              <button onClick={handleCreateCheatCode} className="flex-1 py-2 px-4 mobile-btn rounded-full border-none text-[14px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center">
                 Create Cheat Code
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-2.5 px-5 mobile-btn rounded-full border border-zinc-700 text-[15px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
-                View Community Topics
-                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
+              <Link href="/community-topics" className="flex-1 py-2 px-4 mobile-btn rounded-full border border-zinc-700 text-[13px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center">
+                Topics
               </Link>
-              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-3">
+              <button onClick={handleShare} className="px-3 py-2 rounded-full border border-zinc-700 text-[13px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
                 Share
               </button>
             </div>
