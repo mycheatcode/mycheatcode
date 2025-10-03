@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import TypingAnimation from '../../components/TypingAnimation';
 
 type Sender = 'user' | 'coach';
 
@@ -282,16 +283,8 @@ export default function ChatPage() {
       // Show coach message immediately (no delay)
       const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
-      // Varied welcome messages for fresh feel - all personal and direct, no assumptions
-      const welcomeMessages = [
-        "What's good! I'm here to help you level up your mental game. What's been on your mind lately with basketball?",
-        "Hey there! Ready to work on your mental performance? What's going on with your game?",
-        "What's up! I'm your mental performance coach. What do you want to talk about?",
-        "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
-        "Hey! I'm here to help you dial in your mental game. What's on your mind right now?"
-      ];
-
-      let welcomeText = welcomeMessages[Math.floor(Math.random() * welcomeMessages.length)];
+      // Static welcome message
+      let welcomeText = "What's up! I'm your mental performance coach. What do you want to talk about?";
 
       if (stored) {
         try {
@@ -537,7 +530,12 @@ export default function ChatPage() {
                       })()}
                     </div>
                   ) : (
-                    <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                    <TypingAnimation
+                      key={message.id}
+                      text={message.text}
+                      speed={80}
+                      className="text-[15px] leading-relaxed text-white whitespace-pre-wrap"
+                    />
                   )}
                   <div className="text-xs mt-2 text-zinc-400">
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -772,7 +770,12 @@ export default function ChatPage() {
                           })()}
                         </div>
                       ) : (
-                        <div className="text-base leading-relaxed text-white whitespace-pre-wrap">{message.text}</div>
+                        <TypingAnimation
+                          key={message.id}
+                          text={message.text}
+                          speed={80}
+                          className="text-base leading-relaxed text-white whitespace-pre-wrap"
+                        />
                       )}
                       <div className="text-sm mt-3 text-zinc-400">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
