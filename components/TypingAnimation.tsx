@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 
 interface TypingAnimationProps {
   text: string;
-  speed?: number; // milliseconds per word
+  speed?: number; // milliseconds per character
   delay?: number; // milliseconds before starting
   onComplete?: () => void;
   className?: string;
@@ -12,22 +12,20 @@ interface TypingAnimationProps {
 
 export default function TypingAnimation({
   text,
-  speed = 150,
+  speed = 50,
   delay = 0,
   onComplete,
   className = ""
 }: TypingAnimationProps) {
   const [displayedText, setDisplayedText] = useState('');
-  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-
-  const words = text.split(' ');
 
   // Reset animation when text changes
   useEffect(() => {
     setDisplayedText('');
-    setCurrentWordIndex(0);
+    setCurrentCharIndex(0);
     setIsComplete(false);
     setHasStarted(false);
   }, [text]);
@@ -44,21 +42,18 @@ export default function TypingAnimation({
   }, [delay, hasStarted]);
 
   useEffect(() => {
-    if (hasStarted && currentWordIndex < words.length) {
+    if (hasStarted && currentCharIndex < text.length) {
       const timer = setTimeout(() => {
-        setDisplayedText(prev => {
-          const newText = prev + (prev ? ' ' : '') + words[currentWordIndex];
-          return newText;
-        });
-        setCurrentWordIndex(prev => prev + 1);
+        setDisplayedText(prev => prev + text[currentCharIndex]);
+        setCurrentCharIndex(prev => prev + 1);
       }, speed);
 
       return () => clearTimeout(timer);
-    } else if (hasStarted && !isComplete && currentWordIndex >= words.length) {
+    } else if (hasStarted && !isComplete && currentCharIndex >= text.length) {
       setIsComplete(true);
       onComplete?.();
     }
-  }, [currentWordIndex, words, speed, onComplete, isComplete, hasStarted]);
+  }, [currentCharIndex, text, speed, onComplete, isComplete, hasStarted]);
 
   return (
     <span className={className}>
