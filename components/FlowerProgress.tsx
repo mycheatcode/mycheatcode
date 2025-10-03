@@ -284,6 +284,24 @@ export default function FlowerProgress({
       aria-label="5-petal flower progress display"
     >
       <g ref={containerRef} id="petals"></g>
+
+      {/* Section Labels */}
+      <g className="section-labels" style={{fontSize: size > 400 ? '12px' : '10px', fontFamily: 'var(--font-dm-sans)', fontWeight: '600', letterSpacing: '2px', fill: '#CCCCCC'}}>
+        {/* PRE-GAME - Top */}
+        <text x={size/2} y={size * 0.08} textAnchor="middle">PRE-GAME</text>
+
+        {/* IN-GAME - Top Right */}
+        <text x={size * 0.88} y={size * 0.35} textAnchor="middle">IN-GAME</text>
+
+        {/* POST-GAME - Bottom Right */}
+        <text x={size * 0.88} y={size * 0.88} textAnchor="middle">POST-GAME</text>
+
+        {/* OFF COURT - Bottom */}
+        <text x={size/2} y={size * 0.95} textAnchor="middle">OFF COURT</text>
+
+        {/* LOCKER ROOM - Top Left */}
+        <text x={size * 0.12} y={size * 0.35} textAnchor="middle">LOCKER ROOM</text>
+      </g>
     </svg>
   );
 }
