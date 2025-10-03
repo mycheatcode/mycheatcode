@@ -390,7 +390,7 @@ const debugProgression = () => {
 
         <div className="flex-1 flex flex-col px-6 pt-10 overflow-visible">
           <div className="text-center mb-8 text-[28px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
-            Your Analysis
+            YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
@@ -662,7 +662,7 @@ const debugProgression = () => {
             <div className="text-white text-center app-body mb-8">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[16px] mb-4">Your overall progression: <span className="text-[32px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                  <div className="text-[16px] mb-4 app-body">Your overall progression: <span className="text-[24px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                   <div className="text-zinc-400 text-[14px] leading-6 max-w-[280px] mx-auto">
                     Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                   </div>
@@ -873,7 +873,7 @@ const debugProgression = () => {
           <div className="flex-1 flex flex-col items-center">
             <div className="text-center mb-8 mt-6">
               <div className="text-[40px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-4">
-                Your Analysis
+                YOUR ANALYSIS
               </div>
             </div>
 
@@ -1068,7 +1068,7 @@ const debugProgression = () => {
           <div className="text-center mb-10">
             {!isLoading && radarState && (
               <>
-                <div className="text-[18px] mb-6 app-body">Your overall progression: <span className="text-[44px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                <div className="text-[18px] mb-6 app-body">Your overall progression: <span className="text-[32px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                 <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
