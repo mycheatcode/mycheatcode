@@ -616,7 +616,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="210" y="325" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="180" y="295" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -654,8 +654,8 @@ const debugProgression = () => {
                 <line x1="330" y1="168" x2="312" y2="149"/>
 
                 {/* POST-GAME */}
-                <line x1="165" y1="333" x2="235" y2="333"/>
-                <line x1="165" y1="333" x2="155" y2="314"/>
+                <line x1="135" y1="303" x2="205" y2="303"/>
+                <line x1="135" y1="303" x2="125" y2="284"/>
 
                 {/* OFF-COURT */}
                 <line x1="3" y1="188" x2="33" y2="188"/>
@@ -990,7 +990,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="280" y="395" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="240" y="365" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -1028,8 +1028,8 @@ const debugProgression = () => {
                 <line x1="385" y1="228" x2="367" y2="209"/>
 
                 {/* POST-GAME */}
-                <line x1="230" y1="403" x2="310" y2="403"/>
-                <line x1="230" y1="403" x2="220" y2="384"/>
+                <line x1="190" y1="373" x2="270" y2="373"/>
+                <line x1="190" y1="373" x2="180" y2="354"/>
 
                 {/* OFF-COURT */}
                 <line x1="50" y1="248" x2="106" y2="248"/>
