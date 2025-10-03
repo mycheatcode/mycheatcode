@@ -32,7 +32,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
 
   useEffect(() => {
     // Start conversation with coach message if no messages exist
-    if (chatState.messages.length === 0 && section) {
+    if (chatState.messages.length === 0) {
       // First show typing indicator for a brief moment
       setIsTyping(true);
 
@@ -40,7 +40,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       setTimeout(() => {
         const initialCoachMessage: ChatMessage = {
           id: `coach-initial-${Date.now()}`,
-          text: getInitialCoachMessage(section),
+          text: "What's up! I'm your mental performance coach. What do you want to talk about?",
           sender: 'coach',
           timestamp: new Date()
         };
@@ -55,7 +55,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         setIsTyping(false);
       }, 1000);
     }
-  }, [section]);
+  }, []);
 
   const getInitialCoachMessage = (section: SectionType): string => {
     return "What's up! I'm your mental performance coach. What do you want to talk about?";
