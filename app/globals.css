@@ -122,3 +122,33 @@ body {
 .radar-section:hover {
   opacity: 0.8;
 }
+
+/* Mobile responsive improvements */
+.radar-container {
+  width: min(260px, 70vw);
+  height: min(260px, 70vw);
+}
+
+/* Mobile optimizations for small screens */
+@media (max-height: 700px) {
+  .mobile-brand {
+    font-size: 18px !important;
+  }
+
+  .mobile-progress-percent {
+    font-size: 18px !important;
+  }
+
+  .mobile-btn {
+    padding: 12px 20px !important;
+  }
+
+  .mobile-spacing {
+    margin-bottom: 16px !important;
+  }
+
+  .mobile-section-spacing {
+    margin-top: 16px !important;
+    margin-bottom: 20px !important;
+  }
+}

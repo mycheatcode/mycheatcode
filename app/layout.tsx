@@ -20,6 +20,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "MyCheatCode - Unlock Your Unlimited Potential",
   description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
+  viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
   openGraph: {
     title: "MyCheatCode - Unlock Your Unlimited Potential",
     description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",

@@ -383,18 +383,18 @@ const debugProgression = () => {
       } as React.CSSProperties : {}}
       >
       {/* Mobile Design */}
-      <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
-        <div className="px-6 py-5 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
+      <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
+        <div className="px-4 py-4 text-center border-b border-zinc-800 flex-shrink-0">
+          <div className="text-white text-xl app-label mobile-brand">MYCHEATCODE.AI</div>
         </div>
 
-        <div className="flex-1 flex flex-col px-6 pt-10 overflow-visible">
-          <div className="text-center mb-8 text-[28px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+        <div className="flex-1 flex flex-col px-4 pt-6 overflow-visible min-h-0">
+          <div className="text-center mb-6 mobile-spacing text-[24px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-8 px-1 relative">
+          <div className="flex justify-center mb-6 mobile-spacing px-1 relative">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-4 py-3 backdrop-blur-sm">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 group cursor-default">
@@ -460,8 +460,8 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible ">
-            <svg width="min(340px, 85vw)" height="min(340px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
+          <div className="flex-1 flex items-center justify-center overflow-visible min-h-0 radar-container">
+            <svg width="min(280px, 70vw)" height="min(280px, 70vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
                 {`
@@ -658,12 +658,12 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="mt-8 mb-10">
-            <div className="text-white text-center app-body mb-8">
+          <div className="mt-6 mb-6 mobile-section-spacing">
+            <div className="text-white text-center app-body mb-4 mobile-spacing">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[16px] mb-4 app-body">Your overall progression: <span className="text-[24px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                  <div className="text-zinc-400 text-[14px] leading-6 max-w-[280px] mx-auto">
+                  <div className="text-[14px] mb-3 app-body">Your overall progression: <span className="text-[20px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                  <div className="text-zinc-400 text-[13px] leading-5 max-w-[260px] mx-auto">
                     Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                   </div>
                 </>
@@ -679,12 +679,12 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-4">
-              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[19px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <div className="flex flex-col gap-3">
+              <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 mobile-btn rounded-full border-none text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-3 px-6 mobile-btn rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
@@ -696,23 +696,23 @@ const debugProgression = () => {
         </div>
 
         {/* Mobile Footer Navigation */}
-        <div className="fixed bottom-0 left-0 right-0 lg:hidden">
-          <div className="h-8 bg-gradient-to-t from-black/80 via-black/60 to-transparent"></div>
-          <div className="bg-gradient-to-b from-black/90 to-black/70">
+        <div className="fixed bottom-0 left-0 right-0 lg:hidden z-50">
+          <div className="h-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent"></div>
+          <div className="bg-gradient-to-b from-black/95 to-black/90 border-t border-zinc-800/50">
             <div className="flex">
-              <Link href="/chat-history" className="flex-1 flex flex-col items-center justify-center py-3 text-zinc-400">
+              <Link href="/chat-history" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span className="text-xs mt-1">Chat History</span>
               </Link>
-              <Link href="/my-codes" className="flex-1 flex flex-col items-center justify-center py-3 text-zinc-400">
+              <Link href="/my-codes" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span className="text-xs mt-1">My Codes</span>
               </Link>
-              <Link href="/profile" className="flex-1 flex flex-col items-center justify-center py-3 text-zinc-400">
+              <Link href="/profile" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
