@@ -488,12 +488,12 @@ const debugProgression = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh]">
+          <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh] w-full">
             <FlowerProgress
               progressValues={getFlowerProgressData()}
               size={320}
               onClick={handleFlowerSectionClick}
-              className="w-full h-full"
+              className=""
             />
           </div>
 
@@ -683,12 +683,12 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center mb-0 overflow-visible -mt-8 h-[60vh]">
+            <div className="flex items-center justify-center mb-0 overflow-visible -mt-8 h-[60vh] w-full">
             <FlowerProgress
               progressValues={getFlowerProgressData()}
-              size={Math.min(900, window.innerWidth * 0.85)}
+              size={600}
               onClick={handleFlowerSectionClick}
-              className="w-full h-full"
+              className=""
             />
             </div>
           </div>
