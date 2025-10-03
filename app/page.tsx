@@ -647,11 +647,11 @@ const debugProgression = () => {
               <g stroke="#999" strokeWidth="0.8" fill="none" opacity="0.7">
                 {/* PRE-GAME */}
                 <line x1="245" y1="26" x2="315" y2="26"/>
-                <line x1="315" y1="26" x2="325" y2="37"/>
+                <line x1="315" y1="26" x2="305" y2="37"/>
 
                 {/* IN-GAME */}
                 <line x1="325" y1="170" x2="365" y2="170"/>
-                <line x1="365" y1="170" x2="375" y2="151"/>
+                <line x1="365" y1="170" x2="355" y2="151"/>
 
                 {/* POST-GAME */}
                 <line x1="185" y1="325" x2="255" y2="325"/>
@@ -659,11 +659,11 @@ const debugProgression = () => {
 
                 {/* OFF-COURT */}
                 <line x1="3" y1="188" x2="33" y2="188"/>
-                <line x1="3" y1="188" x2="-8" y2="175"/>
+                <line x1="3" y1="188" x2="13" y2="175"/>
 
                 {/* LOCKER ROOM */}
                 <line x1="20" y1="26" x2="90" y2="26"/>
-                <line x1="20" y1="26" x2="10" y2="37"/>
+                <line x1="20" y1="26" x2="30" y2="37"/>
               </g>
 
             </svg>
@@ -1021,11 +1021,11 @@ const debugProgression = () => {
               <g stroke="#999" strokeWidth="0.8" fill="none" opacity="0.7">
                 {/* PRE-GAME */}
                 <line x1="310" y1="86" x2="390" y2="86"/>
-                <line x1="390" y1="86" x2="400" y2="97"/>
+                <line x1="390" y1="86" x2="380" y2="97"/>
 
                 {/* IN-GAME */}
                 <line x1="380" y1="230" x2="430" y2="230"/>
-                <line x1="430" y1="230" x2="442" y2="211"/>
+                <line x1="430" y1="230" x2="420" y2="211"/>
 
                 {/* POST-GAME */}
                 <line x1="250" y1="390" x2="330" y2="390"/>
@@ -1033,11 +1033,11 @@ const debugProgression = () => {
 
                 {/* OFF-COURT */}
                 <line x1="50" y1="248" x2="106" y2="248"/>
-                <line x1="50" y1="248" x2="38" y2="229"/>
+                <line x1="50" y1="248" x2="60" y2="229"/>
 
                 {/* LOCKER ROOM */}
                 <line x1="60" y1="86" x2="150" y2="86"/>
-                <line x1="60" y1="86" x2="48" y2="97"/>
+                <line x1="60" y1="86" x2="70" y2="97"/>
               </g>
 
             </svg>
