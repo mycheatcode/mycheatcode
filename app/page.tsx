@@ -662,8 +662,7 @@ const debugProgression = () => {
             <div className="text-white text-center app-body mb-8">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[16px] mb-2">Your overall progression:</div>
-                  <div className="text-[32px] font-bold app-heading mb-4 text-white">{calculateOverallPercentage()}%</div>
+                  <div className="text-[16px] mb-4">Your overall progression: <span className="text-[32px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                   <div className="text-zinc-400 text-[14px] leading-6 max-w-[280px] mx-auto">
                     Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                   </div>
@@ -681,11 +680,11 @@ const debugProgression = () => {
             </div>
 
             <div className="flex flex-col gap-4">
-              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[19px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
@@ -1069,8 +1068,7 @@ const debugProgression = () => {
           <div className="text-center mb-10">
             {!isLoading && radarState && (
               <>
-                <div className="text-[18px] mb-3 app-body">Your overall progression:</div>
-                <div className="text-[44px] font-bold app-heading mb-6 text-white">{calculateOverallPercentage()}%</div>
+                <div className="text-[18px] mb-6 app-body">Your overall progression: <span className="text-[44px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                 <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
@@ -1089,11 +1087,11 @@ const debugProgression = () => {
           </div>
 
           <div className="space-y-5 w-full max-w-2xl pb-8">
-            <button onClick={handleCreateCheatCode} className="w-full py-5 px-10 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <button onClick={handleCreateCheatCode} className="w-full py-5 px-10 rounded-full border-none text-[22px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
               <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
             </button>
-            <Link href="/community-topics" className="w-full py-5 px-10 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+            <Link href="/community-topics" className="w-full py-5 px-10 rounded-full border border-zinc-700 text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
               <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
             </Link>
