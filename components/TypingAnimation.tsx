@@ -12,7 +12,7 @@ interface TypingAnimationProps {
 
 export default function TypingAnimation({
   text,
-  speed = 50,
+  speed = 100,
   delay = 0,
   onComplete,
   className = ""
@@ -24,6 +24,7 @@ export default function TypingAnimation({
 
   // Reset animation when text changes
   useEffect(() => {
+    console.log('TypingAnimation: Text changed to:', text);
     setDisplayedText('');
     setCurrentCharIndex(0);
     setIsComplete(false);
@@ -32,24 +33,33 @@ export default function TypingAnimation({
 
   useEffect(() => {
     if (!hasStarted && delay > 0) {
+      console.log('TypingAnimation: Starting with delay:', delay);
       const delayTimer = setTimeout(() => {
+        console.log('TypingAnimation: Delay complete, starting animation');
         setHasStarted(true);
       }, delay);
       return () => clearTimeout(delayTimer);
     } else if (!hasStarted) {
+      console.log('TypingAnimation: Starting immediately');
       setHasStarted(true);
     }
   }, [delay, hasStarted]);
 
   useEffect(() => {
     if (hasStarted && currentCharIndex < text.length) {
+      console.log(`TypingAnimation: Adding character ${currentCharIndex}: "${text[currentCharIndex]}"`);
       const timer = setTimeout(() => {
-        setDisplayedText(prev => prev + text[currentCharIndex]);
+        setDisplayedText(prev => {
+          const newText = prev + text[currentCharIndex];
+          console.log('TypingAnimation: New displayed text:', newText);
+          return newText;
+        });
         setCurrentCharIndex(prev => prev + 1);
       }, speed);
 
       return () => clearTimeout(timer);
     } else if (hasStarted && !isComplete && currentCharIndex >= text.length) {
+      console.log('TypingAnimation: Animation complete');
       setIsComplete(true);
       onComplete?.();
     }

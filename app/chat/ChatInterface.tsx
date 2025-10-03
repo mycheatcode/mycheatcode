@@ -234,7 +234,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
               {message.sender === 'coach' ? (
                 <TypingAnimation
                   text={message.text}
-                  speed={50}
+                  speed={100}
                   className="text-sm whitespace-pre-wrap"
                   onComplete={() => {
                     setCompletedAnimations(prev => new Set(prev).add(message.id));
