@@ -849,13 +849,13 @@ const debugProgression = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-1 mt-2">
+            <div className="text-center mb-0 mt-2">
               <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-0">
                 YOUR ANALYSIS
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-1 overflow-visible">
+            <div className="flex-1 flex items-center justify-center mb-0 overflow-visible">
             <svg width="min(900px, 85vw)" height="min(900px, 85vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
@@ -1043,21 +1043,21 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-6">
+          <div className="text-center mb-5">
             {!isLoading && radarState && (
               <>
-                <div className="text-[16px] mb-3 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
+                <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-3">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-[16px] mb-3 app-body">
+                <div className="text-[16px] mb-2 app-body">
                   Loading your progression...
                 </div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-3">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
