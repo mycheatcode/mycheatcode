@@ -24,6 +24,14 @@ export default function TypingAnimation({
 
   const words = text.split(' ');
 
+  // Reset animation when text changes
+  useEffect(() => {
+    setDisplayedText('');
+    setCurrentWordIndex(0);
+    setIsComplete(false);
+    setHasStarted(false);
+  }, [text]);
+
   useEffect(() => {
     if (!hasStarted && delay > 0) {
       const delayTimer = setTimeout(() => {
