@@ -848,15 +848,15 @@ const debugProgression = () => {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-1 mt-2">
+          <div className="flex-1 flex flex-col items-center relative">
+            <div className="text-center mb-1 mt-2 relative z-20">
               <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-0">
                 YOUR ANALYSIS
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-1 overflow-visible">
-            <svg width="min(700px, 70vw)" height="min(700px, 70vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
+            <div className="absolute inset-0 flex items-center justify-center z-10" style={{pointerEvents: 'none'}}>
+            <svg width="min(900px, 90vw)" height="min(900px, 90vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible', pointerEvents: 'auto'}}>
               <defs></defs>
               <style>
                 {`
@@ -1043,7 +1043,7 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-6">
+          <div className="text-center mb-6 relative z-20">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-3 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
@@ -1064,7 +1064,7 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="space-y-2 w-full max-w-2xl pb-4">
+          <div className="space-y-2 w-full max-w-2xl pb-4 relative z-20">
             <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
               <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
