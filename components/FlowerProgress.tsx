@@ -287,20 +287,34 @@ export default function FlowerProgress({
 
       {/* Section Labels */}
       <g className="section-labels" style={{fontSize: size > 400 ? '12px' : '10px', fontFamily: 'var(--font-dm-sans)', fontWeight: '600', letterSpacing: '2px', fill: '#CCCCCC'}}>
-        {/* PRE-GAME - Top */}
-        <text x={size/2} y={size * 0.08} textAnchor="middle">PRE-GAME</text>
+        {(() => {
+          const center = size / 2;
+          const labelRadius = size * 0.55; // Position labels outside the flower
+          const sections = ['PRE-GAME', 'IN-GAME', 'POST-GAME', 'OFF COURT', 'LOCKER ROOM'];
+          const rotationOffset = -Math.PI / 2;
+          const wedgeSize = (Math.PI * 2) / 5;
 
-        {/* IN-GAME - Top Right */}
-        <text x={size * 0.88} y={size * 0.35} textAnchor="middle">IN-GAME</text>
+          return sections.map((sectionName, index) => {
+            // Calculate the center angle of each petal
+            const petalCenterAngle = rotationOffset + index * wedgeSize;
 
-        {/* POST-GAME - Bottom Right */}
-        <text x={size * 0.88} y={size * 0.88} textAnchor="middle">POST-GAME</text>
+            // Calculate label position
+            const labelX = center + labelRadius * Math.cos(petalCenterAngle);
+            const labelY = center + labelRadius * Math.sin(petalCenterAngle);
 
-        {/* OFF COURT - Bottom */}
-        <text x={size/2} y={size * 0.95} textAnchor="middle">OFF COURT</text>
-
-        {/* LOCKER ROOM - Top Left */}
-        <text x={size * 0.12} y={size * 0.35} textAnchor="middle">LOCKER ROOM</text>
+            return (
+              <text
+                key={index}
+                x={labelX}
+                y={labelY}
+                textAnchor="middle"
+                dominantBaseline="central"
+              >
+                {sectionName}
+              </text>
+            );
+          });
+        })()}
       </g>
     </svg>
   );
