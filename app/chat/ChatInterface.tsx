@@ -33,22 +33,27 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   useEffect(() => {
     // Start conversation with coach message if no messages exist
     if (chatState.messages.length === 0 && section) {
-      const initialCoachMessage: ChatMessage = {
-        id: `coach-initial-${Date.now()}`,
-        text: getInitialCoachMessage(section),
-        sender: 'coach',
-        timestamp: new Date()
-      };
+      // First show typing indicator for a brief moment
+      setIsTyping(true);
 
-      console.log('Adding initial coach message:', initialCoachMessage);
+      // After 1 second, show the actual message with typing animation
+      setTimeout(() => {
+        const initialCoachMessage: ChatMessage = {
+          id: `coach-initial-${Date.now()}`,
+          text: getInitialCoachMessage(section),
+          sender: 'coach',
+          timestamp: new Date()
+        };
 
-      setChatState(prev => ({
-        ...prev,
-        messages: [initialCoachMessage]
-      }));
+        console.log('Adding initial coach message:', initialCoachMessage);
 
-      // Mark initial message as needing animation (will start automatically)
-      // The animation will complete and trigger the callback
+        setChatState(prev => ({
+          ...prev,
+          messages: [initialCoachMessage]
+        }));
+
+        setIsTyping(false);
+      }, 1000);
     }
   }, [section]);
 
