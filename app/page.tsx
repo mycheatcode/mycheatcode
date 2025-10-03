@@ -598,7 +598,7 @@ const debugProgression = () => {
               {/* Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="280" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
+                <text x="280" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="315" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -607,7 +607,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="350" y="162" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
+                <text x="350" y="162" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
@@ -616,7 +616,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="230" y="317" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="230" y="317" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -625,7 +625,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="6" y="180" textAnchor="middle" fill="#888" fontSize="11" fontWeight="500" letterSpacing="1.2">OFF-COURT</text>
+                <text x="6" y="180" textAnchor="middle" fill="#888" fontSize="11" fontFamily="var(--font-dm-sans)" fontWeight="500" letterSpacing="1.2">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
@@ -634,7 +634,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="55" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
+                <text x="55" y="18" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="105" cy="14" r="6" fill="#00FF00" opacity="0.8" />
@@ -972,7 +972,7 @@ const debugProgression = () => {
               {/* Desktop Section Labels with Green Hold Badges */}
               <g>
                 {/* PRE-GAME */}
-                <text x="350" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
+                <text x="350" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">PRE-GAME</text>
                 {getGreenHold('Pre-Game').hasActiveHold && (
                   <g>
                     <circle cx="395" cy="74" r="8" fill="#00FF00" opacity="0.9" />
@@ -981,7 +981,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="410" y="222" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
+                <text x="410" y="222" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
@@ -990,7 +990,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="300" y="382" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="300" y="382" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -999,7 +999,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="62" y="240" textAnchor="middle" fill="#888" fontSize="13" fontWeight="500" letterSpacing="1.4">OFF-COURT</text>
+                <text x="62" y="240" textAnchor="middle" fill="#888" fontSize="13" fontFamily="var(--font-dm-sans)" fontWeight="500" letterSpacing="1.4">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
@@ -1008,7 +1008,7 @@ const debugProgression = () => {
                 )}
 
                 {/* LOCKER ROOM */}
-                <text x="105" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-oswald)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
+                <text x="105" y="78" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">LOCKER ROOM</text>
                 {getGreenHold('Locker Room').hasActiveHold && (
                   <g>
                     <circle cx="170" cy="74" r="8" fill="#00FF00" opacity="0.9" />
