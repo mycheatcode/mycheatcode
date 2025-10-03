@@ -625,7 +625,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="6" y="180" textAnchor="middle" fill="#888" fontSize="11" fontFamily="var(--font-dm-sans)" fontWeight="500" letterSpacing="1.2">OFF-COURT</text>
+                <text x="6" y="180" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
@@ -999,7 +999,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="62" y="240" textAnchor="middle" fill="#888" fontSize="13" fontFamily="var(--font-dm-sans)" fontWeight="500" letterSpacing="1.4">OFF-COURT</text>
+                <text x="62" y="240" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
