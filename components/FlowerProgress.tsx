@@ -41,22 +41,16 @@ export default function FlowerProgress({
       // Convert progress percentages to 0-1 values
       const sectionProgress = progressValues.map(p => p / 100);
 
-      // Define specific petal angles to match label positions
-      const petalAngles = [
-        -3 * Math.PI / 4,  // Top-left (PRE-GAME)
-        -Math.PI / 4,      // Top-right (IN-GAME)
-        Math.PI / 4,       // Bottom-right (POST-GAME)
-        Math.PI / 2,       // Bottom (OFF COURT)
-        3 * Math.PI / 4    // Bottom-left (LOCKER ROOM)
-      ];
       const wedgeSize = TAU / numSections;
+      // Rotate so first petal points up
+      const rotationOffset = -Math.PI / 2;
 
       // FIRST: Draw ghost underlay showing 100% progress for all sections
       for (let sectionIdx = 0; sectionIdx < numSections; sectionIdx++) {
         const ghostProgress = 1.0; // Always show full progress for ghost
         const scaledProgress = 0.4 + (ghostProgress * 0.6); // Same scaling as real petals
 
-        const sectionStart = petalAngles[sectionIdx];
+        const sectionStart = rotationOffset + sectionIdx * wedgeSize;
 
         // Only draw every 3rd ring for the ghost to keep it subtle
         for (let ringIdx = 2; ringIdx < rings; ringIdx += 3) {
@@ -120,7 +114,7 @@ export default function FlowerProgress({
         const scaledProgress = 0.4 + (progress * 0.6);
 
         // This section's angular range (valley to valley)
-        const sectionStart = petalAngles[sectionIdx];
+        const sectionStart = rotationOffset + sectionIdx * wedgeSize;
 
         // Draw rings for this section based on scaled progress
         const maxRings = Math.ceil(rings * scaledProgress);
