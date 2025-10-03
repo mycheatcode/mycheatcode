@@ -623,19 +623,19 @@ const debugProgression = () => {
 
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full bg-red-500 shadow-lg shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
+                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 10, 0)'}}></div>
                   <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full bg-orange-500 shadow-lg shadow-orange-500/30 group-hover:shadow-orange-500/50 transition-all duration-200"></div>
+                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 165, 0)'}}></div>
                   <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/30 group-hover:shadow-yellow-400/50 transition-all duration-200"></div>
+                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 255, 0)'}}></div>
                   <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
                 </div>
                 <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full bg-green-500 shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-200"></div>
+                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(0, 255, 0)'}}></div>
                   <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
                 </div>
               </div>
@@ -643,28 +643,28 @@ const debugProgression = () => {
               {legendExpanded && (
                 <div className="space-y-3 border-t border-zinc-800 pt-3 mt-3 max-w-64">
                   <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-red-500 shadow-sm shadow-red-500/30 mt-1 flex-shrink-0"></div>
+                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 10, 0)'}}></div>
                     <div className="text-xs text-zinc-400 leading-tight">
                       <div className="text-zinc-300 font-medium mb-1">Activated</div>
                       Foundation level - First cheat code created. Building initial mental frameworks and awareness.
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-orange-500 shadow-sm shadow-orange-500/30 mt-1 flex-shrink-0"></div>
+                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 165, 0)'}}></div>
                     <div className="text-xs text-zinc-400 leading-tight">
                       <div className="text-zinc-300 font-medium mb-1">Rising</div>
                       Development level - Consistent practice building momentum. Skills becoming more natural.
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-yellow-400 shadow-sm shadow-yellow-400/30 mt-1 flex-shrink-0"></div>
+                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 255, 0)'}}></div>
                     <div className="text-xs text-zinc-400 leading-tight">
                       <div className="text-zinc-300 font-medium mb-1">Elevated</div>
                       Advanced level - Peak performance moments frequent. Can access cheat codes under pressure.
                     </div>
                   </div>
                   <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full bg-green-500 shadow-sm shadow-green-500/30 mt-1 flex-shrink-0"></div>
+                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(0, 255, 0)'}}></div>
                     <div className="text-xs text-zinc-400 leading-tight">
                       <div className="text-zinc-300 font-medium mb-1">Limitless</div>
                       Elite level - Unconscious competence. Cheat codes integrated and automatic in all situations.
