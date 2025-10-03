@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { chatService, ChatMessage, ChatState } from '../utils/chatService';
 import { SectionType } from '../../lib/types';
+import TypingAnimation from '../../components/TypingAnimation';
 
 interface ChatInterfaceProps {
   section: SectionType;
@@ -20,6 +21,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   });
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [completedAnimations, setCompletedAnimations] = useState<Set<string>>(new Set());
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -44,6 +46,9 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         ...prev,
         messages: [initialCoachMessage]
       }));
+
+      // Mark initial message as needing animation (will start automatically)
+      // The animation will complete and trigger the callback
     }
   }, [section]);
 
@@ -234,10 +239,21 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
                   : 'bg-zinc-800 text-white'
               }`}
             >
-              <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+              {message.sender === 'coach' ? (
+                <TypingAnimation
+                  text={message.text}
+                  speed={100}
+                  className="text-sm whitespace-pre-wrap"
+                  onComplete={() => {
+                    setCompletedAnimations(prev => new Set(prev).add(message.id));
+                  }}
+                />
+              ) : (
+                <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+              )}
 
-              {/* Code offer buttons */}
-              {message.contains_code_offer && message.is_valid_offer && (
+              {/* Code offer buttons - only show after typing animation completes */}
+              {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => handleCodeResponse(true)}
