@@ -384,18 +384,18 @@ const debugProgression = () => {
       >
       {/* Mobile Design */}
       <div className="lg:hidden bg-black min-h-screen relative pb-[90px] flex flex-col">
-        <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-lg app-label">MYCHEATCODE.AI</div>
+        <div className="px-6 py-5 text-center border-b border-zinc-800 flex-shrink-0">
+          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
         </div>
 
-        <div className="flex-1 flex flex-col p-4 pt-8 overflow-visible">
-          <div className="text-center mt-2 mb-6 text-[24px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+        <div className="flex-1 flex flex-col px-6 pt-10 overflow-visible">
+          <div className="text-center mb-8 text-[28px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             Your Analysis
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-6 px-1 relative">
-            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-3 py-2.5 backdrop-blur-sm">
+          <div className="flex justify-center mb-8 px-1 relative">
+            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-4 py-3 backdrop-blur-sm">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 group cursor-default">
                   <div className="w-2 h-2 rounded-full bg-red-500 shadow-md shadow-red-500/30 group-hover:shadow-red-500/50 transition-all duration-200"></div>
@@ -658,14 +658,14 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="mt-6 mb-8">
-            <div className="text-white text-center text-[15px] app-body mb-6">
+          <div className="mt-8 mb-10">
+            <div className="text-white text-center app-body mb-8">
               {!isLoading && radarState && (
                 <>
-                  Your overall progression: <strong className="text-white font-bold text-[18px]">{calculateOverallPercentage()}%</strong>
-                  <div className="text-zinc-500 text-[13px] mt-1 leading-5">
-                    Every elite player started exactly where you are now.<br/>
-                    Build cheat codes for each area to reach full power.
+                  <div className="text-[16px] mb-2">Your overall progression:</div>
+                  <div className="text-[32px] font-bold app-heading mb-4 text-white">{calculateOverallPercentage()}%</div>
+                  <div className="text-zinc-400 text-[14px] leading-6 max-w-[280px] mx-auto">
+                    Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                   </div>
                 </>
               )}
@@ -680,12 +680,12 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-3">
-              <button onClick={handleCreateCheatCode} className="w-full py-3.5 px-6 rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <div className="flex flex-col gap-4">
+              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-3.5 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
@@ -736,7 +736,7 @@ const debugProgression = () => {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
+        <div className="absolute top-0 left-0 right-0 px-6 py-5 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
@@ -872,8 +872,8 @@ const debugProgression = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-4 mt-4">
-              <div className="text-3xl app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-3">
+            <div className="text-center mb-8 mt-6">
+              <div className="text-[40px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-4">
                 Your Analysis
               </div>
             </div>
@@ -1066,41 +1066,38 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-6">
+          <div className="text-center mb-10">
             {!isLoading && radarState && (
               <>
-                <div className="text-white text-lg mb-3 body-text">
-                  Your overall progression: <strong className="text-xl font-bold">{calculateOverallPercentage()}%</strong>
-                </div>
-                <div className="text-zinc-400 text-sm leading-relaxed">
-                  Every elite player started exactly where you are now.<br/>
-                  Build cheat codes for each area to reach full power.
+                <div className="text-[18px] mb-3 app-body">Your overall progression:</div>
+                <div className="text-[44px] font-bold app-heading mb-6 text-white">{calculateOverallPercentage()}%</div>
+                <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
+                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-white text-lg mb-3 body-text">
+                <div className="text-[18px] mb-3 app-body">
                   Loading your progression...
                 </div>
-                <div className="text-zinc-400 text-sm leading-relaxed">
-                  Every elite player started exactly where you are now.<br/>
-                  Build cheat codes for each area to reach full power.
+                <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
+                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
             )}
           </div>
 
-          <div className="space-y-3 w-full max-w-2xl pb-6">
-            <button onClick={handleCreateCheatCode} className="w-full py-3 px-8 rounded-full border-none text-xl app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+          <div className="space-y-5 w-full max-w-2xl pb-8">
+            <button onClick={handleCreateCheatCode} className="w-full py-5 px-10 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
+              <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
             </button>
-            <Link href="/community-topics" className="w-full py-3 px-8 rounded-full border border-zinc-700 text-xl app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+            <Link href="/community-topics" className="w-full py-5 px-10 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
+              <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
             </Link>
-            <button onClick={handleShare} className="w-full py-3 px-0 text-lg font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-4">
+            <button onClick={handleShare} className="w-full py-4 px-0 text-[16px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-6">
               Share
             </button>
           </div>
