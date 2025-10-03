@@ -296,9 +296,9 @@ export default function FlowerProgress({
           const sectionPositions = [
             { name: 'PRE-GAME', angle: -3 * Math.PI / 4 },      // Top-left
             { name: 'IN-GAME', angle: -Math.PI / 4 },           // Top-right
-            { name: 'POST-GAME', angle: Math.PI / 6, radiusMultiplier: 1.1 },          // Bottom-right (adjusted)
+            { name: 'POST-GAME', angle: Math.PI / 8, radiusMultiplier: 1.1 },          // Bottom-right (moved up slightly)
             { name: 'OFF COURT', angle: Math.PI / 2 },          // Bottom
-            { name: 'LOCKER ROOM', angle: 2.3 * Math.PI / 4, radiusMultiplier: 1.1 }    // Bottom-left (adjusted)
+            { name: 'LOCKER ROOM', angle: -Math.PI / 8 + Math.PI, radiusMultiplier: 1.1 }    // Bottom-left (mirror of POST-GAME)
           ];
 
           return sectionPositions.map((section, index) => {
