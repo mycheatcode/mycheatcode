@@ -849,13 +849,13 @@ const debugProgression = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-4 mt-4">
-              <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-2">
+            <div className="text-center mb-2 mt-3">
+              <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-1">
                 YOUR ANALYSIS
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-3 overflow-visible">
+            <div className="flex-1 flex items-center justify-center mb-2 overflow-visible">
             <svg width="min(700px, 70vw)" height="min(700px, 70vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
@@ -1043,10 +1043,10 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-6">
+          <div className="text-center mb-4">
             {!isLoading && radarState && (
               <>
-                <div className="text-[16px] mb-4 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                <div className="text-[16px] mb-3 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                 <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
@@ -1054,7 +1054,7 @@ const debugProgression = () => {
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-[16px] mb-4 app-body">
+                <div className="text-[16px] mb-3 app-body">
                   Loading your progression...
                 </div>
                 <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto">
@@ -1064,16 +1064,16 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="space-y-3 w-full max-w-2xl pb-8">
-            <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+          <div className="space-y-2 w-full max-w-2xl pb-4">
+            <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
+              <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
             </button>
-            <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+            <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
-              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
+              <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
             </Link>
-            <button onClick={handleShare} className="w-full py-3 px-0 text-[15px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
+            <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
               Share
             </button>
           </div>
