@@ -443,12 +443,12 @@ const debugProgression = () => {
         )}
 
         <div className="flex-1 flex flex-col px-4 pt-16 overflow-visible min-h-0">
-          <div className="text-center mb-3 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+          <div className="text-center mb-0 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-0 px-1">
+          <div className="flex justify-center mb-0 px-1 -mt-2">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-3 py-1.5 backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1 group cursor-default">
@@ -471,7 +471,7 @@ const debugProgression = () => {
             </div>
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible">
+          <div className="flex-1 flex items-center justify-center overflow-visible -mt-4">
             <svg width="min(320px, 85vw)" height="min(320px, 85vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
@@ -855,7 +855,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-0 overflow-visible">
+            <div className="flex-1 flex items-center justify-center mb-0 overflow-visible -mt-8">
             <svg width="min(900px, 85vw)" height="min(900px, 85vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
@@ -1043,7 +1043,7 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-5">
+          <div className="text-center mb-5 -mt-6">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
