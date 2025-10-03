@@ -607,7 +607,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="355" y="160" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
+                <text x="355" y="175" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="380" cy="158" r="6" fill="#00FF00" opacity="0.8" />
@@ -616,7 +616,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="180" y="295" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="200" y="295" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="265" cy="313" r="6" fill="#00FF00" opacity="0.8" />
@@ -625,7 +625,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="6" y="180" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
+                <text x="6" y="195" textAnchor="middle" fill="#CCCCCC" fontSize="10" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="45" cy="176" r="6" fill="#00FF00" opacity="0.8" />
@@ -650,16 +650,16 @@ const debugProgression = () => {
                 <line x1="245" y1="26" x2="235" y2="37"/>
 
                 {/* IN-GAME */}
-                <line x1="330" y1="168" x2="370" y2="168"/>
-                <line x1="330" y1="168" x2="312" y2="149"/>
+                <line x1="330" y1="183" x2="370" y2="183"/>
+                <line x1="330" y1="183" x2="312" y2="164"/>
 
                 {/* POST-GAME */}
-                <line x1="135" y1="303" x2="205" y2="303"/>
-                <line x1="135" y1="303" x2="125" y2="284"/>
+                <line x1="155" y1="303" x2="225" y2="303"/>
+                <line x1="155" y1="303" x2="145" y2="284"/>
 
                 {/* OFF-COURT */}
-                <line x1="3" y1="188" x2="33" y2="188"/>
-                <line x1="33" y1="188" x2="48" y2="169"/>
+                <line x1="3" y1="203" x2="33" y2="203"/>
+                <line x1="33" y1="203" x2="48" y2="184"/>
 
                 {/* LOCKER ROOM */}
                 <line x1="35" y1="33" x2="105" y2="33"/>
@@ -981,7 +981,7 @@ const debugProgression = () => {
                 )}
 
                 {/* IN-GAME */}
-                <text x="415" y="220" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
+                <text x="415" y="240" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">IN-GAME</text>
                 {getGreenHold('In-Game').hasActiveHold && (
                   <g>
                     <circle cx="445" cy="218" r="8" fill="#00FF00" opacity="0.9" />
@@ -990,7 +990,7 @@ const debugProgression = () => {
                 )}
 
                 {/* POST-GAME */}
-                <text x="240" y="365" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
+                <text x="270" y="365" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">POST-GAME</text>
                 {getGreenHold('Post-Game').hasActiveHold && (
                   <g>
                     <circle cx="345" cy="378" r="8" fill="#00FF00" opacity="0.9" />
@@ -999,7 +999,7 @@ const debugProgression = () => {
                 )}
 
                 {/* OFF-COURT */}
-                <text x="62" y="240" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
+                <text x="62" y="260" textAnchor="middle" fill="#CCCCCC" fontSize="12" fontFamily="var(--font-dm-sans)" fontWeight="600" letterSpacing="2px">OFF-COURT</text>
                 {getGreenHold('Off Court').hasActiveHold && (
                   <g>
                     <circle cx="25" cy="236" r="8" fill="#00FF00" opacity="0.9" />
@@ -1024,16 +1024,16 @@ const debugProgression = () => {
                 <line x1="310" y1="86" x2="300" y2="97"/>
 
                 {/* IN-GAME */}
-                <line x1="385" y1="228" x2="435" y2="228"/>
-                <line x1="385" y1="228" x2="367" y2="209"/>
+                <line x1="385" y1="248" x2="435" y2="248"/>
+                <line x1="385" y1="248" x2="367" y2="229"/>
 
                 {/* POST-GAME */}
-                <line x1="190" y1="373" x2="270" y2="373"/>
-                <line x1="190" y1="373" x2="180" y2="354"/>
+                <line x1="220" y1="373" x2="300" y2="373"/>
+                <line x1="220" y1="373" x2="210" y2="354"/>
 
                 {/* OFF-COURT */}
-                <line x1="50" y1="248" x2="106" y2="248"/>
-                <line x1="106" y1="248" x2="118" y2="229"/>
+                <line x1="50" y1="268" x2="106" y2="268"/>
+                <line x1="106" y1="268" x2="118" y2="249"/>
 
                 {/* LOCKER ROOM */}
                 <line x1="75" y1="93" x2="165" y2="93"/>
