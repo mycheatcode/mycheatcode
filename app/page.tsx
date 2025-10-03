@@ -390,7 +390,7 @@ const debugProgression = () => {
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-2 px-1">
+          <div className="flex justify-center mb-1 px-1">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-3 py-1.5 backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1 group cursor-default">
@@ -625,14 +625,16 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex gap-2 pb-3">
-              <button onClick={handleCreateCheatCode} className="flex-1 py-2 px-4 mobile-btn rounded-full border-none text-[14px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center">
+            <div className="flex flex-col gap-2 pb-3">
+              <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="flex-1 py-2 px-4 mobile-btn rounded-full border border-zinc-700 text-[13px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center">
-                Topics
+              <Link href="/community-topics" className="w-full py-2.5 px-5 mobile-btn rounded-full border border-zinc-700 text-[15px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+                View Community Topics
+                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
-              <button onClick={handleShare} className="px-3 py-2 rounded-full border border-zinc-700 text-[13px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
+              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
                 Share
               </button>
             </div>
@@ -815,14 +817,14 @@ const debugProgression = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-8 mt-6">
-              <div className="text-[40px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-4">
+            <div className="text-center mb-4 mt-4">
+              <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-2">
                 YOUR ANALYSIS
               </div>
             </div>
 
-            <div className="flex-1 flex items-center justify-center mb-4 overflow-visible max-h-[60vh] ">
-            <svg width="650" height="650" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
+            <div className="flex-1 flex items-center justify-center mb-3 overflow-visible">
+            <svg width="min(700px, 70vw)" height="min(700px, 70vw)" viewBox="0 0 480 440" className="radar-svg radar-svg-desktop" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
                 {`
@@ -1009,37 +1011,37 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             {!isLoading && radarState && (
               <>
-                <div className="text-[18px] mb-6 app-body">Your overall progression: <span className="text-[32px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
+                <div className="text-[16px] mb-4 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
             )}
             {(isLoading || !radarState) && (
               <>
-                <div className="text-[18px] mb-3 app-body">
+                <div className="text-[16px] mb-4 app-body">
                   Loading your progression...
                 </div>
-                <div className="text-zinc-400 text-[16px] leading-7 max-w-[400px] mx-auto">
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
             )}
           </div>
 
-          <div className="space-y-5 w-full max-w-2xl pb-8">
-            <button onClick={handleCreateCheatCode} className="w-full py-5 px-10 rounded-full border-none text-[22px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+          <div className="space-y-3 w-full max-w-2xl pb-6">
+            <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
-              <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
             </button>
-            <Link href="/community-topics" className="w-full py-5 px-10 rounded-full border border-zinc-700 text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+            <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
               View Community Topics
-              <div className="absolute right-8 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
+              <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-white/30"></div>
             </Link>
-            <button onClick={handleShare} className="w-full py-4 px-0 text-[16px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center mt-6">
+            <button onClick={handleShare} className="w-full py-3 px-0 text-[15px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
               Share
             </button>
           </div>
