@@ -30,11 +30,14 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chatState.messages, isTyping]);
 
+  const [hasShownInitialMessage, setHasShownInitialMessage] = useState(false);
+
   useEffect(() => {
-    // Start conversation with coach message if no messages exist
-    if (chatState.messages.length === 0) {
+    // Start conversation with coach message if no messages exist and we haven't shown it yet
+    if (chatState.messages.length === 0 && !hasShownInitialMessage) {
       // First show typing indicator for a brief moment
       setIsTyping(true);
+      setHasShownInitialMessage(true);
 
       // After 1 second, show the actual message with typing animation
       setTimeout(() => {
@@ -55,7 +58,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         setIsTyping(false);
       }, 1000);
     }
-  }, []);
+  }, [chatState.messages.length, hasShownInitialMessage]);
 
   const getInitialCoachMessage = (section: SectionType): string => {
     return "What's up! I'm your mental performance coach. What do you want to talk about?";
@@ -233,6 +236,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             >
               {message.sender === 'coach' ? (
                 <TypingAnimation
+                  key={message.id}
                   text={message.text}
                   speed={100}
                   className="text-sm whitespace-pre-wrap"
