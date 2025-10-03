@@ -384,17 +384,13 @@ const debugProgression = () => {
       >
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
-        <div className="px-4 py-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-xl app-label mobile-brand">MYCHEATCODE.AI</div>
-        </div>
-
-        <div className="flex-1 flex flex-col px-4 pt-6 overflow-visible min-h-0">
-          <div className="text-center mb-6 mobile-spacing text-[24px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
+        <div className="flex-1 flex flex-col px-4 pt-4 overflow-visible min-h-0">
+          <div className="text-center mb-4 text-[22px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-6 mobile-spacing px-1 relative">
+          <div className="flex justify-center mb-4 px-1 relative">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-2xl px-4 py-3 backdrop-blur-sm">
               <div className="flex items-center gap-2.5">
                 <div className="flex items-center gap-1.5 group cursor-default">
@@ -460,8 +456,8 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="flex-1 flex items-center justify-center overflow-visible min-h-0 radar-container">
-            <svg width="min(280px, 70vw)" height="min(280px, 70vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
+          <div className="flex items-center justify-center overflow-visible">
+            <svg width="min(240px, 65vw)" height="min(240px, 65vw)" viewBox="0 0 360 320" className="radar-svg radar-svg-mobile" style={{overflow: 'visible'}}>
               <defs></defs>
               <style>
                 {`
@@ -658,12 +654,12 @@ const debugProgression = () => {
             </svg>
           </div>
 
-          <div className="mt-6 mb-6 mobile-section-spacing">
-            <div className="text-white text-center app-body mb-4 mobile-spacing">
+          <div className="mt-4 mb-6">
+            <div className="text-white text-center app-body mb-3">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[14px] mb-3 app-body">Your overall progression: <span className="text-[20px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                  <div className="text-zinc-400 text-[13px] leading-5 max-w-[260px] mx-auto">
+                  <div className="text-[14px] mb-2 app-body">Your overall progression: <span className="text-[18px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                  <div className="text-zinc-400 text-[12px] leading-4 max-w-[240px] mx-auto">
                     Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                   </div>
                 </>
@@ -679,12 +675,12 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-3">
-              <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 mobile-btn rounded-full border-none text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+            <div className="flex flex-col gap-2 pb-4">
+              <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-3 px-6 mobile-btn rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-2.5 px-5 mobile-btn rounded-full border border-zinc-700 text-[15px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
