@@ -384,13 +384,71 @@ const debugProgression = () => {
       >
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
-        <div className="flex-1 flex flex-col px-4 pt-4 overflow-visible min-h-0">
+        {/* Mobile Header with Menu */}
+        <div className="absolute top-0 left-0 right-0 px-4 py-4 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        {/* Mobile Sidebar Navigation */}
+        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="pt-16"></div>
+          <nav className="flex-1">
+            <div>
+              <Link href="/" className="flex items-center gap-3 p-4 text-white font-medium relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span>My Codes</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                </svg>
+                <span>Chat History</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>Profile</span>
+              </Link>
+            </div>
+          </nav>
+        </div>
+
+        {/* Mobile Overlay when menu is open */}
+        {menuOpen && (
+          <div
+            className="absolute inset-0 bg-black bg-opacity-60 z-20"
+            onClick={() => setMenuOpen(false)}
+          ></div>
+        )}
+
+        <div className="flex-1 flex flex-col px-4 pt-16 overflow-visible min-h-0">
           <div className="text-center mb-3 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
             YOUR ANALYSIS
           </div>
 
           {/* Color Legend - Mobile */}
-          <div className="flex justify-center mb-1 px-1">
+          <div className="flex justify-center mb-0 px-1">
             <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-3 py-1.5 backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-1 group cursor-default">
@@ -625,7 +683,7 @@ const debugProgression = () => {
               )}
             </div>
 
-            <div className="flex flex-col gap-2 pb-3">
+            <div className="flex flex-col gap-2 pb-6">
               <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Create Cheat Code
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
@@ -641,32 +699,6 @@ const debugProgression = () => {
           </div>
         </div>
 
-        {/* Mobile Footer Navigation */}
-        <div className="fixed bottom-0 left-0 right-0 lg:hidden z-50">
-          <div className="h-6 bg-gradient-to-t from-black/80 via-black/60 to-transparent"></div>
-          <div className="bg-gradient-to-b from-black/95 to-black/90 border-t border-zinc-800/50">
-            <div className="flex">
-              <Link href="/chat-history" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                </svg>
-                <span className="text-xs mt-1">Chat History</span>
-              </Link>
-              <Link href="/my-codes" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-                <span className="text-xs mt-1">My Codes</span>
-              </Link>
-              <Link href="/profile" className="flex-1 flex flex-col items-center justify-center py-2 text-zinc-400">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                </svg>
-                <span className="text-xs mt-1">Profile</span>
-              </Link>
-            </div>
-          </div>
-        </div>
 
         {/* Section Progress Modal */}
         {showProgressModal && (
@@ -1032,7 +1064,7 @@ const debugProgression = () => {
             )}
           </div>
 
-          <div className="space-y-3 w-full max-w-2xl pb-6">
+          <div className="space-y-3 w-full max-w-2xl pb-8">
             <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
               Create Cheat Code
               <div className="absolute right-6 top-1/2 transform -translate-y-1/2 w-8 h-0.5 bg-black"></div>
