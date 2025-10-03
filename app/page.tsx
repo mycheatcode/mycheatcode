@@ -676,14 +676,14 @@ const debugProgression = () => {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col items-center">
-            <div className="text-center mb-0 mt-2">
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="text-center mb-4">
               <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-0">
                 YOUR ANALYSIS
               </div>
             </div>
 
-            <div className="flex items-center justify-center mb-0 overflow-visible -mt-8 h-[60vh] w-full">
+            <div className="flex items-center justify-center mb-6">
             <FlowerProgress
               progressValues={getFlowerProgressData()}
               size={600}
@@ -691,9 +691,8 @@ const debugProgression = () => {
               className=""
             />
             </div>
-          </div>
 
-          <div className="text-center mb-5 -mt-3">
+            <div className="text-center mb-5">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
@@ -712,20 +711,21 @@ const debugProgression = () => {
                 </div>
               </>
             )}
-          </div>
+            </div>
 
-          <div className="space-y-2 w-full max-w-2xl pb-8">
-            <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
-              Create Cheat Code
-              <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
-            </button>
-            <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
-              View Community Topics
-              <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
-            </Link>
-            <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
-              Share
-            </button>
+            <div className="space-y-2 w-full max-w-2xl">
+              <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+                Create Cheat Code
+                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
+              </button>
+              <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+                View Community Topics
+                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
+              </Link>
+              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
+                Share
+              </button>
+            </div>
           </div>
         </div>
       </div>
