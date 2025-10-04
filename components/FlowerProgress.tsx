@@ -10,18 +10,19 @@ interface FlowerProgressProps {
 }
 
 export default function FlowerProgress({
-  progressValues = [75, 60, 90, 45, 80],
+  progressValues = [75, 75, 75, 75, 75], // Set all petals to 75%
   size = 300,
   onClick,
   className = ""
 }: FlowerProgressProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<SVGGElement>(null);
+  const animationRef = useRef<number>(0);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const createFlowerProgress = () => {
+    const createFlowerProgress = (pulseProgress = 0) => {
       const TAU = Math.PI * 2;
       const rings = 30;
       const numSections = 5;
@@ -38,8 +39,12 @@ export default function FlowerProgress({
       const container = containerRef.current!;
       container.innerHTML = '';
 
-      // Convert progress percentages to 0-1 values
-      const sectionProgress = progressValues.map(p => p / 100);
+      // Convert progress percentages to 0-1 values and add pulse effect
+      const sectionProgress = progressValues.map(p => {
+        const baseProgress = p / 100;
+        const pulseAmount = 0.1; // 10% pulse
+        return Math.min(1, baseProgress + (pulseAmount * pulseProgress));
+      });
 
       const wedgeSize = TAU / numSections;
       // Rotate so first petal points up
@@ -269,7 +274,24 @@ export default function FlowerProgress({
       }
     };
 
+    // Animation loop for pulsing effect
+    const animate = () => {
+      const time = Date.now() * 0.002; // Slow animation speed
+      const pulseProgress = (Math.sin(time) + 1) / 2; // Smooth sine wave 0-1
+      createFlowerProgress(pulseProgress);
+      animationRef.current = requestAnimationFrame(animate);
+    };
+
+    // Start initial render and animation
     createFlowerProgress();
+    animate();
+
+    // Cleanup animation on unmount
+    return () => {
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+    };
   }, [progressValues, size, onClick]);
 
   return (
