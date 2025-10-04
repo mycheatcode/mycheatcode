@@ -277,7 +277,7 @@ export default function FlowerProgress({
       ref={svgRef}
       width={size}
       height={size}
-      viewBox={`-${size * 0.15} -${size * 0.15} ${size * 1.3} ${size * 1.3}`}
+      viewBox={`-${size * 0.25} -${size * 0.25} ${size * 1.5} ${size * 1.5}`}
       className={className}
       shapeRendering="geometricPrecision"
       role="img"
