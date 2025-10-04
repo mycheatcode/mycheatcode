@@ -276,7 +276,7 @@ export default function FlowerProgress({
 
     // Animation loop for pulsing effect
     const animate = () => {
-      const time = Date.now() * 0.002; // Slow animation speed
+      const time = Date.now() * 0.0008; // Much slower animation speed
       const pulseProgress = (Math.sin(time) + 1) / 2; // Smooth sine wave 0-1
       createFlowerProgress(pulseProgress);
       animationRef.current = requestAnimationFrame(animate);
