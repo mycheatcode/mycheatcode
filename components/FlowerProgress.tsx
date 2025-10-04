@@ -130,10 +130,15 @@ export default function FlowerProgress({
           // Only show this ring if it's within scaled progress
           if (ringFraction > scaledProgress) continue;
 
-          // Fade last ring if partial
-          const isLastRing = (ringIdx === maxRings - 1);
-          const fadeMultiplier = (isLastRing && scaledProgress < 1) ?
-            ((scaledProgress * rings) % 1) || 1 : 1;
+          // Calculate smooth fade-in for rings near the progress boundary
+          let fadeMultiplier = 1;
+          const progressDifference = scaledProgress - ringFraction;
+          const fadeRange = 1 / rings; // One ring's worth of fade distance
+
+          if (progressDifference < fadeRange) {
+            // Smooth fade-in for rings appearing at the edge
+            fadeMultiplier = Math.min(1, progressDifference / fadeRange);
+          }
 
           // Enhanced color gradient with much more distinct red phase
           let red, green, blue;
