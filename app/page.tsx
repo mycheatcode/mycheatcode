@@ -8,7 +8,7 @@ import { useSectionRadar } from './utils/useSectionRadar';
 import SectionProgressModal from '../components/SectionProgressModal';
 import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
-import FlowerProgress from '../components/FlowerProgress';
+import StarProgressVisual from '../components/StarProgressVisual';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -375,15 +375,28 @@ const debugProgression = () => {
     setShowProgressModal(category as Section);
   };
 
-  const getFlowerProgressData = () => {
-    if (!radarState) return [75, 60, 90, 45, 80]; // Default values
+  const getStarProgressData = () => {
+    if (!radarState) {
+      return {
+        preGame: 75,
+        inGame: 60,
+        postGame: 90,
+        offCourt: 45,
+        lockerRoom: 80
+      };
+    }
 
-    // Map sections to FlowerProgress petal order
-    const sections: Section[] = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
-    return sections.map(section => radarState.sectionScores[section]?.score || 0);
+    const sectionScores = radarState.sectionScores;
+    return {
+      preGame: sectionScores['Pre-Game']?.score || 0,
+      inGame: sectionScores['In-Game']?.score || 0,
+      postGame: sectionScores['Post-Game']?.score || 0,
+      offCourt: sectionScores['Off Court']?.score || 0,
+      lockerRoom: sectionScores['Locker Room']?.score || 0
+    };
   };
 
-  const handleFlowerSectionClick = (sectionIndex: number) => {
+  const handleStarSectionClick = (sectionIndex: number) => {
     const sections: Section[] = ['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'];
     const section = sections[sectionIndex];
     if (section) {
@@ -489,9 +502,10 @@ const debugProgression = () => {
           </div>
 
           <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh] w-full">
-            <FlowerProgress
+            <StarProgressVisual
+              progressData={getStarProgressData()}
               size={320}
-              onClick={handleFlowerSectionClick}
+              onClick={handleStarSectionClick}
               className=""
             />
           </div>
@@ -683,9 +697,10 @@ const debugProgression = () => {
             </div>
 
             <div className="flex items-center justify-center mb-6">
-            <FlowerProgress
+            <StarProgressVisual
+              progressData={getStarProgressData()}
               size={600}
-              onClick={handleFlowerSectionClick}
+              onClick={handleStarSectionClick}
               className=""
             />
             </div>
