@@ -139,20 +139,73 @@ const ProgressLegend = ({
     svg.setAttribute("height", svgSize.toString());
     svg.setAttribute("viewBox", `0 0 ${svgSize} ${svgSize}`);
 
-    // Create a mini diamond shape for dropdown
+    // Create the exact same curved diamond as the main legend, scaled down
+    const TAU = Math.PI * 2;
     const cx = svgSize / 2;
     const cy = svgSize / 2;
-    const diamondSize = svgSize * 0.375; // 6/16 ratio
 
-    // Create a simple diamond path
-    const path = `M ${cx} ${cy - diamondSize} L ${cx + diamondSize} ${cy} L ${cx} ${cy + diamondSize} L ${cx - diamondSize} ${cy} Z`;
+    // Scale factors for the dropdown size
+    const scale = svgSize / 50; // Main legend uses 50x50 viewBox
+    const innerRadius = 5 * scale;
+    const outerRadius = 28 * scale;
+    const rings = 3; // Fewer rings for dropdown
 
-    const diamond = document.createElementNS("http://www.w3.org/2000/svg", "path");
-    diamond.setAttribute("d", path);
-    diamond.setAttribute("fill", colors[index]);
-    diamond.setAttribute("fill-opacity", "0.8");
+    const sectorAngle = TAU / 5;
+    const angle = -Math.PI / 2; // Point upward
 
-    svg.appendChild(diamond);
+    // Draw multiple rings like the main legend
+    for (let ring = 0; ring < rings; ring++) {
+      const ringProgress = (ring + 1) / rings;
+      const radius = innerRadius + (outerRadius - innerRadius) * ringProgress;
+
+      // Create the exact same curved diamond path as the main visual
+      const tipX = cx + radius * Math.cos(angle);
+      const tipY = cy + radius * Math.sin(angle);
+
+      const spread = 0.35;
+      const width = radius * 0.42;
+
+      const leftAngle = angle - sectorAngle * spread;
+      const leftX = cx + width * Math.cos(leftAngle);
+      const leftY = cy + width * Math.sin(leftAngle);
+
+      const rightAngle = angle + sectorAngle * spread;
+      const rightX = cx + width * Math.cos(rightAngle);
+      const rightY = cy + width * Math.sin(rightAngle);
+
+      // Build the exact same curved path as main visual
+      let path = `M ${cx} ${cy}`;
+
+      const cl1x = cx + (leftX - cx) * 0.5 + 2.5 * scale * Math.cos(leftAngle + Math.PI/2);
+      const cl1y = cy + (leftY - cy) * 0.5 + 2.5 * scale * Math.sin(leftAngle + Math.PI/2);
+      path += ` Q ${cl1x} ${cl1y}, ${leftX} ${leftY}`;
+
+      const cl2x = leftX + (tipX - leftX) * 0.5 - 3.5 * scale * Math.cos(angle - Math.PI/2);
+      const cl2y = leftY + (tipY - leftY) * 0.5 - 3.5 * scale * Math.sin(angle - Math.PI/2);
+      path += ` Q ${cl2x} ${cl2y}, ${tipX} ${tipY}`;
+
+      const cr1x = tipX + (rightX - tipX) * 0.5 - 3.5 * scale * Math.cos(angle + Math.PI/2);
+      const cr1y = tipY + (rightY - tipY) * 0.5 - 3.5 * scale * Math.sin(angle + Math.PI/2);
+      path += ` Q ${cr1x} ${cr1y}, ${rightX} ${rightY}`;
+
+      const cr2x = rightX + (cx - rightX) * 0.5 + 2.5 * scale * Math.cos(rightAngle - Math.PI/2);
+      const cr2y = rightY + (cy - rightY) * 0.5 + 2.5 * scale * Math.sin(rightAngle - Math.PI/2);
+      path += ` Q ${cr2x} ${cr2y}, ${cx} ${cy}`;
+
+      path += ' Z';
+
+      const diamond = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      diamond.setAttribute("d", path);
+      diamond.setAttribute("fill", "none");
+      diamond.setAttribute("stroke", colors[index]);
+      diamond.setAttribute("stroke-width", (0.6 * scale + ringProgress * 1.8 * scale).toString());
+      diamond.setAttribute("stroke-opacity", (0.3 + ringProgress * 0.6).toString());
+      diamond.setAttribute("stroke-linecap", "round");
+      diamond.setAttribute("stroke-linejoin", "round");
+
+      svg.appendChild(diamond);
+    }
+
     container.appendChild(svg);
   };
 
