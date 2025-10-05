@@ -417,8 +417,8 @@ const ProgressLegend = ({
           onClick={onToggle}
           style={{
             position: 'absolute',
-            top: '24px',
-            right: '24px',
+            top: '12px',
+            right: '12px',
             background: 'none',
             border: 'none',
             color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
@@ -448,17 +448,6 @@ const ProgressLegend = ({
         </button>
       )}
 
-      <h3 style={{
-        fontSize: '14px',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
-        marginBottom: '20px',
-        fontWeight: '500',
-        paddingRight: onToggle ? '40px' : '0'
-      }}>
-        Progress Stages
-      </h3>
       {stages.map((stage, index) => (
         <div
           key={stage.name}
