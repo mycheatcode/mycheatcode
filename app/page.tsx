@@ -703,7 +703,7 @@ const debugProgression = () => {
             />
             </div>
 
-            <div className="text-center mb-2">
+            <div className="text-center mb-4">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
