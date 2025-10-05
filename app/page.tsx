@@ -695,7 +695,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center mb-6">
+            <div className="flex items-center justify-center mb-3">
             <StarProgressVisual
               size={800}
               onClick={handleStarSectionClick}
@@ -703,7 +703,7 @@ const debugProgression = () => {
             />
             </div>
 
-            <div className="text-center mb-5">
+            <div className="text-center mb-3">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
