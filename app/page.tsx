@@ -503,8 +503,7 @@ const debugProgression = () => {
 
           <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh] w-full">
             <StarProgressVisual
-              progressData={getStarProgressData()}
-              size={320}
+              size={400}
               onClick={handleStarSectionClick}
               className=""
             />
@@ -698,8 +697,7 @@ const debugProgression = () => {
 
             <div className="flex items-center justify-center mb-6">
             <StarProgressVisual
-              progressData={getStarProgressData()}
-              size={600}
+              size={700}
               onClick={handleStarSectionClick}
               className=""
             />
