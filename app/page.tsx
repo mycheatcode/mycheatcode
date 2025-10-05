@@ -695,7 +695,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center mb-3">
+            <div className="flex items-center justify-center mb-1">
             <StarProgressVisual
               size={800}
               onClick={handleStarSectionClick}
@@ -703,11 +703,11 @@ const debugProgression = () => {
             />
             </div>
 
-            <div className="text-center mb-3">
+            <div className="text-center mb-2">
             {!isLoading && radarState && (
               <>
                 <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-3">
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-1">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
@@ -717,7 +717,7 @@ const debugProgression = () => {
                 <div className="text-[16px] mb-2 app-body">
                   Loading your progression...
                 </div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-3">
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-1">
                   Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
                 </div>
               </>
