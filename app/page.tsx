@@ -695,7 +695,7 @@ const debugProgression = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-center mb-0">
+            <div className="flex items-center justify-center">
             <StarProgressVisual
               size={750}
               onClick={handleStarSectionClick}
