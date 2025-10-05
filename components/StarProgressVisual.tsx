@@ -64,7 +64,7 @@ const StarProgressVisual = ({
   };
 
   const drawFloatingNotches = (container: Element, cx: number, cy: number, maxRadius: number) => {
-    const notchRadius = maxRadius + 35;
+    const notchRadius = maxRadius + (size * 0.058);
 
     // Draw notches in a circle
     for (let deg = 0; deg < 360; deg += 3) {
@@ -75,20 +75,20 @@ const StarProgressVisual = ({
 
       if (deg % 30 === 0) {
         // Major notches
-        length = 20;
-        width = 3;
+        length = size * 0.033;
+        width = size * 0.005;
         opacity = 0.9;
         color = '#ffffff';
       } else if (deg % 15 === 0) {
         // Medium notches
-        length = 14;
-        width = 2;
+        length = size * 0.023;
+        width = size * 0.0033;
         opacity = 0.5;
         color = '#cccccc';
       } else if (deg % 6 === 0) {
         // Minor notches
-        length = 8;
-        width = 1.5;
+        length = size * 0.013;
+        width = size * 0.0025;
         opacity = 0.3;
         color = '#888888';
       } else {
@@ -151,7 +151,7 @@ const StarProgressVisual = ({
         diamond.setAttribute("d", path);
         diamond.setAttribute("fill", "none");
         diamond.setAttribute("stroke", color);
-        diamond.setAttribute("stroke-width", (1 + ringProgress * 2).toString());
+        diamond.setAttribute("stroke-width", ((size * 0.002) + ringProgress * (size * 0.004)).toString());
         diamond.setAttribute("stroke-opacity", (0.3 + ringProgress * 0.6).toString());
         diamond.setAttribute("filter", ringProgress > 0.7 ? "url(#glow)" : "");
 
@@ -173,9 +173,9 @@ const StarProgressVisual = ({
         ghost.setAttribute("d", path);
         ghost.setAttribute("fill", "none");
         ghost.setAttribute("stroke", "#444444");
-        ghost.setAttribute("stroke-width", "0.5");
+        ghost.setAttribute("stroke-width", (size * 0.001).toString());
         ghost.setAttribute("stroke-opacity", "0.2");
-        ghost.setAttribute("stroke-dasharray", "2,4");
+        ghost.setAttribute("stroke-dasharray", `${size * 0.003},${size * 0.007}`);
         container.appendChild(ghost);
       }
     }
@@ -201,23 +201,25 @@ const StarProgressVisual = ({
     let path = `M ${cx} ${cy}`;
 
     // Curve to left
-    const cl1x = cx + (leftX - cx) * 0.5 + 15 * Math.cos(leftAngle + Math.PI/2);
-    const cl1y = cy + (leftY - cy) * 0.5 + 15 * Math.sin(leftAngle + Math.PI/2);
+    const curveFactor1 = size * 0.025; // Scale curve control distance
+    const cl1x = cx + (leftX - cx) * 0.5 + curveFactor1 * Math.cos(leftAngle + Math.PI/2);
+    const cl1y = cy + (leftY - cy) * 0.5 + curveFactor1 * Math.sin(leftAngle + Math.PI/2);
     path += ` Q ${cl1x} ${cl1y}, ${leftX} ${leftY}`;
 
     // Curve to tip
-    const cl2x = leftX + (tipX - leftX) * 0.5 - 20 * Math.cos(angle - Math.PI/2);
-    const cl2y = leftY + (tipY - leftY) * 0.5 - 20 * Math.sin(angle - Math.PI/2);
+    const curveFactor2 = size * 0.033; // Scale curve control distance
+    const cl2x = leftX + (tipX - leftX) * 0.5 - curveFactor2 * Math.cos(angle - Math.PI/2);
+    const cl2y = leftY + (tipY - leftY) * 0.5 - curveFactor2 * Math.sin(angle - Math.PI/2);
     path += ` Q ${cl2x} ${cl2y}, ${tipX} ${tipY}`;
 
     // Curve to right
-    const cr1x = tipX + (rightX - tipX) * 0.5 - 20 * Math.cos(angle + Math.PI/2);
-    const cr1y = tipY + (rightY - tipY) * 0.5 - 20 * Math.sin(angle + Math.PI/2);
+    const cr1x = tipX + (rightX - tipX) * 0.5 - curveFactor2 * Math.cos(angle + Math.PI/2);
+    const cr1y = tipY + (rightY - tipY) * 0.5 - curveFactor2 * Math.sin(angle + Math.PI/2);
     path += ` Q ${cr1x} ${cr1y}, ${rightX} ${rightY}`;
 
     // Curve back to center
-    const cr2x = rightX + (cx - rightX) * 0.5 + 15 * Math.cos(rightAngle - Math.PI/2);
-    const cr2y = rightY + (cy - rightY) * 0.5 + 15 * Math.sin(rightAngle - Math.PI/2);
+    const cr2x = rightX + (cx - rightX) * 0.5 + curveFactor1 * Math.cos(rightAngle - Math.PI/2);
+    const cr2y = rightY + (cy - rightY) * 0.5 + curveFactor1 * Math.sin(rightAngle - Math.PI/2);
     path += ` Q ${cr2x} ${cr2y}, ${cx} ${cy}`;
 
     path += ' Z';
@@ -257,8 +259,8 @@ const StarProgressVisual = ({
         className="star-progress-svg"
       >
         <defs>
-          <filter id="glow">
-            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation={size * 0.006} result="coloredBlur"/>
             <feMerge>
               <feMergeNode in="coloredBlur"/>
               <feMergeNode in="SourceGraphic"/>
@@ -292,10 +294,10 @@ const StarProgressVisual = ({
                   textAnchor="middle"
                   dominantBaseline="central"
                   style={{
-                    fontSize: size > 400 ? '14px' : '12px',
+                    fontSize: `${Math.max(10, size * 0.02)}px`,
                     fontFamily: 'var(--font-dm-sans)',
                     fontWeight: '600',
-                    letterSpacing: '1px',
+                    letterSpacing: `${size * 0.0017}px`,
                     fill: '#CCCCCC'
                   }}
                 >
