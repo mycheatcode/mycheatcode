@@ -486,6 +486,7 @@ const debugProgression = () => {
               itemHeight={40}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
+              isMobile={true}
             />
           </div>
 

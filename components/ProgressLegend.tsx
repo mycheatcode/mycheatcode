@@ -8,6 +8,7 @@ interface ProgressLegendProps {
   darkMode?: boolean;
   expanded?: boolean;
   onToggle?: () => void;
+  isMobile?: boolean;
 }
 
 const ProgressLegend = ({
@@ -15,7 +16,8 @@ const ProgressLegend = ({
   itemHeight = 60,
   darkMode = true,
   expanded = false,
-  onToggle
+  onToggle,
+  isMobile = false
 }: ProgressLegendProps) => {
   const legendRefs = useRef<(HTMLDivElement | null)[]>([]);
   const TAU = Math.PI * 2;
@@ -23,10 +25,22 @@ const ProgressLegend = ({
   useEffect(() => {
     legendRefs.current.forEach((ref, index) => {
       if (ref) {
-        drawLegendDiamond(ref, index);
+        if (index < 4) {
+          // Main legend diamonds (desktop vertical layout)
+          drawLegendDiamond(ref, index);
+        } else if (index >= 4 && index < 8) {
+          // Desktop dropdown diamonds
+          drawDropdownDiamond(ref, index - 4, 16);
+        } else if (index >= 8 && index < 12) {
+          // Mobile expanded diamonds
+          drawDropdownDiamond(ref, (index - 8) % 4, 12);
+        } else if (index >= 12) {
+          // Mobile row diamonds
+          drawDropdownDiamond(ref, (index - 12) % 4, 12);
+        }
       }
     });
-  }, []);
+  }, [isMobile]);
 
   const drawLegendDiamond = (container: HTMLDivElement, index: number) => {
     const colors = [
@@ -110,6 +124,38 @@ const ProgressLegend = ({
     container.appendChild(svg);
   };
 
+  const drawDropdownDiamond = (container: HTMLDivElement, index: number, svgSize: number = 16) => {
+    const colors = [
+      'rgb(220, 20, 20)',   // Red - Activated
+      'rgb(255, 140, 0)',   // Orange - Rising
+      'rgb(255, 220, 0)',   // Yellow - Elevated
+      'rgb(50, 205, 50)'    // Green - Limitless
+    ];
+
+    container.innerHTML = '';
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("width", svgSize.toString());
+    svg.setAttribute("height", svgSize.toString());
+    svg.setAttribute("viewBox", `0 0 ${svgSize} ${svgSize}`);
+
+    // Create a mini diamond shape for dropdown
+    const cx = svgSize / 2;
+    const cy = svgSize / 2;
+    const diamondSize = svgSize * 0.375; // 6/16 ratio
+
+    // Create a simple diamond path
+    const path = `M ${cx} ${cy - diamondSize} L ${cx + diamondSize} ${cy} L ${cx} ${cy + diamondSize} L ${cx - diamondSize} ${cy} Z`;
+
+    const diamond = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    diamond.setAttribute("d", path);
+    diamond.setAttribute("fill", colors[index]);
+    diamond.setAttribute("fill-opacity", "0.8");
+
+    svg.appendChild(diamond);
+    container.appendChild(svg);
+  };
+
   const stages = [
     {
       name: 'Activated',
@@ -133,6 +179,171 @@ const ProgressLegend = ({
     }
   ];
 
+  // Mobile layout - horizontal row
+  if (isMobile) {
+    return (
+      <div
+        className="progress-legend animate-fadeIn"
+        style={{
+          background: darkMode ? 'rgba(20, 20, 20, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          borderRadius: '12px',
+          padding: '12px 16px',
+          border: darkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(10px)',
+          fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+          transition: 'all 0.3s ease',
+          position: 'relative'
+        }}
+      >
+        {onToggle && (
+          <button
+            onClick={onToggle}
+            style={{
+              position: 'absolute',
+              top: '8px',
+              right: '8px',
+              background: 'none',
+              border: 'none',
+              color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+              cursor: 'pointer',
+              transition: 'color 0.2s ease',
+              padding: '4px'
+            }}
+          >
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style={{
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease'
+              }}
+            >
+              <path d="M7 10l5 5 5-5z"/>
+            </svg>
+          </button>
+        )}
+
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          paddingRight: onToggle ? '20px' : '0'
+        }}>
+          {stages.map((stage, index) => (
+            <div
+              key={stage.name}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <div
+                ref={el => {
+                  // Mobile row diamonds
+                  if (el) {
+                    const mobileIndex = index + 12; // Different offset for mobile row
+                    legendRefs.current[mobileIndex] = el;
+                    drawDropdownDiamond(el, index);
+                  }
+                }}
+                style={{
+                  width: '12px',
+                  height: '12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              />
+              <span style={{
+                color: darkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
+                fontSize: '10px',
+                fontWeight: '500'
+              }}>
+                {stage.name}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {expanded && (
+          <div style={{
+            marginTop: '12px',
+            paddingTop: '12px',
+            borderTop: `1px solid ${darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
+          }}>
+            {stages.map((stage, index) => (
+              <div
+                key={`expanded-${stage.name}`}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '6px',
+                  marginBottom: index < stages.length - 1 ? '8px' : '0'
+                }}
+              >
+                <div
+                  ref={el => {
+                    // Create dropdown diamonds for mobile expanded section
+                    if (el) {
+                      const dropdownIndex = index + 8; // Different offset for mobile
+                      legendRefs.current[dropdownIndex] = el;
+                      drawDropdownDiamond(el, index);
+                    }
+                  }}
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    flexShrink: 0,
+                    marginTop: '2px'
+                  }}
+                />
+                <div>
+                  <div style={{
+                    color: darkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
+                    fontSize: '11px',
+                    fontWeight: '500',
+                    marginBottom: '1px'
+                  }}>
+                    {stage.name}
+                  </div>
+                  <div style={{
+                    color: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                    fontSize: '9px',
+                    lineHeight: '1.3'
+                  }}>
+                    {stage.description}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <style jsx global>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          .animate-fadeIn {
+            animation: fadeIn 0.6s ease-out;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Desktop layout - vertical
   return (
     <div
       className="progress-legend animate-fadeIn"
@@ -281,13 +492,19 @@ const ProgressLegend = ({
               }}
             >
               <div
+                ref={el => {
+                  // Create dropdown diamonds after main ones
+                  if (el) {
+                    const dropdownIndex = index + 4; // Offset to avoid conflicts
+                    legendRefs.current[dropdownIndex] = el;
+                    drawDropdownDiamond(el, index);
+                  }
+                }}
                 style={{
-                  width: '8px',
-                  height: '8px',
-                  borderRadius: '50%',
-                  border: `2px solid ${['rgb(220, 20, 20)', 'rgb(255, 140, 0)', 'rgb(255, 220, 0)', 'rgb(50, 205, 50)'][index]}`,
+                  width: '16px',
+                  height: '16px',
                   flexShrink: 0,
-                  marginTop: '4px'
+                  marginTop: '2px'
                 }}
               />
               <div>
