@@ -501,7 +501,7 @@ const debugProgression = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center overflow-visible -mt-4 h-[50vh] w-full">
+          <div className="flex items-center justify-center mb-6">
             <StarProgressVisual
               size={400}
               onClick={handleStarSectionClick}
@@ -697,7 +697,7 @@ const debugProgression = () => {
 
             <div className="flex items-center justify-center mb-6">
             <StarProgressVisual
-              size={700}
+              size={800}
               onClick={handleStarSectionClick}
               className=""
             />
