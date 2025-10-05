@@ -689,7 +689,7 @@ const debugProgression = () => {
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="text-center mb-4">
+            <div className="text-center mb-1">
               <div className="text-[32px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent mb-0">
                 YOUR ANALYSIS
               </div>
