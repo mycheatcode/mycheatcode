@@ -9,10 +9,10 @@ import SectionProgressModal from '../components/SectionProgressModal';
 import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
 import StarProgressVisual from '../components/StarProgressVisual';
+import ProgressLegend from '../components/ProgressLegend';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [legendExpanded, setLegendExpanded] = useState(false);
   const [clickedSection, setClickedSection] = useState<string | null>(null);
   const [showTransitionOverlay, setShowTransitionOverlay] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
@@ -623,68 +623,7 @@ const debugProgression = () => {
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
           <div className="absolute left-6 top-24">
-            <div className="bg-zinc-900/50 border border-zinc-800/50 rounded-2xl p-6 pr-12 backdrop-blur-sm relative">
-              <button
-                onClick={() => setLegendExpanded(!legendExpanded)}
-                className="absolute top-6 right-6 text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" className={`transform transition-transform ${legendExpanded ? 'rotate-180' : ''}`}>
-                  <path d="M7 10l5 5 5-5z"/>
-                </svg>
-              </button>
-
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 10, 0)'}}></div>
-                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Activated</span>
-                </div>
-                <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 165, 0)'}}></div>
-                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Rising</span>
-                </div>
-                <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(255, 255, 0)'}}></div>
-                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Elevated</span>
-                </div>
-                <div className="flex items-center gap-4 group cursor-default">
-                  <div className="w-3 h-3 rounded-full border-2 transition-all duration-200" style={{borderColor: 'rgb(0, 255, 0)'}}></div>
-                  <span className="text-zinc-400 text-base font-medium group-hover:text-zinc-300 transition-colors duration-200">Limitless</span>
-                </div>
-              </div>
-
-              {legendExpanded && (
-                <div className="space-y-3 border-t border-zinc-800 pt-3 mt-3 max-w-64">
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 10, 0)'}}></div>
-                    <div className="text-xs text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium mb-1">Activated</div>
-                      Foundation level - First cheat code created. Building initial mental frameworks and awareness.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 165, 0)'}}></div>
-                    <div className="text-xs text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium mb-1">Rising</div>
-                      Development level - Consistent practice building momentum. Skills becoming more natural.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(255, 255, 0)'}}></div>
-                    <div className="text-xs text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium mb-1">Elevated</div>
-                      Advanced level - Peak performance moments frequent. Can access cheat codes under pressure.
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <div className="w-2 h-2 rounded-full border flex-shrink-0 mt-1" style={{borderColor: 'rgb(0, 255, 0)'}}></div>
-                    <div className="text-xs text-zinc-400 leading-tight">
-                      <div className="text-zinc-300 font-medium mb-1">Limitless</div>
-                      Elite level - Unconscious competence. Cheat codes integrated and automatic in all situations.
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <ProgressLegend darkMode={true} size={280} />
           </div>
 
           {/* Main Content Area */}
