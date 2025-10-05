@@ -175,7 +175,7 @@ const ProgressLegend = ({
           }}
         >
           <div
-            ref={el => legendRefs.current[index] = el}
+            ref={el => { legendRefs.current[index] = el; }}
             className="legend-diamond"
             style={{
               width: '50px',
