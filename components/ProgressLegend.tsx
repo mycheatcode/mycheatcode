@@ -238,10 +238,10 @@ const ProgressLegend = ({
       <div
         className="progress-legend animate-fadeIn"
         style={{
-          background: darkMode ? 'rgba(20, 20, 20, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          background: darkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.95)',
           borderRadius: '12px',
           padding: '12px 16px',
-          border: darkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+          border: darkMode ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.1)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
           backdropFilter: 'blur(10px)',
           fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -401,11 +401,11 @@ const ProgressLegend = ({
     <div
       className="progress-legend animate-fadeIn"
       style={{
-        background: darkMode ? 'rgba(20, 20, 20, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+        background: darkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.95)',
         borderRadius: '16px',
         padding: '24px',
         width: `${size}px`,
-        border: darkMode ? '1px solid rgba(255, 255, 255, 0.1)' : '1px solid rgba(0, 0, 0, 0.1)',
+        border: darkMode ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.1)',
         boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
         backdropFilter: 'blur(10px)',
         fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
