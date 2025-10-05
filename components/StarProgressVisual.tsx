@@ -18,11 +18,11 @@ interface StarProgressVisualProps {
 
 const StarProgressVisual = ({
   progressData = {
-    preGame: 75,
-    inGame: 60,
-    postGame: 90,
-    offCourt: 45,
-    lockerRoom: 80
+    preGame: 100,
+    inGame: 100,
+    postGame: 100,
+    offCourt: 100,
+    lockerRoom: 100
   },
   size = 600,
   showControls = false,
@@ -253,7 +253,7 @@ const StarProgressVisual = ({
         ref={svgRef}
         width={size}
         height={size}
-        viewBox={`0 0 ${size} ${size}`}
+        viewBox={`-${size * 0.25} -${size * 0.25} ${size * 1.5} ${size * 1.5}`}
         className="star-progress-svg"
       >
         <defs>
@@ -267,6 +267,44 @@ const StarProgressVisual = ({
         </defs>
         <g id="notches"></g>
         <g id="diamonds"></g>
+        <g id="labels">
+          {(() => {
+            const cx = size / 2;
+            const cy = size / 2;
+            const labelRadius = size * 0.55; // Position labels at star tips
+            const sections = ['PRE-GAME', 'IN-GAME', 'POST-GAME', 'OFF COURT', 'LOCKER ROOM'];
+            const numSections = 5;
+            const sectorAngle = (Math.PI * 2) / numSections;
+
+            return sections.map((sectionName, index) => {
+              // Calculate angle for each section (starting from top)
+              const angle = -Math.PI / 2 + index * sectorAngle;
+
+              // Calculate label position at the star tip
+              const labelX = cx + labelRadius * Math.cos(angle);
+              const labelY = cy + labelRadius * Math.sin(angle);
+
+              return (
+                <text
+                  key={index}
+                  x={labelX}
+                  y={labelY}
+                  textAnchor="middle"
+                  dominantBaseline="central"
+                  style={{
+                    fontSize: size > 400 ? '14px' : '12px',
+                    fontFamily: 'var(--font-dm-sans)',
+                    fontWeight: '600',
+                    letterSpacing: '1px',
+                    fill: '#CCCCCC'
+                  }}
+                >
+                  {sectionName}
+                </text>
+              );
+            });
+          })()}
+        </g>
       </svg>
     </div>
   );

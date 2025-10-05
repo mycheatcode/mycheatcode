@@ -378,11 +378,11 @@ const debugProgression = () => {
   const getStarProgressData = () => {
     if (!radarState) {
       return {
-        preGame: 75,
-        inGame: 60,
-        postGame: 90,
-        offCourt: 45,
-        lockerRoom: 80
+        preGame: 100,
+        inGame: 100,
+        postGame: 100,
+        offCourt: 100,
+        lockerRoom: 100
       };
     }
 
