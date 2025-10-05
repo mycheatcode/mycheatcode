@@ -6,12 +6,16 @@ interface ProgressLegendProps {
   size?: number;
   itemHeight?: number;
   darkMode?: boolean;
+  expanded?: boolean;
+  onToggle?: () => void;
 }
 
 const ProgressLegend = ({
   size = 280,
   itemHeight = 60,
-  darkMode = true
+  darkMode = true,
+  expanded = false,
+  onToggle
 }: ProgressLegendProps) => {
   const legendRefs = useRef<(HTMLDivElement | null)[]>([]);
   const TAU = Math.PI * 2;
@@ -107,10 +111,26 @@ const ProgressLegend = ({
   };
 
   const stages = [
-    { name: 'Activated', range: '0-24%', description: 'Building foundation' },
-    { name: 'Rising', range: '25-49%', description: 'Gaining momentum' },
-    { name: 'Elevated', range: '50-74%', description: 'Consistent progress' },
-    { name: 'Limitless', range: '75-100%', description: 'Peak performance' }
+    {
+      name: 'Activated',
+      range: '0-24%',
+      description: 'Foundation level - First cheat code created. Building initial mental frameworks and awareness.'
+    },
+    {
+      name: 'Rising',
+      range: '25-49%',
+      description: 'Development level - Consistent practice building momentum. Skills becoming more natural.'
+    },
+    {
+      name: 'Elevated',
+      range: '50-74%',
+      description: 'Advanced level - Peak performance moments frequent. Can access cheat codes under pressure.'
+    },
+    {
+      name: 'Limitless',
+      range: '75-100%',
+      description: 'Elite level - Unconscious competence. Cheat codes integrated and automatic in all situations.'
+    }
   ];
 
   return (
@@ -128,13 +148,50 @@ const ProgressLegend = ({
         transition: 'all 0.3s ease'
       }}
     >
+      {onToggle && (
+        <button
+          onClick={onToggle}
+          style={{
+            position: 'absolute',
+            top: '24px',
+            right: '24px',
+            background: 'none',
+            border: 'none',
+            color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+            cursor: 'pointer',
+            transition: 'color 0.2s ease',
+            padding: '4px'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.color = darkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.color = darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)';
+          }}
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            style={{
+              transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s ease'
+            }}
+          >
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </button>
+      )}
+
       <h3 style={{
         fontSize: '14px',
         textTransform: 'uppercase',
         letterSpacing: '1px',
         color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
         marginBottom: '20px',
-        fontWeight: '500'
+        fontWeight: '500',
+        paddingRight: onToggle ? '40px' : '0'
       }}>
         Progress Stages
       </h3>
@@ -205,6 +262,55 @@ const ProgressLegend = ({
           </div>
         </div>
       ))}
+
+      {expanded && (
+        <div style={{
+          marginTop: '20px',
+          paddingTop: '20px',
+          borderTop: `1px solid ${darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+          maxWidth: '256px'
+        }}>
+          {stages.map((stage, index) => (
+            <div
+              key={`expanded-${stage.name}`}
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '8px',
+                marginBottom: index < stages.length - 1 ? '12px' : '0'
+              }}
+            >
+              <div
+                style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  border: `2px solid ${['rgb(220, 20, 20)', 'rgb(255, 140, 0)', 'rgb(255, 220, 0)', 'rgb(50, 205, 50)'][index]}`,
+                  flexShrink: 0,
+                  marginTop: '4px'
+                }}
+              />
+              <div>
+                <div style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  marginBottom: '2px'
+                }}>
+                  {stage.name}
+                </div>
+                <div style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                  fontSize: '11px',
+                  lineHeight: '1.4'
+                }}>
+                  {stage.description}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       <style jsx global>{`
         @keyframes fadeIn {

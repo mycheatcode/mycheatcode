@@ -13,6 +13,7 @@ import ProgressLegend from '../components/ProgressLegend';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [legendExpanded, setLegendExpanded] = useState(false);
   const [clickedSection, setClickedSection] = useState<string | null>(null);
   const [showTransitionOverlay, setShowTransitionOverlay] = useState(false);
   const [isZooming, setIsZooming] = useState(false);
@@ -477,28 +478,15 @@ const debugProgression = () => {
             YOUR ANALYSIS
           </div>
 
-          {/* Color Legend - Mobile */}
+          {/* Progress Legend - Mobile */}
           <div className="flex justify-center mb-0 px-1 -mt-2">
-            <div className="bg-zinc-900/60 border border-zinc-800/60 rounded-xl px-3 py-1.5 backdrop-blur-sm">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center gap-1 group cursor-default">
-                  <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
-                  <span className="text-zinc-400 text-[8px] font-medium">Activated</span>
-                </div>
-                <div className="flex items-center gap-1 group cursor-default">
-                  <div className="w-1.5 h-1.5 rounded-full bg-orange-500"></div>
-                  <span className="text-zinc-400 text-[8px] font-medium">Rising</span>
-                </div>
-                <div className="flex items-center gap-1 group cursor-default">
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-400"></div>
-                  <span className="text-zinc-400 text-[8px] font-medium">Elevated</span>
-                </div>
-                <div className="flex items-center gap-1 group cursor-default">
-                  <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                  <span className="text-zinc-400 text-[8px] font-medium">Limitless</span>
-                </div>
-              </div>
-            </div>
+            <ProgressLegend
+              darkMode={true}
+              size={240}
+              itemHeight={40}
+              expanded={legendExpanded}
+              onToggle={() => setLegendExpanded(!legendExpanded)}
+            />
           </div>
 
           <div className="flex items-center justify-center mb-6">
@@ -623,7 +611,12 @@ const debugProgression = () => {
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
           <div className="absolute left-6 top-24">
-            <ProgressLegend darkMode={true} size={280} />
+            <ProgressLegend
+              darkMode={true}
+              size={280}
+              expanded={legendExpanded}
+              onToggle={() => setLegendExpanded(!legendExpanded)}
+            />
           </div>
 
           {/* Main Content Area */}
