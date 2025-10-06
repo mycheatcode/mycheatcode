@@ -485,7 +485,7 @@ const debugProgression = () => {
 
         <div className="flex-1 flex flex-col px-4 pt-16 overflow-visible min-h-0">
           <div className="text-center mb-0 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
-            YOUR ANALYSIS
+            Back at it, Hunter
           </div>
 
           {/* Progress Legend - Mobile */}
@@ -524,7 +524,7 @@ const debugProgression = () => {
 
             <div className="flex flex-col gap-2 pb-8">
               <button onClick={handleCreateCheatCode} className="w-full py-2.5 px-5 mobile-btn rounded-full border-none text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
-                Create Cheat Code
+                Start New Chat
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
               <Link href="/community-topics" className="w-full py-2.5 px-5 mobile-btn rounded-full border border-zinc-700 text-[15px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
@@ -703,7 +703,7 @@ const debugProgression = () => {
           <div className="flex-1 flex flex-col items-center justify-center">
             <div className="text-center mb-0">
               <div className="text-[32px] app-heading text-white mb-0">
-                YOUR ANALYSIS
+                Back at it, Hunter
               </div>
             </div>
 
@@ -718,9 +718,8 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-8">
             {!isLoading && radarState && (
               <>
-                <div className="text-[16px] mb-2 app-body">Your overall progression: <span className="text-[28px] font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
                 <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
+                  Start a fresh chat or choose from topics<br />other players levelled up in.
                 </div>
               </>
             )}
@@ -738,7 +737,7 @@ const debugProgression = () => {
 
             <div className="space-y-2 w-full max-w-2xl">
               <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
-                Create Cheat Code
+                Start New Chat
                 <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
               <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
