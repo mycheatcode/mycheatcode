@@ -621,7 +621,7 @@ const debugProgression = () => {
         {/* Main Content */}
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
-          <div className="absolute left-6 top-24 hidden md:block">
+          <div className="fixed left-6 top-24 z-10">
             <ProgressLegend
               darkMode={true}
               size={280}
@@ -630,8 +630,8 @@ const debugProgression = () => {
             />
           </div>
 
-          {/* Overall Progress Circle - Desktop Only */}
-          <div className="absolute left-6 top-1/2 transform -translate-y-1/2 hidden xl:block">
+          {/* Overall Progress Circle */}
+          <div className="fixed left-20 top-80 z-10">
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
@@ -639,16 +639,16 @@ const debugProgression = () => {
             />
           </div>
 
-          {/* Streak Display - Desktop Only */}
-          <div className="absolute left-6 bottom-24 hidden xl:block">
+          {/* Streak Display */}
+          <div className="fixed left-20 bottom-32 z-10">
             <StreakDisplay
               streakDays={8}
               size={180}
             />
           </div>
 
-          {/* Today For You Sidebar - Desktop Only */}
-          <div className="absolute right-6 top-24 hidden xl:block w-80">
+          {/* Today For You Sidebar */}
+          <div className="fixed right-6 top-24 z-10 w-80">
             <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
