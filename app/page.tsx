@@ -429,6 +429,7 @@ const debugProgression = () => {
         <div className="stars stars-medium"></div>
         <div className="stars stars-large"></div>
         <div className="stars stars-twinkle"></div>
+        <div className="stars stars-diamond"></div>
       </div>
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
@@ -839,40 +840,80 @@ const debugProgression = () => {
 
         .stars-small {
           background:
-            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
-            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
-          background-size: 350px 350px, 400px 400px, 320px 320px;
+            radial-gradient(circle at 20% 80%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 80% 20%, #87ceeb 0.8px, transparent 0.8px),
+            radial-gradient(circle at 40% 40%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 60% 70%, #ffd700 0.8px, transparent 0.8px),
+            radial-gradient(circle at 90% 90%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 10% 10%, #87ceeb 0.8px, transparent 0.8px);
+          background-size: 250px 250px, 220px 220px, 280px 280px, 200px 200px, 240px 240px, 260px 260px;
           animation: gentle-twinkle 10s ease-in-out infinite alternate;
-          opacity: 0.4;
+          opacity: 0.5;
         }
 
         .stars-medium {
           background:
-            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
-            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
-          background-size: 500px 500px, 450px 450px;
+            radial-gradient(circle at 30% 60%, #ffffff 1.2px, transparent 1.2px),
+            radial-gradient(circle at 70% 30%, #87ceeb 1.2px, transparent 1.2px),
+            radial-gradient(circle at 15% 85%, #ffd700 1.2px, transparent 1.2px),
+            radial-gradient(circle at 85% 15%, #ffffff 1.2px, transparent 1.2px);
+          background-size: 350px 350px, 300px 300px, 330px 330px, 380px 380px;
           animation: gentle-twinkle 14s ease-in-out infinite alternate-reverse;
-          opacity: 0.3;
+          opacity: 0.4;
         }
 
         .stars-large {
           background:
-            radial-gradient(circle at 60% 20%, #ffffff 2.5px, transparent 2.5px),
-            radial-gradient(circle at 20% 80%, #87ceeb 2.5px, transparent 2.5px),
-            radial-gradient(circle at 85% 70%, #ffd700 2.5px, transparent 2.5px);
-          background-size: 800px 800px, 750px 750px, 900px 900px;
+            radial-gradient(circle at 50% 25%, #ffffff 2px, transparent 2px),
+            radial-gradient(circle at 25% 75%, #87ceeb 2px, transparent 2px),
+            radial-gradient(circle at 75% 50%, #ffd700 2px, transparent 2px);
+          background-size: 600px 600px, 550px 550px, 650px 650px;
           animation: bright-twinkle 6s ease-in-out infinite;
-          opacity: 0.2;
+          opacity: 0.3;
         }
 
         .stars-twinkle {
-          background:
-            radial-gradient(circle at 30% 40%, #ffffff 3px, rgba(255,255,255,0.3) 4px, transparent 5px),
-            radial-gradient(circle at 70% 70%, #87ceeb 3px, rgba(135,206,235,0.3) 4px, transparent 5px);
-          background-size: 1200px 1200px, 1000px 1000px;
+          background-image:
+            radial-gradient(circle at 30% 40%,
+              transparent 2px,
+              rgba(255,255,255,0.8) 3px,
+              rgba(255,255,255,0.4) 4px,
+              transparent 5px),
+            radial-gradient(circle at 70% 70%,
+              transparent 2px,
+              rgba(135,206,235,0.8) 3px,
+              rgba(135,206,235,0.4) 4px,
+              transparent 5px),
+            radial-gradient(circle at 15% 20%,
+              transparent 1.5px,
+              rgba(255,215,0,0.9) 2.5px,
+              rgba(255,215,0,0.3) 3.5px,
+              transparent 4.5px);
+          background-size: 800px 800px, 700px 700px, 900px 900px;
           animation: star-sparkle 8s ease-in-out infinite alternate;
-          opacity: 0.6;
+          opacity: 0.7;
+        }
+
+        .stars-diamond {
+          background-image:
+            conic-gradient(from 45deg at 25% 25%,
+              transparent 85deg,
+              rgba(255,255,255,0.9) 90deg,
+              rgba(255,255,255,0.3) 95deg,
+              transparent 100deg),
+            conic-gradient(from 45deg at 75% 75%,
+              transparent 85deg,
+              rgba(135,206,235,0.9) 90deg,
+              rgba(135,206,235,0.3) 95deg,
+              transparent 100deg),
+            conic-gradient(from 45deg at 50% 10%,
+              transparent 85deg,
+              rgba(255,215,0,1) 90deg,
+              rgba(255,215,0,0.4) 95deg,
+              transparent 100deg);
+          background-size: 1200px 1200px, 1000px 1000px, 1400px 1400px;
+          animation: diamond-twinkle 12s ease-in-out infinite;
+          opacity: 0.8;
         }
 
         @keyframes gentle-twinkle {
@@ -901,6 +942,34 @@ const debugProgression = () => {
           100% {
             opacity: 0.4;
             transform: scale(1);
+          }
+        }
+
+        @keyframes diamond-twinkle {
+          0% {
+            opacity: 0.2;
+            transform: scale(1) rotate(0deg);
+            filter: brightness(1);
+          }
+          25% {
+            opacity: 0.6;
+            transform: scale(1.1) rotate(90deg);
+            filter: brightness(1.3);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.3) rotate(180deg);
+            filter: brightness(1.8);
+          }
+          75% {
+            opacity: 0.7;
+            transform: scale(1.1) rotate(270deg);
+            filter: brightness(1.4);
+          }
+          100% {
+            opacity: 0.3;
+            transform: scale(1) rotate(360deg);
+            filter: brightness(1);
           }
         }
 
