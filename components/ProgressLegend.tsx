@@ -54,14 +54,17 @@ const ProgressLegend = ({
 
     container.innerHTML = '';
 
+    const isActive = index === currentStageIndex;
+    const svgSize = isActive ? "65" : "50";
+
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("width", "50");
-    svg.setAttribute("height", "50");
-    svg.setAttribute("viewBox", "0 0 50 50");
+    svg.setAttribute("width", svgSize);
+    svg.setAttribute("height", svgSize);
+    svg.setAttribute("viewBox", `0 0 ${svgSize} ${svgSize}`);
 
     // Create a mini version of one complete star arm
-    const cx = 25;
-    const cy = 30; // Center it better vertically
+    const cx = isActive ? 32.5 : 25;
+    const cy = isActive ? 35 : 30; // Center it better vertically
     const innerRadius = 5;  // Increased from 4
     const outerRadius = 28; // Increased from 22
     const rings = 5; // Fewer rings for the legend
@@ -585,13 +588,13 @@ const ProgressLegend = ({
             ref={el => { legendRefs.current[index] = el; }}
             className={`legend-diamond ${index === currentStageIndex ? 'active-level-float' : ''}`}
             style={{
-              width: '50px',
-              height: '50px',
+              width: index === currentStageIndex ? '65px' : '50px',
+              height: index === currentStageIndex ? '65px' : '50px',
               marginRight: '12px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'transform 0.2s ease'
+              transition: 'all 0.3s ease'
             }}
           />
           <div className="legend-text" style={{ flex: 1 }}>
