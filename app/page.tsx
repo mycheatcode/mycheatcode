@@ -611,7 +611,7 @@ const debugProgression = () => {
         {/* Main Content */}
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
-          <div className="absolute left-6 top-24">
+          <div className="absolute left-6 top-24 hidden md:block">
             <ProgressLegend
               darkMode={true}
               size={280}
@@ -620,8 +620,60 @@ const debugProgression = () => {
             />
           </div>
 
+          {/* Today For You Sidebar - Desktop Only */}
+          <div className="absolute right-6 top-24 hidden xl:block w-80">
+            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+              <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
+
+              {/* Quick Action Cards */}
+              <div className="space-y-3">
+                {/* Add to OFF-COURT Card */}
+                <div className="bg-white/[0.03] border border-white/15 rounded-xl p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="bg-yellow-500/20 text-yellow-400 text-xs font-semibold px-2 py-1 rounded-md">
+                      TODAY
+                    </span>
+                  </div>
+                  <h4 className="text-white text-sm font-medium mb-1">Add to OFF-COURT to raise OVR</h4>
+                  <p className="text-zinc-400 text-xs mb-3">Goldfish Memory</p>
+                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    Start Now
+                  </button>
+                </div>
+
+                {/* Players Working On Card */}
+                <div className="bg-white/[0.03] border border-white/15 rounded-xl p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded-md">
+                      TRENDING
+                    </span>
+                  </div>
+                  <h4 className="text-white text-sm font-medium mb-1">Players Are Working On This</h4>
+                  <p className="text-zinc-400 text-xs mb-3">I feel like I'm not improving fast enough</p>
+                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    Start Now
+                  </button>
+                </div>
+
+                {/* Mental Toughness Card */}
+                <div className="bg-white/[0.03] border border-white/15 rounded-xl p-4">
+                  <div className="flex items-start justify-between mb-2">
+                    <span className="bg-blue-500/20 text-blue-400 text-xs font-semibold px-2 py-1 rounded-md">
+                      POPULAR
+                    </span>
+                  </div>
+                  <h4 className="text-white text-sm font-medium mb-1">Build Mental Toughness</h4>
+                  <p className="text-zinc-400 text-xs mb-3">Stay focused under pressure</p>
+                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    Start Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="flex-1 flex flex-col items-center justify-center xl:mr-80">
             <div className="text-center mb-0">
               <div className="text-[32px] app-heading text-white mb-0">
                 YOUR ANALYSIS
