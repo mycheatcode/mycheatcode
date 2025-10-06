@@ -1010,67 +1010,69 @@ export default function MyCodesPage() {
 
         .stars-small {
           background:
-            radial-gradient(2px 2px at 20px 30px, white, transparent),
-            radial-gradient(2px 2px at 40px 70px, white, transparent),
-            radial-gradient(1px 1px at 90px 40px, white, transparent),
-            radial-gradient(1px 1px at 130px 80px, white, transparent),
-            radial-gradient(2px 2px at 160px 30px, white, transparent);
-          background-repeat: repeat;
-          background-size: 200px 100px;
-          animation: starfield-move 120s linear infinite;
+            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
+            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
+          background-size: 350px 350px, 400px 400px, 320px 320px;
+          animation: gentle-twinkle 20s ease-in-out infinite alternate;
           opacity: 0.4;
         }
 
         .stars-medium {
           background:
-            radial-gradient(3px 3px at 10px 20px, white, transparent),
-            radial-gradient(2px 2px at 60px 50px, white, transparent),
-            radial-gradient(3px 3px at 110px 10px, white, transparent),
-            radial-gradient(2px 2px at 150px 60px, white, transparent);
-          background-repeat: repeat;
-          background-size: 250px 120px;
-          animation: starfield-move 160s linear infinite;
+            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
+            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
+          background-size: 500px 500px, 450px 450px;
+          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
           opacity: 0.3;
         }
 
         .stars-large {
           background:
-            radial-gradient(3px 3px at 30px 40px, white, transparent),
-            radial-gradient(4px 4px at 80px 20px, white, transparent),
-            radial-gradient(3px 3px at 140px 70px, white, transparent);
-          background-repeat: repeat;
-          background-size: 300px 150px;
-          animation: starfield-move 200s linear infinite;
+            radial-gradient(circle at 60% 20%, #ffffff 2px, transparent 2px),
+            radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
+            radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
+          background-size: 800px 800px, 750px 750px, 900px 900px;
+          animation: bright-twinkle 35s ease-in-out infinite;
           opacity: 0.2;
         }
 
         .stars-twinkle {
-          background:
-            radial-gradient(2px 2px at 25px 35px, white, transparent),
-            radial-gradient(3px 3px at 75px 15px, white, transparent),
-            radial-gradient(2px 2px at 125px 55px, white, transparent),
-            radial-gradient(3px 3px at 175px 25px, white, transparent);
-          background-repeat: repeat;
-          background-size: 200px 100px;
-          animation: starfield-move 100s linear infinite, twinkle 8s ease-in-out infinite alternate;
+          background-image:
+            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
+          background-size: 800px 800px, 700px 700px, 900px 900px;
+          animation: star-sparkle 25s ease-in-out infinite alternate;
           opacity: 0.4;
         }
 
-        @keyframes starfield-move {
-          from {
-            transform: translateY(0px);
-          }
-          to {
-            transform: translateY(-100px);
-          }
+        @keyframes gentle-twinkle {
+          0% { opacity: 0.2; }
+          50% { opacity: 0.5; }
+          100% { opacity: 0.3; }
         }
 
-        @keyframes twinkle {
+        @keyframes bright-twinkle {
+          0% { opacity: 0.1; }
+          25% { opacity: 0.25; }
+          50% { opacity: 0.4; }
+          75% { opacity: 0.2; }
+          100% { opacity: 0.1; }
+        }
+
+        @keyframes star-sparkle {
           0% {
-            opacity: 0.2;
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.7;
+            transform: scale(1.1);
           }
           100% {
-            opacity: 0.5;
+            opacity: 0.4;
+            transform: scale(1);
           }
         }
 
