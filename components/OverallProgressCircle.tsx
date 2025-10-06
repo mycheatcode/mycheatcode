@@ -120,9 +120,9 @@ export default function OverallProgressCircle({
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           {simplified ? (
             <>
-              <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.28}px` }}>{percentage}%</div>
-              <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.065}px` }}>OVR MENTAL</div>
-              <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.055}px` }}>STRENGTH</div>
+              <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.22}px` }}>{percentage}%</div>
+              <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.05}px` }}>OVR MENTAL</div>
+              <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.045}px` }}>STRENGTH</div>
             </>
           ) : (
             <>
