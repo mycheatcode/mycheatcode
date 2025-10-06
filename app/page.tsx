@@ -688,7 +688,7 @@ const debugProgression = () => {
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col items-center justify-center">
             <div className="text-center mb-0">
-              <div className="text-[32px] app-heading text-white mb-0">
+              <div className="text-[40px] app-heading text-white mb-0">
                 Back at it, Hunter
               </div>
             </div>
@@ -704,7 +704,7 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-8">
             {!isLoading && radarState && (
               <>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
+                <div className="text-zinc-400 text-[18px] leading-6 max-w-[350px] mx-auto mb-4">
                   Start a fresh chat or choose from topics<br />other players levelled up in.
                 </div>
               </>
