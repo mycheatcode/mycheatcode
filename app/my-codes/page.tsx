@@ -1017,8 +1017,8 @@ export default function MyCodesPage() {
             radial-gradient(2px 2px at 160px 30px, white, transparent);
           background-repeat: repeat;
           background-size: 200px 100px;
-          animation: starfield-move 180s linear infinite;
-          opacity: 0.2;
+          animation: starfield-move 120s linear infinite;
+          opacity: 0.4;
         }
 
         .stars-medium {
@@ -1029,8 +1029,8 @@ export default function MyCodesPage() {
             radial-gradient(2px 2px at 150px 60px, white, transparent);
           background-repeat: repeat;
           background-size: 250px 120px;
-          animation: starfield-move 240s linear infinite;
-          opacity: 0.15;
+          animation: starfield-move 160s linear infinite;
+          opacity: 0.3;
         }
 
         .stars-large {
@@ -1040,8 +1040,8 @@ export default function MyCodesPage() {
             radial-gradient(3px 3px at 140px 70px, white, transparent);
           background-repeat: repeat;
           background-size: 300px 150px;
-          animation: starfield-move 300s linear infinite;
-          opacity: 0.1;
+          animation: starfield-move 200s linear infinite;
+          opacity: 0.2;
         }
 
         .stars-twinkle {
@@ -1052,8 +1052,8 @@ export default function MyCodesPage() {
             radial-gradient(3px 3px at 175px 25px, white, transparent);
           background-repeat: repeat;
           background-size: 200px 100px;
-          animation: starfield-move 150s linear infinite, twinkle 15s ease-in-out infinite alternate;
-          opacity: 0.2;
+          animation: starfield-move 100s linear infinite, twinkle 8s ease-in-out infinite alternate;
+          opacity: 0.4;
         }
 
         @keyframes starfield-move {
@@ -1067,10 +1067,10 @@ export default function MyCodesPage() {
 
         @keyframes twinkle {
           0% {
-            opacity: 0.1;
+            opacity: 0.2;
           }
           100% {
-            opacity: 0.3;
+            opacity: 0.5;
           }
         }
 

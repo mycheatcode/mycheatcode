@@ -832,8 +832,8 @@ export default function CommunityTopics() {
             radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
             radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
           background-size: 350px 350px, 400px 400px, 320px 320px;
-          animation: gentle-twinkle 25s ease-in-out infinite alternate;
-          opacity: 0.2;
+          animation: gentle-twinkle 20s ease-in-out infinite alternate;
+          opacity: 0.4;
         }
 
         .stars-medium {
@@ -841,8 +841,8 @@ export default function CommunityTopics() {
             radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
             radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
           background-size: 500px 500px, 450px 450px;
-          animation: gentle-twinkle 35s ease-in-out infinite alternate-reverse;
-          opacity: 0.15;
+          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
+          opacity: 0.3;
         }
 
         .stars-large {
@@ -851,8 +851,8 @@ export default function CommunityTopics() {
             radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
             radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
           background-size: 800px 800px, 750px 750px, 900px 900px;
-          animation: bright-twinkle 45s ease-in-out infinite;
-          opacity: 0.1;
+          animation: bright-twinkle 35s ease-in-out infinite;
+          opacity: 0.2;
         }
 
         .stars-twinkle {
@@ -861,35 +861,35 @@ export default function CommunityTopics() {
             radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
             radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
           background-size: 800px 800px, 700px 700px, 900px 900px;
-          animation: star-sparkle 30s ease-in-out infinite alternate;
-          opacity: 0.2;
+          animation: star-sparkle 25s ease-in-out infinite alternate;
+          opacity: 0.4;
         }
 
         @keyframes gentle-twinkle {
-          0% { opacity: 0.1; }
-          50% { opacity: 0.3; }
-          100% { opacity: 0.15; }
+          0% { opacity: 0.2; }
+          50% { opacity: 0.5; }
+          100% { opacity: 0.3; }
         }
 
         @keyframes bright-twinkle {
-          0% { opacity: 0.05; }
-          25% { opacity: 0.15; }
-          50% { opacity: 0.25; }
-          75% { opacity: 0.1; }
-          100% { opacity: 0.05; }
+          0% { opacity: 0.1; }
+          25% { opacity: 0.25; }
+          50% { opacity: 0.4; }
+          75% { opacity: 0.2; }
+          100% { opacity: 0.1; }
         }
 
         @keyframes star-sparkle {
           0% {
-            opacity: 0.1;
+            opacity: 0.3;
             transform: scale(1);
           }
           50% {
-            opacity: 0.3;
-            transform: scale(1.05);
+            opacity: 0.7;
+            transform: scale(1.1);
           }
           100% {
-            opacity: 0.15;
+            opacity: 0.4;
             transform: scale(1);
           }
         }
