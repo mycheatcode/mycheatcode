@@ -554,7 +554,7 @@ const ProgressLegend = ({
             marginBottom: index < stages.length - 1 ? '20px' : '0',
             height: `${itemHeight}px`,
             padding: '8px',
-            paddingLeft: '48px',
+            paddingLeft: '20px',
             borderRadius: '8px',
             transition: 'all 0.2s ease',
             cursor: 'pointer',
@@ -587,7 +587,7 @@ const ProgressLegend = ({
             style={{
               width: '50px',
               height: '50px',
-              marginRight: '20px',
+              marginRight: '12px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
