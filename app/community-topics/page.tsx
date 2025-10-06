@@ -408,11 +408,11 @@ export default function CommunityTopics() {
 
 
   const getTopicCardClasses = (topic: any) => {
-    return 'relative p-5 rounded-2xl border transition-all cursor-pointer bg-white/[0.03] border-white/15 hover:bg-white/8 active:scale-98 hover:scale-[1.02]';
+    return 'relative p-5 rounded-2xl border transition-all cursor-pointer bg-black/85 backdrop-blur-sm border-white/20 hover:bg-black/90 active:scale-98 hover:scale-[1.02]';
   };
 
   const getDesktopTopicCardClasses = (topic: any) => {
-    return 'relative p-6 rounded-2xl border transition-all cursor-pointer bg-white/[0.03] border-white/15 hover:bg-white/8 hover:scale-[1.02]';
+    return 'relative p-6 rounded-2xl border transition-all cursor-pointer bg-black/85 backdrop-blur-sm border-white/20 hover:bg-black/90 hover:scale-[1.02]';
   };
 
   const getCategoryCount = (category: string) => {
