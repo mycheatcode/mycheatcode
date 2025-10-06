@@ -621,10 +621,10 @@ const debugProgression = () => {
         {/* Main Content */}
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
           {/* Left Legend */}
-          <div className="absolute left-6 top-24 z-10">
+          <div className="absolute left-2 top-24 z-10">
             <ProgressLegend
               darkMode={true}
-              size={240}
+              size={220}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
               currentPercentage={calculateOverallPercentage()}
@@ -632,7 +632,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-320px', marginLeft: '-350px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-280px', marginLeft: '-320px' }}>
             <StreakDisplay
               streakDays={8}
               size={180}
@@ -640,17 +640,23 @@ const debugProgression = () => {
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-520px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '60px', marginLeft: '-480px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
               size={320}
             />
+            {/* Motivational text under OVR visual */}
+            <div className="text-center mt-4 max-w-[280px] mx-auto">
+              <div className="text-zinc-400 text-sm leading-relaxed">
+                Every elite player started exactly where you are now.<br />Build cheat codes for each area to reach full power.
+              </div>
+            </div>
           </div>
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)]">
+            <div className="today-for-you-section bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300">
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}
@@ -792,6 +798,14 @@ const debugProgression = () => {
           onDismiss={dismissShareCard}
         />
       )}
+
+      {/* CSS Styles */}
+      <style jsx>{`
+        .today-for-you-section:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+      `}</style>
     </div>
   );
 }
