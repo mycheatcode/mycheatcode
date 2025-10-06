@@ -868,21 +868,9 @@ const debugProgression = () => {
 
         .stars-twinkle {
           background-image:
-            radial-gradient(circle at 30% 40%,
-              transparent 2px,
-              rgba(255,255,255,0.6) 3px,
-              rgba(255,255,255,0.3) 4px,
-              transparent 5px),
-            radial-gradient(circle at 70% 70%,
-              transparent 2px,
-              rgba(135,206,235,0.6) 3px,
-              rgba(135,206,235,0.3) 4px,
-              transparent 5px),
-            radial-gradient(circle at 15% 20%,
-              transparent 1.5px,
-              rgba(255,215,0,0.7) 2.5px,
-              rgba(255,215,0,0.3) 3.5px,
-              transparent 4.5px);
+            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
           background-size: 800px 800px, 700px 700px, 900px 900px;
           animation: star-sparkle 8s ease-in-out infinite alternate;
           opacity: 0.5;
