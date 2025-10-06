@@ -655,21 +655,21 @@ const debugProgression = () => {
           </div>
 
           {/* Today For You Sidebar */}
-          <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="today-for-you-section bg-black/85 rounded-2xl p-4 backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
-              <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
+          <div className="absolute right-6 top-24 z-10 w-96">
+            <div className="today-for-you-section bg-black/85 rounded-2xl p-6 backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+              <h3 className="text-white text-xl font-bold mb-6 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {/* Community Topic Card 1 - Cheatcode Design */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all cursor-pointer hover:scale-[1.02]">
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 transition-all cursor-pointer hover:scale-[1.02]">
                   {/* Header */}
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
-                      <div className="text-white text-sm font-semibold mb-1 leading-tight pr-4">
+                      <div className="text-white text-base font-semibold mb-2 leading-tight pr-4">
                         "I get nervous at the free throw line when everyone's watching"
                       </div>
-                      <div className="text-zinc-400 text-xs uppercase tracking-wide">
+                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
                         PRE-GAME
                       </div>
                     </div>
@@ -679,7 +679,7 @@ const debugProgression = () => {
                   </div>
 
                   {/* Context */}
-                  <div className="text-zinc-400 text-xs mb-3 leading-relaxed">
+                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed">
                     When all eyes are on you and your heart starts racing
                   </div>
 
@@ -699,14 +699,14 @@ const debugProgression = () => {
                 </div>
 
                 {/* Community Topic Card 2 - Cheatcode Design */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all cursor-pointer hover:scale-[1.02]">
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 transition-all cursor-pointer hover:scale-[1.02]">
                   {/* Header */}
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
-                      <div className="text-white text-sm font-semibold mb-1 leading-tight pr-4">
+                      <div className="text-white text-base font-semibold mb-2 leading-tight pr-4">
                         "I feel like I'm not improving fast enough"
                       </div>
-                      <div className="text-zinc-400 text-xs uppercase tracking-wide">
+                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
                         OFF COURT
                       </div>
                     </div>
@@ -716,7 +716,7 @@ const debugProgression = () => {
                   </div>
 
                   {/* Context */}
-                  <div className="text-zinc-400 text-xs mb-3 leading-relaxed">
+                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed">
                     Impatience with your development
                   </div>
 
