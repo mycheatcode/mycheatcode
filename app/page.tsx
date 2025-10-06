@@ -632,7 +632,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-280px', marginLeft: '-320px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
             <StreakDisplay
               streakDays={8}
               size={180}
@@ -640,14 +640,14 @@ const debugProgression = () => {
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '60px', marginLeft: '-480px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '0px', marginLeft: '-540px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
               size={320}
             />
             {/* Motivational text under OVR visual */}
-            <div className="text-center mt-4 max-w-[280px] mx-auto">
+            <div className="text-center mt-4 max-w-[320px] mx-auto">
               <div className="text-zinc-400 text-sm leading-relaxed">
                 Every elite player started exactly where you are now.<br />Build cheat codes for each area to reach full power.
               </div>
@@ -800,7 +800,10 @@ const debugProgression = () => {
       )}
 
       {/* CSS Styles */}
-      <style jsx>{`
+      <style jsx global>{`
+        .today-for-you-section {
+          transition: all 0.3s ease;
+        }
         .today-for-you-section:hover {
           transform: translateY(-2px);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
