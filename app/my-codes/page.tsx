@@ -426,7 +426,14 @@ export default function MyCodesPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="bg-black min-h-screen text-white font-sans starfield-background">
+      {/* Starfield Background */}
+      <div className="starfield-container">
+        <div className="stars stars-small"></div>
+        <div className="stars stars-medium"></div>
+        <div className="stars stars-large"></div>
+        <div className="stars stars-twinkle"></div>
+      </div>
       {/* Mobile Design */}
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
@@ -982,6 +989,96 @@ export default function MyCodesPage() {
           onDismiss={dismissFeedback}
         />
       )}
+
+      {/* Starfield CSS Styles */}
+      <style jsx global>{`
+        .starfield-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .stars {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .stars-small {
+          background:
+            radial-gradient(2px 2px at 20px 30px, white, transparent),
+            radial-gradient(2px 2px at 40px 70px, white, transparent),
+            radial-gradient(1px 1px at 90px 40px, white, transparent),
+            radial-gradient(1px 1px at 130px 80px, white, transparent),
+            radial-gradient(2px 2px at 160px 30px, white, transparent);
+          background-repeat: repeat;
+          background-size: 200px 100px;
+          animation: starfield-move 60s linear infinite;
+          opacity: 0.5;
+        }
+
+        .stars-medium {
+          background:
+            radial-gradient(3px 3px at 10px 20px, white, transparent),
+            radial-gradient(2px 2px at 60px 50px, white, transparent),
+            radial-gradient(3px 3px at 110px 10px, white, transparent),
+            radial-gradient(2px 2px at 150px 60px, white, transparent);
+          background-repeat: repeat;
+          background-size: 250px 120px;
+          animation: starfield-move 80s linear infinite;
+          opacity: 0.3;
+        }
+
+        .stars-large {
+          background:
+            radial-gradient(3px 3px at 30px 40px, white, transparent),
+            radial-gradient(4px 4px at 80px 20px, white, transparent),
+            radial-gradient(3px 3px at 140px 70px, white, transparent);
+          background-repeat: repeat;
+          background-size: 300px 150px;
+          animation: starfield-move 100s linear infinite;
+          opacity: 0.2;
+        }
+
+        .stars-twinkle {
+          background:
+            radial-gradient(2px 2px at 25px 35px, white, transparent),
+            radial-gradient(3px 3px at 75px 15px, white, transparent),
+            radial-gradient(2px 2px at 125px 55px, white, transparent),
+            radial-gradient(3px 3px at 175px 25px, white, transparent);
+          background-repeat: repeat;
+          background-size: 200px 100px;
+          animation: starfield-move 50s linear infinite, twinkle 3s ease-in-out infinite alternate;
+          opacity: 0.4;
+        }
+
+        @keyframes starfield-move {
+          from {
+            transform: translateY(0px);
+          }
+          to {
+            transform: translateY(-100px);
+          }
+        }
+
+        @keyframes twinkle {
+          0% {
+            opacity: 0.2;
+          }
+          100% {
+            opacity: 0.6;
+          }
+        }
+
+        .starfield-background {
+          position: relative;
+          overflow: hidden;
+        }
+      `}</style>
 
     </div>
   );
