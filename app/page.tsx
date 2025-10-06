@@ -627,6 +627,7 @@ const debugProgression = () => {
               size={240}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
+              currentPercentage={calculateOverallPercentage()}
             />
           </div>
 

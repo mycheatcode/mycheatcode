@@ -9,6 +9,7 @@ interface ProgressLegendProps {
   expanded?: boolean;
   onToggle?: () => void;
   isMobile?: boolean;
+  currentPercentage?: number;
 }
 
 const ProgressLegend = ({
@@ -17,7 +18,8 @@ const ProgressLegend = ({
   darkMode = true,
   expanded = false,
   onToggle,
-  isMobile = false
+  isMobile = false,
+  currentPercentage = 0
 }: ProgressLegendProps) => {
   const legendRefs = useRef<(HTMLDivElement | null)[]>([]);
   const TAU = Math.PI * 2;
@@ -232,6 +234,16 @@ const ProgressLegend = ({
     }
   ];
 
+  // Determine current stage based on percentage
+  const getCurrentStageIndex = (percentage: number) => {
+    if (percentage >= 75) return 3; // Hall of Fame
+    if (percentage >= 50) return 2; // All-Star
+    if (percentage >= 25) return 1; // Rookie
+    return 0; // Beginner
+  };
+
+  const currentStageIndex = getCurrentStageIndex(currentPercentage);
+
   // Mobile layout - vertical like the image
   if (isMobile) {
     return (
@@ -295,9 +307,11 @@ const ProgressLegend = ({
               {/* Level info */}
               <div style={{ flex: 1 }}>
                 <div style={{
-                  color: darkMode ? 'white' : 'black',
+                  color: index === currentStageIndex
+                    ? (darkMode ? '#32CD32' : '#32CD32')
+                    : (darkMode ? 'white' : 'black'),
                   fontSize: '16px',
-                  fontWeight: '600',
+                  fontWeight: index === currentStageIndex ? '700' : '600',
                   marginBottom: '2px'
                 }}>
                   {stage.name}
@@ -518,9 +532,11 @@ const ProgressLegend = ({
           />
           <div className="legend-text" style={{ flex: 1 }}>
             <div style={{
-              color: darkMode ? '#ffffff' : '#000000',
+              color: index === currentStageIndex
+                ? (darkMode ? '#32CD32' : '#32CD32')
+                : (darkMode ? '#ffffff' : '#000000'),
               fontSize: '18px',
-              fontWeight: '600',
+              fontWeight: index === currentStageIndex ? '700' : '600',
               marginBottom: '4px'
             }}>
               {stage.name}
