@@ -471,16 +471,22 @@ export default function MyCodesPage() {
 
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">5</div>
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
+              <div className="text-white text-xl font-bold">5</div>
+            </div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
           </div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">62%</div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">Avg Power</div>
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
+              <div className="text-white text-xl font-bold">62%</div>
+            </div>
+            <div className="text-zinc-500 text-xs uppercase tracking-wide">OVR Strength</div>
           </div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">14</div>
+          <div className="flex flex-col items-center">
+            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
+              <div className="text-white text-xl font-bold">14</div>
+            </div>
             <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
           </div>
         </div>
@@ -722,17 +728,23 @@ export default function MyCodesPage() {
           </div>
 
           {/* Stats Summary */}
-          <div className="grid grid-cols-3 gap-8 mb-8">
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">5</div>
+          <div className="flex justify-around mb-8">
+            <div className="flex flex-col items-center">
+              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
+                <div className="text-white text-3xl font-bold">5</div>
+              </div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
             </div>
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">62%</div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">Avg Power</div>
+            <div className="flex flex-col items-center">
+              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
+                <div className="text-white text-3xl font-bold">62%</div>
+              </div>
+              <div className="text-zinc-400 text-sm uppercase tracking-wide">OVR Strength</div>
             </div>
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">14</div>
+            <div className="flex flex-col items-center">
+              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
+                <div className="text-white text-3xl font-bold">14</div>
+              </div>
               <div className="text-zinc-400 text-sm uppercase tracking-wide">Day Streak</div>
             </div>
           </div>
