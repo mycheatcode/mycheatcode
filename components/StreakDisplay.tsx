@@ -96,7 +96,7 @@ export default function StreakDisplay({
 
         {/* Center content - just the number */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="text-white font-bold" style={{ fontSize: `${size * 0.35}px` }}>{streakDays}</div>
+          <div className="text-white font-bold" style={{ fontSize: `${size * 0.25}px` }}>{streakDays}</div>
         </div>
       </div>
       {/* Label below circle */}

@@ -119,7 +119,7 @@ export default function OverallProgressCircle({
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           {simplified ? (
-            <div className="text-white font-bold" style={{ fontSize: `${size * 0.35}px` }}>{percentage}%</div>
+            <div className="text-white font-bold" style={{ fontSize: `${size * 0.25}px` }}>{percentage}%</div>
           ) : (
             <>
               <div className="flex items-center gap-1 mb-2">
