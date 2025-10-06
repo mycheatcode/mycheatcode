@@ -96,9 +96,9 @@ export default function ActiveCodesDisplay({
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-white text-6xl font-bold mb-1">{count}</div>
-          <div className="text-zinc-400 text-sm font-medium tracking-wider">ACTIVE</div>
-          <div className="text-zinc-500 text-xs tracking-wider">CODES</div>
+          <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.33}px` }}>{count}</div>
+          <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.077}px` }}>ACTIVE</div>
+          <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.066}px` }}>CODES</div>
         </div>
       </div>
     </div>

@@ -475,7 +475,7 @@ export default function MyCodesPage() {
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
           <ActiveCodesDisplay count={5} size={110} />
-          <OverallProgressCircle percentage={62} level="ALL-STAR" size={110} />
+          <OverallProgressCircle percentage={62} size={110} simplified />
           <StreakDisplay streakDays={14} size={110} />
         </div>
 
@@ -718,7 +718,7 @@ export default function MyCodesPage() {
           {/* Stats Summary */}
           <div className="flex justify-around mb-8">
             <ActiveCodesDisplay count={5} size={180} />
-            <OverallProgressCircle percentage={62} level="ALL-STAR" size={180} />
+            <OverallProgressCircle percentage={62} size={180} simplified />
             <StreakDisplay streakDays={14} size={180} />
           </div>
 

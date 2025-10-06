@@ -4,16 +4,18 @@ import React from 'react';
 
 interface OverallProgressCircleProps {
   percentage: number;
-  level: string;
+  level?: string;
   size?: number;
   className?: string;
+  simplified?: boolean;
 }
 
 export default function OverallProgressCircle({
   percentage,
   level,
   size = 180,
-  className = ""
+  className = "",
+  simplified = false
 }: OverallProgressCircleProps) {
   const radius = size * 0.4;
   const strokeWidth = size * 0.02;
@@ -116,88 +118,98 @@ export default function OverallProgressCircle({
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="flex items-center gap-1 mb-2">
-            <div style={{ width: '12px', height: '12px' }}>
-              <svg width="12" height="12" viewBox="0 0 12 12">
-                {(() => {
-                  // Create the exact same curved diamond as the legend
-                  const cx = 6;
-                  const cy = 6;
-                  const innerRadius = 1.2;
-                  const outerRadius = 6.7;
-                  const rings = 3;
-                  const TAU = Math.PI * 2;
-                  const sectorAngle = TAU / 5;
-                  const angle = -Math.PI / 2;
+          {simplified ? (
+            <>
+              <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.28}px` }}>{percentage}%</div>
+              <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.065}px` }}>OVR MENTAL</div>
+              <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.055}px` }}>STRENGTH</div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center gap-1 mb-2">
+                <div style={{ width: '12px', height: '12px' }}>
+                  <svg width="12" height="12" viewBox="0 0 12 12">
+                    {(() => {
+                      // Create the exact same curved diamond as the legend
+                      const cx = 6;
+                      const cy = 6;
+                      const innerRadius = 1.2;
+                      const outerRadius = 6.7;
+                      const rings = 3;
+                      const TAU = Math.PI * 2;
+                      const sectorAngle = TAU / 5;
+                      const angle = -Math.PI / 2;
 
-                  const paths = [];
+                      const paths = [];
 
-                  for (let ring = 0; ring < rings; ring++) {
-                    const ringProgress = (ring + 1) / rings;
-                    const radius = innerRadius + (outerRadius - innerRadius) * ringProgress;
+                      for (let ring = 0; ring < rings; ring++) {
+                        const ringProgress = (ring + 1) / rings;
+                        const radius = innerRadius + (outerRadius - innerRadius) * ringProgress;
 
-                    const tipX = cx + radius * Math.cos(angle);
-                    const tipY = cy + radius * Math.sin(angle);
+                        const tipX = cx + radius * Math.cos(angle);
+                        const tipY = cy + radius * Math.sin(angle);
 
-                    const spread = 0.35;
-                    const width = radius * 0.42;
+                        const spread = 0.35;
+                        const width = radius * 0.42;
 
-                    const leftAngle = angle - sectorAngle * spread;
-                    const leftX = cx + width * Math.cos(leftAngle);
-                    const leftY = cy + width * Math.sin(leftAngle);
+                        const leftAngle = angle - sectorAngle * spread;
+                        const leftX = cx + width * Math.cos(leftAngle);
+                        const leftY = cy + width * Math.sin(leftAngle);
 
-                    const rightAngle = angle + sectorAngle * spread;
-                    const rightX = cx + width * Math.cos(rightAngle);
-                    const rightY = cy + width * Math.sin(rightAngle);
+                        const rightAngle = angle + sectorAngle * spread;
+                        const rightX = cx + width * Math.cos(rightAngle);
+                        const rightY = cy + width * Math.sin(rightAngle);
 
-                    let path = `M ${cx} ${cy}`;
+                        let path = `M ${cx} ${cy}`;
 
-                    const scale = 12 / 50;
-                    const cl1x = cx + (leftX - cx) * 0.5 + 2.5 * scale * Math.cos(leftAngle + Math.PI/2);
-                    const cl1y = cy + (leftY - cy) * 0.5 + 2.5 * scale * Math.sin(leftAngle + Math.PI/2);
-                    path += ` Q ${cl1x} ${cl1y}, ${leftX} ${leftY}`;
+                        const scale = 12 / 50;
+                        const cl1x = cx + (leftX - cx) * 0.5 + 2.5 * scale * Math.cos(leftAngle + Math.PI/2);
+                        const cl1y = cy + (leftY - cy) * 0.5 + 2.5 * scale * Math.sin(leftAngle + Math.PI/2);
+                        path += ` Q ${cl1x} ${cl1y}, ${leftX} ${leftY}`;
 
-                    const cl2x = leftX + (tipX - leftX) * 0.5 - 3.5 * scale * Math.cos(angle - Math.PI/2);
-                    const cl2y = leftY + (tipY - leftY) * 0.5 - 3.5 * scale * Math.sin(angle - Math.PI/2);
-                    path += ` Q ${cl2x} ${cl2y}, ${tipX} ${tipY}`;
+                        const cl2x = leftX + (tipX - leftX) * 0.5 - 3.5 * scale * Math.cos(angle - Math.PI/2);
+                        const cl2y = leftY + (tipY - leftY) * 0.5 - 3.5 * scale * Math.sin(angle - Math.PI/2);
+                        path += ` Q ${cl2x} ${cl2y}, ${tipX} ${tipY}`;
 
-                    const cr1x = tipX + (rightX - tipX) * 0.5 - 3.5 * scale * Math.cos(angle + Math.PI/2);
-                    const cr1y = tipY + (rightY - tipY) * 0.5 - 3.5 * scale * Math.sin(angle + Math.PI/2);
-                    path += ` Q ${cr1x} ${cr1y}, ${rightX} ${rightY}`;
+                        const cr1x = tipX + (rightX - tipX) * 0.5 - 3.5 * scale * Math.cos(angle + Math.PI/2);
+                        const cr1y = tipY + (rightY - tipY) * 0.5 - 3.5 * scale * Math.sin(angle + Math.PI/2);
+                        path += ` Q ${cr1x} ${cr1y}, ${rightX} ${rightY}`;
 
-                    const cr2x = rightX + (cx - rightX) * 0.5 + 2.5 * scale * Math.cos(rightAngle - Math.PI/2);
-                    const cr2y = rightY + (cy - rightY) * 0.5 + 2.5 * scale * Math.sin(rightAngle - Math.PI/2);
-                    path += ` Q ${cr2x} ${cr2y}, ${cx} ${cy}`;
+                        const cr2x = rightX + (cx - rightX) * 0.5 + 2.5 * scale * Math.cos(rightAngle - Math.PI/2);
+                        const cr2y = rightY + (cy - rightY) * 0.5 + 2.5 * scale * Math.sin(rightAngle - Math.PI/2);
+                        path += ` Q ${cr2x} ${cr2y}, ${cx} ${cy}`;
 
-                    path += ' Z';
+                        path += ' Z';
 
-                    paths.push(
-                      <path
-                        key={ring}
-                        d={path}
-                        fill="none"
-                        stroke="rgb(255, 220, 0)"
-                        strokeWidth={(0.6 * scale + ringProgress * 1.8 * scale).toString()}
-                        strokeOpacity={(0.3 + ringProgress * 0.6).toString()}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    );
-                  }
+                        paths.push(
+                          <path
+                            key={ring}
+                            d={path}
+                            fill="none"
+                            stroke="rgb(255, 220, 0)"
+                            strokeWidth={(0.6 * scale + ringProgress * 1.8 * scale).toString()}
+                            strokeOpacity={(0.3 + ringProgress * 0.6).toString()}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        );
+                      }
 
-                  return paths;
-                })()}
-              </svg>
-            </div>
-            <span className="text-xs font-semibold tracking-wide" style={{ color: 'rgb(255, 220, 0)' }}>{level}</span>
-          </div>
-          <div className="text-white text-5xl font-bold mb-3">{percentage}%</div>
-          <div className="text-zinc-400 text-xs text-center leading-tight font-medium tracking-wider mb-3">
-            OVR MENTAL<br />STRENGTH
-          </div>
-          <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold tracking-wide">
-            ↑15%
-          </div>
+                      return paths;
+                    })()}
+                  </svg>
+                </div>
+                <span className="text-xs font-semibold tracking-wide" style={{ color: 'rgb(255, 220, 0)' }}>{level}</span>
+              </div>
+              <div className="text-white text-5xl font-bold mb-3">{percentage}%</div>
+              <div className="text-zinc-400 text-xs text-center leading-tight font-medium tracking-wider mb-3">
+                OVR MENTAL<br />STRENGTH
+              </div>
+              <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold tracking-wide">
+                ↑15%
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
