@@ -631,19 +631,19 @@ const debugProgression = () => {
           </div>
 
           {/* Overall Progress Circle - Desktop Only */}
-          <div className="absolute left-6 top-80 hidden xl:block">
+          <div className="absolute left-6 top-1/2 transform -translate-y-1/2 hidden xl:block">
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
-              size={160}
+              size={180}
             />
           </div>
 
           {/* Streak Display - Desktop Only */}
-          <div className="absolute left-6 bottom-32 hidden xl:block">
+          <div className="absolute left-6 bottom-24 hidden xl:block">
             <StreakDisplay
               streakDays={8}
-              size={160}
+              size={180}
             />
           </div>
 

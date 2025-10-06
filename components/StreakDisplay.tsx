@@ -62,8 +62,8 @@ export default function StreakDisplay({
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-white text-5xl font-bold mb-1">{streakDays}</div>
-          <div className="text-zinc-400 text-sm font-medium tracking-wide">DAY</div>
+          <div className="text-white text-6xl font-bold mb-1">{streakDays}</div>
+          <div className="text-zinc-400 text-sm font-medium tracking-wider">DAY</div>
           <div className="text-zinc-500 text-xs tracking-wider">STREAK</div>
         </div>
       </div>
