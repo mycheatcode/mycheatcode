@@ -635,7 +635,7 @@ const debugProgression = () => {
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-320px', marginLeft: '-350px' }}>
             <StreakDisplay
               streakDays={8}
-              size={220}
+              size={180}
             />
           </div>
 
@@ -650,7 +650,7 @@ const debugProgression = () => {
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300" style={{boxShadow: '0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)'}}>
+            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5" style={{boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)'}}>
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}

@@ -267,7 +267,7 @@ const ProgressLegend = ({
       >
         {/* Header */}
         <div style={{
-          textAlign: 'center',
+          textAlign: 'left',
           fontSize: '16px',
           fontWeight: '700',
           color: darkMode ? 'white' : 'black',
@@ -471,7 +471,7 @@ const ProgressLegend = ({
 
       {/* Header */}
       <div style={{
-        textAlign: 'center',
+        textAlign: 'left',
         fontSize: '16px',
         fontWeight: '700',
         color: darkMode ? 'white' : 'black',
