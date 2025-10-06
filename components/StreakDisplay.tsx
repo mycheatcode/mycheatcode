@@ -94,12 +94,14 @@ export default function StreakDisplay({
           })()}
         </svg>
 
-        {/* Center content */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.25}px` }}>{streakDays}</div>
-          <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.055}px` }}>DAY</div>
-          <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.05}px` }}>STREAK</div>
+        {/* Center content - just the number */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="text-white font-bold" style={{ fontSize: `${size * 0.35}px` }}>{streakDays}</div>
         </div>
+      </div>
+      {/* Label below circle */}
+      <div className="mt-2 text-center">
+        <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
       </div>
     </div>
   );
