@@ -315,7 +315,7 @@ const StarProgressVisual = ({
         }
 
         .animate-slow-rotate {
-          animation: slow-rotate 120s linear infinite;
+          animation: slow-rotate 180s linear infinite;
           transform-origin: ${size / 2}px ${size / 2}px;
         }
 

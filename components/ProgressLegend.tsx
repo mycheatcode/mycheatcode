@@ -583,7 +583,7 @@ const ProgressLegend = ({
         >
           <div
             ref={el => { legendRefs.current[index] = el; }}
-            className="legend-diamond"
+            className={`legend-diamond ${index === currentStageIndex ? 'active-level-float' : ''}`}
             style={{
               width: '50px',
               height: '50px',
@@ -694,6 +694,19 @@ const ProgressLegend = ({
         .progress-legend:hover {
           transform: translateY(-2px);
           box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .active-level-float {
+          animation: gentle-float 2.5s ease-in-out infinite;
+        }
+
+        @keyframes gentle-float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-3px);
+          }
         }
       `}</style>
     </div>
