@@ -541,6 +541,7 @@ export default function CommunityTopics() {
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
               className={getTopicCardClasses(topic)}
+              style={{ backgroundColor: '#000000' }}
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -728,6 +729,7 @@ export default function CommunityTopics() {
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
                 className={getDesktopTopicCardClasses(topic)}
+                style={{ backgroundColor: '#000000' }}
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
