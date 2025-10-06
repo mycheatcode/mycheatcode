@@ -631,7 +631,7 @@ const debugProgression = () => {
           </div>
 
           {/* Overall Progress Circle */}
-          <div className="fixed left-20 top-80 z-10">
+          <div className="fixed left-72 top-60 z-10">
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
@@ -640,7 +640,7 @@ const debugProgression = () => {
           </div>
 
           {/* Streak Display */}
-          <div className="fixed left-20 bottom-32 z-10">
+          <div className="fixed left-72 bottom-40 z-10">
             <StreakDisplay
               streakDays={8}
               size={180}
