@@ -34,30 +34,64 @@ export default function StreakDisplay({
             cy={size / 2}
           />
 
-          {/* Notches around the circle */}
-          {[...Array(24)].map((_, i) => {
-            const angle = (i * 15) * (Math.PI / 180);
-            const innerRadius = radius + strokeWidth;
-            const outerRadius = innerRadius + size * 0.03;
+          {/* Detailed notches around the circle */}
+          {(() => {
+            const notches = [];
+            const notchRadius = radius + strokeWidth / 2;
 
-            const x1 = size / 2 + innerRadius * Math.cos(angle);
-            const y1 = size / 2 + innerRadius * Math.sin(angle);
-            const x2 = size / 2 + outerRadius * Math.cos(angle);
-            const y2 = size / 2 + outerRadius * Math.sin(angle);
+            for (let deg = 0; deg < 360; deg += 3) {
+              const angle = (deg * Math.PI / 180) - Math.PI / 2;
 
-            return (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke="rgba(255, 255, 255, 0.3)"
-                strokeWidth={1}
-                strokeLinecap="round"
-              />
-            );
-          })}
+              // Determine notch type based on degree
+              let length: number, width: number, opacity: number, color: string;
+
+              if (deg % 30 === 0) {
+                // Major notches every 30 degrees
+                length = size * 0.033;
+                width = size * 0.005;
+                opacity = 0.9;
+                color = '#ffffff';
+              } else if (deg % 15 === 0) {
+                // Medium notches every 15 degrees
+                length = size * 0.023;
+                width = size * 0.0033;
+                opacity = 0.5;
+                color = '#cccccc';
+              } else if (deg % 6 === 0) {
+                // Minor notches every 6 degrees
+                length = size * 0.013;
+                width = size * 0.0025;
+                opacity = 0.3;
+                color = '#888888';
+              } else {
+                continue;
+              }
+
+              const startR = notchRadius + size * 0.058;
+              const endR = startR + length;
+
+              const x1 = size / 2 + startR * Math.cos(angle);
+              const y1 = size / 2 + startR * Math.sin(angle);
+              const x2 = size / 2 + endR * Math.cos(angle);
+              const y2 = size / 2 + endR * Math.sin(angle);
+
+              notches.push(
+                <line
+                  key={deg}
+                  x1={x1}
+                  y1={y1}
+                  x2={x2}
+                  y2={y2}
+                  stroke={color}
+                  strokeWidth={width}
+                  strokeOpacity={opacity}
+                  strokeLinecap="round"
+                />
+              );
+            }
+
+            return notches;
+          })()}
         </svg>
 
         {/* Center content */}
