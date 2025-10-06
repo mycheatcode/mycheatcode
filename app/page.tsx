@@ -632,19 +632,19 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-300px', marginLeft: '-320px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-260px', marginLeft: '-280px' }}>
             <StreakDisplay
               streakDays={8}
-              size={180}
+              size={150}
             />
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '0px', marginLeft: '-540px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '0px', marginLeft: '-460px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
-              size={320}
+              size={280}
             />
             {/* Motivational text under OVR visual */}
             <div className="text-center mt-4 max-w-[380px] mx-auto">
