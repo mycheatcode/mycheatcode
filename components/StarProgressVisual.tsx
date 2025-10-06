@@ -315,12 +315,12 @@ const StarProgressVisual = ({
         }
 
         .animate-slow-rotate {
-          animation: slow-rotate 60s linear infinite;
+          animation: slow-rotate 120s linear infinite;
           transform-origin: ${size / 2}px ${size / 2}px;
         }
 
         .animate-gentle-breathe {
-          animation: gentle-breathe 3s ease-in-out infinite;
+          animation: gentle-breathe 3s ease-in-out infinite, star-pulse 5s ease-in-out infinite;
         }
 
         @keyframes gentle-pulse {
@@ -351,6 +351,15 @@ const StarProgressVisual = ({
           50% {
             transform: scale(1.01);
             filter: brightness(1.1);
+          }
+        }
+
+        @keyframes star-pulse {
+          0%, 100% {
+            opacity: 0.9;
+          }
+          50% {
+            opacity: 1;
           }
         }
       `}</style>
