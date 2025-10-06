@@ -666,7 +666,7 @@ const debugProgression = () => {
                   {/* Header */}
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
-                      <div className="text-white text-base font-semibold mb-2 leading-tight pr-4">
+                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4">
                         "I get nervous at the free throw line when everyone's watching"
                       </div>
                       <div className="text-zinc-400 text-sm uppercase tracking-wide">
@@ -690,12 +690,14 @@ const debugProgression = () => {
                   </div>
 
                   {/* Start Now Button */}
-                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                    Start Now
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                    </svg>
-                  </button>
+                  <div className="flex justify-end">
+                    <button className="bg-white text-black text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2">
+                      Start Now
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Community Topic Card 2 - Cheatcode Design */}
@@ -703,7 +705,7 @@ const debugProgression = () => {
                   {/* Header */}
                   <div className="flex justify-between items-start mb-3">
                     <div className="flex-1">
-                      <div className="text-white text-base font-semibold mb-2 leading-tight pr-4">
+                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4">
                         "I feel like I'm not improving fast enough"
                       </div>
                       <div className="text-zinc-400 text-sm uppercase tracking-wide">
@@ -727,12 +729,14 @@ const debugProgression = () => {
                   </div>
 
                   {/* Start Now Button */}
-                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
-                    Start Now
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                    </svg>
-                  </button>
+                  <div className="flex justify-end">
+                    <button className="bg-white text-black text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2">
+                      Start Now
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
