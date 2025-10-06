@@ -650,7 +650,7 @@ const debugProgression = () => {
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm hover:shadow-[0_12px_40px_rgba(0,0,0,0.15)] transition-all duration-300">
+            <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300" style={{boxShadow: '0 0 20px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.05)'}}>
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}
@@ -751,7 +751,7 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-8">
             {!isLoading && radarState && (
               <>
-                <div className="text-zinc-400 text-[20px] leading-6 max-w-[350px] mx-auto mb-4">
+                <div className="text-zinc-400 text-[20px] leading-6 max-w-[420px] mx-auto mb-4">
                   Start a fresh chat or choose from topics<br />other players levelled up in.
                 </div>
               </>
