@@ -691,7 +691,7 @@ const debugProgression = () => {
 
                   {/* Start Now Button */}
                   <div className="flex justify-end">
-                    <button className="bg-white text-black text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2">
+                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
                       Start Now
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
@@ -730,7 +730,7 @@ const debugProgression = () => {
 
                   {/* Start Now Button */}
                   <div className="flex justify-end">
-                    <button className="bg-white text-black text-sm font-medium py-2 px-4 rounded-lg hover:bg-gray-100 transition-colors flex items-center gap-2">
+                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
                       Start Now
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
