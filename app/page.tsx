@@ -269,11 +269,11 @@ const debugProgression = () => {
 
   // Calculate overall percentage based on section radar system
   const calculateOverallPercentage = () => {
-    // For demo purposes, always show 92% when star progress is at 100%
+    // For demo purposes, always show 81% when star progress is at 100%
     const starData = getStarProgressData();
     const average = (starData.preGame + starData.inGame + starData.postGame + starData.offCourt + starData.lockerRoom) / 5;
     if (average === 100) {
-      return 92;
+      return 81;
     }
 
     const radarScore = getRadarScore();
@@ -654,7 +654,7 @@ const debugProgression = () => {
           {/* 8 DAY STREAK - positioned outside star */}
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
             <StreakDisplay
-              streakDays={8}
+              streakDays={5}
               size={150}
             />
           </div>
