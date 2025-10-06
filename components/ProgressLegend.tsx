@@ -423,7 +423,7 @@ const ProgressLegend = ({
         background: darkMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.95)',
         borderRadius: '24px',
         padding: '24px',
-        width: `${size}px`,
+        width: `${size + 50}px`,
         border: darkMode ? '1px solid rgba(50, 205, 50, 0.3)' : '1px solid rgba(0, 0, 0, 0.1)',
         boxShadow: darkMode
           ? '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'
@@ -522,8 +522,8 @@ const ProgressLegend = ({
                 continue;
               }
 
-              const x1 = (12 - length) / 2;
-              const x2 = x1 + length;
+              const x1 = 0; // Align all notches to the left
+              const x2 = length;
 
               notches.push(
                 <line
