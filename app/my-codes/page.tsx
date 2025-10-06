@@ -473,10 +473,10 @@ export default function MyCodesPage() {
         </div>
 
         {/* Stats Summary */}
-        <div className="flex justify-around py-5 border-b border-zinc-800">
-          <ActiveCodesDisplay count={5} size={110} />
-          <OverallProgressCircle percentage={62} size={110} simplified />
-          <StreakDisplay streakDays={14} size={110} />
+        <div className="flex justify-center gap-8 py-6 px-4">
+          <ActiveCodesDisplay count={5} size={100} />
+          <OverallProgressCircle percentage={62} size={100} simplified />
+          <StreakDisplay streakDays={14} size={100} />
         </div>
 
         {/* Categories Filter */}
@@ -716,10 +716,10 @@ export default function MyCodesPage() {
           </div>
 
           {/* Stats Summary */}
-          <div className="flex justify-around mb-8">
-            <ActiveCodesDisplay count={5} size={180} />
-            <OverallProgressCircle percentage={62} size={180} simplified />
-            <StreakDisplay streakDays={14} size={180} />
+          <div className="flex justify-center gap-12 mb-10 px-8">
+            <ActiveCodesDisplay count={5} size={160} />
+            <OverallProgressCircle percentage={62} size={160} simplified />
+            <StreakDisplay streakDays={14} size={160} />
           </div>
 
           {/* Categories Filter */}
