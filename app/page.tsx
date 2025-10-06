@@ -417,12 +417,19 @@ const debugProgression = () => {
 
   return (
     <div
-      className={`bg-black min-h-screen text-white font-sans page-zoom-container ${isZooming ? 'page-zoom-active' : ''}`}
+      className={`bg-black min-h-screen text-white font-sans page-zoom-container starfield-background ${isZooming ? 'page-zoom-active' : ''}`}
       style={zoomOrigin ? {
         '--zoom-origin-x': `${zoomOrigin.x}px`,
         '--zoom-origin-y': `${zoomOrigin.y}px`
       } as React.CSSProperties : {}}
       >
+      {/* Starfield Background */}
+      <div className="starfield-container">
+        <div className="stars stars-small"></div>
+        <div className="stars stars-medium"></div>
+        <div className="stars stars-large"></div>
+        <div className="stars stars-twinkle"></div>
+      </div>
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
         {/* Mobile Header with Menu */}
@@ -805,9 +812,94 @@ const debugProgression = () => {
 
       {/* CSS Styles */}
       <style jsx global>{`
+        /* Starfield Background */
+        .starfield-background {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .starfield-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .stars {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0.8;
+        }
+
+        .stars-small {
+          background:
+            radial-gradient(circle at 20% 80%, #ffffff 1px, transparent 1px),
+            radial-gradient(circle at 80% 20%, #87ceeb 1px, transparent 1px),
+            radial-gradient(circle at 40% 40%, #ffffff 1px, transparent 1px),
+            radial-gradient(circle at 60% 70%, #ffd700 1px, transparent 1px),
+            radial-gradient(circle at 90% 90%, #ffffff 1px, transparent 1px),
+            radial-gradient(circle at 10% 10%, #87ceeb 1px, transparent 1px);
+          background-size: 200px 200px, 180px 180px, 220px 220px, 160px 160px, 190px 190px, 210px 210px;
+          animation: twinkle-stars 8s ease-in-out infinite alternate;
+        }
+
+        .stars-medium {
+          background:
+            radial-gradient(circle at 30% 60%, #ffffff 1.5px, transparent 1.5px),
+            radial-gradient(circle at 70% 30%, #87ceeb 1.5px, transparent 1.5px),
+            radial-gradient(circle at 15% 85%, #ffd700 1.5px, transparent 1.5px),
+            radial-gradient(circle at 85% 15%, #ffffff 1.5px, transparent 1.5px);
+          background-size: 300px 300px, 250px 250px, 280px 280px, 320px 320px;
+          animation: twinkle-stars 12s ease-in-out infinite alternate-reverse;
+          opacity: 0.6;
+        }
+
+        .stars-large {
+          background:
+            radial-gradient(circle at 50% 25%, #ffffff 2px, transparent 2px),
+            radial-gradient(circle at 25% 75%, #87ceeb 2px, transparent 2px),
+            radial-gradient(circle at 75% 50%, #ffd700 2px, transparent 2px);
+          background-size: 400px 400px, 350px 350px, 450px 450px;
+          animation: twinkle-stars 15s ease-in-out infinite;
+          opacity: 0.4;
+        }
+
+        .stars-twinkle {
+          background:
+            radial-gradient(circle at 10% 30%, #ffffff 0.5px, transparent 0.5px),
+            radial-gradient(circle at 90% 70%, #87ceeb 0.5px, transparent 0.5px),
+            radial-gradient(circle at 30% 90%, #ffffff 0.5px, transparent 0.5px),
+            radial-gradient(circle at 70% 10%, #ffd700 0.5px, transparent 0.5px),
+            radial-gradient(circle at 50% 50%, #ffffff 0.5px, transparent 0.5px);
+          background-size: 150px 150px, 170px 170px, 140px 140px, 160px 160px, 180px 180px;
+          animation: fast-twinkle 4s ease-in-out infinite alternate;
+          opacity: 0.9;
+        }
+
+        @keyframes twinkle-stars {
+          0% { opacity: 0.3; }
+          50% { opacity: 0.8; }
+          100% { opacity: 0.4; }
+        }
+
+        @keyframes fast-twinkle {
+          0% { opacity: 0.6; }
+          25% { opacity: 1; }
+          50% { opacity: 0.3; }
+          75% { opacity: 0.9; }
+          100% { opacity: 0.5; }
+        }
+
         .today-for-you-section {
           transition: all 0.3s ease;
           position: relative;
+          z-index: 10;
         }
         .today-for-you-section:hover {
           transform: translateY(-2px);
