@@ -673,7 +673,7 @@ const debugProgression = () => {
           </div>
 
           {/* Main Content Area */}
-          <div className="flex-1 flex flex-col items-center justify-center xl:mr-80">
+          <div className="flex-1 flex flex-col items-center justify-center">
             <div className="text-center mb-0">
               <div className="text-[32px] app-heading text-white mb-0">
                 YOUR ANALYSIS
