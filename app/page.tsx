@@ -482,8 +482,8 @@ const debugProgression = () => {
           <div className="flex justify-center mb-0 px-1 -mt-2">
             <ProgressLegend
               darkMode={true}
-              size={240}
-              itemHeight={40}
+              size={200}
+              itemHeight={50}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
               isMobile={true}

@@ -211,165 +211,167 @@ const ProgressLegend = ({
 
   const stages = [
     {
-      name: 'Activated',
+      name: 'Beginner',
       range: '0-24%',
       description: 'Foundation level - First cheat code created. Building initial mental frameworks and awareness.'
     },
     {
-      name: 'Rising',
+      name: 'Rookie',
       range: '25-49%',
       description: 'Development level - Consistent practice building momentum. Skills becoming more natural.'
     },
     {
-      name: 'Elevated',
+      name: 'All-Star',
       range: '50-74%',
       description: 'Advanced level - Peak performance moments frequent. Can access cheat codes under pressure.'
     },
     {
-      name: 'Limitless',
+      name: 'Hall of Fame',
       range: '75-100%',
       description: 'Elite level - Unconscious competence. Cheat codes integrated and automatic in all situations.'
     }
   ];
 
-  // Mobile layout - horizontal row
+  // Mobile layout - vertical like the image
   if (isMobile) {
     return (
       <div
         className="progress-legend animate-fadeIn"
         style={{
           background: darkMode ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.95)',
-          borderRadius: '12px',
-          padding: '12px 16px',
+          borderRadius: '20px',
+          padding: '20px',
           border: darkMode ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(0, 0, 0, 0.1)',
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
           backdropFilter: 'blur(10px)',
           fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           transition: 'all 0.3s ease',
-          position: 'relative'
+          position: 'relative',
+          width: '200px'
         }}
       >
-        {onToggle && (
-          <button
-            onClick={onToggle}
-            style={{
-              position: 'absolute',
-              top: '8px',
-              right: '8px',
-              background: 'none',
-              border: 'none',
-              color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
-              cursor: 'pointer',
-              transition: 'color 0.2s ease',
-              padding: '4px'
-            }}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              style={{
-                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease'
-              }}
-            >
-              <path d="M7 10l5 5 5-5z"/>
-            </svg>
-          </button>
-        )}
-
+        {/* Header */}
         <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          paddingRight: onToggle ? '20px' : '0'
+          textAlign: 'center',
+          fontSize: '16px',
+          fontWeight: '700',
+          color: darkMode ? 'white' : 'black',
+          marginBottom: '20px',
+          letterSpacing: '2px'
         }}>
+          LEVELS
+        </div>
+
+        {/* Levels List */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {stages.map((stage, index) => (
             <div
               key={stage.name}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '4px'
+                gap: '12px'
               }}
             >
-              <div
-                ref={el => {
-                  // Mobile row diamonds
-                  if (el) {
-                    const mobileIndex = index + 12; // Different offset for mobile row
-                    legendRefs.current[mobileIndex] = el;
-                    drawDropdownDiamond(el, index);
-                  }
-                }}
-                style={{
-                  width: '12px',
-                  height: '12px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              />
-              <span style={{
-                color: darkMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(0, 0, 0, 0.8)',
-                fontSize: '10px',
-                fontWeight: '500'
+              {/* Simple diamond icon */}
+              <div style={{
+                width: '16px',
+                height: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
               }}>
-                {stage.name}
-              </span>
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                  <path
+                    d="M6 1 L11 6 L6 11 L1 6 Z"
+                    fill={['#DC1414', '#FF8C00', '#FFDC00', '#32CD32'][index]}
+                  />
+                </svg>
+              </div>
+
+              {/* Level info */}
+              <div style={{ flex: 1 }}>
+                <div style={{
+                  color: darkMode ? 'white' : 'black',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  marginBottom: '2px'
+                }}>
+                  {stage.name}
+                </div>
+                <div style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                  fontSize: '12px'
+                }}>
+                  {stage.range}
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
+        {/* Expand/Collapse button at bottom */}
+        {onToggle && (
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '20px'
+          }}>
+            <button
+              onClick={onToggle}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
+                cursor: 'pointer',
+                transition: 'color 0.2s ease',
+                padding: '4px'
+              }}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                style={{
+                  transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease'
+                }}
+              >
+                <path d="M7 10l5 5 5-5z"/>
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Expanded descriptions */}
         {expanded && (
           <div style={{
-            marginTop: '12px',
-            paddingTop: '12px',
+            marginTop: '20px',
+            paddingTop: '20px',
             borderTop: `1px solid ${darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
           }}>
             {stages.map((stage, index) => (
               <div
                 key={`expanded-${stage.name}`}
                 style={{
-                  display: 'flex',
-                  alignItems: 'flex-start',
-                  gap: '6px',
-                  marginBottom: index < stages.length - 1 ? '8px' : '0'
+                  marginBottom: index < stages.length - 1 ? '12px' : '0'
                 }}
               >
-                <div
-                  ref={el => {
-                    // Create dropdown diamonds for mobile expanded section
-                    if (el) {
-                      const dropdownIndex = index + 8; // Different offset for mobile
-                      legendRefs.current[dropdownIndex] = el;
-                      drawDropdownDiamond(el, index);
-                    }
-                  }}
-                  style={{
-                    width: '12px',
-                    height: '12px',
-                    flexShrink: 0,
-                    marginTop: '2px'
-                  }}
-                />
-                <div>
-                  <div style={{
-                    color: darkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
-                    fontSize: '11px',
-                    fontWeight: '500',
-                    marginBottom: '1px'
-                  }}>
-                    {stage.name}
-                  </div>
-                  <div style={{
-                    color: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
-                    fontSize: '9px',
-                    lineHeight: '1.3'
-                  }}>
-                    {stage.description}
-                  </div>
+                <div style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.9)',
+                  fontSize: '13px',
+                  fontWeight: '500',
+                  marginBottom: '4px'
+                }}>
+                  {stage.name}
+                </div>
+                <div style={{
+                  color: darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(0, 0, 0, 0.6)',
+                  fontSize: '11px',
+                  lineHeight: '1.4'
+                }}>
+                  {stage.description}
                 </div>
               </div>
             ))}
