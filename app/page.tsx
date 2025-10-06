@@ -396,21 +396,21 @@ const debugProgression = () => {
   const getStarProgressData = () => {
     if (!radarState) {
       return {
-        preGame: 85,
-        inGame: 92,
-        postGame: 78,
-        offCourt: 88,
-        lockerRoom: 95
+        preGame: 100,
+        inGame: 100,
+        postGame: 100,
+        offCourt: 100,
+        lockerRoom: 100
       };
     }
 
     const sectionScores = radarState.sectionScores;
     return {
-      preGame: sectionScores['Pre-Game']?.score || 85,
-      inGame: sectionScores['In-Game']?.score || 92,
-      postGame: sectionScores['Post-Game']?.score || 78,
-      offCourt: sectionScores['Off Court']?.score || 88,
-      lockerRoom: sectionScores['Locker Room']?.score || 95
+      preGame: sectionScores['Pre-Game']?.score || 100,
+      inGame: sectionScores['In-Game']?.score || 100,
+      postGame: sectionScores['Post-Game']?.score || 100,
+      offCourt: sectionScores['Off Court']?.score || 100,
+      lockerRoom: sectionScores['Locker Room']?.score || 100
     };
   };
 
@@ -649,7 +649,7 @@ const debugProgression = () => {
           {/* 8 DAY STREAK - positioned outside star */}
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
             <StreakDisplay
-              streakDays={8}
+              streakDays={47}
               size={150}
             />
           </div>
