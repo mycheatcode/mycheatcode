@@ -839,12 +839,12 @@ const debugProgression = () => {
 
         .stars-small {
           background:
-            radial-gradient(circle at 20% 80%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 80% 20%, #87ceeb 0.8px, transparent 0.8px),
-            radial-gradient(circle at 40% 40%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 60% 70%, #ffd700 0.8px, transparent 0.8px),
-            radial-gradient(circle at 90% 90%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 10% 10%, #87ceeb 0.8px, transparent 0.8px);
+            conic-gradient(from 45deg at 20% 80%, transparent 88deg, #ffffff 92deg, transparent 96deg),
+            conic-gradient(from 45deg at 80% 20%, transparent 88deg, #87ceeb 92deg, transparent 96deg),
+            conic-gradient(from 45deg at 40% 40%, transparent 88deg, #ffffff 92deg, transparent 96deg),
+            conic-gradient(from 45deg at 60% 70%, transparent 88deg, #ffd700 92deg, transparent 96deg),
+            conic-gradient(from 45deg at 90% 90%, transparent 88deg, #ffffff 92deg, transparent 96deg),
+            conic-gradient(from 45deg at 10% 10%, transparent 88deg, #87ceeb 92deg, transparent 96deg);
           background-size: 250px 250px, 220px 220px, 280px 280px, 200px 200px, 240px 240px, 260px 260px;
           animation: gentle-twinkle 10s ease-in-out infinite alternate;
           opacity: 0.5;
@@ -852,10 +852,10 @@ const debugProgression = () => {
 
         .stars-medium {
           background:
-            radial-gradient(circle at 30% 60%, #ffffff 1.2px, transparent 1.2px),
-            radial-gradient(circle at 70% 30%, #87ceeb 1.2px, transparent 1.2px),
-            radial-gradient(circle at 15% 85%, #ffd700 1.2px, transparent 1.2px),
-            radial-gradient(circle at 85% 15%, #ffffff 1.2px, transparent 1.2px);
+            conic-gradient(from 45deg at 30% 60%, transparent 87deg, #ffffff 93deg, transparent 97deg),
+            conic-gradient(from 45deg at 70% 30%, transparent 87deg, #87ceeb 93deg, transparent 97deg),
+            conic-gradient(from 45deg at 15% 85%, transparent 87deg, #ffd700 93deg, transparent 97deg),
+            conic-gradient(from 45deg at 85% 15%, transparent 87deg, #ffffff 93deg, transparent 97deg);
           background-size: 350px 350px, 300px 300px, 330px 330px, 380px 380px;
           animation: gentle-twinkle 14s ease-in-out infinite alternate-reverse;
           opacity: 0.4;
@@ -863,9 +863,9 @@ const debugProgression = () => {
 
         .stars-large {
           background:
-            radial-gradient(circle at 50% 25%, #ffffff 2px, transparent 2px),
-            radial-gradient(circle at 25% 75%, #87ceeb 2px, transparent 2px),
-            radial-gradient(circle at 75% 50%, #ffd700 2px, transparent 2px);
+            conic-gradient(from 45deg at 50% 25%, transparent 86deg, #ffffff 94deg, transparent 98deg),
+            conic-gradient(from 45deg at 25% 75%, transparent 86deg, #87ceeb 94deg, transparent 98deg),
+            conic-gradient(from 45deg at 75% 50%, transparent 86deg, #ffd700 94deg, transparent 98deg);
           background-size: 600px 600px, 550px 550px, 650px 650px;
           animation: bright-twinkle 6s ease-in-out infinite;
           opacity: 0.3;
@@ -873,21 +873,21 @@ const debugProgression = () => {
 
         .stars-twinkle {
           background-image:
-            radial-gradient(circle at 30% 40%,
-              transparent 2px,
-              rgba(255,255,255,0.8) 3px,
-              rgba(255,255,255,0.4) 4px,
-              transparent 5px),
-            radial-gradient(circle at 70% 70%,
-              transparent 2px,
-              rgba(135,206,235,0.8) 3px,
-              rgba(135,206,235,0.4) 4px,
-              transparent 5px),
-            radial-gradient(circle at 15% 20%,
-              transparent 1.5px,
-              rgba(255,215,0,0.9) 2.5px,
-              rgba(255,215,0,0.3) 3.5px,
-              transparent 4.5px);
+            conic-gradient(from 45deg at 30% 40%,
+              transparent 85deg,
+              rgba(255,255,255,0.8) 90deg,
+              rgba(255,255,255,0.4) 95deg,
+              transparent 100deg),
+            conic-gradient(from 45deg at 70% 70%,
+              transparent 85deg,
+              rgba(135,206,235,0.8) 90deg,
+              rgba(135,206,235,0.4) 95deg,
+              transparent 100deg),
+            conic-gradient(from 45deg at 15% 20%,
+              transparent 85deg,
+              rgba(255,215,0,0.9) 90deg,
+              rgba(255,215,0,0.4) 95deg,
+              transparent 100deg);
           background-size: 800px 800px, 700px 700px, 900px 900px;
           animation: star-sparkle 8s ease-in-out infinite alternate;
           opacity: 0.7;
