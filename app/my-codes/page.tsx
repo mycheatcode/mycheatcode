@@ -18,6 +18,9 @@ import {
   getArchivedCodes,
   MAX_ACTIVE_CODES_PER_SECTION
 } from '../utils/codeManagementSystem';
+import ActiveCodesDisplay from '../../components/ActiveCodesDisplay';
+import OverallProgressCircle from '../../components/OverallProgressCircle';
+import StreakDisplay from '../../components/StreakDisplay';
 
 interface CheatCode {
   id: number;
@@ -471,72 +474,9 @@ export default function MyCodesPage() {
 
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
-          <div className="flex flex-col items-center">
-            <div className="relative w-24 h-24">
-              {/* Decorative dashes around circle */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-              {/* Main circle */}
-              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                <div className="text-white text-2xl font-bold">5</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">Active</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Codes</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="relative w-24 h-24">
-              {/* Decorative dashes around circle */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-              {/* Main circle */}
-              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                <div className="text-white text-2xl font-bold">62%</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">OVR</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Strength</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col items-center">
-            <div className="relative w-24 h-24">
-              {/* Decorative dashes around circle */}
-              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="45"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.1)"
-                  strokeWidth="1"
-                  strokeDasharray="4 4"
-                />
-              </svg>
-              {/* Main circle */}
-              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                <div className="text-white text-2xl font-bold">14</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">Day</div>
-                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Streak</div>
-              </div>
-            </div>
-          </div>
+          <ActiveCodesDisplay count={5} size={110} />
+          <OverallProgressCircle percentage={62} level="ALL-STAR" size={110} />
+          <StreakDisplay streakDays={14} size={110} />
         </div>
 
         {/* Categories Filter */}
@@ -777,72 +717,9 @@ export default function MyCodesPage() {
 
           {/* Stats Summary */}
           <div className="flex justify-around mb-8">
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40">
-                {/* Decorative dashes around circle */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.1)"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                </svg>
-                {/* Main circle */}
-                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                  <div className="text-white text-4xl font-bold">5</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">Active</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Codes</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40">
-                {/* Decorative dashes around circle */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.1)"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                </svg>
-                {/* Main circle */}
-                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                  <div className="text-white text-4xl font-bold">62%</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">OVR</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Strength</div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col items-center">
-              <div className="relative w-40 h-40">
-                {/* Decorative dashes around circle */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
-                    fill="none"
-                    stroke="rgba(255,255,255,0.1)"
-                    strokeWidth="1"
-                    strokeDasharray="4 4"
-                  />
-                </svg>
-                {/* Main circle */}
-                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
-                  <div className="text-white text-4xl font-bold">14</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">Day</div>
-                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Streak</div>
-                </div>
-              </div>
-            </div>
+            <ActiveCodesDisplay count={5} size={180} />
+            <OverallProgressCircle percentage={62} level="ALL-STAR" size={180} />
+            <StreakDisplay streakDays={14} size={180} />
           </div>
 
           {/* Categories Filter */}
