@@ -643,7 +643,7 @@ const debugProgression = () => {
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
-              size={220}
+              size={280}
             />
           </div>
 

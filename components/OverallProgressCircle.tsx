@@ -116,15 +116,15 @@ export default function OverallProgressCircle({
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="flex items-center gap-1 mb-1">
-            <div className="w-2 h-2 bg-yellow-400" style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}></div>
-            <span className="text-yellow-400 text-xs font-semibold tracking-wide">{level}</span>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-3 h-3 bg-yellow-400" style={{ clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)' }}></div>
+            <span className="text-yellow-400 text-sm font-semibold tracking-wide">{level}</span>
           </div>
-          <div className="text-white text-5xl font-bold mb-1">{percentage}%</div>
-          <div className="text-zinc-400 text-xs text-center leading-tight font-medium tracking-wider">
+          <div className="text-white text-7xl font-bold mb-2">{percentage}%</div>
+          <div className="text-zinc-400 text-sm text-center leading-tight font-medium tracking-wider mb-3">
             OVR MENTAL<br />STRENGTH
           </div>
-          <div className="mt-2 bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold tracking-wide">
+          <div className="bg-green-500/20 text-green-400 px-3 py-1 rounded text-sm font-bold tracking-wide">
             ↑15%
           </div>
         </div>
