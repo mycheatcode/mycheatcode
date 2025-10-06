@@ -408,11 +408,11 @@ export default function CommunityTopics() {
 
 
   const getTopicCardClasses = (topic: any) => {
-    return 'relative p-5 rounded-2xl border transition-all cursor-pointer bg-black backdrop-blur-sm border-white/20 hover:bg-zinc-900 active:scale-98 hover:scale-[1.02]';
+    return 'relative p-5 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 active:scale-98 hover:scale-[1.02]';
   };
 
   const getDesktopTopicCardClasses = (topic: any) => {
-    return 'relative p-6 rounded-2xl border transition-all cursor-pointer bg-black backdrop-blur-sm border-white/20 hover:bg-zinc-900 hover:scale-[1.02]';
+    return 'relative p-6 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 hover:scale-[1.02]';
   };
 
   const getCategoryCount = (category: string) => {
@@ -899,6 +899,13 @@ export default function CommunityTopics() {
         .force-solid-background {
           background-color: #000000 !important;
           background: #000000 !important;
+          background-image: none !important;
+          backdrop-filter: none !important;
+          opacity: 1 !important;
+        }
+
+        .force-solid-background * {
+          background-color: inherit;
         }
       `}</style>
     </div>
