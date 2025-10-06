@@ -256,7 +256,7 @@ const StarProgressVisual = ({
         width={size}
         height={size}
         viewBox={`-${size * 0.25} -${size * 0.25} ${size * 1.5} ${size * 1.5}`}
-        className="star-progress-svg"
+        className="star-progress-svg animate-gentle-pulse"
       >
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -267,8 +267,8 @@ const StarProgressVisual = ({
             </feMerge>
           </filter>
         </defs>
-        <g id="notches"></g>
-        <g id="diamonds"></g>
+        <g id="notches" className="animate-slow-rotate"></g>
+        <g id="diamonds" className="animate-gentle-breathe"></g>
         <g id="labels">
           {(() => {
             const cx = size / 2;
@@ -308,6 +308,52 @@ const StarProgressVisual = ({
           })()}
         </g>
       </svg>
+
+      <style jsx>{`
+        .animate-gentle-pulse {
+          animation: gentle-pulse 4s ease-in-out infinite;
+        }
+
+        .animate-slow-rotate {
+          animation: slow-rotate 60s linear infinite;
+          transform-origin: ${size / 2}px ${size / 2}px;
+        }
+
+        .animate-gentle-breathe {
+          animation: gentle-breathe 3s ease-in-out infinite;
+        }
+
+        @keyframes gentle-pulse {
+          0%, 100% {
+            opacity: 0.95;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.02);
+          }
+        }
+
+        @keyframes slow-rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+
+        @keyframes gentle-breathe {
+          0%, 100% {
+            transform: scale(1);
+            filter: brightness(1);
+          }
+          50% {
+            transform: scale(1.01);
+            filter: brightness(1.1);
+          }
+        }
+      `}</style>
     </div>
   );
 };
