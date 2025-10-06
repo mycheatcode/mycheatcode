@@ -523,11 +523,11 @@ const debugProgression = () => {
             </div>
 
             <div className="flex flex-col gap-2 pb-8">
-              <button onClick={handleCreateCheatCode} className="w-full py-4 px-6 mobile-btn rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+              <button onClick={handleCreateCheatCode} className="w-full py-4 px-6 mobile-btn rounded-2xl border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Start New Chat
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-4 px-6 mobile-btn rounded-full border border-zinc-700 text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
+              <Link href="/community-topics" className="w-full py-4 px-6 mobile-btn rounded-2xl border border-zinc-700 text-[17px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-900 hover:border-zinc-600 active:scale-98 text-center relative">
                 View Community Topics
                 <div className="absolute right-4 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
@@ -624,7 +624,7 @@ const debugProgression = () => {
           <div className="absolute left-6 top-24 z-10">
             <ProgressLegend
               darkMode={true}
-              size={280}
+              size={240}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
             />
@@ -639,11 +639,11 @@ const debugProgression = () => {
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-460px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-520px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
-              size={280}
+              size={320}
             />
           </div>
 
@@ -722,11 +722,11 @@ const debugProgression = () => {
             </div>
 
             <div className="space-y-2 w-full max-w-2xl">
-              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-full border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+              <button onClick={handleCreateCheatCode} className="w-full py-4 px-8 rounded-2xl border-none text-[20px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
                 Start New Chat
                 <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
               </button>
-              <Link href="/community-topics" className="w-full py-4 px-8 rounded-full border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+              <Link href="/community-topics" className="w-full py-4 px-8 rounded-2xl border border-zinc-700 text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
                 View Community Topics
                 <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
               </Link>
