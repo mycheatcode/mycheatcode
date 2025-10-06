@@ -472,22 +472,70 @@ export default function MyCodesPage() {
         {/* Stats Summary */}
         <div className="flex justify-around py-5 border-b border-zinc-800">
           <div className="flex flex-col items-center">
-            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
-              <div className="text-white text-xl font-bold">5</div>
+            <div className="relative w-24 h-24">
+              {/* Decorative dashes around circle */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+              </svg>
+              {/* Main circle */}
+              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                <div className="text-white text-2xl font-bold">5</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">Active</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Codes</div>
+              </div>
             </div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
-              <div className="text-white text-xl font-bold">62%</div>
+            <div className="relative w-24 h-24">
+              {/* Decorative dashes around circle */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+              </svg>
+              {/* Main circle */}
+              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                <div className="text-white text-2xl font-bold">62%</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">OVR</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Strength</div>
+              </div>
             </div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">OVR Strength</div>
           </div>
           <div className="flex flex-col items-center">
-            <div className="w-20 h-20 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-2">
-              <div className="text-white text-xl font-bold">14</div>
+            <div className="relative w-24 h-24">
+              {/* Decorative dashes around circle */}
+              <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="45"
+                  fill="none"
+                  stroke="rgba(255,255,255,0.1)"
+                  strokeWidth="1"
+                  strokeDasharray="4 4"
+                />
+              </svg>
+              {/* Main circle */}
+              <div className="absolute inset-2 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                <div className="text-white text-2xl font-bold">14</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide mt-0.5">Day</div>
+                <div className="text-zinc-500 text-[9px] uppercase tracking-wide -mt-0.5">Streak</div>
+              </div>
             </div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
           </div>
         </div>
 
@@ -730,22 +778,70 @@ export default function MyCodesPage() {
           {/* Stats Summary */}
           <div className="flex justify-around mb-8">
             <div className="flex flex-col items-center">
-              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
-                <div className="text-white text-3xl font-bold">5</div>
+              <div className="relative w-40 h-40">
+                {/* Decorative dashes around circle */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.1)"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                  />
+                </svg>
+                {/* Main circle */}
+                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                  <div className="text-white text-4xl font-bold">5</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">Active</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Codes</div>
+                </div>
               </div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
-                <div className="text-white text-3xl font-bold">62%</div>
+              <div className="relative w-40 h-40">
+                {/* Decorative dashes around circle */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.1)"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                  />
+                </svg>
+                {/* Main circle */}
+                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                  <div className="text-white text-4xl font-bold">62%</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">OVR</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Strength</div>
+                </div>
               </div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">OVR Strength</div>
             </div>
             <div className="flex flex-col items-center">
-              <div className="w-32 h-32 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center mb-3">
-                <div className="text-white text-3xl font-bold">14</div>
+              <div className="relative w-40 h-40">
+                {/* Decorative dashes around circle */}
+                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="45"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.1)"
+                    strokeWidth="1"
+                    strokeDasharray="4 4"
+                  />
+                </svg>
+                {/* Main circle */}
+                <div className="absolute inset-3 rounded-full bg-white/5 border border-white/10 flex flex-col items-center justify-center">
+                  <div className="text-white text-4xl font-bold">14</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide mt-1">Day</div>
+                  <div className="text-zinc-500 text-xs uppercase tracking-wide -mt-0.5">Streak</div>
+                </div>
               </div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">Day Streak</div>
             </div>
           </div>
 
