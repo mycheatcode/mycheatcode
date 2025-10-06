@@ -632,7 +632,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-300px', marginLeft: '-320px' }}>
             <StreakDisplay
               streakDays={8}
               size={180}
@@ -647,16 +647,16 @@ const debugProgression = () => {
               size={320}
             />
             {/* Motivational text under OVR visual */}
-            <div className="text-center mt-4 max-w-[320px] mx-auto">
-              <div className="text-zinc-400 text-sm leading-relaxed">
-                Every elite player started exactly where you are now.<br />Build cheat codes for each area to reach full power.
+            <div className="text-center mt-4 max-w-[380px] mx-auto">
+              <div className="text-zinc-400 text-sm leading-5">
+                Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
               </div>
             </div>
           </div>
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="today-for-you-section bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm transition-all duration-300">
+            <div className="today-for-you-section bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}
@@ -803,10 +803,11 @@ const debugProgression = () => {
       <style jsx global>{`
         .today-for-you-section {
           transition: all 0.3s ease;
+          position: relative;
         }
         .today-for-you-section:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
         }
       `}</style>
     </div>
