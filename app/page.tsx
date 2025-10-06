@@ -632,7 +632,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-260px', marginLeft: '-280px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-260px', marginLeft: '-300px' }}>
             <StreakDisplay
               streakDays={8}
               size={150}
