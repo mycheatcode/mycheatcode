@@ -656,7 +656,7 @@ const debugProgression = () => {
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-80">
-            <div className="today-for-you-section bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
+            <div className="today-for-you-section bg-black/85 rounded-2xl p-4 backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
               {/* Quick Action Cards */}
@@ -807,7 +807,7 @@ const debugProgression = () => {
         }
         .today-for-you-section:hover {
           transform: translateY(-2px);
-          box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+          box-shadow: 0 0 35px rgba(50, 205, 50, 0.25), 0 12px 40px rgba(0, 0, 0, 0.4) !important;
         }
       `}</style>
     </div>
