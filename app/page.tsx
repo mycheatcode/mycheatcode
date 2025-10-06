@@ -866,7 +866,7 @@ const debugProgression = () => {
             radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
           background-size: 350px 350px, 400px 400px, 320px 320px;
           animation: gentle-twinkle 20s ease-in-out infinite alternate;
-          opacity: 0.4;
+          opacity: 0.35;
         }
 
         .stars-medium {
@@ -875,7 +875,7 @@ const debugProgression = () => {
             radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
           background-size: 500px 500px, 450px 450px;
           animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
-          opacity: 0.3;
+          opacity: 0.25;
         }
 
         .stars-large {
@@ -895,22 +895,22 @@ const debugProgression = () => {
             radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
           background-size: 800px 800px, 700px 700px, 900px 900px;
           animation: star-sparkle 25s ease-in-out infinite alternate;
-          opacity: 0.4;
+          opacity: 0.35;
         }
 
 
         @keyframes gentle-twinkle {
-          0% { opacity: 0.2; }
-          50% { opacity: 0.5; }
-          100% { opacity: 0.3; }
+          0% { opacity: 0.3; }
+          50% { opacity: 0.45; }
+          100% { opacity: 0.35; }
         }
 
         @keyframes bright-twinkle {
-          0% { opacity: 0.1; }
+          0% { opacity: 0.15; }
           25% { opacity: 0.25; }
-          50% { opacity: 0.4; }
+          50% { opacity: 0.3; }
           75% { opacity: 0.2; }
-          100% { opacity: 0.1; }
+          100% { opacity: 0.15; }
         }
 
         @keyframes star-sparkle {
@@ -919,11 +919,11 @@ const debugProgression = () => {
             transform: scale(1);
           }
           50% {
-            opacity: 0.7;
-            transform: scale(1.1);
+            opacity: 0.5;
+            transform: scale(1.05);
           }
           100% {
-            opacity: 0.4;
+            opacity: 0.35;
             transform: scale(1);
           }
         }
