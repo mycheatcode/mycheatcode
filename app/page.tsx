@@ -839,61 +839,69 @@ const debugProgression = () => {
 
         .stars-small {
           background:
-            radial-gradient(circle at 20% 80%, #ffffff 1px, transparent 1px),
-            radial-gradient(circle at 80% 20%, #87ceeb 1px, transparent 1px),
-            radial-gradient(circle at 40% 40%, #ffffff 1px, transparent 1px),
-            radial-gradient(circle at 60% 70%, #ffd700 1px, transparent 1px),
-            radial-gradient(circle at 90% 90%, #ffffff 1px, transparent 1px),
-            radial-gradient(circle at 10% 10%, #87ceeb 1px, transparent 1px);
-          background-size: 200px 200px, 180px 180px, 220px 220px, 160px 160px, 190px 190px, 210px 210px;
-          animation: twinkle-stars 8s ease-in-out infinite alternate;
+            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
+            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
+          background-size: 350px 350px, 400px 400px, 320px 320px;
+          animation: gentle-twinkle 10s ease-in-out infinite alternate;
+          opacity: 0.4;
         }
 
         .stars-medium {
           background:
-            radial-gradient(circle at 30% 60%, #ffffff 1.5px, transparent 1.5px),
-            radial-gradient(circle at 70% 30%, #87ceeb 1.5px, transparent 1.5px),
-            radial-gradient(circle at 15% 85%, #ffd700 1.5px, transparent 1.5px),
-            radial-gradient(circle at 85% 15%, #ffffff 1.5px, transparent 1.5px);
-          background-size: 300px 300px, 250px 250px, 280px 280px, 320px 320px;
-          animation: twinkle-stars 12s ease-in-out infinite alternate-reverse;
-          opacity: 0.6;
+            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
+            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
+          background-size: 500px 500px, 450px 450px;
+          animation: gentle-twinkle 14s ease-in-out infinite alternate-reverse;
+          opacity: 0.3;
         }
 
         .stars-large {
           background:
-            radial-gradient(circle at 50% 25%, #ffffff 2px, transparent 2px),
-            radial-gradient(circle at 25% 75%, #87ceeb 2px, transparent 2px),
-            radial-gradient(circle at 75% 50%, #ffd700 2px, transparent 2px);
-          background-size: 400px 400px, 350px 350px, 450px 450px;
-          animation: twinkle-stars 15s ease-in-out infinite;
-          opacity: 0.4;
+            radial-gradient(circle at 60% 20%, #ffffff 2.5px, transparent 2.5px),
+            radial-gradient(circle at 20% 80%, #87ceeb 2.5px, transparent 2.5px),
+            radial-gradient(circle at 85% 70%, #ffd700 2.5px, transparent 2.5px);
+          background-size: 800px 800px, 750px 750px, 900px 900px;
+          animation: bright-twinkle 6s ease-in-out infinite;
+          opacity: 0.2;
         }
 
         .stars-twinkle {
           background:
-            radial-gradient(circle at 10% 30%, #ffffff 0.5px, transparent 0.5px),
-            radial-gradient(circle at 90% 70%, #87ceeb 0.5px, transparent 0.5px),
-            radial-gradient(circle at 30% 90%, #ffffff 0.5px, transparent 0.5px),
-            radial-gradient(circle at 70% 10%, #ffd700 0.5px, transparent 0.5px),
-            radial-gradient(circle at 50% 50%, #ffffff 0.5px, transparent 0.5px);
-          background-size: 150px 150px, 170px 170px, 140px 140px, 160px 160px, 180px 180px;
-          animation: fast-twinkle 4s ease-in-out infinite alternate;
-          opacity: 0.9;
+            radial-gradient(circle at 30% 40%, #ffffff 3px, rgba(255,255,255,0.3) 4px, transparent 5px),
+            radial-gradient(circle at 70% 70%, #87ceeb 3px, rgba(135,206,235,0.3) 4px, transparent 5px);
+          background-size: 1200px 1200px, 1000px 1000px;
+          animation: star-sparkle 8s ease-in-out infinite alternate;
+          opacity: 0.6;
         }
 
-        @keyframes twinkle-stars {
-          0% { opacity: 0.3; }
+        @keyframes gentle-twinkle {
+          0% { opacity: 0.2; }
+          50% { opacity: 0.6; }
+          100% { opacity: 0.3; }
+        }
+
+        @keyframes bright-twinkle {
+          0% { opacity: 0.1; }
+          25% { opacity: 0.4; }
           50% { opacity: 0.8; }
-          100% { opacity: 0.4; }
+          75% { opacity: 0.3; }
+          100% { opacity: 0.1; }
         }
 
-        @keyframes fast-twinkle {
-          0% { opacity: 0.6; }
-          25% { opacity: 1; }
-          50% { opacity: 0.3; }
-          75% { opacity: 0.9; }
-          100% { opacity: 0.5; }
+        @keyframes star-sparkle {
+          0% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.2);
+          }
+          100% {
+            opacity: 0.4;
+            transform: scale(1);
+          }
         }
 
         .today-for-you-section {
