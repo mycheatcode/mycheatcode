@@ -407,13 +407,6 @@ export default function CommunityTopics() {
   };
 
 
-  const getTopicCardClasses = (topic: any) => {
-    return 'relative p-5 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 active:scale-98 hover:scale-[1.02]';
-  };
-
-  const getDesktopTopicCardClasses = (topic: any) => {
-    return 'relative p-6 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 hover:scale-[1.02]';
-  };
 
   const getCategoryCount = (category: string) => {
     if (category === 'All') return topics.length;
@@ -540,14 +533,7 @@ export default function CommunityTopics() {
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
-              className="relative p-5 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 active:scale-98 hover:scale-[1.02]"
-              style={{
-                backgroundColor: '#000000',
-                background: '#000000',
-                backgroundImage: 'none',
-                backdropFilter: 'none',
-                opacity: 1
-              }}
+              className="relative p-5 rounded-2xl border transition-all cursor-pointer border-white/20 bg-black/85 backdrop-blur-sm hover:bg-zinc-900 active:scale-98 hover:scale-[1.02]"
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -734,14 +720,7 @@ export default function CommunityTopics() {
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                className="relative p-6 rounded-2xl border transition-all cursor-pointer border-white/20 hover:bg-zinc-900 hover:scale-[1.02]"
-                style={{
-                  backgroundColor: '#000000',
-                  background: '#000000',
-                  backgroundImage: 'none',
-                  backdropFilter: 'none',
-                  opacity: 1
-                }}
+                className="relative p-6 rounded-2xl border transition-all cursor-pointer border-white/20 bg-black/85 backdrop-blur-sm hover:bg-zinc-900 hover:scale-[1.02]"
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
