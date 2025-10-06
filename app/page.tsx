@@ -429,7 +429,6 @@ const debugProgression = () => {
         <div className="stars stars-medium"></div>
         <div className="stars stars-large"></div>
         <div className="stars stars-twinkle"></div>
-        <div className="stars stars-diamond"></div>
       </div>
       {/* Mobile Design */}
       <div className="lg:hidden bg-black h-screen h-[100dvh] relative flex flex-col overflow-y-auto">
@@ -894,27 +893,6 @@ const debugProgression = () => {
           opacity: 0.7;
         }
 
-        .stars-diamond {
-          background-image:
-            conic-gradient(from 45deg at 25% 25%,
-              transparent 85deg,
-              rgba(255,255,255,0.9) 90deg,
-              rgba(255,255,255,0.3) 95deg,
-              transparent 100deg),
-            conic-gradient(from 45deg at 75% 75%,
-              transparent 85deg,
-              rgba(135,206,235,0.9) 90deg,
-              rgba(135,206,235,0.3) 95deg,
-              transparent 100deg),
-            conic-gradient(from 45deg at 50% 10%,
-              transparent 85deg,
-              rgba(255,215,0,1) 90deg,
-              rgba(255,215,0,0.4) 95deg,
-              transparent 100deg);
-          background-size: 1200px 1200px, 1000px 1000px, 1400px 1400px;
-          animation: diamond-twinkle 12s ease-in-out infinite;
-          opacity: 0.8;
-        }
 
         @keyframes gentle-twinkle {
           0% { opacity: 0.2; }
@@ -945,33 +923,6 @@ const debugProgression = () => {
           }
         }
 
-        @keyframes diamond-twinkle {
-          0% {
-            opacity: 0.2;
-            transform: scale(1) rotate(0deg);
-            filter: brightness(1);
-          }
-          25% {
-            opacity: 0.6;
-            transform: scale(1.1) rotate(90deg);
-            filter: brightness(1.3);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.3) rotate(180deg);
-            filter: brightness(1.8);
-          }
-          75% {
-            opacity: 0.7;
-            transform: scale(1.1) rotate(270deg);
-            filter: brightness(1.4);
-          }
-          100% {
-            opacity: 0.3;
-            transform: scale(1) rotate(360deg);
-            filter: brightness(1);
-          }
-        }
 
         .today-for-you-section {
           transition: all 0.3s ease;
