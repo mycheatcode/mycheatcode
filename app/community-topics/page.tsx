@@ -540,8 +540,8 @@ export default function CommunityTopics() {
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
-              className={getTopicCardClasses(topic)}
-              style={{ backgroundColor: '#000000' }}
+              className={`${getTopicCardClasses(topic)} force-solid-background`}
+              style={{ backgroundColor: '#000000 !important', background: '#000000 !important' }}
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -728,8 +728,8 @@ export default function CommunityTopics() {
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                className={getDesktopTopicCardClasses(topic)}
-                style={{ backgroundColor: '#000000' }}
+                className={`${getDesktopTopicCardClasses(topic)} force-solid-background`}
+                style={{ backgroundColor: '#000000 !important', background: '#000000 !important' }}
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -894,6 +894,11 @@ export default function CommunityTopics() {
             opacity: 0.35;
             transform: scale(1);
           }
+        }
+
+        .force-solid-background {
+          background-color: #000000 !important;
+          background: #000000 !important;
         }
       `}</style>
     </div>
