@@ -618,11 +618,10 @@ const debugProgression = () => {
           ></div>
         )}
 
-        {/* Three Column Layout */}
-        <div className="flex min-h-screen pt-20">
-
-          {/* LEFT COLUMN - Legend Panel */}
-          <div className="w-64 flex-shrink-0 p-6">
+        {/* Main Content */}
+        <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
+          {/* Left Legend */}
+          <div className="absolute left-6 top-24 z-10">
             <ProgressLegend
               darkMode={true}
               size={280}
@@ -631,80 +630,25 @@ const debugProgression = () => {
             />
           </div>
 
-          {/* CENTER COLUMN - Star and Elements */}
-          <div className="flex-1 flex flex-col items-center justify-center relative">
-            {/* Header */}
-            <div className="text-center mb-8">
-              <div className="text-[32px] app-heading text-white mb-0">
-                Back at it, Hunter
-              </div>
-            </div>
-
-            {/* Star Container with positioned elements */}
-            <div className="relative flex items-center justify-center">
-              {/* 8 DAY STREAK - Top Left of Star */}
-              <div className="absolute -top-16 -left-32">
-                <StreakDisplay
-                  streakDays={8}
-                  size={140}
-                />
-              </div>
-
-              {/* 60% Progress Circle - Middle Left of Star */}
-              <div className="absolute -left-40 top-1/2 transform -translate-y-1/2">
-                <OverallProgressCircle
-                  percentage={calculateOverallPercentage()}
-                  level={getProgressLevel(calculateOverallPercentage())}
-                  size={140}
-                />
-              </div>
-
-              {/* Star Visual - Centered */}
-              <StarProgressVisual
-                size={600}
-                onClick={handleStarSectionClick}
-                className=""
-              />
-            </div>
-
-            <div className="text-center mb-4 -mt-8">
-            {!isLoading && radarState && (
-              <>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Start a fresh chat or choose from topics<br />other players levelled up in.
-                </div>
-              </>
-            )}
-            {(isLoading || !radarState) && (
-              <>
-                <div className="text-[16px] mb-2 app-body">
-                  Loading your progression...
-                </div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
-                </div>
-              </>
-            )}
-            </div>
-
-            {/* Bottom Section */}
-            <div className="space-y-2 w-full max-w-2xl mt-8">
-              <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
-                Start New Chat
-                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
-              </button>
-              <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
-                View Community Topics
-                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
-              </Link>
-              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
-                Share
-              </button>
-            </div>
+          {/* 8 DAY STREAK - positioned around star */}
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-200px', marginLeft: '-200px' }}>
+            <StreakDisplay
+              streakDays={8}
+              size={140}
+            />
           </div>
 
-          {/* RIGHT COLUMN - Today For You */}
-          <div className="w-80 flex-shrink-0 p-6">
+          {/* 60% Progress Circle - positioned around star */}
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-250px' }}>
+            <OverallProgressCircle
+              percentage={calculateOverallPercentage()}
+              level={getProgressLevel(calculateOverallPercentage())}
+              size={140}
+            />
+          </div>
+
+          {/* Today For You Sidebar */}
+          <div className="absolute right-6 top-24 z-10 w-80">
             <div className="bg-black/85 border border-white/10 rounded-2xl p-4 backdrop-blur-sm">
               <h3 className="text-white text-lg font-bold mb-4 tracking-wide">TODAY FOR YOU</h3>
 
@@ -741,6 +685,56 @@ const debugProgression = () => {
             </div>
           </div>
 
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="text-center mb-0">
+              <div className="text-[32px] app-heading text-white mb-0">
+                Back at it, Hunter
+              </div>
+            </div>
+
+            <div className="flex items-center justify-center">
+            <StarProgressVisual
+              size={750}
+              onClick={handleStarSectionClick}
+              className=""
+            />
+            </div>
+
+            <div className="text-center mb-4 -mt-8">
+            {!isLoading && radarState && (
+              <>
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
+                  Start a fresh chat or choose from topics<br />other players levelled up in.
+                </div>
+              </>
+            )}
+            {(isLoading || !radarState) && (
+              <>
+                <div className="text-[16px] mb-2 app-body">
+                  Loading your progression...
+                </div>
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
+                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
+                </div>
+              </>
+            )}
+            </div>
+
+            <div className="space-y-2 w-full max-w-2xl">
+              <button onClick={handleCreateCheatCode} className="w-full py-3 px-6 rounded-full border-none text-[18px] app-subheading cursor-pointer transition-all duration-200 bg-white text-black hover:bg-gray-100 active:scale-98 text-center relative">
+                Start New Chat
+                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-black"></div>
+              </button>
+              <Link href="/community-topics" className="w-full py-3 px-6 rounded-full border border-zinc-700 text-[16px] app-subheading cursor-pointer transition-all duration-200 bg-transparent text-white hover:bg-zinc-800 hover:border-zinc-600 active:scale-98 text-center block relative">
+                View Community Topics
+                <div className="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-0.5 bg-white/30"></div>
+              </Link>
+              <button onClick={handleShare} className="w-full py-2 px-0 text-[14px] font-medium cursor-pointer transition-all duration-200 bg-transparent text-zinc-400 hover:text-white active:scale-98 text-center">
+                Share
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
