@@ -655,31 +655,77 @@ const debugProgression = () => {
 
               {/* Quick Action Cards */}
               <div className="space-y-3">
-                {/* Add to OFF-COURT Card */}
-                <div className="bg-white/[0.03] border border-white/15 rounded-xl p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <span className="bg-yellow-500/20 text-yellow-400 text-xs font-semibold px-2 py-1 rounded-md">
-                      TODAY
-                    </span>
+                {/* Community Topic Card 1 - Cheatcode Design */}
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all cursor-pointer hover:scale-[1.02]">
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <div className="text-white text-sm font-semibold mb-1 leading-tight pr-4">
+                        "I get nervous at the free throw line when everyone's watching"
+                      </div>
+                      <div className="text-zinc-400 text-xs uppercase tracking-wide">
+                        PRE-GAME
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded-md">
+                      <span className="text-yellow-400 text-xs font-semibold">HOT</span>
+                    </div>
                   </div>
-                  <h4 className="text-white text-sm font-medium mb-1">Add to OFF-COURT to raise OVR</h4>
-                  <p className="text-zinc-400 text-xs mb-3">Goldfish Memory</p>
-                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+
+                  {/* Context */}
+                  <div className="text-zinc-400 text-xs mb-3 leading-relaxed">
+                    When all eyes are on you and your heart starts racing
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3">
+                    <div className="w-1 h-1 bg-white rounded-full"></div>
+                    <span>247 players worked through this</span>
+                  </div>
+
+                  {/* Start Now Button */}
+                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
                     Start Now
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
                   </button>
                 </div>
 
-                {/* Players Working On Card */}
-                <div className="bg-white/[0.03] border border-white/15 rounded-xl p-4">
-                  <div className="flex items-start justify-between mb-2">
-                    <span className="bg-green-500/20 text-green-400 text-xs font-semibold px-2 py-1 rounded-md">
-                      TRENDING
-                    </span>
+                {/* Community Topic Card 2 - Cheatcode Design */}
+                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4 transition-all cursor-pointer hover:scale-[1.02]">
+                  {/* Header */}
+                  <div className="flex justify-between items-start mb-3">
+                    <div className="flex-1">
+                      <div className="text-white text-sm font-semibold mb-1 leading-tight pr-4">
+                        "I feel like I'm not improving fast enough"
+                      </div>
+                      <div className="text-zinc-400 text-xs uppercase tracking-wide">
+                        OFF COURT
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded-md">
+                      <span className="text-green-400 text-xs font-semibold">TRENDING</span>
+                    </div>
                   </div>
-                  <h4 className="text-white text-sm font-medium mb-1">Players Are Working On This</h4>
-                  <p className="text-zinc-400 text-xs mb-3">I feel like I'm not improving fast enough</p>
-                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors">
+
+                  {/* Context */}
+                  <div className="text-zinc-400 text-xs mb-3 leading-relaxed">
+                    Impatience with your development
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3">
+                    <div className="w-1 h-1 bg-white rounded-full"></div>
+                    <span>198 players trusted the process</span>
+                  </div>
+
+                  {/* Start Now Button */}
+                  <button className="w-full bg-white text-black text-sm font-medium py-2 rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-2">
                     Start Now
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
                   </button>
                 </div>
               </div>
