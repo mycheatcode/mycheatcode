@@ -631,7 +631,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-280px', marginLeft: '-300px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-320px', marginLeft: '-380px' }}>
             <StreakDisplay
               streakDays={8}
               size={140}
@@ -639,7 +639,7 @@ const debugProgression = () => {
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-350px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '20px', marginLeft: '-420px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
