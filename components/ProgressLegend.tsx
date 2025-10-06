@@ -517,6 +517,66 @@ const ProgressLegend = ({
             }
           }}
         >
+          {/* Vertical notches on the left */}
+          <div style={{
+            width: '12px',
+            height: '50px',
+            marginRight: '8px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <svg width="12" height="50" viewBox="0 0 12 50">
+              {/* Vertical notches using the same pattern as circles */}
+              {(() => {
+                const notches = [];
+                for (let y = 0; y < 50; y += 3) {
+                  let length: number, width: number, opacity: number, color: string;
+
+                  if (y % 15 === 0) {
+                    // Major notches
+                    length = 8;
+                    width = 1;
+                    opacity = 0.9;
+                    color = '#ffffff';
+                  } else if (y % 9 === 0) {
+                    // Medium notches
+                    length = 6;
+                    width = 0.8;
+                    opacity = 0.5;
+                    color = '#cccccc';
+                  } else if (y % 3 === 0) {
+                    // Minor notches
+                    length = 4;
+                    width = 0.6;
+                    opacity = 0.3;
+                    color = '#888888';
+                  } else {
+                    continue;
+                  }
+
+                  const x1 = (12 - length) / 2;
+                  const x2 = x1 + length;
+
+                  notches.push(
+                    <line
+                      key={y}
+                      x1={x1}
+                      y1={y}
+                      x2={x2}
+                      y2={y}
+                      stroke={color}
+                      strokeWidth={width}
+                      strokeOpacity={opacity}
+                      strokeLinecap="round"
+                    />
+                  );
+                }
+                return notches;
+              })()}
+            </svg>
+          </div>
+
           <div
             ref={el => { legendRefs.current[index] = el; }}
             className="legend-diamond"
