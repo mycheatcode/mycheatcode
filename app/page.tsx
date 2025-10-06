@@ -10,6 +10,8 @@ import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
 import StarProgressVisual from '../components/StarProgressVisual';
 import ProgressLegend from '../components/ProgressLegend';
+import OverallProgressCircle from '../components/OverallProgressCircle';
+import StreakDisplay from '../components/StreakDisplay';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -268,6 +270,14 @@ const debugProgression = () => {
   // Calculate overall percentage based on section radar system
   const calculateOverallPercentage = () => {
     return getRadarScore();
+  };
+
+  // Get level based on percentage
+  const getProgressLevel = (percentage: number) => {
+    if (percentage >= 75) return 'HALL OF FAME';
+    if (percentage >= 50) return 'ALL-STAR';
+    if (percentage >= 25) return 'ROOKIE';
+    return 'BEGINNER';
   };
 
   const handleCreateCheatCode = () => {
@@ -617,6 +627,23 @@ const debugProgression = () => {
               size={280}
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
+            />
+          </div>
+
+          {/* Overall Progress Circle - Desktop Only */}
+          <div className="absolute left-6 top-80 hidden xl:block">
+            <OverallProgressCircle
+              percentage={calculateOverallPercentage()}
+              level={getProgressLevel(calculateOverallPercentage())}
+              size={160}
+            />
+          </div>
+
+          {/* Streak Display - Desktop Only */}
+          <div className="absolute left-6 bottom-32 hidden xl:block">
+            <StreakDisplay
+              streakDays={8}
+              size={160}
             />
           </div>
 
