@@ -389,11 +389,11 @@ const debugProgression = () => {
   const getStarProgressData = () => {
     if (!radarState) {
       return {
-        preGame: 100,
-        inGame: 100,
-        postGame: 100,
-        offCourt: 100,
-        lockerRoom: 100
+        preGame: 0,
+        inGame: 0,
+        postGame: 0,
+        offCourt: 0,
+        lockerRoom: 0
       };
     }
 
@@ -509,6 +509,7 @@ const debugProgression = () => {
 
           <div className="flex items-center justify-center mb-6">
             <StarProgressVisual
+              progressData={getStarProgressData()}
               size={400}
               onClick={handleStarSectionClick}
               className=""
@@ -639,7 +640,7 @@ const debugProgression = () => {
           </div>
 
           {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-320px', marginLeft: '-360px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
             <StreakDisplay
               streakDays={8}
               size={150}
@@ -647,7 +648,7 @@ const debugProgression = () => {
           </div>
 
           {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-60px', marginLeft: '-520px' }}>
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-80px', marginLeft: '-540px' }}>
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
@@ -759,6 +760,7 @@ const debugProgression = () => {
 
             <div className="flex items-center justify-center">
             <StarProgressVisual
+              progressData={getStarProgressData()}
               size={750}
               onClick={handleStarSectionClick}
               className=""
