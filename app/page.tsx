@@ -677,42 +677,81 @@ const debugProgression = () => {
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-96">
             <div className="today-for-you-section bg-black/85 rounded-2xl p-6 backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
-              <h3 className="text-white text-xl font-bold mb-6 tracking-wide">TODAY FOR YOU</h3>
+              {/* Header with personalization */}
+              <div className="mb-6">
+                <h3 className="text-white text-xl font-bold mb-2 tracking-wide">CURATED FOR YOU</h3>
+                <p className="text-zinc-400 text-sm">Elite players like you are mastering these</p>
+              </div>
 
               {/* Quick Action Cards */}
               <div className="space-y-4">
-                {/* Community Topic Card 1 - Cheatcode Design */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 transition-all cursor-pointer hover:scale-[1.02]">
+                {/* Community Topic Card 1 - Enhanced */}
+                <div className="topic-card bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-5 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl hover:border-white/25 group relative overflow-hidden">
+                  {/* Subtle gradient background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-3 relative z-10">
                     <div className="flex-1">
-                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4">
+                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4 group-hover:text-yellow-100 transition-colors">
                         "I get nervous at the free throw line when everyone's watching"
                       </div>
-                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                        PRE-GAME
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-zinc-400 text-sm uppercase tracking-wide font-medium">
+                          PRE-GAME
+                        </div>
+                        <div className="text-zinc-500 text-xs">•</div>
+                        <div className="text-zinc-500 text-xs">3 min session</div>
+                        <div className="text-zinc-500 text-xs">•</div>
+                        <div className="text-emerald-400 text-xs font-medium">ADVANCED</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded-md">
-                      <span className="text-yellow-400 text-xs font-semibold">HOT</span>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded-md border border-yellow-500/30">
+                        <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                        <span className="text-yellow-400 text-xs font-bold">TRENDING</span>
+                      </div>
+                      <div className="text-zinc-400 text-xs">+25 XP</div>
                     </div>
                   </div>
 
                   {/* Context */}
-                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed">
-                    When all eyes are on you and your heart starts racing
+                  <div className="text-zinc-300 text-sm mb-4 leading-relaxed relative z-10">
+                    Master the mental game when pressure peaks and all eyes are on your performance
                   </div>
 
-                  {/* Stats */}
-                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3">
-                    <div className="w-1 h-1 bg-white rounded-full"></div>
-                    <span>247 players worked through this</span>
+                  {/* Enhanced Stats */}
+                  <div className="flex items-center justify-between mb-4 relative z-10">
+                    <div className="flex items-center gap-3 text-xs">
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-zinc-400">326 completed</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-yellow-400">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span className="text-zinc-400">4.8/5</span>
+                      </div>
+                    </div>
+                    <div className="text-orange-400 text-xs font-medium">Last updated 2h ago</div>
+                  </div>
+
+                  {/* Progress bar */}
+                  <div className="mb-4 relative z-10">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className="text-zinc-400">Your mental edge growth</span>
+                      <span className="text-emerald-400 font-medium">+18% this week</span>
+                    </div>
+                    <div className="w-full bg-zinc-800 rounded-full h-1.5">
+                      <div className="bg-gradient-to-r from-emerald-500 to-green-400 h-1.5 rounded-full" style={{width: '73%'}}></div>
+                    </div>
                   </div>
 
                   {/* Start Now Button */}
-                  <div className="flex justify-end">
-                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
-                      Start Now
+                  <div className="flex justify-end relative z-10">
+                    <button className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black text-sm font-bold py-2.5 px-5 rounded-lg hover:from-yellow-400 hover:to-orange-400 transition-all duration-200 flex items-center gap-2 shadow-lg hover:shadow-yellow-500/25 transform hover:scale-105">
+                      Start Session
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
                       </svg>
@@ -720,42 +759,89 @@ const debugProgression = () => {
                   </div>
                 </div>
 
-                {/* Community Topic Card 2 - Cheatcode Design */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-5 transition-all cursor-pointer hover:scale-[1.02]">
+                {/* Community Topic Card 2 - Enhanced */}
+                <div className="topic-card bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-5 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl hover:border-white/25 group relative overflow-hidden">
+                  {/* Subtle gradient background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-3 relative z-10">
                     <div className="flex-1">
-                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4">
+                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4 group-hover:text-green-100 transition-colors">
                         "I feel like I'm not improving fast enough"
                       </div>
-                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                        OFF COURT
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="text-zinc-400 text-sm uppercase tracking-wide font-medium">
+                          MINDSET
+                        </div>
+                        <div className="text-zinc-500 text-xs">•</div>
+                        <div className="text-zinc-500 text-xs">5 min session</div>
+                        <div className="text-zinc-500 text-xs">•</div>
+                        <div className="text-blue-400 text-xs font-medium">INTERMEDIATE</div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded-md">
-                      <span className="text-green-400 text-xs font-semibold">TRENDING</span>
+                    <div className="flex flex-col items-end gap-2">
+                      <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded-md border border-green-500/30">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-green-400 text-xs font-bold">RECOMMENDED</span>
+                      </div>
+                      <div className="text-zinc-400 text-xs">+15 XP</div>
                     </div>
                   </div>
 
                   {/* Context */}
-                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed">
-                    Impatience with your development
+                  <div className="text-zinc-300 text-sm mb-4 leading-relaxed relative z-10">
+                    Transform impatience into unstoppable momentum with proven mindset shifts
                   </div>
 
-                  {/* Stats */}
-                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3">
-                    <div className="w-1 h-1 bg-white rounded-full"></div>
-                    <span>198 players trusted the process</span>
+                  {/* Enhanced Stats */}
+                  <div className="flex items-center justify-between mb-4 relative z-10">
+                    <div className="flex items-center gap-3 text-xs">
+                      <div className="flex items-center gap-1">
+                        <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        <span className="text-zinc-400">198 completed</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-yellow-400">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span className="text-zinc-400">4.9/5</span>
+                      </div>
+                    </div>
+                    <div className="text-green-400 text-xs font-medium">Perfect for your level</div>
+                  </div>
+
+                  {/* Achievement indicator */}
+                  <div className="mb-4 relative z-10">
+                    <div className="flex items-center gap-2 text-xs">
+                      <div className="flex items-center gap-1">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-purple-400">
+                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span className="text-purple-400 font-medium">Unlock: "Patience Master" badge</span>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Start Now Button */}
-                  <div className="flex justify-end">
-                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
-                      Start Now
+                  <div className="flex justify-end relative z-10">
+                    <button className="border border-green-500/50 bg-green-500/10 text-green-400 text-sm font-bold py-2.5 px-5 rounded-lg hover:bg-green-500/20 hover:border-green-400 transition-all duration-200 flex items-center gap-2 backdrop-blur-sm">
+                      Start Session
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
                       </svg>
                     </button>
+                  </div>
+                </div>
+
+                {/* Quick stats footer */}
+                <div className="mt-6 pt-4 border-t border-white/10">
+                  <div className="flex items-center justify-between text-xs text-zinc-400">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                      <span>2 new topics this week</span>
+                    </div>
+                    <div className="text-zinc-500">Hall of Fame level content</div>
                   </div>
                 </div>
               </div>
