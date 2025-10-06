@@ -473,10 +473,19 @@ export default function MyCodesPage() {
         </div>
 
         {/* Stats Summary */}
-        <div className="flex justify-around py-5 border-b border-zinc-800">
-          <ActiveCodesDisplay count={5} size={110} />
-          <OverallProgressCircle percentage={62} size={110} simplified />
-          <StreakDisplay streakDays={14} size={110} />
+        <div className="flex justify-around py-5 px-4 gap-3">
+          <div className="flex-1 bg-white/[0.03] rounded-2xl p-4 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+            <div className="text-white text-2xl font-bold mb-1">5</div>
+            <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
+          </div>
+          <div className="flex-1 bg-white/[0.03] rounded-2xl p-4 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+            <div className="text-white text-2xl font-bold mb-1">62%</div>
+            <div className="text-zinc-500 text-xs uppercase tracking-wide">OVR Strength</div>
+          </div>
+          <div className="flex-1 bg-white/[0.03] rounded-2xl p-4 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+            <div className="text-white text-2xl font-bold mb-1">14</div>
+            <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
+          </div>
         </div>
 
         {/* Categories Filter */}
@@ -716,10 +725,19 @@ export default function MyCodesPage() {
           </div>
 
           {/* Stats Summary */}
-          <div className="flex justify-around mb-8">
-            <ActiveCodesDisplay count={5} size={180} />
-            <OverallProgressCircle percentage={62} size={180} simplified />
-            <StreakDisplay streakDays={14} size={180} />
+          <div className="grid grid-cols-3 gap-6 mb-8">
+            <div className="bg-white/[0.03] rounded-2xl p-6 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+              <div className="text-white text-3xl font-bold mb-2">5</div>
+              <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
+            </div>
+            <div className="bg-white/[0.03] rounded-2xl p-6 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+              <div className="text-white text-3xl font-bold mb-2">62%</div>
+              <div className="text-zinc-400 text-sm uppercase tracking-wide">OVR Strength</div>
+            </div>
+            <div className="bg-white/[0.03] rounded-2xl p-6 text-center backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
+              <div className="text-white text-3xl font-bold mb-2">14</div>
+              <div className="text-zinc-400 text-sm uppercase tracking-wide">Day Streak</div>
+            </div>
           </div>
 
           {/* Categories Filter */}
