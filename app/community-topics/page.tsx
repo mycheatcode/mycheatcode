@@ -533,7 +533,8 @@ export default function CommunityTopics() {
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
-              className="relative p-5 rounded-2xl border transition-all cursor-pointer border-zinc-800 bg-zinc-950 hover:border-zinc-700 active:scale-98 hover:scale-[1.02]"
+              style={{ backgroundColor: 'rgb(24, 24, 27)' }}
+              className="relative p-5 rounded-2xl border transition-all cursor-pointer border-zinc-800 hover:border-zinc-700 active:scale-98 hover:scale-[1.02]"
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -720,7 +721,8 @@ export default function CommunityTopics() {
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                className="relative p-6 rounded-2xl border transition-all cursor-pointer border-zinc-800 bg-zinc-950 hover:border-zinc-700 hover:scale-[1.02]"
+                style={{ backgroundColor: 'rgb(24, 24, 27)' }}
+                className="relative p-6 rounded-2xl border transition-all cursor-pointer border-zinc-800 hover:border-zinc-700 hover:scale-[1.02]"
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
