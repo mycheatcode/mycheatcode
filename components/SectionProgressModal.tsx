@@ -70,8 +70,8 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
   };
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50" onClick={onClose}>
-      <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={onClose}>
+      <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 w-full max-w-md" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-white">{section}</h2>
           <button
@@ -145,7 +145,7 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
 
         {/* Frozen Hold Display (when dropped from Green) */}
         {color !== 'green' && (
-          <div className="mb-6 p-4 bg-zinc-800/30 border border-zinc-700/50 rounded-xl">
+          <div className="mb-6 p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 bg-zinc-500 rounded-full"></div>
               <span className="text-zinc-400 text-sm font-semibold uppercase tracking-wide">Longest Hold</span>
@@ -161,7 +161,7 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
 
         {/* Consistency Status for Green Sections */}
         {color === 'green' && (
-          <div className="mb-6 p-4 bg-zinc-800/50 rounded-xl">
+          <div className="mb-6 p-4 bg-zinc-900/50 border border-zinc-800 rounded-xl">
             <h3 className="text-white font-semibold text-sm mb-3 uppercase tracking-wide">Green Maintenance</h3>
             <div className="space-y-2 text-xs">
               <div className="flex justify-between items-center">
@@ -231,7 +231,7 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
             <h3 className="text-white font-semibold text-sm mb-3 uppercase tracking-wide">Cheat Code Health</h3>
             <div className="space-y-2">
               {decayStatus.slice(0, 3).map(({ cheatCodeId, cheatCodeName, decayStatus: decay }) => (
-                <div key={cheatCodeId} className="flex items-center justify-between p-2 bg-zinc-800/30 rounded-lg">
+                <div key={cheatCodeId} className="flex items-center justify-between p-2 bg-zinc-900/50 border border-zinc-800 rounded-lg">
                   <span className="text-zinc-300 text-xs font-medium truncate">{cheatCodeName}</span>
                   <div className="flex items-center gap-1">
                     {decay.isDecaying ? (

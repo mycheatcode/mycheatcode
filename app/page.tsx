@@ -669,7 +669,10 @@ const debugProgression = () => {
             {/* Motivational text under OVR visual */}
             <div className="text-center mt-4 max-w-[380px] mx-auto">
               <div className="text-zinc-400 text-sm leading-5">
-                Elite players maintain an OVR over 80%. Build cheat codes for each area to reach full power.
+                Elite players maintain an OVR over 80%.
+              </div>
+              <div className="text-zinc-400 text-sm leading-5 mt-1">
+                Build cheat codes for each area to reach full power.
               </div>
             </div>
           </div>
