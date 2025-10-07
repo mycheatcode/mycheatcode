@@ -472,19 +472,16 @@ export default function MyCodesPage() {
 
         </div>
 
-        {/* Stats Summary */}
-        <div className="flex justify-around py-5 border-b border-zinc-800">
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">5</div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">Active Codes</div>
+        {/* Stats Summary - Triangle Layout */}
+        <div className="py-6 border-b border-zinc-800">
+          {/* Top: OVR (largest) */}
+          <div className="flex justify-center mb-4">
+            <OverallProgressCircle percentage={62} size={140} simplified />
           </div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">62%</div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">OVR Strength</div>
-          </div>
-          <div className="text-center">
-            <div className="text-white text-2xl font-bold">14</div>
-            <div className="text-zinc-500 text-xs uppercase tracking-wide">Day Streak</div>
+          {/* Bottom: Active Codes and Streak (smaller, side by side) */}
+          <div className="flex justify-center gap-12">
+            <ActiveCodesDisplay count={5} size={100} />
+            <StreakDisplay streakDays={14} size={100} />
           </div>
         </div>
 
@@ -724,19 +721,16 @@ export default function MyCodesPage() {
             <div className="text-zinc-400 text-lg leading-relaxed">Your vault of mental performance cheat codes</div>
           </div>
 
-          {/* Stats Summary */}
-          <div className="grid grid-cols-3 gap-8 mb-8">
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">5</div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">Active Codes</div>
+          {/* Stats Summary - Triangle Layout */}
+          <div className="mb-8">
+            {/* Top: OVR (largest) */}
+            <div className="flex justify-center mb-6">
+              <OverallProgressCircle percentage={62} size={220} simplified />
             </div>
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">62%</div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">OVR Strength</div>
-            </div>
-            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6 text-center">
-              <div className="text-white text-3xl font-bold mb-2">14</div>
-              <div className="text-zinc-400 text-sm uppercase tracking-wide">Day Streak</div>
+            {/* Bottom: Active Codes and Streak (smaller, side by side) */}
+            <div className="flex justify-center gap-16">
+              <ActiveCodesDisplay count={5} size={160} />
+              <StreakDisplay streakDays={14} size={160} />
             </div>
           </div>
 
