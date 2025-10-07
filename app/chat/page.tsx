@@ -434,10 +434,10 @@ export default function ChatPage() {
 
           {/* Topic Indicator */}
           {selectedTopic && (
-            <div className="mt-3 px-4 py-3 bg-gradient-to-r from-zinc-900/80 to-zinc-800/60 backdrop-blur-sm border border-white/10 rounded-2xl shadow-lg">
+            <div className="mt-3 px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-2xl">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
-                <div className="text-xs text-zinc-300 font-medium uppercase tracking-wide">Session Focus</div>
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <div className="text-xs text-zinc-400 font-medium uppercase tracking-wide">Session Focus</div>
               </div>
               <div className="text-sm text-white font-semibold leading-tight">
                 "{selectedTopic.title}"
@@ -621,20 +621,19 @@ export default function ChatPage() {
           {/* Topic Indicator */}
           {selectedTopic && (
             <div className="mt-6 max-w-4xl mx-auto">
-              <div className="relative px-6 py-4 bg-gradient-to-br from-zinc-900/90 via-zinc-800/80 to-zinc-900/70 backdrop-blur-md border border-white/10 rounded-3xl shadow-2xl">
-                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-yellow-500/5 to-orange-500/5 rounded-3xl"></div>
-                <div className="relative">
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-3 h-3 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full shadow-lg"></div>
-                    <div className="text-sm text-zinc-300 font-semibold uppercase tracking-wider">Session Focus</div>
-                  </div>
-                  <div className="text-lg text-white font-bold leading-tight mb-2">
-                    "{selectedTopic.title}"
-                  </div>
+              <div className="px-6 py-4 bg-zinc-950 border border-zinc-800 rounded-2xl">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                  <div className="text-sm text-zinc-400 font-semibold uppercase tracking-wider">Session Focus</div>
+                </div>
+                <div className="text-lg text-white font-bold leading-tight mb-2">
+                  "{selectedTopic.title}"
+                </div>
+                {selectedTopic.description && (
                   <div className="text-sm text-zinc-400 leading-relaxed">
                     {selectedTopic.description}
                   </div>
-                </div>
+                )}
               </div>
             </div>
           )}
