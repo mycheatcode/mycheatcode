@@ -29,6 +29,7 @@ interface ChatSession {
 }
 
 export default function ChatHistory() {
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeFilter, setActiveFilter] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [previousPage, setPreviousPage] = useState('/');
@@ -337,9 +338,17 @@ export default function ChatHistory() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white">
+    <div className="bg-black min-h-screen text-white font-sans starfield-background">
+      {/* Starfield Background */}
+      <div className="starfield-container">
+        <div className="stars stars-small"></div>
+        <div className="stars stars-medium"></div>
+        <div className="stars stars-large"></div>
+        <div className="stars stars-twinkle"></div>
+      </div>
+
       {/* Mobile Layout */}
-      <div className="lg:hidden">
+      <div className="lg:hidden bg-black min-h-screen relative pb-[68px] overflow-y-auto">
         {/* Header */}
         <div className="p-4 bg-black border-b border-zinc-800">
           {/* App Title */}
@@ -419,7 +428,7 @@ export default function ChatHistory() {
         </div>
 
         {/* Chat List */}
-        <div className="px-4 pb-24 space-y-3">
+        <div className="px-4 pb-4 space-y-3">
           {getFilteredChats().length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">💭</div>
@@ -434,7 +443,7 @@ export default function ChatHistory() {
               <div
                 key={chat.id}
                 onClick={() => handleChatClick(chat)}
-                className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer hover:bg-zinc-800/50 active:scale-98"
+                className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer hover:bg-zinc-900 active:scale-98"
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
@@ -514,8 +523,80 @@ export default function ChatHistory() {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden lg:block">
-        <div className="max-w-6xl mx-auto p-8">
+      <div className="hidden lg:flex min-h-screen relative">
+        {/* Header with Menu Button */}
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
+        </div>
+
+        {/* Sidebar Navigation */}
+        <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="pt-20"></div>
+
+          <nav className="flex-1">
+            <div>
+              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span>Home</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                </svg>
+                <span>My Codes</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+
+              <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                </svg>
+                <span>Community Topics</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                </svg>
+                <span>Chat History</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+
+              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+                <span>Profile</span>
+              </Link>
+            </div>
+          </nav>
+        </div>
+
+        {/* Overlay when menu is open */}
+        {menuOpen && (
+          <div
+            className="absolute inset-0 bg-black bg-opacity-50 z-5"
+            onClick={() => setMenuOpen(false)}
+          ></div>
+        )}
+
+        {/* Main Content */}
+        <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
@@ -581,7 +662,7 @@ export default function ChatHistory() {
           </div>
 
           {/* Chat Grid */}
-          <div className="space-y-4 pb-24">
+          <div className="space-y-4">
             {getFilteredChats().length === 0 ? (
               <div className="text-center py-16">
                 <div className="text-8xl mb-6">💭</div>
@@ -596,7 +677,7 @@ export default function ChatHistory() {
                 <div
                   key={chat.id}
                   onClick={() => handleChatClick(chat)}
-                  className="bg-zinc-900/60 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:bg-zinc-800/50 hover:scale-[1.01]"
+                  className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:bg-zinc-900 hover:scale-[1.01]"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -645,7 +726,7 @@ export default function ChatHistory() {
               </svg>
             </button>
           </div>
-        </div>
+
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
@@ -675,6 +756,98 @@ export default function ChatHistory() {
           </div>
         )}
       </div>
+
+      {/* Starfield CSS Styles */}
+      <style jsx global>{`
+        .starfield-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 0;
+        }
+
+        .stars {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+        }
+
+        .stars-small {
+          background:
+            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
+            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
+          background-size: 350px 350px, 400px 400px, 320px 320px;
+          animation: gentle-twinkle 20s ease-in-out infinite alternate;
+          opacity: 0.35;
+        }
+
+        .stars-medium {
+          background:
+            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
+            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
+          background-size: 500px 500px, 450px 450px;
+          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
+          opacity: 0.25;
+        }
+
+        .stars-large {
+          background:
+            radial-gradient(circle at 60% 20%, #ffffff 2px, transparent 2px),
+            radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
+            radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
+          background-size: 800px 800px, 750px 750px, 900px 900px;
+          animation: bright-twinkle 35s ease-in-out infinite;
+          opacity: 0.2;
+        }
+
+        .stars-twinkle {
+          background-image:
+            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
+          background-size: 800px 800px, 700px 700px, 900px 900px;
+          animation: star-sparkle 25s ease-in-out infinite alternate;
+          opacity: 0.35;
+        }
+
+        @keyframes gentle-twinkle {
+          0% { opacity: 0.3; }
+          50% { opacity: 0.45; }
+          100% { opacity: 0.35; }
+        }
+
+        @keyframes bright-twinkle {
+          0% { opacity: 0.15; }
+          25% { opacity: 0.25; }
+          50% { opacity: 0.3; }
+          75% { opacity: 0.2; }
+          100% { opacity: 0.15; }
+        }
+
+        @keyframes star-sparkle {
+          0% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(1.05);
+          }
+          100% {
+            opacity: 0.35;
+            transform: scale(1);
+          }
+        }
+
+        .starfield-background {
+          position: relative;
+          overflow: hidden;
+        }
+      `}</style>
     </div>
   );
 }
