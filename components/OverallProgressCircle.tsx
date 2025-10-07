@@ -121,8 +121,8 @@ export default function OverallProgressCircle({
           {simplified ? (
             <div className="text-white font-bold" style={{ fontSize: `${size * 0.25}px` }}>{percentage}%</div>
           ) : (
-            <>
-              <div className="flex items-center gap-1 mb-2">
+            <div className="flex flex-col items-center gap-1.5 leading-none">
+              <div className="flex items-center gap-1 leading-none">
                 <div style={{ width: '12px', height: '12px' }}>
                   <svg width="12" height="12" viewBox="0 0 12 12">
                     {(() => {
@@ -195,16 +195,16 @@ export default function OverallProgressCircle({
                     })()}
                   </svg>
                 </div>
-                <span className="text-xs font-semibold tracking-wide" style={{ color: 'rgb(255, 220, 0)' }}>{level}</span>
+                <span className="text-xs font-semibold tracking-wide leading-none" style={{ color: 'rgb(255, 220, 0)' }}>{level}</span>
               </div>
-              <div className="text-white text-5xl font-bold mb-2.5">{percentage}%</div>
-              <div className="text-zinc-400 text-xs text-center leading-tight font-medium tracking-wider mb-2.5">
+              <div className="text-white text-5xl font-bold leading-none">{percentage}%</div>
+              <div className="text-zinc-400 text-xs text-center leading-none font-medium tracking-wider">
                 OVR MENTAL<br />STRENGTH
               </div>
-              <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold tracking-wide">
+              <div className="bg-green-500/20 text-green-400 px-2 py-1 rounded text-xs font-bold tracking-wide leading-none">
                 ↑15%
               </div>
-            </>
+            </div>
           )}
         </div>
       </div>
