@@ -52,7 +52,8 @@ export default function CommunityTopics() {
       context: "When your mind won't stop showing you the lowlights",
       stats: "134 players moved forward",
       trending: "NEW",
-      category: "Post-Game"
+      category: "Post-Game",
+      customStarter: "Ahh, this is a really common thing a lot of players experience. What kind of mistakes do you keep replying in your mind? Let me know and I'll help you grow from mistekas instead of letting them keep you down!"
     },
     {
       id: 6,
