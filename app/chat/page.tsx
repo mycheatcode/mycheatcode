@@ -567,14 +567,14 @@ export default function ChatPage() {
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
-              className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-12 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm"
+              className="w-full bg-black/85 border border-green-500/30 rounded-xl p-4 pr-12 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm shadow-[0_0_30px_rgba(50,205,50,0.15)]"
               rows={1}
               style={{ minHeight: '52px', maxHeight: '120px' }}
             />
             <button
               onClick={sendMessage}
               disabled={!inputText.trim() || pendingCoachReply.current}
-              className={`absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
+              className="absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all border-2 border-green-500 bg-transparent text-green-500 hover:bg-green-500/10 disabled:opacity-50 disabled:border-zinc-700 disabled:text-zinc-700"
               type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -589,7 +589,7 @@ export default function ChatPage() {
       {/* Desktop */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 p-4 z-20 bg-black border-b border-zinc-800">
+        <div className="fixed top-0 left-0 right-0 px-6 py-5 z-20 bg-gradient-to-b from-black/90 to-transparent">
           <div className="flex items-center justify-between relative">
             <div className="flex items-center gap-4">
               <button
@@ -612,7 +612,7 @@ export default function ChatPage() {
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
               </button>
-              <div className="text-white text-xl font-bold">mycheatcode.ai</div>
+              <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
             </div>
             <div className="text-white text-lg font-semibold absolute left-1/2 transform -translate-x-1/2">Live Chat</div>
             <div className="w-[180px]"></div>
@@ -651,6 +651,13 @@ export default function ChatPage() {
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              </Link>
+              <Link href="/chat" className="flex items-center gap-3 p-4 text-white font-medium cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                </svg>
+                <span>Live Chat</span>
                 <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
               <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
@@ -808,14 +815,14 @@ export default function ChatPage() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
-                className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-14 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-base"
+                className="w-full bg-black/85 border border-green-500/30 rounded-xl p-4 pr-14 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm text-base shadow-[0_0_30px_rgba(50,205,50,0.15)]"
                 rows={2}
                 style={{ minHeight: '60px', maxHeight: '150px' }}
               />
               <button
                 onClick={sendMessage}
                 disabled={!inputText.trim() || pendingCoachReply.current}
-                className={`absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all ${inputText.trim() && !pendingCoachReply.current ? 'bg-zinc-800 text-white' : 'bg-white text-black'}`}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all border-2 border-green-500 bg-transparent text-green-500 hover:bg-green-500/10 disabled:opacity-50 disabled:border-zinc-700 disabled:text-zinc-700"
                 type="button"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
