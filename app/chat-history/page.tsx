@@ -718,15 +718,16 @@ export default function ChatHistory() {
             )}
           </div>
 
-          {/* Desktop Footer */}
-          <div className="fixed bottom-16 right-8 hidden lg:block">
-            <button onClick={handleStartFreshChat} className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-              </svg>
-            </button>
-          </div>
+        </div>
 
+        {/* Desktop Footer */}
+        <div className="fixed bottom-16 right-8 hidden lg:block">
+          <button onClick={handleStartFreshChat} className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+            </svg>
+          </button>
+        </div>
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
