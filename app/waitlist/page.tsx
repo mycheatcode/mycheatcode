@@ -43,9 +43,9 @@ function WaitlistContent() {
 
     const formData: WaitlistSignupData = {
       email,
-      position: 'Guard',
+      position: 'Point Guard',
       level: 'High School',
-      goals: ['Mental toughness in pressure situations'],
+      goals: ['Handling Pressure Moments (free throws, clutch shots, big games)'],
       customGoal: '',
       urgency: undefined,
       referralCode: searchParams?.get('r') || '',
