@@ -269,40 +269,6 @@ const StarProgressVisual = ({
         </defs>
         <g id="notches" className="animate-slow-rotate"></g>
         <g id="diamonds" className="animate-gentle-breathe"></g>
-        <g id="clickable-areas">
-          {onClick && (() => {
-            const cx = size / 2;
-            const cy = size / 2;
-            const innerR = size * 0.12;
-            const outerR = size * 0.38;
-            const numSections = 5;
-            const sectorAngle = TAU / numSections;
-
-            return Array.from({ length: numSections }, (_, section) => {
-              const startAngle = -Math.PI / 2 + section * sectorAngle;
-              const endAngle = startAngle + sectorAngle;
-
-              // Create a wedge path for the clickable area
-              const spread = 0.35;
-              const path = `
-                M ${cx} ${cy}
-                L ${cx + outerR * Math.cos(startAngle - sectorAngle * spread)} ${cy + outerR * Math.sin(startAngle - sectorAngle * spread)}
-                A ${outerR} ${outerR} 0 0 1 ${cx + outerR * Math.cos(endAngle + sectorAngle * spread)} ${cy + outerR * Math.sin(endAngle + sectorAngle * spread)}
-                Z
-              `;
-
-              return (
-                <path
-                  key={section}
-                  d={path}
-                  fill="transparent"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => onClick(section)}
-                />
-              );
-            });
-          })()}
-        </g>
         <g id="labels">
           {(() => {
             const cx = size / 2;
@@ -337,6 +303,54 @@ const StarProgressVisual = ({
                 >
                   {sectionName}
                 </text>
+              );
+            });
+          })()}
+        </g>
+        <g id="clickable-areas">
+          {onClick && (() => {
+            const cx = size / 2;
+            const cy = size / 2;
+            const innerR = size * 0.05;
+            const outerR = size * 0.45;
+            const numSections = 5;
+            const sectorAngle = TAU / numSections;
+
+            return Array.from({ length: numSections }, (_, section) => {
+              const angle = -Math.PI / 2 + section * sectorAngle;
+
+              // Create diamond-shaped clickable area matching the visual
+              const spread = 0.35;
+              const tipX = cx + outerR * Math.cos(angle);
+              const tipY = cy + outerR * Math.sin(angle);
+
+              const leftAngle = angle - sectorAngle * spread;
+              const leftX = cx + (outerR * 0.4) * Math.cos(leftAngle);
+              const leftY = cy + (outerR * 0.4) * Math.sin(leftAngle);
+
+              const rightAngle = angle + sectorAngle * spread;
+              const rightX = cx + (outerR * 0.4) * Math.cos(rightAngle);
+              const rightY = cy + (outerR * 0.4) * Math.sin(rightAngle);
+
+              const path = `M ${cx} ${cy} L ${leftX} ${leftY} L ${tipX} ${tipY} L ${rightX} ${rightY} Z`;
+
+              return (
+                <path
+                  key={section}
+                  d={path}
+                  fill="transparent"
+                  style={{ cursor: 'pointer' }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClick(section);
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.setAttribute('fill', 'rgba(255,255,255,0.05)');
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.setAttribute('fill', 'transparent');
+                  }}
+                />
               );
             });
           })()}
