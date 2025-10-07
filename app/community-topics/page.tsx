@@ -606,7 +606,7 @@ export default function CommunityTopics() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl font-bold">mycheatcode.ai</div>
+          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
