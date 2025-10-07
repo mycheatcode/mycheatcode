@@ -257,6 +257,7 @@ const StarProgressVisual = ({
         height={size}
         viewBox={`-${size * 0.25} -${size * 0.25} ${size * 1.5} ${size * 1.5}`}
         className="star-progress-svg animate-gentle-pulse"
+        style={{ pointerEvents: 'auto' }}
       >
         <defs>
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -339,13 +340,15 @@ const StarProgressVisual = ({
                   key={section}
                   d={path}
                   fill="transparent"
-                  style={{ cursor: 'pointer' }}
+                  style={{ cursor: 'pointer', pointerEvents: 'all' }}
                   onClick={(e) => {
+                    console.log('Star section clicked:', section);
                     e.stopPropagation();
                     onClick(section);
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.setAttribute('fill', 'rgba(255,255,255,0.05)');
+                    console.log('Mouse entered section:', section);
+                    e.currentTarget.setAttribute('fill', 'rgba(255,255,255,0.1)');
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.setAttribute('fill', 'transparent');

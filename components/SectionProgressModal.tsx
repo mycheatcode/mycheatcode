@@ -283,20 +283,14 @@ export default function SectionProgressModal({ section, onClose }: SectionProgre
         </div>
 
         {/* Action Buttons */}
-        <div className="flex gap-3 mt-6">
-          <button
-            onClick={onClose}
-            className="flex-1 py-2 px-4 rounded-lg bg-zinc-800 text-white hover:bg-zinc-700 transition-colors"
-          >
-            Close
-          </button>
+        <div className="mt-6">
           <button
             onClick={() => {
               localStorage.setItem('selectedCategory', section);
               onClose();
               window.location.href = '/my-codes';
             }}
-            className="flex-1 py-2 px-4 rounded-lg bg-blue-600 text-white hover:bg-blue-500 transition-colors"
+            className="w-full py-3 px-4 rounded-xl bg-white text-black font-semibold hover:bg-zinc-100 transition-colors"
           >
             View Codes
           </button>
