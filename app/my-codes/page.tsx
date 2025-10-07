@@ -533,7 +533,7 @@ export default function MyCodesPage() {
             <div
               key={code.id}
               onClick={() => setSelectedCode(code)}
-              className={`bg-black border border-white/10 rounded-2xl p-4 transition-all duration-500 cursor-pointer active:scale-98 ${
+              className={`bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-4 transition-all duration-500 cursor-pointer active:scale-98 ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
@@ -541,7 +541,7 @@ export default function MyCodesPage() {
                   : ''
               } ${
                 code.archived
-                  ? 'opacity-60 border-zinc-700/50 bg-zinc-900'
+                  ? 'opacity-60 border-zinc-700/50 from-zinc-900/50 to-zinc-900/20'
                   : ''
               }`}
             >
@@ -761,7 +761,7 @@ export default function MyCodesPage() {
               <div
                 key={code.id}
                 onClick={() => setSelectedCode(code)}
-                className="bg-black border border-white/10 rounded-2xl p-6 transition-all cursor-pointer hover:scale-[1.02]"
+                className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-6 transition-all cursor-pointer hover:scale-[1.02] hover:shadow-xl hover:border-white/25"
               >
                 {/* Header */}
                 <div className="flex justify-between items-start mb-4">
