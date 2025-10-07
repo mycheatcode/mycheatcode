@@ -10,8 +10,6 @@ import { generateShareCard } from './utils/engagementSystem';
 import ShareCard, { useShareCard } from '../components/ShareCard';
 import StarProgressVisual from '../components/StarProgressVisual';
 import ProgressLegend from '../components/ProgressLegend';
-import OverallProgressCircle from '../components/OverallProgressCircle';
-import StreakDisplay from '../components/StreakDisplay';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -655,31 +653,6 @@ const debugProgression = () => {
             />
           </div>
 
-          {/* 8 DAY STREAK - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
-            <StreakDisplay
-              streakDays={5}
-              size={160}
-            />
-          </div>
-
-          {/* 60% Progress Circle - positioned outside star */}
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-80px', marginLeft: '-540px' }}>
-            <OverallProgressCircle
-              percentage={calculateOverallPercentage()}
-              level={getProgressLevel(calculateOverallPercentage())}
-              size={260}
-            />
-            {/* Motivational text under OVR visual */}
-            <div className="text-center mt-4 max-w-[380px] mx-auto">
-              <div className="text-zinc-400 text-sm leading-5">
-                Elite players maintain an OVR over 80%.
-              </div>
-              <div className="text-zinc-400 text-sm leading-5 mt-1">
-                Build cheat codes for each area to reach full power.
-              </div>
-            </div>
-          </div>
 
           {/* Today For You Sidebar */}
           <div className="absolute right-6 top-24 z-10 w-96">

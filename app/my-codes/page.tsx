@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useCheatCodePower } from '../utils/useCheatCodePower';
 import { useSectionRadar } from '../utils/useSectionRadar';
 import { Section } from '../utils/progressionSystem';
-import CheatCodePowerBar from '../../components/CheatCodePowerBar';
 import EngagementFeedback, { useEngagementFeedback } from '../../components/EngagementFeedback';
 import { processEngagementEvent, EngagementEvent } from '../utils/engagementSystem';
 import { triggerSuccessFeedback, triggerLevelUpFeedback, triggerAchievementFeedback } from '../utils/hapticFeedback';
@@ -299,33 +298,6 @@ export default function MyCodesPage() {
   };
 
 
-  const getPowerBarGradient = (power: number) => {
-    if (power <= 25) {
-      // Only red until 25%
-      return 'linear-gradient(90deg, #FF0000 0%, #FF0000 100%)';
-    } else if (power <= 50) {
-      // Red to orange: smooth transition from 20-25%
-      const redEnd = (20 / power) * 100;
-      const orangeStart = (25 / power) * 100;
-      return `linear-gradient(90deg, #FF0000 0%, #FF0000 ${redEnd}%, #FFA500 ${orangeStart}%, #FFA500 100%)`;
-    } else if (power <= 75) {
-      // Red to orange to yellow: transitions at 20-25% and 45-50%
-      const redEnd = (20 / power) * 100;
-      const orangeStart = (25 / power) * 100;
-      const orangeEnd = (45 / power) * 100;
-      const yellowStart = (50 / power) * 100;
-      return `linear-gradient(90deg, #FF0000 0%, #FF0000 ${redEnd}%, #FFA500 ${orangeStart}%, #FFA500 ${orangeEnd}%, #FFFF00 ${yellowStart}%, #FFFF00 100%)`;
-    } else {
-      // All colors: transitions at 20-25%, 45-50%, 70-75%
-      const redEnd = (20 / power) * 100;
-      const orangeStart = (25 / power) * 100;
-      const orangeEnd = (45 / power) * 100;
-      const yellowStart = (50 / power) * 100;
-      const yellowEnd = (70 / power) * 100;
-      const greenStart = (75 / power) * 100;
-      return `linear-gradient(90deg, #FF0000 0%, #FF0000 ${redEnd}%, #FFA500 ${orangeStart}%, #FFA500 ${orangeEnd}%, #FFFF00 ${yellowStart}%, #FFFF00 ${yellowEnd}%, #00FF00 ${greenStart}%, #00FF00 100%)`;
-    }
-  };
 
   const getCategoryCount = (category: string) => {
     if (category === 'All') return cheatCodes.length;
@@ -571,31 +543,6 @@ export default function MyCodesPage() {
                 </div>
               </div>
 
-              {/* Power Bar */}
-              <div className="mb-3">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-zinc-400 text-xs uppercase tracking-wide">Cheat Code Power</span>
-                  <span className="text-white text-xs font-semibold">{getRealPower(code)}%</span>
-                </div>
-                <div className="w-full h-5 bg-white/5 rounded-full overflow-hidden relative">
-                  <div
-                    className="h-full rounded-full transition-all duration-300 ease-out"
-                    style={{
-                      background: getPowerBarGradient(getRealPower(code)),
-                      width: `${getRealPower(code)}%`
-                    }}
-                  ></div>
-                  {/* Subtle highlight overlay for premium feel */}
-                  <div
-                    className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
-                    style={{
-                      background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                      width: `${getRealPower(code)}%`
-                    }}
-                  ></div>
-                </div>
-              </div>
-
 
               {/* Last Session */}
               <div className="flex justify-between items-center pt-2 border-t border-white/5">
@@ -782,31 +729,6 @@ export default function MyCodesPage() {
                     <span className="text-zinc-300 text-sm font-medium">
                       {getStreakText(code.streak, code.streakType)}
                     </span>
-                  </div>
-                </div>
-
-                {/* Power Bar */}
-                <div className="mb-4">
-                  <div className="flex justify-between items-center mb-3">
-                    <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                    <span className="text-white text-sm font-semibold">{getRealPower(code)}%</span>
-                  </div>
-                  <div className="w-full h-6 bg-white/5 rounded-full overflow-hidden relative">
-                    <div
-                      className="h-full rounded-full transition-all duration-300 ease-out"
-                      style={{
-                        background: getPowerBarGradient(getRealPower(code)),
-                        width: `${getRealPower(code)}%`
-                      }}
-                    ></div>
-                    {/* Subtle highlight overlay for premium feel */}
-                    <div
-                      className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
-                      style={{
-                        background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                        width: `${getRealPower(code)}%`
-                      }}
-                    ></div>
                   </div>
                 </div>
 
