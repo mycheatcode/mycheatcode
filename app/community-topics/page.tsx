@@ -449,7 +449,14 @@ export default function CommunityTopics() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans starfield-background">
+    <>
+      <style jsx>{`
+        .topic-card-solid {
+          background-color: #09090b !important;
+          opacity: 1 !important;
+        }
+      `}</style>
+      <div className="bg-black min-h-screen text-white font-sans starfield-background">
       {/* Starfield Background */}
       <div className="starfield-container">
         <div className="stars stars-small"></div>
@@ -533,8 +540,7 @@ export default function CommunityTopics() {
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
-              style={{ backgroundColor: '#09090b', opacity: 1 }}
-              className="border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98 relative"
+              className="topic-card-solid border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98 relative"
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -721,8 +727,7 @@ export default function CommunityTopics() {
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                style={{ backgroundColor: '#09090b', opacity: 1 }}
-                className="border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01] relative"
+                className="topic-card-solid border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01] relative"
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -902,5 +907,6 @@ export default function CommunityTopics() {
         }
       `}</style>
     </div>
+    </>
   );
 }
