@@ -472,17 +472,33 @@ export default function MyCodesPage() {
 
         </div>
 
-        {/* Stats Summary - Two Column Layout */}
+        {/* Stats Summary */}
         <div className="py-6 border-b border-zinc-800">
-          <div className="flex items-center gap-6 px-4">
-            {/* Left: OVR (larger) */}
-            <div className="flex-shrink-0">
-              <OverallProgressCircle percentage={62} size={140} simplified />
+          {/* Centered OVR */}
+          <div className="flex justify-center mb-6">
+            <OverallProgressCircle percentage={62} size={140} simplified />
+          </div>
+          {/* Category Power Levels */}
+          <div className="flex justify-around px-4">
+            <div className="text-center">
+              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Pre-Game</div>
+              <div className="text-yellow-500 text-lg font-bold">75%</div>
             </div>
-            {/* Right: Active Codes and Streak stacked */}
-            <div className="flex flex-col gap-4">
-              <ActiveCodesDisplay count={5} size={90} />
-              <StreakDisplay streakDays={14} size={90} />
+            <div className="text-center">
+              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">In-Game</div>
+              <div className="text-green-500 text-lg font-bold">100%</div>
+            </div>
+            <div className="text-center">
+              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Post-Game</div>
+              <div className="text-yellow-600 text-lg font-bold">50%</div>
+            </div>
+            <div className="text-center">
+              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Off-Court</div>
+              <div className="text-red-500 text-lg font-bold">25%</div>
+            </div>
+            <div className="text-center">
+              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Locker Rm</div>
+              <div className="text-yellow-500 text-lg font-bold">75%</div>
             </div>
           </div>
         </div>
@@ -723,17 +739,33 @@ export default function MyCodesPage() {
             <div className="text-zinc-400 text-lg leading-relaxed">Your vault of mental performance cheat codes</div>
           </div>
 
-          {/* Stats Summary - Two Column Layout */}
+          {/* Stats Summary */}
           <div className="mb-8">
-            <div className="flex items-center gap-12 px-8">
-              {/* Left: OVR (larger) */}
-              <div className="flex-shrink-0">
-                <OverallProgressCircle percentage={62} size={240} simplified />
+            {/* Centered OVR */}
+            <div className="flex justify-center mb-8">
+              <OverallProgressCircle percentage={62} size={220} simplified />
+            </div>
+            {/* Category Power Levels */}
+            <div className="flex justify-center gap-12">
+              <div className="text-center">
+                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Pre-Game</div>
+                <div className="text-yellow-500 text-2xl font-bold">75%</div>
               </div>
-              {/* Right: Active Codes and Streak stacked */}
-              <div className="flex flex-col gap-6">
-                <ActiveCodesDisplay count={5} size={140} />
-                <StreakDisplay streakDays={14} size={140} />
+              <div className="text-center">
+                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">In-Game</div>
+                <div className="text-green-500 text-2xl font-bold">100%</div>
+              </div>
+              <div className="text-center">
+                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Post-Game</div>
+                <div className="text-yellow-600 text-2xl font-bold">50%</div>
+              </div>
+              <div className="text-center">
+                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Off-Court</div>
+                <div className="text-red-500 text-2xl font-bold">25%</div>
+              </div>
+              <div className="text-center">
+                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Locker Room</div>
+                <div className="text-yellow-500 text-2xl font-bold">75%</div>
               </div>
             </div>
           </div>
