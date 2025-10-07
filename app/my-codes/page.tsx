@@ -472,37 +472,6 @@ export default function MyCodesPage() {
 
         </div>
 
-        {/* Stats Summary */}
-        <div className="py-6 border-b border-zinc-800">
-          {/* Centered OVR */}
-          <div className="flex justify-center mb-6">
-            <OverallProgressCircle percentage={62} size={140} simplified />
-          </div>
-          {/* Category Power Levels */}
-          <div className="flex justify-around px-4">
-            <div className="text-center">
-              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Pre-Game</div>
-              <div className="text-yellow-500 text-lg font-bold">75%</div>
-            </div>
-            <div className="text-center">
-              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">In-Game</div>
-              <div className="text-green-500 text-lg font-bold">100%</div>
-            </div>
-            <div className="text-center">
-              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Post-Game</div>
-              <div className="text-yellow-600 text-lg font-bold">50%</div>
-            </div>
-            <div className="text-center">
-              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Off-Court</div>
-              <div className="text-red-500 text-lg font-bold">25%</div>
-            </div>
-            <div className="text-center">
-              <div className="text-zinc-400 text-[10px] uppercase tracking-wide mb-1">Locker Rm</div>
-              <div className="text-yellow-500 text-lg font-bold">75%</div>
-            </div>
-          </div>
-        </div>
-
         {/* Categories Filter */}
         <div className="flex gap-2 p-4 pb-4 overflow-x-auto scrollbar-hide">
           {categories.map((category) => {
@@ -737,37 +706,6 @@ export default function MyCodesPage() {
 
             <div className="text-4xl font-bold text-white mb-4">My Cheat Codes</div>
             <div className="text-zinc-400 text-lg leading-relaxed">Your vault of mental performance cheat codes</div>
-          </div>
-
-          {/* Stats Summary */}
-          <div className="mb-8">
-            {/* Centered OVR */}
-            <div className="flex justify-center mb-8">
-              <OverallProgressCircle percentage={62} size={220} simplified />
-            </div>
-            {/* Category Power Levels */}
-            <div className="flex justify-center gap-12">
-              <div className="text-center">
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Pre-Game</div>
-                <div className="text-yellow-500 text-2xl font-bold">75%</div>
-              </div>
-              <div className="text-center">
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">In-Game</div>
-                <div className="text-green-500 text-2xl font-bold">100%</div>
-              </div>
-              <div className="text-center">
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Post-Game</div>
-                <div className="text-yellow-600 text-2xl font-bold">50%</div>
-              </div>
-              <div className="text-center">
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Off-Court</div>
-                <div className="text-red-500 text-2xl font-bold">25%</div>
-              </div>
-              <div className="text-center">
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">Locker Room</div>
-                <div className="text-yellow-500 text-2xl font-bold">75%</div>
-              </div>
-            </div>
           </div>
 
           {/* Categories Filter */}
