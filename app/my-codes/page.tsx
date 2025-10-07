@@ -829,10 +829,10 @@ export default function MyCodesPage() {
 
       {/* Cheat Code Summary Modal */}
       {selectedCode && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-900 border border-white/10 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-white/10">
+            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
               <div className="flex-1">
                 <h2 className="text-xl font-semibold text-white mb-1">{selectedCode.title}</h2>
                 <div className="text-zinc-400 text-sm uppercase tracking-wide">{selectedCode.category}</div>
@@ -869,7 +869,7 @@ export default function MyCodesPage() {
               {/* Summary */}
               <div className="mb-6">
                 <h3 className="text-white font-semibold mb-3">Your Cheat Code Strategy</h3>
-                <div className="bg-zinc-800/50 border border-white/10 rounded-xl p-4">
+                <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
                   <div className="text-zinc-300 leading-relaxed space-y-3">
                     {selectedCode.summary.split('\n\n').map((section, index) => {
                       if (section.startsWith('**')) {
@@ -902,7 +902,7 @@ export default function MyCodesPage() {
                 </button>
                 <button
                   onClick={() => handleOpenChat(selectedCode)}
-                  className="w-full bg-white text-black py-2.5 rounded-full text-sm font-medium hover:bg-zinc-100 transition-colors"
+                  className="w-full bg-zinc-800 border border-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-700 transition-colors"
                 >
                   Open Chat
                 </button>
@@ -941,7 +941,7 @@ export default function MyCodesPage() {
               )}
 
               {/* Session Info */}
-              <div className="mt-3 pt-3 border-t border-white/10">
+              <div className="mt-3 pt-3 border-t border-zinc-800">
                 <div className="flex justify-between text-sm text-zinc-400">
                   <span>Last session: {selectedCode.lastSession}</span>
                   <span>{selectedCode.sessionsCompleted} sessions completed</span>
