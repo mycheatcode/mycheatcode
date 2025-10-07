@@ -53,7 +53,7 @@ export default function CommunityTopics() {
       stats: "134 players moved forward",
       trending: "NEW",
       category: "Post-Game",
-      customStarter: "Ahh, this is a really common thing a lot of players experience. What kind of mistakes do you keep replying in your mind? Let me know and I'll help you grow from mistekas instead of letting them keep you down!"
+      customStarter: "Ahh, this is really common, you're not alone. You mind sharing what kind of mistakes you keep replying in your mind? Let me know and I'll help you grow from them instead of letting them keep you down!"
     },
     {
       id: 6,
