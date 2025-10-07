@@ -472,16 +472,18 @@ export default function MyCodesPage() {
 
         </div>
 
-        {/* Stats Summary - Triangle Layout */}
+        {/* Stats Summary - Two Column Layout */}
         <div className="py-6 border-b border-zinc-800">
-          {/* Top: OVR (largest) */}
-          <div className="flex justify-center mb-4">
-            <OverallProgressCircle percentage={62} size={140} simplified />
-          </div>
-          {/* Bottom: Active Codes and Streak (smaller, side by side) */}
-          <div className="flex justify-center gap-12">
-            <ActiveCodesDisplay count={5} size={100} />
-            <StreakDisplay streakDays={14} size={100} />
+          <div className="flex items-center gap-6 px-4">
+            {/* Left: OVR (larger) */}
+            <div className="flex-shrink-0">
+              <OverallProgressCircle percentage={62} size={140} simplified />
+            </div>
+            {/* Right: Active Codes and Streak stacked */}
+            <div className="flex flex-col gap-4">
+              <ActiveCodesDisplay count={5} size={90} />
+              <StreakDisplay streakDays={14} size={90} />
+            </div>
           </div>
         </div>
 
@@ -721,16 +723,18 @@ export default function MyCodesPage() {
             <div className="text-zinc-400 text-lg leading-relaxed">Your vault of mental performance cheat codes</div>
           </div>
 
-          {/* Stats Summary - Triangle Layout */}
+          {/* Stats Summary - Two Column Layout */}
           <div className="mb-8">
-            {/* Top: OVR (largest) */}
-            <div className="flex justify-center mb-6">
-              <OverallProgressCircle percentage={62} size={220} simplified />
-            </div>
-            {/* Bottom: Active Codes and Streak (smaller, side by side) */}
-            <div className="flex justify-center gap-16">
-              <ActiveCodesDisplay count={5} size={160} />
-              <StreakDisplay streakDays={14} size={160} />
+            <div className="flex items-center gap-12 px-8">
+              {/* Left: OVR (larger) */}
+              <div className="flex-shrink-0">
+                <OverallProgressCircle percentage={62} size={240} simplified />
+              </div>
+              {/* Right: Active Codes and Streak stacked */}
+              <div className="flex flex-col gap-6">
+                <ActiveCodesDisplay count={5} size={140} />
+                <StreakDisplay streakDays={14} size={140} />
+              </div>
             </div>
           </div>
 
