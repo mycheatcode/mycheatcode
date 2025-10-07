@@ -633,7 +633,7 @@ const debugProgression = () => {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-60 z-5"
+            className="absolute inset-0 bg-black bg-opacity-60 z-40"
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
