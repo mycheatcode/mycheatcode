@@ -567,7 +567,7 @@ export default function ChatPage() {
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
-              className="w-full bg-black/85 border border-green-500/30 rounded-xl p-4 pr-12 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm shadow-[0_0_30px_rgba(50,205,50,0.15)]"
+              className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-12 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm"
               rows={1}
               style={{ minHeight: '52px', maxHeight: '120px' }}
             />
@@ -815,7 +815,7 @@ export default function ChatPage() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
-                className="w-full bg-black/85 border border-green-500/30 rounded-xl p-4 pr-14 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-green-500/50 transition-all duration-200 backdrop-blur-sm text-base shadow-[0_0_30px_rgba(50,205,50,0.15)]"
+                className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-14 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-base"
                 rows={2}
                 style={{ minHeight: '60px', maxHeight: '150px' }}
               />
