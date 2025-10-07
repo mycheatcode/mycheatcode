@@ -572,7 +572,7 @@ const debugProgression = () => {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 px-6 py-5 flex items-center gap-4 z-20 bg-gradient-to-b from-black/90 to-transparent">
+        <div className="absolute top-0 left-0 right-0 px-6 py-5 flex items-center gap-4 z-[60] bg-gradient-to-b from-black/90 to-transparent">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
@@ -587,7 +587,7 @@ const debugProgression = () => {
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-64 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
