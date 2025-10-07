@@ -655,7 +655,7 @@ const debugProgression = () => {
           <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" style={{ marginTop: '-340px', marginLeft: '-380px' }}>
             <StreakDisplay
               streakDays={5}
-              size={150}
+              size={130}
             />
           </div>
 
@@ -664,7 +664,7 @@ const debugProgression = () => {
             <OverallProgressCircle
               percentage={calculateOverallPercentage()}
               level={getProgressLevel(calculateOverallPercentage())}
-              size={280}
+              size={240}
             />
             {/* Motivational text under OVR visual */}
             <div className="text-center mt-4 max-w-[380px] mx-auto">
