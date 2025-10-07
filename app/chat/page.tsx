@@ -451,7 +451,7 @@ export default function ChatPage() {
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               {message.sender === 'user' ? (
-                <div className="max-w-[75%] p-3 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
+                <div className="max-w-[75%] p-3 rounded-3xl border bg-white/5 text-white rounded-br-lg border-white/20">
                   <div className="text-[15px] leading-relaxed">{message.text}</div>
                   <div className="text-xs mt-2 text-zinc-400">
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -567,7 +567,7 @@ export default function ChatPage() {
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
-              className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-12 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm"
+              className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-12 text-white placeholder-zinc-600 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm"
               rows={1}
               style={{ minHeight: '52px', maxHeight: '120px' }}
             />
@@ -698,7 +698,7 @@ export default function ChatPage() {
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {message.sender === 'user' ? (
-                    <div className="max-w-[65%] p-5 rounded-3xl border bg-zinc-800 text-white rounded-br-lg border-zinc-700">
+                    <div className="max-w-[65%] p-5 rounded-3xl border bg-white/5 text-white rounded-br-lg border-white/20">
                       <div className="text-base leading-relaxed">{message.text}</div>
                       <div className="text-sm mt-3 text-zinc-400">
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -815,7 +815,7 @@ export default function ChatPage() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
-                className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-14 text-white placeholder-gray-400 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-base"
+                className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-14 text-white placeholder-zinc-600 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-base"
                 rows={2}
                 style={{ minHeight: '60px', maxHeight: '150px' }}
               />
