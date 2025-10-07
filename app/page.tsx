@@ -587,44 +587,63 @@ const debugProgression = () => {
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-72 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          <div className="pt-20"></div>
+        <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-50 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          {/* Sidebar Header */}
+          <div className="pt-6 px-6 pb-4 border-b border-zinc-800">
+            <div className="text-white text-xl app-label mb-2">MYCHEATCODE.AI</div>
+            <div className="text-zinc-500 text-xs">Mental Performance Training</div>
+          </div>
 
-          <nav className="flex-1">
-            <div>
-              <div className="flex items-center gap-3 p-4 text-white font-medium relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <nav className="flex-1 py-4">
+            <div className="space-y-1 px-3">
+              <Link href="/" className="flex items-start gap-4 p-3 text-white bg-zinc-900/50 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 text-green-500">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
-                <span>Home</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
-              </div>
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-0.5">Home</div>
+                  <div className="text-xs text-zinc-400">Progress star + recommendations</div>
+                </div>
+              </Link>
+
+              <Link href="/my-codes" className="flex items-start gap-4 p-3 text-zinc-400 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 hover:text-white group">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 group-hover:text-green-500">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
-                <span>My Codes</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-0.5">My Codes</div>
+                  <div className="text-xs text-zinc-500">Active cheat codes/topics</div>
+                </div>
               </Link>
-              <Link href="/waitlist" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+
+              <Link href="/community-topics" className="flex items-start gap-4 p-3 text-zinc-400 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 hover:text-white group">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 group-hover:text-green-500">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
                 </svg>
-                <span>Early Access</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-0.5">Community Topics</div>
+                  <div className="text-xs text-zinc-500">Browse new topics</div>
+                </div>
               </Link>
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+
+              <Link href="/chat-history" className="flex items-start gap-4 p-3 text-zinc-400 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 hover:text-white group">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 group-hover:text-green-500">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
-                <span>Chat History</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-0.5">Chat History</div>
+                  <div className="text-xs text-zinc-500">Past sessions</div>
+                </div>
               </Link>
-              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+
+              <Link href="/profile" className="flex items-start gap-4 p-3 text-zinc-400 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 hover:text-white group">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mt-0.5 group-hover:text-green-500">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                <span>Profile</span>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-0.5">Profile</div>
+                  <div className="text-xs text-zinc-500">Settings + basic stats</div>
+                </div>
               </Link>
             </div>
           </nav>
