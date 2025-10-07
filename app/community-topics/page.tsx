@@ -527,7 +527,7 @@ export default function CommunityTopics() {
           })}
         </div>
 
-        {/* Topics List */}
+        {/* Topics List - Solid Background */}
         <div className="px-4 pb-4 space-y-3">
           {getFilteredTopics().map((topic) => (
             <div
