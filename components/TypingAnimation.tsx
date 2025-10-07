@@ -74,7 +74,7 @@ export default function TypingAnimation({
     <span className={className}>
       {displayedText}
       {!isComplete && (
-        <span className="animate-pulse ml-1 text-blue-400">|</span>
+        <span className="animate-pulse ml-1 text-green-500">|</span>
       )}
     </span>
   );
