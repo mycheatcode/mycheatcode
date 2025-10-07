@@ -449,14 +449,7 @@ export default function CommunityTopics() {
   };
 
   return (
-    <>
-      <style jsx>{`
-        .topic-card-solid {
-          background-color: #09090b !important;
-          opacity: 1 !important;
-        }
-      `}</style>
-      <div className="bg-black min-h-screen text-white font-sans starfield-background">
+    <div className="bg-black min-h-screen text-white font-sans starfield-background">
       {/* Starfield Background */}
       <div className="starfield-container">
         <div className="stars stars-small"></div>
@@ -801,6 +794,12 @@ export default function CommunityTopics() {
 
       {/* Starfield CSS Styles */}
       <style jsx global>{`
+        /* Topic Card Solid Background */
+        .topic-card-solid {
+          background-color: #09090b !important;
+          opacity: 1 !important;
+        }
+
         /* Starfield Background */
         .starfield-background {
           position: relative;
@@ -907,6 +906,5 @@ export default function CommunityTopics() {
         }
       `}</style>
     </div>
-    </>
   );
 }
