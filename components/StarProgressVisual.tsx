@@ -112,6 +112,7 @@ const StarProgressVisual = ({
       notch.setAttribute("stroke-width", width.toString());
       notch.setAttribute("stroke-opacity", opacity.toString());
       notch.setAttribute("stroke-linecap", "round");
+      notch.style.pointerEvents = 'none'; // Disable pointer events on notches
       container.appendChild(notch);
     }
   };
@@ -154,12 +155,7 @@ const StarProgressVisual = ({
         diamond.setAttribute("stroke-width", ((size * 0.002) + ringProgress * (size * 0.004)).toString());
         diamond.setAttribute("stroke-opacity", (0.3 + ringProgress * 0.6).toString());
         diamond.setAttribute("filter", ringProgress > 0.7 ? "url(#glow)" : "");
-
-        // Add click handler if onClick is provided
-        if (onClick) {
-          diamond.style.cursor = 'pointer';
-          diamond.addEventListener('click', () => onClick(section));
-        }
+        diamond.style.pointerEvents = 'none'; // Disable pointer events on diamonds
 
         container.appendChild(diamond);
       }
@@ -176,6 +172,7 @@ const StarProgressVisual = ({
         ghost.setAttribute("stroke-width", (size * 0.001).toString());
         ghost.setAttribute("stroke-opacity", "0.2");
         ghost.setAttribute("stroke-dasharray", `${size * 0.003},${size * 0.007}`);
+        ghost.style.pointerEvents = 'none'; // Disable pointer events on ghost guides
         container.appendChild(ghost);
       }
     }
