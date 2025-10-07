@@ -641,62 +641,47 @@ export default function ChatPage() {
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
         <div className={`fixed top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-          {/* Sidebar Header */}
-          <div className="pt-6 px-6 pb-4 border-b border-zinc-800">
-            <div className="text-white text-xl app-label mb-2">MYCHEATCODE.AI</div>
-            <div className="text-zinc-500 text-xs">Mental Performance Training</div>
-          </div>
+          <div className="pt-20"></div>
 
-          <nav className="flex-1 py-4">
-            <div className="space-y-1 px-3">
-              <Link href="/" className="flex items-start gap-4 p-3 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
-                <svg className="mt-0.5 group-hover:text-green-500 transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <nav className="flex-1">
+            <div>
+              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm mb-0.5">Home</div>
-                  <div className="text-xs text-zinc-400">Progress star + recommendations</div>
-                </div>
+                <span>Home</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
 
-              <Link href="/my-codes" className="flex items-start gap-4 p-3 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
-                <svg className="mt-0.5 group-hover:text-green-500 transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm mb-0.5">My Codes</div>
-                  <div className="text-xs text-zinc-400">Active cheat codes/topics</div>
-                </div>
+                <span>My Codes</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
 
-              <Link href="/community-topics" className="flex items-start gap-4 p-3 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
-                <svg className="mt-0.5 group-hover:text-green-500 transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm mb-0.5">Community Topics</div>
-                  <div className="text-xs text-zinc-400">Browse new topics</div>
-                </div>
+                <span>Community Topics</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
 
-              <Link href="/chat-history" className="flex items-start gap-4 p-3 text-white bg-zinc-900/50 rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
-                <svg className="mt-0.5 text-green-500" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm mb-0.5">Chat History</div>
-                  <div className="text-xs text-zinc-400">Past sessions</div>
-                </div>
+                <span>Chat History</span>
+                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
               </Link>
 
-              <Link href="/profile" className="flex items-start gap-4 p-3 text-zinc-400 hover:text-white rounded-xl cursor-pointer transition-all hover:bg-zinc-900 group">
-                <svg className="mt-0.5 group-hover:text-green-500 transition-colors" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
-                <div className="flex-1">
-                  <div className="font-semibold text-sm mb-0.5">Profile</div>
-                  <div className="text-xs text-zinc-400">Settings + basic stats</div>
-                </div>
+                <span>Profile</span>
               </Link>
             </div>
           </nav>
