@@ -533,7 +533,12 @@ export default function CommunityTopics() {
             <div
               key={topic.id}
               onClick={() => handleTopicSelect(topic)}
-              className="topic-card-solid border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98 relative"
+              style={{
+                backgroundColor: 'rgb(9, 9, 11)',
+                backgroundImage: 'none',
+                backdropFilter: 'none'
+              }}
+              className="border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98 relative"
             >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -720,7 +725,12 @@ export default function CommunityTopics() {
               <div
                 key={topic.id}
                 onClick={() => handleTopicSelect(topic)}
-                className="topic-card-solid border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01] relative"
+                style={{
+                  backgroundColor: 'rgb(9, 9, 11)',
+                  backgroundImage: 'none',
+                  backdropFilter: 'none'
+                }}
+                className="border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01] relative"
               >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
