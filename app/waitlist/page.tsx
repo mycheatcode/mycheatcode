@@ -2,11 +2,8 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 import {
-  positionOptions,
-  levelOptions,
-  goalOptions,
-  urgencyOptions,
   waitlistSignupSchema,
   type WaitlistSignupData,
   type WaitlistApiResponse
@@ -14,33 +11,18 @@ import {
 
 function WaitlistContent() {
   const searchParams = useSearchParams();
-  const [formData, setFormData] = useState<WaitlistSignupData>({
-    email: '',
-    position: '' as any,
-    level: '' as any,
-    goals: [],
-    customGoal: '',
-    urgency: undefined,
-    referralCode: '',
-    consent: false,
-    nickname: ''
-  });
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [submitCooldown, setSubmitCooldown] = useState(0);
 
   useEffect(() => {
     const referralCode = searchParams?.get('r');
-    if (referralCode) {
-      setFormData(prev => ({ ...prev, referralCode }));
-    }
+    const errorParam = searchParams?.get('error');
 
-    const error = searchParams?.get('error');
-    if (error) {
+    if (errorParam) {
       let errorMessage = 'An error occurred. Please try again.';
-      switch (error) {
+      switch (errorParam) {
         case 'missing-token':
           errorMessage = 'Invalid confirmation link. Please sign up again.';
           break;
@@ -51,79 +33,34 @@ function WaitlistContent() {
           errorMessage = 'Email confirmation failed. Please try again.';
           break;
       }
-      setErrors({ general: errorMessage });
+      setError(errorMessage);
     }
   }, [searchParams]);
 
-  useEffect(() => {
-    if (submitCooldown > 0) {
-      const timer = setTimeout(() => setSubmitCooldown(prev => prev - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [submitCooldown]);
-
-  const handleInputChange = (field: keyof WaitlistSignupData, value: string | boolean | undefined | string[]) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
-    if (errors[field]) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
-      });
-    }
-  };
-
-  const handleGoalChange = (goal: string, checked: boolean) => {
-    setFormData(prev => {
-      let newGoals = [...prev.goals];
-      if (goal === 'All of the Above') {
-        if (checked) {
-          newGoals = goalOptions.filter(g => g !== 'Other' && g !== 'All of the Above');
-          newGoals.push('All of the Above');
-        } else {
-          newGoals = [];
-        }
-      } else {
-        if (checked) {
-          newGoals = newGoals.filter(g => g !== 'All of the Above');
-          if (!newGoals.includes(goal)) {
-            newGoals.push(goal);
-          }
-        } else {
-          newGoals = newGoals.filter(g => g !== goal);
-        }
-      }
-      return { ...prev, goals: newGoals };
-    });
-
-    if (errors.goals) {
-      setErrors(prev => {
-        const newErrors = { ...prev };
-        delete newErrors.goals;
-        return newErrors;
-      });
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting || submitCooldown > 0) return;
+    if (isSubmitting || !email) return;
+
+    const formData: WaitlistSignupData = {
+      email,
+      position: 'Guard',
+      level: 'High School',
+      goals: ['Mental toughness in pressure situations'],
+      customGoal: '',
+      urgency: undefined,
+      referralCode: searchParams?.get('r') || '',
+      consent: true,
+      nickname: ''
+    };
 
     const result = waitlistSignupSchema.safeParse(formData);
     if (!result.success) {
-      const fieldErrors = result.error.flatten().fieldErrors;
-      const formattedErrors: Record<string, string> = {};
-      Object.entries(fieldErrors).forEach(([field, messages]) => {
-        if (messages && messages.length > 0) {
-          formattedErrors[field] = messages[0];
-        }
-      });
-      setErrors(formattedErrors);
+      setError('Please enter a valid email address');
       return;
     }
 
     setIsSubmitting(true);
-    setErrors({});
+    setError('');
 
     try {
       const response = await fetch('/api/waitlist', {
@@ -136,61 +73,45 @@ function WaitlistContent() {
 
       if (data.ok) {
         setShowSuccess(true);
-      } else if (data.fieldErrors) {
-        setErrors(data.fieldErrors);
       } else {
-        setErrors({ general: data.error || 'Something went wrong. Please try again.' });
+        setError(data.error || 'Something went wrong. Please try again.');
       }
     } catch (error) {
-      setErrors({ general: 'Network error. Please check your connection and try again.' });
+      setError('Network error. Please check your connection and try again.');
     } finally {
       setIsSubmitting(false);
-      setSubmitCooldown(5);
     }
   };
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
-        <div className="min-h-screen flex items-center justify-center px-4">
-          <div className="max-w-lg text-center">
-            <div className="w-24 h-24 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-              <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
+      <div className="min-h-screen bg-black flex items-center justify-center px-4">
+        <div className="max-w-md w-full text-center space-y-8">
+          <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
 
-            <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent">
-              You're In!
+          <div className="space-y-4">
+            <h1 className="text-4xl font-bold text-white">
+              Check your email
             </h1>
-
-            <p className="text-xl text-gray-300 mb-8 leading-relaxed">
-              Check your email to confirm your spot. We'll notify you the moment early access opens.
+            <p className="text-xl text-zinc-400">
+              We sent you a confirmation link. Click it to secure your spot.
             </p>
+          </div>
 
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 mb-8">
-              <p className="text-amber-200 text-sm">
-                📧 <strong>Don't see the email?</strong> Check your spam folder - our emails sometimes land there!
-              </p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <h2 className="text-xl font-semibold text-white mb-4">What happens next?</h2>
-              <div className="space-y-3 text-left">
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-gray-300">Exclusive updates as we perfect your AI coach</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-gray-300">First access before anyone else</span>
-                </div>
-                <div className="flex items-start gap-3">
-                  <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-gray-300">Direct input on features and training methods</span>
-                </div>
-              </div>
-            </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+            <p className="text-sm text-zinc-400">
+              Don't see it? Check your spam folder or{' '}
+              <button
+                onClick={() => setShowSuccess(false)}
+                className="text-white hover:text-zinc-300 underline"
+              >
+                try again
+              </button>
+            </p>
           </div>
         </div>
       </div>
@@ -198,436 +119,212 @@ function WaitlistContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+    <div className="min-h-screen bg-black">
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-zinc-800">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/" className="text-white text-xl font-bold app-label">
+            MYCHEATCODE.AI
+          </Link>
         </div>
+      </header>
 
-        <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-32">
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2 mb-8">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-sm text-gray-300 font-medium">Now in development</span>
+      {/* Hero Section */}
+      <section className="pt-32 pb-20 px-6">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          {/* Status Badge */}
+          <div className="inline-flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-full px-4 py-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <span className="text-sm text-zinc-400">Now in Beta</span>
+          </div>
+
+          {/* Main Headline */}
+          <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
+            Master your mental game.
+            <br />
+            <span className="text-zinc-500">Perform under pressure.</span>
+          </h1>
+
+          {/* Subheadline */}
+          <p className="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+            The AI mental performance coach built for basketball players.
+            Get personalized cheat codes for every moment on the court.
+          </p>
+
+          {/* Email Signup */}
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+            <div className="flex gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError('');
+                }}
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-4 bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-700 transition-colors"
+                required
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting || !email}
+                className="px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap"
+              >
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+              </button>
             </div>
-
-            <h1 className="text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
-                Unlock Your<br />Unlimited Potential
-              </span>
-            </h1>
-
-            <p className="text-xl lg:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed mb-12">
-              The first A.I. Mental Performance Coach designed specifically for basketball players.
-              Master your mental game and perform when it matters most.
+            {error && (
+              <p className="text-sm text-red-400">{error}</p>
+            )}
+            <p className="text-sm text-zinc-500">
+              Join 2,847+ players • Free forever
             </p>
+          </form>
+        </div>
+      </section>
 
-            {/* Hero CTA */}
-            <div className="max-w-md mx-auto mb-8">
-              <div className="flex gap-3">
-                <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleInputChange('email', e.target.value)}
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                />
-                <button
-                  onClick={handleSubmit}
-                  disabled={!formData.email || isSubmitting}
-                  className="px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-all duration-200 whitespace-nowrap"
-                >
-                  Get Access
-                </button>
+      {/* Product Preview */}
+      <section className="py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-gradient-to-b from-zinc-900 to-black border border-zinc-800 rounded-2xl p-8 md:p-12">
+            <div className="space-y-12">
+              {/* Feature 1 */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-white">Create cheat codes for any situation</h3>
+                  <p className="text-lg text-zinc-400">
+                    Talk with your AI coach and build mental strategies for pressure moments, confidence issues, or recovery from mistakes.
+                  </p>
+                </div>
+                <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-4">
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-zinc-800 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm">🧠</span>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <p className="text-sm text-zinc-400">Coach</p>
+                      <p className="text-white">What's on your mind? I'll help you build a cheat code for it.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0">
+                      <span className="text-sm">👤</span>
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <p className="text-sm text-zinc-400">You</p>
+                      <p className="text-white">I get nervous at the free throw line when everyone's watching...</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              {errors.email && <p className="text-red-400 text-sm mt-2">{errors.email}</p>}
-              <p className="text-gray-400 text-sm mt-3">Join 2,847+ players on the waitlist</p>
+
+              {/* Feature 2 */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-white">Track your mental strength across all areas</h3>
+                  <p className="text-lg text-zinc-400">
+                    See your progress in 5 key areas: Pre-Game, In-Game, Post-Game, Off Court, and Locker Room.
+                  </p>
+                </div>
+                <div className="bg-black border border-zinc-800 rounded-xl p-8">
+                  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    {['Pre-Game', 'In-Game', 'Post-Game', 'Off Court', 'Locker Room'].map((area) => (
+                      <div key={area} className="text-center space-y-2">
+                        <div className="w-12 h-12 bg-gradient-to-br from-red-500/20 to-orange-500/20 rounded-full mx-auto"></div>
+                        <p className="text-xs text-zinc-400">{area}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Feature 3 */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-bold text-white">Browse community topics or start your own</h3>
+                  <p className="text-lg text-zinc-400">
+                    Get inspired by what other players are working through, or create a completely custom cheat code.
+                  </p>
+                </div>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-3 hover:border-zinc-700 transition-colors cursor-pointer">
+                    <h4 className="font-semibold text-white">"I lose confidence after I miss my first few shots"</h4>
+                    <p className="text-sm text-zinc-500">When early misses spiral into a rough shooting night</p>
+                    <p className="text-xs text-zinc-600">156 players found their rhythm</p>
+                  </div>
+                  <div className="bg-black border border-zinc-800 rounded-xl p-6 space-y-3 hover:border-zinc-700 transition-colors cursor-pointer">
+                    <h4 className="font-semibold text-white">"I replay every mistake I made after games"</h4>
+                    <p className="text-sm text-zinc-500">When your mind won't stop showing you the lowlights</p>
+                    <p className="text-xs text-zinc-600">134 players moved forward</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Social Proof */}
-      <section className="py-16 border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-6">
-          <p className="text-center text-gray-400 mb-8">Trusted by players at every level</p>
-          <div className="flex justify-center items-center gap-8 opacity-50">
-            <div className="text-gray-400 font-semibold">High School</div>
-            <div className="text-gray-400 font-semibold">College</div>
-            <div className="text-gray-400 font-semibold">Semi-Pro</div>
-            <div className="text-gray-400 font-semibold">Professional</div>
+      <section className="py-20 px-6 border-y border-zinc-800">
+        <div className="max-w-4xl mx-auto text-center space-y-8">
+          <p className="text-sm text-zinc-500 uppercase tracking-wider">Trusted by players at</p>
+          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+            <span className="text-zinc-600 font-semibold">High School</span>
+            <span className="text-zinc-600 font-semibold">AAU</span>
+            <span className="text-zinc-600 font-semibold">College</span>
+            <span className="text-zinc-600 font-semibold">Semi-Pro</span>
           </div>
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Mental Cheat Codes for Every Situation
-            </h2>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Our AI analyzes your specific challenges and creates personalized mental strategies that give you an instant edge when you need it most.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Pressure Moments */}
-            <div className="group relative">
-              <div className="bg-gradient-to-br from-red-500/20 to-orange-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
-                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
-                  {/* Animated Background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 to-orange-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Icon with Pulse Animation */}
-                  <div className="relative w-14 h-14 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl animate-pulse opacity-50"></div>
-                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-4">Pressure Moments</h3>
-                  <p className="text-gray-400 leading-relaxed mb-6">
-                    Clutch free throws, game-winning shots, big games. Get personalized techniques to stay calm and execute when it matters most.
-                  </p>
-
-                  {/* Visual Demo */}
-                  <div className="bg-gradient-to-r from-red-500/10 to-orange-500/10 rounded-xl p-4 border border-red-500/20">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-red-300 font-medium">Game Scenario</span>
-                      <span className="text-xs text-gray-400">4th Quarter • 0:05</span>
-                    </div>
-                    <div className="text-xs text-gray-300 mb-3">Game-winning free throws</div>
-
-                    {/* Heart Rate Visualization */}
-                    <div className="flex items-center gap-2 mb-2">
-                      <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-gray-400">Heart Rate: Elevated → Controlled</span>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="bg-black/50 rounded-full h-2 overflow-hidden">
-                      <div className="bg-gradient-to-r from-red-500 to-orange-500 h-full rounded-full transition-all duration-2000 group-hover:w-full w-3/4"></div>
-                    </div>
-                    <div className="text-xs text-gray-400 mt-1">Mental State: Focused</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Confidence Building */}
-            <div className="group relative">
-              <div className="bg-gradient-to-br from-blue-500/20 to-purple-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
-                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
-                  {/* Animated Background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Icon with Growth Animation */}
-                  <div className="relative w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-500 rounded-xl animate-pulse opacity-50"></div>
-                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-4">Confidence Building</h3>
-                  <p className="text-gray-400 leading-relaxed mb-6">
-                    Overcome self-doubt and overthinking. Build unshakeable confidence that shows up consistently in your performance.
-                  </p>
-
-                  {/* Confidence Meter */}
-                  <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl p-4 border border-blue-500/20">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm text-blue-300 font-medium">Confidence Level</span>
-                      <span className="text-xs text-gray-400">Real-time tracking</span>
-                    </div>
-
-                    {/* Confidence Bars */}
-                    <div className="space-y-2 mb-3">
-                      {[
-                        { label: 'Shot Selection', value: 85 },
-                        { label: 'Decision Making', value: 92 },
-                        { label: 'Body Language', value: 78 }
-                      ].map((item, index) => (
-                        <div key={item.label} className="flex items-center gap-3">
-                          <span className="text-xs text-gray-400 w-20">{item.label}</span>
-                          <div className="flex-1 bg-black/50 rounded-full h-2 overflow-hidden">
-                            <div
-                              className="bg-gradient-to-r from-blue-500 to-purple-500 h-full rounded-full transition-all duration-1000 group-hover:opacity-100 opacity-70"
-                              style={{ width: `${item.value}%`, transitionDelay: `${index * 200}ms` }}
-                            ></div>
-                          </div>
-                          <span className="text-xs text-gray-400 w-8">{item.value}%</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="text-xs text-blue-300">↗ Trending upward</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Mental Recovery */}
-            <div className="group relative">
-              <div className="bg-gradient-to-br from-green-500/20 to-teal-500/20 p-1 rounded-2xl mb-6 group-hover:scale-105 transition-all duration-500">
-                <div className="bg-black rounded-2xl p-8 h-full relative overflow-hidden">
-                  {/* Animated Background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-teal-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                  {/* Icon with Recovery Animation */}
-                  <div className="relative w-14 h-14 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-teal-500 rounded-xl animate-pulse opacity-50"></div>
-                    <svg className="w-7 h-7 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                  </div>
-
-                  <h3 className="text-xl font-bold text-white mb-4">Mental Recovery</h3>
-                  <p className="text-gray-400 leading-relaxed mb-6">
-                    Bounce back from missed shots, bad calls, and tough losses. Learn to reset your mindset instantly and stay in the game.
-                  </p>
-
-                  {/* Recovery Timeline */}
-                  <div className="bg-gradient-to-r from-green-500/10 to-teal-500/10 rounded-xl p-4 border border-green-500/20">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="text-sm text-green-300 font-medium">Recovery Process</span>
-                      <span className="text-xs text-gray-400">&lt; 30 seconds</span>
-                    </div>
-
-                    {/* Recovery Steps */}
-                    <div className="space-y-2">
-                      {[
-                        { step: 'Acknowledge', time: '2s', status: 'complete' },
-                        { step: 'Breathe & Reset', time: '5s', status: 'complete' },
-                        { step: 'Refocus', time: '3s', status: 'active' },
-                        { step: 'Next Play Mindset', time: '1s', status: 'pending' }
-                      ].map((item, index) => (
-                        <div key={item.step} className="flex items-center gap-3">
-                          <div className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                            item.status === 'complete' ? 'bg-green-400' :
-                            item.status === 'active' ? 'bg-green-400 animate-pulse' : 'bg-gray-600'
-                          }`}></div>
-                          <span className={`text-xs flex-1 transition-colors duration-300 ${
-                            item.status === 'complete' || item.status === 'active' ? 'text-green-300' : 'text-gray-500'
-                          }`}>
-                            {item.step}
-                          </span>
-                          <span className="text-xs text-gray-400">{item.time}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className="mt-3 flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <span className="text-xs text-green-300">Recovery in progress...</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits Grid */}
-      <section className="py-24 bg-white/5">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-              Why Top Players Choose MyCheatCode
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="text-3xl mb-4">⚡</div>
-              <h4 className="font-semibold text-white mb-2">Instant Results</h4>
-              <p className="text-gray-400 text-sm">See improvement in your next game</p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="text-3xl mb-4">🎯</div>
-              <h4 className="font-semibold text-white mb-2">Personalized</h4>
-              <p className="text-gray-400 text-sm">Tailored to your position and level</p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="text-3xl mb-4">🧠</div>
-              <h4 className="font-semibold text-white mb-2">Science-Based</h4>
-              <p className="text-gray-400 text-sm">Proven sports psychology methods</p>
-            </div>
-
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 text-center hover:bg-white/10 transition-colors duration-300">
-              <div className="text-3xl mb-4">📱</div>
-              <h4 className="font-semibold text-white mb-2">Always Available</h4>
-              <p className="text-gray-400 text-sm">24/7 mental coaching on demand</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Main Signup Form */}
-      <section className="py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm border border-white/20 rounded-3xl p-8 lg:p-12">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-                Get Early Access
-              </h2>
-              <p className="text-xl text-gray-400">
-                Be among the first to unlock your unlimited potential
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {errors.general && (
-                <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4">
-                  <p className="text-red-300 text-center">{errors.general}</p>
-                </div>
-              )}
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-white font-medium mb-2">Email Address</label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full px-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                    placeholder="your@email.com"
-                    required
-                  />
-                  {errors.email && <p className="text-red-400 text-sm mt-1">{errors.email}</p>}
-                </div>
-
-                <div>
-                  <label className="block text-white font-medium mb-2">Primary Position</label>
-                  <select
-                    value={formData.position}
-                    onChange={(e) => handleInputChange('position', e.target.value)}
-                    className="w-full px-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                    required
-                  >
-                    <option value="" className="bg-gray-900">Select your position</option>
-                    {positionOptions.map(position => (
-                      <option key={position} value={position} className="bg-gray-900">{position}</option>
-                    ))}
-                  </select>
-                  {errors.position && <p className="text-red-400 text-sm mt-1">{errors.position}</p>}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-white font-medium mb-2">Level of Play</label>
-                <select
-                  value={formData.level}
-                  onChange={(e) => handleInputChange('level', e.target.value)}
-                  className="w-full px-4 py-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                  required
-                >
-                  <option value="" className="bg-gray-900">Select your level of play</option>
-                  {levelOptions.map(level => (
-                    <option key={level} value={level} className="bg-gray-900">{level}</option>
-                  ))}
-                </select>
-                {errors.level && <p className="text-red-400 text-sm mt-1">{errors.level}</p>}
-              </div>
-
-              <div>
-                <label className="block text-white font-medium mb-3">What do you want to improve? (Select all that apply)</label>
-                <div className="grid md:grid-cols-2 gap-3">
-                  {goalOptions.map(goal => (
-                    <label key={goal} className="flex items-start gap-3 p-3 bg-white/5 border border-white/10 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
-                      <input
-                        type="checkbox"
-                        checked={formData.goals.includes(goal)}
-                        onChange={(e) => handleGoalChange(goal, e.target.checked)}
-                        className="mt-1 w-4 h-4 text-blue-500 bg-white/10 border-white/20 rounded focus:ring-blue-500/50"
-                      />
-                      <span className="text-white text-sm leading-relaxed">{goal}</span>
-                    </label>
-                  ))}
-                </div>
-                {errors.goals && <p className="text-red-400 text-sm mt-1">{errors.goals}</p>}
-              </div>
-
-              {formData.goals.includes('Other') && (
-                <div>
-                  <input
-                    type="text"
-                    placeholder="Please specify..."
-                    value={formData.customGoal || ''}
-                    onChange={(e) => handleInputChange('customGoal', e.target.value)}
-                    className="w-full px-4 py-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent"
-                  />
-                </div>
-              )}
-
-              <div>
-                <label className="flex items-start gap-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={formData.consent}
-                    onChange={(e) => handleInputChange('consent', e.target.checked)}
-                    className="mt-1 w-5 h-5 text-blue-500 bg-white/10 border-white/20 rounded focus:ring-blue-500/50"
-                    required
-                  />
-                  <span className="text-white leading-relaxed">
-                    Yes, send me early access updates and launch notifications
-                  </span>
-                </label>
-                {errors.consent && <p className="text-red-400 text-sm mt-1">{errors.consent}</p>}
-              </div>
-
+      {/* Final CTA */}
+      <section className="py-32 px-6">
+        <div className="max-w-3xl mx-auto text-center space-y-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-white">
+            Ready to level up your mental game?
+          </h2>
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4">
+            <div className="flex gap-3">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError('');
+                }}
+                placeholder="Enter your email"
+                className="flex-1 px-6 py-4 bg-zinc-900 border border-zinc-800 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-700 transition-colors"
+                required
+              />
               <button
                 type="submit"
-                disabled={isSubmitting || submitCooldown > 0}
-                className="w-full px-8 py-5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50 disabled:cursor-not-allowed text-white text-lg font-semibold rounded-xl transition-all duration-200 shadow-2xl"
+                disabled={isSubmitting || !email}
+                className="px-8 py-4 bg-white text-black font-semibold rounded-xl hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap"
               >
-                {isSubmitting ? (
-                  <div className="flex items-center justify-center gap-3">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Securing Your Spot...
-                  </div>
-                ) : submitCooldown > 0 ? (
-                  `Please wait ${submitCooldown}s`
-                ) : (
-                  'Claim Your Early Access'
-                )}
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
-
-              <p className="text-center text-gray-400 text-sm">
-                Free to join • No spam, ever • Unsubscribe anytime
-              </p>
-            </form>
-          </div>
+            </div>
+            {error && (
+              <p className="text-sm text-red-400">{error}</p>
+            )}
+          </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="mb-6">
-            <h3 className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
-              MyCheatCode
-            </h3>
-          </div>
-          <p className="text-gray-400 mb-4">
-            Questions? Email us at{' '}
-            <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300 transition-colors">
+      <footer className="py-12 px-6 border-t border-zinc-800">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-sm text-zinc-500">
+              © 2025 MyCheatCode. All rights reserved.
+            </p>
+            <a
+              href="mailto:team@mycheatcode.ai"
+              className="text-sm text-zinc-400 hover:text-white transition-colors"
+            >
               team@mycheatcode.ai
             </a>
-          </p>
-          <p className="text-gray-500 text-sm">
-            © 2025 MyCheatCode. All rights reserved.
-          </p>
+          </div>
         </div>
       </footer>
     </div>
@@ -637,11 +334,8 @@ function WaitlistContent() {
 export default function WaitlistPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center">
-        <div className="text-white text-center">
-          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Loading...</p>
-        </div>
+      <div className="min-h-screen bg-black flex items-center justify-center">
+        <div className="text-white">Loading...</div>
       </div>
     }>
       <WaitlistContent />
