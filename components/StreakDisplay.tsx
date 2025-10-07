@@ -96,8 +96,8 @@ export default function StreakDisplay({
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-white font-bold mb-1" style={{ fontSize: `${size * 0.33}px` }}>{streakDays}</div>
-          <div className="text-zinc-400 font-medium tracking-wider" style={{ fontSize: `${size * 0.077}px` }}>DAY</div>
+          <div className="text-white font-bold mb-2" style={{ fontSize: `${size * 0.33}px` }}>{streakDays}</div>
+          <div className="text-zinc-400 font-medium tracking-wider mb-1" style={{ fontSize: `${size * 0.077}px` }}>DAY</div>
           <div className="text-zinc-500 tracking-wider" style={{ fontSize: `${size * 0.066}px` }}>STREAK</div>
         </div>
       </div>
