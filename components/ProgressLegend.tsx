@@ -251,10 +251,14 @@ const ProgressLegend = ({
   if (isMobile) {
     return (
       <div
-        className="progress-legend animate-fadeIn bg-zinc-950 border border-zinc-800"
+        className="progress-legend animate-fadeIn"
         style={{
+          background: 'rgba(0, 0, 0, 0.85)',
           borderRadius: '24px',
           padding: '24px 20px',
+          border: '1px solid rgba(50, 205, 50, 0.3)',
+          boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)',
+          backdropFilter: 'blur(10px)',
           fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           transition: 'all 0.3s ease',
           position: 'relative',
@@ -415,11 +419,15 @@ const ProgressLegend = ({
   // Desktop layout - vertical
   return (
     <div
-      className="progress-legend animate-fadeIn bg-zinc-950 border border-zinc-800"
+      className="progress-legend animate-fadeIn"
       style={{
+        background: 'rgba(0, 0, 0, 0.85)',
         borderRadius: '24px',
         padding: '24px',
         width: `${size + 50}px`,
+        border: '1px solid rgba(50, 205, 50, 0.3)',
+        boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)',
+        backdropFilter: 'blur(10px)',
         fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         transition: 'all 0.3s ease'
       }}
