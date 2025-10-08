@@ -87,7 +87,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
     setShowSuccess(true);
     setTimeout(() => {
       setShowSuccess(false);
-    }, 3000);
+    }, 2000);
   };
 
   const card = cards[currentCard];
@@ -128,12 +128,12 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
       {/* Success Message Overlay */}
       {showSuccess && (
         <div
-          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm"
-          style={{ animation: 'fade-out 0.5s ease-out 2.5s forwards' }}
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+          style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards' }}
         >
           <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
             {/* Large Green Checkmark */}
-            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
               <polyline
                 points="20 6 9 17 4 12"
                 strokeDasharray="100"
