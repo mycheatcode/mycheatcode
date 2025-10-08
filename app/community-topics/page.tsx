@@ -529,7 +529,7 @@ export default function CommunityTopics() {
         </div>
 
         {/* Topics List */}
-        <div className="px-4 pb-4 space-y-3">
+        <div className="px-4 pb-4 space-y-3 relative z-10">
           {getFilteredTopics().map((topic) => (
             <div key={topic.id} className="relative">
               {/* Opaque background layer */}
@@ -725,7 +725,7 @@ export default function CommunityTopics() {
           </div>
 
           {/* Topics Grid */}
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-6 relative z-10">
             {getFilteredTopics().map((topic) => (
               <div key={topic.id} className="relative">
                 {/* Opaque background layer */}
