@@ -530,7 +530,9 @@ const debugProgression = () => {
             <div className="text-white text-center app-body mb-2">
               {!isLoading && radarState && (
                 <>
-                  <div className="text-[12px] mb-1 app-body">Your overall progression: <span className="text-[16px] mobile-progress-percent font-bold app-heading text-white">{calculateOverallPercentage()}%</span></div>
+                  <div className="text-zinc-400 text-[13px] leading-5 max-w-[320px] mx-auto mb-2">
+                    Your progress grows as you create cheat codes in each area.
+                  </div>
                 </>
               )}
               {(isLoading || !radarState) && (
@@ -654,98 +656,56 @@ const debugProgression = () => {
           </div>
 
 
-          {/* Today For You Sidebar */}
+          {/* How It Works - Simple Info Box */}
           <div className="absolute right-6 top-24 z-10 w-96">
-            <div className="today-for-you-section bg-black/85 rounded-2xl p-6 backdrop-blur-sm" style={{border: '1px solid rgba(50, 205, 50, 0.3)', boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)'}}>
-              <h3 className="text-white text-xl font-bold mb-6 tracking-wide">TODAY FOR YOU</h3>
+            <div className="bg-black/85 rounded-2xl p-6 backdrop-blur-sm border border-zinc-800">
+              <h3 className="text-white text-xl font-bold mb-4">How It Works</h3>
 
-              {/* Quick Action Cards */}
               <div className="space-y-4">
-                {/* Community Topic Card 1 - Enhanced but cleaner */}
-                <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-5 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl hover:border-white/25 group relative overflow-hidden">
-                  {/* Subtle gradient background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Header */}
-                  <div className="flex justify-between items-start mb-3 relative z-10">
-                    <div className="flex-1">
-                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4 group-hover:text-yellow-100 transition-colors">
-                        "I get nervous at the free throw line when everyone's watching"
-                      </div>
-                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                        PRE-GAME
-                      </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-400 font-bold text-sm">1</span>
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold mb-1">Chat & Create Codes</div>
+                    <div className="text-zinc-400 text-sm leading-relaxed">
+                      Start a chat or pick a community topic. Each conversation builds a mental performance cheat code.
                     </div>
-                    <div className="flex items-center gap-1 bg-yellow-500/20 px-2 py-1 rounded-md border border-yellow-500/30">
-                      <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-                      <span className="text-yellow-400 text-xs font-bold">HOT</span>
-                    </div>
-                  </div>
-
-                  {/* Context */}
-                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed relative z-10">
-                    When all eyes are on you and your heart starts racing
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3 relative z-10">
-                    <div className="w-1 h-1 bg-white rounded-full"></div>
-                    <span>247 players worked through this</span>
-                  </div>
-
-                  {/* Start Now Button */}
-                  <div className="flex justify-end relative z-10">
-                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
-                      Start Now
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                      </svg>
-                    </button>
                   </div>
                 </div>
 
-                {/* Community Topic Card 2 - Enhanced but cleaner */}
-                <div className="bg-gradient-to-br from-white/[0.08] to-white/[0.02] border border-white/15 rounded-2xl p-5 transition-all duration-300 cursor-pointer hover:scale-[1.02] hover:shadow-xl hover:border-white/25 group relative overflow-hidden">
-                  {/* Subtle gradient background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-
-                  {/* Header */}
-                  <div className="flex justify-between items-start mb-3 relative z-10">
-                    <div className="flex-1">
-                      <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4 group-hover:text-green-100 transition-colors">
-                        "I feel like I'm not improving fast enough"
-                      </div>
-                      <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                        OFF COURT
-                      </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-400 font-bold text-sm">2</span>
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold mb-1">Fill Your Star</div>
+                    <div className="text-zinc-400 text-sm leading-relaxed">
+                      Creating codes in each category increases your progress in that area.
                     </div>
-                    <div className="flex items-center gap-1 bg-green-500/20 px-2 py-1 rounded-md border border-green-500/30">
-                      <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                      <span className="text-green-400 text-xs font-bold">TRENDING</span>
-                    </div>
-                  </div>
-
-                  {/* Context */}
-                  <div className="text-zinc-400 text-sm mb-3 leading-relaxed relative z-10">
-                    Impatience with your development
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex items-center gap-1 text-xs text-zinc-500 mb-3 relative z-10">
-                    <div className="w-1 h-1 bg-white rounded-full"></div>
-                    <span>198 players trusted the process</span>
-                  </div>
-
-                  {/* Start Now Button */}
-                  <div className="flex justify-end relative z-10">
-                    <button className="border border-zinc-700 bg-transparent text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-zinc-900 hover:border-zinc-600 transition-colors flex items-center gap-2">
-                      Start Now
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                      </svg>
-                    </button>
                   </div>
                 </div>
+
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-green-400 font-bold text-sm">3</span>
+                  </div>
+                  <div>
+                    <div className="text-white font-semibold mb-1">Stay Consistent</div>
+                    <div className="text-zinc-400 text-sm leading-relaxed">
+                      Progress fades if you don't engage with a category. Keep building to maintain your growth.
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-zinc-800">
+                <Link href="/community-topics" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-3 px-4 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between group">
+                  <span>Browse Community Topics</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="group-hover:translate-x-0.5 transition-transform">
+                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                  </svg>
+                </Link>
               </div>
             </div>
           </div>
@@ -770,8 +730,9 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-12">
             {!isLoading && radarState && (
               <>
-                <div className="text-zinc-400 text-[22px] leading-6 max-w-[420px] mx-auto mb-4">
-                  Start a fresh chat or choose from topics<br />other players levelled up in.
+                <div className="text-zinc-400 text-[20px] leading-7 max-w-[480px] mx-auto mb-4">
+                  Your progress grows as you create cheat codes in each area.<br />
+                  Start building your mental game.
                 </div>
               </>
             )}
@@ -781,7 +742,7 @@ const debugProgression = () => {
                   Loading your progression...
                 </div>
                 <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Every elite player started exactly where you are now. Build cheat codes for each area to reach full power.
+                  Your progress grows as you create cheat codes in each area. Start building your mental game.
                 </div>
               </>
             )}
