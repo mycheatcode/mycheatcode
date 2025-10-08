@@ -47,7 +47,17 @@ export default function ChatPage() {
 
   // Helper to detect if a message contains a cheat code
   const isCheatCode = (text: string): boolean => {
-    return text.includes('**What:**') && text.includes('**When:**') && text.includes('**How:**') && text.includes('**Why:**');
+    // Check for standard format
+    const hasStandardFormat = text.includes('**What:**') && text.includes('**When:**') && text.includes('**How:**') && text.includes('**Why:**');
+
+    // Check for alternative format with Title/Trigger/Cue phrase/First action/If/Then/Reps
+    const hasAlternativeFormat = (
+      (text.includes('Title:') || text.includes('title:')) &&
+      (text.includes('Trigger:') || text.includes('trigger:')) &&
+      (text.includes('Cue phrase:') || text.includes('cue phrase:'))
+    );
+
+    return hasStandardFormat || hasAlternativeFormat;
   };
 
   // Helper to split message into intro text and cheat code
@@ -55,9 +65,16 @@ export default function ChatPage() {
     const lines = text.split('\n');
     let cheatCodeStartIndex = -1;
 
-    // Find where the cheat code structure starts (look for the title with emoji)
+    // Find where the cheat code structure starts
     for (let i = 0; i < lines.length; i++) {
-      if (lines[i].includes('🏀') || lines[i].startsWith('**What:**')) {
+      const line = lines[i].trim();
+      // Look for standard format markers
+      if (line.includes('🏀') || line.startsWith('**What:**')) {
+        cheatCodeStartIndex = i;
+        break;
+      }
+      // Look for alternative format markers
+      if (line.match(/^Title:/i) || line.match(/^Trigger:/i)) {
         cheatCodeStartIndex = i;
         break;
       }
@@ -77,31 +94,55 @@ export default function ChatPage() {
   const parseCheatCode = (text: string) => {
     const cheatCode: any = {};
 
-    // Extract title (look for emoji and title)
-    const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
-    cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
+    // Check if it's the alternative format first
+    const isAlternativeFormat = text.includes('Title:') && text.includes('Trigger:');
 
-    // Extract subtitle/phrase (look for italic text with quotes)
-    const subtitleMatch = text.match(/\*"([^"]+)"\*/);
-    cheatCode.subtitle = subtitleMatch ? subtitleMatch[1].trim() : '';
+    if (isAlternativeFormat) {
+      // Parse alternative format (Title/Trigger/Cue phrase/etc.)
+      const titleMatch = text.match(/Title:\s*(.+?)(?=\n|$)/i);
+      const triggerMatch = text.match(/Trigger:\s*(.+?)(?=\n|$)/i);
+      const cueMatch = text.match(/Cue phrase:\s*"?([^"\n]+)"?/i);
+      const firstActionMatch = text.match(/First action:\s*(.+?)(?=\n|$)/i);
+      const ifThenMatch = text.match(/If\/Then:\s*([\s\S]*?)(?=Reps:|$)/i);
+      const repsMatch = text.match(/Reps:\s*([\s\S]*?)$/i);
 
-    // Assign a category based on content (you can make this more sophisticated)
-    cheatCode.category = 'In-Game'; // Default for free throw situation
+      cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
+      cheatCode.category = 'In-Game';
+      cheatCode.when = triggerMatch ? triggerMatch[1].trim() : '';
+      cheatCode.phrase = cueMatch ? cueMatch[1].trim() : '';
+      cheatCode.how = (firstActionMatch ? firstActionMatch[1].trim() + '\n' : '') +
+                      (ifThenMatch ? ifThenMatch[1].trim() : '');
+      cheatCode.practice = repsMatch ? repsMatch[1].trim() : '';
+      cheatCode.what = ''; // Not present in this format
+      cheatCode.why = ''; // Not present in this format
+    } else {
+      // Parse standard format
+      // Extract title (look for emoji and title)
+      const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
+      cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
 
-    // Extract sections using [\s\S] instead of /s flag for compatibility
-    const whatMatch = text.match(/\*\*What:\*\*\s*([\s\S]*?)(?=\*\*When:|$)/);
-    const whenMatch = text.match(/\*\*When:\*\*\s*([\s\S]*?)(?=\*\*How:|$)/);
-    const howMatch = text.match(/\*\*How:\*\*\s*([\s\S]*?)(?=\*\*Why:|$)/);
-    const whyMatch = text.match(/\*\*Why:\*\*\s*([\s\S]*?)(?=\*\*Cheat Code Phrase:|$)/);
-    const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/);
-    const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*([\s\S]*?)$/m);
+      // Extract subtitle/phrase (look for italic text with quotes)
+      const subtitleMatch = text.match(/\*"([^"]+)"\*/);
+      cheatCode.subtitle = subtitleMatch ? subtitleMatch[1].trim() : '';
 
-    cheatCode.what = whatMatch ? whatMatch[1].trim() : '';
-    cheatCode.when = whenMatch ? whenMatch[1].trim() : '';
-    cheatCode.how = howMatch ? howMatch[1].trim() : '';
-    cheatCode.why = whyMatch ? whyMatch[1].trim() : '';
-    cheatCode.phrase = phraseMatch ? (phraseMatch[1] || phraseMatch[2]).trim() : '';
-    cheatCode.practice = practiceMatch ? practiceMatch[1].trim() : '';
+      // Assign a category based on content (you can make this more sophisticated)
+      cheatCode.category = 'In-Game'; // Default for free throw situation
+
+      // Extract sections using [\s\S] instead of /s flag for compatibility
+      const whatMatch = text.match(/\*\*What:\*\*\s*([\s\S]*?)(?=\*\*When:|$)/);
+      const whenMatch = text.match(/\*\*When:\*\*\s*([\s\S]*?)(?=\*\*How:|$)/);
+      const howMatch = text.match(/\*\*How:\*\*\s*([\s\S]*?)(?=\*\*Why:|$)/);
+      const whyMatch = text.match(/\*\*Why:\*\*\s*([\s\S]*?)(?=\*\*Cheat Code Phrase:|$)/);
+      const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/);
+      const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*([\s\S]*?)$/m);
+
+      cheatCode.what = whatMatch ? whatMatch[1].trim() : '';
+      cheatCode.when = whenMatch ? whenMatch[1].trim() : '';
+      cheatCode.how = howMatch ? howMatch[1].trim() : '';
+      cheatCode.why = whyMatch ? whyMatch[1].trim() : '';
+      cheatCode.phrase = phraseMatch ? (phraseMatch[1] || phraseMatch[2]).trim() : '';
+      cheatCode.practice = practiceMatch ? practiceMatch[1].trim() : '';
+    }
 
     return cheatCode;
   };
