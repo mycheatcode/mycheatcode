@@ -267,11 +267,11 @@ const debugProgression = () => {
 
   // Calculate overall percentage based on section radar system
   const calculateOverallPercentage = () => {
-    // For hero image: show 100% Hall of Fame when star progress is at 100%
+    // HERO IMAGE: Force 100% Hall of Fame status
     const starData = getStarProgressData();
     const average = (starData.preGame + starData.inGame + starData.postGame + starData.offCourt + starData.lockerRoom) / 5;
     if (average === 100) {
-      return 100;
+      return 100; // Returns 100 for Hall of Fame (75-100%)
     }
 
     const radarScore = getRadarScore();
