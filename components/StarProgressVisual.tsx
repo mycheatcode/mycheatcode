@@ -123,7 +123,8 @@ const StarProgressVisual = ({
     const sectorAngle = TAU / numSections;
 
     for (let section = 0; section < numSections; section++) {
-      const progress = progressValues[section] / 100;
+      // Force all sections to 70% (yellow/All-Star level) for equal display
+      const progress = 0.70;
       const sectionAngle = -Math.PI / 2 + section * sectorAngle;
 
       // Draw progress rings - use direct progress for equal arm lengths
@@ -136,7 +137,7 @@ const StarProgressVisual = ({
 
         // Calculate color based on how far through the actual progress we are
         // This creates a gradient that spans from red through orange, yellow to green
-        const actualProgressPosition = (ringProgress / progress) * progress;
+        const actualProgressPosition = ringProgress;
         const color = getGradientColor(actualProgressPosition);
 
         // Create diamond path
@@ -170,14 +171,14 @@ const StarProgressVisual = ({
         container.appendChild(ghost);
       }
 
-      // Draw 100% full potential outline - bright and visible
+      // Draw 100% full potential outline - bright and translucent
       const fullPath = createDiamondPath(cx, cy, sectionAngle, outerR, sectorAngle);
       const fullOutline = document.createElementNS("http://www.w3.org/2000/svg", "path");
       fullOutline.setAttribute("d", fullPath);
       fullOutline.setAttribute("fill", "none");
       fullOutline.setAttribute("stroke", "#999999");
       fullOutline.setAttribute("stroke-width", (size * 0.004).toString());
-      fullOutline.setAttribute("stroke-opacity", "0.7");
+      fullOutline.setAttribute("stroke-opacity", "0.35");
       fullOutline.setAttribute("stroke-dasharray", `${size * 0.012},${size * 0.008}`);
       fullOutline.style.pointerEvents = 'none';
       container.appendChild(fullOutline);
