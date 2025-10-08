@@ -667,7 +667,7 @@ const debugProgression = () => {
                     Chat = Growth
                   </div>
                   <div className="text-zinc-400 text-sm leading-relaxed">
-                    Each conversation builds a cheat code for your mental game
+                    Each conversation develops your mental game
                   </div>
                 </div>
 
@@ -677,15 +677,6 @@ const debugProgression = () => {
                   </div>
                   <div className="text-zinc-400 text-sm leading-relaxed">
                     Progress fades without engagement. Keep building to stay sharp
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-white text-lg font-semibold mb-1 leading-tight">
-                    Pick your focus below
-                  </div>
-                  <div className="text-zinc-400 text-sm leading-relaxed">
-                    Start fresh or choose from what other players leveled up in
                   </div>
                 </div>
               </div>
