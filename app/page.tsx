@@ -399,21 +399,21 @@ const debugProgression = () => {
   const getStarProgressData = () => {
     if (!radarState) {
       return {
-        preGame: 100,
-        inGame: 100,
-        postGame: 100,
-        offCourt: 100,
-        lockerRoom: 100
+        preGame: 70,
+        inGame: 70,
+        postGame: 70,
+        offCourt: 70,
+        lockerRoom: 70
       };
     }
 
     const sectionScores = radarState.sectionScores;
     return {
-      preGame: sectionScores['Pre-Game']?.score || 100,
-      inGame: sectionScores['In-Game']?.score || 100,
-      postGame: sectionScores['Post-Game']?.score || 100,
-      offCourt: sectionScores['Off Court']?.score || 100,
-      lockerRoom: sectionScores['Locker Room']?.score || 100
+      preGame: sectionScores['Pre-Game']?.score || 70,
+      inGame: sectionScores['In-Game']?.score || 70,
+      postGame: sectionScores['Post-Game']?.score || 70,
+      offCourt: sectionScores['Off Court']?.score || 70,
+      lockerRoom: sectionScores['Locker Room']?.score || 70
     };
   };
 
