@@ -617,23 +617,6 @@ export default function ChatHistory() {
             <div className="text-zinc-400 text-lg leading-relaxed">Your conversations and cheat code journey</div>
           </div>
 
-          {/* Search */}
-          <div className="mb-6">
-            <div className="relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400">
-                <circle cx="11" cy="11" r="8"></circle>
-                <path d="21 21l-4.35-4.35"></path>
-              </svg>
-              <input
-                type="text"
-                placeholder="Search conversations..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-12 pr-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
-              />
-            </div>
-          </div>
-
           {/* Filters */}
           <div className="flex gap-3 mb-8 overflow-x-auto scrollbar-hide">
             {filters.map((filter) => {
