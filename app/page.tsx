@@ -731,8 +731,8 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-12">
             {!isLoading && radarState && (
               <>
-                <div className="text-zinc-400 text-[18px] leading-6 max-w-[480px] mx-auto mb-4">
-                  Your progress grows as you create cheat codes in each area.
+                <div className="text-zinc-400 text-[18px] leading-7 max-w-[580px] mx-auto mb-4">
+                  Your progress grows as you chat about each area.
                   <br />
                   Start building your mental game.
                 </div>
@@ -743,8 +743,8 @@ const debugProgression = () => {
                 <div className="text-[16px] mb-2 app-body">
                   Loading your progression...
                 </div>
-                <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Your progress grows as you create cheat codes in each area.
+                <div className="text-zinc-400 text-[14px] leading-6 max-w-[450px] mx-auto mb-4">
+                  Your progress grows as you chat about each area.
                   <br />
                   Start building your mental game.
                 </div>
