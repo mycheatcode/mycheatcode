@@ -397,24 +397,33 @@ const debugProgression = () => {
   };
 
   const getStarProgressData = () => {
-    if (!radarState) {
-      return {
-        preGame: 70,
-        inGame: 70,
-        postGame: 70,
-        offCourt: 70,
-        lockerRoom: 70
-      };
-    }
-
-    const sectionScores = radarState.sectionScores;
+    // HERO IMAGE: Force 100% for all sections
     return {
-      preGame: sectionScores['Pre-Game']?.score || 70,
-      inGame: sectionScores['In-Game']?.score || 70,
-      postGame: sectionScores['Post-Game']?.score || 70,
-      offCourt: sectionScores['Off Court']?.score || 70,
-      lockerRoom: sectionScores['Locker Room']?.score || 70
+      preGame: 100,
+      inGame: 100,
+      postGame: 100,
+      offCourt: 100,
+      lockerRoom: 100
     };
+
+    // Original logic (disabled for hero image)
+    // if (!radarState) {
+    //   return {
+    //     preGame: 70,
+    //     inGame: 70,
+    //     postGame: 70,
+    //     offCourt: 70,
+    //     lockerRoom: 70
+    //   };
+    // }
+    // const sectionScores = radarState.sectionScores;
+    // return {
+    //   preGame: sectionScores['Pre-Game']?.score || 70,
+    //   inGame: sectionScores['In-Game']?.score || 70,
+    //   postGame: sectionScores['Post-Game']?.score || 70,
+    //   offCourt: sectionScores['Off Court']?.score || 70,
+    //   lockerRoom: sectionScores['Locker Room']?.score || 70
+    // };
   };
 
   const handleStarSectionClick = (sectionIndex: number) => {
