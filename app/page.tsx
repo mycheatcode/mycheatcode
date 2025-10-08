@@ -656,20 +656,37 @@ const debugProgression = () => {
           </div>
 
 
-          {/* The System - Motivational Callout */}
-          <div className="absolute right-6 top-32 z-10 w-80">
+          {/* The System - Motivational Callout with Context */}
+          <div className="absolute right-6 top-28 z-10 w-96">
             <div className="bg-black/40 rounded-xl p-6 backdrop-blur-sm border border-zinc-800/50">
               <h3 className="text-zinc-500 text-xs font-bold mb-5 uppercase tracking-widest">The System</h3>
 
-              <div className="space-y-3">
-                <div className="text-white text-lg font-medium leading-tight">
-                  Chat = Growth
+              <div className="space-y-4">
+                <div>
+                  <div className="text-white text-lg font-semibold mb-1 leading-tight">
+                    Chat = Growth
+                  </div>
+                  <div className="text-zinc-400 text-sm leading-relaxed">
+                    Each conversation builds a cheat code for your mental game
+                  </div>
                 </div>
-                <div className="text-white text-lg font-medium leading-tight">
-                  Consistency = Strength
+
+                <div>
+                  <div className="text-white text-lg font-semibold mb-1 leading-tight">
+                    Consistency = Strength
+                  </div>
+                  <div className="text-zinc-400 text-sm leading-relaxed">
+                    Progress fades without engagement. Keep building to stay sharp
+                  </div>
                 </div>
-                <div className="text-white text-lg font-medium leading-tight">
-                  Pick your focus below
+
+                <div>
+                  <div className="text-white text-lg font-semibold mb-1 leading-tight">
+                    Pick your focus below
+                  </div>
+                  <div className="text-zinc-400 text-sm leading-relaxed">
+                    Start fresh or choose from what other players leveled up in
+                  </div>
                 </div>
               </div>
             </div>
