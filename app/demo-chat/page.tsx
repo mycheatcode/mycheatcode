@@ -95,20 +95,95 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
   return (
     <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
       <style jsx>{`
-        @keyframes scale-in {
+        @keyframes celebration-burst {
           0% {
-            transform: scale(0);
+            transform: scale(0) rotate(0deg);
             opacity: 0;
           }
           50% {
-            transform: scale(1.2);
+            transform: scale(1.3) rotate(180deg);
+            opacity: 1;
           }
           100% {
-            transform: scale(1);
+            transform: scale(1) rotate(360deg);
             opacity: 1;
           }
         }
+
+        @keyframes checkmark-draw {
+          0% {
+            stroke-dashoffset: 100;
+          }
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes fade-in-up {
+          0% {
+            transform: translateY(10px);
+            opacity: 0;
+          }
+          100% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+
+        @keyframes confetti {
+          0% {
+            transform: translateY(0) rotate(0deg);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(-100px) rotate(360deg);
+            opacity: 0;
+          }
+        }
       `}</style>
+
+      {/* Success Message Overlay */}
+      {showSuccess && (
+        <div className="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none">
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-[2rem] px-12 py-10 shadow-2xl border-4 border-green-400/50" style={{ animation: 'celebration-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+            <div className="flex flex-col items-center gap-6">
+              {/* Animated Checkmark Circle */}
+              <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-xl">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline
+                    points="20 6 9 17 4 12"
+                    strokeDasharray="100"
+                    strokeDashoffset="0"
+                    style={{ animation: 'checkmark-draw 0.5s ease-out 0.2s backwards' }}
+                  />
+                </svg>
+              </div>
+
+              {/* Success Text */}
+              <div className="text-center" style={{ animation: 'fade-in-up 0.5s ease-out 0.3s backwards' }}>
+                <h3 className="text-white text-3xl font-bold mb-2">Success!</h3>
+                <p className="text-green-100 text-lg font-medium">Added to My Codes</p>
+              </div>
+            </div>
+
+            {/* Confetti particles */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              {[...Array(12)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{
+                    backgroundColor: ['#fbbf24', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'][i % 6],
+                    left: `${20 + (i * 60 / 12)}%`,
+                    top: '50%',
+                    animation: `confetti ${0.8 + Math.random() * 0.4}s ease-out ${0.2 + (i * 0.05)}s backwards`,
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Close button */}
       <button
@@ -240,18 +315,9 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                     <button
                       onClick={handleAddToMyCodes}
                       disabled={showSuccess}
-                      className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                      className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {showSuccess ? (
-                        <span className="flex items-center justify-center gap-2">
-                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scale-in_0.3s_ease-out]">
-                            <polyline points="20 6 9 17 4 12"></polyline>
-                          </svg>
-                          Added to My Codes!
-                        </span>
-                      ) : (
-                        "Add to \"My Codes\""
-                      )}
+                      Add to "My Codes"
                     </button>
                     <button
                       onClick={resetCards}
