@@ -95,21 +95,6 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
   return (
     <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
       <style jsx>{`
-        @keyframes celebration-burst {
-          0% {
-            transform: scale(0) rotate(0deg);
-            opacity: 0;
-          }
-          50% {
-            transform: scale(1.3) rotate(180deg);
-            opacity: 1;
-          }
-          100% {
-            transform: scale(1) rotate(360deg);
-            opacity: 1;
-          }
-        }
-
         @keyframes checkmark-draw {
           0% {
             stroke-dashoffset: 100;
@@ -119,24 +104,22 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           }
         }
 
-        @keyframes fade-in-up {
+        @keyframes fade-in-scale {
           0% {
-            transform: translateY(10px);
+            transform: scale(0.8);
             opacity: 0;
           }
           100% {
-            transform: translateY(0);
+            transform: scale(1);
             opacity: 1;
           }
         }
 
-        @keyframes confetti {
+        @keyframes fade-out {
           0% {
-            transform: translateY(0) rotate(0deg);
             opacity: 1;
           }
           100% {
-            transform: translateY(-100px) rotate(360deg);
             opacity: 0;
           }
         }
@@ -144,41 +127,24 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
       {/* Success Message Overlay */}
       {showSuccess && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none">
-          <div className="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 rounded-[2rem] px-16 py-12 shadow-2xl border-2 border-white/20 backdrop-blur-sm" style={{ animation: 'celebration-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-            <div className="flex flex-col items-center gap-6">
-              {/* Animated Checkmark Circle */}
-              <div className="w-28 h-28 rounded-full bg-white/10 border-2 border-white/30 flex items-center justify-center shadow-xl backdrop-blur-md">
-                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline
-                    points="20 6 9 17 4 12"
-                    strokeDasharray="100"
-                    strokeDashoffset="0"
-                    style={{ animation: 'checkmark-draw 0.5s ease-out 0.2s backwards' }}
-                  />
-                </svg>
-              </div>
+        <div
+          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+          style={{ animation: 'fade-out 0.5s ease-out 2.5s forwards' }}
+        >
+          <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+            {/* Large Green Checkmark */}
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline
+                points="20 6 9 17 4 12"
+                strokeDasharray="100"
+                strokeDashoffset="0"
+                style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }}
+              />
+            </svg>
 
-              {/* Success Text */}
-              <div className="text-center" style={{ animation: 'fade-in-up 0.5s ease-out 0.3s backwards' }}>
-                <h3 className="text-white text-4xl font-bold mb-3">Added!</h3>
-                <p className="text-zinc-300 text-lg font-medium">Cheat code saved to My Codes</p>
-              </div>
-            </div>
-
-            {/* Subtle particles */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[2rem]">
-              {[...Array(8)].map((_, i) => (
-                <div
-                  key={i}
-                  className="absolute w-1.5 h-1.5 rounded-full bg-white/40"
-                  style={{
-                    left: `${25 + (i * 50 / 8)}%`,
-                    top: '50%',
-                    animation: `confetti ${0.8 + Math.random() * 0.4}s ease-out ${0.2 + (i * 0.05)}s backwards`,
-                  }}
-                />
-              ))}
+            {/* Success Text */}
+            <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
+              <h3 className="text-white text-3xl font-bold mb-1">Added to My Codes!</h3>
             </div>
           </div>
         </div>
