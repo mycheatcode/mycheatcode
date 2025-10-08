@@ -29,6 +29,14 @@ const StarProgressVisual = ({
   onClick,
   className = ""
 }: StarProgressVisualProps) => {
+  // Override all progress to 100% for hero image
+  progressData = {
+    preGame: 100,
+    inGame: 100,
+    postGame: 100,
+    offCourt: 100,
+    lockerRoom: 100
+  };
   const svgRef = useRef<SVGSVGElement>(null);
   const TAU = Math.PI * 2;
 
@@ -123,8 +131,13 @@ const StarProgressVisual = ({
     const sectorAngle = TAU / numSections;
 
     for (let section = 0; section < numSections; section++) {
-      // Force all sections to 70% (yellow/All-Star level) for equal display
-      const progress = 0.70;
+      // Use actual progress data (now forced to 100%)
+      const sectionProgress = section === 0 ? progressData.preGame :
+                             section === 1 ? progressData.inGame :
+                             section === 2 ? progressData.postGame :
+                             section === 3 ? progressData.offCourt :
+                             progressData.lockerRoom;
+      const progress = sectionProgress / 100;
       const sectionAngle = -Math.PI / 2 + section * sectorAngle;
 
       // Draw progress rings - use direct progress for equal arm lengths

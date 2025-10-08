@@ -514,6 +514,7 @@ const debugProgression = () => {
               expanded={legendExpanded}
               onToggle={() => setLegendExpanded(!legendExpanded)}
               isMobile={true}
+              currentPercentage={100}
             />
           </div>
 
