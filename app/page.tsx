@@ -656,56 +656,21 @@ const debugProgression = () => {
           </div>
 
 
-          {/* How It Works - Simple Info Box */}
-          <div className="absolute right-6 top-24 z-10 w-96">
-            <div className="bg-black/85 rounded-2xl p-6 backdrop-blur-sm border border-zinc-800">
-              <h3 className="text-white text-xl font-bold mb-4">How It Works</h3>
+          {/* The System - Motivational Callout */}
+          <div className="absolute right-6 top-32 z-10 w-80">
+            <div className="bg-black/40 rounded-xl p-6 backdrop-blur-sm border border-zinc-800/50">
+              <h3 className="text-zinc-500 text-xs font-bold mb-5 uppercase tracking-widest">The System</h3>
 
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-green-400 font-bold text-sm">1</span>
-                  </div>
-                  <div>
-                    <div className="text-white font-semibold mb-1">Chat & Create Codes</div>
-                    <div className="text-zinc-400 text-sm leading-relaxed">
-                      Start a chat or pick a community topic. Each conversation builds a mental performance cheat code.
-                    </div>
-                  </div>
+              <div className="space-y-3">
+                <div className="text-white text-lg font-medium leading-tight">
+                  Chat = Growth
                 </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-green-400 font-bold text-sm">2</span>
-                  </div>
-                  <div>
-                    <div className="text-white font-semibold mb-1">Fill Your Star</div>
-                    <div className="text-zinc-400 text-sm leading-relaxed">
-                      Creating codes in each category increases your progress in that area.
-                    </div>
-                  </div>
+                <div className="text-white text-lg font-medium leading-tight">
+                  Consistency = Strength
                 </div>
-
-                <div className="flex items-start gap-3">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-green-400 font-bold text-sm">3</span>
-                  </div>
-                  <div>
-                    <div className="text-white font-semibold mb-1">Stay Consistent</div>
-                    <div className="text-zinc-400 text-sm leading-relaxed">
-                      Progress fades if you don't engage with a category. Keep building to maintain your growth.
-                    </div>
-                  </div>
+                <div className="text-white text-lg font-medium leading-tight">
+                  Pick your focus below
                 </div>
-              </div>
-
-              <div className="mt-6 pt-4 border-t border-zinc-800">
-                <Link href="/community-topics" className="w-full bg-zinc-900 hover:bg-zinc-800 text-white py-3 px-4 rounded-xl text-sm font-semibold transition-colors flex items-center justify-between group">
-                  <span>Browse Community Topics</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="group-hover:translate-x-0.5 transition-transform">
-                    <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                  </svg>
-                </Link>
               </div>
             </div>
           </div>
