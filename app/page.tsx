@@ -671,10 +671,10 @@ const debugProgression = () => {
                 </div>
               </div>
 
-              {/* Levels Section */}
+              {/* Levels Section - Horizontal */}
               <div className="pt-4 border-t border-zinc-800/50">
                 <h4 className="text-zinc-500 text-xs font-bold mb-4 uppercase tracking-widest">Levels</h4>
-                <div className="space-y-3">
+                <div className="grid grid-cols-4 gap-3">
                   {[
                     { name: 'Beginner', range: '0-24%', color: '#DC1414' },
                     { name: 'Rookie', range: '25-49%', color: '#FF8C00' },
@@ -689,21 +689,19 @@ const debugProgression = () => {
                       (currentPercentage >= 75 && index === 3);
 
                     return (
-                      <div key={level.name} className="flex items-center gap-3">
-                        <svg width="12" height="12" viewBox="0 0 12 12">
+                      <div key={level.name} className="flex flex-col items-center text-center">
+                        <svg width="16" height="16" viewBox="0 0 12 12" className="mb-2">
                           <path
                             d="M6 1 L11 6 L6 11 L1 6 Z"
                             fill={level.color}
                             opacity={isCurrentLevel ? "1" : "0.4"}
                           />
                         </svg>
-                        <div className="flex-1">
-                          <div className={`text-sm font-semibold ${isCurrentLevel ? 'text-green-400' : 'text-white'}`}>
-                            {level.name}
-                          </div>
-                          <div className="text-zinc-500 text-xs">
-                            {level.range}
-                          </div>
+                        <div className={`text-xs font-semibold mb-1 ${isCurrentLevel ? 'text-green-400' : 'text-white'}`}>
+                          {level.name}
+                        </div>
+                        <div className="text-zinc-500 text-[10px]">
+                          {level.range}
                         </div>
                       </div>
                     );
@@ -733,8 +731,9 @@ const debugProgression = () => {
             <div className="text-center mb-4 -mt-12">
             {!isLoading && radarState && (
               <>
-                <div className="text-zinc-400 text-[20px] leading-7 max-w-[480px] mx-auto mb-4">
-                  Your progress grows as you create cheat codes in each area.<br />
+                <div className="text-zinc-400 text-[18px] leading-6 max-w-[480px] mx-auto mb-4">
+                  Your progress grows as you create cheat codes in each area.
+                  <br />
                   Start building your mental game.
                 </div>
               </>
@@ -745,7 +744,9 @@ const debugProgression = () => {
                   Loading your progression...
                 </div>
                 <div className="text-zinc-400 text-[14px] leading-6 max-w-[350px] mx-auto mb-4">
-                  Your progress grows as you create cheat codes in each area. Start building your mental game.
+                  Your progress grows as you create cheat codes in each area.
+                  <br />
+                  Start building your mental game.
                 </div>
               </>
             )}
