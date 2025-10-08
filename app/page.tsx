@@ -673,7 +673,7 @@ const debugProgression = () => {
 
               {/* Levels Section - Horizontal */}
               <div className="pt-4 border-t border-zinc-800/50">
-                <h4 className="text-zinc-500 text-xs font-bold mb-4 uppercase tracking-widest">Levels</h4>
+                <h4 className="text-zinc-500 text-xs font-bold mb-4 uppercase tracking-widest">Your Status</h4>
                 <div className="grid grid-cols-4 gap-3">
                   {[
                     { name: 'Beginner', range: '0-24%', color: '#DC1414' },
