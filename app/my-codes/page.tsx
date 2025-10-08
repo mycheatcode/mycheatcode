@@ -578,7 +578,7 @@ export default function MyCodesPage() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
             </svg>
-            <span className="text-xs">Codes lose power through inconsistency. Stay consistent to reach full power and be limitless.</span>
+            <span className="text-xs">Grow your streak by using codes regularly. Consistency keeps your mental game sharp.</span>
           </div>
         </div>
 
@@ -783,7 +783,7 @@ export default function MyCodesPage() {
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
               </svg>
-              <span className="text-sm">Codes lose power through inconsistency. Stay consistent to reach full power and be limitless.</span>
+              <span className="text-sm">Grow your streak by using codes regularly. Consistency keeps your mental game sharp.</span>
             </div>
           </div>
 
