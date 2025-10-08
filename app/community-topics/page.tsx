@@ -538,7 +538,7 @@ export default function CommunityTopics() {
               {/* Card content */}
               <div
                 onClick={() => handleTopicSelect(topic)}
-                className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98"
+                className="relative bg-black border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98"
               >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -734,7 +734,7 @@ export default function CommunityTopics() {
                 {/* Card content */}
                 <div
                   onClick={() => handleTopicSelect(topic)}
-                  className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
+                  className="relative bg-black border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
                 >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
