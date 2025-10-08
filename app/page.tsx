@@ -502,7 +502,7 @@ const debugProgression = () => {
 
         <div className="flex-1 flex flex-col px-4 pt-16 overflow-visible min-h-0">
           <div className="text-center mb-0 text-[18px] app-heading bg-gradient-to-b from-zinc-300 via-zinc-500 to-zinc-300 bg-clip-text text-transparent">
-            Back at it, Hunter
+            Welcome back
           </div>
 
           {/* Progress Legend - Mobile */}
@@ -715,7 +715,7 @@ const debugProgression = () => {
           <div className="flex-1 flex flex-col items-center justify-center">
             <div className="text-center mb-0">
               <div className="text-[40px] app-heading text-white mb-0">
-                Back at it, Hunter
+                Welcome back
               </div>
             </div>
 
