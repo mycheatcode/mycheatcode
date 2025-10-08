@@ -12,6 +12,212 @@ interface Message {
   timestamp: Date;
 }
 
+interface CheatCodeData {
+  title: string;
+  category: string;
+  what: string;
+  when: string;
+  how: string;
+  why: string;
+  phrase: string;
+}
+
+// Swipeable Cheat Code Cards Component
+function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
+  const [currentCard, setCurrentCard] = useState(0);
+
+  // Parse the how steps (they're in bullet format)
+  const howSteps = cheatCode.how.split('\n').filter(step => step.trim()).map(step => step.replace('• ', ''));
+
+  const cards = [
+    {
+      type: 'title',
+      label: 'CHEAT CODE',
+      title: cheatCode.title,
+      subtitle: cheatCode.category
+    },
+    {
+      type: 'content',
+      heading: 'What',
+      content: cheatCode.what
+    },
+    {
+      type: 'content',
+      heading: 'When',
+      content: cheatCode.when
+    },
+    {
+      type: 'how',
+      heading: 'How',
+      steps: howSteps
+    },
+    {
+      type: 'why',
+      heading: 'Why',
+      content: cheatCode.why
+    },
+    {
+      type: 'phrase',
+      heading: 'Your Cheat Code Phrase',
+      phrase: `"${cheatCode.phrase}"`
+    }
+  ];
+
+  const nextCard = () => {
+    if (currentCard < cards.length - 1) {
+      setCurrentCard(currentCard + 1);
+    }
+  };
+
+  const prevCard = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+    }
+  };
+
+  const resetCards = () => {
+    setCurrentCard(0);
+  };
+
+  const card = cards[currentCard];
+
+  return (
+    <div className="w-full max-w-md mx-auto">
+      {/* Card Container */}
+      <div className="bg-zinc-900 rounded-3xl px-8 py-12 min-h-[600px] flex flex-col relative">
+
+        {/* Top Navigation */}
+        <div className="absolute top-8 left-8 right-8 flex justify-between">
+          <button
+            onClick={prevCard}
+            disabled={currentCard === 0}
+            className={`p-2 rounded-xl transition-colors ${
+              currentCard === 0
+                ? 'text-zinc-700 cursor-not-allowed'
+                : 'text-white hover:bg-zinc-800'
+            }`}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+
+          {currentCard === cards.length - 1 ? (
+            <button
+              onClick={resetCards}
+              className="text-white hover:bg-zinc-800 px-4 py-2 rounded-xl transition-colors text-sm font-medium"
+            >
+              Reset
+            </button>
+          ) : (
+            <button
+              onClick={nextCard}
+              disabled={currentCard === cards.length - 1}
+              className="text-white hover:bg-zinc-800 p-2 rounded-xl transition-colors"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </button>
+          )}
+        </div>
+
+        {/* Card Content */}
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 mt-12">
+          {card.type === 'title' && (
+            <div className="space-y-6">
+              <div className="text-zinc-500 text-xs uppercase font-medium tracking-widest">
+                {card.label}
+              </div>
+              <h1 className="text-5xl font-bold text-white leading-tight">
+                {card.title}
+              </h1>
+              <div className="text-zinc-400 text-sm uppercase tracking-widest">
+                {card.subtitle}
+              </div>
+            </div>
+          )}
+
+          {card.type === 'content' && (
+            <div className="space-y-8 max-w-md">
+              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                {card.heading}
+              </div>
+              <p className="text-white text-3xl font-medium leading-snug">
+                {card.content}
+              </p>
+            </div>
+          )}
+
+          {card.type === 'how' && 'steps' in card && (
+            <div className="space-y-8 max-w-lg">
+              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                {card.heading}
+              </div>
+              <div className="space-y-6 text-left">
+                {(card as any).steps.map((step: string, index: number) => (
+                  <div key={index} className="flex gap-4 items-start">
+                    <div className="text-white font-bold text-2xl flex-shrink-0">
+                      {index + 1}.
+                    </div>
+                    <p className="text-white text-2xl font-medium leading-snug">
+                      {step}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {card.type === 'why' && (
+            <div className="space-y-8 max-w-lg">
+              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                {card.heading}
+              </div>
+              <p className="text-white text-xl font-normal leading-relaxed">
+                {card.content}
+              </p>
+            </div>
+          )}
+
+          {card.type === 'phrase' && (
+            <div className="space-y-12 w-full max-w-md">
+              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                {card.heading}
+              </div>
+              <p className="text-white text-5xl font-bold leading-tight">
+                {card.phrase}
+              </p>
+              <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-colors">
+                Add to "My Codes"
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Progress Dots */}
+        <div className="flex justify-center gap-2 pt-8">
+          {cards.map((_, index) => (
+            <div
+              key={index}
+              className={`h-1.5 rounded-full transition-all ${
+                index === currentCard
+                  ? 'w-8 bg-white'
+                  : 'w-1.5 bg-zinc-700'
+              }`}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Card Counter */}
+      <div className="text-center text-zinc-600 text-sm mt-4">
+        {currentCard + 1} of {cards.length}
+      </div>
+    </div>
+  );
+}
+
 // Pre-populated demo conversation
 const demoMessages: Message[] = [
   {
@@ -297,55 +503,8 @@ export default function DemoChatPage() {
                                 </div>
                               )}
 
-                              {/* Cheat code box - Matching My Codes page design */}
-                              <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
-                                <div className="flex items-center gap-2 mb-4">
-                                  <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
-                                </div>
-                                <div className="space-y-4">
-                                  <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                  <div className="text-zinc-400 text-sm uppercase tracking-wide">{cheatCode.category}</div>
-                                  <div className="space-y-3 text-base">
-                                    {cheatCode.what && (
-                                      <div className="leading-relaxed">
-                                        <div className="text-zinc-400 font-semibold mb-1">What:</div>
-                                        <div className="text-white">{cheatCode.what}</div>
-                                      </div>
-                                    )}
-                                    {cheatCode.when && (
-                                      <div className="leading-relaxed">
-                                        <div className="text-zinc-400 font-semibold mb-1">When:</div>
-                                        <div className="text-white">{cheatCode.when}</div>
-                                      </div>
-                                    )}
-                                    {cheatCode.how && (
-                                      <div className="leading-relaxed">
-                                        <div className="text-zinc-400 font-semibold mb-1">How:</div>
-                                        <div className="text-white whitespace-pre-line">{cheatCode.how}</div>
-                                      </div>
-                                    )}
-                                    {cheatCode.why && (
-                                      <div className="leading-relaxed">
-                                        <div className="text-zinc-400 font-semibold mb-1">Why:</div>
-                                        <div className="text-white">{cheatCode.why}</div>
-                                      </div>
-                                    )}
-                                    {cheatCode.phrase && (
-                                      <div className="leading-relaxed">
-                                        <div className="text-zinc-400 font-semibold mb-1">Cheat Code Phrase:</div>
-                                        <div className="text-white">"{cheatCode.phrase}"</div>
-                                      </div>
-                                    )}
-                                  </div>
-
-                                  {/* Add to My Codes Button */}
-                                  <div className="mt-6 pt-4 border-t border-zinc-800">
-                                    <button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium py-3 px-4 rounded-xl transition-colors border border-zinc-700">
-                                      Add to "My Codes"
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
+                              {/* Swipeable Cheat Code Cards */}
+                              <CheatCodeCards cheatCode={cheatCode} />
                             </div>
                           );
                         })()}
