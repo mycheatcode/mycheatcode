@@ -617,9 +617,9 @@ export default function ChatHistory() {
             <div className="text-zinc-400 text-lg leading-relaxed">Your conversations and cheat code journey</div>
           </div>
 
-          {/* Search and Filters */}
-          <div className="flex gap-4 mb-8">
-            <div className="flex-1 relative">
+          {/* Search */}
+          <div className="mb-6">
+            <div className="relative">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="absolute left-4 top-1/2 transform -translate-y-1/2 text-zinc-400">
                 <circle cx="11" cy="11" r="8"></circle>
                 <path d="21 21l-4.35-4.35"></path>
@@ -632,8 +632,11 @@ export default function ChatHistory() {
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl pl-12 pr-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500"
               />
             </div>
-            <div className="flex gap-3">
-              {filters.map((filter) => {
+          </div>
+
+          {/* Filters */}
+          <div className="flex gap-3 mb-8 overflow-x-auto scrollbar-hide">
+            {filters.map((filter) => {
                 const getFilterColors = () => {
                   if (filter === 'All') return 'bg-white/5 border border-white/10 hover:bg-white/10';
                   if (filter === 'With Cheat Codes') return 'bg-red-500/[0.075] border border-white/10 hover:bg-red-500/[0.125]';
@@ -658,11 +661,10 @@ export default function ChatHistory() {
                   </button>
                 );
               })}
-            </div>
           </div>
 
           {/* Chat Grid */}
-          <div className="space-y-4">
+          <div className="space-y-6">
             {getFilteredChats().length === 0 ? (
               <div className="text-center py-16">
                 <div className="text-8xl mb-6">💭</div>
