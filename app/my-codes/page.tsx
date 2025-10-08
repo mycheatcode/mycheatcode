@@ -41,6 +41,9 @@ export default function MyCodesPage() {
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
   const [animatingCode, setAnimatingCode] = useState<number | null>(null);
   const [animationType, setAnimationType] = useState<'archive' | 'reactivate' | null>(null);
+  const [currentCard, setCurrentCard] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [hasAdded, setHasAdded] = useState(false);
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([
     {
       id: 1,
@@ -400,6 +403,86 @@ export default function MyCodesPage() {
     router.push('/chat');
   };
 
+  // Parse summary into card data
+  const parseCheatCodeSummary = (summary: string) => {
+    const sections = summary.split('\n\n');
+    let what = '', when = '', how = '', why = '', phrase = '';
+
+    sections.forEach(section => {
+      if (section.startsWith('**What**:')) {
+        what = section.replace('**What**: ', '').trim();
+      } else if (section.startsWith('**When**:')) {
+        when = section.replace('**When**: ', '').trim();
+      } else if (section.startsWith('**How**:')) {
+        how = section.replace('**How**: ', '').trim();
+      } else if (section.startsWith('**Why**:')) {
+        why = section.replace('**Why**: ', '').trim();
+      } else if (section.startsWith('**Cheat Code Phrase**:')) {
+        phrase = section.replace('**Cheat Code Phrase**: ', '').replace(/"/g, '').trim();
+      }
+    });
+
+    // Split "How" into steps (assuming comma-separated or sentence-based)
+    const howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+
+    return { what, when, howSteps, why, phrase };
+  };
+
+  // Build cards array for swipeable interface
+  const buildCards = (code: CheatCode) => {
+    const { what, when, howSteps, why, phrase } = parseCheatCodeSummary(code.summary);
+
+    return [
+      { type: 'title', title: code.title, category: code.category },
+      { type: 'section', heading: 'What', content: what },
+      { type: 'section', heading: 'When', content: when },
+      ...howSteps.map((step, index) => ({
+        type: 'step',
+        heading: 'How',
+        stepNumber: index + 1,
+        totalSteps: howSteps.length,
+        content: step
+      })),
+      { type: 'section', heading: 'Why', content: why },
+      { type: 'phrase', heading: 'Your Cheat Code Phrase', content: phrase }
+    ];
+  };
+
+  // Card navigation
+  const nextCard = () => {
+    if (!selectedCode) return;
+    const cards = buildCards(selectedCode);
+    if (currentCard < cards.length - 1) {
+      setCurrentCard(currentCard + 1);
+    }
+  };
+
+  const prevCard = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+    }
+  };
+
+  const resetCards = () => {
+    setCurrentCard(0);
+    setShowSuccess(false);
+    setHasAdded(false);
+  };
+
+  const handleAddToMyCodes = () => {
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+      setHasAdded(true);
+    }, 2000);
+  };
+
+  // Reset states when closing modal
+  const handleCloseModal = () => {
+    setSelectedCode(null);
+    resetCards();
+  };
+
   return (
     <div className="bg-black min-h-screen text-white font-sans starfield-background">
       {/* Starfield Background */}
@@ -504,7 +587,7 @@ export default function MyCodesPage() {
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
-              className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all duration-500 ${
+              className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-6 min-h-[200px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all duration-500 ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
@@ -518,40 +601,32 @@ export default function MyCodesPage() {
             >
               {/* Archive Badge */}
               {code.archived && (
-                <div className="absolute top-4 right-4">
-                  <div className="inline-block px-3 py-1 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                    <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">Archived</span>
+                <div className="absolute top-3 right-3">
+                  <div className="inline-block px-2.5 py-0.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                    <span className="text-zinc-400 text-[10px] uppercase font-semibold tracking-wider">Archived</span>
                   </div>
                 </div>
               )}
 
               {/* Card Content - Matching Title Card Style */}
-              <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
-                <div className="inline-block mx-auto px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+              <div className="space-y-4 flex-1 flex flex-col justify-center text-center">
+                <div className="inline-block mx-auto px-3 py-1 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-[10px] uppercase font-semibold tracking-wider">
                     Cheat Code
                   </span>
                 </div>
-                <h1 className="text-4xl font-bold text-white leading-tight tracking-tight px-4">
+                <h1 className="text-2xl font-bold text-white leading-tight tracking-tight px-2">
                   {code.title}
                 </h1>
-                <div className="text-zinc-400 text-sm font-medium uppercase tracking-wide">
+                <div className="text-zinc-400 text-xs font-medium uppercase tracking-wide">
                   {code.category}
-                </div>
-
-                {/* Streak Badge */}
-                <div className="flex items-center justify-center gap-2 pt-2">
-                  <span className="text-base">{getStreakIcon(code.streakType)}</span>
-                  <span className="text-zinc-300 text-sm font-medium">
-                    {getStreakText(code.streak, code.streakType)}
-                  </span>
                 </div>
               </div>
 
               {/* View Code Button */}
               <button
                 onClick={() => setSelectedCode(code)}
-                className="w-full bg-white text-black py-4 rounded-2xl font-semibold text-base hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-6"
+                className="w-full bg-white text-black py-3 rounded-2xl font-semibold text-sm hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-4"
               >
                 View Code
               </button>
@@ -777,126 +852,202 @@ export default function MyCodesPage() {
         </div>
       </div>
 
-      {/* Cheat Code Summary Modal */}
+      {/* Cheat Code Cue Cards Modal */}
       {selectedCode && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-zinc-950 border border-zinc-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b border-zinc-800">
-              <div className="flex-1">
-                <h2 className="text-xl font-semibold text-white mb-1">{selectedCode.title}</h2>
-                <div className="text-zinc-400 text-sm uppercase tracking-wide">{selectedCode.category}</div>
-              </div>
-              <button
-                onClick={() => setSelectedCode(null)}
-                className="p-2 text-zinc-400 hover:text-white transition-colors"
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+          {/* Close Button */}
+          <button
+            onClick={handleCloseModal}
+            className="absolute top-6 right-6 p-3 text-zinc-400 hover:text-white transition-colors z-[120] bg-zinc-900/50 rounded-full border border-zinc-800/50"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+
+          {/* Card Container */}
+          <div className="relative max-w-2xl w-full">
+            {/* Navigation Arrows */}
+            <button
+              onClick={prevCard}
+              disabled={currentCard === 0}
+              className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-[115] ${
+                currentCard === 0
+                  ? 'opacity-30 cursor-not-allowed bg-zinc-800/50'
+                  : 'bg-zinc-900/90 hover:bg-zinc-800 active:scale-95 backdrop-blur-sm border border-zinc-700/50'
+              }`}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+              </svg>
+            </button>
+
+            <button
+              onClick={nextCard}
+              disabled={currentCard === buildCards(selectedCode).length - 1}
+              className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-[115] ${
+                currentCard === buildCards(selectedCode).length - 1
+                  ? 'opacity-30 cursor-not-allowed bg-zinc-800/50'
+                  : 'bg-zinc-900/90 hover:bg-zinc-800 active:scale-95 backdrop-blur-sm border border-zinc-700/50'
+              }`}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+              </svg>
+            </button>
+
+            {/* Success Animation */}
+            {showSuccess && (
+              <div
+                className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm"
+                style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards' }}
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                </svg>
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6">
-              {/* Power and Streak Info */}
-              <div className="flex items-center gap-6 mb-6">
-                <div className="flex items-center gap-2">
-                  <span className="text-zinc-400 text-sm">Power:</span>
-                  <span className="text-white font-semibold">{selectedCode.power}%</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className="text-zinc-400 text-sm">Streak:</span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-sm">{getStreakIcon(selectedCode.streakType)}</span>
-                    <span className="text-white text-sm font-medium">
-                      {getStreakText(selectedCode.streak, selectedCode.streakType)}
-                    </span>
+                <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                    <polyline points="20 6 9 17 4 12" strokeDasharray="100" strokeDashoffset="0"
+                      style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
+                  </svg>
+                  <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
+                    <h3 className="text-white text-3xl font-bold mb-1">Added to My Codes!</h3>
                   </div>
                 </div>
               </div>
+            )}
 
-              {/* Summary */}
-              <div className="mb-6">
-                <h3 className="text-white font-semibold mb-3">Your Cheat Code Strategy</h3>
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4">
-                  <div className="text-zinc-300 leading-relaxed space-y-3">
-                    {selectedCode.summary.split('\n\n').map((section, index) => {
-                      if (section.startsWith('**')) {
-                        const [boldPart, ...rest] = section.split('**: ');
-                        const label = boldPart.replace(/\*\*/g, '');
-                        const content = rest.join('**: ');
-                        return (
-                          <div key={index}>
-                            <span className="text-white font-medium">{label}:</span>{' '}
-                            <span>{content}</span>
-                          </div>
-                        );
-                      }
-                      return <div key={index}>{section}</div>;
-                    })}
-                  </div>
+            {/* Card Display */}
+            {(() => {
+              const cards = buildCards(selectedCode);
+              const card = cards[currentCard];
+
+              return (
+                <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-12 min-h-[500px] flex items-center justify-center shadow-2xl border border-zinc-800/50">
+                  {/* Title Card */}
+                  {card.type === 'title' && (
+                    <div className="space-y-10 text-center max-w-lg">
+                      <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                        <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                          Cheat Code
+                        </span>
+                      </div>
+                      <h1 className="text-5xl font-bold text-white leading-tight tracking-tight">
+                        {(card as any).title}
+                      </h1>
+                      <div className="text-zinc-400 text-base font-medium uppercase tracking-wide">
+                        {(card as any).category}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Section Cards (What, When, Why) */}
+                  {card.type === 'section' && (
+                    <div className="space-y-10 max-w-lg">
+                      <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                        <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                          {(card as any).heading}
+                        </span>
+                      </div>
+                      {(card as any).heading === 'Why' ? (
+                        <div className="space-y-6">
+                          {(card as any).content.split(/\n\n/).map((paragraph: string, i: number) => (
+                            <p key={i} className="text-white text-2xl font-normal leading-relaxed text-left">
+                              {paragraph}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-white text-2xl font-normal leading-relaxed text-left">
+                          {(card as any).content}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Step Cards */}
+                  {card.type === 'step' && 'stepNumber' in card && (
+                    <div className="space-y-10 max-w-lg">
+                      <div className="space-y-3">
+                        <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                          <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                            {(card as any).heading}
+                          </span>
+                        </div>
+                        <div className="text-zinc-500 text-sm font-medium">
+                          Step {(card as any).stepNumber} of {(card as any).totalSteps}
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-6">
+                        <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                          <span className="text-white font-bold text-2xl">{(card as any).stepNumber}</span>
+                        </div>
+                        <p className="text-white text-2xl font-normal leading-relaxed text-left flex-1 pt-3">
+                          {(card as any).content}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Phrase Card (Final) */}
+                  {card.type === 'phrase' && (
+                    <div className="space-y-10 max-w-lg w-full">
+                      <div className="space-y-10 text-center">
+                        <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                          <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                            {(card as any).heading}
+                          </span>
+                        </div>
+                        <p className="text-white text-4xl font-bold leading-tight">
+                          "{(card as any).content}"
+                        </p>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="space-y-3 pt-6">
+                        <button
+                          onClick={handleAddToMyCodes}
+                          disabled={showSuccess || hasAdded}
+                          className={`w-full py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg ${
+                            hasAdded
+                              ? 'bg-green-500 text-white cursor-default'
+                              : 'bg-white text-black hover:bg-zinc-100 active:scale-[0.98]'
+                          }`}
+                        >
+                          {hasAdded ? "Added!" : "Add to \"My Codes\""}
+                        </button>
+
+                        {hasAdded && (
+                          <a
+                            href="/my-codes"
+                            className="w-full block text-center bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg"
+                          >
+                            View All Codes
+                          </a>
+                        )}
+
+                        <button
+                          onClick={resetCards}
+                          className="w-full text-zinc-400 hover:text-white py-4 rounded-2xl font-medium text-base transition-colors"
+                        >
+                          Back to Start
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              </div>
+              );
+            })()}
 
-              {/* Action Buttons */}
-              <div className="space-y-3">
-                <button
-                  onClick={() => {
-                    handleUseCheatCode(selectedCode);
-                    setSelectedCode(null); // Close modal after use
-                  }}
-                  className="w-full bg-green-600 text-white py-3 rounded-xl text-sm font-bold hover:bg-green-500 transition-all active:scale-95 flex items-center justify-center gap-2"
-                >
-                  Use Cheat Code
-                </button>
-                <button
-                  onClick={() => handleOpenChat(selectedCode)}
-                  className="w-full bg-zinc-800 border border-zinc-700 text-white py-2.5 rounded-xl text-sm font-medium hover:bg-zinc-700 transition-colors"
-                >
-                  Open Chat
-                </button>
-              </div>
-
-              <div className="flex items-center justify-center py-3">
-                <button
-                  onClick={() => toggleArchiveStatus(selectedCode.id)}
-                  className={`text-sm font-medium transition-colors hover:opacity-70 ${
-                    selectedCode.archived
-                      ? 'text-green-400'
-                      : 'text-zinc-400'
+            {/* Progress Indicator */}
+            <div className="flex justify-center gap-2 mt-6">
+              {buildCards(selectedCode).map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1.5 rounded-full transition-all ${
+                    index === currentCard
+                      ? 'w-8 bg-white'
+                      : 'w-1.5 bg-zinc-700'
                   }`}
-                >
-                  {selectedCode.archived ? 'Reactivate' : 'Archive'}
-                </button>
-              </div>
-
-              {/* Archive Status Indicator */}
-              {selectedCode.archived && (
-                <div className="mb-3 p-3 bg-zinc-800/50 border border-zinc-700/50 rounded-lg">
-                  <div className="flex items-center gap-2 text-xs text-zinc-400">
-                    <div className="w-1.5 h-1.5 bg-zinc-500 rounded-full"></div>
-                    <span>This code is archived and doesn't count toward your average Cheat Code Power</span>
-                  </div>
-                </div>
-              )}
-
-              {!selectedCode.archived && (
-                <div className="mb-3 p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-                  <div className="flex items-center gap-2 text-xs text-green-400">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-                    <span>This code is active and contributing to your average Cheat Code Power</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Session Info */}
-              <div className="mt-3 pt-3 border-t border-zinc-800">
-                <div className="flex justify-between text-sm text-zinc-400">
-                  <span>Last session: {selectedCode.lastSession}</span>
-                  <span>{selectedCode.sessionsCompleted} sessions completed</span>
-                </div>
-              </div>
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -913,6 +1064,35 @@ export default function MyCodesPage() {
 
       {/* Starfield CSS Styles */}
       <style jsx global>{`
+        @keyframes fade-in-scale {
+          0% {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes fade-out {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes checkmark-draw {
+          0% {
+            stroke-dashoffset: 100;
+          }
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+
         .starfield-container {
           position: fixed;
           top: 0;
