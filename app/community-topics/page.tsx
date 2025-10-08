@@ -531,11 +531,15 @@ export default function CommunityTopics() {
         {/* Topics List */}
         <div className="px-4 pb-4 space-y-3">
           {getFilteredTopics().map((topic) => (
-            <div
-              key={topic.id}
-              onClick={() => handleTopicSelect(topic)}
-              className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98 relative"
-            >
+            <div key={topic.id} className="relative">
+              {/* Opaque background layer */}
+              <div className="absolute inset-0 bg-black rounded-xl"></div>
+
+              {/* Card content */}
+              <div
+                onClick={() => handleTopicSelect(topic)}
+                className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98"
+              >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
                   {topic.trending}
@@ -554,6 +558,7 @@ export default function CommunityTopics() {
               <div className="flex items-center gap-1 text-xs text-zinc-500">
                 <div className="w-1 h-1 bg-white rounded-full"></div>
                 <span>{topic.stats}</span>
+              </div>
               </div>
             </div>
           ))}
@@ -722,11 +727,15 @@ export default function CommunityTopics() {
           {/* Topics Grid */}
           <div className="grid grid-cols-1 gap-6">
             {getFilteredTopics().map((topic) => (
-              <div
-                key={topic.id}
-                onClick={() => handleTopicSelect(topic)}
-                className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01] relative"
-              >
+              <div key={topic.id} className="relative">
+                {/* Opaque background layer */}
+                <div className="absolute inset-0 bg-black rounded-xl"></div>
+
+                {/* Card content */}
+                <div
+                  onClick={() => handleTopicSelect(topic)}
+                  className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
+                >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
                     {topic.trending}
@@ -745,6 +754,7 @@ export default function CommunityTopics() {
                 <div className="flex items-center gap-2 text-sm text-zinc-500">
                   <div className="w-1 h-1 bg-white rounded-full"></div>
                   <span>{topic.stats}</span>
+                </div>
                 </div>
               </div>
             ))}
