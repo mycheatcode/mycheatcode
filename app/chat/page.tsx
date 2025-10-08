@@ -99,21 +99,26 @@ export default function ChatPage() {
 
     if (isAlternativeFormat) {
       // Parse alternative format (Title/Trigger/Cue phrase/etc.)
-      const titleMatch = text.match(/Title:\s*(.+?)(?=\n|$)/i);
-      const triggerMatch = text.match(/Trigger:\s*(.+?)(?=\n|$)/i);
-      const cueMatch = text.match(/Cue phrase:\s*"?([^"\n]+)"?/i);
-      const firstActionMatch = text.match(/First action:\s*(.+?)(?=\n|$)/i);
-      const ifThenMatch = text.match(/If\/Then:\s*([\s\S]*?)(?=Reps:|$)/i);
-      const repsMatch = text.match(/Reps:\s*([\s\S]*?)$/i);
+      // Handle both with and without asterisks
+      const titleMatch = text.match(/\*\*Title:\*\*\s*(.+?)(?=\n|$)/i) || text.match(/Title:\s*(.+?)(?=\n|$)/i);
+      const triggerMatch = text.match(/\*\*Trigger:\*\*\s*(.+?)(?=\*\*Cue|Cue|$)/i) || text.match(/Trigger:\s*(.+?)(?=\n|$)/i);
+      const cueMatch = text.match(/\*\*Cue phrase:\*\*\s*"?([^"\n*]+)"?/i) || text.match(/Cue phrase:\s*"?([^"\n]+)"?/i);
+      const firstActionMatch = text.match(/\*\*First action:\*\*\s*(.+?)(?=\*\*If|If|$)/i) || text.match(/First action:\s*(.+?)(?=\n|$)/i);
+      const ifThenMatch = text.match(/\*\*If\/Then:\*\*\s*([\s\S]*?)(?=\*\*Reps:|Reps:|$)/i) || text.match(/If\/Then:\s*([\s\S]*?)(?=Reps:|$)/i);
+      const repsMatch = text.match(/\*\*Reps:\*\*\s*([\s\S]*?)$/i) || text.match(/Reps:\s*([\s\S]*?)$/i);
 
       cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
       cheatCode.category = 'In-Game';
       cheatCode.when = triggerMatch ? triggerMatch[1].trim() : '';
       cheatCode.phrase = cueMatch ? cueMatch[1].trim() : '';
-      cheatCode.how = (firstActionMatch ? firstActionMatch[1].trim() + '\n' : '') +
-                      (ifThenMatch ? ifThenMatch[1].trim() : '');
+
+      // Build the "How" section from First action and If/Then
+      const firstAction = firstActionMatch ? firstActionMatch[1].trim() : '';
+      const ifThen = ifThenMatch ? ifThenMatch[1].trim() : '';
+      cheatCode.how = [firstAction, ifThen].filter(Boolean).join('\n');
+
       cheatCode.practice = repsMatch ? repsMatch[1].trim() : '';
-      cheatCode.what = ''; // Not present in this format
+      cheatCode.what = '3-step mental reset for clutch free throws'; // Default description
       cheatCode.why = ''; // Not present in this format
     } else {
       // Parse standard format
@@ -767,38 +772,36 @@ export default function ChatPage() {
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
                                     <div className="text-zinc-400 text-sm uppercase tracking-wide">{cheatCode.category}</div>
                                     <div className="space-y-3 text-base">
-                                      {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                      {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                      {cheatCode.how && <div><span className="text-zinc-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                      {cheatCode.why && <div><span className="text-zinc-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                      {cheatCode.phrase && <div><span className="text-zinc-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                      {cheatCode.practice && <div><span className="text-zinc-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
-                                    </div>
-
-                                    {/* Power Bar - Matching My Codes page exactly */}
-                                    <div className="mt-4 space-y-2">
-                                      <div className="flex justify-between items-center">
-                                        <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                        <span className="text-white text-sm font-semibold">75%</span>
-                                      </div>
-                                      <div className="w-full h-6 bg-white/5 rounded-full overflow-hidden relative">
-                                        <div
-                                          className="h-full rounded-full transition-all duration-300 ease-out"
-                                          style={{
-                                            background: 'linear-gradient(90deg, #FF0000 0%, #FF0000 26.67%, #FFA500 33.33%, #FFA500 66.67%, #FFFF00 73.33%, #FFFF00 100%)',
-                                            width: '75%'
-                                          }}
-                                        ></div>
-                                        {/* Subtle highlight overlay for premium feel */}
-                                        <div
-                                          className="absolute top-0 left-0 h-full rounded-full opacity-20 transition-all duration-300 ease-out"
-                                          style={{
-                                            background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%)',
-                                            width: '75%'
-                                          }}
-                                        ></div>
-                                      </div>
-                                      <p className="text-xs text-zinc-400">Log a usage to activate this code and build its strength</p>
+                                      {cheatCode.what && (
+                                        <div className="leading-relaxed">
+                                          <div className="text-zinc-400 font-semibold mb-1">What:</div>
+                                          <div className="text-white">{cheatCode.what}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.when && (
+                                        <div className="leading-relaxed">
+                                          <div className="text-zinc-400 font-semibold mb-1">When:</div>
+                                          <div className="text-white">{cheatCode.when}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.how && (
+                                        <div className="leading-relaxed">
+                                          <div className="text-zinc-400 font-semibold mb-1">How:</div>
+                                          <div className="text-white whitespace-pre-line">{cheatCode.how}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.why && (
+                                        <div className="leading-relaxed">
+                                          <div className="text-zinc-400 font-semibold mb-1">Why:</div>
+                                          <div className="text-white">{cheatCode.why}</div>
+                                        </div>
+                                      )}
+                                      {cheatCode.phrase && (
+                                        <div className="leading-relaxed">
+                                          <div className="text-zinc-400 font-semibold mb-1">Cheat Code Phrase:</div>
+                                          <div className="text-white">"{cheatCode.phrase}"</div>
+                                        </div>
+                                      )}
                                     </div>
 
                                     {/* Add to My Codes Button */}
