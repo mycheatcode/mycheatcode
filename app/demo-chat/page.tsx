@@ -25,6 +25,7 @@ interface CheatCodeData {
 // Swipeable Cheat Code Cards Component - Modal Version
 function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onClose: () => void }) {
   const [currentCard, setCurrentCard] = useState(0);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   // Parse the how steps (they're in bullet format)
   const howSteps = cheatCode.how.split('\n').filter(step => step.trim()).map(step => step.replace('• ', ''));
@@ -82,10 +83,33 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
     setCurrentCard(0);
   };
 
+  const handleAddToMyCodes = () => {
+    setShowSuccess(true);
+    setTimeout(() => {
+      setShowSuccess(false);
+    }, 3000);
+  };
+
   const card = cards[currentCard];
 
   return (
     <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
+      <style jsx>{`
+        @keyframes scale-in {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.2);
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+      `}</style>
+
       {/* Close button */}
       <button
         onClick={onClose}
@@ -212,9 +236,22 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                   <p className="text-white text-5xl font-bold leading-tight">
                     {(card as any).phrase}
                   </p>
-                  <div className="space-y-4">
-                    <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg">
-                      Add to "My Codes"
+                  <div className="space-y-4 relative">
+                    <button
+                      onClick={handleAddToMyCodes}
+                      disabled={showSuccess}
+                      className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+                    >
+                      {showSuccess ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="animate-[scale-in_0.3s_ease-out]">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                          </svg>
+                          Added to My Codes!
+                        </span>
+                      ) : (
+                        "Add to \"My Codes\""
+                      )}
                     </button>
                     <button
                       onClick={resetCards}
@@ -544,7 +581,7 @@ export default function DemoChatPage() {
                                   setCurrentCheatCode(cheatCode);
                                   setShowCheatCode(true);
                                 }}
-                                className="bg-white text-black px-6 py-3 rounded-xl font-semibold hover:bg-zinc-200 transition-colors"
+                                className="w-full bg-white text-black px-6 py-4 rounded-xl font-semibold hover:bg-zinc-200 active:scale-[0.98] transition-all shadow-lg"
                               >
                                 View Cheat Code
                               </button>
