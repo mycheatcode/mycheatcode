@@ -62,6 +62,16 @@ export default function ChatPage() {
 
   // Helper to split message into intro text and cheat code
   const splitCheatCodeMessage = (text: string) => {
+    // Check if the cheat code info is inline (all on one or few lines)
+    const inlineMatch = text.match(/(.*?)(Title:[\s\S]*)/i);
+
+    if (inlineMatch) {
+      const intro = inlineMatch[1].trim();
+      const cheatCodeText = inlineMatch[2].trim();
+      return { intro, cheatCodeText };
+    }
+
+    // Otherwise use line-by-line detection
     const lines = text.split('\n');
     let cheatCodeStartIndex = -1;
 
@@ -74,7 +84,7 @@ export default function ChatPage() {
         break;
       }
       // Look for alternative format markers
-      if (line.match(/^Title:/i) || line.match(/^Trigger:/i)) {
+      if (line.match(/^Title:/i) || line.match(/^Trigger:/i) || line.includes('Title:')) {
         cheatCodeStartIndex = i;
         break;
       }
@@ -99,27 +109,35 @@ export default function ChatPage() {
 
     if (isAlternativeFormat) {
       // Parse alternative format (Title/Trigger/Cue phrase/etc.)
-      // Handle both with and without asterisks
-      const titleMatch = text.match(/\*\*Title:\*\*\s*(.+?)(?=\n|$)/i) || text.match(/Title:\s*(.+?)(?=\n|$)/i);
-      const triggerMatch = text.match(/\*\*Trigger:\*\*\s*(.+?)(?=\*\*Cue|Cue|$)/i) || text.match(/Trigger:\s*(.+?)(?=\n|$)/i);
-      const cueMatch = text.match(/\*\*Cue phrase:\*\*\s*"?([^"\n*]+)"?/i) || text.match(/Cue phrase:\s*"?([^"\n]+)"?/i);
-      const firstActionMatch = text.match(/\*\*First action:\*\*\s*(.+?)(?=\*\*If|If|$)/i) || text.match(/First action:\s*(.+?)(?=\n|$)/i);
-      const ifThenMatch = text.match(/\*\*If\/Then:\*\*\s*([\s\S]*?)(?=\*\*Reps:|Reps:|$)/i) || text.match(/If\/Then:\s*([\s\S]*?)(?=Reps:|$)/i);
-      const repsMatch = text.match(/\*\*Reps:\*\*\s*([\s\S]*?)$/i) || text.match(/Reps:\s*([\s\S]*?)$/i);
+      // Handle both with and without asterisks, including inline format
+      const titleMatch = text.match(/Title:\s*([^T\n]+?)(?=Trigger:|$)/i);
+      const triggerMatch = text.match(/Trigger:\s*([^C\n]+?)(?=Cue phrase:|$)/i);
+      const cueMatch = text.match(/Cue phrase:\s*"?([^"F\n]+?)"?\s*(?=First action:|$)/i);
+      const firstActionMatch = text.match(/First action:\s*([^I\n]+?)(?=If\/Then:|$)/i);
+      const ifThenMatch = text.match(/If\/Then:\s*([^R]+?)(?=Reps:|$)/i);
+      const repsMatch = text.match(/Reps:\s*([\s\S]+?)(?=Does|$)/i);
 
       cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
       cheatCode.category = 'In-Game';
+
+      // Map to standard format
+      cheatCode.what = titleMatch ? titleMatch[1].trim() : '';
       cheatCode.when = triggerMatch ? triggerMatch[1].trim() : '';
       cheatCode.phrase = cueMatch ? cueMatch[1].trim() : '';
 
       // Build the "How" section from First action and If/Then
       const firstAction = firstActionMatch ? firstActionMatch[1].trim() : '';
       const ifThen = ifThenMatch ? ifThenMatch[1].trim() : '';
-      cheatCode.how = [firstAction, ifThen].filter(Boolean).join('\n');
+      const reps = repsMatch ? repsMatch[1].trim() : '';
 
-      cheatCode.practice = repsMatch ? repsMatch[1].trim() : '';
-      cheatCode.what = '3-step mental reset for clutch free throws'; // Default description
-      cheatCode.why = ''; // Not present in this format
+      const howParts = [];
+      if (firstAction) howParts.push(`• ${firstAction}`);
+      if (ifThen) howParts.push(`• ${ifThen}`);
+      if (reps) howParts.push(`• ${reps}`);
+
+      cheatCode.how = howParts.join('\n');
+      cheatCode.why = 'This technique helps you stay focused and calm under pressure';
+      cheatCode.practice = ''; // Already included in how
     } else {
       // Parse standard format
       // Extract title (look for emoji and title)
