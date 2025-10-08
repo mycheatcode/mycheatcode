@@ -504,8 +504,7 @@ export default function MyCodesPage() {
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
-              onClick={() => setSelectedCode(code)}
-              className={`bg-zinc-950 border border-zinc-800 rounded-2xl p-4 transition-all duration-500 cursor-pointer active:scale-98 ${
+              className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all duration-500 ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
@@ -513,42 +512,49 @@ export default function MyCodesPage() {
                   : ''
               } ${
                 code.archived
-                  ? 'opacity-60 border-zinc-700/50 bg-zinc-900'
+                  ? 'opacity-60 border-zinc-700/50 bg-gradient-to-br from-zinc-800 via-zinc-800 to-zinc-700'
                   : ''
               }`}
             >
-              {/* Archive Status Badge */}
+              {/* Archive Badge */}
               {code.archived && (
-                <div className="flex items-center gap-1 mb-2">
-                  <div className="bg-zinc-600/20 border border-zinc-600/30 text-zinc-300 text-xs px-2 py-1 rounded-full font-medium uppercase tracking-wide">
-                    Archived
+                <div className="absolute top-4 right-4">
+                  <div className="inline-block px-3 py-1 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                    <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">Archived</span>
                   </div>
                 </div>
               )}
-              {/* Header */}
-              <div className="flex justify-between items-start mb-3">
-                <div className="flex-1">
-                  <div className="text-white text-base font-semibold mb-1 leading-tight pr-4">
-                    {code.title}
-                  </div>
-                  <div className="text-zinc-400 text-xs uppercase tracking-wide">
-                    {code.category}
-                  </div>
+
+              {/* Card Content - Matching Title Card Style */}
+              <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
+                <div className="inline-block mx-auto px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                    Cheat Code
+                  </span>
                 </div>
-                <div className="flex items-center gap-1 bg-white/5 px-2 py-1 rounded-xl">
-                  <span className="text-xs">{getStreakIcon(code.streakType)}</span>
-                  <span className="text-zinc-400 text-xs font-medium">
+                <h1 className="text-4xl font-bold text-white leading-tight tracking-tight px-4">
+                  {code.title}
+                </h1>
+                <div className="text-zinc-400 text-sm font-medium uppercase tracking-wide">
+                  {code.category}
+                </div>
+
+                {/* Streak Badge */}
+                <div className="flex items-center justify-center gap-2 pt-2">
+                  <span className="text-base">{getStreakIcon(code.streakType)}</span>
+                  <span className="text-zinc-300 text-sm font-medium">
                     {getStreakText(code.streak, code.streakType)}
                   </span>
                 </div>
               </div>
 
-
-              {/* Last Session */}
-              <div className="flex justify-between items-center pt-2 border-t border-white/5">
-                <span className="text-zinc-500 text-xs">Last session: {code.lastSession}</span>
-                <span className="text-zinc-400 text-xs font-medium">{code.sessionsCompleted} sessions</span>
-              </div>
+              {/* View Code Button */}
+              <button
+                onClick={() => setSelectedCode(code)}
+                className="w-full bg-white text-black py-4 rounded-2xl font-semibold text-base hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-6"
+              >
+                View Code
+              </button>
             </div>
           ))}
         </div>
@@ -711,33 +717,51 @@ export default function MyCodesPage() {
             {getFilteredCodes().map((code) => (
               <div
                 key={code.id}
-                onClick={() => setSelectedCode(code)}
-                className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6 transition-all cursor-pointer hover:scale-[1.02] hover:border-zinc-700"
+                className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-10 min-h-[320px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all ${
+                  code.archived
+                    ? 'opacity-60 border-zinc-700/50 bg-gradient-to-br from-zinc-800 via-zinc-800 to-zinc-700'
+                    : 'hover:scale-[1.02]'
+                }`}
               >
-                {/* Header */}
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex-1">
-                    <div className="text-white text-lg font-semibold mb-2 leading-tight pr-4">
-                      {code.title}
-                    </div>
-                    <div className="text-zinc-400 text-sm uppercase tracking-wide">
-                      {code.category}
+                {/* Archive Badge */}
+                {code.archived && (
+                  <div className="absolute top-6 right-6">
+                    <div className="inline-block px-3 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                      <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">Archived</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-xl">
-                    <span className="text-sm">{getStreakIcon(code.streakType)}</span>
-                    <span className="text-zinc-300 text-sm font-medium">
+                )}
+
+                {/* Card Content - Matching Title Card Style */}
+                <div className="space-y-8 flex-1 flex flex-col justify-center text-center">
+                  <div className="inline-block mx-auto px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                    <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                      Cheat Code
+                    </span>
+                  </div>
+                  <h1 className="text-5xl font-bold text-white leading-tight tracking-tight px-4">
+                    {code.title}
+                  </h1>
+                  <div className="text-zinc-400 text-base font-medium uppercase tracking-wide">
+                    {code.category}
+                  </div>
+
+                  {/* Streak Badge */}
+                  <div className="flex items-center justify-center gap-2 pt-2">
+                    <span className="text-lg">{getStreakIcon(code.streakType)}</span>
+                    <span className="text-zinc-300 text-base font-medium">
                       {getStreakText(code.streak, code.streakType)}
                     </span>
                   </div>
                 </div>
 
-
-                {/* Last Session */}
-                <div className="flex justify-between items-center pt-3 border-t border-white/5">
-                  <span className="text-zinc-400 text-sm">Last session: {code.lastSession}</span>
-                  <span className="text-zinc-300 text-sm font-medium">{code.sessionsCompleted} sessions</span>
-                </div>
+                {/* View Code Button */}
+                <button
+                  onClick={() => setSelectedCode(code)}
+                  className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-8"
+                >
+                  View Code
+                </button>
               </div>
             ))}
           </div>
