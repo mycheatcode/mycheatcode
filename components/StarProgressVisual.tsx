@@ -243,13 +243,15 @@ const StarProgressVisual = ({
       const t = (progress - 0.25) / 0.25;
       return `rgb(255, ${80 + t * 140}, 0)`;
     } else if (progress < 0.75) {
-      // YELLOW stage with gradient toward green
+      // YELLOW stage - keep it dominant yellow with minimal green shift
       const t = (progress - 0.50) / 0.25;
-      return `rgb(${255 - t * 155}, ${220 + t * 35}, 0)`;
+      // Use exponential curve to delay green appearance until very end of yellow range
+      const greenShift = Math.pow(t, 3); // Cubic curve keeps it yellow longer
+      return `rgb(${255 - greenShift * 105}, ${220 + greenShift * 25}, 0)`;
     } else {
       // GREEN stage getting brighter
       const t = (progress - 0.75) / 0.25;
-      return `rgb(${100 - t * 50}, ${255 - t * 50}, ${50 + t * 50})`;
+      return `rgb(${150 - t * 50}, ${245 + t * 10}, ${0 + t * 50})`;
     }
   };
 
