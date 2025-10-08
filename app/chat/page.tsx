@@ -718,14 +718,14 @@ export default function ChatPage() {
                                 )}
 
                                 {/* Cheat code box - Matching My Codes page design */}
-                                <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-6">
+                                <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
                                   <div className="flex items-center gap-2 mb-4">
                                     <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
                                   </div>
-                                  <div className="space-y-3">
+                                  <div className="space-y-4">
                                     <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                    <div className="text-zinc-400 text-sm uppercase tracking-wide mb-3">{cheatCode.category}</div>
-                                    <div className="space-y-2 text-base">
+                                    <div className="text-zinc-400 text-sm uppercase tracking-wide">{cheatCode.category}</div>
+                                    <div className="space-y-3 text-base">
                                       {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
                                       {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
                                       {cheatCode.how && <div><span className="text-zinc-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
@@ -761,8 +761,8 @@ export default function ChatPage() {
                                     </div>
 
                                     {/* Add to My Codes Button */}
-                                    <div className="mt-4 pt-3 border-t border-white/5">
-                                      <button className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors border border-white/10">
+                                    <div className="mt-6 pt-4 border-t border-zinc-800">
+                                      <button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium py-3 px-4 rounded-xl transition-colors border border-zinc-700">
                                         Add to "My Codes"
                                       </button>
                                     </div>
