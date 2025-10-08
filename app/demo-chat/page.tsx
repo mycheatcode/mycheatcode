@@ -191,25 +191,42 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                     {(card as any).heading}
                   </span>
                 </div>
-                <p className="text-white text-xl font-normal leading-relaxed">
-                  {(card as any).content}
-                </p>
+                <div className="space-y-6">
+                  {(card as any).content.split('\n\n').map((paragraph: string, index: number) => (
+                    <p key={index} className="text-white text-xl font-normal leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
             )}
 
             {card.type === 'phrase' && 'phrase' in card && (
-              <div className="space-y-12 w-full max-w-md">
+              <div className="space-y-10 w-full max-w-md">
                 <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
                   <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                    {(card as any).heading}
+                    Your Cheat Code Phrase
                   </span>
                 </div>
-                <p className="text-white text-5xl font-bold leading-tight">
-                  {(card as any).phrase}
-                </p>
-                <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg">
-                  Add to "My Codes"
-                </button>
+                <div className="space-y-8">
+                  <p className="text-white text-5xl font-bold leading-tight">
+                    {(card as any).phrase}
+                  </p>
+                  <div className="space-y-4">
+                    <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg">
+                      Add to "My Codes"
+                    </button>
+                    <button
+                      onClick={resetCards}
+                      className="w-full text-zinc-400 hover:text-white py-3 rounded-2xl font-medium text-base transition-colors flex items-center justify-center gap-2 hover:bg-white/5"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                      Back to Start
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
@@ -230,25 +247,9 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           ))}
         </div>
 
-        {/* Card Counter and Back to Start */}
-        <div className="flex items-center justify-center gap-6 mt-6">
-          <div className="text-zinc-500 text-sm font-medium">
-            {currentCard + 1} of {cards.length}
-          </div>
-          {currentCard === cards.length - 1 && (
-            <>
-              <div className="w-px h-4 bg-zinc-700"></div>
-              <button
-                onClick={resetCards}
-                className="text-zinc-400 hover:text-white text-sm font-medium transition-colors flex items-center gap-2"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-                Back to Start
-              </button>
-            </>
-          )}
+        {/* Card Counter */}
+        <div className="text-center text-zinc-500 text-sm font-medium mt-6">
+          {currentCard + 1} of {cards.length}
         </div>
       </div>
     </div>
@@ -414,7 +415,7 @@ export default function DemoChatPage() {
         what: 'A 3-step mental reset routine that calms your nerves and locks in your focus at the free throw line',
         when,
         how: '• Step to the line and take your position calmly\n• Take one controlled breath: 2-count inhale through your nose, 3-count exhale through your mouth\n• Say "My line, my time" in your head while visualizing the ball going perfectly through the net',
-        why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds. The phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
+        why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds.\n\nThe phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
         phrase
       };
     }
@@ -426,7 +427,7 @@ export default function DemoChatPage() {
       what: 'A 3-step mental reset routine that calms your nerves and locks in your focus at the free throw line',
       when: 'Every free throw, especially in pressure moments',
       how: '• Step to the line and take your position calmly\n• Take one controlled breath: 2-count inhale through your nose, 3-count exhale through your mouth\n• Say "My line, my time" in your head while visualizing the ball going perfectly through the net',
-      why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds. The phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
+      why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds.\n\nThe phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
       phrase: 'My line, my time'
     };
   };
