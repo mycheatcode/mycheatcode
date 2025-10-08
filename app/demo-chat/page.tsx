@@ -282,14 +282,18 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                     <button
                       onClick={handleAddToMyCodes}
                       disabled={showSuccess || hasAdded}
-                      className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      className={`w-full py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg ${
+                        hasAdded
+                          ? 'bg-green-500 text-white cursor-default'
+                          : 'bg-white text-black hover:bg-zinc-100 active:scale-[0.98]'
+                      }`}
                     >
                       {hasAdded ? "Added!" : "Add to \"My Codes\""}
                     </button>
                     {hasAdded && (
                       <a
                         href="/my-codes"
-                        className="w-full block text-center bg-zinc-800 text-white py-4 rounded-2xl font-semibold text-base hover:bg-zinc-700 active:scale-[0.98] transition-all border border-zinc-700"
+                        className="w-full block text-center bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg"
                       >
                         View All Codes
                       </a>
