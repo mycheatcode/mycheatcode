@@ -124,25 +124,19 @@ const StarProgressVisual = ({
 
     for (let section = 0; section < numSections; section++) {
       const progress = progressValues[section] / 100;
-      // Map 0% to show a small baseline (like 10% size), then scale normally
-      // This creates equal visual jumps: 0->25%, 25->50%, 50->75%, etc.
-      const baselineSize = 0.1; // 10% baseline for 0%
-      const visualProgress = progress === 0
-        ? baselineSize
-        : baselineSize + (1 - baselineSize) * progress;
       const sectionAngle = -Math.PI / 2 + section * sectorAngle;
 
-      // Draw progress rings
-      const maxRings = Math.floor(rings * visualProgress);
+      // Draw progress rings - use direct progress for equal arm lengths
+      const maxRings = Math.floor(rings * progress);
       for (let ring = 0; ring <= maxRings; ring++) {
         const ringProgress = ring / rings;
-        if (ringProgress > visualProgress) continue;
+        if (ringProgress > progress) continue;
 
         const radius = innerR + (outerR - innerR) * ringProgress;
 
         // Calculate color based on how far through the actual progress we are
         // This creates a gradient that spans from red through orange, yellow to green
-        const actualProgressPosition = (ringProgress / visualProgress) * progress;
+        const actualProgressPosition = (ringProgress / progress) * progress;
         const color = getGradientColor(actualProgressPosition);
 
         // Create diamond path
@@ -176,15 +170,15 @@ const StarProgressVisual = ({
         container.appendChild(ghost);
       }
 
-      // Draw 100% full potential outline
+      // Draw 100% full potential outline - bright and visible
       const fullPath = createDiamondPath(cx, cy, sectionAngle, outerR, sectorAngle);
       const fullOutline = document.createElementNS("http://www.w3.org/2000/svg", "path");
       fullOutline.setAttribute("d", fullPath);
       fullOutline.setAttribute("fill", "none");
-      fullOutline.setAttribute("stroke", "#666666");
-      fullOutline.setAttribute("stroke-width", (size * 0.002).toString());
-      fullOutline.setAttribute("stroke-opacity", "0.4");
-      fullOutline.setAttribute("stroke-dasharray", `${size * 0.008},${size * 0.008}`);
+      fullOutline.setAttribute("stroke", "#999999");
+      fullOutline.setAttribute("stroke-width", (size * 0.004).toString());
+      fullOutline.setAttribute("stroke-opacity", "0.7");
+      fullOutline.setAttribute("stroke-dasharray", `${size * 0.012},${size * 0.008}`);
       fullOutline.style.pointerEvents = 'none';
       container.appendChild(fullOutline);
     }
