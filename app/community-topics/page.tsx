@@ -53,7 +53,7 @@ export default function CommunityTopics() {
       stats: "134 players moved forward",
       trending: "NEW",
       category: "Post-Game",
-      customStarter: "Ahh, this very common.  What kind of mistakes do you reply in your mind? I'll help you grow from them instead of letting them keep you down!"
+      customStarter: "Great topic choice, this is something that's very common!  What kind of mistakes do you replay in your mind? I'll help you grow from them instead of letting them keep you down."
     },
     {
       id: 6,
