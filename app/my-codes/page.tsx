@@ -986,25 +986,20 @@ export default function MyCodesPage() {
                             </p>
                             <div className="space-y-4 relative">
                               <button
-                                onClick={handleAddToMyCodes}
-                                disabled={showSuccess || hasAdded}
-                                className={`w-full py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg ${
-                                  hasAdded
-                                    ? 'bg-green-500 text-white cursor-default'
-                                    : 'bg-white text-black hover:bg-zinc-100 active:scale-[0.98]'
-                                }`}
+                                onClick={() => {
+                                  handleUseCheatCode(selectedCode);
+                                }}
+                                className="w-full bg-green-600 text-white py-5 rounded-2xl font-semibold text-lg hover:bg-green-500 transition-all active:scale-95 shadow-lg"
                               >
-                                {hasAdded ? "Added!" : "Add to \"My Codes\""}
+                                Use Cheat Code
                               </button>
 
-                              {hasAdded && (
-                                <a
-                                  href="/my-codes"
-                                  className="w-full block text-center bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg"
-                                >
-                                  View All Codes
-                                </a>
-                              )}
+                              <button
+                                onClick={() => handleOpenChat(selectedCode)}
+                                className="w-full bg-zinc-800 border border-zinc-700 text-white py-4 rounded-2xl font-medium text-base hover:bg-zinc-700 transition-colors"
+                              >
+                                Open Chat
+                              </button>
 
                               <button
                                 onClick={resetCards}
