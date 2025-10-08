@@ -46,11 +46,14 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
       heading: 'When',
       content: cheatCode.when
     },
-    {
-      type: 'how',
+    // Individual cards for each "How" step
+    ...howSteps.map((step, index) => ({
+      type: 'step',
       heading: 'How',
-      steps: howSteps
-    },
+      stepNumber: index + 1,
+      totalSteps: howSteps.length,
+      content: step
+    })),
     {
       type: 'why',
       heading: 'Why',
@@ -86,119 +89,125 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
       {/* Close button */}
       <button
         onClick={onClose}
-        className="absolute top-6 right-6 text-white hover:text-zinc-400 transition-colors"
+        className="absolute top-8 right-8 text-zinc-400 hover:text-white transition-colors z-10"
       >
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </button>
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         {/* Card Container */}
-        <div className="bg-zinc-900 rounded-3xl px-8 py-12 min-h-[600px] flex relative">
+        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-12 min-h-[500px] flex relative shadow-2xl border border-zinc-800/50">
           {/* Left Arrow - Centered */}
           <button
             onClick={prevCard}
             disabled={currentCard === 0}
-            className={`absolute left-8 top-1/2 -translate-y-1/2 p-2 rounded-xl transition-colors ${
+            className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
               currentCard === 0
-                ? 'text-zinc-700 cursor-not-allowed'
-                : 'text-white hover:bg-zinc-800'
+                ? 'text-zinc-700 cursor-not-allowed opacity-30'
+                : 'text-white hover:bg-white/10 active:scale-95'
             }`}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
             </svg>
           </button>
 
-          {/* Right Arrow or Reset - Centered */}
-          {currentCard === cards.length - 1 ? (
-            <button
-              onClick={resetCards}
-              className="absolute right-8 top-1/2 -translate-y-1/2 text-white hover:bg-zinc-800 px-4 py-2 rounded-xl transition-colors text-sm font-medium"
-            >
-              Reset
-            </button>
-          ) : (
-            <button
-              onClick={nextCard}
-              disabled={currentCard === cards.length - 1}
-              className="absolute right-8 top-1/2 -translate-y-1/2 text-white hover:bg-zinc-800 p-2 rounded-xl transition-colors"
-            >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
-          )}
+          {/* Right Arrow - Centered */}
+          <button
+            onClick={nextCard}
+            disabled={currentCard === cards.length - 1}
+            className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
+              currentCard === cards.length - 1
+                ? 'text-zinc-700 cursor-not-allowed opacity-30'
+                : 'text-white hover:bg-white/10 active:scale-95'
+            }`}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
 
           {/* Card Content */}
-          <div className="flex-1 flex flex-col items-center justify-center text-center px-12">
-            {card.type === 'title' && (
-              <div className="space-y-6">
-                <div className="text-zinc-500 text-xs uppercase font-medium tracking-widest">
-                  {card.label}
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
+            {card.type === 'title' && 'label' in card && (
+              <div className="space-y-8">
+                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                    {(card as any).label}
+                  </span>
                 </div>
-                <h1 className="text-5xl font-bold text-white leading-tight">
-                  {card.title}
+                <h1 className="text-6xl font-bold text-white leading-tight tracking-tight">
+                  {(card as any).title}
                 </h1>
-                <div className="text-zinc-400 text-sm uppercase tracking-widest">
-                  {card.subtitle}
+                <div className="text-zinc-400 text-base font-medium uppercase tracking-wide">
+                  {(card as any).subtitle}
                 </div>
               </div>
             )}
 
-            {card.type === 'content' && (
-              <div className="space-y-8 max-w-md">
-                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                  {card.heading}
+            {card.type === 'content' && 'content' in card && (
+              <div className="space-y-10 max-w-md">
+                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                    {(card as any).heading}
+                  </span>
                 </div>
-                <p className="text-white text-3xl font-medium leading-snug">
-                  {card.content}
+                <p className="text-white text-3xl font-normal leading-relaxed">
+                  {(card as any).content}
                 </p>
               </div>
             )}
 
-            {card.type === 'how' && 'steps' in card && (
-              <div className="space-y-8 max-w-lg">
-                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                  {card.heading}
+            {card.type === 'step' && 'stepNumber' in card && (
+              <div className="space-y-10 max-w-lg">
+                <div className="space-y-3">
+                  <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                    <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                      {(card as any).heading}
+                    </span>
+                  </div>
+                  <div className="text-zinc-500 text-sm font-medium">
+                    Step {(card as any).stepNumber} of {(card as any).totalSteps}
+                  </div>
                 </div>
-                <div className="space-y-6 text-left">
-                  {(card as any).steps.map((step: string, index: number) => (
-                    <div key={index} className="flex gap-4 items-start">
-                      <div className="text-white font-bold text-2xl flex-shrink-0">
-                        {index + 1}.
-                      </div>
-                      <p className="text-white text-2xl font-medium leading-snug">
-                        {step}
-                      </p>
-                    </div>
-                  ))}
+                <div className="flex items-start gap-6">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
+                    <span className="text-white font-bold text-2xl">{(card as any).stepNumber}</span>
+                  </div>
+                  <p className="text-white text-2xl font-normal leading-relaxed text-left flex-1 pt-3">
+                    {(card as any).content}
+                  </p>
                 </div>
               </div>
             )}
 
-            {card.type === 'why' && (
-              <div className="space-y-8 max-w-lg">
-                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                  {card.heading}
+            {card.type === 'why' && 'content' in card && !('stepNumber' in card) && (
+              <div className="space-y-10 max-w-lg">
+                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                    {(card as any).heading}
+                  </span>
                 </div>
                 <p className="text-white text-xl font-normal leading-relaxed">
-                  {card.content}
+                  {(card as any).content}
                 </p>
               </div>
             )}
 
-            {card.type === 'phrase' && (
+            {card.type === 'phrase' && 'phrase' in card && (
               <div className="space-y-12 w-full max-w-md">
-                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                  {card.heading}
+                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                    {(card as any).heading}
+                  </span>
                 </div>
                 <p className="text-white text-5xl font-bold leading-tight">
-                  {card.phrase}
+                  {(card as any).phrase}
                 </p>
-                <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-colors">
+                <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg">
                   Add to "My Codes"
                 </button>
               </div>
@@ -207,22 +216,39 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
         </div>
 
         {/* Progress Dots */}
-        <div className="flex justify-center gap-2 pt-6">
+        <div className="flex justify-center gap-2.5 pt-8">
           {cards.map((_, index) => (
-            <div
+            <button
               key={index}
-              className={`h-1.5 rounded-full transition-all ${
+              onClick={() => setCurrentCard(index)}
+              className={`h-2 rounded-full transition-all ${
                 index === currentCard
-                  ? 'w-8 bg-white'
-                  : 'w-1.5 bg-zinc-700'
+                  ? 'w-10 bg-white'
+                  : 'w-2 bg-zinc-700 hover:bg-zinc-600'
               }`}
             />
           ))}
         </div>
 
-        {/* Card Counter */}
-        <div className="text-center text-zinc-600 text-sm mt-4">
-          {currentCard + 1} of {cards.length}
+        {/* Card Counter and Back to Start */}
+        <div className="flex items-center justify-center gap-6 mt-6">
+          <div className="text-zinc-500 text-sm font-medium">
+            {currentCard + 1} of {cards.length}
+          </div>
+          {currentCard === cards.length - 1 && (
+            <>
+              <div className="w-px h-4 bg-zinc-700"></div>
+              <button
+                onClick={resetCards}
+                className="text-zinc-400 hover:text-white text-sm font-medium transition-colors flex items-center gap-2"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Back to Start
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>
