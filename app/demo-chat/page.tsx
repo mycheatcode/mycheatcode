@@ -22,8 +22,8 @@ interface CheatCodeData {
   phrase: string;
 }
 
-// Swipeable Cheat Code Cards Component
-function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
+// Swipeable Cheat Code Cards Component - Modal Version
+function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onClose: () => void }) {
   const [currentCard, setCurrentCard] = useState(0);
 
   // Parse the how steps (they're in bullet format)
@@ -82,16 +82,26 @@ function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
   const card = cards[currentCard];
 
   return (
-    <div className="w-full max-w-md mx-auto">
-      {/* Card Container */}
-      <div className="bg-zinc-900 rounded-3xl px-8 py-12 min-h-[600px] flex flex-col relative">
+    <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-6 right-6 text-white hover:text-zinc-400 transition-colors"
+      >
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
 
-        {/* Top Navigation */}
-        <div className="absolute top-8 left-8 right-8 flex justify-between">
+      <div className="w-full max-w-md">
+        {/* Card Container */}
+        <div className="bg-zinc-900 rounded-3xl px-8 py-12 min-h-[600px] flex relative">
+          {/* Left Arrow - Centered */}
           <button
             onClick={prevCard}
             disabled={currentCard === 0}
-            className={`p-2 rounded-xl transition-colors ${
+            className={`absolute left-8 top-1/2 -translate-y-1/2 p-2 rounded-xl transition-colors ${
               currentCard === 0
                 ? 'text-zinc-700 cursor-not-allowed'
                 : 'text-white hover:bg-zinc-800'
@@ -102,10 +112,11 @@ function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
             </svg>
           </button>
 
+          {/* Right Arrow or Reset - Centered */}
           {currentCard === cards.length - 1 ? (
             <button
               onClick={resetCards}
-              className="text-white hover:bg-zinc-800 px-4 py-2 rounded-xl transition-colors text-sm font-medium"
+              className="absolute right-8 top-1/2 -translate-y-1/2 text-white hover:bg-zinc-800 px-4 py-2 rounded-xl transition-colors text-sm font-medium"
             >
               Reset
             </button>
@@ -113,90 +124,90 @@ function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
             <button
               onClick={nextCard}
               disabled={currentCard === cards.length - 1}
-              className="text-white hover:bg-zinc-800 p-2 rounded-xl transition-colors"
+              className="absolute right-8 top-1/2 -translate-y-1/2 text-white hover:bg-zinc-800 p-2 rounded-xl transition-colors"
             >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
             </button>
           )}
-        </div>
 
-        {/* Card Content */}
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 mt-12">
-          {card.type === 'title' && (
-            <div className="space-y-6">
-              <div className="text-zinc-500 text-xs uppercase font-medium tracking-widest">
-                {card.label}
+          {/* Card Content */}
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-12">
+            {card.type === 'title' && (
+              <div className="space-y-6">
+                <div className="text-zinc-500 text-xs uppercase font-medium tracking-widest">
+                  {card.label}
+                </div>
+                <h1 className="text-5xl font-bold text-white leading-tight">
+                  {card.title}
+                </h1>
+                <div className="text-zinc-400 text-sm uppercase tracking-widest">
+                  {card.subtitle}
+                </div>
               </div>
-              <h1 className="text-5xl font-bold text-white leading-tight">
-                {card.title}
-              </h1>
-              <div className="text-zinc-400 text-sm uppercase tracking-widest">
-                {card.subtitle}
-              </div>
-            </div>
-          )}
+            )}
 
-          {card.type === 'content' && (
-            <div className="space-y-8 max-w-md">
-              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                {card.heading}
+            {card.type === 'content' && (
+              <div className="space-y-8 max-w-md">
+                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                  {card.heading}
+                </div>
+                <p className="text-white text-3xl font-medium leading-snug">
+                  {card.content}
+                </p>
               </div>
-              <p className="text-white text-3xl font-medium leading-snug">
-                {card.content}
-              </p>
-            </div>
-          )}
+            )}
 
-          {card.type === 'how' && 'steps' in card && (
-            <div className="space-y-8 max-w-lg">
-              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                {card.heading}
-              </div>
-              <div className="space-y-6 text-left">
-                {(card as any).steps.map((step: string, index: number) => (
-                  <div key={index} className="flex gap-4 items-start">
-                    <div className="text-white font-bold text-2xl flex-shrink-0">
-                      {index + 1}.
+            {card.type === 'how' && 'steps' in card && (
+              <div className="space-y-8 max-w-lg">
+                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                  {card.heading}
+                </div>
+                <div className="space-y-6 text-left">
+                  {(card as any).steps.map((step: string, index: number) => (
+                    <div key={index} className="flex gap-4 items-start">
+                      <div className="text-white font-bold text-2xl flex-shrink-0">
+                        {index + 1}.
+                      </div>
+                      <p className="text-white text-2xl font-medium leading-snug">
+                        {step}
+                      </p>
                     </div>
-                    <p className="text-white text-2xl font-medium leading-snug">
-                      {step}
-                    </p>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {card.type === 'why' && (
-            <div className="space-y-8 max-w-lg">
-              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                {card.heading}
+            {card.type === 'why' && (
+              <div className="space-y-8 max-w-lg">
+                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                  {card.heading}
+                </div>
+                <p className="text-white text-xl font-normal leading-relaxed">
+                  {card.content}
+                </p>
               </div>
-              <p className="text-white text-xl font-normal leading-relaxed">
-                {card.content}
-              </p>
-            </div>
-          )}
+            )}
 
-          {card.type === 'phrase' && (
-            <div className="space-y-12 w-full max-w-md">
-              <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
-                {card.heading}
+            {card.type === 'phrase' && (
+              <div className="space-y-12 w-full max-w-md">
+                <div className="text-zinc-500 text-sm uppercase tracking-widest font-medium">
+                  {card.heading}
+                </div>
+                <p className="text-white text-5xl font-bold leading-tight">
+                  {card.phrase}
+                </p>
+                <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-colors">
+                  Add to "My Codes"
+                </button>
               </div>
-              <p className="text-white text-5xl font-bold leading-tight">
-                {card.phrase}
-              </p>
-              <button className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-colors">
-                Add to "My Codes"
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
         {/* Progress Dots */}
-        <div className="flex justify-center gap-2 pt-8">
+        <div className="flex justify-center gap-2 pt-6">
           {cards.map((_, index) => (
             <div
               key={index}
@@ -208,11 +219,11 @@ function CheatCodeCards({ cheatCode }: { cheatCode: CheatCodeData }) {
             />
           ))}
         </div>
-      </div>
 
-      {/* Card Counter */}
-      <div className="text-center text-zinc-600 text-sm mt-4">
-        {currentCard + 1} of {cards.length}
+        {/* Card Counter */}
+        <div className="text-center text-zinc-600 text-sm mt-4">
+          {currentCard + 1} of {cards.length}
+        </div>
       </div>
     </div>
   );
@@ -352,46 +363,46 @@ export default function DemoChatPage() {
     return { intro, cheatCodeText };
   };
 
-  // Helper to parse cheat code from text
-  const parseCheatCode = (text: string) => {
-    const cheatCode: any = {};
+  // State for cheat code modal
+  const [showCheatCode, setShowCheatCode] = useState(false);
+  const [currentCheatCode, setCurrentCheatCode] = useState<CheatCodeData | null>(null);
 
+  // Helper to parse cheat code from text
+  const parseCheatCode = (text: string): CheatCodeData => {
     // Check if it's the alternative format first
     const isAlternativeFormat = text.includes('Title:') && text.includes('Trigger:');
 
     if (isAlternativeFormat) {
       // Parse alternative format (Title/Trigger/Cue phrase/etc.)
-      // Handle both with and without asterisks, including inline format
       const titleMatch = text.match(/Title:\s*([^T\n]+?)(?=Trigger:|$)/i);
       const triggerMatch = text.match(/Trigger:\s*([^C\n]+?)(?=Cue phrase:|$)/i);
       const cueMatch = text.match(/Cue phrase:\s*"?([^"F\n]+?)"?\s*(?=First action:|$)/i);
-      const firstActionMatch = text.match(/First action:\s*([^I\n]+?)(?=If\/Then:|$)/i);
-      const ifThenMatch = text.match(/If\/Then:\s*([^R]+?)(?=Reps:|$)/i);
-      const repsMatch = text.match(/Reps:\s*([\s\S]+?)(?=Does|$)/i);
 
-      cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
-      cheatCode.category = 'In-Game';
+      const title = titleMatch ? titleMatch[1].trim() : 'Free Throw Lockdown';
+      const when = triggerMatch ? triggerMatch[1].trim() : 'Every free throw, especially in pressure moments';
+      const phrase = cueMatch ? cueMatch[1].trim() : 'My line, my time';
 
-      // Map to standard format
-      cheatCode.what = '3-step mental reset for clutch free throws';
-      cheatCode.when = triggerMatch ? triggerMatch[1].trim() : '';
-      cheatCode.phrase = cueMatch ? cueMatch[1].trim() : '';
-
-      // Build the "How" section from First action and If/Then
-      const firstAction = firstActionMatch ? firstActionMatch[1].trim() : '';
-      const ifThen = ifThenMatch ? ifThenMatch[1].trim() : '';
-      const reps = repsMatch ? repsMatch[1].trim() : '';
-
-      const howParts = [];
-      if (firstAction) howParts.push(`• Step to the line and take your position`);
-      howParts.push(`• One controlled breath: 2-count inhale, 3-count exhale`);
-      howParts.push(`• Say "My line, my time" while visualizing the ball going in`);
-
-      cheatCode.how = howParts.join('\n');
-      cheatCode.why = 'The exhale activates your parasympathetic nervous system (reduces stress), while the phrase creates psychological ownership and confidence';
+      return {
+        title,
+        category: 'In-Game',
+        what: 'A 3-step mental reset routine that calms your nerves and locks in your focus at the free throw line',
+        when,
+        how: '• Step to the line and take your position calmly\n• Take one controlled breath: 2-count inhale through your nose, 3-count exhale through your mouth\n• Say "My line, my time" in your head while visualizing the ball going perfectly through the net',
+        why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds. The phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
+        phrase
+      };
     }
 
-    return cheatCode;
+    // Default fallback
+    return {
+      title: 'Free Throw Lockdown',
+      category: 'In-Game',
+      what: 'A 3-step mental reset routine that calms your nerves and locks in your focus at the free throw line',
+      when: 'Every free throw, especially in pressure moments',
+      how: '• Step to the line and take your position calmly\n• Take one controlled breath: 2-count inhale through your nose, 3-count exhale through your mouth\n• Say "My line, my time" in your head while visualizing the ball going perfectly through the net',
+      why: 'The 3-count exhale activates your parasympathetic nervous system, which scientifically reduces stress in under 5 seconds. The phrase creates psychological ownership - you\'re claiming the moment instead of letting pressure and the crowd own it.',
+      phrase: 'My line, my time'
+    };
   };
 
   return (
@@ -489,22 +500,30 @@ export default function DemoChatPage() {
                 ) : (
                   <div className="w-full p-5">
                     {isCheatCode(message.text) ? (
-                      // Special formatting for cheat codes with intro text
+                      // Special formatting for cheat codes with button to view
                       <div>
                         {(() => {
                           const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
                           const cheatCode = parseCheatCode(cheatCodeText);
                           return (
-                            <div>
+                            <div className="space-y-4">
                               {/* Coach introduction text */}
                               {intro && (
-                                <div className="text-base leading-relaxed text-white whitespace-pre-wrap mb-6">
+                                <div className="text-base leading-relaxed text-white whitespace-pre-wrap">
                                   {intro}
                                 </div>
                               )}
 
-                              {/* Swipeable Cheat Code Cards */}
-                              <CheatCodeCards cheatCode={cheatCode} />
+                              {/* View Cheat Code Button */}
+                              <button
+                                onClick={() => {
+                                  setCurrentCheatCode(cheatCode);
+                                  setShowCheatCode(true);
+                                }}
+                                className="bg-white text-black px-6 py-3 rounded-xl font-semibold hover:bg-zinc-200 transition-colors"
+                              >
+                                View Cheat Code
+                              </button>
                             </div>
                           );
                         })()}
@@ -538,6 +557,14 @@ export default function DemoChatPage() {
           </div>
         </div>
       </div>
+
+      {/* Cheat Code Modal */}
+      {showCheatCode && currentCheatCode && (
+        <CheatCodeCards
+          cheatCode={currentCheatCode}
+          onClose={() => setShowCheatCode(false)}
+        />
+      )}
     </div>
   );
 }
