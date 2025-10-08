@@ -488,7 +488,7 @@ export default function CommunityTopics() {
           </div>
 
           {/* Page Title */}
-          <div className="text-[1.8em] font-bold text-white mb-2">Relatable Topics</div>
+          <div className="text-[1.8em] font-bold text-white mb-2">Community Topics</div>
           <div className="text-zinc-400 text-sm leading-relaxed">Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
 
@@ -684,7 +684,7 @@ export default function CommunityTopics() {
               </div>
             </div>
 
-            <div className="text-4xl font-bold text-white mb-4">Relatable Topics</div>
+            <div className="text-4xl font-bold text-white mb-4">Community Topics</div>
             <div className="text-zinc-400 text-lg leading-relaxed">Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
           </div>
 
