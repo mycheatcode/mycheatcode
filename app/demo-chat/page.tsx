@@ -145,11 +145,11 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
       {/* Success Message Overlay */}
       {showSuccess && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center pointer-events-none">
-          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-[2rem] px-12 py-10 shadow-2xl border-4 border-green-400/50" style={{ animation: 'celebration-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+          <div className="bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 rounded-[2rem] px-16 py-12 shadow-2xl border-2 border-white/20 backdrop-blur-sm" style={{ animation: 'celebration-burst 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
             <div className="flex flex-col items-center gap-6">
               {/* Animated Checkmark Circle */}
-              <div className="w-24 h-24 rounded-full bg-white flex items-center justify-center shadow-xl">
-                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-28 h-28 rounded-full bg-white/10 border-2 border-white/30 flex items-center justify-center shadow-xl backdrop-blur-md">
+                <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline
                     points="20 6 9 17 4 12"
                     strokeDasharray="100"
@@ -161,20 +161,19 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
               {/* Success Text */}
               <div className="text-center" style={{ animation: 'fade-in-up 0.5s ease-out 0.3s backwards' }}>
-                <h3 className="text-white text-3xl font-bold mb-2">Success!</h3>
-                <p className="text-green-100 text-lg font-medium">Added to My Codes</p>
+                <h3 className="text-white text-4xl font-bold mb-3">Added!</h3>
+                <p className="text-zinc-300 text-lg font-medium">Cheat code saved to My Codes</p>
               </div>
             </div>
 
-            {/* Confetti particles */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              {[...Array(12)].map((_, i) => (
+            {/* Subtle particles */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[2rem]">
+              {[...Array(8)].map((_, i) => (
                 <div
                   key={i}
-                  className="absolute w-2 h-2 rounded-full"
+                  className="absolute w-1.5 h-1.5 rounded-full bg-white/40"
                   style={{
-                    backgroundColor: ['#fbbf24', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6', '#ec4899'][i % 6],
-                    left: `${20 + (i * 60 / 12)}%`,
+                    left: `${25 + (i * 50 / 8)}%`,
                     top: '50%',
                     animation: `confetti ${0.8 + Math.random() * 0.4}s ease-out ${0.2 + (i * 0.05)}s backwards`,
                   }}
