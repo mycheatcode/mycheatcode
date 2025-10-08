@@ -26,6 +26,7 @@ interface CheatCodeData {
 function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onClose: () => void }) {
   const [currentCard, setCurrentCard] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [hasAdded, setHasAdded] = useState(false);
 
   // Parse the how steps (they're in bullet format)
   const howSteps = cheatCode.how.split('\n').filter(step => step.trim()).map(step => step.replace('• ', ''));
@@ -85,6 +86,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
   const handleAddToMyCodes = () => {
     setShowSuccess(true);
+    setHasAdded(true);
     setTimeout(() => {
       setShowSuccess(false);
     }, 2000);
@@ -279,11 +281,19 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                   <div className="space-y-4 relative">
                     <button
                       onClick={handleAddToMyCodes}
-                      disabled={showSuccess}
+                      disabled={showSuccess || hasAdded}
                       className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      Add to "My Codes"
+                      {hasAdded ? "Added!" : "Add to \"My Codes\""}
                     </button>
+                    {hasAdded && (
+                      <a
+                        href="/my-codes"
+                        className="w-full block text-center bg-zinc-800 text-white py-4 rounded-2xl font-semibold text-base hover:bg-zinc-700 active:scale-[0.98] transition-all border border-zinc-700"
+                      >
+                        View All Codes
+                      </a>
+                    )}
                     <button
                       onClick={resetCards}
                       className="w-full text-zinc-400 hover:text-white py-3 rounded-2xl font-medium text-base transition-colors hover:bg-white/5"
