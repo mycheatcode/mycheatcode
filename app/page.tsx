@@ -644,24 +644,14 @@ const debugProgression = () => {
 
         {/* Main Content */}
         <div className="flex-1 flex p-6 pt-20 min-h-screen relative">
-          {/* Left Legend */}
-          <div className="absolute left-2 top-24 z-10">
-            <ProgressLegend
-              darkMode={true}
-              size={220}
-              expanded={legendExpanded}
-              onToggle={() => setLegendExpanded(!legendExpanded)}
-              currentPercentage={calculateOverallPercentage()}
-            />
-          </div>
 
 
-          {/* The System - Motivational Callout with Context */}
+          {/* The System - Unified Card with Levels */}
           <div className="absolute right-6 top-28 z-10 w-96">
             <div className="bg-black/40 rounded-xl p-6 backdrop-blur-sm border border-zinc-800/50">
               <h3 className="text-zinc-500 text-xs font-bold mb-5 uppercase tracking-widest">The System</h3>
 
-              <div className="space-y-4">
+              <div className="space-y-4 mb-6">
                 <div>
                   <div className="text-white text-lg font-semibold mb-1 leading-tight">
                     Chat = Growth
@@ -678,6 +668,46 @@ const debugProgression = () => {
                   <div className="text-zinc-400 text-sm leading-relaxed">
                     Progress fades without engagement. Keep building to stay sharp
                   </div>
+                </div>
+              </div>
+
+              {/* Levels Section */}
+              <div className="pt-4 border-t border-zinc-800/50">
+                <h4 className="text-zinc-500 text-xs font-bold mb-4 uppercase tracking-widest">Levels</h4>
+                <div className="space-y-3">
+                  {[
+                    { name: 'Beginner', range: '0-24%', color: '#DC1414' },
+                    { name: 'Rookie', range: '25-49%', color: '#FF8C00' },
+                    { name: 'All-Star', range: '50-74%', color: '#FFDC00' },
+                    { name: 'Hall of Fame', range: '75-100%', color: '#32CD32' }
+                  ].map((level, index) => {
+                    const currentPercentage = calculateOverallPercentage();
+                    const isCurrentLevel =
+                      (currentPercentage < 25 && index === 0) ||
+                      (currentPercentage >= 25 && currentPercentage < 50 && index === 1) ||
+                      (currentPercentage >= 50 && currentPercentage < 75 && index === 2) ||
+                      (currentPercentage >= 75 && index === 3);
+
+                    return (
+                      <div key={level.name} className="flex items-center gap-3">
+                        <svg width="12" height="12" viewBox="0 0 12 12">
+                          <path
+                            d="M6 1 L11 6 L6 11 L1 6 Z"
+                            fill={level.color}
+                            opacity={isCurrentLevel ? "1" : "0.4"}
+                          />
+                        </svg>
+                        <div className="flex-1">
+                          <div className={`text-sm font-semibold ${isCurrentLevel ? 'text-green-400' : 'text-white'}`}>
+                            {level.name}
+                          </div>
+                          <div className="text-zinc-500 text-xs">
+                            {level.range}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
