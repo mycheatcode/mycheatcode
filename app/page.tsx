@@ -666,7 +666,7 @@ const debugProgression = () => {
                     Consistency = Strength
                   </div>
                   <div className="text-zinc-400 text-sm leading-relaxed">
-                    Progress fades if you're inactive. Keep chatting to stay sharp
+                    Progress fades if you're inactive. Keep chatting in all areas to stay sharp
                   </div>
                 </div>
               </div>
