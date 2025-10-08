@@ -175,6 +175,18 @@ const StarProgressVisual = ({
         ghost.style.pointerEvents = 'none'; // Disable pointer events on ghost guides
         container.appendChild(ghost);
       }
+
+      // Draw 100% full potential outline
+      const fullPath = createDiamondPath(cx, cy, sectionAngle, outerR, sectorAngle);
+      const fullOutline = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      fullOutline.setAttribute("d", fullPath);
+      fullOutline.setAttribute("fill", "none");
+      fullOutline.setAttribute("stroke", "#666666");
+      fullOutline.setAttribute("stroke-width", (size * 0.002).toString());
+      fullOutline.setAttribute("stroke-opacity", "0.4");
+      fullOutline.setAttribute("stroke-dasharray", `${size * 0.008},${size * 0.008}`);
+      fullOutline.style.pointerEvents = 'none';
+      container.appendChild(fullOutline);
     }
   };
 
