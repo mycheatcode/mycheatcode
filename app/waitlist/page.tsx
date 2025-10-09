@@ -221,22 +221,31 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Status Display - Hall of Fame (matching home page design) */}
-          <div className="flex justify-center mb-2 md:mb-4">
-            <div className="flex flex-col items-center text-center">
-              <svg width="16" height="16" viewBox="0 0 12 12" className="mb-2">
-                <path
-                  d="M6 1 L11 6 L6 11 L1 6 Z"
-                  fill="#32CD32"
-                  opacity="1"
-                />
-              </svg>
-              <div className="text-xs font-semibold mb-1 text-green-400">
-                Hall of Fame
-              </div>
-              <div className="text-zinc-500 text-[10px]">
-                75-100%
-              </div>
+          {/* Status Levels Display (matching home page design) */}
+          <div className="flex justify-center -mb-8 md:-mb-12">
+            <div className="grid grid-cols-4 gap-3 md:gap-4">
+              {[
+                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
+                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
+                { name: 'All-Star', range: '50-74%', color: '#FFDC00', isActive: false },
+                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
+              ].map((level) => (
+                <div key={level.name} className="flex flex-col items-center text-center">
+                  <svg width="16" height="16" viewBox="0 0 12 12" className="mb-2">
+                    <path
+                      d="M6 1 L11 6 L6 11 L1 6 Z"
+                      fill={level.color}
+                      opacity={level.isActive ? "1" : "0.4"}
+                    />
+                  </svg>
+                  <div className={`text-xs font-semibold mb-1 ${level.isActive ? 'text-green-400' : 'text-white'}`}>
+                    {level.name}
+                  </div>
+                  <div className="text-zinc-500 text-[10px]">
+                    {level.range}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 
