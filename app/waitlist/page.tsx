@@ -147,15 +147,7 @@ function WaitlistContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black starfield-background">
-      {/* Starfield Background */}
-      <div className="starfield-container">
-        <div className="stars stars-small"></div>
-        <div className="stars stars-medium"></div>
-        <div className="stars stars-large"></div>
-        <div className="stars stars-twinkle"></div>
-      </div>
-
+    <div className="min-h-screen bg-black">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -172,7 +164,14 @@ function WaitlistContent() {
       </header>
 
       {/* Hero Section with Star Visual */}
-      <section className="relative pt-32 pb-32 px-6">
+      <section className="relative pt-32 pb-32 px-4 md:px-6 starfield-background">
+        {/* Starfield Background for Hero */}
+        <div className="starfield-container">
+          <div className="stars stars-small"></div>
+          <div className="stars stars-medium"></div>
+          <div className="stars stars-large"></div>
+          <div className="stars stars-twinkle"></div>
+        </div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-8 mb-12">
             {/* Status Badge */}
@@ -228,25 +227,27 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Star Progress Visual from Homepage */}
-          <div className="flex items-center justify-center mb-12">
-            <div className="w-full max-w-[450px] md:max-w-[800px]">
-              <StarProgressVisual
-                progressData={{
-                  preGame: 100,
-                  inGame: 100,
-                  postGame: 100,
-                  offCourt: 100,
-                  lockerRoom: 100
-                }}
-                size={800}
-                className="w-full h-auto"
-              />
+          {/* Star Progress Visual from Homepage - Mobile Optimized */}
+          <div className="flex items-center justify-center mb-12 w-full overflow-x-hidden">
+            <div className="w-full flex justify-center">
+              <div className="scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center">
+                <StarProgressVisual
+                  progressData={{
+                    preGame: 100,
+                    inGame: 100,
+                    postGame: 100,
+                    offCourt: 100,
+                    lockerRoom: 100
+                  }}
+                  size={800}
+                  className=""
+                />
+              </div>
             </div>
           </div>
         </div>
         {/* Gradient fade to next section */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-zinc-950 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-zinc-950 pointer-events-none z-10"></div>
       </section>
 
       {/* Feature Videos Section */}
@@ -345,8 +346,15 @@ function WaitlistContent() {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-6 border-y border-zinc-800">
-        <div className="max-w-4xl mx-auto">
+      <section className="relative py-20 px-6 border-y border-zinc-800 bg-black starfield-background">
+        {/* Starfield Background for How It Works */}
+        <div className="starfield-container">
+          <div className="stars stars-small"></div>
+          <div className="stars stars-medium"></div>
+          <div className="stars stars-large"></div>
+          <div className="stars stars-twinkle"></div>
+        </div>
+        <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-16">
             How it works
           </h2>
@@ -396,8 +404,15 @@ function WaitlistContent() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 px-6 bg-gradient-to-t from-zinc-950 to-black">
-        <div className="max-w-3xl mx-auto text-center space-y-8">
+      <section className="relative py-32 px-6 bg-gradient-to-t from-zinc-950 to-black starfield-background">
+        {/* Starfield Background for Final CTA */}
+        <div className="starfield-container">
+          <div className="stars stars-small"></div>
+          <div className="stars stars-medium"></div>
+          <div className="stars stars-large"></div>
+          <div className="stars stars-twinkle"></div>
+        </div>
+        <div className="max-w-3xl mx-auto text-center space-y-8 relative z-10">
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Ready to level up your
             <br />
