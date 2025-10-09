@@ -274,10 +274,10 @@ function WaitlistContent() {
           <div className="space-y-8">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Get swipeable cheat code cue cards
+                Get personalized cheat codes for any moment
               </h2>
               <p className="text-xl text-zinc-400 leading-relaxed">
-                Your AI coach creates interactive cue cards with What, When, How, Why, and a memorable phrase to use in the moment.
+                Your AI coach creates custom step-by-step strategies you can rely on.
               </p>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900">
