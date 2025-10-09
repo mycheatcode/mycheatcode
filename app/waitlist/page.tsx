@@ -164,7 +164,7 @@ function WaitlistContent() {
       </header>
 
       {/* Hero Section with Star Visual */}
-      <section className="relative pt-32 pb-20 md:pb-32 px-4 md:px-6 starfield-background overflow-hidden">
+      <section className="relative pt-32 pb-12 md:pb-32 px-4 md:px-6 starfield-background overflow-hidden">
         {/* Starfield Background for Hero */}
         <div className="starfield-container-hero">
           <div className="stars stars-small"></div>
@@ -173,7 +173,7 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-8 mb-8 md:mb-12">
+          <div className="text-center space-y-4 md:space-y-8 mb-2 md:mb-12">
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -181,26 +181,17 @@ function WaitlistContent() {
             </div>
 
             {/* Main Headline */}
-            <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              Master the mental game.
-              <br />
-              <span className="bg-gradient-to-r from-zinc-400 to-zinc-600 bg-clip-text text-transparent">
-                Unlock your confidence.
-              </span>
+            <h1 className="text-4xl md:text-7xl font-bold text-white leading-tight px-4">
+              What you've been missing.
             </h1>
 
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-semibold">
-              AI coaching that helps you build confidence and handle pressure.
-            </p>
-
-            {/* Body */}
-            <p className="text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
-              Get cheat codes for clutch moments, bouncing back from bad games, handling pressure, and leveling up the mental side of your game.
+            <p className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed px-4">
+              Master confidence and pressure moments. The mental performance tool basketball players have been waiting for.
             </p>
 
             {/* Email Signup */}
-            <form id="join" onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 pt-4">
+            <form id="join" onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
@@ -231,9 +222,9 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual from Homepage - Mobile Optimized */}
-          <div className="flex items-center justify-center -my-4 md:my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
-              <div className="scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center">
+              <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
                     preGame: 100,
