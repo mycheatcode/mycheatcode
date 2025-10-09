@@ -221,6 +221,13 @@ function WaitlistContent() {
             </form>
           </div>
 
+          {/* Motivational Text Above Star - "LET YOUR GAME" */}
+          <div className="text-center mb-4 md:mb-8">
+            <p className="text-3xl md:text-5xl font-bold text-zinc-900 tracking-wider">
+              LET YOUR GAME
+            </p>
+          </div>
+
           {/* Star Progress Visual from Homepage - Mobile Optimized */}
           <div className="flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
@@ -238,6 +245,13 @@ function WaitlistContent() {
                 />
               </div>
             </div>
+          </div>
+
+          {/* Motivational Text Below Star - "SHINE" */}
+          <div className="text-center mt-4 md:mt-8 mb-8">
+            <p className="text-3xl md:text-5xl font-bold text-zinc-900 tracking-wider">
+              SHINE
+            </p>
           </div>
         </div>
         {/* Gradient fade to next section */}
