@@ -296,10 +296,10 @@ function WaitlistContent() {
           <div className="space-y-8">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Track your codes and build your mental arsenal
+                Collect codes for each part of your game
               </h2>
               <p className="text-xl text-zinc-400 leading-relaxed">
-                All your cheat codes in one place. Use them regularly to build consistency and track your mental strength across 5 key areas.
+                Add and use strategies all season long. Accessible anytime, anywhere.
               </p>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900">
