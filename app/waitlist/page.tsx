@@ -47,6 +47,163 @@ function WaitlistContent() {
     }
   }, [searchParams]);
 
+  // Star visualization effect
+  useEffect(() => {
+    const container = document.getElementById('heroVisualContainer');
+    const svg = document.getElementById('starSvg');
+
+    if (!container || !svg) return;
+
+    // Add twinkling stars style
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes twinkle {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 1; }
+      }
+      .star-twinkle {
+        animation: twinkle var(--duration) ease-in-out infinite;
+        animation-delay: var(--delay);
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Create background stars
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.className = 'star-twinkle';
+      star.style.cssText = `
+        position: absolute;
+        width: ${Math.random() * 2 + 1}px;
+        height: ${Math.random() * 2 + 1}px;
+        background: white;
+        border-radius: 50%;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        --duration: ${Math.random() * 3 + 2}s;
+        --delay: ${Math.random() * 2}s;
+        z-index: 1;
+      `;
+      container.appendChild(star);
+    }
+
+    // Color gradient function
+    const getColorForProgress = (progress: number) => {
+      if (progress < 0.25) {
+        const t = progress / 0.25;
+        return `rgb(${Math.round(220 + 35 * t)}, ${Math.round(38 + 127 * t)}, ${Math.round(38 - 38 * t)})`;
+      } else if (progress < 0.5) {
+        const t = (progress - 0.25) / 0.25;
+        return `rgb(255, ${Math.round(165 + 90 * t)}, 0)`;
+      } else if (progress < 0.75) {
+        const t = (progress - 0.5) / 0.25;
+        return `rgb(${Math.round(255 - 101 * t)}, 255, ${Math.round(71 * t)})`;
+      } else {
+        const t = (progress - 0.75) / 0.25;
+        return `rgb(${Math.round(154 - 70 * t)}, ${Math.round(255 - 51 * t)}, ${Math.round(71 + 1 * t)})`;
+      }
+    };
+
+    // Star points calculation
+    const calculateStarPoints = (cx: number, cy: number, outerRadius: number, innerRadius: number) => {
+      const points = [];
+      for (let i = 0; i < 10; i++) {
+        const angle = (Math.PI / 5) * i - Math.PI / 2;
+        const radius = i % 2 === 0 ? outerRadius : innerRadius;
+        points.push([
+          cx + radius * Math.cos(angle),
+          cy + radius * Math.sin(angle)
+        ]);
+      }
+      return points;
+    };
+
+    // Render the star
+    const cx = 400;
+    const cy = 400;
+    const outerRadius = 250;
+    const innerRadius = 100;
+    const progress = 1.0; // 100% Hall of Fame
+
+    const points = calculateStarPoints(cx, cy, outerRadius, innerRadius);
+    const pointsStr = points.map(p => p.join(',')).join(' ');
+
+    // Create star polygon
+    const starPath = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+    starPath.setAttribute('points', pointsStr);
+    starPath.setAttribute('fill', getColorForProgress(progress));
+    starPath.setAttribute('stroke', '#ffffff');
+    starPath.setAttribute('stroke-width', '3');
+    svg.appendChild(starPath);
+
+    // Add diamonds at star tips
+    points.forEach((point, i) => {
+      if (i % 2 === 0) {
+        const diamond = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        const size = 12;
+        const diamondPoints = [
+          [point[0], point[1] - size],
+          [point[0] + size, point[1]],
+          [point[0], point[1] + size],
+          [point[0] - size, point[1]]
+        ];
+        diamond.setAttribute('points', diamondPoints.map(p => p.join(',')).join(' '));
+        diamond.setAttribute('fill', '#ffffff');
+        svg.appendChild(diamond);
+      }
+    });
+
+    // Add notches (floating markers)
+    const numNotches = 20;
+    const notchRadius = outerRadius + 60;
+
+    for (let i = 0; i < numNotches; i++) {
+      const angle = (2 * Math.PI / numNotches) * i;
+      const x = cx + notchRadius * Math.cos(angle);
+      const y = cy + notchRadius * Math.sin(angle);
+
+      const notch = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      notch.setAttribute('x1', String(x - 10 * Math.cos(angle)));
+      notch.setAttribute('y1', String(y - 10 * Math.sin(angle)));
+      notch.setAttribute('x2', String(x + 10 * Math.cos(angle)));
+      notch.setAttribute('y2', String(y + 10 * Math.sin(angle)));
+      notch.setAttribute('stroke', '#ffffff');
+      notch.setAttribute('stroke-width', '2');
+      svg.appendChild(notch);
+    }
+
+    // Add labels
+    const labels = [
+      { text: 'PRE-GAME', angle: -Math.PI / 2, radius: notchRadius + 40 },
+      { text: 'LOCKER ROOM', angle: -Math.PI / 2 - (2 * Math.PI / 5), radius: notchRadius + 40 },
+      { text: 'IN-GAME', angle: -Math.PI / 2 + (2 * Math.PI / 5), radius: notchRadius + 40 },
+      { text: 'OFF COURT', angle: -Math.PI / 2 - (4 * Math.PI / 5), radius: notchRadius + 40 },
+      { text: 'POST-GAME', angle: -Math.PI / 2 + (4 * Math.PI / 5), radius: notchRadius + 40 }
+    ];
+
+    labels.forEach(({ text, angle, radius }) => {
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+
+      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      label.setAttribute('x', String(x));
+      label.setAttribute('y', String(y));
+      label.setAttribute('text-anchor', 'middle');
+      label.setAttribute('dominant-baseline', 'middle');
+      label.setAttribute('fill', '#ffffff');
+      label.setAttribute('font-size', '14');
+      label.setAttribute('font-weight', 'bold');
+      label.setAttribute('font-family', 'system-ui, -apple-system, sans-serif');
+      label.textContent = text;
+      svg.appendChild(label);
+    });
+
+    return () => {
+      // Cleanup
+      style.remove();
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isSubmitting || !email) return;
@@ -219,17 +376,25 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Hero Screenshot */}
-          <div className="relative rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10"></div>
-            <Image
-              src="/waitlist-media/hero.png"
-              alt="MyCheatCode.AI Dashboard"
-              width={1920}
-              height={1080}
-              className="w-full h-auto"
-              priority
-            />
+          {/* Interactive Star Visualization */}
+          <div className="relative w-full max-w-[800px] mx-auto aspect-square">
+            <div
+              id="heroVisualContainer"
+              className="relative w-full h-full overflow-hidden rounded-2xl"
+              style={{
+                background: 'radial-gradient(circle at center, #0a0a0a 0%, #000000 100%)'
+              }}
+            >
+              {/* Background stars will be added via useEffect */}
+              <svg
+                id="starSvg"
+                viewBox="0 0 800 800"
+                className="absolute inset-0 w-full h-full"
+                style={{ zIndex: 2 }}
+              >
+                {/* Star will be rendered via useEffect */}
+              </svg>
+            </div>
           </div>
         </div>
       </section>
