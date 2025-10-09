@@ -222,11 +222,11 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual with Streetwear Overlaid Text */}
-          <div className="relative flex items-center justify-center -my-16 md:my-6 w-full overflow-visible mt-8 mb-4">
-            {/* "LET YOUR GAME" - Overlaid Above */}
+          <div className="relative flex items-center justify-center -my-16 md:my-6 w-full overflow-visible mt-8 mb-0">
+            {/* "SHINE" - Overlaid Above */}
             <div className="absolute top-4 md:top-8 left-0 right-0 text-center z-0 pointer-events-none">
               <p className="text-7xl sm:text-8xl md:text-9xl font-black text-zinc-800/50 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                LET YOUR GAME
+                SHINE
               </p>
             </div>
 
@@ -247,10 +247,10 @@ function WaitlistContent() {
               </div>
             </div>
 
-            {/* "SHINE" - Overlaid Below - Very Close */}
-            <div className="absolute -bottom-16 sm:-bottom-20 md:-bottom-24 left-0 right-0 text-center z-0 pointer-events-none">
+            {/* "BRIGHT" - Overlaid Below - Much Closer */}
+            <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 left-0 right-0 text-center z-0 pointer-events-none">
               <p className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] font-black text-zinc-800/50 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                SHINE
+                BRIGHT
               </p>
             </div>
           </div>
