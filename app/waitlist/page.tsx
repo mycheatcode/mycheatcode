@@ -182,7 +182,7 @@ function WaitlistContent() {
 
             {/* Main Headline */}
             <h1 className="text-4xl md:text-7xl font-bold text-white leading-tight px-4">
-              AI coaching for confidence and pressure moments.
+              Your AI Mental Coach
             </h1>
 
             {/* Subheadline */}
@@ -216,7 +216,7 @@ function WaitlistContent() {
                 <p className="text-sm text-red-400">{error}</p>
               )}
               <p className="text-sm text-zinc-500">
-                Get ahead of the game
+                Be ahead of the game
               </p>
             </form>
           </div>
