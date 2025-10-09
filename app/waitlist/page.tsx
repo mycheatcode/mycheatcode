@@ -318,10 +318,10 @@ function WaitlistContent() {
           <div className="space-y-8">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Browse community topics or create custom codes
+                Browse community topics for a quick start
               </h2>
               <p className="text-xl text-zinc-400 leading-relaxed">
-                Get inspired by what other players are working through, or start from scratch with your own unique mental challenge.
+                Real topics from real players. Find what speaks to you and level up your mental game.
               </p>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900">
