@@ -164,9 +164,9 @@ function WaitlistContent() {
       </header>
 
       {/* Hero Section with Star Visual */}
-      <section className="relative pt-32 pb-32 px-4 md:px-6 starfield-background">
+      <section className="relative pt-32 pb-20 md:pb-32 px-4 md:px-6 starfield-background overflow-hidden">
         {/* Starfield Background for Hero */}
-        <div className="starfield-container">
+        <div className="starfield-container-hero">
           <div className="stars stars-small"></div>
           <div className="stars stars-medium"></div>
           <div className="stars stars-large"></div>
@@ -228,7 +228,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual from Homepage - Mobile Optimized */}
-          <div className="flex items-center justify-center my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center my-2 md:my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
               <div className="scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
@@ -460,14 +460,15 @@ function WaitlistContent() {
           overflow: hidden;
         }
 
-        .starfield-container {
-          position: fixed;
+        .starfield-container-hero {
+          position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
           pointer-events: none;
           z-index: 1;
+          overflow: hidden;
         }
 
         .stars {
