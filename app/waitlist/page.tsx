@@ -221,17 +221,17 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Star Progress Visual with Overlaid Text */}
-          <div className="relative flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
+          {/* Star Progress Visual with Streetwear Overlaid Text */}
+          <div className="relative flex items-center justify-center -my-16 md:my-6 w-full overflow-visible">
             {/* "LET YOUR GAME" - Overlaid Above */}
-            <div className="absolute top-0 left-0 right-0 text-center z-10 pointer-events-none">
-              <p className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-zinc-900/40 tracking-[0.2em] leading-none" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            <div className="absolute -top-8 md:-top-12 left-0 right-0 text-center z-10 pointer-events-none">
+              <p className="text-7xl sm:text-8xl md:text-9xl font-black text-zinc-900/30 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
                 LET YOUR GAME
               </p>
             </div>
 
             {/* Star Visual */}
-            <div className="w-full flex justify-center relative z-0">
+            <div className="w-full flex justify-center relative z-20">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
@@ -247,9 +247,9 @@ function WaitlistContent() {
               </div>
             </div>
 
-            {/* "SHINE" - Overlaid Below */}
-            <div className="absolute bottom-0 left-0 right-0 text-center z-10 pointer-events-none">
-              <p className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-zinc-900/40 tracking-[0.2em] leading-none" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+            {/* "SHINE" - Overlaid Below - Much Closer */}
+            <div className="absolute -bottom-8 md:-bottom-12 left-0 right-0 text-center z-10 pointer-events-none">
+              <p className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] font-black text-zinc-900/30 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', textShadow: '0 0 20px rgba(0,0,0,0.5)' }}>
                 SHINE
               </p>
             </div>
