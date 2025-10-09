@@ -252,10 +252,10 @@ function WaitlistContent() {
           <div className="space-y-8">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Create cheat codes for any situation
+                Overcome every mental barrier on the court
               </h2>
               <p className="text-xl text-zinc-400 leading-relaxed">
-                Talk with your AI coach and build mental strategies for pressure moments, confidence issues, or recovery from mistakes.
+                Talk with your AI coach to build confidence, master pressure moments, and elevate your mental game.
               </p>
             </div>
             <div className="relative rounded-2xl overflow-hidden border border-zinc-800 shadow-2xl bg-zinc-900">
