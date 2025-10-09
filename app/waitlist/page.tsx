@@ -221,17 +221,29 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Star Progress Visual with Streetwear Overlaid Text */}
-          <div className="relative flex items-center justify-center -my-16 md:my-6 w-full overflow-visible mt-8 mb-0">
-            {/* "SHINE" - Overlaid Above */}
-            <div className="absolute top-4 md:top-8 left-0 right-0 text-center z-0 pointer-events-none">
-              <p className="text-7xl sm:text-8xl md:text-9xl font-black text-zinc-800/50 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                SHINE
-              </p>
+          {/* Legend/Status Display - Hall of Fame */}
+          <div className="flex justify-center mb-4 md:mb-6">
+            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-green-500/30 bg-green-500/5">
+              <svg width="16" height="16" viewBox="0 0 12 12" className="flex-shrink-0">
+                <path
+                  d="M6 1 L11 6 L6 11 L1 6 Z"
+                  fill="#32CD32"
+                  opacity="0.8"
+                />
+              </svg>
+              <span className="text-sm md:text-base font-bold text-green-400 tracking-wide uppercase">
+                Hall of Fame
+              </span>
+              <div className="flex items-center gap-1 ml-2">
+                <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                <span className="text-xs md:text-sm font-semibold text-zinc-400">100%</span>
+              </div>
             </div>
+          </div>
 
-            {/* Star Visual */}
-            <div className="w-full flex justify-center relative z-10">
+          {/* Star Progress Visual */}
+          <div className="flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
+            <div className="w-full flex justify-center">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
@@ -245,13 +257,6 @@ function WaitlistContent() {
                   className=""
                 />
               </div>
-            </div>
-
-            {/* "BRIGHT" - Overlaid Below - Much Closer */}
-            <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 left-0 right-0 text-center z-0 pointer-events-none">
-              <p className="text-8xl sm:text-9xl md:text-[10rem] lg:text-[12rem] font-black text-zinc-800/50 tracking-[0.3em] leading-none uppercase" style={{ fontFamily: 'Impact, "Anton", "Bebas Neue", "Oswald", sans-serif', WebkitTextStroke: '1px rgba(255,255,255,0.1)' }}>
-                BRIGHT
-              </p>
             </div>
           </div>
         </div>
