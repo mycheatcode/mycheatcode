@@ -221,22 +221,21 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Legend/Status Display - Hall of Fame */}
-          <div className="flex justify-center mb-4 md:mb-6">
-            <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-green-500/30 bg-green-500/5">
-              <svg width="16" height="16" viewBox="0 0 12 12" className="flex-shrink-0">
+          {/* Status Display - Hall of Fame (matching home page design) */}
+          <div className="flex justify-center mb-2 md:mb-4">
+            <div className="flex flex-col items-center text-center">
+              <svg width="16" height="16" viewBox="0 0 12 12" className="mb-2">
                 <path
                   d="M6 1 L11 6 L6 11 L1 6 Z"
                   fill="#32CD32"
-                  opacity="0.8"
+                  opacity="1"
                 />
               </svg>
-              <span className="text-sm md:text-base font-bold text-green-400 tracking-wide uppercase">
+              <div className="text-xs font-semibold mb-1 text-green-400">
                 Hall of Fame
-              </span>
-              <div className="flex items-center gap-1 ml-2">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span className="text-xs md:text-sm font-semibold text-zinc-400">100%</span>
+              </div>
+              <div className="text-zinc-500 text-[10px]">
+                75-100%
               </div>
             </div>
           </div>
