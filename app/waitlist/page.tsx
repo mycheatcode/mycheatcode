@@ -182,12 +182,12 @@ function WaitlistContent() {
 
             {/* Main Headline */}
             <h1 className="text-4xl md:text-7xl font-bold text-white leading-tight px-4">
-              What you've been missing.
+              AI coaching for confidence and pressure moments.
             </h1>
 
             {/* Subheadline */}
             <p className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed px-4">
-              Master confidence and pressure moments. The mental performance tool basketball players have been waiting for.
+              The mental performance tool basketball players have been waiting for.
             </p>
 
             {/* Email Signup */}
@@ -216,7 +216,7 @@ function WaitlistContent() {
                 <p className="text-sm text-red-400">{error}</p>
               )}
               <p className="text-sm text-zinc-500">
-                Be first to get the advantage
+                Get ahead of the game
               </p>
             </form>
           </div>
