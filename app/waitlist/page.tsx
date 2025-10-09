@@ -228,7 +228,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual from Homepage - Mobile Optimized */}
-          <div className="flex items-center justify-center mb-12 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
               <div className="scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
@@ -346,15 +346,8 @@ function WaitlistContent() {
       </section>
 
       {/* How It Works */}
-      <section className="relative py-20 px-6 border-y border-zinc-800 bg-black starfield-background">
-        {/* Starfield Background for How It Works */}
-        <div className="starfield-container">
-          <div className="stars stars-small"></div>
-          <div className="stars stars-medium"></div>
-          <div className="stars stars-large"></div>
-          <div className="stars stars-twinkle"></div>
-        </div>
-        <div className="max-w-4xl mx-auto relative z-10">
+      <section className="py-20 px-6 border-y border-zinc-800 bg-black">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-16">
             How it works
           </h2>
@@ -404,15 +397,8 @@ function WaitlistContent() {
       </section>
 
       {/* Final CTA */}
-      <section className="relative py-32 px-6 bg-gradient-to-t from-zinc-950 to-black starfield-background">
-        {/* Starfield Background for Final CTA */}
-        <div className="starfield-container">
-          <div className="stars stars-small"></div>
-          <div className="stars stars-medium"></div>
-          <div className="stars stars-large"></div>
-          <div className="stars stars-twinkle"></div>
-        </div>
-        <div className="max-w-3xl mx-auto text-center space-y-8 relative z-10">
+      <section className="py-32 px-6 bg-gradient-to-t from-zinc-950 to-black">
+        <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
             Ready to level up your
             <br />
