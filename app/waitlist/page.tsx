@@ -173,27 +173,30 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-8 mb-12">
+          <div className="text-center space-y-8 mb-8 md:mb-12">
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm text-green-400 font-medium">Now in Beta</span>
+              <span className="text-sm text-green-400 font-medium">Beta Coming Soon</span>
             </div>
 
             {/* Main Headline */}
             <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
-              Master your mental game.
+              Master the mental game.
               <br />
               <span className="bg-gradient-to-r from-zinc-400 to-zinc-600 bg-clip-text text-transparent">
-                Perform under pressure.
+                Unlock your confidence.
               </span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed">
-              The AI mental performance coach built for basketball players.
-              <br />
-              Get personalized <span className="text-white font-semibold">cheat codes</span> for every moment on and off the court.
+            <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-semibold">
+              AI coaching that helps you build confidence and handle pressure.
+            </p>
+
+            {/* Body */}
+            <p className="text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
+              Get cheat codes for clutch moments, bouncing back from bad games, handling pressure, and leveling up the mental side of your game.
             </p>
 
             {/* Email Signup */}
@@ -215,20 +218,20 @@ function WaitlistContent() {
                   disabled={isSubmitting || !email}
                   className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-lg hover:shadow-xl active:scale-95"
                 >
-                  {isSubmitting ? 'Joining...' : 'Join Beta'}
+                  {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                 </button>
               </div>
               {error && (
                 <p className="text-sm text-red-400">{error}</p>
               )}
               <p className="text-sm text-zinc-500">
-                Join <span className="text-white font-semibold">2,847+</span> players • Free forever
+                Be first to get the advantage
               </p>
             </form>
           </div>
 
           {/* Star Progress Visual from Homepage - Mobile Optimized */}
-          <div className="flex items-center justify-center my-2 md:my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -my-4 md:my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
               <div className="scale-[0.7] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
