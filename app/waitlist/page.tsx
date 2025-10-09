@@ -222,7 +222,7 @@ function WaitlistContent() {
           </div>
 
           {/* Status Levels Display (matching home page design) */}
-          <div className="flex justify-center -mb-8 md:-mb-12">
+          <div className="flex justify-center mt-8 md:mt-12 -mb-20 md:-mb-16">
             <div className="grid grid-cols-4 gap-3 md:gap-4">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
@@ -250,7 +250,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual */}
-          <div className="flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden">
             <div className="w-full flex justify-center">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
