@@ -221,16 +221,17 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Motivational Text Above Star - "LET YOUR GAME" */}
-          <div className="text-center mb-4 md:mb-8">
-            <p className="text-3xl md:text-5xl font-bold text-zinc-900 tracking-wider">
-              LET YOUR GAME
-            </p>
-          </div>
+          {/* Star Progress Visual with Overlaid Text */}
+          <div className="relative flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
+            {/* "LET YOUR GAME" - Overlaid Above */}
+            <div className="absolute top-0 left-0 right-0 text-center z-10 pointer-events-none">
+              <p className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-zinc-900/40 tracking-[0.2em] leading-none" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                LET YOUR GAME
+              </p>
+            </div>
 
-          {/* Star Progress Visual from Homepage - Mobile Optimized */}
-          <div className="flex items-center justify-center -my-12 md:my-6 w-full overflow-x-hidden">
-            <div className="w-full flex justify-center">
+            {/* Star Visual */}
+            <div className="w-full flex justify-center relative z-0">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
@@ -245,13 +246,13 @@ function WaitlistContent() {
                 />
               </div>
             </div>
-          </div>
 
-          {/* Motivational Text Below Star - "SHINE" */}
-          <div className="text-center mt-4 md:mt-8 mb-8">
-            <p className="text-3xl md:text-5xl font-bold text-zinc-900 tracking-wider">
-              SHINE
-            </p>
+            {/* "SHINE" - Overlaid Below */}
+            <div className="absolute bottom-0 left-0 right-0 text-center z-10 pointer-events-none">
+              <p className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black text-zinc-900/40 tracking-[0.2em] leading-none" style={{ fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+                SHINE
+              </p>
+            </div>
           </div>
         </div>
         {/* Gradient fade to next section */}
