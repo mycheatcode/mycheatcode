@@ -147,7 +147,15 @@ function WaitlistContent() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black starfield-background">
+      {/* Starfield Background */}
+      <div className="starfield-container">
+        <div className="stars stars-small"></div>
+        <div className="stars stars-medium"></div>
+        <div className="stars stars-large"></div>
+        <div className="stars stars-twinkle"></div>
+      </div>
+
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -163,8 +171,8 @@ function WaitlistContent() {
         </div>
       </header>
 
-      {/* Hero Section with Screenshot */}
-      <section className="pt-32 pb-20 px-6">
+      {/* Hero Section with Star Visual */}
+      <section className="relative pt-32 pb-32 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-8 mb-12">
             {/* Status Badge */}
@@ -221,24 +229,28 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual from Homepage */}
-          <div className="flex items-center justify-center">
-            <StarProgressVisual
-              progressData={{
-                preGame: 100,
-                inGame: 100,
-                postGame: 100,
-                offCourt: 100,
-                lockerRoom: 100
-              }}
-              size={600}
-              className=""
-            />
+          <div className="flex items-center justify-center mb-12">
+            <div className="w-full max-w-[450px] md:max-w-[800px]">
+              <StarProgressVisual
+                progressData={{
+                  preGame: 100,
+                  inGame: 100,
+                  postGame: 100,
+                  offCourt: 100,
+                  lockerRoom: 100
+                }}
+                size={800}
+                className="w-full h-auto"
+              />
+            </div>
           </div>
         </div>
+        {/* Gradient fade to next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-zinc-950 pointer-events-none"></div>
       </section>
 
       {/* Feature Videos Section */}
-      <section className="py-20 px-6 bg-gradient-to-b from-black to-zinc-950">
+      <section className="relative py-20 px-6 bg-zinc-950">
         <div className="max-w-6xl mx-auto space-y-24">
 
           {/* Feature 1: Create Cheat Codes */}
@@ -438,6 +450,102 @@ function WaitlistContent() {
           </div>
         </div>
       </footer>
+
+      {/* Starfield CSS */}
+      <style jsx global>{`
+        /* Starfield Background */
+        .starfield-background {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .starfield-container {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .stars {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0.8;
+        }
+
+        .stars-small {
+          background:
+            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
+            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
+            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
+          background-size: 350px 350px, 400px 400px, 320px 320px;
+          animation: gentle-twinkle 20s ease-in-out infinite alternate;
+          opacity: 0.35;
+        }
+
+        .stars-medium {
+          background:
+            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
+            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
+          background-size: 500px 500px, 450px 450px;
+          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
+          opacity: 0.25;
+        }
+
+        .stars-large {
+          background:
+            radial-gradient(circle at 60% 20%, #ffffff 2px, transparent 2px),
+            radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
+            radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
+          background-size: 800px 800px, 750px 750px, 900px 900px;
+          animation: bright-twinkle 35s ease-in-out infinite;
+          opacity: 0.2;
+        }
+
+        .stars-twinkle {
+          background-image:
+            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
+            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
+          background-size: 800px 800px, 700px 700px, 900px 900px;
+          animation: star-sparkle 25s ease-in-out infinite alternate;
+          opacity: 0.35;
+        }
+
+        @keyframes gentle-twinkle {
+          0% { opacity: 0.3; }
+          50% { opacity: 0.45; }
+          100% { opacity: 0.35; }
+        }
+
+        @keyframes bright-twinkle {
+          0% { opacity: 0.15; }
+          25% { opacity: 0.25; }
+          50% { opacity: 0.3; }
+          75% { opacity: 0.2; }
+          100% { opacity: 0.15; }
+        }
+
+        @keyframes star-sparkle {
+          0% {
+            opacity: 0.3;
+            transform: scale(1);
+          }
+          50% {
+            opacity: 0.5;
+            transform: scale(1.05);
+          }
+          100% {
+            opacity: 0.35;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </div>
   );
 }
