@@ -173,7 +173,7 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-4 md:space-y-8 -mb-8 md:mb-12">
+          <div className="text-center space-y-4 md:space-y-8 -mb-16 md:mb-12">
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
