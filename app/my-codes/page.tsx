@@ -860,7 +860,7 @@ export default function MyCodesPage() {
           {/* Card Container */}
           <div className="w-full max-w-lg">
             {/* Card with Navigation Inside */}
-            <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-12 min-h-[500px] flex relative shadow-2xl border border-zinc-800/50">
+            <div className="bg-zinc-950 rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800">
               {/* Left Arrow - Centered */}
               <button
                 onClick={prevCard}
@@ -901,16 +901,12 @@ export default function MyCodesPage() {
                     <>
                       {/* Title Card */}
                       {card.type === 'title' && (
-                        <div className="space-y-8">
-                          <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                            <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                              Cheat Code
-                            </span>
-                          </div>
-                          <h1 className="text-6xl font-bold text-white leading-tight tracking-tight">
+                        <div className="space-y-10 mt-12">
+                          <h1 className="text-6xl font-bold text-white leading-[1.1] tracking-tight px-4">
                             {(card as any).title}
                           </h1>
-                          <div className="text-zinc-400 text-base font-medium uppercase tracking-wide">
+                          <div className="h-px w-24 bg-zinc-700 mx-auto"></div>
+                          <div className="text-zinc-400 text-base font-semibold uppercase tracking-widest">
                             {(card as any).category}
                           </div>
                         </div>
@@ -918,13 +914,11 @@ export default function MyCodesPage() {
 
                       {/* Section Cards (What, When) */}
                       {card.type === 'section' && (card as any).heading !== 'Why' && (
-                        <div className="space-y-10 max-w-md">
-                          <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                            <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                              {(card as any).heading}
-                            </span>
+                        <div className="space-y-12 max-w-md mt-12">
+                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                            {(card as any).heading}
                           </div>
-                          <p className="text-white text-3xl font-normal leading-relaxed">
+                          <p className="text-white text-3xl font-medium leading-[1.4]">
                             {(card as any).content}
                           </p>
                         </div>
@@ -932,15 +926,13 @@ export default function MyCodesPage() {
 
                       {/* Why Card */}
                       {card.type === 'section' && (card as any).heading === 'Why' && (
-                        <div className="space-y-10 max-w-lg">
-                          <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                            <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                              {(card as any).heading}
-                            </span>
+                        <div className="space-y-12 max-w-lg mt-12">
+                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                            {(card as any).heading}
                           </div>
-                          <div className="space-y-6">
+                          <div className="space-y-8">
                             {(card as any).content.split('\n\n').map((paragraph: string, i: number) => (
-                              <p key={i} className="text-white text-xl font-normal leading-relaxed">
+                              <p key={i} className="text-white text-xl font-medium leading-[1.6]">
                                 {paragraph}
                               </p>
                             ))}
@@ -950,22 +942,20 @@ export default function MyCodesPage() {
 
                       {/* Step Cards */}
                       {card.type === 'step' && 'stepNumber' in card && (
-                        <div className="space-y-10 max-w-lg">
-                          <div className="space-y-3">
-                            <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                              <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                                {(card as any).heading}
-                              </span>
+                        <div className="space-y-12 max-w-lg mt-12">
+                          <div className="space-y-4">
+                            <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                              {(card as any).heading}
                             </div>
-                            <div className="text-zinc-500 text-sm font-medium">
+                            <div className="text-zinc-600 text-sm font-semibold">
                               Step {(card as any).stepNumber} of {(card as any).totalSteps}
                             </div>
                           </div>
-                          <div className="flex items-start gap-6">
-                            <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                              <span className="text-white font-bold text-2xl">{(card as any).stepNumber}</span>
+                          <div className="flex items-center gap-6">
+                            <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
+                              <span className="text-white font-bold text-xl">{(card as any).stepNumber}</span>
                             </div>
-                            <p className="text-white text-2xl font-normal leading-relaxed text-left flex-1 pt-3">
+                            <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1">
                               {(card as any).content}
                             </p>
                           </div>
@@ -974,14 +964,12 @@ export default function MyCodesPage() {
 
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
-                        <div className="space-y-10 w-full max-w-md">
-                          <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                            <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                              Your Cheat Code Phrase
-                            </span>
+                        <div className="space-y-12 w-full max-w-md mt-12">
+                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                            Your Cheat Code Phrase
                           </div>
-                          <div className="space-y-8">
-                            <p className="text-white text-5xl font-bold leading-tight">
+                          <div className="space-y-10">
+                            <p className="text-white text-5xl font-bold leading-[1.2]">
                               "{(card as any).content}"
                             </p>
                             <div className="space-y-4 relative">
