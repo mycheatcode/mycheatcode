@@ -222,9 +222,9 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual with Desktop Status Levels */}
-          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden md:gap-16">
-            {/* Desktop Status Levels - Vertical Side Layout (Left) */}
-            <div className="hidden md:flex flex-col gap-6 mr-12">
+          <div className="flex items-center justify-center -mt-16 md:mt-6 -mb-8 md:mb-6 w-full overflow-x-hidden">
+            {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
+            <div className="hidden md:flex flex-col gap-6 absolute left-8 lg:left-16">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
                 { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
@@ -251,8 +251,8 @@ function WaitlistContent() {
               ))}
             </div>
 
-            {/* Star Visual */}
-            <div className="w-full md:w-auto flex justify-center">
+            {/* Star Visual - Centered */}
+            <div className="w-full flex justify-center">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
@@ -269,8 +269,15 @@ function WaitlistContent() {
             </div>
           </div>
 
+          {/* Status Levels Header - Mobile */}
+          <div className="flex md:hidden justify-center -mt-16 mb-3">
+            <h3 className="text-xs text-zinc-500 font-semibold tracking-wide">
+              Raise Your Mental Game Status
+            </h3>
+          </div>
+
           {/* Status Levels Display - Mobile Horizontal (Below Star) */}
-          <div className="flex md:hidden justify-center -mt-16 mb-8">
+          <div className="flex md:hidden justify-center mb-8">
             <div className="grid grid-cols-4 gap-2 max-w-[280px]">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
