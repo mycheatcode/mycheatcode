@@ -266,15 +266,15 @@ function WaitlistContent() {
           </div>
 
           {/* Status Levels Header - Mobile */}
-          <div className="flex md:hidden justify-center -mt-32 mb-2">
-            <h3 className="text-xs text-zinc-500 font-semibold tracking-wide">
+          <div className="flex md:hidden justify-center -mt-36 mb-3">
+            <h3 className="text-sm text-zinc-500 font-semibold tracking-wide">
               Raise Your Mental Game Status
             </h3>
           </div>
 
           {/* Status Levels Display - Mobile Horizontal (Below Star) */}
           <div className="flex md:hidden justify-center mb-32">
-            <div className="grid grid-cols-4 gap-2 max-w-[280px]">
+            <div className="grid grid-cols-4 gap-3 max-w-[340px]">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
                 { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
@@ -282,17 +282,17 @@ function WaitlistContent() {
                 { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
               ].map((level) => (
                 <div key={level.name} className="flex flex-col items-center text-center">
-                  <svg width="14" height="14" viewBox="0 0 12 12" className="mb-1">
+                  <svg width="18" height="18" viewBox="0 0 12 12" className="mb-1.5">
                     <path
                       d="M6 1 L11 6 L6 11 L1 6 Z"
                       fill={level.color}
                       opacity={level.isActive ? "1" : "0.4"}
                     />
                   </svg>
-                  <div className={`text-[10px] font-semibold mb-0.5 ${level.isActive ? 'text-green-400' : 'text-white'}`}>
+                  <div className={`text-xs font-semibold mb-1 ${level.isActive ? 'text-green-400' : 'text-white'}`}>
                     {level.name}
                   </div>
-                  <div className="text-zinc-500 text-[9px]">
+                  <div className="text-zinc-500 text-[10px]">
                     {level.range}
                   </div>
                 </div>
