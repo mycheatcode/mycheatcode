@@ -151,9 +151,9 @@ function WaitlistContent() {
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-md border-b border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="text-white text-xl font-bold app-label">
+          <div className="text-white text-xl font-bold app-label">
             MYCHEATCODE.AI
-          </Link>
+          </div>
           <button
             onClick={() => {
               const joinSection = document.getElementById('join');
@@ -312,7 +312,7 @@ function WaitlistContent() {
       </section>
 
       {/* Feature Videos Section */}
-      <section className="relative pt-12 md:pt-20 pb-20 px-6 bg-zinc-950">
+      <section className="relative pt-8 md:pt-16 pb-20 px-6 bg-zinc-950">
         <div className="max-w-6xl mx-auto space-y-24">
 
           {/* Feature 1: Create Cheat Codes */}
