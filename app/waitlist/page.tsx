@@ -264,13 +264,13 @@ function WaitlistContent() {
           {/* Star Progress Visual with Desktop Status Levels */}
           <div className="flex items-center justify-center mt-0 -mb-16 md:my-6 w-full overflow-x-hidden">
             {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
-            <div className="hidden md:flex flex-col gap-4 absolute left-8 lg:left-16 bg-zinc-950/50 backdrop-blur-sm border border-zinc-800 rounded-2xl p-6">
+            <div className="hidden md:flex flex-col gap-4 absolute left-8 lg:left-16 bg-zinc-950/80 backdrop-blur-md border border-zinc-800/50 rounded-2xl p-6 shadow-2xl">
               {/* Desktop Header */}
-              <div className="mb-2">
-                <h3 className="text-sm text-zinc-400 font-semibold tracking-wide uppercase">
-                  Status Levels
+              <div className="mb-3">
+                <h3 className="text-sm text-zinc-400 font-semibold tracking-wide">
+                  Watch Your Mental Game Rise
                 </h3>
-                <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent mt-2"></div>
+                <div className="h-px bg-gradient-to-r from-zinc-700 to-transparent mt-3"></div>
               </div>
               {[
                 { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true },
@@ -280,20 +280,21 @@ function WaitlistContent() {
               ].map((level, index) => (
                 <div key={level.name} className="relative">
                   {index < 3 && (
-                    <div className="absolute left-[9px] top-6 w-0.5 h-8 bg-gradient-to-b from-zinc-700 to-zinc-800"></div>
+                    <div className="absolute left-2.5 top-7 w-px h-7 bg-gradient-to-b from-zinc-700 to-zinc-800"></div>
                   )}
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center ${level.isActive ? 'bg-gradient-to-br from-green-500 to-green-600 shadow-lg shadow-green-500/50' : 'bg-zinc-800 border border-zinc-700'}`}>
-                      <svg width="10" height="10" viewBox="0 0 12 12">
+                  <div className="flex items-center gap-3 relative z-10">
+                    <div className="w-6 h-6 flex items-center justify-center">
+                      <svg width="20" height="20" viewBox="0 0 12 12">
                         <path
                           d="M6 1 L11 6 L6 11 L1 6 Z"
-                          fill={level.isActive ? '#ffffff' : level.color}
-                          opacity={level.isActive ? "1" : "0.6"}
+                          fill={level.color}
+                          opacity={level.isActive ? "1" : "0.5"}
+                          filter={level.isActive ? "url(#glow)" : ""}
                         />
                       </svg>
                     </div>
                     <div className="flex flex-col">
-                      <div className={`text-sm font-semibold ${level.isActive ? 'text-green-400' : 'text-zinc-300'}`}>
+                      <div className={`text-sm font-semibold ${level.isActive ? 'text-white' : 'text-zinc-400'}`}>
                         {level.name}
                       </div>
                       <div className="text-zinc-500 text-xs">
@@ -325,11 +326,11 @@ function WaitlistContent() {
 
           {/* Status Levels Display - Mobile Horizontal (Below Star) */}
           <div className="flex md:hidden justify-center mb-32 -mt-36">
-            <div className="bg-zinc-950/50 backdrop-blur-sm border border-zinc-800 rounded-2xl p-4">
+            <div className="bg-zinc-950/80 backdrop-blur-md border border-zinc-800/50 rounded-2xl p-4 shadow-2xl">
               {/* Mobile Header */}
               <div className="mb-3 text-center">
-                <h3 className="text-xs text-zinc-400 font-semibold tracking-wide uppercase">
-                  Status Levels
+                <h3 className="text-xs text-zinc-400 font-semibold tracking-wide">
+                  Watch Your Mental Game Rise
                 </h3>
                 <div className="h-px bg-gradient-to-r from-transparent via-zinc-700 to-transparent mt-2"></div>
               </div>
@@ -342,16 +343,14 @@ function WaitlistContent() {
                   { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
                 ].map((level) => (
                   <div key={level.name} className="flex flex-col items-center text-center">
-                    <div className={`w-5 h-5 rounded-full flex items-center justify-center mb-1.5 ${level.isActive ? 'bg-gradient-to-br from-green-500 to-green-600 shadow-lg shadow-green-500/50' : 'bg-zinc-800 border border-zinc-700'}`}>
-                      <svg width="10" height="10" viewBox="0 0 12 12">
-                        <path
-                          d="M6 1 L11 6 L6 11 L1 6 Z"
-                          fill={level.isActive ? '#ffffff' : level.color}
-                          opacity={level.isActive ? "1" : "0.6"}
-                        />
-                      </svg>
-                    </div>
-                    <div className={`text-[10px] font-semibold mb-0.5 ${level.isActive ? 'text-green-400' : 'text-zinc-300'}`}>
+                    <svg width="18" height="18" viewBox="0 0 12 12" className="mb-1.5">
+                      <path
+                        d="M6 1 L11 6 L6 11 L1 6 Z"
+                        fill={level.color}
+                        opacity={level.isActive ? "1" : "0.5"}
+                      />
+                    </svg>
+                    <div className={`text-[10px] font-semibold mb-0.5 ${level.isActive ? 'text-white' : 'text-zinc-400'}`}>
                       {level.name}
                     </div>
                     <div className="text-zinc-500 text-[9px]">
