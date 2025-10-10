@@ -52,13 +52,12 @@ function WaitlistContent() {
     e.preventDefault();
     if (isSubmitting || !email) return;
 
-    const formData: WaitlistSignupData = {
+    const formData: any = {
       email,
       position: 'Point Guard',
       level: 'High School',
       goals: ['Handling Pressure Moments (free throws, clutch shots, big games)'],
       customGoal: '',
-      urgency: undefined,
       referralCode: searchParams?.get('r') || '',
       consent: true,
       nickname: ''
