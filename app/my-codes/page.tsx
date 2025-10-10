@@ -792,32 +792,28 @@ export default function MyCodesPage() {
             {getFilteredCodes().map((code) => (
               <div
                 key={code.id}
-                className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-8 min-h-[240px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all ${
+                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all ${
                   code.archived
-                    ? 'opacity-60 border-zinc-700/50 bg-gradient-to-br from-zinc-800 via-zinc-800 to-zinc-700'
+                    ? 'opacity-60'
                     : 'hover:scale-[1.02]'
                 }`}
               >
                 {/* Archive Badge */}
                 {code.archived && (
                   <div className="absolute top-5 right-5">
-                    <div className="inline-block px-2.5 py-1 bg-zinc-800/50 rounded-full border border-zinc-700/50">
+                    <div className="inline-block px-2.5 py-1 bg-zinc-900 border border-zinc-700 rounded-lg">
                       <span className="text-zinc-400 text-[10px] uppercase font-semibold tracking-wider">Archived</span>
                     </div>
                   </div>
                 )}
 
                 {/* Card Content - Matching Title Card Style */}
-                <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
-                  <div className="inline-block mx-auto px-3.5 py-1 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                    <span className="text-zinc-400 text-[10px] uppercase font-semibold tracking-wider">
-                      Cheat Code
-                    </span>
-                  </div>
-                  <h1 className="text-3xl font-bold text-white leading-tight tracking-tight px-4">
+                <div className="space-y-8 flex-1 flex flex-col justify-center text-center">
+                  <h1 className="text-3xl font-bold text-white leading-[1.1] tracking-tight px-4">
                     {code.title}
                   </h1>
-                  <div className="text-zinc-400 text-sm font-medium uppercase tracking-wide">
+                  <div className="h-px w-16 bg-zinc-700 mx-auto"></div>
+                  <div className="text-zinc-400 text-sm font-semibold uppercase tracking-widest">
                     {code.category}
                   </div>
                 </div>
