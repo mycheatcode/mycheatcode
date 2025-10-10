@@ -174,20 +174,16 @@ function WaitlistContent() {
         </div>
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 md:space-y-8 -mb-32 md:mb-12">
-            {/* Status Badge */}
-            <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-              <span className="text-sm text-green-400 font-medium">Beta Coming Soon</span>
-            </div>
-
             {/* Main Headline */}
-            <h1 className="text-4xl md:text-7xl font-bold text-white leading-tight px-4">
-              Your AI Mental Coach
+            <h1 className="text-4xl md:text-7xl font-bold leading-tight px-4">
+              <span className="text-white">Mental coaching.</span>
+              <br />
+              <span className="text-zinc-500">Powered by AI.</span>
             </h1>
 
             {/* Subheadline */}
             <p className="text-lg md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed px-4">
-              The mental performance tool basketball players have been waiting for.
+              Build confidence and master the mental side of basketball.
             </p>
 
             {/* Email Signup */}
@@ -216,7 +212,7 @@ function WaitlistContent() {
                 <p className="text-sm text-red-400">{error}</p>
               )}
               <p className="text-sm text-zinc-500">
-                Be ahead of the game
+                Get ahead of the game
               </p>
             </form>
           </div>
