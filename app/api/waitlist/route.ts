@@ -125,37 +125,18 @@ export async function POST(request: NextRequest) {
       } as WaitlistApiResponse);
     }
 
-    // Insert new signup - use minimal data that definitely exists
+    // Insert new signup with new schema
     const insertData: any = {
       email: data.email.toLowerCase(),
-      level: data.level,
-      urgency: data.urgency || null,
+      first_name: data.firstName || null,
+      age_bracket: data.ageBracket,
+      playing_level: data.playingLevel || null,
       referral_code: data.referralCode || null,
       consent: data.consent,
       status: 'pending',
       ip: clientIP,
       user_agent: request.headers.get('user-agent') || null
     };
-
-    // Add position if provided, and role as fallback for old schema
-    if (data.position) {
-      insertData.position = data.position;
-      // Also set role for backward compatibility
-      insertData.role = 'Player'; // Default role for backward compatibility
-    }
-
-    // Handle goals - might need to be a string instead of array
-    if (data.goals && data.goals.length > 0) {
-      // Try as array first, fallback to string
-      insertData.goals = data.goals;
-      // Also set single goal for backward compatibility
-      insertData.goal = data.goals[0]; // Use first goal as primary
-    }
-
-    // Add custom goal if provided
-    if (data.customGoal) {
-      insertData.custom_goal = data.customGoal;
-    }
 
     const { error: insertError } = await supabase
       .from('waitlist_signups')
@@ -173,45 +154,10 @@ export async function POST(request: NextRequest) {
         } as WaitlistApiResponse);
       }
 
-      // Try different approaches based on the error
-      if (insertError.message && (insertError.message.includes('position') || insertError.message.includes('goals') || insertError.message.includes('goal') || insertError.message.includes('custom_goal') || insertError.message.includes('role'))) {
-        console.log('Field compatibility issue, trying minimal insert...');
-
-        // Try with just the basic fields that definitely exist
-        const minimalData = {
-          email: data.email.toLowerCase(),
-          role: 'Player', // Required field in old schema
-          goal: data.goals && data.goals.length > 0 ? data.goals[0] : 'Confidence & Self-Belief', // Default goal
-          level: data.level,
-          urgency: data.urgency || null,
-          referral_code: data.referralCode || null,
-          consent: data.consent,
-          status: 'pending',
-          ip: clientIP,
-          user_agent: request.headers.get('user-agent') || null
-        };
-
-        const { error: retryError } = await supabase
-          .from('waitlist_signups')
-          .insert(minimalData);
-
-        if (!retryError) {
-          console.log('Successful minimal insert');
-          // Continue to success logic below
-        } else {
-          console.error('Minimal insert also failed:', retryError);
-          return NextResponse.json({
-            ok: false,
-            error: `Database error: ${retryError.message}`
-          } as WaitlistApiResponse, { status: 500 });
-        }
-      } else {
-        console.error('Unexpected database error:', insertError.message);
-        return NextResponse.json({
-          ok: false,
-          error: `Database error: ${insertError.message}`
-        } as WaitlistApiResponse, { status: 500 });
-      }
+      return NextResponse.json({
+        ok: false,
+        error: `Database error: ${insertError.message}`
+      } as WaitlistApiResponse, { status: 500 });
     }
 
     // Send confirmation email (don't block response on this)

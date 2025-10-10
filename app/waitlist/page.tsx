@@ -13,7 +13,10 @@ import {
 
 function WaitlistContent() {
   const searchParams = useSearchParams();
+  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
+  const [ageBracket, setAgeBracket] = useState('');
+  const [playingLevel, setPlayingLevel] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -50,14 +53,13 @@ function WaitlistContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting || !email) return;
+    if (isSubmitting || !email || !ageBracket) return;
 
     const formData: any = {
       email,
-      position: 'Point Guard',
-      level: 'High School',
-      goals: ['Handling Pressure Moments (free throws, clutch shots, big games)'],
-      customGoal: '',
+      firstName: firstName || undefined,
+      ageBracket,
+      playingLevel: playingLevel || undefined,
       referralCode: searchParams?.get('r') || '',
       consent: true,
       nickname: ''
@@ -190,7 +192,20 @@ function WaitlistContent() {
 
             {/* Email Signup */}
             <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4 relative z-30">
-              <div className="flex flex-col sm:flex-row gap-3">
+              <div className="space-y-3">
+                {/* First Name (Optional) */}
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="First name (optional)"
+                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+                />
+
+                {/* Email (Required) */}
                 <input
                   type="email"
                   value={email}
@@ -198,18 +213,68 @@ function WaitlistContent() {
                     setEmail(e.target.value);
                     setError('');
                   }}
-                  placeholder="Enter your email"
-                  className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+                  placeholder="Email address *"
+                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                   required
                 />
+
+                {/* Age Bracket (Required) */}
+                <select
+                  value={ageBracket}
+                  onChange={(e) => {
+                    setAgeBracket(e.target.value);
+                    setError('');
+                  }}
+                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                  required
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                    backgroundSize: '1.5rem'
+                  }}
+                >
+                  <option value="" disabled>Age *</option>
+                  <option value="13-15">13-15</option>
+                  <option value="16-18">16-18</option>
+                  <option value="19-24">19-24</option>
+                  <option value="25+">25+</option>
+                </select>
+
+                {/* Playing Level (Optional) */}
+                <select
+                  value={playingLevel}
+                  onChange={(e) => {
+                    setPlayingLevel(e.target.value);
+                    setError('');
+                  }}
+                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                    backgroundSize: '1.5rem'
+                  }}
+                >
+                  <option value="">Playing level (optional)</option>
+                  <option value="Junior High / Middle School">Junior High / Middle School</option>
+                  <option value="High School">High School</option>
+                  <option value="College / University">College / University</option>
+                  <option value="AAU / Club">AAU / Club</option>
+                  <option value="Semi-Pro / Professional">Semi-Pro / Professional</option>
+                  <option value="Recreational / Other">Recreational / Other</option>
+                </select>
+
+                {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !email}
-                  className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
+                  disabled={isSubmitting || !email || !ageBracket}
+                  className="w-full px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
                 >
                   {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                 </button>
               </div>
+
               {error && (
                 <p className="text-sm text-red-400">{error}</p>
               )}
@@ -458,8 +523,21 @@ function WaitlistContent() {
           <p className="text-xl text-zinc-400">
             Sign up now and get notified at launch
           </p>
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 pt-4">
-            <div className="flex flex-col sm:flex-row gap-3">
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-4">
+            <div className="space-y-3">
+              {/* First Name (Optional) */}
+              <input
+                type="text"
+                value={firstName}
+                onChange={(e) => {
+                  setFirstName(e.target.value);
+                  setError('');
+                }}
+                placeholder="First name (optional)"
+                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+              />
+
+              {/* Email (Required) */}
               <input
                 type="email"
                 value={email}
@@ -467,18 +545,68 @@ function WaitlistContent() {
                   setEmail(e.target.value);
                   setError('');
                 }}
-                placeholder="Enter your email"
-                className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+                placeholder="Email address *"
+                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                 required
               />
+
+              {/* Age Bracket (Required) */}
+              <select
+                value={ageBracket}
+                onChange={(e) => {
+                  setAgeBracket(e.target.value);
+                  setError('');
+                }}
+                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                required
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '1.5rem'
+                }}
+              >
+                <option value="" disabled>Age *</option>
+                <option value="13-15">13-15</option>
+                <option value="16-18">16-18</option>
+                <option value="19-24">19-24</option>
+                <option value="25+">25+</option>
+              </select>
+
+              {/* Playing Level (Optional) */}
+              <select
+                value={playingLevel}
+                onChange={(e) => {
+                  setPlayingLevel(e.target.value);
+                  setError('');
+                }}
+                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                style={{
+                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'right 1rem center',
+                  backgroundSize: '1.5rem'
+                }}
+              >
+                <option value="">Playing level (optional)</option>
+                <option value="Junior High / Middle School">Junior High / Middle School</option>
+                <option value="High School">High School</option>
+                <option value="College / University">College / University</option>
+                <option value="AAU / Club">AAU / Club</option>
+                <option value="Semi-Pro / Professional">Semi-Pro / Professional</option>
+                <option value="Recreational / Other">Recreational / Other</option>
+              </select>
+
+              {/* Submit Button */}
               <button
                 type="submit"
-                disabled={isSubmitting || !email}
-                className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
+                disabled={isSubmitting || !email || !ageBracket}
+                className="w-full px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </div>
+
             {error && (
               <p className="text-sm text-red-400">{error}</p>
             )}
