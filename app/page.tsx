@@ -397,13 +397,13 @@ const debugProgression = () => {
   };
 
   const getStarProgressData = () => {
-    // HERO IMAGE: Set to All-Star level (Yellow - 50-74%)
+    // HERO IMAGE: Set to All-Star level (Yellow - 50-74%) - Equal arms
     return {
       preGame: 65,
-      inGame: 70,
-      postGame: 60,
-      offCourt: 68,
-      lockerRoom: 72
+      inGame: 65,
+      postGame: 65,
+      offCourt: 65,
+      lockerRoom: 65
     };
 
     // Original logic (disabled for hero image)
