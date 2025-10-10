@@ -140,7 +140,35 @@ const StarProgressVisual = ({
       const progress = sectionProgress / 100;
       const sectionAngle = -Math.PI / 2 + section * sectorAngle;
 
-      // Draw progress rings - use direct progress for equal arm lengths
+      // Draw 100% full potential outline FIRST (behind everything)
+      const fullPath = createDiamondPath(cx, cy, sectionAngle, outerR, sectorAngle);
+      const fullOutline = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      fullOutline.setAttribute("d", fullPath);
+      fullOutline.setAttribute("fill", "none");
+      fullOutline.setAttribute("stroke", "#999999");
+      fullOutline.setAttribute("stroke-width", (size * 0.004).toString());
+      fullOutline.setAttribute("stroke-opacity", "0.35");
+      fullOutline.setAttribute("stroke-dasharray", `${size * 0.012},${size * 0.008}`);
+      fullOutline.style.pointerEvents = 'none';
+      container.appendChild(fullOutline);
+
+      // Draw ghost guides
+      for (let ring = 3; ring < rings; ring += 4) {
+        const radius = innerR + (outerR - innerR) * (ring / rings);
+        const path = createDiamondPath(cx, cy, sectionAngle, radius, sectorAngle);
+
+        const ghost = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        ghost.setAttribute("d", path);
+        ghost.setAttribute("fill", "none");
+        ghost.setAttribute("stroke", "#444444");
+        ghost.setAttribute("stroke-width", (size * 0.001).toString());
+        ghost.setAttribute("stroke-opacity", "0.2");
+        ghost.setAttribute("stroke-dasharray", `${size * 0.003},${size * 0.007}`);
+        ghost.style.pointerEvents = 'none'; // Disable pointer events on ghost guides
+        container.appendChild(ghost);
+      }
+
+      // Draw progress rings ON TOP - use direct progress for equal arm lengths
       const maxRings = Math.floor(rings * progress);
       for (let ring = 0; ring <= maxRings; ring++) {
         const ringProgress = ring / rings;
@@ -167,34 +195,6 @@ const StarProgressVisual = ({
 
         container.appendChild(diamond);
       }
-
-      // Draw ghost guides
-      for (let ring = 3; ring < rings; ring += 4) {
-        const radius = innerR + (outerR - innerR) * (ring / rings);
-        const path = createDiamondPath(cx, cy, sectionAngle, radius, sectorAngle);
-
-        const ghost = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        ghost.setAttribute("d", path);
-        ghost.setAttribute("fill", "none");
-        ghost.setAttribute("stroke", "#444444");
-        ghost.setAttribute("stroke-width", (size * 0.001).toString());
-        ghost.setAttribute("stroke-opacity", "0.2");
-        ghost.setAttribute("stroke-dasharray", `${size * 0.003},${size * 0.007}`);
-        ghost.style.pointerEvents = 'none'; // Disable pointer events on ghost guides
-        container.appendChild(ghost);
-      }
-
-      // Draw 100% full potential outline - bright and translucent
-      const fullPath = createDiamondPath(cx, cy, sectionAngle, outerR, sectorAngle);
-      const fullOutline = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      fullOutline.setAttribute("d", fullPath);
-      fullOutline.setAttribute("fill", "none");
-      fullOutline.setAttribute("stroke", "#999999");
-      fullOutline.setAttribute("stroke-width", (size * 0.004).toString());
-      fullOutline.setAttribute("stroke-opacity", "0.35");
-      fullOutline.setAttribute("stroke-dasharray", `${size * 0.012},${size * 0.008}`);
-      fullOutline.style.pointerEvents = 'none';
-      container.appendChild(fullOutline);
     }
   };
 
