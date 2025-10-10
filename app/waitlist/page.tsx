@@ -316,7 +316,7 @@ function WaitlistContent() {
           <div className="space-y-8">
             <div className="text-center space-y-4 max-w-3xl mx-auto">
               <h2 className="text-4xl md:text-5xl font-bold text-white">
-                Overcome every mental barrier on the court
+                Overcome any mental barrier on the court
               </h2>
               <p className="text-xl text-zinc-400 leading-relaxed">
                 Talk with your AI coach to build confidence, master pressure moments, and elevate your mental game.
