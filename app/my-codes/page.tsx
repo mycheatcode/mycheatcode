@@ -821,7 +821,7 @@ export default function MyCodesPage() {
                 {/* View Code Button */}
                 <button
                   onClick={() => setSelectedCode(code)}
-                  className="w-full bg-white text-black py-4 rounded-2xl font-semibold text-base hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-6"
+                  className="w-full bg-transparent border-2 border-zinc-700 text-white py-4 rounded-2xl font-semibold text-base hover:bg-zinc-800 hover:border-zinc-600 active:scale-[0.98] transition-all mt-6"
                 >
                   View Code
                 </button>
