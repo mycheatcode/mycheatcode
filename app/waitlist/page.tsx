@@ -222,7 +222,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual with Desktop Status Levels */}
-          <div className="flex items-center justify-center -mt-16 md:mt-6 -mb-8 md:mb-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -mt-24 md:mt-6 -mb-20 md:mb-6 w-full overflow-x-hidden">
             {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
             <div className="hidden md:flex flex-col gap-6 absolute left-8 lg:left-16">
               {[
@@ -270,14 +270,14 @@ function WaitlistContent() {
           </div>
 
           {/* Status Levels Header - Mobile */}
-          <div className="flex md:hidden justify-center -mt-16 mb-3">
+          <div className="flex md:hidden justify-center -mt-32 mb-2">
             <h3 className="text-xs text-zinc-500 font-semibold tracking-wide">
               Raise Your Mental Game Status
             </h3>
           </div>
 
           {/* Status Levels Display - Mobile Horizontal (Below Star) */}
-          <div className="flex md:hidden justify-center mb-8">
+          <div className="flex md:hidden justify-center mb-12">
             <div className="grid grid-cols-4 gap-2 max-w-[280px]">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
