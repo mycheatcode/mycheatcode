@@ -789,26 +789,16 @@ export default function MyCodesPage() {
 
           {/* Cheat Codes Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {getFilteredCodes().map((code) => {
-              const getCategoryBorderColor = () => {
-                if (code.category === 'Pre-Game') return 'border-t-red-500/30';
-                if (code.category === 'Off Court') return 'border-t-orange-500/30';
-                if (code.category === 'Post-Game') return 'border-t-yellow-500/30';
-                if (code.category === 'In-Game') return 'border-t-green-500/30';
-                if (code.category === 'Locker Room') return 'border-t-blue-800/30';
-                return 'border-t-zinc-800';
-              };
-
-              return (
-                <div
-                  key={code.id}
-                  onClick={() => setSelectedCode(code)}
-                  className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 ${getCategoryBorderColor()} border-t-4 transition-all cursor-pointer group ${
-                    code.archived
-                      ? 'opacity-60'
-                      : 'hover:scale-[1.02] hover:border-zinc-700'
-                  }`}
-                >
+            {getFilteredCodes().map((code) => (
+              <div
+                key={code.id}
+                onClick={() => setSelectedCode(code)}
+                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all cursor-pointer group ${
+                  code.archived
+                    ? 'opacity-60'
+                    : 'hover:scale-[1.02] hover:border-zinc-700'
+                }`}
+              >
 
                 {/* Top Right - Streak Badge */}
                 {!code.archived && code.streakType === 'fire' && (
@@ -859,8 +849,7 @@ export default function MyCodesPage() {
                   </div>
                 </div>
               </div>
-              );
-            })}
+            ))}
           </div>
         </div>
 
