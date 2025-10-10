@@ -18,25 +18,17 @@ interface StarProgressVisualProps {
 
 const StarProgressVisual = ({
   progressData = {
-    preGame: 100,
-    inGame: 100,
-    postGame: 100,
-    offCourt: 100,
-    lockerRoom: 100
+    preGame: 65,
+    inGame: 65,
+    postGame: 65,
+    offCourt: 65,
+    lockerRoom: 65
   },
   size = 600,
   showControls = false,
   onClick,
   className = ""
 }: StarProgressVisualProps) => {
-  // Override all progress to 100% for hero image
-  progressData = {
-    preGame: 100,
-    inGame: 100,
-    postGame: 100,
-    offCourt: 100,
-    lockerRoom: 100
-  };
   const svgRef = useRef<SVGSVGElement>(null);
   const TAU = Math.PI * 2;
 
