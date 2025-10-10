@@ -221,6 +221,10 @@ function WaitlistContent() {
           <div className="flex items-center justify-center mt-0 -mb-16 md:my-6 w-full overflow-x-hidden">
             {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
             <div className="hidden md:flex flex-col gap-6 absolute left-8 lg:left-16">
+              {/* Desktop Header */}
+              <h3 className="text-sm text-zinc-500 font-semibold tracking-wide mb-2">
+                Watch Your Mental Game Rise
+              </h3>
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
                 { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
@@ -268,7 +272,7 @@ function WaitlistContent() {
           {/* Status Levels Header - Mobile */}
           <div className="flex md:hidden justify-center -mt-36 mb-3">
             <h3 className="text-sm text-zinc-500 font-semibold tracking-wide">
-              Raise Your Mental Game Status
+              Watch Your Mental Game Rise
             </h3>
           </div>
 
