@@ -180,7 +180,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           {/* Bottom Watermark */}
           <div className="absolute bottom-8 left-0 right-0 text-center z-10">
             <div className="text-zinc-700 text-xs font-semibold tracking-wider">
-              GENERATED WITH MYCHEATCODE.AI
+              YOUR AI MENTAL PERFORMANCE COACH
             </div>
           </div>
 
@@ -281,11 +281,9 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                   Your Cheat Code Phrase
                 </div>
                 <div className="space-y-10">
-                  <div className="p-8 bg-zinc-900 border-2 border-zinc-700 rounded-3xl">
-                    <p className="text-white text-5xl font-bold leading-[1.2]">
-                      {(card as any).phrase}
-                    </p>
-                  </div>
+                  <p className="text-white text-5xl font-bold leading-[1.2]">
+                    {(card as any).phrase}
+                  </p>
                   <div className="space-y-4 relative">
                     <button
                       onClick={handleAddToMyCodes}
