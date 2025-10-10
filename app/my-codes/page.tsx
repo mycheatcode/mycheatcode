@@ -789,16 +789,27 @@ export default function MyCodesPage() {
 
           {/* Cheat Codes Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {getFilteredCodes().map((code) => (
-              <div
-                key={code.id}
-                onClick={() => setSelectedCode(code)}
-                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all cursor-pointer group ${
-                  code.archived
-                    ? 'opacity-60'
-                    : 'hover:scale-[1.02] hover:border-zinc-700'
-                }`}
-              >
+            {getFilteredCodes().map((code) => {
+              const getCategoryBorderColor = () => {
+                if (code.category === 'Pre-Game') return 'border-t-red-500/30';
+                if (code.category === 'Off Court') return 'border-t-orange-500/30';
+                if (code.category === 'Post-Game') return 'border-t-yellow-500/30';
+                if (code.category === 'In-Game') return 'border-t-green-500/30';
+                if (code.category === 'Locker Room') return 'border-t-blue-800/30';
+                return 'border-t-zinc-800';
+              };
+
+              return (
+                <div
+                  key={code.id}
+                  onClick={() => setSelectedCode(code)}
+                  className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 ${getCategoryBorderColor()} border-t-4 transition-all cursor-pointer group ${
+                    code.archived
+                      ? 'opacity-60'
+                      : 'hover:scale-[1.02] hover:border-zinc-700'
+                  }`}
+                >
+
                 {/* Top Right - Streak Badge */}
                 {!code.archived && code.streakType === 'fire' && (
                   <div className="absolute top-4 right-4">
@@ -826,14 +837,7 @@ export default function MyCodesPage() {
                     {code.title}
                   </h1>
                   <div className="h-px w-16 bg-zinc-700 mx-auto"></div>
-                  <div className={`inline-block px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
-                    code.category === 'Pre-Game' ? 'bg-red-500/[0.075] text-zinc-400' :
-                    code.category === 'Off Court' ? 'bg-orange-500/[0.075] text-zinc-400' :
-                    code.category === 'Post-Game' ? 'bg-yellow-500/[0.075] text-zinc-400' :
-                    code.category === 'In-Game' ? 'bg-green-500/[0.075] text-zinc-400' :
-                    code.category === 'Locker Room' ? 'bg-blue-800/[0.075] text-zinc-400' :
-                    'text-zinc-400'
-                  }`}>
+                  <div className="text-zinc-400 text-sm font-semibold uppercase tracking-widest">
                     {code.category}
                   </div>
                 </div>
@@ -855,7 +859,8 @@ export default function MyCodesPage() {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
