@@ -312,7 +312,7 @@ function WaitlistContent() {
       </section>
 
       {/* Feature Videos Section */}
-      <section className="relative pt-8 md:pt-16 pb-20 px-6 bg-zinc-950">
+      <section className="relative pt-4 md:pt-12 pb-20 px-6 bg-zinc-950">
         <div className="max-w-6xl mx-auto space-y-24">
 
           {/* Feature 1: Create Cheat Codes */}
