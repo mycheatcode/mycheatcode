@@ -800,11 +800,13 @@ export default function MyCodesPage() {
                 }`}
               >
                 {/* Top Right - Streak Badge */}
-                {!code.archived && (
-                  <div className="absolute top-5 right-5">
-                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-lg">
-                      <span className="text-sm">{getStreakIcon(code.streakType)}</span>
-                      <span className="text-white text-xs font-semibold">{getStreakText(code.streak, code.streakType)}</span>
+                {!code.archived && code.streakType === 'fire' && (
+                  <div className="absolute top-4 right-4">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-900 border border-zinc-700 rounded-lg">
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
+                        <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                      </svg>
+                      <span className="text-white text-[10px] font-semibold">{code.streak}</span>
                     </div>
                   </div>
                 )}
@@ -824,7 +826,14 @@ export default function MyCodesPage() {
                     {code.title}
                   </h1>
                   <div className="h-px w-16 bg-zinc-700 mx-auto"></div>
-                  <div className="text-zinc-400 text-sm font-semibold uppercase tracking-widest">
+                  <div className={`text-sm font-semibold uppercase tracking-widest ${
+                    code.category === 'Pre-Game' ? 'text-red-400' :
+                    code.category === 'Off Court' ? 'text-orange-400' :
+                    code.category === 'Post-Game' ? 'text-yellow-400' :
+                    code.category === 'In-Game' ? 'text-green-400' :
+                    code.category === 'Locker Room' ? 'text-blue-400' :
+                    'text-zinc-400'
+                  }`}>
                     {code.category}
                   </div>
                 </div>
@@ -832,7 +841,7 @@ export default function MyCodesPage() {
                 {/* Bottom Stats Row */}
                 <div className="flex items-center justify-between text-zinc-500 text-xs pt-4 border-t border-zinc-800">
                   <div>
-                    <span className="font-medium">Last: {code.lastSession}</span>
+                    <span className="font-medium">Last Session: {code.lastSession}</span>
                   </div>
                   <div>
                     <span className="font-medium">{code.sessionsCompleted} sessions</span>
