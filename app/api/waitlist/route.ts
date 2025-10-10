@@ -130,7 +130,6 @@ export async function POST(request: NextRequest) {
       email: data.email.toLowerCase(),
       first_name: data.firstName || null,
       age_bracket: data.ageBracket,
-      playing_level: data.playingLevel || null,
       referral_code: data.referralCode || null,
       consent: data.consent,
       status: 'pending',

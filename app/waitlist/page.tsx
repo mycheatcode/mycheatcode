@@ -16,7 +16,6 @@ function WaitlistContent() {
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [ageBracket, setAgeBracket] = useState('');
-  const [playingLevel, setPlayingLevel] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -59,7 +58,6 @@ function WaitlistContent() {
       email,
       firstName: firstName || undefined,
       ageBracket,
-      playingLevel: playingLevel || undefined,
       referralCode: searchParams?.get('r') || '',
       consent: true,
       nickname: ''
@@ -239,30 +237,6 @@ function WaitlistContent() {
                   <option value="16-18">16-18</option>
                   <option value="19-24">19-24</option>
                   <option value="25+">25+</option>
-                </select>
-
-                {/* Playing Level (Optional) */}
-                <select
-                  value={playingLevel}
-                  onChange={(e) => {
-                    setPlayingLevel(e.target.value);
-                    setError('');
-                  }}
-                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 1rem center',
-                    backgroundSize: '1.5rem'
-                  }}
-                >
-                  <option value="">Playing level (optional)</option>
-                  <option value="Junior High / Middle School">Junior High / Middle School</option>
-                  <option value="High School">High School</option>
-                  <option value="College / University">College / University</option>
-                  <option value="AAU / Club">AAU / Club</option>
-                  <option value="Semi-Pro / Professional">Semi-Pro / Professional</option>
-                  <option value="Recreational / Other">Recreational / Other</option>
                 </select>
 
                 {/* Submit Button */}
@@ -571,30 +545,6 @@ function WaitlistContent() {
                 <option value="16-18">16-18</option>
                 <option value="19-24">19-24</option>
                 <option value="25+">25+</option>
-              </select>
-
-              {/* Playing Level (Optional) */}
-              <select
-                value={playingLevel}
-                onChange={(e) => {
-                  setPlayingLevel(e.target.value);
-                  setError('');
-                }}
-                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 1rem center',
-                  backgroundSize: '1.5rem'
-                }}
-              >
-                <option value="">Playing level (optional)</option>
-                <option value="Junior High / Middle School">Junior High / Middle School</option>
-                <option value="High School">High School</option>
-                <option value="College / University">College / University</option>
-                <option value="AAU / Club">AAU / Club</option>
-                <option value="Semi-Pro / Professional">Semi-Pro / Professional</option>
-                <option value="Recreational / Other">Recreational / Other</option>
               </select>
 
               {/* Submit Button */}

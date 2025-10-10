@@ -4,17 +4,6 @@ import { z } from 'zod';
 export const ageBracketOptions = ['13-15', '16-18', '19-24', '25+'] as const;
 export type AgeBracket = typeof ageBracketOptions[number];
 
-// Playing level options
-export const playingLevelOptions = [
-  'Junior High / Middle School',
-  'High School',
-  'College / University',
-  'AAU / Club',
-  'Semi-Pro / Professional',
-  'Recreational / Other'
-] as const;
-export type PlayingLevel = typeof playingLevelOptions[number];
-
 // Email regex for validation
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -47,10 +36,6 @@ export const waitlistSignupSchema = z.object({
     errorMap: () => ({ message: 'Please select your age bracket' })
   }),
 
-  playingLevel: z.enum(playingLevelOptions, {
-    errorMap: () => ({ message: 'Please select your playing level' })
-  }).optional(),
-
   referralCode: z.string().optional(),
 
   consent: z.boolean()
@@ -68,7 +53,6 @@ export interface WaitlistSignup {
   email: string;
   first_name?: string;
   age_bracket: AgeBracket;
-  playing_level?: PlayingLevel;
   referral_code?: string;
   consent: boolean;
   status: 'pending' | 'confirmed' | 'invited' | 'unsubscribed';
