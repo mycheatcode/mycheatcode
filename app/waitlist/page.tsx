@@ -221,9 +221,9 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Status Levels Display (matching home page design) */}
-          <div className="flex justify-center mt-6 md:mt-12 -mb-24 md:-mb-16">
-            <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-[280px] md:max-w-none">
+          {/* Status Levels Display - Mobile Horizontal */}
+          <div className="flex md:hidden justify-center mt-12 -mb-16">
+            <div className="grid grid-cols-4 gap-2 max-w-[280px]">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
                 { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
@@ -231,17 +231,17 @@ function WaitlistContent() {
                 { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
               ].map((level) => (
                 <div key={level.name} className="flex flex-col items-center text-center">
-                  <svg width="14" height="14" viewBox="0 0 12 12" className="mb-1 md:mb-2">
+                  <svg width="14" height="14" viewBox="0 0 12 12" className="mb-1">
                     <path
                       d="M6 1 L11 6 L6 11 L1 6 Z"
                       fill={level.color}
                       opacity={level.isActive ? "1" : "0.4"}
                     />
                   </svg>
-                  <div className={`text-[10px] md:text-xs font-semibold mb-0.5 md:mb-1 ${level.isActive ? 'text-green-400' : 'text-white'}`}>
+                  <div className={`text-[10px] font-semibold mb-0.5 ${level.isActive ? 'text-green-400' : 'text-white'}`}>
                     {level.name}
                   </div>
-                  <div className="text-zinc-500 text-[9px] md:text-[10px]">
+                  <div className="text-zinc-500 text-[9px]">
                     {level.range}
                   </div>
                 </div>
@@ -249,9 +249,38 @@ function WaitlistContent() {
             </div>
           </div>
 
-          {/* Star Progress Visual */}
-          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden">
-            <div className="w-full flex justify-center">
+          {/* Star Progress Visual with Desktop Status Levels */}
+          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden gap-8">
+            {/* Desktop Status Levels - Vertical Side Layout */}
+            <div className="hidden md:flex flex-col gap-4">
+              {[
+                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
+                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
+                { name: 'All-Star', range: '50-74%', color: '#FFDC00', isActive: false },
+                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
+              ].map((level) => (
+                <div key={level.name} className="flex items-center gap-3">
+                  <svg width="16" height="16" viewBox="0 0 12 12">
+                    <path
+                      d="M6 1 L11 6 L6 11 L1 6 Z"
+                      fill={level.color}
+                      opacity={level.isActive ? "1" : "0.4"}
+                    />
+                  </svg>
+                  <div className="flex flex-col">
+                    <div className={`text-xs font-semibold ${level.isActive ? 'text-green-400' : 'text-white'}`}>
+                      {level.name}
+                    </div>
+                    <div className="text-zinc-500 text-[10px]">
+                      {level.range}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Star Visual */}
+            <div className="w-full md:w-auto flex justify-center">
               <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
                 <StarProgressVisual
                   progressData={{
