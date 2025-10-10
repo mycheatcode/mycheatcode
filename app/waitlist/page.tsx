@@ -221,8 +221,56 @@ function WaitlistContent() {
             </form>
           </div>
 
-          {/* Status Levels Display - Mobile Horizontal */}
-          <div className="flex md:hidden justify-center mt-12 -mb-16">
+          {/* Star Progress Visual with Desktop Status Levels */}
+          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden md:gap-16">
+            {/* Desktop Status Levels - Vertical Side Layout (Left) */}
+            <div className="hidden md:flex flex-col gap-6 mr-12">
+              {[
+                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
+                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
+                { name: 'All-Star', range: '50-74%', color: '#FFDC00', isActive: false },
+                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
+              ].map((level) => (
+                <div key={level.name} className="flex items-center gap-4">
+                  <svg width="20" height="20" viewBox="0 0 12 12">
+                    <path
+                      d="M6 1 L11 6 L6 11 L1 6 Z"
+                      fill={level.color}
+                      opacity={level.isActive ? "1" : "0.4"}
+                    />
+                  </svg>
+                  <div className="flex flex-col">
+                    <div className={`text-sm font-semibold ${level.isActive ? 'text-green-400' : 'text-white'}`}>
+                      {level.name}
+                    </div>
+                    <div className="text-zinc-500 text-xs">
+                      {level.range}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Star Visual */}
+            <div className="w-full md:w-auto flex justify-center">
+              <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
+                <StarProgressVisual
+                  progressData={{
+                    preGame: 100,
+                    inGame: 100,
+                    postGame: 100,
+                    offCourt: 100,
+                    lockerRoom: 100
+                  }}
+                  size={800}
+                  className=""
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Status Levels Display - Mobile Horizontal (Below Star) */}
+          <div className="flex md:hidden justify-center -mt-16 mb-8">
             <div className="grid grid-cols-4 gap-2 max-w-[280px]">
               {[
                 { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
@@ -246,54 +294,6 @@ function WaitlistContent() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-
-          {/* Star Progress Visual with Desktop Status Levels */}
-          <div className="flex items-center justify-center -my-8 md:my-6 w-full overflow-x-hidden gap-8">
-            {/* Desktop Status Levels - Vertical Side Layout */}
-            <div className="hidden md:flex flex-col gap-4">
-              {[
-                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
-                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
-                { name: 'All-Star', range: '50-74%', color: '#FFDC00', isActive: false },
-                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
-              ].map((level) => (
-                <div key={level.name} className="flex items-center gap-3">
-                  <svg width="16" height="16" viewBox="0 0 12 12">
-                    <path
-                      d="M6 1 L11 6 L6 11 L1 6 Z"
-                      fill={level.color}
-                      opacity={level.isActive ? "1" : "0.4"}
-                    />
-                  </svg>
-                  <div className="flex flex-col">
-                    <div className={`text-xs font-semibold ${level.isActive ? 'text-green-400' : 'text-white'}`}>
-                      {level.name}
-                    </div>
-                    <div className="text-zinc-500 text-[10px]">
-                      {level.range}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Star Visual */}
-            <div className="w-full md:w-auto flex justify-center">
-              <div className="scale-[0.65] sm:scale-[0.85] md:scale-100 origin-center">
-                <StarProgressVisual
-                  progressData={{
-                    preGame: 100,
-                    inGame: 100,
-                    postGame: 100,
-                    offCourt: 100,
-                    lockerRoom: 100
-                  }}
-                  size={800}
-                  className=""
-                />
-              </div>
             </div>
           </div>
         </div>
