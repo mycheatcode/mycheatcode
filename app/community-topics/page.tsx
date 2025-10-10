@@ -532,13 +532,10 @@ export default function CommunityTopics() {
         <div className="px-4 pb-4 space-y-3 relative z-[2]">
           {getFilteredTopics().map((topic) => (
             <div key={topic.id} className="relative">
-              {/* Opaque background layer */}
-              <div className="absolute inset-0 bg-black rounded-xl"></div>
-
               {/* Card content */}
               <div
                 onClick={() => handleTopicSelect(topic)}
-                className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer active:scale-98"
+                className="relative bg-zinc-950 border-2 border-zinc-800 rounded-[2rem] p-6 transition-all cursor-pointer active:scale-98 shadow-xl"
               >
               {topic.trending && (
                 <div className="absolute top-3 right-3 bg-yellow-300 text-black px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide">
@@ -728,13 +725,10 @@ export default function CommunityTopics() {
           <div className="grid grid-cols-1 gap-6 relative z-[2]">
             {getFilteredTopics().map((topic) => (
               <div key={topic.id} className="relative">
-                {/* Opaque background layer */}
-                <div className="absolute inset-0 bg-black rounded-xl"></div>
-
                 {/* Card content */}
                 <div
                   onClick={() => handleTopicSelect(topic)}
-                  className="relative bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
+                  className="relative bg-zinc-950 border-2 border-zinc-800 rounded-[2rem] p-8 transition-all cursor-pointer hover:scale-[1.01] shadow-xl"
                 >
                 {topic.trending && (
                   <div className="absolute top-4 right-4 bg-yellow-300 text-black px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
