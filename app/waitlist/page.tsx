@@ -158,7 +158,7 @@ function WaitlistContent() {
             href="#join"
             className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-zinc-200 transition-all text-sm"
           >
-            Join Beta
+            Join Waitlist
           </a>
         </div>
       </header>
@@ -451,12 +451,10 @@ function WaitlistContent() {
       <section className="py-32 px-6 bg-gradient-to-t from-zinc-950 to-black">
         <div className="max-w-3xl mx-auto text-center space-y-8">
           <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
-            Ready to level up your
-            <br />
-            mental game?
+            Ready to get started?
           </h2>
           <p className="text-xl text-zinc-400">
-            Sign up now to gain the advantage first
+            Sign up now and get notified at launch
           </p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 pt-4">
             <div className="flex flex-col sm:flex-row gap-3">
@@ -476,7 +474,7 @@ function WaitlistContent() {
                 disabled={isSubmitting || !email}
                 className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-lg hover:shadow-xl active:scale-95"
               >
-                {isSubmitting ? 'Joining...' : 'Join Beta'}
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
             </div>
             {error && (
