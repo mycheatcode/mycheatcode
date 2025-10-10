@@ -165,12 +165,34 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
       <div className="w-full max-w-lg">
         {/* Card Container */}
-        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-12 min-h-[500px] flex relative shadow-2xl border border-zinc-800/50">
+        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-black rounded-[2rem] p-12 min-h-[500px] flex relative shadow-2xl border border-zinc-800/50 overflow-hidden">
+          {/* Subtle gradient orb background */}
+          <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
+
+          {/* Top Branding Bar */}
+          <div className="absolute top-6 left-8 right-8 flex items-center justify-between z-10">
+            <div className="text-white text-sm font-bold tracking-wider opacity-60">
+              MYCHEATCODE.AI
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
+              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
+              <span className="text-green-400 text-xs font-semibold">CHEAT CODE</span>
+            </div>
+          </div>
+
+          {/* Bottom Watermark */}
+          <div className="absolute bottom-6 left-0 right-0 text-center z-10">
+            <div className="text-zinc-600 text-xs font-medium tracking-wide">
+              Generated with MyCheatCode.AI
+            </div>
+          </div>
+
           {/* Left Arrow - Centered */}
           <button
             onClick={prevCard}
             disabled={currentCard === 0}
-            className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
+            className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-20 ${
               currentCard === 0
                 ? 'text-zinc-700 cursor-not-allowed opacity-30'
                 : 'text-white hover:bg-white/10 active:scale-95'
@@ -185,7 +207,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           <button
             onClick={nextCard}
             disabled={currentCard === cards.length - 1}
-            className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
+            className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-20 ${
               currentCard === cards.length - 1
                 ? 'text-zinc-700 cursor-not-allowed opacity-30'
                 : 'text-white hover:bg-white/10 active:scale-95'
@@ -197,53 +219,50 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           </button>
 
           {/* Card Content */}
-          <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
+          <div className="flex-1 flex flex-col items-center justify-center text-center px-8 relative z-10">
             {card.type === 'title' && 'label' in card && (
-              <div className="space-y-8">
-                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
-                    {(card as any).label}
-                  </span>
-                </div>
+              <div className="space-y-8 mt-6">
                 <h1 className="text-6xl font-bold text-white leading-tight tracking-tight">
                   {(card as any).title}
                 </h1>
-                <div className="text-zinc-400 text-base font-medium uppercase tracking-wide">
-                  {(card as any).subtitle}
+                <div className="inline-block px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-xl">
+                  <span className="text-green-400 text-sm font-semibold uppercase tracking-wide">
+                    {(card as any).subtitle}
+                  </span>
                 </div>
               </div>
             )}
 
             {card.type === 'content' && 'content' in card && (
-              <div className="space-y-10 max-w-md">
-                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+              <div className="space-y-10 max-w-md mt-6">
+                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
+                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
                     {(card as any).heading}
                   </span>
                 </div>
-                <p className="text-white text-3xl font-normal leading-relaxed">
+                <p className="text-white text-3xl font-medium leading-relaxed">
                   {(card as any).content}
                 </p>
               </div>
             )}
 
             {card.type === 'step' && 'stepNumber' in card && (
-              <div className="space-y-10 max-w-lg">
+              <div className="space-y-10 max-w-lg mt-6">
                 <div className="space-y-3">
-                  <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                    <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+                  <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
+                    <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
                       {(card as any).heading}
                     </span>
                   </div>
-                  <div className="text-zinc-500 text-sm font-medium">
+                  <div className="text-zinc-400 text-sm font-semibold">
                     Step {(card as any).stepNumber} of {(card as any).totalSteps}
                   </div>
                 </div>
                 <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-14 h-14 rounded-full bg-white/10 border border-white/20 flex items-center justify-center">
-                    <span className="text-white font-bold text-2xl">{(card as any).stepNumber}</span>
+                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/40 flex items-center justify-center">
+                    <span className="text-green-400 font-bold text-2xl">{(card as any).stepNumber}</span>
                   </div>
-                  <p className="text-white text-2xl font-normal leading-relaxed text-left flex-1 pt-3">
+                  <p className="text-white text-2xl font-medium leading-relaxed text-left flex-1 pt-3">
                     {(card as any).content}
                   </p>
                 </div>
@@ -251,15 +270,15 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'why' && 'content' in card && !('stepNumber' in card) && (
-              <div className="space-y-10 max-w-lg">
-                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+              <div className="space-y-10 max-w-lg mt-6">
+                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
+                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
                     {(card as any).heading}
                   </span>
                 </div>
                 <div className="space-y-6">
                   {(card as any).content.split('\n\n').map((paragraph: string, index: number) => (
-                    <p key={index} className="text-white text-xl font-normal leading-relaxed">
+                    <p key={index} className="text-white text-xl font-medium leading-relaxed">
                       {paragraph}
                     </p>
                   ))}
@@ -268,16 +287,18 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'phrase' && 'phrase' in card && (
-              <div className="space-y-10 w-full max-w-md">
-                <div className="inline-block px-4 py-1.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-xs uppercase font-semibold tracking-wider">
+              <div className="space-y-10 w-full max-w-md mt-6">
+                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
+                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
                     Your Cheat Code Phrase
                   </span>
                 </div>
                 <div className="space-y-8">
-                  <p className="text-white text-5xl font-bold leading-tight">
-                    {(card as any).phrase}
-                  </p>
+                  <div className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 rounded-2xl">
+                    <p className="text-green-400 text-5xl font-bold leading-tight">
+                      {(card as any).phrase}
+                    </p>
+                  </div>
                   <div className="space-y-4 relative">
                     <button
                       onClick={handleAddToMyCodes}
