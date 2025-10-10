@@ -191,17 +191,43 @@ function WaitlistContent() {
             {/* Email Signup */}
             <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4 relative z-30">
               <div className="space-y-3">
-                {/* First Name (Optional) */}
-                <input
-                  type="text"
-                  value={firstName}
-                  onChange={(e) => {
-                    setFirstName(e.target.value);
-                    setError('');
-                  }}
-                  placeholder="First name (optional)"
-                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
-                />
+                {/* First Name and Age - Side by Side */}
+                <div className="flex gap-3">
+                  {/* First Name (Optional) */}
+                  <input
+                    type="text"
+                    value={firstName}
+                    onChange={(e) => {
+                      setFirstName(e.target.value);
+                      setError('');
+                    }}
+                    placeholder="First name (optional)"
+                    className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+                  />
+
+                  {/* Age Bracket (Required) */}
+                  <select
+                    value={ageBracket}
+                    onChange={(e) => {
+                      setAgeBracket(e.target.value);
+                      setError('');
+                    }}
+                    className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                    required
+                    style={{
+                      backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                      backgroundRepeat: 'no-repeat',
+                      backgroundPosition: 'right 1rem center',
+                      backgroundSize: '1.5rem'
+                    }}
+                  >
+                    <option value="" disabled>Age *</option>
+                    <option value="13-15">13-15</option>
+                    <option value="16-18">16-18</option>
+                    <option value="19-24">19-24</option>
+                    <option value="25+">25+</option>
+                  </select>
+                </div>
 
                 {/* Email (Required) */}
                 <input
@@ -215,29 +241,6 @@ function WaitlistContent() {
                   className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                   required
                 />
-
-                {/* Age Bracket (Required) */}
-                <select
-                  value={ageBracket}
-                  onChange={(e) => {
-                    setAgeBracket(e.target.value);
-                    setError('');
-                  }}
-                  className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
-                  required
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                    backgroundRepeat: 'no-repeat',
-                    backgroundPosition: 'right 1rem center',
-                    backgroundSize: '1.5rem'
-                  }}
-                >
-                  <option value="" disabled>Age *</option>
-                  <option value="13-15">13-15</option>
-                  <option value="16-18">16-18</option>
-                  <option value="19-24">19-24</option>
-                  <option value="25+">25+</option>
-                </select>
 
                 {/* Submit Button */}
                 <button
@@ -499,17 +502,43 @@ function WaitlistContent() {
           </p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-4">
             <div className="space-y-3">
-              {/* First Name (Optional) */}
-              <input
-                type="text"
-                value={firstName}
-                onChange={(e) => {
-                  setFirstName(e.target.value);
-                  setError('');
-                }}
-                placeholder="First name (optional)"
-                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
-              />
+              {/* First Name and Age - Side by Side */}
+              <div className="flex gap-3">
+                {/* First Name (Optional) */}
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="First name (optional)"
+                  className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
+                />
+
+                {/* Age Bracket (Required) */}
+                <select
+                  value={ageBracket}
+                  onChange={(e) => {
+                    setAgeBracket(e.target.value);
+                    setError('');
+                  }}
+                  className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
+                  required
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                    backgroundSize: '1.5rem'
+                  }}
+                >
+                  <option value="" disabled>Age *</option>
+                  <option value="13-15">13-15</option>
+                  <option value="16-18">16-18</option>
+                  <option value="19-24">19-24</option>
+                  <option value="25+">25+</option>
+                </select>
+              </div>
 
               {/* Email (Required) */}
               <input
@@ -523,29 +552,6 @@ function WaitlistContent() {
                 className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                 required
               />
-
-              {/* Age Bracket (Required) */}
-              <select
-                value={ageBracket}
-                onChange={(e) => {
-                  setAgeBracket(e.target.value);
-                  setError('');
-                }}
-                className="w-full px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg appearance-none cursor-pointer"
-                required
-                style={{
-                  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'right 1rem center',
-                  backgroundSize: '1.5rem'
-                }}
-              >
-                <option value="" disabled>Age *</option>
-                <option value="13-15">13-15</option>
-                <option value="16-18">16-18</option>
-                <option value="19-24">19-24</option>
-                <option value="25+">25+</option>
-              </select>
 
               {/* Submit Button */}
               <button
