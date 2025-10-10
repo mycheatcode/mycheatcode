@@ -253,7 +253,7 @@ function WaitlistContent() {
 
             {/* Star Visual - Centered */}
             <div className="w-full flex justify-center">
-              <div className="scale-[0.6] sm:scale-[0.85] md:scale-100 origin-center">
+              <div className="scale-[0.55] sm:scale-[0.75] md:scale-90 origin-center">
                 <StarProgressVisual
                   progressData={{
                     preGame: 100,
