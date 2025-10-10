@@ -254,19 +254,19 @@ const ProgressLegend = ({
         className="progress-legend animate-fadeIn"
         style={{
           background: 'rgba(0, 0, 0, 0.85)',
-          borderRadius: '16px',
-          padding: '12px 16px',
+          borderRadius: '12px',
+          padding: '10px 12px',
           border: '1px solid rgba(255, 255, 255, 0.1)',
           backdropFilter: 'blur(10px)',
           fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           transition: 'all 0.3s ease',
           position: 'relative',
-          width: 'fit-content',
-          maxWidth: '340px'
+          width: '100%',
+          maxWidth: '95%'
         }}
       >
         {/* Levels Row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'space-between' }}>
           {stages.map((stage, index) => (
             <div
               key={stage.name}
@@ -274,12 +274,13 @@ const ProgressLegend = ({
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
-                gap: '6px',
-                minWidth: '60px'
+                gap: '4px',
+                flex: 1,
+                minWidth: 0
               }}
             >
               {/* Simple diamond icon */}
-              <svg width="16" height="16" viewBox="0 0 12 12">
+              <svg width="14" height="14" viewBox="0 0 12 12">
                 <path
                   d="M6 1 L11 6 L6 11 L1 6 Z"
                   fill={['#DC1414', '#FF8C00', '#FFDC00', '#32CD32'][index]}
@@ -288,21 +289,23 @@ const ProgressLegend = ({
               </svg>
 
               {/* Level info */}
-              <div style={{ textAlign: 'center' }}>
+              <div style={{ textAlign: 'center', overflow: 'hidden', width: '100%' }}>
                 <div style={{
                   color: index === currentStageIndex
                     ? (darkMode ? 'white' : 'white')
                     : (darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.6)'),
-                  fontSize: '11px',
+                  fontSize: '10px',
                   fontWeight: index === currentStageIndex ? '700' : '600',
-                  marginBottom: '2px',
-                  whiteSpace: 'nowrap'
+                  marginBottom: '1px',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis'
                 }}>
                   {stage.name}
                 </div>
                 <div style={{
                   color: darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.4)',
-                  fontSize: '9px'
+                  fontSize: '8px'
                 }}>
                   {stage.range}
                 </div>
