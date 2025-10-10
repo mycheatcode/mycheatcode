@@ -165,26 +165,22 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
       <div className="w-full max-w-lg">
         {/* Card Container */}
-        <div className="bg-gradient-to-br from-zinc-900 via-zinc-900 to-black rounded-[2rem] p-12 min-h-[500px] flex relative shadow-2xl border border-zinc-800/50 overflow-hidden">
-          {/* Subtle gradient orb background */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-green-500/5 rounded-full blur-3xl"></div>
-
+        <div className="bg-black rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800 overflow-hidden">
           {/* Top Branding Bar */}
-          <div className="absolute top-6 left-8 right-8 flex items-center justify-between z-10">
-            <div className="text-white text-sm font-bold tracking-wider opacity-60">
+          <div className="absolute top-8 left-10 right-10 flex items-center justify-between z-10">
+            <div className="text-white text-sm font-bold tracking-wider">
               MYCHEATCODE.AI
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-full">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-lg">
               <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-              <span className="text-green-400 text-xs font-semibold">CHEAT CODE</span>
+              <span className="text-zinc-400 text-xs font-semibold tracking-wide">CHEAT CODE</span>
             </div>
           </div>
 
           {/* Bottom Watermark */}
-          <div className="absolute bottom-6 left-0 right-0 text-center z-10">
-            <div className="text-zinc-600 text-xs font-medium tracking-wide">
-              Generated with MyCheatCode.AI
+          <div className="absolute bottom-8 left-0 right-0 text-center z-10">
+            <div className="text-zinc-700 text-xs font-semibold tracking-wider">
+              GENERATED WITH MYCHEATCODE.AI
             </div>
           </div>
 
@@ -221,48 +217,43 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           {/* Card Content */}
           <div className="flex-1 flex flex-col items-center justify-center text-center px-8 relative z-10">
             {card.type === 'title' && 'label' in card && (
-              <div className="space-y-8 mt-6">
-                <h1 className="text-6xl font-bold text-white leading-tight tracking-tight">
+              <div className="space-y-10 mt-12">
+                <h1 className="text-6xl font-bold text-white leading-[1.1] tracking-tight px-4">
                   {(card as any).title}
                 </h1>
-                <div className="inline-block px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-xl">
-                  <span className="text-green-400 text-sm font-semibold uppercase tracking-wide">
-                    {(card as any).subtitle}
-                  </span>
+                <div className="h-px w-24 bg-zinc-700 mx-auto"></div>
+                <div className="text-zinc-400 text-base font-semibold uppercase tracking-widest">
+                  {(card as any).subtitle}
                 </div>
               </div>
             )}
 
             {card.type === 'content' && 'content' in card && (
-              <div className="space-y-10 max-w-md mt-6">
-                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
-                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
-                    {(card as any).heading}
-                  </span>
+              <div className="space-y-12 max-w-md mt-12">
+                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                  {(card as any).heading}
                 </div>
-                <p className="text-white text-3xl font-medium leading-relaxed">
+                <p className="text-white text-3xl font-medium leading-[1.4]">
                   {(card as any).content}
                 </p>
               </div>
             )}
 
             {card.type === 'step' && 'stepNumber' in card && (
-              <div className="space-y-10 max-w-lg mt-6">
-                <div className="space-y-3">
-                  <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
-                    <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
-                      {(card as any).heading}
-                    </span>
+              <div className="space-y-12 max-w-lg mt-12">
+                <div className="space-y-4">
+                  <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                    {(card as any).heading}
                   </div>
-                  <div className="text-zinc-400 text-sm font-semibold">
+                  <div className="text-zinc-600 text-sm font-semibold">
                     Step {(card as any).stepNumber} of {(card as any).totalSteps}
                   </div>
                 </div>
-                <div className="flex items-start gap-6">
-                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/10 border-2 border-green-500/40 flex items-center justify-center">
-                    <span className="text-green-400 font-bold text-2xl">{(card as any).stepNumber}</span>
+                <div className="flex items-start gap-8">
+                  <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
+                    <span className="text-white font-bold text-3xl">{(card as any).stepNumber}</span>
                   </div>
-                  <p className="text-white text-2xl font-medium leading-relaxed text-left flex-1 pt-3">
+                  <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1 pt-4">
                     {(card as any).content}
                   </p>
                 </div>
@@ -270,15 +261,13 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'why' && 'content' in card && !('stepNumber' in card) && (
-              <div className="space-y-10 max-w-lg mt-6">
-                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
-                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
-                    {(card as any).heading}
-                  </span>
+              <div className="space-y-12 max-w-lg mt-12">
+                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                  {(card as any).heading}
                 </div>
-                <div className="space-y-6">
+                <div className="space-y-8">
                   {(card as any).content.split('\n\n').map((paragraph: string, index: number) => (
-                    <p key={index} className="text-white text-xl font-medium leading-relaxed">
+                    <p key={index} className="text-white text-xl font-medium leading-[1.6]">
                       {paragraph}
                     </p>
                   ))}
@@ -287,15 +276,13 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'phrase' && 'phrase' in card && (
-              <div className="space-y-10 w-full max-w-md mt-6">
-                <div className="inline-block px-5 py-2 bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl">
-                  <span className="text-green-400 text-sm uppercase font-bold tracking-wider">
-                    Your Cheat Code Phrase
-                  </span>
+              <div className="space-y-12 w-full max-w-md mt-12">
+                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                  Your Cheat Code Phrase
                 </div>
-                <div className="space-y-8">
-                  <div className="p-6 bg-gradient-to-br from-green-500/10 to-green-600/5 border border-green-500/20 rounded-2xl">
-                    <p className="text-green-400 text-5xl font-bold leading-tight">
+                <div className="space-y-10">
+                  <div className="p-8 bg-zinc-900 border-2 border-zinc-700 rounded-3xl">
+                    <p className="text-white text-5xl font-bold leading-[1.2]">
                       {(card as any).phrase}
                     </p>
                   </div>
