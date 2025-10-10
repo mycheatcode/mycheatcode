@@ -792,10 +792,11 @@ export default function MyCodesPage() {
             {getFilteredCodes().map((code) => (
               <div
                 key={code.id}
-                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all ${
+                onClick={() => setSelectedCode(code)}
+                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all cursor-pointer group ${
                   code.archived
                     ? 'opacity-60'
-                    : 'hover:scale-[1.02]'
+                    : 'hover:scale-[1.02] hover:border-zinc-700'
                 }`}
               >
                 {/* Archive Badge */}
@@ -808,7 +809,7 @@ export default function MyCodesPage() {
                 )}
 
                 {/* Card Content - Matching Title Card Style */}
-                <div className="space-y-8 flex-1 flex flex-col justify-center text-center">
+                <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
                   <h1 className="text-3xl font-bold text-white leading-[1.1] tracking-tight px-4">
                     {code.title}
                   </h1>
@@ -818,13 +819,28 @@ export default function MyCodesPage() {
                   </div>
                 </div>
 
-                {/* View Code Button */}
-                <button
-                  onClick={() => setSelectedCode(code)}
-                  className="w-full bg-transparent border-2 border-zinc-700 text-white py-4 rounded-2xl font-semibold text-base hover:bg-zinc-800 hover:border-zinc-600 active:scale-[0.98] transition-all mt-6"
-                >
-                  View Code
-                </button>
+                {/* Stats Row */}
+                <div className="flex items-center justify-center gap-6 text-zinc-500 text-sm pt-4 border-t border-zinc-800">
+                  <div className="flex items-center gap-2">
+                    <span className="text-zinc-600">💪</span>
+                    <span className="font-medium">{code.power}% Power</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>{getStreakIcon(code.streakType)}</span>
+                    <span className="font-medium">{getStreakText(code.streak, code.streakType)}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-zinc-600">📊</span>
+                    <span className="font-medium">{code.sessionsCompleted} sessions</span>
+                  </div>
+                </div>
+
+                {/* Hover Overlay with View Button */}
+                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <div className="bg-white text-black px-8 py-3 rounded-xl font-semibold text-lg">
+                    View Code
+                  </div>
+                </div>
               </div>
             ))}
           </div>
