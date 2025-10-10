@@ -164,7 +164,7 @@ function WaitlistContent() {
       </header>
 
       {/* Hero Section with Star Visual */}
-      <section className="relative pt-16 pb-16 md:pt-32 md:pb-32 px-4 md:px-6 starfield-background overflow-hidden">
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-32 px-4 md:px-6 starfield-background overflow-hidden">
         {/* Starfield Background for Hero */}
         <div className="starfield-container-hero">
           <div className="stars stars-small"></div>
@@ -173,7 +173,7 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-4 md:space-y-8 mb-0 md:mb-12">
+          <div className="text-center space-y-4 md:space-y-8 mb-4 md:mb-12">
             {/* Status Badge */}
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/20 rounded-full px-4 py-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
@@ -222,7 +222,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual with Desktop Status Levels */}
-          <div className="flex items-center justify-center -my-16 md:my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -mt-20 -mb-16 md:my-6 w-full overflow-x-hidden">
             {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
             <div className="hidden md:flex flex-col gap-6 absolute left-8 lg:left-16">
               {[
