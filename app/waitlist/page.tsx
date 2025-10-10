@@ -403,38 +403,27 @@ function WaitlistContent() {
         </div>
       </section>
 
-      {/* How It Works */}
+      {/* The System */}
       <section className="py-20 px-6 border-y border-zinc-800 bg-black">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-16">
-            How it works
+          <h2 className="text-sm text-zinc-500 uppercase tracking-wider font-semibold text-center mb-12">
+            The System
           </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="space-y-4 text-center">
-              <div className="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-green-400">1</span>
-              </div>
-              <h3 className="text-xl font-bold text-white">Chat with your AI coach</h3>
+          <div className="grid md:grid-cols-2 gap-12 max-w-2xl mx-auto">
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-white">
+                Chat = Growth
+              </h3>
               <p className="text-zinc-400 leading-relaxed">
-                Describe what you're struggling with mentally. Your coach helps you break it down.
+                Each conversation develops your mental game
               </p>
             </div>
-            <div className="space-y-4 text-center">
-              <div className="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-green-400">2</span>
-              </div>
-              <h3 className="text-xl font-bold text-white">Get your cheat code</h3>
+            <div className="space-y-4">
+              <h3 className="text-2xl font-bold text-white">
+                Consistency = Strength
+              </h3>
               <p className="text-zinc-400 leading-relaxed">
-                Receive a personalized mental strategy with actionable steps and a memorable phrase.
-              </p>
-            </div>
-            <div className="space-y-4 text-center">
-              <div className="w-12 h-12 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl font-bold text-green-400">3</span>
-              </div>
-              <h3 className="text-xl font-bold text-white">Use it in the moment</h3>
-              <p className="text-zinc-400 leading-relaxed">
-                Pull up your code before games, at the free throw line, or whenever you need it.
+                Progress fades if you're inactive. Keep chatting in all areas to stay sharp
               </p>
             </div>
           </div>
