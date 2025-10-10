@@ -799,6 +799,16 @@ export default function MyCodesPage() {
                     : 'hover:scale-[1.02] hover:border-zinc-700'
                 }`}
               >
+                {/* Top Right - Streak Badge */}
+                {!code.archived && (
+                  <div className="absolute top-5 right-5">
+                    <div className="flex items-center gap-1.5 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-lg">
+                      <span className="text-sm">{getStreakIcon(code.streakType)}</span>
+                      <span className="text-white text-xs font-semibold">{getStreakText(code.streak, code.streakType)}</span>
+                    </div>
+                  </div>
+                )}
+
                 {/* Archive Badge */}
                 {code.archived && (
                   <div className="absolute top-5 right-5">
@@ -819,18 +829,12 @@ export default function MyCodesPage() {
                   </div>
                 </div>
 
-                {/* Stats Row */}
-                <div className="flex items-center justify-center gap-6 text-zinc-500 text-sm pt-4 border-t border-zinc-800">
-                  <div className="flex items-center gap-2">
-                    <span className="text-zinc-600">💪</span>
-                    <span className="font-medium">{code.power}% Power</span>
+                {/* Bottom Stats Row */}
+                <div className="flex items-center justify-between text-zinc-500 text-xs pt-4 border-t border-zinc-800">
+                  <div>
+                    <span className="font-medium">Last: {code.lastSession}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span>{getStreakIcon(code.streakType)}</span>
-                    <span className="font-medium">{getStreakText(code.streak, code.streakType)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-zinc-600">📊</span>
+                  <div>
                     <span className="font-medium">{code.sessionsCompleted} sessions</span>
                   </div>
                 </div>
