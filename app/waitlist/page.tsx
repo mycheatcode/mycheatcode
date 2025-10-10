@@ -154,12 +154,15 @@ function WaitlistContent() {
           <Link href="/" className="text-white text-xl font-bold app-label">
             MYCHEATCODE.AI
           </Link>
-          <a
-            href="#join"
-            className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-zinc-200 transition-all text-sm"
+          <button
+            onClick={() => {
+              const joinSection = document.getElementById('join');
+              joinSection?.scrollIntoView({ behavior: 'smooth' });
+            }}
+            className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-zinc-100 transition-all text-sm shadow-lg hover:shadow-xl active:scale-95"
           >
             Join Waitlist
-          </a>
+          </button>
         </div>
       </header>
 
@@ -203,7 +206,7 @@ function WaitlistContent() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !email}
-                  className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-lg hover:shadow-xl active:scale-95"
+                  className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-xl hover:shadow-2xl active:scale-95"
                 >
                   {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                 </button>
@@ -226,10 +229,10 @@ function WaitlistContent() {
                 Watch Your Mental Game Rise
               </h3>
               {[
-                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false },
-                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
+                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true },
                 { name: 'All-Star', range: '50-74%', color: '#FFDC00', isActive: false },
-                { name: 'Hall of Fame', range: '75-100%', color: '#32CD32', isActive: true }
+                { name: 'Rookie', range: '25-49%', color: '#FF8C00', isActive: false },
+                { name: 'Beginner', range: '0-24%', color: '#DC1414', isActive: false }
               ].map((level) => (
                 <div key={level.name} className="flex items-center gap-4">
                   <svg width="20" height="20" viewBox="0 0 12 12">
@@ -309,7 +312,7 @@ function WaitlistContent() {
       </section>
 
       {/* Feature Videos Section */}
-      <section className="relative py-20 px-6 bg-zinc-950">
+      <section className="relative pt-12 md:pt-20 pb-20 px-6 bg-zinc-950">
         <div className="max-w-6xl mx-auto space-y-24">
 
           {/* Feature 1: Create Cheat Codes */}
@@ -472,7 +475,7 @@ function WaitlistContent() {
               <button
                 type="submit"
                 disabled={isSubmitting || !email}
-                className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-lg hover:shadow-xl active:scale-95"
+                className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-xl hover:shadow-2xl active:scale-95"
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
