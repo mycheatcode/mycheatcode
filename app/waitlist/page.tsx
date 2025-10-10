@@ -406,11 +406,6 @@ function WaitlistContent() {
       {/* The System */}
       <section className="py-20 px-6 border-y border-zinc-800 bg-black">
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-full mb-6">
-              <span className="text-sm text-zinc-400 uppercase tracking-wider font-semibold">The System</span>
-            </div>
-          </div>
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <div className="bg-zinc-950 border-2 border-zinc-800 rounded-[2rem] p-8 shadow-xl">
               <div className="space-y-4">
@@ -461,7 +456,7 @@ function WaitlistContent() {
             mental game?
           </h2>
           <p className="text-xl text-zinc-400">
-            Join thousands of players building mental strength.
+            Sign up now to gain the advantage first
           </p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-4 pt-4">
             <div className="flex flex-col sm:flex-row gap-3">
