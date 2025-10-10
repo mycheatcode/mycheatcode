@@ -191,7 +191,7 @@ function WaitlistContent() {
             </p>
 
             {/* Email Signup */}
-            <form id="join" onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4">
+            <form id="join" onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4 pb-4">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
@@ -222,7 +222,7 @@ function WaitlistContent() {
           </div>
 
           {/* Star Progress Visual with Desktop Status Levels */}
-          <div className="flex items-center justify-center -mt-20 -mb-16 md:my-6 w-full overflow-x-hidden">
+          <div className="flex items-center justify-center -mt-8 -mb-16 md:my-6 w-full overflow-x-hidden">
             {/* Desktop Status Levels - Vertical Side Layout (Far Left) */}
             <div className="hidden md:flex flex-col gap-6 absolute left-8 lg:left-16">
               {[
