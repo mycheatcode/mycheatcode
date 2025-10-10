@@ -157,9 +157,9 @@ function WaitlistContent() {
           <button
             onClick={() => {
               const joinSection = document.getElementById('join');
-              joinSection?.scrollIntoView({ behavior: 'smooth' });
+              joinSection?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }}
-            className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-zinc-100 transition-all text-sm shadow-lg hover:shadow-xl active:scale-95"
+            className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-white/90 transition-all text-sm shadow-[0_4px_20px_rgb(255,255,255,0.3)] hover:shadow-[0_4px_30px_rgb(255,255,255,0.4)] active:scale-95"
           >
             Join Waitlist
           </button>
@@ -176,7 +176,7 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div className="text-center space-y-4 md:space-y-8 -mb-32 md:mb-12">
+          <div id="join" className="text-center space-y-4 md:space-y-8 -mb-32 md:mb-12">
             {/* Main Headline */}
             <h1 className="text-4xl md:text-7xl font-bold leading-tight px-4">
               <span className="text-white">Mental coaching.</span>
@@ -190,7 +190,7 @@ function WaitlistContent() {
             </p>
 
             {/* Email Signup */}
-            <form id="join" onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4">
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
@@ -200,13 +200,13 @@ function WaitlistContent() {
                     setError('');
                   }}
                   placeholder="Enter your email"
-                  className="flex-1 px-6 py-4 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-2 focus:ring-zinc-600/20 transition-all"
+                  className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                   required
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting || !email}
-                  className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-xl hover:shadow-2xl active:scale-95"
+                  className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
                 >
                   {isSubmitting ? 'Joining...' : 'Join Waitlist'}
                 </button>
@@ -469,13 +469,13 @@ function WaitlistContent() {
                   setError('');
                 }}
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 bg-zinc-900 border border-zinc-700 rounded-xl text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 focus:ring-2 focus:ring-zinc-600/20 transition-all"
+                className="flex-1 px-6 py-4 bg-white/95 backdrop-blur-sm border-2 border-zinc-300 rounded-xl text-black placeholder-zinc-500 focus:outline-none focus:border-zinc-400 focus:ring-2 focus:ring-zinc-400/30 transition-all shadow-lg"
                 required
               />
               <button
                 type="submit"
                 disabled={isSubmitting || !email}
-                className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-zinc-100 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-xl hover:shadow-2xl active:scale-95"
+                className="px-8 py-4 bg-white text-black font-bold rounded-xl hover:bg-white/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap shadow-[0_8px_30px_rgb(255,255,255,0.3)] hover:shadow-[0_8px_40px_rgb(255,255,255,0.4)] active:scale-95"
               >
                 {isSubmitting ? 'Joining...' : 'Join Waitlist'}
               </button>
