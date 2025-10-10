@@ -175,7 +175,7 @@ function WaitlistContent() {
           <div className="stars stars-twinkle"></div>
         </div>
         <div className="max-w-6xl mx-auto">
-          <div id="join" className="text-center space-y-4 md:space-y-8 -mb-32 md:mb-12">
+          <div id="join" className="text-center space-y-4 md:space-y-8 -mb-32 md:mb-12 relative z-20">
             {/* Main Headline */}
             <h1 className="text-4xl md:text-7xl font-bold leading-tight px-4">
               <span className="text-white">Mental coaching.</span>
@@ -189,7 +189,7 @@ function WaitlistContent() {
             </p>
 
             {/* Email Signup */}
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4">
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-2 md:pt-4 relative z-30">
               <div className="flex flex-col sm:flex-row gap-3">
                 <input
                   type="email"
