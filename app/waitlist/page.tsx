@@ -405,26 +405,34 @@ function WaitlistContent() {
 
       {/* The System */}
       <section className="py-20 px-6 border-y border-zinc-800 bg-black">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-sm text-zinc-500 uppercase tracking-wider font-semibold text-center mb-12">
-            The System
-          </h2>
-          <div className="grid md:grid-cols-2 gap-12 max-w-2xl mx-auto">
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-white">
-                Chat = Growth
-              </h3>
-              <p className="text-zinc-400 leading-relaxed">
-                Each conversation develops your mental game
-              </p>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="inline-block px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-full mb-6">
+              <span className="text-sm text-zinc-400 uppercase tracking-wider font-semibold">The System</span>
             </div>
-            <div className="space-y-4">
-              <h3 className="text-2xl font-bold text-white">
-                Consistency = Strength
-              </h3>
-              <p className="text-zinc-400 leading-relaxed">
-                Progress fades if you're inactive. Keep chatting in all areas to stay sharp
-              </p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-zinc-950 border-2 border-zinc-800 rounded-[2rem] p-8 shadow-xl">
+              <div className="space-y-4">
+                <div className="text-3xl font-bold text-white">
+                  Chat = Growth
+                </div>
+                <div className="h-px w-16 bg-zinc-700"></div>
+                <p className="text-zinc-400 text-lg leading-relaxed">
+                  Each conversation develops your mental game
+                </p>
+              </div>
+            </div>
+            <div className="bg-zinc-950 border-2 border-zinc-800 rounded-[2rem] p-8 shadow-xl">
+              <div className="space-y-4">
+                <div className="text-3xl font-bold text-white">
+                  Consistency = Strength
+                </div>
+                <div className="h-px w-16 bg-zinc-700"></div>
+                <p className="text-zinc-400 text-lg leading-relaxed">
+                  Progress fades if you're inactive. Keep chatting in all areas to stay sharp
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -433,11 +441,12 @@ function WaitlistContent() {
       {/* Social Proof */}
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <p className="text-sm text-zinc-500 uppercase tracking-wider font-semibold">Trusted by players at</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+          <p className="text-sm text-zinc-500 uppercase tracking-wider font-semibold">Built for players at</p>
+          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
+            <span className="text-zinc-400 font-bold text-lg">Junior High</span>
             <span className="text-zinc-400 font-bold text-lg">High School</span>
-            <span className="text-zinc-400 font-bold text-lg">AAU</span>
             <span className="text-zinc-400 font-bold text-lg">College</span>
+            <span className="text-zinc-400 font-bold text-lg">AAU</span>
             <span className="text-zinc-400 font-bold text-lg">Semi-Pro</span>
           </div>
         </div>
