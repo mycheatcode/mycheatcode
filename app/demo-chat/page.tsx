@@ -165,7 +165,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
       <div className="w-full max-w-lg">
         {/* Card Container */}
-        <div className="bg-black rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800 overflow-hidden">
+        <div className="bg-zinc-950 rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800 overflow-hidden">
           {/* Top Branding Bar */}
           <div className="absolute top-8 left-10 right-10 flex items-center justify-between z-10">
             <div className="text-white text-sm font-bold tracking-wider">
@@ -249,11 +249,11 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
                     Step {(card as any).stepNumber} of {(card as any).totalSteps}
                   </div>
                 </div>
-                <div className="flex items-start gap-8">
-                  <div className="flex-shrink-0 w-20 h-20 rounded-2xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
-                    <span className="text-white font-bold text-3xl">{(card as any).stepNumber}</span>
+                <div className="flex items-center gap-6">
+                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
+                    <span className="text-white font-bold text-xl">{(card as any).stepNumber}</span>
                   </div>
-                  <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1 pt-4">
+                  <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1">
                     {(card as any).content}
                   </p>
                 </div>
