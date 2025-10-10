@@ -247,79 +247,63 @@ const ProgressLegend = ({
 
   const currentStageIndex = getCurrentStageIndex(currentPercentage);
 
-  // Mobile layout - vertical like the image
+  // Mobile layout - horizontal row
   if (isMobile) {
     return (
       <div
         className="progress-legend animate-fadeIn"
         style={{
           background: 'rgba(0, 0, 0, 0.85)',
-          borderRadius: '24px',
-          padding: '24px 20px',
+          borderRadius: '16px',
+          padding: '12px 16px',
           border: '1px solid rgba(50, 205, 50, 0.3)',
           boxShadow: '0 0 30px rgba(50, 205, 50, 0.15), 0 8px 32px rgba(0, 0, 0, 0.3)',
           backdropFilter: 'blur(10px)',
           fontFamily: 'var(--font-dm-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
           transition: 'all 0.3s ease',
           position: 'relative',
-          width: '180px',
-          minHeight: '280px'
+          width: 'fit-content',
+          maxWidth: '340px'
         }}
       >
-        {/* Header */}
-        <div style={{
-          textAlign: 'left',
-          fontSize: '16px',
-          fontWeight: '700',
-          color: darkMode ? 'white' : 'black',
-          marginBottom: '20px',
-          letterSpacing: '2px'
-        }}>
-          LEVELS
-        </div>
-
-        {/* Levels List */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+        {/* Levels Row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', justifyContent: 'space-between' }}>
           {stages.map((stage, index) => (
             <div
               key={stage.name}
               style={{
                 display: 'flex',
+                flexDirection: 'column',
                 alignItems: 'center',
-                gap: '12px'
+                gap: '6px',
+                minWidth: '60px'
               }}
             >
               {/* Simple diamond icon */}
-              <div style={{
-                width: '16px',
-                height: '16px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <svg width="12" height="12" viewBox="0 0 12 12">
-                  <path
-                    d="M6 1 L11 6 L6 11 L1 6 Z"
-                    fill={['#DC1414', '#FF8C00', '#FFDC00', '#32CD32'][index]}
-                  />
-                </svg>
-              </div>
+              <svg width="16" height="16" viewBox="0 0 12 12">
+                <path
+                  d="M6 1 L11 6 L6 11 L1 6 Z"
+                  fill={['#DC1414', '#FF8C00', '#FFDC00', '#32CD32'][index]}
+                  opacity={index === currentStageIndex ? "1" : "0.5"}
+                />
+              </svg>
 
               {/* Level info */}
-              <div style={{ flex: 1 }}>
+              <div style={{ textAlign: 'center' }}>
                 <div style={{
                   color: index === currentStageIndex
-                    ? (darkMode ? '#32CD32' : '#32CD32')
-                    : (darkMode ? 'white' : 'black'),
-                  fontSize: '16px',
+                    ? (darkMode ? 'white' : 'white')
+                    : (darkMode ? 'rgba(255, 255, 255, 0.6)' : 'rgba(255, 255, 255, 0.6)'),
+                  fontSize: '11px',
                   fontWeight: index === currentStageIndex ? '700' : '600',
-                  marginBottom: '2px'
+                  marginBottom: '2px',
+                  whiteSpace: 'nowrap'
                 }}>
                   {stage.name}
                 </div>
                 <div style={{
-                  color: darkMode ? 'rgba(255, 255, 255, 0.5)' : 'rgba(0, 0, 0, 0.5)',
-                  fontSize: '12px'
+                  color: darkMode ? 'rgba(255, 255, 255, 0.4)' : 'rgba(255, 255, 255, 0.4)',
+                  fontSize: '9px'
                 }}>
                   {stage.range}
                 </div>
