@@ -73,7 +73,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
 
             <!-- Header -->
             <div style="text-align: center; margin-bottom: 40px;">
-              <h1 style="font-size: 24px; font-weight: bold; background: linear-gradient(to right, #ffffff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0 0 20px 0;">
+              <h1 style="font-size: 24px; font-weight: bold; color: #ffffff; margin: 0;">
                 MyCheatCode
               </h1>
             </div>
@@ -81,7 +81,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
             <!-- Main Content -->
             <div style="background-color: #111111; border: 1px solid #333333; border-radius: 12px; padding: 30px; margin-bottom: 30px;">
               <h2 style="font-size: 28px; font-weight: bold; color: #ffffff; margin: 0 0 20px 0; text-align: center;">
-                You're In. Let's Unlock Your Game.
+                Last Step. Lock In Your Spot.
               </h2>
 
               <p style="font-size: 16px; color: #d1d5db; line-height: 1.6; margin: 0 0 20px 0;">
@@ -95,7 +95,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
               <!-- CTA Button -->
               <div style="text-align: center; margin: 30px 0;">
                 <a href="${confirmationUrl}" style="display: inline-block; background: linear-gradient(to right, #1f2937, #374151); color: #ffffff; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: bold; font-size: 16px; border: 1px solid #4b5563;">
-                  Confirm My Spot
+                  Lock In My Spot
                 </a>
               </div>
 
