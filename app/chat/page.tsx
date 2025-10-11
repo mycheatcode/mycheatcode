@@ -194,6 +194,17 @@ export default function ChatPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const isDemoMode = urlParams.get('demo') === 'true';
 
+    // Check for initial message from homepage
+    const initialMessage = typeof window !== 'undefined' ? localStorage.getItem('initialMessage') : null;
+    if (initialMessage) {
+      setInputText(initialMessage);
+      localStorage.removeItem('initialMessage');
+      // Focus the input after a brief delay
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100);
+    }
+
     // Load stored topic (if any)
     const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
     if (storedTopic) {
