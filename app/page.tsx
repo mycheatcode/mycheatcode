@@ -89,9 +89,9 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
         {/* Header Message */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-20">
           <h1 className="text-4xl lg:text-5xl font-bold text-white mb-2">
-            Something you want to work on?
+            Anything you want to work on?
           </h1>
         </div>
 
