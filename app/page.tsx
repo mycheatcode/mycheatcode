@@ -90,14 +90,15 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
         {/* Header Message */}
         <div className="text-center mb-20">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl lg:text-5xl font-bold text-white">
             Anything you want to work on?
           </h1>
-          <p className="text-zinc-400 text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
-            Build the confidence to play your game without hesitation.<br />
-            Start talking, or explore topics to get the conversation going.
-          </p>
         </div>
+
+        {/* Subtext above input */}
+        <p className="text-zinc-400 text-sm lg:text-base text-center max-w-2xl mx-auto mb-4">
+          Start talking, or explore topics to get the conversation going.
+        </p>
 
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-8">
