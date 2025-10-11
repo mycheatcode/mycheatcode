@@ -94,8 +94,8 @@ export default function Home() {
             Anything you want to work on?
           </h1>
           <p className="text-zinc-400 text-sm lg:text-base max-w-2xl mx-auto leading-relaxed">
-            Start talking, or explore topics<br />
-            to get the conversation going.
+            Start talking, or explore topics to<br />
+            get the conversation going.
           </p>
         </div>
 
