@@ -20,57 +20,149 @@ export default function Home() {
 
   return (
     <div className="bg-black min-h-screen text-white font-sans relative overflow-hidden">
-      {/* Basketball Play Diagram Background */}
-      <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
-        <svg className="w-full h-full" viewBox="0 0 1110 680" fill="none" xmlns="http://www.w3.org/2000/svg">
-          {/* Court outline */}
-          <rect x="50" y="40" width="1010" height="600" stroke="white" strokeWidth="2"/>
+      {/* Basketball Court Background - Desktop (Landscape) */}
+      <div className="hidden md:block absolute inset-0 opacity-[0.12] pointer-events-none">
+        <svg className="w-full h-full" viewBox="0 0 1200 600" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <marker id="arrow-desktop" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+              <path d="M 2 2 L 10 6 L 2 10 z" fill="white" stroke="none"/>
+            </marker>
+            <filter id="rough-desktop">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5"/>
+            </filter>
+          </defs>
+
+          {/* Court outline - hand-drawn style */}
+          <path d="M 30 25 L 1170 27 L 1172 573 L 28 575 Z" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
 
           {/* Center line */}
-          <line x1="555" y1="40" x2="555" y2="640" stroke="white" strokeWidth="2"/>
+          <path d="M 600 23 Q 602 300 600 577" stroke="white" strokeWidth="2.5" filter="url(#rough-desktop)"/>
 
           {/* Center circle */}
-          <circle cx="555" cy="340" r="60" stroke="white" strokeWidth="2" fill="none"/>
+          <ellipse cx="600" cy="300" rx="75" ry="73" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
 
-          {/* Left three-point line */}
-          <path d="M 50 140 L 290 140 Q 290 340 290 540 L 50 540" stroke="white" strokeWidth="2" fill="none"/>
+          {/* Left hoop & backboard */}
+          <line x1="30" y1="270" x2="30" y2="330" stroke="white" strokeWidth="3" filter="url(#rough-desktop)"/>
+          <circle cx="55" cy="300" r="18" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
 
-          {/* Right three-point line */}
-          <path d="M 1060 140 L 820 140 Q 820 340 820 540 L 1060 540" stroke="white" strokeWidth="2" fill="none"/>
+          {/* Right hoop & backboard */}
+          <line x1="1170" y1="270" x2="1170" y2="330" stroke="white" strokeWidth="3" filter="url(#rough-desktop)"/>
+          <circle cx="1145" cy="300" r="18" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
 
           {/* Left key */}
-          <rect x="50" y="260" width="150" height="160" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="125" cy="340" r="60" stroke="white" strokeWidth="2" fill="none" strokeDasharray="5,5"/>
+          <rect x="30" y="210" width="190" height="180" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <path d="M 220 300 m -70,0 a 70,70 0 1,0 140,0 a 70,70 0 1,0 -140,0" stroke="white" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-desktop)"/>
 
           {/* Right key */}
-          <rect x="910" y="260" width="150" height="160" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="985" cy="340" r="60" stroke="white" strokeWidth="2" fill="none" strokeDasharray="5,5"/>
+          <rect x="980" y="210" width="190" height="180" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <path d="M 980 300 m -70,0 a 70,70 0 1,1 140,0 a 70,70 0 1,1 -140,0" stroke="white" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-desktop)"/>
 
-          {/* Player positions (O) */}
-          <circle cx="250" cy="180" r="15" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="950" cy="180" r="15" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="680" cy="240" r="15" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="250" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="950" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
-          <circle cx="810" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          {/* Left free throw line */}
+          <line x1="220" y1="210" x2="220" y2="390" stroke="white" strokeWidth="2.5" filter="url(#rough-desktop)"/>
 
-          {/* Defender positions (X) */}
-          <text x="330" y="200" fill="white" fontSize="30" fontWeight="bold">X</text>
-          <text x="640" y="140" fill="white" fontSize="30" fontWeight="bold">X</text>
-          <text x="330" y="520" fill="white" fontSize="30" fontWeight="bold">X</text>
-          <text x="900" y="520" fill="white" fontSize="30" fontWeight="bold">X</text>
+          {/* Right free throw line */}
+          <line x1="980" y1="210" x2="980" y2="390" stroke="white" strokeWidth="2.5" filter="url(#rough-desktop)"/>
 
-          {/* Movement arrows */}
-          <path d="M 330 190 L 620 140" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)"/>
-          <path d="M 640 140 L 950 180" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)" strokeDasharray="5,5"/>
-          <path d="M 330 510 L 900 510" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)" strokeDasharray="8,5"/>
+          {/* Left three-point line */}
+          <path d="M 30 100 L 285 102 Q 287 300 285 498 L 30 500" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
 
-          {/* Arrow marker */}
+          {/* Right three-point line */}
+          <path d="M 1170 100 L 915 102 Q 913 300 915 498 L 1170 500" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+
+          {/* Offensive players (O) - 5 players */}
+          <circle cx="450" cy="180" r="16" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <circle cx="600" cy="220" r="16" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <circle cx="750" cy="180" r="16" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <circle cx="500" cy="350" r="16" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+          <circle cx="700" cy="350" r="16" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-desktop)"/>
+
+          {/* Defensive players (X) - 5 players */}
+          <g filter="url(#rough-desktop)">
+            <text x="435" y="285" fill="white" fontSize="28" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="585" y="325" fill="white" fontSize="28" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="735" y="285" fill="white" fontSize="28" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="480" y="445" fill="white" fontSize="28" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="680" y="445" fill="white" fontSize="28" fontWeight="bold" fontFamily="Arial">X</text>
+          </g>
+
+          {/* Play arrows - screen action */}
+          <path d="M 600 220 L 720 200" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-desktop)" filter="url(#rough-desktop)"/>
+          <path d="M 750 180 Q 800 220 850 280" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-desktop)" strokeDasharray="8,5" filter="url(#rough-desktop)"/>
+          <path d="M 450 180 Q 380 250 350 320" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-desktop)" strokeDasharray="8,5" filter="url(#rough-desktop)"/>
+        </svg>
+      </div>
+
+      {/* Basketball Court Background - Mobile (Portrait) */}
+      <div className="md:hidden absolute inset-0 opacity-[0.12] pointer-events-none">
+        <svg className="w-full h-full" viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
-              <polygon points="0 0, 10 3, 0 6" fill="white"/>
+            <marker id="arrow-mobile" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+              <path d="M 2 2 L 10 6 L 2 10 z" fill="white" stroke="none"/>
             </marker>
+            <filter id="rough-mobile">
+              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
+              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5"/>
+            </filter>
           </defs>
+
+          {/* Court outline */}
+          <path d="M 20 30 L 380 32 L 382 770 L 18 772 Z" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Center line */}
+          <path d="M 18 400 L 382 402" stroke="white" strokeWidth="2.5" filter="url(#rough-mobile)"/>
+
+          {/* Center circle */}
+          <ellipse cx="200" cy="400" rx="55" ry="54" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Top hoop & backboard */}
+          <line x1="170" y1="30" x2="230" y2="30" stroke="white" strokeWidth="3" filter="url(#rough-mobile)"/>
+          <circle cx="200" cy="60" r="15" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Bottom hoop & backboard */}
+          <line x1="170" y1="770" x2="230" y2="770" stroke="white" strokeWidth="3" filter="url(#rough-mobile)"/>
+          <circle cx="200" cy="740" r="15" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Top key */}
+          <rect x="110" y="30" width="180" height="140" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <ellipse cx="200" cy="170" rx="55" ry="54" stroke="white" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-mobile)"/>
+
+          {/* Bottom key */}
+          <rect x="110" y="630" width="180" height="140" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <ellipse cx="200" cy="630" rx="55" ry="54" stroke="white" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-mobile)"/>
+
+          {/* Top free throw line */}
+          <line x1="110" y1="170" x2="290" y2="170" stroke="white" strokeWidth="2.5" filter="url(#rough-mobile)"/>
+
+          {/* Bottom free throw line */}
+          <line x1="110" y1="630" x2="290" y2="630" stroke="white" strokeWidth="2.5" filter="url(#rough-mobile)"/>
+
+          {/* Top three-point line */}
+          <path d="M 60 30 L 62 200 Q 200 220 338 200 L 340 30" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Bottom three-point line */}
+          <path d="M 60 770 L 62 600 Q 200 580 338 600 L 340 770" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Offensive players (O) - 5 players */}
+          <circle cx="140" cy="480" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="260" cy="480" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="200" cy="520" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="120" cy="580" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="280" cy="580" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+
+          {/* Defensive players (X) - 5 players */}
+          <g filter="url(#rough-mobile)">
+            <text x="128" y="548" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="248" y="548" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="188" y="590" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="105" y="650" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="265" y="650" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+          </g>
+
+          {/* Play arrows */}
+          <path d="M 200 520 L 200 560" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" filter="url(#rough-mobile)"/>
+          <path d="M 140 480 Q 100 520 80 580" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
+          <path d="M 260 480 Q 300 520 320 580" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
         </svg>
       </div>
       {/* Mobile & Desktop Header with Menu */}
