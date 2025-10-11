@@ -484,14 +484,7 @@ export default function MyCodesPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans starfield-background">
-      {/* Starfield Background */}
-      <div className="starfield-container">
-        <div className="stars stars-small"></div>
-        <div className="stars stars-medium"></div>
-        <div className="stars stars-large"></div>
-        <div className="stars stars-twinkle"></div>
-      </div>
+    <div className="bg-black min-h-screen text-white font-sans">
       {/* Mobile Design */}
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
@@ -513,12 +506,6 @@ export default function MyCodesPage() {
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
-            <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
-                <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-              </svg>
-              <span className="text-xs text-white font-semibold">14 DAY STREAK</span>
-            </div>
           </div>
 
           {/* Page Title */}
@@ -530,18 +517,6 @@ export default function MyCodesPage() {
         {/* Categories Filter */}
         <div className="flex gap-2 p-4 pb-4 overflow-x-auto scrollbar-hide">
           {categories.map((category) => {
-            const getCategoryColors = () => {
-              if (category === 'All') return 'bg-white/5 border border-white/10 active:scale-95';
-              if (category === 'Active') return 'bg-white/5 border border-white/10 active:scale-95';
-              if (category === 'Pre-Game') return 'bg-red-500/[0.075] border border-white/10 active:scale-95';
-              if (category === 'Off Court') return 'bg-orange-500/[0.075] border border-white/10 active:scale-95';
-              if (category === 'Post-Game') return 'bg-yellow-500/[0.075] border border-white/10 active:scale-95';
-              if (category === 'In-Game') return 'bg-green-500/[0.075] border border-white/10 active:scale-95';
-              if (category === 'Locker Room') return 'bg-blue-800/[0.075] border border-white/10 active:scale-95';
-              if (category === 'Archived') return 'bg-zinc-600/[0.075] border border-white/10 active:scale-95';
-              return 'bg-white/5 border border-white/10 active:scale-95';
-            };
-
             const sectionInfo = getSectionManagementInfo(category);
 
             return (
@@ -551,7 +526,7 @@ export default function MyCodesPage() {
                 className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
                   activeCategory === category
                     ? 'bg-white text-black'
-                    : `${getCategoryColors()} text-zinc-300`
+                    : 'bg-white/5 border border-white/10 text-zinc-300 active:scale-95'
                 }`}
               >
                 <span>{category}</span>
@@ -564,7 +539,7 @@ export default function MyCodesPage() {
                     {getCategoryCount(category)}
                   </span>
                   {sectionInfo && sectionInfo.slotsRemaining === 0 && (
-                    <span className="text-xs text-red-400 ml-1">FULL</span>
+                    <span className="text-xs text-zinc-400 ml-1">FULL</span>
                   )}
                 </div>
               </button>
@@ -677,7 +652,7 @@ export default function MyCodesPage() {
               </Link>
 
               <Link href="/my-codes" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
@@ -728,12 +703,6 @@ export default function MyCodesPage() {
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
               </Link>
-              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
-                  <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-                </svg>
-                <span className="text-sm text-white font-semibold">14 DAY STREAK</span>
-              </div>
             </div>
 
             <div className="text-4xl font-bold text-white mb-4">My Cheat Codes</div>
@@ -743,17 +712,6 @@ export default function MyCodesPage() {
           {/* Categories Filter */}
           <div className="flex gap-3 mb-8 overflow-x-auto scrollbar-hide">
             {categories.map((category, index) => {
-              const getCategoryColors = () => {
-                if (category === 'All') return 'bg-white/5 border border-white/10 hover:bg-white/10';
-                if (category === 'Pre-Game') return 'bg-red-500/[0.075] border border-white/10 hover:bg-red-500/[0.125]';
-                if (category === 'Off Court') return 'bg-orange-500/[0.075] border border-white/10 hover:bg-orange-500/[0.125]';
-                if (category === 'Post-Game') return 'bg-yellow-500/[0.075] border border-white/10 hover:bg-yellow-500/[0.125]';
-                if (category === 'In-Game') return 'bg-green-500/[0.075] border border-white/10 hover:bg-green-500/[0.125]';
-                if (category === 'Locker Room') return 'bg-blue-800/[0.075] border border-white/10 hover:bg-blue-800/[0.125]';
-                if (category === 'Archived') return 'bg-zinc-600/[0.075] border border-white/10 hover:bg-zinc-600/[0.125]';
-                return 'bg-white/5 border border-white/10 hover:bg-white/10';
-              };
-
               return (
                 <button
                   key={category}
@@ -761,7 +719,7 @@ export default function MyCodesPage() {
                   className={`px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-3 ${
                     activeCategory === category
                       ? 'bg-white text-black'
-                      : `${getCategoryColors()} text-zinc-300`
+                      : 'bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-300'
                   }`}
                 >
                   <span>{category}</span>
@@ -799,18 +757,6 @@ export default function MyCodesPage() {
                     : 'hover:scale-[1.02] hover:border-zinc-700'
                 }`}
               >
-
-                {/* Top Right - Streak Badge */}
-                {!code.archived && code.streakType === 'fire' && (
-                  <div className="absolute top-4 right-4">
-                    <div className="flex items-center gap-1 px-2 py-1 bg-zinc-900 border border-zinc-700 rounded-lg">
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="white">
-                        <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-                      </svg>
-                      <span className="text-white text-[10px] font-semibold">{code.streak} Days</span>
-                    </div>
-                  </div>
-                )}
 
                 {/* Archive Badge */}
                 {code.archived && (
@@ -996,7 +942,7 @@ export default function MyCodesPage() {
                                 onClick={() => {
                                   handleUseCheatCode(selectedCode);
                                 }}
-                                className="w-full bg-green-600 text-white py-5 rounded-2xl font-semibold text-lg hover:bg-green-500 transition-all active:scale-95 shadow-lg"
+                                className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-all active:scale-95 shadow-lg"
                               >
                                 Use Cheat Code
                               </button>
@@ -1068,7 +1014,6 @@ export default function MyCodesPage() {
         />
       )}
 
-      {/* Starfield CSS Styles */}
       <style jsx global>{`
         @keyframes fade-in-scale {
           0% {
@@ -1097,95 +1042,6 @@ export default function MyCodesPage() {
           100% {
             stroke-dashoffset: 0;
           }
-        }
-
-        .starfield-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .stars {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-        }
-
-        .stars-small {
-          background:
-            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
-            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
-          background-size: 350px 350px, 400px 400px, 320px 320px;
-          animation: gentle-twinkle 20s ease-in-out infinite alternate;
-          opacity: 0.35;
-        }
-
-        .stars-medium {
-          background:
-            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
-            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
-          background-size: 500px 500px, 450px 450px;
-          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
-          opacity: 0.25;
-        }
-
-        .stars-large {
-          background:
-            radial-gradient(circle at 60% 20%, #ffffff 2px, transparent 2px),
-            radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
-            radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
-          background-size: 800px 800px, 750px 750px, 900px 900px;
-          animation: bright-twinkle 35s ease-in-out infinite;
-          opacity: 0.2;
-        }
-
-        .stars-twinkle {
-          background-image:
-            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
-            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
-            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
-          background-size: 800px 800px, 700px 700px, 900px 900px;
-          animation: star-sparkle 25s ease-in-out infinite alternate;
-          opacity: 0.35;
-        }
-
-        @keyframes gentle-twinkle {
-          0% { opacity: 0.3; }
-          50% { opacity: 0.45; }
-          100% { opacity: 0.35; }
-        }
-
-        @keyframes bright-twinkle {
-          0% { opacity: 0.15; }
-          25% { opacity: 0.25; }
-          50% { opacity: 0.3; }
-          75% { opacity: 0.2; }
-          100% { opacity: 0.15; }
-        }
-
-        @keyframes star-sparkle {
-          0% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.5;
-            transform: scale(1.05);
-          }
-          100% {
-            opacity: 0.35;
-            transform: scale(1);
-          }
-        }
-
-        .starfield-background {
-          position: relative;
-          overflow: hidden;
         }
       `}</style>
 
