@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="bg-black min-h-screen text-white font-sans relative overflow-hidden">
       {/* Basketball Play Diagram Background */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.08] pointer-events-none">
         <svg className="w-full h-full" viewBox="0 0 1110 680" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* Court outline */}
           <rect x="50" y="40" width="1010" height="600" stroke="white" strokeWidth="2"/>
@@ -143,12 +143,11 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
         {/* Header Message */}
         <div className="text-center mb-20">
-          <h1 className="text-4xl lg:text-5xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 px-4">
             Anything you want to work on?
           </h1>
-          <p className="text-zinc-400 text-sm lg:text-base max-w-2xl mx-auto leading-relaxed">
-            Start talking, or explore topics to<br />
-            get the conversation going.
+          <p className="text-zinc-400 text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4">
+            Start talking, or explore topics to get the conversation going.
           </p>
         </div>
 
