@@ -130,32 +130,32 @@ export default function Home() {
           {/* Bottom free throw line */}
           <line x1="110" y1="630" x2="290" y2="630" stroke="white" strokeWidth="2.5" filter="url(#rough-mobile)"/>
 
-          {/* Top three-point line */}
-          <path d="M 60 30 L 62 200 Q 200 220 338 200 L 340 30" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Top three-point line - rounded arc */}
+          <path d="M 60 30 L 60 140 Q 200 240 340 140 L 340 30" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
 
-          {/* Bottom three-point line */}
-          <path d="M 60 770 L 62 600 Q 200 580 338 600 L 340 770" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Bottom three-point line - rounded arc */}
+          <path d="M 60 770 L 60 660 Q 200 560 340 660 L 340 770" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
 
-          {/* Offensive players (O) - 5 players - TOP HALF */}
-          <circle cx="140" cy="220" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="260" cy="220" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="200" cy="260" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="120" cy="320" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="280" cy="320" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Offensive players (O) - 5 players - CLOSER TO TOP HOOP */}
+          <circle cx="140" cy="110" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="260" cy="110" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="200" cy="150" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="120" cy="210" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="280" cy="210" r="14" stroke="white" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
 
-          {/* Defensive players (X) - 5 players - TOP HALF */}
+          {/* Defensive players (X) - 5 players - CLOSER TO TOP HOOP */}
           <g filter="url(#rough-mobile)">
-            <text x="128" y="288" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="248" y="288" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="188" y="330" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="105" y="390" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="265" y="390" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="128" y="178" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="248" y="178" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="188" y="220" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="105" y="280" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
+            <text x="265" y="280" fill="white" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
           </g>
 
           {/* Play arrows - TOP HALF */}
-          <path d="M 200 260 L 200 300" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" filter="url(#rough-mobile)"/>
-          <path d="M 140 220 Q 100 260 80 320" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
-          <path d="M 260 220 Q 300 260 320 320" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
+          <path d="M 200 150 L 200 190" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" filter="url(#rough-mobile)"/>
+          <path d="M 140 110 Q 100 150 80 210" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
+          <path d="M 260 110 Q 300 150 320 210" stroke="white" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
         </svg>
       </div>
       {/* Mobile & Desktop Header with Menu */}
