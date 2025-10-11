@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="bg-black min-h-screen text-white font-sans relative overflow-hidden">
       {/* Basketball Court Background - Desktop (Landscape) - Exact recreation */}
-      <div className="hidden md:block absolute inset-0 opacity-[0.12] pointer-events-none">
+      <div className="hidden md:block absolute inset-0 opacity-[0.06] pointer-events-none">
         <svg className="w-full h-full" viewBox="0 0 1086 680" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           <defs>
             <marker id="arrow-desktop" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
@@ -38,11 +38,11 @@ export default function Home() {
           {/* Center circle */}
           <circle cx="543" cy="340" r="90" stroke="white" strokeWidth="3" fill="none"/>
 
-          {/* Left three-point line */}
-          <path d="M 33 120 L 280 120 Q 280 340 280 560 L 33 560" stroke="white" strokeWidth="3" fill="none"/>
+          {/* Left three-point line - more rounded arc */}
+          <path d="M 33 120 L 230 120 Q 280 340 230 560 L 33 560" stroke="white" strokeWidth="3" fill="none"/>
 
-          {/* Right three-point line */}
-          <path d="M 1053 120 L 806 120 Q 806 340 806 560 L 1053 560" stroke="white" strokeWidth="3" fill="none"/>
+          {/* Right three-point line - more rounded arc */}
+          <path d="M 1053 120 L 856 120 Q 806 340 856 560 L 1053 560" stroke="white" strokeWidth="3" fill="none"/>
 
           {/* Left key */}
           <rect x="33" y="250" width="160" height="180" stroke="white" strokeWidth="3" fill="none"/>
@@ -87,7 +87,7 @@ export default function Home() {
       </div>
 
       {/* Basketball Court Background - Mobile (Portrait) */}
-      <div className="md:hidden absolute inset-0 opacity-[0.12] pointer-events-none">
+      <div className="md:hidden absolute inset-0 opacity-[0.06] pointer-events-none">
         <svg className="w-full h-full" viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           <defs>
             <marker id="arrow-mobile" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
