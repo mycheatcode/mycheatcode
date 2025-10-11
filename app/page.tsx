@@ -19,7 +19,60 @@ export default function Home() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="bg-black min-h-screen text-white font-sans relative overflow-hidden">
+      {/* Basketball Play Diagram Background */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <svg className="w-full h-full" viewBox="0 0 1110 680" fill="none" xmlns="http://www.w3.org/2000/svg">
+          {/* Court outline */}
+          <rect x="50" y="40" width="1010" height="600" stroke="white" strokeWidth="2"/>
+
+          {/* Center line */}
+          <line x1="555" y1="40" x2="555" y2="640" stroke="white" strokeWidth="2"/>
+
+          {/* Center circle */}
+          <circle cx="555" cy="340" r="60" stroke="white" strokeWidth="2" fill="none"/>
+
+          {/* Left three-point line */}
+          <path d="M 50 140 L 290 140 Q 290 340 290 540 L 50 540" stroke="white" strokeWidth="2" fill="none"/>
+
+          {/* Right three-point line */}
+          <path d="M 1060 140 L 820 140 Q 820 340 820 540 L 1060 540" stroke="white" strokeWidth="2" fill="none"/>
+
+          {/* Left key */}
+          <rect x="50" y="260" width="150" height="160" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="125" cy="340" r="60" stroke="white" strokeWidth="2" fill="none" strokeDasharray="5,5"/>
+
+          {/* Right key */}
+          <rect x="910" y="260" width="150" height="160" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="985" cy="340" r="60" stroke="white" strokeWidth="2" fill="none" strokeDasharray="5,5"/>
+
+          {/* Player positions (O) */}
+          <circle cx="250" cy="180" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="950" cy="180" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="680" cy="240" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="250" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="950" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
+          <circle cx="810" cy="590" r="15" stroke="white" strokeWidth="2" fill="none"/>
+
+          {/* Defender positions (X) */}
+          <text x="330" y="200" fill="white" fontSize="30" fontWeight="bold">X</text>
+          <text x="640" y="140" fill="white" fontSize="30" fontWeight="bold">X</text>
+          <text x="330" y="520" fill="white" fontSize="30" fontWeight="bold">X</text>
+          <text x="900" y="520" fill="white" fontSize="30" fontWeight="bold">X</text>
+
+          {/* Movement arrows */}
+          <path d="M 330 190 L 620 140" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)"/>
+          <path d="M 640 140 L 950 180" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)" strokeDasharray="5,5"/>
+          <path d="M 330 510 L 900 510" stroke="white" strokeWidth="2" markerEnd="url(#arrowhead)" strokeDasharray="8,5"/>
+
+          {/* Arrow marker */}
+          <defs>
+            <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+              <polygon points="0 0, 10 3, 0 6" fill="white"/>
+            </marker>
+          </defs>
+        </svg>
+      </div>
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center gap-4 z-20">
         <button
