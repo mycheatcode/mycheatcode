@@ -229,7 +229,7 @@ export default function Home() {
         {/* Header Message */}
         <div className="text-center mb-20">
           <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 px-4">
-            Anything you want to work on?
+            Boost your confidence.
           </h1>
           <p className="text-zinc-400 text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4">
             Start talking, or explore topics to get the conversation going.
