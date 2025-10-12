@@ -149,7 +149,7 @@ export default function Home() {
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-4">
           <div className="relative">
             <input
               type="text"
@@ -175,6 +175,20 @@ export default function Home() {
             </button>
           </div>
         </form>
+
+        {/* View Community Topics Button */}
+        <Link href="/community-topics" className="w-full max-w-2xl">
+          <button
+            className="w-full px-6 py-4 rounded-2xl text-lg font-medium transition-colors text-center"
+            style={{
+              background: 'var(--card-bg)',
+              border: '1px solid var(--card-border)',
+              color: 'var(--card-title)'
+            }}
+          >
+            View Community Topics
+          </button>
+        </Link>
       </div>
     </div>
   );
