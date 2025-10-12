@@ -229,7 +229,7 @@ export default function Home() {
         {/* Header Message */}
         <div className="text-center mb-20">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 px-4 whitespace-nowrap">
-            Play confident.
+            Play With Confidence.
           </h1>
           <p className="text-zinc-400 text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4">
             Start talking, or explore topics to get the conversation going.
@@ -257,16 +257,6 @@ export default function Home() {
 
         {/* Three Boxes */}
         <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/my-codes" className="group">
-            <div className="bg-white text-black rounded-2xl p-6 hover:bg-zinc-100 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center border-2 border-white">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-              <h3 className="text-xl font-bold mb-1">My Codes</h3>
-              <p className="text-sm text-zinc-600">Your personal collection</p>
-            </div>
-          </Link>
-
           <Link href="/community-topics" className="group">
             <div className="bg-white text-black rounded-2xl p-6 hover:bg-zinc-100 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center border-2 border-white">
               <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3">
@@ -274,6 +264,16 @@ export default function Home() {
               </svg>
               <h3 className="text-xl font-bold mb-1">Community Topics</h3>
               <p className="text-sm text-zinc-600">Explore curated topics</p>
+            </div>
+          </Link>
+
+          <Link href="/my-codes" className="group">
+            <div className="bg-white text-black rounded-2xl p-6 hover:bg-zinc-100 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center border-2 border-white">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <h3 className="text-xl font-bold mb-1">My Codes</h3>
+              <p className="text-sm text-zinc-600">Your personal collection</p>
             </div>
           </Link>
 
