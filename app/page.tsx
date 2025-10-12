@@ -139,9 +139,8 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
         {/* Header Message */}
-        <div className="text-center mb-20 relative">
-          <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-32 h-1 rounded-full" style={{ background: 'var(--accent-color)', opacity: 0.15 }}></div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-4 md:whitespace-nowrap tracking-tight" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-20">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
           <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4" style={{ color: 'var(--text-secondary)' }}>
@@ -150,28 +149,26 @@ export default function Home() {
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-12">
-          <div className="relative group">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-8">
+          <div className="relative">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-6 py-5 rounded-2xl text-lg focus:outline-none transition-all"
+              className="w-full px-6 py-4 rounded-2xl text-lg focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
-                color: 'var(--input-text)',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+                color: 'var(--input-text)'
               }}
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2.5 rounded-xl transition-all font-medium hover:scale-105"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 rounded-xl transition-colors font-medium"
               style={{
                 background: 'var(--button-bg)',
-                color: 'var(--button-text)',
-                boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+                color: 'var(--button-text)'
               }}
             >
               Send
@@ -180,52 +177,43 @@ export default function Home() {
         </form>
 
         {/* Three Boxes */}
-        <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-3 gap-4">
           <Link href="/community-topics" className="group">
-            <div className="rounded-2xl p-7 transition-all duration-300 cursor-pointer h-full flex flex-col items-center justify-center text-center hover:scale-[1.02] hover:-translate-y-1" style={{
+            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
               background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)',
-              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+              border: '1px solid var(--card-border)'
             }}>
-              <div className="mb-4 p-3 rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--accent-color)', opacity: 0.08 }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--card-title)' }}>
-                  <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold mb-1.5 tracking-tight" style={{ color: 'var(--card-title)' }}>Community Topics</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--card-description)' }}>Explore curated topics</p>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>Community Topics</h3>
+              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Explore curated topics</p>
             </div>
           </Link>
 
           <Link href="/my-codes" className="group">
-            <div className="rounded-2xl p-7 transition-all duration-300 cursor-pointer h-full flex flex-col items-center justify-center text-center hover:scale-[1.02] hover:-translate-y-1" style={{
+            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
               background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)',
-              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+              border: '1px solid var(--card-border)'
             }}>
-              <div className="mb-4 p-3 rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--accent-color)', opacity: 0.08 }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--card-title)' }}>
-                  <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold mb-1.5 tracking-tight" style={{ color: 'var(--card-title)' }}>My Codes</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--card-description)' }}>Your personal collection</p>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>My Codes</h3>
+              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Your personal collection</p>
             </div>
           </Link>
 
           <Link href="/chat-history" className="group">
-            <div className="rounded-2xl p-7 transition-all duration-300 cursor-pointer h-full flex flex-col items-center justify-center text-center hover:scale-[1.02] hover:-translate-y-1" style={{
+            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
               background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)',
-              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)'
+              border: '1px solid var(--card-border)'
             }}>
-              <div className="mb-4 p-3 rounded-xl transition-all duration-300 group-hover:scale-110" style={{ background: 'var(--accent-color)', opacity: 0.08 }}>
-                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--card-title)' }}>
-                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-                </svg>
-              </div>
-              <h3 className="text-lg font-bold mb-1.5 tracking-tight" style={{ color: 'var(--card-title)' }}>Chat History</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--card-description)' }}>Review past conversations</p>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+              </svg>
+              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>Chat History</h3>
+              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Review past conversations</p>
             </div>
           </Link>
         </div>
