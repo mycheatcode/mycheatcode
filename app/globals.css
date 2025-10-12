@@ -1,8 +1,83 @@
 @import "tailwindcss";
 
+/* ============================================
+   CREAM CHARCOAL THEME - LIGHT & DARK MODES
+   ============================================ */
+
+/* LIGHT MODE (Default)
+   ===================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Background */
+  --bg-gradient-start: #f5f1e8;
+  --bg-gradient-end: #e8e3d8;
+
+  /* Primary accent color */
+  --accent-color: #3c3c3c;
+
+  /* Text colors */
+  --text-primary: #1a1a1a;
+  --text-secondary: #6a6a6a;
+  --text-tertiary: #999999;
+
+  /* UI Elements */
+  --input-bg: rgba(255, 255, 255, 0.7);
+  --input-border: rgba(60, 60, 60, 0.1);
+  --input-text: #1a1a1a;
+  --input-placeholder: #999999;
+
+  --button-bg: #3c3c3c;
+  --button-text: #ffffff;
+
+  --card-bg: rgba(255, 255, 255, 0.5);
+  --card-border: rgba(60, 60, 60, 0.08);
+  --card-title: #1a1a1a;
+  --card-description: #6a6a6a;
+
+  /* Basketball court SVG */
+  --court-color: rgba(60, 60, 60, 0.08);
+
+  /* Legacy variables for compatibility */
+  --background: #f5f1e8;
+  --foreground: #1a1a1a;
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-dm-sans);
+}
+
+/* DARK MODE
+   ========== */
+.dark {
+  /* Background */
+  --bg-gradient-start: #1a1a1a;
+  --bg-gradient-end: #0d0d0d;
+
+  /* Primary accent color */
+  --accent-color: #c8c8c8;
+
+  /* Text colors */
+  --text-primary: #ffffff;
+  --text-secondary: #9a9a9a;
+  --text-tertiary: #666666;
+
+  /* UI Elements */
+  --input-bg: rgba(35, 35, 35, 0.6);
+  --input-border: rgba(200, 200, 200, 0.12);
+  --input-text: #ffffff;
+  --input-placeholder: #666666;
+
+  --button-bg: #c8c8c8;
+  --button-text: #1a1a1a;
+
+  --card-bg: rgba(35, 35, 35, 0.4);
+  --card-border: rgba(200, 200, 200, 0.1);
+  --card-title: #ffffff;
+  --card-description: #9a9a9a;
+
+  /* Basketball court SVG */
+  --court-color: rgba(200, 200, 200, 0.06);
+
+  /* Legacy variables for compatibility */
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
 @theme inline {
@@ -12,17 +87,11 @@
   --font-display: var(--font-dm-sans);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: linear-gradient(165deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+  color: var(--text-primary);
   font-family: var(--font-dm-sans), system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  min-height: 100vh;
 }
 
 /* Modern App Typography */
