@@ -43,142 +43,77 @@ export default function Home() {
 
   return (
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
-      {/* Basketball Court Background - Desktop (Landscape) - Exact recreation */}
-      <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ opacity: 'var(--court-color)' }}>
-        <svg className="w-full h-full" viewBox="0 0 1086 680" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <marker id="arrow-desktop" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
-              <path d="M 2 2 L 9 5 L 2 8 z" fill="var(--accent-color)"/>
-            </marker>
-          </defs>
+      {/* Basketball Court Background - Desktop (Landscape) - Clean design */}
+      <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ opacity: '0.08' }}>
+        <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRacing="xMidYMid slice">
+          {/* Top half court */}
+          <path d="M 100 50 L 1100 50 L 1100 400 Q 900 550 600 400 Q 300 550 100 400 Z" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
-          {/* Court outline */}
-          <rect x="33" y="33" width="1020" height="614" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+          {/* Top key/paint */}
+          <rect x="450" y="50" width="300" height="200" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+
+          {/* Top free throw circle (bottom half) */}
+          <path d="M 450 250 Q 600 320 750 250" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+
+          {/* Top basket */}
+          <line x1="575" y1="50" x2="625" y2="50" stroke="var(--accent-color)" strokeWidth="4"/>
+          <circle cx="600" cy="80" r="15" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
           {/* Center line */}
-          <line x1="543" y1="33" x2="543" y2="647" stroke="var(--accent-color)" strokeWidth="3"/>
+          <line x1="100" y1="400" x2="1100" y2="400" stroke="var(--accent-color)" strokeWidth="3"/>
 
           {/* Center circle */}
-          <circle cx="543" cy="340" r="90" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+          <circle cx="600" cy="400" r="100" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
-          {/* Left three-point line - more rounded arc */}
-          <path d="M 33 120 L 230 120 Q 280 340 230 560 L 33 560" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+          {/* Bottom half court */}
+          <path d="M 100 400 Q 300 250 600 400 Q 900 250 1100 400 L 1100 750 L 100 750 Z" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
-          {/* Right three-point line - more rounded arc */}
-          <path d="M 1053 120 L 856 120 Q 806 340 856 560 L 1053 560" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
+          {/* Bottom key/paint */}
+          <rect x="450" y="550" width="300" height="200" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
-          {/* Left key */}
-          <rect x="33" y="250" width="160" height="180" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          {/* Left free throw circle */}
-          <circle cx="193" cy="340" r="90" stroke="var(--accent-color)" strokeWidth="3" fill="none" strokeDasharray="8,6"/>
-          {/* Left basket circle */}
-          <circle cx="93" cy="340" r="25" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          {/* Left basket marks */}
-          <line x1="93" y1="315" x2="93" y2="305" stroke="var(--accent-color)" strokeWidth="3"/>
-          <line x1="93" y1="365" x2="93" y2="375" stroke="var(--accent-color)" strokeWidth="3"/>
+          {/* Bottom free throw circle (top half) */}
+          <path d="M 450 550 Q 600 480 750 550" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
-          {/* Right key */}
-          <rect x="893" y="250" width="160" height="180" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          {/* Right free throw circle */}
-          <circle cx="893" cy="340" r="90" stroke="var(--accent-color)" strokeWidth="3" fill="none" strokeDasharray="8,6"/>
-          {/* Right basket circle */}
-          <circle cx="993" cy="340" r="25" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          {/* Right basket marks */}
-          <line x1="993" y1="315" x2="993" y2="305" stroke="var(--accent-color)" strokeWidth="3"/>
-          <line x1="993" y1="365" x2="993" y2="375" stroke="var(--accent-color)" strokeWidth="3"/>
-
-          {/* Offensive players (O) - exactly positioned as in image */}
-          <circle cx="240" cy="180" r="22" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          <circle cx="846" cy="180" r="22" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          <circle cx="543" cy="240" r="22" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          <circle cx="240" cy="590" r="22" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-          <circle cx="846" cy="590" r="22" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
-
-          {/* Defensive players (X) - exactly positioned as in image */}
-          <text x="360" y="210" fill="var(--accent-color)" fontSize="48" fontWeight="normal" fontFamily="Arial">X</text>
-          <text x="540" y="140" fill="var(--accent-color)" fontSize="48" fontWeight="normal" fontFamily="Arial">X</text>
-          <text x="360" y="520" fill="var(--accent-color)" fontSize="48" fontWeight="normal" fontFamily="Arial">X</text>
-          <text x="540" y="470" fill="var(--accent-color)" fontSize="48" fontWeight="normal" fontFamily="Arial">X</text>
-          <text x="860" y="520" fill="var(--accent-color)" fontSize="48" fontWeight="normal" fontFamily="Arial">X</text>
-
-          {/* Play arrows - exactly as in image */}
-          <path d="M 380 195 L 530 150" stroke="var(--accent-color)" strokeWidth="3" markerEnd="url(#arrow-desktop)"/>
-          <path d="M 560 150 L 820 195" stroke="var(--accent-color)" strokeWidth="3" markerEnd="url(#arrow-desktop)"/>
-          <path d="M 380 505 Q 460 460 540 460" stroke="var(--accent-color)" strokeWidth="3" markerEnd="url(#arrow-desktop)" strokeDasharray="12,8"/>
-          <path d="M 560 460 Q 760 500 840 540" stroke="var(--accent-color)" strokeWidth="3" markerEnd="url(#arrow-desktop)" strokeDasharray="12,8"/>
+          {/* Bottom basket */}
+          <line x1="575" y1="750" x2="625" y2="750" stroke="var(--accent-color)" strokeWidth="4"/>
+          <circle cx="600" cy="720" r="15" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
         </svg>
       </div>
 
-      {/* Basketball Court Background - Mobile (Portrait) */}
-      <div className="md:hidden absolute inset-0 pointer-events-none" style={{ opacity: 'var(--court-color)' }}>
-        <svg className="w-full h-full" viewBox="0 0 400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <marker id="arrow-mobile" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
-              <path d="M 2 2 L 10 6 L 2 10 z" fill="var(--accent-color)" stroke="none"/>
-            </marker>
-            <filter id="rough-mobile">
-              <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise"/>
-              <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5"/>
-            </filter>
-          </defs>
+      {/* Basketball Court Background - Mobile (Portrait) - Clean design */}
+      <div className="md:hidden absolute inset-0 pointer-events-none" style={{ opacity: '0.08' }}>
+        <svg className="w-full h-full" viewBox="0 0 400 1000" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+          {/* Top half court */}
+          <path d="M 50 50 L 350 50 L 350 500 Q 275 600 200 500 Q 125 600 50 500 Z" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
-          {/* Court outline */}
-          <path d="M 20 30 L 380 32 L 382 770 L 18 772 Z" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Top key/paint */}
+          <rect x="125" y="50" width="150" height="120" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
+
+          {/* Top free throw circle (bottom half) */}
+          <path d="M 125 170 Q 200 215 275 170" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
+
+          {/* Top basket */}
+          <line x1="175" y1="50" x2="225" y2="50" stroke="var(--accent-color)" strokeWidth="3"/>
+          <circle cx="200" cy="75" r="12" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
           {/* Center line */}
-          <path d="M 18 400 L 382 402" stroke="var(--accent-color)" strokeWidth="2.5" filter="url(#rough-mobile)"/>
+          <line x1="50" y1="500" x2="350" y2="500" stroke="var(--accent-color)" strokeWidth="2.5"/>
 
           {/* Center circle */}
-          <ellipse cx="200" cy="400" rx="55" ry="54" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          <circle cx="200" cy="500" r="60" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
-          {/* Top hoop & backboard */}
-          <line x1="170" y1="30" x2="230" y2="30" stroke="var(--accent-color)" strokeWidth="3" filter="url(#rough-mobile)"/>
-          <circle cx="200" cy="60" r="15" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Bottom half court */}
+          <path d="M 50 500 Q 125 400 200 500 Q 275 400 350 500 L 350 950 L 50 950 Z" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
-          {/* Bottom hoop & backboard */}
-          <line x1="170" y1="770" x2="230" y2="770" stroke="var(--accent-color)" strokeWidth="3" filter="url(#rough-mobile)"/>
-          <circle cx="200" cy="740" r="15" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
+          {/* Bottom key/paint */}
+          <rect x="125" y="830" width="150" height="120" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
-          {/* Top key */}
-          <rect x="110" y="30" width="180" height="140" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <ellipse cx="200" cy="170" rx="55" ry="54" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-mobile)"/>
+          {/* Bottom free throw circle (top half) */}
+          <path d="M 125 830 Q 200 785 275 830" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
 
-          {/* Bottom key */}
-          <rect x="110" y="630" width="180" height="140" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <ellipse cx="200" cy="630" rx="55" ry="54" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" strokeDasharray="6,4" filter="url(#rough-mobile)"/>
-
-          {/* Top free throw line */}
-          <line x1="110" y1="170" x2="290" y2="170" stroke="var(--accent-color)" strokeWidth="2.5" filter="url(#rough-mobile)"/>
-
-          {/* Bottom free throw line */}
-          <line x1="110" y1="630" x2="290" y2="630" stroke="var(--accent-color)" strokeWidth="2.5" filter="url(#rough-mobile)"/>
-
-          {/* Top three-point line - rounded arc */}
-          <path d="M 60 30 L 60 140 Q 200 240 340 140 L 340 30" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-
-          {/* Bottom three-point line - rounded arc */}
-          <path d="M 60 770 L 60 660 Q 200 560 340 660 L 340 770" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-
-          {/* Offensive players (O) - 5 players - CLOSER TO TOP HOOP */}
-          <circle cx="140" cy="110" r="14" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="260" cy="110" r="14" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="200" cy="150" r="14" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="120" cy="210" r="14" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-          <circle cx="280" cy="210" r="14" stroke="var(--accent-color)" strokeWidth="2.5" fill="none" filter="url(#rough-mobile)"/>
-
-          {/* Defensive players (X) - 5 players - CLOSER TO TOP HOOP */}
-          <g filter="url(#rough-mobile)">
-            <text x="128" y="178" fill="var(--accent-color)" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="248" y="178" fill="var(--accent-color)" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="188" y="220" fill="var(--accent-color)" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="105" y="280" fill="var(--accent-color)" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-            <text x="265" y="280" fill="var(--accent-color)" fontSize="24" fontWeight="bold" fontFamily="Arial">X</text>
-          </g>
-
-          {/* Play arrows - TOP HALF */}
-          <path d="M 200 150 L 200 190" stroke="var(--accent-color)" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" filter="url(#rough-mobile)"/>
-          <path d="M 140 110 Q 100 150 80 210" stroke="var(--accent-color)" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
-          <path d="M 260 110 Q 300 150 320 210" stroke="var(--accent-color)" strokeWidth="2.5" markerEnd="url(#arrow-mobile)" strokeDasharray="8,5" filter="url(#rough-mobile)"/>
+          {/* Bottom basket */}
+          <line x1="175" y1="950" x2="225" y2="950" stroke="var(--accent-color)" strokeWidth="3"/>
+          <circle cx="200" cy="925" r="12" stroke="var(--accent-color)" strokeWidth="2.5" fill="none"/>
         </svg>
       </div>
       {/* Mobile & Desktop Header with Menu */}

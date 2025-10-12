@@ -28,8 +28,8 @@
   --button-bg: #3c3c3c;
   --button-text: #ffffff;
 
-  --card-bg: rgba(255, 255, 255, 0.5);
-  --card-border: rgba(60, 60, 60, 0.08);
+  --card-bg: #ffffff;
+  --card-border: rgba(60, 60, 60, 0.15);
   --card-title: #1a1a1a;
   --card-description: #6a6a6a;
 
@@ -67,8 +67,8 @@
   --button-bg: #c8c8c8;
   --button-text: #1a1a1a;
 
-  --card-bg: rgba(35, 35, 35, 0.4);
-  --card-border: rgba(200, 200, 200, 0.1);
+  --card-bg: #1f1f1f;
+  --card-border: rgba(200, 200, 200, 0.15);
   --card-title: #ffffff;
   --card-description: #9a9a9a;
 
