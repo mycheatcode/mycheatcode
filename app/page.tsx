@@ -228,8 +228,8 @@ export default function Home() {
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
         {/* Header Message */}
         <div className="text-center mb-20">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 px-4 whitespace-nowrap">
-            Play With Confidence.
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 px-4 md:whitespace-nowrap">
+            Play With<br className="md:hidden" /> Confidence.
           </h1>
           <p className="text-zinc-400 text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4">
             Start talking, or explore topics to get the conversation going.
