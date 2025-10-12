@@ -149,7 +149,7 @@ export default function Home() {
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-8">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl">
           <div className="relative">
             <input
               type="text"
@@ -175,48 +175,6 @@ export default function Home() {
             </button>
           </div>
         </form>
-
-        {/* Three Boxes */}
-        <div className="w-full max-w-2xl grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link href="/community-topics" className="group">
-            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
-              background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)'
-            }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-              </svg>
-              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>Community Topics</h3>
-              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Explore curated topics</p>
-            </div>
-          </Link>
-
-          <Link href="/my-codes" className="group">
-            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
-              background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)'
-            }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
-                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>My Codes</h3>
-              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Your personal collection</p>
-            </div>
-          </Link>
-
-          <Link href="/chat-history" className="group">
-            <div className="rounded-2xl p-6 transition-all cursor-pointer h-full flex flex-col items-center justify-center text-center" style={{
-              background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)'
-            }}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" className="mb-3" style={{ color: 'var(--card-title)' }}>
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-              </svg>
-              <h3 className="text-xl font-bold mb-1" style={{ color: 'var(--card-title)' }}>Chat History</h3>
-              <p className="text-sm" style={{ color: 'var(--card-description)' }}>Review past conversations</p>
-            </div>
-          </Link>
-        </div>
       </div>
     </div>
   );
