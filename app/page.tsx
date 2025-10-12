@@ -45,7 +45,7 @@ export default function Home() {
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
       {/* Basketball Court Background - Desktop (Landscape) - Clean design */}
       <div className="hidden md:block absolute inset-0 pointer-events-none" style={{ opacity: '0.08' }}>
-        <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRacing="xMidYMid slice">
+        <svg className="w-full h-full" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           {/* Top half court */}
           <path d="M 100 50 L 1100 50 L 1100 400 Q 900 550 600 400 Q 300 550 100 400 Z" stroke="var(--accent-color)" strokeWidth="3" fill="none"/>
 
