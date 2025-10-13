@@ -484,15 +484,15 @@ export default function MyCodesPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile Design */}
-      <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
+      <div className="lg:hidden min-h-screen relative flex flex-col">
         {/* Header */}
-        <div className="p-4 bg-black border-b border-zinc-800">
+        <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {/* App Title */}
           <div className="flex items-center justify-center relative mb-4">
-            <div className="text-lg font-semibold text-white">mycheatcode.ai</div>
-            <div className="absolute right-0 w-6 h-6 flex items-center justify-center text-zinc-500 cursor-pointer">
+            <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>mycheatcode.ai</div>
+            <div className="absolute right-0 w-6 h-6 flex items-center justify-center cursor-pointer" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
               </svg>
@@ -501,7 +501,7 @@ export default function MyCodesPage() {
 
           {/* Navigation */}
           <div className="flex items-center justify-between mb-4">
-            <Link href="/" className="w-8 h-8 flex items-center justify-center text-white cursor-pointer transition-transform active:scale-90">
+            <Link href="/" className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: 'var(--accent-color)' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
@@ -509,8 +509,8 @@ export default function MyCodesPage() {
           </div>
 
           {/* Page Title */}
-          <div className="text-[1.8em] font-bold text-white mb-2">My Cheat Codes</div>
-          <div className="text-zinc-400 text-sm leading-relaxed">Your vault of mental performance cheat codes</div>
+          <div className="text-[1.8em] font-bold mb-2" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
+          <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of mental performance cheat codes</div>
 
         </div>
 
@@ -523,23 +523,20 @@ export default function MyCodesPage() {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 ${
+                className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2"
+                style={
                   activeCategory === category
-                    ? 'bg-white text-black'
-                    : 'bg-white/5 border border-white/10 text-zinc-300 active:scale-95'
-                }`}
+                    ? { backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }
+                    : { backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-secondary)' }
+                }
               >
                 <span>{category}</span>
                 <div className="flex items-center gap-1">
-                  <span className={`text-xs ${
-                    activeCategory === category
-                      ? 'text-black/70'
-                      : 'text-zinc-500'
-                  }`}>
+                  <span className="text-xs" style={{ opacity: 0.7 }}>
                     {getCategoryCount(category)}
                   </span>
                   {sectionInfo && sectionInfo.slotsRemaining === 0 && (
-                    <span className="text-xs text-zinc-400 ml-1">FULL</span>
+                    <span className="text-xs ml-1" style={{ color: 'var(--text-tertiary)' }}>FULL</span>
                   )}
                 </div>
               </button>
@@ -548,8 +545,8 @@ export default function MyCodesPage() {
         </div>
 
         {/* Consistency Message */}
-        <div className="px-4 py-3 bg-white/[0.02] border-y border-white/5">
-          <div className="flex items-center gap-2 text-zinc-400">
+        <div className="px-4 py-3 border-y" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', opacity: 0.5 }}>
+          <div className="flex items-center gap-2" style={{ color: 'var(--text-secondary)' }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
             </svg>
@@ -562,38 +559,39 @@ export default function MyCodesPage() {
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
-              className={`bg-gradient-to-br from-zinc-900 via-zinc-900 to-zinc-800 rounded-[2rem] p-5 min-h-[160px] flex flex-col justify-between relative shadow-xl border border-zinc-800/50 transition-all duration-500 ${
+              className={`rounded-[2rem] p-5 min-h-[160px] flex flex-col justify-between relative shadow-xl border transition-all duration-500 ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
-                    : 'opacity-80 scale-105 shadow-lg border-green-500/30'
+                    : 'opacity-80 scale-105 shadow-lg'
                   : ''
               } ${
                 code.archived
-                  ? 'opacity-60 border-zinc-700/50 bg-gradient-to-br from-zinc-800 via-zinc-800 to-zinc-700'
+                  ? 'opacity-60'
                   : ''
               }`}
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
               {/* Archive Badge */}
               {code.archived && (
                 <div className="absolute top-2.5 right-2.5">
-                  <div className="inline-block px-2 py-0.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                    <span className="text-zinc-400 text-[9px] uppercase font-semibold tracking-wider">Archived</span>
+                  <div className="inline-block px-2 py-0.5 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                    <span className="text-[9px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
                   </div>
                 </div>
               )}
 
               {/* Card Content - Matching Title Card Style */}
               <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
-                <div className="inline-block mx-auto px-2.5 py-0.5 bg-zinc-800/50 rounded-full border border-zinc-700/50">
-                  <span className="text-zinc-400 text-[9px] uppercase font-semibold tracking-wider">
+                <div className="inline-block mx-auto px-2.5 py-0.5 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                  <span className="text-[9px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>
                     Cheat Code
                   </span>
                 </div>
-                <h1 className="text-xl font-bold text-white leading-tight tracking-tight px-2">
+                <h1 className="text-xl font-bold leading-tight tracking-tight px-2" style={{ color: 'var(--text-primary)' }}>
                   {code.title}
                 </h1>
-                <div className="text-zinc-400 text-[10px] font-medium uppercase tracking-wide">
+                <div className="text-[10px] font-medium uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>
                   {code.category}
                 </div>
               </div>
@@ -601,7 +599,8 @@ export default function MyCodesPage() {
               {/* View Code Button */}
               <button
                 onClick={() => setSelectedCode(code)}
-                className="w-full bg-white text-black py-2.5 rounded-xl font-semibold text-xs hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg mt-3"
+                className="w-full py-2.5 rounded-xl font-semibold text-xs active:scale-[0.98] transition-all shadow-lg mt-3"
+                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
               >
                 View Code
               </button>
@@ -611,7 +610,7 @@ export default function MyCodesPage() {
 
         {/* Mobile Footer */}
         <div className="fixed bottom-20 right-4 lg:hidden">
-          <button onClick={handleStartFreshChat} className="bg-white text-black w-14 h-14 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
+          <button onClick={handleStartFreshChat} className="w-14 h-14 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -623,10 +622,11 @@ export default function MyCodesPage() {
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--accent-color)' }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -634,48 +634,51 @@ export default function MyCodesPage() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
+          <div className="text-xl app-label" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div
+          className={`absolute top-0 left-0 h-full w-80 border-r flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+        >
           <div className="pt-20"></div>
 
           <nav className="flex-1">
             <div>
-              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)', backgroundColor: 'var(--card-bg)', opacity: 0.8 }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
                 <span>Community Topics</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+              <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
@@ -688,7 +691,8 @@ export default function MyCodesPage() {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 bg-black bg-opacity-50 z-5"
+            className="absolute inset-0 z-5"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
@@ -698,15 +702,15 @@ export default function MyCodesPage() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center gap-4 mb-6">
-              <Link href="/" className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors">
+              <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
               </Link>
             </div>
 
-            <div className="text-4xl font-bold text-white mb-4">My Cheat Codes</div>
-            <div className="text-zinc-400 text-lg leading-relaxed">Your vault of mental performance cheat codes</div>
+            <div className="text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
+            <div className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of mental performance cheat codes</div>
           </div>
 
           {/* Categories Filter */}
@@ -716,18 +720,15 @@ export default function MyCodesPage() {
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-3 ${
+                  className="px-6 py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-3"
+                  style={
                     activeCategory === category
-                      ? 'bg-white text-black'
-                      : 'bg-white/5 border border-white/10 hover:bg-white/10 text-zinc-300'
-                  }`}
+                      ? { backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }
+                      : { backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-secondary)' }
+                  }
                 >
                   <span>{category}</span>
-                  <span className={`text-xs ${
-                    activeCategory === category
-                      ? 'text-black/70'
-                      : 'text-zinc-500'
-                  }`}>
+                  <span className="text-xs" style={{ opacity: 0.7 }}>
                     {getCategoryCount(category)}
                   </span>
                 </button>
@@ -736,8 +737,8 @@ export default function MyCodesPage() {
           </div>
 
           {/* Consistency Message */}
-          <div className="px-6 py-4 bg-white/[0.02] border border-white/5 rounded-xl mb-8">
-            <div className="flex items-center gap-3 text-zinc-400">
+          <div className="px-6 py-4 border rounded-xl mb-8" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', opacity: 0.6 }}>
+            <div className="flex items-center gap-3" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="flex-shrink-0">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
               </svg>
@@ -751,35 +752,36 @@ export default function MyCodesPage() {
               <div
                 key={code.id}
                 onClick={() => setSelectedCode(code)}
-                className={`bg-zinc-950 rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 border-zinc-800 transition-all cursor-pointer group ${
+                className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 transition-all cursor-pointer group ${
                   code.archived
                     ? 'opacity-60'
-                    : 'hover:scale-[1.02] hover:border-zinc-700'
+                    : 'hover:scale-[1.02]'
                 }`}
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
 
                 {/* Archive Badge */}
                 {code.archived && (
                   <div className="absolute top-5 right-5">
-                    <div className="inline-block px-2.5 py-1 bg-zinc-900 border border-zinc-700 rounded-lg">
-                      <span className="text-zinc-400 text-[10px] uppercase font-semibold tracking-wider">Archived</span>
+                    <div className="inline-block px-2.5 py-1 border rounded-lg" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                      <span className="text-[10px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
                     </div>
                   </div>
                 )}
 
                 {/* Card Content - Matching Title Card Style */}
                 <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
-                  <h1 className="text-3xl font-bold text-white leading-[1.1] tracking-tight px-4">
+                  <h1 className="text-3xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: 'var(--text-primary)' }}>
                     {code.title}
                   </h1>
-                  <div className="h-px w-16 bg-zinc-700 mx-auto"></div>
-                  <div className="text-zinc-400 text-sm font-semibold uppercase tracking-widest">
+                  <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                  <div className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                     {code.category}
                   </div>
                 </div>
 
                 {/* Bottom Stats Row */}
-                <div className="flex items-center justify-between text-zinc-500 text-xs pt-4 border-t border-zinc-800">
+                <div className="flex items-center justify-between text-xs pt-4 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
                   <div>
                     <span className="font-medium">Last Session: {code.lastSession}</span>
                   </div>
@@ -789,8 +791,8 @@ export default function MyCodesPage() {
                 </div>
 
                 {/* Hover Overlay with View Button */}
-                <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="bg-white text-black px-8 py-3 rounded-xl font-semibold text-lg">
+                <div className="absolute inset-0 backdrop-blur-sm rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+                  <div className="px-8 py-3 rounded-xl font-semibold text-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
                     View Code
                   </div>
                 </div>
@@ -801,7 +803,7 @@ export default function MyCodesPage() {
 
         {/* Desktop Footer */}
         <div className="fixed bottom-16 right-8 hidden lg:block">
-          <button onClick={handleStartFreshChat} className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
+          <button onClick={handleStartFreshChat} className="w-16 h-16 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>

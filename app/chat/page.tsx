@@ -492,29 +492,29 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile */}
-      <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
+      <div className="lg:hidden min-h-screen relative flex flex-col">
         {/* Header */}
-        <div className="p-4 bg-black border-b border-zinc-800 flex-shrink-0">
+        <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--card-border)' }}>
           <div className="flex items-center justify-between">
-            <button onClick={handleBack} className="w-8 h-8 flex items-center justify-center text-white cursor-pointer transition-transform active:scale-90">
+            <button onClick={handleBack} className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: 'var(--accent-color)' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </button>
-            <div className="text-white text-lg font-semibold">Live Chat</div>
+            <div className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
             <div className="w-8 h-8"></div>
           </div>
 
           {/* Topic Indicator */}
           {selectedTopic && (
-            <div className="mt-3 px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-2xl">
+            <div className="mt-3 px-4 py-3 border rounded-2xl" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <div className="text-xs text-zinc-400 font-medium uppercase tracking-wide">Session Focus</div>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+                <div className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Session Focus</div>
               </div>
-              <div className="text-sm text-white font-semibold leading-tight">
+              <div className="text-sm font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
                 "{selectedTopic.title}"
               </div>
             </div>
@@ -526,9 +526,9 @@ export default function ChatPage() {
           {messages.map((message) => (
             <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
               {message.sender === 'user' ? (
-                <div className="max-w-[75%] p-3 rounded-3xl border bg-white/5 text-white rounded-br-lg border-white/20">
+                <div className="max-w-[75%] p-3 rounded-3xl border rounded-br-lg" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
                   <div className="text-[15px] leading-relaxed">{message.text}</div>
-                  <div className="text-xs mt-2 text-zinc-400">
+                  <div className="text-xs mt-2" style={{ color: 'var(--text-tertiary)' }}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
@@ -544,26 +544,26 @@ export default function ChatPage() {
                           <div>
                             {/* Coach introduction text */}
                             {intro && (
-                              <div className="text-[15px] leading-relaxed text-white whitespace-pre-wrap mb-4">
+                              <div className="text-[15px] leading-relaxed whitespace-pre-wrap mb-4" style={{ color: 'var(--text-primary)' }}>
                                 {intro}
                               </div>
                             )}
 
                             {/* Cheat code box - Matching My Codes page design */}
-                            <div className="bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+                            <div className="border rounded-2xl p-4" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                               <div className="flex items-center gap-2 mb-3">
-                                <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
+                                <span className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Cheat Code</span>
                               </div>
                               <div className="space-y-2">
-                                <div className="text-white font-bold text-lg">{cheatCode.title}</div>
-                                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-2">{cheatCode.category}</div>
+                                <div className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{cheatCode.title}</div>
+                                <div className="text-xs uppercase tracking-wide mb-2" style={{ color: 'var(--text-secondary)' }}>{cheatCode.category}</div>
                                 <div className="space-y-1.5 text-sm">
-                                  {cheatCode.what && <div><span className="text-zinc-400 font-medium">What:</span> <span className="text-white">{cheatCode.what}</span></div>}
-                                  {cheatCode.when && <div><span className="text-zinc-400 font-medium">When:</span> <span className="text-white">{cheatCode.when}</span></div>}
-                                  {cheatCode.how && <div><span className="text-zinc-400 font-medium">How:</span> <span className="text-white whitespace-pre-line">{cheatCode.how}</span></div>}
-                                  {cheatCode.why && <div><span className="text-zinc-400 font-medium">Why:</span> <span className="text-white">{cheatCode.why}</span></div>}
-                                  {cheatCode.phrase && <div><span className="text-zinc-400 font-medium">Cheat Code Phrase:</span> <span className="text-white">"{cheatCode.phrase}"</span></div>}
-                                  {cheatCode.practice && <div><span className="text-zinc-400 font-medium">Practice:</span> <span className="text-white">{cheatCode.practice}</span></div>}
+                                  {cheatCode.what && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>What:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.what}</span></div>}
+                                  {cheatCode.when && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>When:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.when}</span></div>}
+                                  {cheatCode.how && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>How:</span> <span className="whitespace-pre-line" style={{ color: 'var(--text-primary)' }}>{cheatCode.how}</span></div>}
+                                  {cheatCode.why && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Why:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.why}</span></div>}
+                                  {cheatCode.phrase && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Cheat Code Phrase:</span> <span style={{ color: 'var(--text-primary)' }}>"{cheatCode.phrase}"</span></div>}
+                                  {cheatCode.practice && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Practice:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.practice}</span></div>}
                                 </div>
 
                                 {/* Power Bar - Matching My Codes page exactly */}
@@ -593,8 +593,8 @@ export default function ChatPage() {
                                 </div>
 
                                 {/* Add to My Codes Button */}
-                                <div className="mt-4 pt-3 border-t border-white/5">
-                                  <button className="w-full bg-white/5 hover:bg-white/10 text-white font-medium py-2.5 px-4 rounded-lg transition-colors border border-white/10">
+                                <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                                  <button className="w-full font-medium py-2.5 px-4 rounded-lg transition-colors border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}>
                                     Add to "My Codes"
                                   </button>
                                 </div>
@@ -609,10 +609,11 @@ export default function ChatPage() {
                       key={message.id}
                       text={message.text}
                       speed={40}
-                      className="text-[15px] leading-relaxed text-white whitespace-pre-wrap"
+                      className="text-[15px] leading-relaxed whitespace-pre-wrap"
+                      style={{ color: 'var(--text-primary)' }}
                     />
                   )}
-                  <div className="text-xs mt-2 text-zinc-400">
+                  <div className="text-xs mt-2" style={{ color: 'var(--text-tertiary)' }}>
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
@@ -624,9 +625,9 @@ export default function ChatPage() {
             <div className="flex justify-start">
               <div className="w-full p-3">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
+                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.1s' }}></div>
+                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
@@ -634,7 +635,7 @@ export default function ChatPage() {
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t border-zinc-800 bg-black flex-shrink-0">
+        <div className="p-4 border-t flex-shrink-0" style={{ borderColor: 'var(--card-border)' }}>
           <div className="relative">
             <textarea
               ref={inputRef}
@@ -642,14 +643,15 @@ export default function ChatPage() {
               onChange={(e) => setInputText(e.target.value)}
               onKeyPress={handleKeyPress}
               placeholder="Share what's on your mind..."
-              className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-12 text-white placeholder-zinc-600 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm"
+              className="w-full border rounded-xl p-4 pr-12 resize-none focus:outline-none transition-all duration-200"
+              style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)', color: 'var(--input-text)', minHeight: '52px', maxHeight: '120px' }}
               rows={1}
-              style={{ minHeight: '52px', maxHeight: '120px' }}
             />
             <button
               onClick={sendMessage}
               disabled={!inputText.trim() || pendingCoachReply.current}
-              className="absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all border-2 border-green-500 bg-transparent text-green-500 hover:bg-green-500/10 disabled:opacity-50 disabled:border-zinc-700 disabled:text-zinc-700"
+              className="absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all border-2 disabled:opacity-50"
+              style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }}
               type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -664,12 +666,13 @@ export default function ChatPage() {
       {/* Desktop */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 px-6 py-5 z-20 bg-gradient-to-b from-black/90 to-transparent">
+        <div className="fixed top-0 left-0 right-0 px-6 py-5 z-20">
           <div className="flex items-center justify-between relative">
             <div className="flex items-center gap-4">
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-colors"
+                style={{ color: 'var(--accent-color)' }}
                 type="button"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -680,32 +683,33 @@ export default function ChatPage() {
               </button>
               <button
                 onClick={handleBack}
-                className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                className="p-2 rounded-lg transition-colors"
+                style={{ color: 'var(--accent-color)' }}
                 type="button"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                 </svg>
               </button>
-              <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
+              <div className="text-xl app-label" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
             </div>
-            <div className="text-white text-lg font-semibold absolute left-1/2 transform -translate-x-1/2">Live Chat</div>
+            <div className="text-lg font-semibold absolute left-1/2 transform -translate-x-1/2" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
             <div className="w-[180px]"></div>
           </div>
 
           {/* Topic Indicator */}
           {selectedTopic && (
             <div className="mt-6 max-w-4xl mx-auto">
-              <div className="px-6 py-4 bg-zinc-950 border border-zinc-800 rounded-2xl">
+              <div className="px-6 py-4 border rounded-2xl" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <div className="text-sm text-zinc-400 font-semibold uppercase tracking-wider">Session Focus</div>
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+                  <div className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Session Focus</div>
                 </div>
-                <div className="text-lg text-white font-bold leading-tight mb-2">
+                <div className="text-lg font-bold leading-tight mb-2" style={{ color: 'var(--text-primary)' }}>
                   "{selectedTopic.title}"
                 </div>
                 {selectedTopic.description && (
-                  <div className="text-sm text-zinc-400 leading-relaxed">
+                  <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                     {selectedTopic.description}
                   </div>
                 )}
@@ -715,44 +719,47 @@ export default function ChatPage() {
         </div>
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
-        <div className={`fixed top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div
+          className={`fixed top-0 left-0 h-full w-80 border-r flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+        >
           <div className="pt-20"></div>
 
           <nav className="flex-1">
             <div>
-              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
                 <span>Community Topics</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)', backgroundColor: 'var(--card-bg)', opacity: 0.8 }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--accent-color)' }}>
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+              <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
@@ -769,9 +776,9 @@ export default function ChatPage() {
               {messages.map((message) => (
                 <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                   {message.sender === 'user' ? (
-                    <div className="max-w-[65%] p-5 rounded-3xl border bg-white/5 text-white rounded-br-lg border-white/20">
+                    <div className="max-w-[65%] p-5 rounded-3xl border rounded-br-lg" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
                       <div className="text-base leading-relaxed">{message.text}</div>
-                      <div className="text-sm mt-3 text-zinc-400">
+                      <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
@@ -787,55 +794,55 @@ export default function ChatPage() {
                               <div>
                                 {/* Coach introduction text */}
                                 {intro && (
-                                  <div className="text-base leading-relaxed text-white whitespace-pre-wrap mb-6">
+                                  <div className="text-base leading-relaxed whitespace-pre-wrap mb-6" style={{ color: 'var(--text-primary)' }}>
                                     {intro}
                                   </div>
                                 )}
 
                                 {/* Cheat code box - Matching My Codes page design */}
-                                <div className="bg-zinc-950 border border-zinc-800 rounded-2xl p-6">
+                                <div className="border rounded-2xl p-6" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                                   <div className="flex items-center gap-2 mb-4">
-                                    <span className="text-zinc-400 text-sm uppercase tracking-wide">Cheat Code</span>
+                                    <span className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Cheat Code</span>
                                   </div>
                                   <div className="space-y-4">
-                                    <div className="text-white font-bold text-xl">{cheatCode.title}</div>
-                                    <div className="text-zinc-400 text-sm uppercase tracking-wide">{cheatCode.category}</div>
+                                    <div className="font-bold text-xl" style={{ color: 'var(--text-primary)' }}>{cheatCode.title}</div>
+                                    <div className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>{cheatCode.category}</div>
                                     <div className="space-y-3 text-base">
                                       {cheatCode.what && (
                                         <div className="leading-relaxed">
-                                          <div className="text-zinc-400 font-semibold mb-1">What:</div>
-                                          <div className="text-white">{cheatCode.what}</div>
+                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>What:</div>
+                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.what}</div>
                                         </div>
                                       )}
                                       {cheatCode.when && (
                                         <div className="leading-relaxed">
-                                          <div className="text-zinc-400 font-semibold mb-1">When:</div>
-                                          <div className="text-white">{cheatCode.when}</div>
+                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>When:</div>
+                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.when}</div>
                                         </div>
                                       )}
                                       {cheatCode.how && (
                                         <div className="leading-relaxed">
-                                          <div className="text-zinc-400 font-semibold mb-1">How:</div>
-                                          <div className="text-white whitespace-pre-line">{cheatCode.how}</div>
+                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>How:</div>
+                                          <div className="whitespace-pre-line" style={{ color: 'var(--text-primary)' }}>{cheatCode.how}</div>
                                         </div>
                                       )}
                                       {cheatCode.why && (
                                         <div className="leading-relaxed">
-                                          <div className="text-zinc-400 font-semibold mb-1">Why:</div>
-                                          <div className="text-white">{cheatCode.why}</div>
+                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>Why:</div>
+                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.why}</div>
                                         </div>
                                       )}
                                       {cheatCode.phrase && (
                                         <div className="leading-relaxed">
-                                          <div className="text-zinc-400 font-semibold mb-1">Cheat Code Phrase:</div>
-                                          <div className="text-white">"{cheatCode.phrase}"</div>
+                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>Cheat Code Phrase:</div>
+                                          <div style={{ color: 'var(--text-primary)' }}>"{cheatCode.phrase}"</div>
                                         </div>
                                       )}
                                     </div>
 
                                     {/* Add to My Codes Button */}
-                                    <div className="mt-6 pt-4 border-t border-zinc-800">
-                                      <button className="w-full bg-zinc-900 hover:bg-zinc-800 text-white font-medium py-3 px-4 rounded-xl transition-colors border border-zinc-700">
+                                    <div className="mt-6 pt-4 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                                      <button className="w-full font-medium py-3 px-4 rounded-xl transition-colors border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}>
                                         Add to "My Codes"
                                       </button>
                                     </div>
@@ -850,10 +857,11 @@ export default function ChatPage() {
                           key={message.id}
                           text={message.text}
                           speed={40}
-                          className="text-base leading-relaxed text-white whitespace-pre-wrap"
+                          className="text-base leading-relaxed whitespace-pre-wrap"
+                          style={{ color: 'var(--text-primary)' }}
                         />
                       )}
-                      <div className="text-sm mt-3 text-zinc-400">
+                      <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
                         {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </div>
                     </div>
@@ -865,9 +873,9 @@ export default function ChatPage() {
                 <div className="flex justify-start">
                   <div className="w-full p-5">
                     <div className="flex space-x-2">
-                      <div className="w-3 h-3 bg-zinc-400 rounded-full animate-bounce"></div>
-                      <div className="w-3 h-3 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                      <div className="w-3 h-3 bg-zinc-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
+                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.1s' }}></div>
+                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.2s' }}></div>
                     </div>
                   </div>
                 </div>
@@ -876,7 +884,7 @@ export default function ChatPage() {
           </div>
 
           {/* Input */}
-          <div className="p-8 border-t border-zinc-800 bg-black">
+          <div className="p-8 border-t" style={{ borderColor: 'var(--card-border)' }}>
             <div className="max-w-4xl mx-auto relative">
               <textarea
                 ref={inputRef}
@@ -884,14 +892,15 @@ export default function ChatPage() {
                 onChange={(e) => setInputText(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Share what's on your mind..."
-                className="w-full bg-white/5 border border-white/20 rounded-xl p-4 pr-14 text-white placeholder-zinc-600 resize-none focus:outline-none focus:border-white/30 transition-all duration-200 backdrop-blur-sm text-base"
+                className="w-full border rounded-xl p-4 pr-14 resize-none focus:outline-none transition-all duration-200 text-base"
+                style={{ backgroundColor: 'var(--input-bg)', borderColor: 'var(--input-border)', color: 'var(--input-text)', minHeight: '60px', maxHeight: '150px' }}
                 rows={2}
-                style={{ minHeight: '60px', maxHeight: '150px' }}
               />
               <button
                 onClick={sendMessage}
                 disabled={!inputText.trim() || pendingCoachReply.current}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all border-2 border-green-500 bg-transparent text-green-500 hover:bg-green-500/10 disabled:opacity-50 disabled:border-zinc-700 disabled:text-zinc-700"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all border-2 disabled:opacity-50"
+                style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }}
                 type="button"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

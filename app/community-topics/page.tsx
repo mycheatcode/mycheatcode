@@ -450,12 +450,13 @@ export default function CommunityTopics() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center gap-4 z-20">
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+          className="p-2 rounded-lg transition-colors"
+          style={{ color: 'var(--accent-color)' }}
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -463,43 +464,46 @@ export default function CommunityTopics() {
             <line x1="3" y1="18" x2="21" y2="18"></line>
           </svg>
         </button>
-        <div className="text-white text-lg lg:text-xl font-semibold">MYCHEATCODE.AI</div>
+        <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
       </div>
 
       {/* Sidebar Navigation */}
-      <div className={`fixed top-0 left-0 h-full w-64 lg:w-80 bg-black border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+      <div
+        className={`fixed top-0 left-0 h-full w-64 lg:w-80 border-r flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+      >
         <div className="pt-20"></div>
         <nav className="flex-1">
           <div>
-            <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+            <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
               </svg>
               <span>Home</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
             </Link>
-            <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+            <Link href="/my-codes" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
               <span>My Codes</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
             </Link>
-            <Link href="/community-topics" className="flex items-center gap-3 p-4 text-white font-medium cursor-pointer transition-colors relative">
+            <Link href="/community-topics" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
               <span>Community Topics</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
             </Link>
-            <Link href="/chat-history" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+            <Link href="/chat-history" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
               </svg>
               <span>Chat History</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
             </Link>
-            <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+            <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
               </svg>
@@ -512,7 +516,8 @@ export default function CommunityTopics() {
       {/* Overlay when menu is open */}
       {menuOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-60 z-20"
+          className="fixed inset-0 z-20"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
           onClick={() => setMenuOpen(false)}
         ></div>
       )}
@@ -522,15 +527,15 @@ export default function CommunityTopics() {
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-6">
-            <Link href="/" className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors">
+            <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
           </div>
 
-          <div className="text-3xl lg:text-4xl font-bold text-white mb-4">Community Topics</div>
-          <div className="text-zinc-400 text-base lg:text-lg leading-relaxed">Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
+          <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Community Topics</div>
+          <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
 
         {/* Categories Filter */}
@@ -539,18 +544,15 @@ export default function CommunityTopics() {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`px-4 lg:px-6 py-2 lg:py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 lg:gap-3 ${
+              className="px-4 lg:px-6 py-2 lg:py-3 rounded-full text-sm font-medium whitespace-nowrap transition-all flex items-center gap-2 lg:gap-3"
+              style={
                 activeCategory === category
-                  ? 'bg-white text-black'
-                  : 'bg-white/5 border border-white/10 text-zinc-300 hover:bg-white/10'
-              }`}
+                  ? { backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }
+                  : { backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-secondary)' }
+              }
             >
               <span>{category}</span>
-              <span className={`text-xs ${
-                activeCategory === category
-                  ? 'text-black/70'
-                  : 'text-zinc-500'
-              }`}>
+              <span className="text-xs" style={{ opacity: 0.7 }}>
                 {getCategoryCount(category)}
               </span>
             </button>
@@ -563,25 +565,26 @@ export default function CommunityTopics() {
             <div key={topic.id} className="relative">
               <div
                 onClick={() => handleTopicSelect(topic)}
-                className="relative bg-zinc-950 border-2 border-zinc-800 rounded-2xl p-6 lg:p-8 transition-all cursor-pointer hover:scale-[1.01] active:scale-98"
+                className="relative rounded-2xl p-6 lg:p-8 transition-all cursor-pointer hover:scale-[1.01] active:scale-98 border-2"
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
                 {topic.trending && (
-                  <div className="absolute top-3 lg:top-4 right-3 lg:right-4 bg-white text-black px-2.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide">
+                  <div className="absolute top-3 lg:top-4 right-3 lg:right-4 px-2.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
                     {topic.trending}
                   </div>
                 )}
 
-                <div className="text-lg lg:text-xl font-semibold text-white mb-2 leading-tight pr-16 lg:pr-20">
+                <div className="text-lg lg:text-xl font-semibold mb-2 leading-tight pr-16 lg:pr-20" style={{ color: 'var(--text-primary)' }}>
                   "{topic.quote}"
                 </div>
-                <div className="text-zinc-400 text-xs uppercase tracking-wide mb-3 lg:mb-4">
+                <div className="text-xs uppercase tracking-wide mb-3 lg:mb-4" style={{ color: 'var(--text-secondary)' }}>
                   {topic.category}
                 </div>
-                <div className="text-zinc-400 text-sm mb-3 lg:mb-4 leading-relaxed">
+                <div className="text-sm mb-3 lg:mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
                   {topic.context}
                 </div>
-                <div className="flex items-center gap-2 text-sm text-zinc-500">
-                  <div className="w-1 h-1 bg-white rounded-full"></div>
+                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                  <div className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
                   <span>{topic.stats}</span>
                 </div>
               </div>
@@ -593,7 +596,8 @@ export default function CommunityTopics() {
             <div className="text-center py-4 lg:py-6">
               <button
                 onClick={loadMoreTopics}
-                className="px-6 py-3 border border-zinc-600 text-white text-sm rounded-lg cursor-pointer hover:border-zinc-500 hover:bg-zinc-800 transition-all"
+                className="px-6 py-3 border text-sm rounded-lg cursor-pointer transition-all"
+                style={{ borderColor: 'var(--card-border)', color: 'var(--text-primary)', backgroundColor: 'var(--card-bg)' }}
               >
                 Load more
               </button>
@@ -603,15 +607,16 @@ export default function CommunityTopics() {
           {/* Custom Topic Card */}
           <div
             onClick={handleStartBlankChat}
-            className="bg-white/5 border-2 border-dashed border-white/30 rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.01] hover:bg-white/8 active:scale-98"
+            className="border-2 border-dashed rounded-2xl p-6 lg:p-8 flex flex-col items-center text-center transition-all cursor-pointer hover:scale-[1.01] active:scale-98"
+            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', opacity: 0.8 }}
           >
             <div className="mb-3 lg:mb-4">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="1.5" className="lg:w-10 lg:h-10">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.5" className="lg:w-10 lg:h-10" style={{ color: 'var(--accent-color)' }}>
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>
             </div>
-            <div className="text-xl lg:text-2xl font-bold text-white mb-2 lg:mb-3">Something else on your mind?</div>
-            <div className="text-zinc-400 text-sm lg:text-base leading-relaxed">Start a custom chat about whatever's real for you right now</div>
+            <div className="text-xl lg:text-2xl font-bold mb-2 lg:mb-3" style={{ color: 'var(--text-primary)' }}>Something else on your mind?</div>
+            <div className="text-sm lg:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Start a custom chat about whatever's real for you right now</div>
           </div>
         </div>
       </div>
