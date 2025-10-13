@@ -31,12 +31,12 @@ const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
     const themes = {
       dark: {
         bg: '#0a0a0a',
-        canvasBg: '#000000',
+        canvasBg: 'transparent',
         color: [255, 120, 28]
       },
       light: {
         bg: '#fafafa',
-        canvasBg: '#f5f1e8',
+        canvasBg: 'transparent',
         color: [255, 120, 28]
       }
     };
@@ -50,8 +50,7 @@ const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
       const centerX = w / 2;
       const centerY = h / 2;
 
-      ctx.fillStyle = currentTheme.canvasBg;
-      ctx.fillRect(0, 0, w, h);
+      ctx.clearRect(0, 0, w, h);
 
       const progressRadius = 50;
       const goalRadius = 80;
@@ -120,13 +119,11 @@ const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
   }, [theme]);
 
   return (
-    <div className="relative w-full aspect-square">
-      <canvas
-        ref={canvasRef}
-        className="w-full h-full"
-        style={{ background: theme === 'dark' ? '#000000' : '#f5f1e8' }}
-      />
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="w-full h-full"
+      style={{ background: 'transparent' }}
+    />
   );
 };
 
