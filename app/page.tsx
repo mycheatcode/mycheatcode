@@ -151,7 +151,7 @@ export default function Home() {
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[260px] md:max-w-[320px] aspect-square mb-3">
+        <div className="w-full max-w-[260px] md:max-w-[320px] aspect-square mb-2">
           <ProgressCircles
             theme={isDark ? 'dark' : 'light'}
             onProgressUpdate={setProgressPercentage}
@@ -169,14 +169,14 @@ export default function Home() {
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-2">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-3">
           <div className="relative">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-4 py-3 md:px-6 md:py-4 rounded-2xl text-base md:text-lg focus:outline-none"
+              className="w-full px-5 py-4 md:px-6 md:py-5 rounded-2xl text-base md:text-lg focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
@@ -185,7 +185,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 md:px-6 md:py-2 rounded-xl transition-colors font-medium text-sm md:text-base"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 md:px-6 md:py-2.5 rounded-xl transition-colors font-medium text-sm md:text-base"
               style={{
                 background: 'var(--button-bg)',
                 color: 'var(--button-text)'
@@ -199,7 +199,7 @@ export default function Home() {
         {/* View Community Topics Button */}
         <Link href="/community-topics" className="w-full max-w-2xl">
           <button
-            className="w-full px-4 py-3 md:px-6 md:py-4 rounded-2xl text-base md:text-lg font-medium transition-colors text-center"
+            className="w-full px-5 py-4 md:px-6 md:py-5 rounded-2xl text-base md:text-lg font-medium transition-colors text-center"
             style={{
               background: 'var(--card-bg)',
               border: '1px solid var(--card-border)',
