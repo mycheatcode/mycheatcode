@@ -156,9 +156,15 @@ export default function Home() {
 
         {/* Progress Percentage */}
         <div className="text-center mb-4">
-          <span className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+          <div className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             0%
-          </span>
+          </div>
+          <p className="text-xs md:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>
+            The most confident players maintain above 80%
+          </p>
+          <p className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+            Chatting = Growth
+          </p>
         </div>
 
         {/* Chat Input */}
