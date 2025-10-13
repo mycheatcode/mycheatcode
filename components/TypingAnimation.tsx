@@ -8,6 +8,7 @@ interface TypingAnimationProps {
   delay?: number; // milliseconds before starting
   onComplete?: () => void;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 export default function TypingAnimation({
@@ -15,7 +16,8 @@ export default function TypingAnimation({
   speed = 80,
   delay = 0,
   onComplete,
-  className = ""
+  className = "",
+  style
 }: TypingAnimationProps) {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
@@ -71,10 +73,10 @@ export default function TypingAnimation({
   }, [text, speed, delay, onComplete]);
 
   return (
-    <span className={className}>
+    <span className={className} style={style}>
       {displayedText}
       {!isComplete && (
-        <span className="animate-pulse ml-1 text-green-500">|</span>
+        <span className="animate-pulse ml-1" style={{ color: 'var(--accent-color)' }}>|</span>
       )}
     </span>
   );
