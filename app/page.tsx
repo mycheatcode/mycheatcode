@@ -144,8 +144,8 @@ export default function Home() {
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
-          <p className="text-xs md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4" style={{ color: 'var(--text-secondary)' }}>
-            Start talking, or explore topics to get the conversation going.
+          <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto px-4" style={{ color: 'var(--text-secondary)' }}>
+            Start chatting to build your confidence.
           </p>
         </div>
 
@@ -156,14 +156,11 @@ export default function Home() {
 
         {/* Progress Percentage */}
         <div className="text-center mb-4">
-          <div className="text-2xl md:text-3xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+          <div className="text-2xl md:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
             0%
           </div>
-          <p className="text-xs md:text-sm mb-1" style={{ color: 'var(--text-secondary)' }}>
-            The most confident players maintain above 80%
-          </p>
-          <p className="text-xs md:text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            Chatting = Growth
+          <p className="text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>
+            Top players maintain 80%+
           </p>
         </div>
 
