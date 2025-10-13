@@ -138,10 +138,10 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-16 pb-8">
         {/* Header Message */}
-        <div className="text-center mb-3">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-8">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
           <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto px-4" style={{ color: 'var(--text-secondary)' }}>
@@ -150,16 +150,16 @@ export default function Home() {
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[200px] md:max-w-[280px] aspect-square mb-3">
+        <div className="w-full max-w-[240px] md:max-w-[280px] aspect-square mb-6">
           <ProgressCircles theme={isDark ? 'dark' : 'light'} />
         </div>
 
         {/* Progress Percentage */}
-        <div className="text-center mb-6">
-          <div className="text-2xl md:text-3xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-12">
+          <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             0%
           </div>
-          <p className="text-xs md:text-sm" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
             Top players maintain 80%+
           </p>
         </div>
