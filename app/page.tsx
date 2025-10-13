@@ -160,7 +160,7 @@ export default function Home() {
 
         {/* Progress Percentage */}
         <div className="text-center mb-8">
-          <div className="text-2xl md:text-4xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+          <div className="text-2xl md:text-4xl font-bold mb-0.5" style={{ color: 'var(--text-primary)' }}>
             {progressPercentage}%
           </div>
           <p className="text-xs md:text-base" style={{ color: 'var(--text-secondary)' }}>
