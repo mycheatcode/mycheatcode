@@ -154,6 +154,13 @@ export default function Home() {
           <ProgressCircles theme={isDark ? 'dark' : 'light'} />
         </div>
 
+        {/* Progress Percentage */}
+        <div className="text-center mb-4">
+          <span className="text-2xl md:text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>
+            0%
+          </span>
+        </div>
+
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-3">
           <div className="relative">
