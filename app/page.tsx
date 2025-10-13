@@ -138,7 +138,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-20 pb-8">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-24 pb-8">
         {/* Header Message */}
         <div className="text-center mb-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
