@@ -4,9 +4,10 @@ import React, { useEffect, useRef } from 'react';
 
 interface ProgressCirclesProps {
   theme?: 'dark' | 'light';
+  onProgressUpdate?: (percentage: number) => void;
 }
 
-const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
+const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -80,9 +81,9 @@ const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
       }
       ctx.fill();
 
-      // Draw progress circle (inner)
-      ctx.shadowBlur = 30;
-      ctx.shadowColor = `rgba(${currentTheme.color[0]}, ${currentTheme.color[1]}, ${currentTheme.color[2]}, 0.8)`;
+      // Draw progress circle (inner) with enhanced glow
+      ctx.shadowBlur = 50;
+      ctx.shadowColor = `rgba(${currentTheme.color[0]}, ${currentTheme.color[1]}, ${currentTheme.color[2]}, 1)`;
       ctx.fillStyle = `rgba(${currentTheme.color[0]}, ${currentTheme.color[1]}, ${currentTheme.color[2]}, 1)`;
       ctx.beginPath();
 
@@ -106,6 +107,15 @@ const ProgressCircles = ({ theme = 'dark' }: ProgressCirclesProps) => {
       }
       ctx.fill();
       ctx.shadowBlur = 0;
+
+      // Calculate percentage based on area ratio
+      const progressArea = Math.PI * Math.pow(progressRadius, 2);
+      const goalArea = Math.PI * Math.pow(goalRadius, 2);
+      const percentage = Math.round((progressArea / goalArea) * 100);
+
+      if (onProgressUpdate) {
+        onProgressUpdate(percentage);
+      }
 
       animationFrameId = requestAnimationFrame(animate);
     };

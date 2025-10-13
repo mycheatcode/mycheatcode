@@ -9,6 +9,7 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [isDark, setIsDark] = useState(false);
+  const [progressPercentage, setProgressPercentage] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -150,14 +151,17 @@ export default function Home() {
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[200px] md:max-w-[280px] aspect-square mb-3">
-          <ProgressCircles theme={isDark ? 'dark' : 'light'} />
+        <div className="w-full max-w-[260px] md:max-w-[320px] aspect-square mb-3">
+          <ProgressCircles
+            theme={isDark ? 'dark' : 'light'}
+            onProgressUpdate={setProgressPercentage}
+          />
         </div>
 
         {/* Progress Percentage */}
         <div className="text-center mb-8">
           <div className="text-2xl md:text-4xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-            0%
+            {progressPercentage}%
           </div>
           <p className="text-xs md:text-base" style={{ color: 'var(--text-secondary)' }}>
             Top players maintain 80%+
