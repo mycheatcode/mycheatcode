@@ -138,10 +138,10 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-16 pb-8">
+      <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-14 pb-6">
         {/* Header Message */}
-        <div className="text-center mb-6">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-4">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
           <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto px-4" style={{ color: 'var(--text-secondary)' }}>
@@ -150,22 +150,22 @@ export default function Home() {
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[240px] md:max-w-[280px] aspect-square mb-4">
+        <div className="w-full max-w-[200px] md:max-w-[280px] aspect-square mb-3">
           <ProgressCircles theme={isDark ? 'dark' : 'light'} />
         </div>
 
         {/* Progress Percentage */}
-        <div className="text-center mb-6">
-          <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-4">
+          <div className="text-2xl md:text-4xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
             0%
           </div>
-          <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-xs md:text-base" style={{ color: 'var(--text-secondary)' }}>
             Top players maintain 80%+
           </p>
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-3">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-2">
           <div className="relative">
             <input
               type="text"
