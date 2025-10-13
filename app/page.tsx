@@ -140,29 +140,29 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-screen px-4 pt-24 pb-8">
         {/* Header Message */}
-        <div className="text-center mb-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-3">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
-          <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-xs md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto leading-relaxed px-4" style={{ color: 'var(--text-secondary)' }}>
             Start talking, or explore topics to get the conversation going.
           </p>
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[280px] aspect-square mb-4">
+        <div className="w-full max-w-[200px] md:max-w-[280px] aspect-square mb-3">
           <ProgressCircles theme={isDark ? 'dark' : 'light'} />
         </div>
 
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-4">
+        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-3">
           <div className="relative">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-6 py-4 rounded-2xl text-lg focus:outline-none"
+              className="w-full px-4 py-3 md:px-6 md:py-4 rounded-2xl text-base md:text-lg focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
@@ -171,7 +171,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-6 py-2 rounded-xl transition-colors font-medium"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 md:px-6 md:py-2 rounded-xl transition-colors font-medium text-sm md:text-base"
               style={{
                 background: 'var(--button-bg)',
                 color: 'var(--button-text)'
@@ -185,7 +185,7 @@ export default function Home() {
         {/* View Community Topics Button */}
         <Link href="/community-topics" className="w-full max-w-2xl">
           <button
-            className="w-full px-6 py-4 rounded-2xl text-lg font-medium transition-colors text-center"
+            className="w-full px-4 py-3 md:px-6 md:py-4 rounded-2xl text-base md:text-lg font-medium transition-colors text-center"
             style={{
               background: 'var(--card-bg)',
               border: '1px solid var(--card-border)',
