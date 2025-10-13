@@ -155,7 +155,7 @@ export default function Home() {
         </div>
 
         {/* Progress Percentage */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <div className="text-3xl md:text-4xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             0%
           </div>
