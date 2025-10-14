@@ -21,6 +21,11 @@ import ActiveCodesDisplay from '../../components/ActiveCodesDisplay';
 import OverallProgressCircle from '../../components/OverallProgressCircle';
 import StreakDisplay from '../../components/StreakDisplay';
 
+// Force dark mode immediately
+if (typeof window !== 'undefined') {
+  document.documentElement.classList.add('dark');
+}
+
 interface CheatCode {
   id: number;
   title: string;
@@ -485,8 +490,79 @@ export default function MyCodesPage() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+      {/* Mobile & Desktop Header with Menu */}
+      <div className="lg:hidden absolute top-0 left-0 right-0 px-4 py-4 flex items-center gap-4 z-20">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="p-2 rounded-lg transition-colors"
+          style={{ color: 'var(--accent-color)' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+      </div>
+
+      {/* Sidebar Navigation */}
+      <div
+        className={`lg:hidden fixed top-0 left-0 h-full w-64 border-r flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+      >
+        <div className="pt-20"></div>
+        <nav className="flex-1">
+          <div>
+            <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              </svg>
+              <span>Home</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/my-codes" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span>My Codes</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+              <span>Community Topics</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/chat-history" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+              </svg>
+              <span>Chat History</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <span>Profile</span>
+            </Link>
+          </div>
+        </nav>
+      </div>
+
+      {/* Overlay when menu is open */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-20"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          onClick={() => setMenuOpen(false)}
+        ></div>
+      )}
+
       {/* Mobile Design */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <div className="lg:hidden min-h-screen relative flex flex-col pt-16">
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {/* Back Button */}

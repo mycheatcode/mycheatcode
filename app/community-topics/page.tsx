@@ -4,11 +4,21 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
+// Force dark mode immediately
+if (typeof window !== 'undefined') {
+  document.documentElement.classList.add('dark');
+}
+
 export default function CommunityTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [displayCount, setDisplayCount] = useState(10);
   const router = useRouter();
+
+  useEffect(() => {
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
+  }, []);
 
   const categories = ['All', 'Pre-Game', 'Off Court', 'Post-Game', 'In-Game', 'Locker Room'];
 
