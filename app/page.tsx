@@ -153,12 +153,13 @@ export default function Home() {
           </div>
           {/* Half Court Image - Right Aligned */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-1/3 opacity-20"
+            className="absolute right-0 top-0 bottom-0 w-1/3"
             style={{
               backgroundImage: 'url(/half-court.png)',
               backgroundSize: 'contain',
               backgroundPosition: 'right center',
-              backgroundRepeat: 'no-repeat'
+              backgroundRepeat: 'no-repeat',
+              opacity: 0.6
             }}
           />
         </div>
