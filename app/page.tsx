@@ -52,8 +52,7 @@ export default function Home() {
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          opacity: 0.03
+          backgroundRepeat: 'no-repeat'
         }}
       />
 
@@ -65,7 +64,6 @@ export default function Home() {
           backgroundSize: 'contain',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.03,
           transform: 'rotate(90deg)'
         }}
       />
