@@ -54,7 +54,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
       ctx.clearRect(0, 0, w, h);
 
       const progressRadius = 50;
-      const goalRadius = 80;
+      const goalRadius = 95;
       const segments = 100;
 
       // Draw goal circle (outer, filled and translucent)
