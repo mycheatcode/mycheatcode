@@ -752,12 +752,12 @@ export default function MyCodesPage() {
               <div
                 key={code.id}
                 onClick={() => setSelectedCode(code)}
-                className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border-2 transition-all cursor-pointer group ${
+                className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border transition-all cursor-pointer group ${
                   code.archived
                     ? 'opacity-60'
                     : 'hover:scale-[1.02]'
                 }`}
-                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
               >
 
                 {/* Archive Badge */}
@@ -827,16 +827,17 @@ export default function MyCodesPage() {
           {/* Card Container */}
           <div className="w-full max-w-lg">
             {/* Card with Navigation Inside */}
-            <div className="bg-zinc-950 rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800">
+            <div className="rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
               {/* Left Arrow - Centered */}
               <button
                 onClick={prevCard}
                 disabled={currentCard === 0}
                 className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
                   currentCard === 0
-                    ? 'text-zinc-700 cursor-not-allowed opacity-30'
-                    : 'text-white hover:bg-white/10 active:scale-95'
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'hover:bg-white/10 active:scale-95'
                 }`}
+                style={{ color: currentCard === 0 ? '#666666' : '#ffffff' }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6"></polyline>
@@ -849,9 +850,10 @@ export default function MyCodesPage() {
                 disabled={currentCard === buildCards(selectedCode).length - 1}
                 className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
                   currentCard === buildCards(selectedCode).length - 1
-                    ? 'text-zinc-700 cursor-not-allowed opacity-30'
-                    : 'text-white hover:bg-white/10 active:scale-95'
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'hover:bg-white/10 active:scale-95'
                 }`}
+                style={{ color: currentCard === buildCards(selectedCode).length - 1 ? '#666666' : '#ffffff' }}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6"></polyline>
@@ -869,11 +871,11 @@ export default function MyCodesPage() {
                       {/* Title Card */}
                       {card.type === 'title' && (
                         <div className="space-y-10 mt-12">
-                          <h1 className="text-6xl font-bold text-white leading-[1.1] tracking-tight px-4">
+                          <h1 className="text-6xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: '#ffffff' }}>
                             {(card as any).title}
                           </h1>
-                          <div className="h-px w-24 bg-zinc-700 mx-auto"></div>
-                          <div className="text-zinc-400 text-base font-semibold uppercase tracking-widest">
+                          <div className="h-px w-24 mx-auto" style={{ backgroundColor: '#2a2a2a' }}></div>
+                          <div className="text-base font-semibold uppercase tracking-widest" style={{ color: '#808080' }}>
                             {(card as any).category}
                           </div>
                         </div>
@@ -882,10 +884,10 @@ export default function MyCodesPage() {
                       {/* Section Cards (What, When) */}
                       {card.type === 'section' && (card as any).heading !== 'Why' && (
                         <div className="space-y-12 max-w-md mt-12">
-                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
                             {(card as any).heading}
                           </div>
-                          <p className="text-white text-3xl font-medium leading-[1.4]">
+                          <p className="text-3xl font-medium leading-[1.4]" style={{ color: '#ffffff' }}>
                             {(card as any).content}
                           </p>
                         </div>
@@ -894,12 +896,12 @@ export default function MyCodesPage() {
                       {/* Why Card */}
                       {card.type === 'section' && (card as any).heading === 'Why' && (
                         <div className="space-y-12 max-w-lg mt-12">
-                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
                             {(card as any).heading}
                           </div>
                           <div className="space-y-8">
                             {(card as any).content.split('\n\n').map((paragraph: string, i: number) => (
-                              <p key={i} className="text-white text-xl font-medium leading-[1.6]">
+                              <p key={i} className="text-xl font-medium leading-[1.6]" style={{ color: '#ffffff' }}>
                                 {paragraph}
                               </p>
                             ))}
@@ -911,18 +913,18 @@ export default function MyCodesPage() {
                       {card.type === 'step' && 'stepNumber' in card && (
                         <div className="space-y-12 max-w-lg mt-12">
                           <div className="space-y-4">
-                            <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                            <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
                               {(card as any).heading}
                             </div>
-                            <div className="text-zinc-600 text-sm font-semibold">
+                            <div className="text-sm font-semibold" style={{ color: '#666666' }}>
                               Step {(card as any).stepNumber} of {(card as any).totalSteps}
                             </div>
                           </div>
                           <div className="flex items-center gap-6">
-                            <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
-                              <span className="text-white font-bold text-xl">{(card as any).stepNumber}</span>
+                            <div className="flex-shrink-0 w-14 h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
+                              <span className="font-bold text-xl" style={{ color: '#ffffff' }}>{(card as any).stepNumber}</span>
                             </div>
-                            <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1">
+                            <p className="text-2xl font-medium leading-[1.5] text-left flex-1" style={{ color: '#ffffff' }}>
                               {(card as any).content}
                             </p>
                           </div>
@@ -932,11 +934,11 @@ export default function MyCodesPage() {
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
                         <div className="space-y-12 w-full max-w-md mt-12">
-                          <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
                             Your Cheat Code Phrase
                           </div>
                           <div className="space-y-10">
-                            <p className="text-white text-5xl font-bold leading-[1.2]">
+                            <p className="text-5xl font-bold leading-[1.2]" style={{ color: '#ffffff' }}>
                               "{(card as any).content}"
                             </p>
                             <div className="space-y-4 relative">
@@ -944,21 +946,24 @@ export default function MyCodesPage() {
                                 onClick={() => {
                                   handleUseCheatCode(selectedCode);
                                 }}
-                                className="w-full bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-200 transition-all active:scale-95 shadow-lg"
+                                className="w-full py-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 shadow-lg"
+                                style={{ backgroundColor: '#6fff6f', color: '#000000' }}
                               >
                                 Use Cheat Code
                               </button>
 
                               <button
                                 onClick={() => handleOpenChat(selectedCode)}
-                                className="w-full bg-zinc-800 border border-zinc-700 text-white py-4 rounded-2xl font-medium text-base hover:bg-zinc-700 transition-colors"
+                                className="w-full border py-4 rounded-2xl font-medium text-base transition-colors"
+                                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
                               >
                                 Open Chat
                               </button>
 
                               <button
                                 onClick={resetCards}
-                                className="w-full text-zinc-400 hover:text-white py-4 rounded-2xl font-medium text-base transition-colors"
+                                className="w-full py-4 rounded-2xl font-medium text-base transition-colors"
+                                style={{ color: '#808080' }}
                               >
                                 Back to Start
                               </button>
@@ -975,16 +980,16 @@ export default function MyCodesPage() {
             {/* Success Animation Overlay */}
             {showSuccess && (
               <div
-                className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-                style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards' }}
+                className="fixed inset-0 z-[110] flex items-center justify-center backdrop-blur-sm"
+                style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
               >
                 <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#6fff6f" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
                     <polyline points="20 6 9 17 4 12" strokeDasharray="100" strokeDashoffset="0"
                       style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
                   </svg>
                   <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
-                    <h3 className="text-white text-3xl font-bold mb-1">Added to My Codes!</h3>
+                    <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Added to My Codes!</h3>
                   </div>
                 </div>
               </div>
@@ -995,11 +1000,11 @@ export default function MyCodesPage() {
               {buildCards(selectedCode).map((_, index) => (
                 <div
                   key={index}
-                  className={`h-1.5 rounded-full transition-all ${
-                    index === currentCard
-                      ? 'w-8 bg-white'
-                      : 'w-1.5 bg-zinc-700'
-                  }`}
+                  className="h-1.5 rounded-full transition-all"
+                  style={{
+                    width: index === currentCard ? '2rem' : '0.375rem',
+                    backgroundColor: index === currentCard ? '#ffffff' : '#2a2a2a'
+                  }}
                 />
               ))}
             </div>

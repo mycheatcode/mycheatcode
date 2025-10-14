@@ -338,23 +338,16 @@ export default function ChatHistory() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans starfield-background">
-      {/* Starfield Background */}
-      <div className="starfield-container">
-        <div className="stars stars-small"></div>
-        <div className="stars stars-medium"></div>
-        <div className="stars stars-large"></div>
-        <div className="stars stars-twinkle"></div>
-      </div>
+    <div className="min-h-screen font-sans" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden bg-black min-h-screen relative pb-[68px] overflow-y-auto">
+      <div className="lg:hidden min-h-screen relative pb-[68px] overflow-y-auto">
         {/* Header */}
-        <div className="p-4 bg-black border-b border-zinc-800">
+        <div className="p-4 border-b" style={{ borderColor: '#2a2a2a' }}>
           {/* App Title */}
           <div className="flex items-center justify-center relative mb-4">
-            <div className="text-lg font-semibold text-white">mycheatcode.ai</div>
-            <div className="absolute right-0 w-6 h-6 flex items-center justify-center text-zinc-500 cursor-pointer">
+            <div className="text-lg font-semibold" style={{ color: '#6fff6f' }}>mycheatcode.ai</div>
+            <div className="absolute right-0 w-6 h-6 flex items-center justify-center cursor-pointer" style={{ color: '#808080' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
               </svg>
@@ -363,28 +356,28 @@ export default function ChatHistory() {
 
           {/* Navigation */}
           <div className="flex items-center justify-between mb-4">
-            <Link href="/" className="w-8 h-8 flex items-center justify-center text-white cursor-pointer transition-transform active:scale-90">
+            <Link href="/" className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: '#6fff6f' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
-            <div className="flex items-center gap-1.5 bg-white/5 px-3 py-1.5 rounded-full border border-white/10">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#6fff6f">
                 <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
               </svg>
-              <span className="text-xs text-white font-semibold">5 DAY STREAK</span>
+              <span className="text-xs font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
             </div>
           </div>
 
           {/* Page Title */}
-          <div className="text-[1.8em] font-bold text-white mb-2">Chat History</div>
-          <div className="text-zinc-400 text-sm leading-relaxed">Your conversations and cheat code journey</div>
+          <div className="text-[1.8em] font-bold mb-2" style={{ color: '#ffffff' }}>Chat History</div>
+          <div className="text-sm leading-relaxed" style={{ color: '#808080' }}>Your conversations and cheat code journey</div>
         </div>
 
         {/* Search */}
         <div className="p-4 pb-4">
           <div className="relative">
-            <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="m21 21-4.35-4.35"/>
@@ -395,38 +388,28 @@ export default function ChatHistory() {
               placeholder="Search conversations..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl pl-10 pr-4 py-3 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-zinc-700 focus:bg-zinc-900/80 transition-all"
+              className="w-full border rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none transition-all"
+              style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
             />
           </div>
         </div>
 
         {/* Filter Tabs */}
         <div className="flex gap-2 p-4 pt-0 overflow-x-auto scrollbar-hide">
-          {filters.map((filter) => {
-            const getFilterColors = () => {
-              if (filter === 'All') return 'bg-white/5 border border-white/10';
-              if (filter === 'With Cheat Codes') return 'bg-red-500/[0.075] border border-white/10';
-              if (filter === 'Topics') return 'bg-orange-500/[0.075] border border-white/10';
-              if (filter === 'Custom') return 'bg-yellow-500/[0.075] border border-white/10';
-              if (filter === 'Recent') return 'bg-green-500/[0.075] border border-white/10';
-              if (filter === 'Archived') return 'bg-blue-800/[0.075] border border-white/10';
-              return 'bg-white/5 border border-white/10';
-            };
-
-            return (
-              <button
-                key={filter}
-                onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
-                  activeFilter === filter
-                    ? 'bg-white text-black'
-                    : `${getFilterColors()} text-zinc-300 hover:bg-zinc-700`
-                }`}
-              >
-                {filter}
-              </button>
-            );
-          })}
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all border"
+              style={
+                activeFilter === filter
+                  ? { backgroundColor: '#6fff6f', color: '#000000', borderColor: '#6fff6f' }
+                  : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
+              }
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         {/* Chat List */}
@@ -434,9 +417,9 @@ export default function ChatHistory() {
           {getFilteredChats().length === 0 ? (
             <div className="text-center py-12">
               <div className="text-6xl mb-4">💭</div>
-              <div className="text-xl font-semibold text-white mb-2">No conversations yet</div>
-              <div className="text-zinc-400 mb-6">Start chatting to build your history</div>
-              <button onClick={handleStartFreshChat} className="bg-white text-black px-6 py-3 rounded-xl font-semibold">
+              <div className="text-xl font-semibold mb-2" style={{ color: '#ffffff' }}>No conversations yet</div>
+              <div className="mb-6" style={{ color: '#808080' }}>Start chatting to build your history</div>
+              <button onClick={handleStartFreshChat} className="px-6 py-3 rounded-xl font-semibold" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
                 Start New Chat
               </button>
             </div>
@@ -445,19 +428,20 @@ export default function ChatHistory() {
               <div
                 key={chat.id}
                 onClick={() => handleChatClick(chat)}
-                className="bg-zinc-950 border border-zinc-800 rounded-xl p-4 transition-all cursor-pointer hover:bg-zinc-900 active:scale-98"
+                className="border rounded-xl p-4 transition-all cursor-pointer active:scale-98"
+                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <div className="text-white font-medium text-sm mb-1">{chat.title}</div>
+                    <div className="font-medium text-sm mb-1" style={{ color: '#ffffff' }}>{chat.title}</div>
                     <div className="flex items-center gap-2">
                       {chat.category && (
-                        <div className="text-zinc-400 text-xs uppercase tracking-wide">
+                        <div className="text-xs uppercase tracking-wide" style={{ color: '#808080' }}>
                           {chat.category}
                         </div>
                       )}
                       {chat.hasCheatCode && (
-                        <span className="bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded-full text-xs font-medium">
+                        <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#1a1a1a', color: '#6fff6f', border: '1px solid #2a2a2a' }}>
                           ⚡ Cheat Code
                         </span>
                       )}
@@ -465,7 +449,8 @@ export default function ChatHistory() {
                   </div>
                   <button
                     onClick={(e) => handleDeleteChat(chat.id, e)}
-                    className="text-zinc-500 hover:text-red-400 p-1"
+                    className="p-1"
+                    style={{ color: '#808080' }}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -473,11 +458,11 @@ export default function ChatHistory() {
                   </button>
                 </div>
 
-                <div className="text-zinc-400 text-sm mb-3 line-clamp-2">
+                <div className="text-sm mb-3 line-clamp-2" style={{ color: '#808080' }}>
                   {chat.lastMessage}
                 </div>
 
-                <div className="flex items-center justify-between text-xs text-zinc-500">
+                <div className="flex items-center justify-between text-xs" style={{ color: '#666666' }}>
                   <span>{chat.messageCount} messages</span>
                   <span>{formatDate(chat.updatedAt)}</span>
                 </div>
@@ -488,7 +473,7 @@ export default function ChatHistory() {
 
         {/* Mobile Footer Navigation */}
         <div className="fixed bottom-20 right-4 lg:hidden">
-          <button onClick={handleStartFreshChat} className="bg-white text-black w-14 h-14 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
+          <button onClick={handleStartFreshChat} className="w-14 h-14 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -497,23 +482,25 @@ export default function ChatHistory() {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-            <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-sm">
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+            <div className="rounded-2xl p-6 w-full max-w-sm" style={{ backgroundColor: '#1a1a1a' }}>
               <div className="text-center">
-                <h3 className="text-white font-semibold text-lg mb-2">Archive Chat?</h3>
-                <p className="text-zinc-400 text-sm mb-6">
+                <h3 className="font-semibold text-lg mb-2" style={{ color: '#ffffff' }}>Archive Chat?</h3>
+                <p className="text-sm mb-6" style={{ color: '#808080' }}>
                   Are you sure you want to archive this chat?
                 </p>
                 <div className="flex gap-3">
                   <button
                     onClick={cancelDelete}
-                    className="flex-1 py-3 px-4 rounded-xl border border-zinc-700 text-zinc-300 font-medium hover:bg-zinc-800 transition-colors"
+                    className="flex-1 py-3 px-4 rounded-xl border font-medium transition-colors"
+                    style={{ borderColor: '#2a2a2a', color: '#808080' }}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
-                    className="flex-1 py-3 px-4 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+                    className="flex-1 py-3 px-4 rounded-xl font-medium transition-colors"
+                    style={{ backgroundColor: '#6fff6f', color: '#000000' }}
                   >
                     Archive
                   </button>
@@ -527,10 +514,11 @@ export default function ChatHistory() {
       {/* Desktop Layout */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20 bg-black">
+        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: '#6fff6f' }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -538,48 +526,48 @@ export default function ChatHistory() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
+          <div className="text-xl app-label" style={{ color: '#6fff6f' }}>MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation */}
-        <div className={`absolute top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className={`absolute top-0 left-0 h-full w-80 border-r flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
           <div className="pt-20"></div>
 
           <nav className="flex-1">
             <div>
-              <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: '#808080' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: '#2a2a2a' }}></div>
               </Link>
 
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/my-codes" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: '#808080' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: '#2a2a2a' }}></div>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
+              <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: '#808080' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
                 <span>Community Topics</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: '#2a2a2a' }}></div>
               </Link>
 
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
+              <Link href="/chat-history" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: '#ffffff', backgroundColor: 'rgba(26, 26, 26, 0.5)' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#6fff6f' }}>
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
+                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: '#2a2a2a' }}></div>
               </Link>
 
-              <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
+              <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: '#808080' }}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
@@ -603,22 +591,22 @@ export default function ChatHistory() {
           <div className="mb-8">
             <div className="flex items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-4">
-                <Link href="/" className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors">
+                <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: '#6fff6f' }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                   </svg>
                 </Link>
-                <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="white">
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#6fff6f">
                     <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
                   </svg>
-                  <span className="text-sm text-white font-semibold">5 DAY STREAK</span>
+                  <span className="text-sm font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
                 </div>
               </div>
 
               {/* Search Bar - 1/3 width, right aligned */}
               <div className="relative w-80">
-                <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-zinc-500">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="11" cy="11" r="8"/>
                     <path d="m21 21-4.35-4.35"/>
@@ -629,43 +617,33 @@ export default function ChatHistory() {
                   placeholder="Search conversations..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full bg-zinc-900/50 border border-zinc-800 rounded-lg pl-10 pr-3 py-2 text-white text-sm placeholder-zinc-500 focus:outline-none focus:border-zinc-700 focus:bg-zinc-900/80 transition-all"
+                  className="w-full border rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none transition-all"
+                  style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
                 />
               </div>
             </div>
 
-            <div className="text-4xl font-bold text-white mb-4">Chat History</div>
-            <div className="text-zinc-400 text-lg leading-relaxed">Your conversations and cheat code journey</div>
+            <div className="text-4xl font-bold mb-4" style={{ color: '#ffffff' }}>Chat History</div>
+            <div className="text-lg leading-relaxed" style={{ color: '#808080' }}>Your conversations and cheat code journey</div>
           </div>
 
           {/* Filters */}
           <div className="mb-8">
             <div className="flex gap-3 overflow-x-auto scrollbar-hide">
-              {filters.map((filter) => {
-                const getFilterColors = () => {
-                  if (filter === 'All') return 'bg-white/5 border border-white/10 hover:bg-white/10';
-                  if (filter === 'With Cheat Codes') return 'bg-red-500/[0.075] border border-white/10 hover:bg-red-500/[0.125]';
-                  if (filter === 'Topics') return 'bg-orange-500/[0.075] border border-white/10 hover:bg-orange-500/[0.125]';
-                  if (filter === 'Custom') return 'bg-yellow-500/[0.075] border border-white/10 hover:bg-yellow-500/[0.125]';
-                  if (filter === 'Recent') return 'bg-green-500/[0.075] border border-white/10 hover:bg-green-500/[0.125]';
-                  if (filter === 'Archived') return 'bg-blue-800/[0.075] border border-white/10 hover:bg-blue-800/[0.125]';
-                  return 'bg-white/5 border border-white/10 hover:bg-white/10';
-                };
-
-                return (
-                  <button
-                    key={filter}
-                    onClick={() => setActiveFilter(filter)}
-                    className={`px-6 py-3 rounded-full font-medium transition-all ${
-                      activeFilter === filter
-                        ? 'bg-white text-black'
-                        : `${getFilterColors()} text-zinc-300`
-                    }`}
-                  >
-                    {filter}
-                  </button>
-                );
-              })}
+              {filters.map((filter) => (
+                <button
+                  key={filter}
+                  onClick={() => setActiveFilter(filter)}
+                  className="px-6 py-3 rounded-full font-medium transition-all border"
+                  style={
+                    activeFilter === filter
+                      ? { backgroundColor: '#6fff6f', color: '#000000', borderColor: '#6fff6f' }
+                      : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
+                  }
+                >
+                  {filter}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -674,9 +652,9 @@ export default function ChatHistory() {
             {getFilteredChats().length === 0 ? (
               <div className="text-center py-16">
                 <div className="text-8xl mb-6">💭</div>
-                <div className="text-2xl font-semibold text-white mb-3">No conversations yet</div>
-                <div className="text-zinc-400 mb-8">Start chatting to build your history</div>
-                <button onClick={handleStartFreshChat} className="bg-white text-black px-8 py-4 rounded-xl font-semibold text-lg hover:bg-zinc-200 transition-colors">
+                <div className="text-2xl font-semibold mb-3" style={{ color: '#ffffff' }}>No conversations yet</div>
+                <div className="mb-8" style={{ color: '#808080' }}>Start chatting to build your history</div>
+                <button onClick={handleStartFreshChat} className="px-8 py-4 rounded-xl font-semibold text-lg transition-colors" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
                   Start New Chat
                 </button>
               </div>
@@ -685,19 +663,20 @@ export default function ChatHistory() {
                 <div
                   key={chat.id}
                   onClick={() => handleChatClick(chat)}
-                  className="bg-zinc-950 border border-zinc-800 rounded-xl p-6 transition-all cursor-pointer hover:bg-zinc-900 hover:scale-[1.01]"
+                  className="border rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
+                  style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
-                      <h3 className="text-white font-semibold text-lg mb-2">{chat.title}</h3>
+                      <h3 className="font-semibold text-lg mb-2" style={{ color: '#ffffff' }}>{chat.title}</h3>
                       <div className="flex items-center gap-3">
                         {chat.category && (
-                          <div className="text-zinc-400 text-sm uppercase tracking-wide">
+                          <div className="text-sm uppercase tracking-wide" style={{ color: '#808080' }}>
                             {chat.category}
                           </div>
                         )}
                         {chat.hasCheatCode && (
-                          <span className="bg-yellow-500/20 text-yellow-300 px-3 py-1 rounded-full text-sm font-medium">
+                          <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: '#1a1a1a', color: '#6fff6f', border: '1px solid #2a2a2a' }}>
                             ⚡ Cheat Code Created
                           </span>
                         )}
@@ -705,7 +684,8 @@ export default function ChatHistory() {
                     </div>
                     <button
                       onClick={(e) => handleDeleteChat(chat.id, e)}
-                      className="text-zinc-500 hover:text-red-400 p-2"
+                      className="p-2"
+                      style={{ color: '#808080' }}
                     >
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
@@ -713,11 +693,11 @@ export default function ChatHistory() {
                     </button>
                   </div>
 
-                  <div className="text-zinc-400 mb-4 line-clamp-2">
+                  <div className="mb-4 line-clamp-2" style={{ color: '#808080' }}>
                     {chat.lastMessage}
                   </div>
 
-                  <div className="flex items-center justify-between text-sm text-zinc-500">
+                  <div className="flex items-center justify-between text-sm" style={{ color: '#666666' }}>
                     <span>{chat.messageCount} messages</span>
                     <span>{formatDate(chat.updatedAt)}</span>
                   </div>
@@ -730,7 +710,7 @@ export default function ChatHistory() {
 
         {/* Desktop Footer */}
         <div className="fixed bottom-16 right-8 hidden lg:block">
-          <button onClick={handleStartFreshChat} className="bg-white text-black w-16 h-16 rounded-full flex items-center justify-center hover:bg-zinc-200 transition-colors shadow-lg">
+          <button onClick={handleStartFreshChat} className="w-16 h-16 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -739,23 +719,25 @@ export default function ChatHistory() {
 
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
-          <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-8 z-50">
-            <div className="bg-zinc-900 rounded-2xl p-8 w-full max-w-md">
+          <div className="fixed inset-0 flex items-center justify-center p-8 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+            <div className="rounded-2xl p-8 w-full max-w-md" style={{ backgroundColor: '#1a1a1a' }}>
               <div className="text-center">
-                <h3 className="text-white font-semibold text-xl mb-3">Archive Chat?</h3>
-                <p className="text-zinc-400 mb-8">
+                <h3 className="font-semibold text-xl mb-3" style={{ color: '#ffffff' }}>Archive Chat?</h3>
+                <p className="mb-8" style={{ color: '#808080' }}>
                   Are you sure you want to archive this chat?
                 </p>
                 <div className="flex gap-4">
                   <button
                     onClick={cancelDelete}
-                    className="flex-1 py-3 px-6 rounded-xl border border-zinc-700 text-zinc-300 font-medium hover:bg-zinc-800 transition-colors"
+                    className="flex-1 py-3 px-6 rounded-xl border font-medium transition-colors"
+                    style={{ borderColor: '#2a2a2a', color: '#808080' }}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
-                    className="flex-1 py-3 px-6 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 transition-colors"
+                    className="flex-1 py-3 px-6 rounded-xl font-medium transition-colors"
+                    style={{ backgroundColor: '#6fff6f', color: '#000000' }}
                   >
                     Archive
                   </button>
@@ -765,98 +747,6 @@ export default function ChatHistory() {
           </div>
         )}
       </div>
-
-      {/* Starfield CSS Styles */}
-      <style jsx global>{`
-        .starfield-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          pointer-events: none;
-          z-index: 0;
-        }
-
-        .stars {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-        }
-
-        .stars-small {
-          background:
-            radial-gradient(circle at 25% 75%, #ffffff 0.8px, transparent 0.8px),
-            radial-gradient(circle at 75% 25%, #87ceeb 0.8px, transparent 0.8px),
-            radial-gradient(circle at 15% 45%, #ffffff 0.8px, transparent 0.8px);
-          background-size: 350px 350px, 400px 400px, 320px 320px;
-          animation: gentle-twinkle 20s ease-in-out infinite alternate;
-          opacity: 0.35;
-        }
-
-        .stars-medium {
-          background:
-            radial-gradient(circle at 40% 60%, #ffffff 1.2px, transparent 1.2px),
-            radial-gradient(circle at 80% 30%, #ffd700 1.2px, transparent 1.2px);
-          background-size: 500px 500px, 450px 450px;
-          animation: gentle-twinkle 28s ease-in-out infinite alternate-reverse;
-          opacity: 0.25;
-        }
-
-        .stars-large {
-          background:
-            radial-gradient(circle at 60% 20%, #ffffff 2px, transparent 2px),
-            radial-gradient(circle at 20% 80%, #87ceeb 2px, transparent 2px),
-            radial-gradient(circle at 85% 70%, #ffd700 2px, transparent 2px);
-          background-size: 800px 800px, 750px 750px, 900px 900px;
-          animation: bright-twinkle 35s ease-in-out infinite;
-          opacity: 0.2;
-        }
-
-        .stars-twinkle {
-          background-image:
-            radial-gradient(circle at 30% 40%, rgba(255,255,255,0.6) 3px, transparent 3px),
-            radial-gradient(circle at 70% 70%, rgba(135,206,235,0.6) 3px, transparent 3px),
-            radial-gradient(circle at 15% 20%, rgba(255,215,0,0.7) 2.5px, transparent 2.5px);
-          background-size: 800px 800px, 700px 700px, 900px 900px;
-          animation: star-sparkle 25s ease-in-out infinite alternate;
-          opacity: 0.35;
-        }
-
-        @keyframes gentle-twinkle {
-          0% { opacity: 0.3; }
-          50% { opacity: 0.45; }
-          100% { opacity: 0.35; }
-        }
-
-        @keyframes bright-twinkle {
-          0% { opacity: 0.15; }
-          25% { opacity: 0.25; }
-          50% { opacity: 0.3; }
-          75% { opacity: 0.2; }
-          100% { opacity: 0.15; }
-        }
-
-        @keyframes star-sparkle {
-          0% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.5;
-            transform: scale(1.05);
-          }
-          100% {
-            opacity: 0.35;
-            transform: scale(1);
-          }
-        }
-
-        .starfield-background {
-          position: relative;
-          overflow: hidden;
-        }
-      `}</style>
     </div>
   );
 }
