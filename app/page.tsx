@@ -45,29 +45,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
-      {/* X's and O's Play Diagram Background - Mobile (centered on progress visual) */}
-      <div
-        className="absolute inset-0 pointer-events-none lg:hidden"
-        style={{
-          backgroundImage: 'url(/basketball-court.png)',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center 35%',
-          backgroundRepeat: 'no-repeat',
-          zIndex: 1
-        }}
-      />
-
-      {/* X's and O's Play Diagram Background - Desktop */}
-      <div
-        className="hidden lg:block absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: 'url(/basketball-court.png)',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
-          zIndex: 1
-        }}
-      />
 
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center justify-between z-20">
@@ -165,13 +142,25 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6 relative z-10">
         {/* Header Message */}
-        <div className="text-left mb-8 w-full max-w-2xl rounded-3xl p-5 md:p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
-            Play With Confidence.
-          </h1>
-          <p className="text-sm md:text-lg" style={{ color: 'var(--text-secondary)' }}>
-            Start chatting to build your confidence.
-          </p>
+        <div className="text-left mb-8 w-full max-w-2xl rounded-3xl p-5 md:p-8 relative overflow-hidden" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+          <div className="relative z-10">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
+              Play With Confidence.
+            </h1>
+            <p className="text-sm md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+              Start chatting to build your confidence.
+            </p>
+          </div>
+          {/* Half Court Image - Right Aligned */}
+          <div
+            className="absolute right-0 top-0 bottom-0 w-1/3 opacity-20"
+            style={{
+              backgroundImage: 'url(/half-court.png)',
+              backgroundSize: 'contain',
+              backgroundPosition: 'right center',
+              backgroundRepeat: 'no-repeat'
+            }}
+          />
         </div>
 
         {/* Progress Visualizer */}
