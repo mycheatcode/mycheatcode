@@ -45,9 +45,21 @@ export default function Home() {
 
   return (
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
-      {/* X's and O's Play Diagram Background - centered on progress visual */}
+      {/* X's and O's Play Diagram Background - Mobile (centered on progress visual) */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="absolute inset-0 pointer-events-none lg:hidden"
+        style={{
+          backgroundImage: 'url(/basketball-court.png)',
+          backgroundSize: 'contain',
+          backgroundPosition: 'center 35%',
+          backgroundRepeat: 'no-repeat',
+          zIndex: 1
+        }}
+      />
+
+      {/* X's and O's Play Diagram Background - Desktop */}
+      <div
+        className="hidden lg:block absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
