@@ -559,7 +559,8 @@ export default function MyCodesPage() {
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
-              className={`rounded-[2rem] p-5 min-h-[160px] flex flex-col justify-between relative shadow-xl border transition-all duration-500 ${
+              onClick={() => setSelectedCode(code)}
+              className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border transition-all duration-500 active:scale-[0.98] ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
@@ -570,40 +571,37 @@ export default function MyCodesPage() {
                   ? 'opacity-60'
                   : ''
               }`}
-              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+              style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
             >
               {/* Archive Badge */}
               {code.archived && (
-                <div className="absolute top-2.5 right-2.5">
-                  <div className="inline-block px-2 py-0.5 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                    <span className="text-[9px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
+                <div className="absolute top-5 right-5">
+                  <div className="inline-block px-2.5 py-1 border rounded-lg" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                    <span className="text-[10px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
                   </div>
                 </div>
               )}
 
-              {/* Card Content - Matching Title Card Style */}
-              <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
-                <div className="inline-block mx-auto px-2.5 py-0.5 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                  <span className="text-[9px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>
-                    Cheat Code
-                  </span>
-                </div>
-                <h1 className="text-xl font-bold leading-tight tracking-tight px-2" style={{ color: 'var(--text-primary)' }}>
+              {/* Card Content - Matching Desktop Title Card Style */}
+              <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
+                <h1 className="text-3xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: 'var(--text-primary)' }}>
                   {code.title}
                 </h1>
-                <div className="text-[10px] font-medium uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>
+                <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                <div className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                   {code.category}
                 </div>
               </div>
 
-              {/* View Code Button */}
-              <button
-                onClick={() => setSelectedCode(code)}
-                className="w-full py-2.5 rounded-xl font-semibold text-xs active:scale-[0.98] transition-all shadow-lg mt-3"
-                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
-              >
-                View Code
-              </button>
+              {/* Bottom Stats Row */}
+              <div className="flex items-center justify-between text-xs pt-4 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+                <div>
+                  <span className="font-medium">Last Session: {code.lastSession}</span>
+                </div>
+                <div>
+                  <span className="font-medium">{code.sessionsCompleted} sessions</span>
+                </div>
+              </div>
             </div>
           ))}
         </div>
