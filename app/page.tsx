@@ -139,19 +139,19 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center min-h-screen px-4 pt-20 pb-6">
+      <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6">
         {/* Header Message */}
-        <div className="text-center mb-4 mx-4 rounded-3xl p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
-            Play With<br className="md:hidden" /> Confidence.
+        <div className="text-left mb-12 w-full max-w-2xl rounded-3xl p-6 md:p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
+            Play With Confidence.
           </h1>
-          <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
             Start chatting to build your confidence.
           </p>
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[260px] md:max-w-[320px] aspect-square mb-2">
+        <div className="w-full max-w-[280px] md:max-w-[320px] aspect-square mb-8">
           <ProgressCircles
             theme={isDark ? 'dark' : 'light'}
             onProgressUpdate={setProgressPercentage}
@@ -159,11 +159,11 @@ export default function Home() {
         </div>
 
         {/* Progress Percentage */}
-        <div className="text-center mb-8">
-          <div className="text-2xl md:text-4xl font-bold mb-0.5" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-12">
+          <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             {progressPercentage}%
           </div>
-          <p className="text-xs md:text-base" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
             Top players maintain 80%+
           </p>
         </div>
