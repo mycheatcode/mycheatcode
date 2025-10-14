@@ -51,7 +51,7 @@ export default function Home() {
         style={{
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
-          backgroundPosition: 'center',
+          backgroundPosition: 'top center',
           backgroundRepeat: 'no-repeat'
         }}
       />
@@ -62,7 +62,7 @@ export default function Home() {
         style={{
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
-          backgroundPosition: 'center',
+          backgroundPosition: 'top center',
           backgroundRepeat: 'no-repeat',
           transform: 'rotate(90deg)'
         }}
