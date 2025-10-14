@@ -76,7 +76,7 @@ export default function TypingAnimation({
     <span className={className} style={style}>
       {displayedText}
       {!isComplete && (
-        <span className="animate-pulse ml-1" style={{ color: 'var(--accent-color)' }}>|</span>
+        <span className="animate-pulse ml-1" style={{ color: '#6fff6f' }}>|</span>
       )}
     </span>
   );

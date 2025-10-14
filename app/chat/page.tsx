@@ -511,7 +511,7 @@ export default function ChatPage() {
           {selectedTopic && (
             <div className="mt-3 px-4 py-3 border rounded-2xl" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: '#6fff6f' }}></div>
                 <div className="text-xs font-medium uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Session Focus</div>
               </div>
               <div className="text-sm font-semibold leading-tight" style={{ color: 'var(--text-primary)' }}>
@@ -642,8 +642,12 @@ export default function ChatPage() {
             <button
               onClick={sendMessage}
               disabled={!inputText.trim() || pendingCoachReply.current}
-              className="absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all border-2 disabled:opacity-50"
-              style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }}
+              className="absolute right-3 top-4 w-8 h-8 rounded-full flex items-center justify-center transition-all disabled:opacity-50"
+              style={
+                inputText.trim()
+                  ? { backgroundColor: '#6fff6f', color: '#000000' }
+                  : { borderWidth: '2px', borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }
+              }
               type="button"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -694,7 +698,7 @@ export default function ChatPage() {
             <div className="mt-6 max-w-4xl mx-auto">
               <div className="px-6 py-4 border rounded-2xl" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#6fff6f' }}></div>
                   <div className="text-sm font-semibold uppercase tracking-wider" style={{ color: 'var(--text-secondary)' }}>Session Focus</div>
                 </div>
                 <div className="text-lg font-bold leading-tight mb-2" style={{ color: 'var(--text-primary)' }}>
@@ -891,8 +895,12 @@ export default function ChatPage() {
               <button
                 onClick={sendMessage}
                 disabled={!inputText.trim() || pendingCoachReply.current}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all border-2 disabled:opacity-50"
-                style={{ borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full flex items-center justify-center transition-all disabled:opacity-50"
+                style={
+                  inputText.trim()
+                    ? { backgroundColor: '#6fff6f', color: '#000000' }
+                    : { borderWidth: '2px', borderColor: 'var(--accent-color)', color: 'var(--accent-color)', backgroundColor: 'transparent' }
+                }
                 type="button"
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
