@@ -59,7 +59,7 @@ export default function Home() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg lg:text-xl font-semibold" style={{ color: '#66ff66' }}>MYCHEATCODE.AI</div>
         </div>
         <button
           onClick={toggleTheme}
@@ -141,17 +141,17 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6">
         {/* Header Message */}
-        <div className="text-left mb-12 w-full max-w-2xl rounded-3xl p-6 md:p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-left mb-8 w-full max-w-2xl rounded-3xl p-5 md:p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
             Play With Confidence.
           </h1>
-          <p className="text-base md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm md:text-lg" style={{ color: 'var(--text-secondary)' }}>
             Start chatting to build your confidence.
           </p>
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[280px] md:max-w-[320px] aspect-square mb-8">
+        <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-6">
           <ProgressCircles
             theme={isDark ? 'dark' : 'light'}
             onProgressUpdate={setProgressPercentage}
@@ -159,7 +159,7 @@ export default function Home() {
         </div>
 
         {/* Progress Percentage */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
             {progressPercentage}%
           </div>
