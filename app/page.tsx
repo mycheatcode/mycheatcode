@@ -59,7 +59,7 @@ export default function Home() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg lg:text-xl font-semibold" style={{ color: '#6fff6f' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg lg:text-xl font-semibold tracking-wide" style={{ color: '#6fff6f' }}>MYCHEATCODE.AI</div>
         </div>
         <button
           onClick={toggleTheme}
