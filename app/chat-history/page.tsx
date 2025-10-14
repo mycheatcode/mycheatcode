@@ -346,7 +346,7 @@ export default function ChatHistory() {
         <div className="p-4 border-b" style={{ borderColor: '#2a2a2a' }}>
           {/* App Title */}
           <div className="flex items-center justify-center relative mb-4">
-            <div className="text-lg font-semibold" style={{ color: '#6fff6f' }}>mycheatcode.ai</div>
+            <div className="text-lg font-semibold" style={{ color: '#00ff41' }}>mycheatcode.ai</div>
             <div className="absolute right-0 w-6 h-6 flex items-center justify-center cursor-pointer" style={{ color: '#808080' }}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
@@ -356,13 +356,13 @@ export default function ChatHistory() {
 
           {/* Navigation */}
           <div className="flex items-center justify-between mb-4">
-            <Link href="/" className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: '#6fff6f' }}>
+            <Link href="/" className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: '#00ff41' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
             <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#6fff6f">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff41">
                 <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
               </svg>
               <span className="text-xs font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
@@ -403,7 +403,7 @@ export default function ChatHistory() {
               className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all border"
               style={
                 activeFilter === filter
-                  ? { backgroundColor: '#6fff6f', color: '#000000', borderColor: '#6fff6f' }
+                  ? { backgroundColor: '#00ff41', color: '#000000', borderColor: '#00ff41' }
                   : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
               }
             >
@@ -419,7 +419,7 @@ export default function ChatHistory() {
               <div className="text-6xl mb-4">💭</div>
               <div className="text-xl font-semibold mb-2" style={{ color: '#ffffff' }}>No conversations yet</div>
               <div className="mb-6" style={{ color: '#808080' }}>Start chatting to build your history</div>
-              <button onClick={handleStartFreshChat} className="px-6 py-3 rounded-xl font-semibold" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
+              <button onClick={handleStartFreshChat} className="px-6 py-3 rounded-xl font-semibold" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
                 Start New Chat
               </button>
             </div>
@@ -441,7 +441,7 @@ export default function ChatHistory() {
                         </div>
                       )}
                       {chat.hasCheatCode && (
-                        <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#1a1a1a', color: '#6fff6f', border: '1px solid #2a2a2a' }}>
+                        <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#1a1a1a', color: '#00ff41', border: '1px solid #2a2a2a' }}>
                           ⚡ Cheat Code
                         </span>
                       )}
@@ -473,7 +473,7 @@ export default function ChatHistory() {
 
         {/* Mobile Footer Navigation */}
         <div className="fixed bottom-20 right-4 lg:hidden">
-          <button onClick={handleStartFreshChat} className="w-14 h-14 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
+          <button onClick={handleStartFreshChat} className="w-14 h-14 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -500,7 +500,7 @@ export default function ChatHistory() {
                   <button
                     onClick={confirmDelete}
                     className="flex-1 py-3 px-4 rounded-xl font-medium transition-colors"
-                    style={{ backgroundColor: '#6fff6f', color: '#000000' }}
+                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
                   >
                     Archive
                   </button>
@@ -518,7 +518,7 @@ export default function ChatHistory() {
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 rounded-lg transition-colors"
-            style={{ color: '#6fff6f' }}
+            style={{ color: '#00ff41' }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -526,7 +526,7 @@ export default function ChatHistory() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-xl app-label" style={{ color: '#6fff6f' }}>MYCHEATCODE.AI</div>
+          <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
         </div>
 
         {/* Sidebar Navigation */}
@@ -560,7 +560,7 @@ export default function ChatHistory() {
               </Link>
 
               <Link href="/chat-history" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: '#ffffff', backgroundColor: 'rgba(26, 26, 26, 0.5)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#6fff6f' }}>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: '#00ff41' }}>
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
@@ -591,13 +591,13 @@ export default function ChatHistory() {
           <div className="mb-8">
             <div className="flex items-center justify-between gap-4 mb-6">
               <div className="flex items-center gap-4">
-                <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: '#6fff6f' }}>
+                <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: '#00ff41' }}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
                   </svg>
                 </Link>
                 <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#6fff6f">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="#00ff41">
                     <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
                   </svg>
                   <span className="text-sm font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
@@ -637,7 +637,7 @@ export default function ChatHistory() {
                   className="px-6 py-3 rounded-full font-medium transition-all border"
                   style={
                     activeFilter === filter
-                      ? { backgroundColor: '#6fff6f', color: '#000000', borderColor: '#6fff6f' }
+                      ? { backgroundColor: '#00ff41', color: '#000000', borderColor: '#00ff41' }
                       : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
                   }
                 >
@@ -654,7 +654,7 @@ export default function ChatHistory() {
                 <div className="text-8xl mb-6">💭</div>
                 <div className="text-2xl font-semibold mb-3" style={{ color: '#ffffff' }}>No conversations yet</div>
                 <div className="mb-8" style={{ color: '#808080' }}>Start chatting to build your history</div>
-                <button onClick={handleStartFreshChat} className="px-8 py-4 rounded-xl font-semibold text-lg transition-colors" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
+                <button onClick={handleStartFreshChat} className="px-8 py-4 rounded-xl font-semibold text-lg transition-colors" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
                   Start New Chat
                 </button>
               </div>
@@ -676,7 +676,7 @@ export default function ChatHistory() {
                           </div>
                         )}
                         {chat.hasCheatCode && (
-                          <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: '#1a1a1a', color: '#6fff6f', border: '1px solid #2a2a2a' }}>
+                          <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: '#1a1a1a', color: '#00ff41', border: '1px solid #2a2a2a' }}>
                             ⚡ Cheat Code Created
                           </span>
                         )}
@@ -710,7 +710,7 @@ export default function ChatHistory() {
 
         {/* Desktop Footer */}
         <div className="fixed bottom-16 right-8 hidden lg:block">
-          <button onClick={handleStartFreshChat} className="w-16 h-16 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#6fff6f', color: '#000000' }}>
+          <button onClick={handleStartFreshChat} className="w-16 h-16 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
             <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
             </svg>
@@ -737,7 +737,7 @@ export default function ChatHistory() {
                   <button
                     onClick={confirmDelete}
                     className="flex-1 py-3 px-6 rounded-xl font-medium transition-colors"
-                    style={{ backgroundColor: '#6fff6f', color: '#000000' }}
+                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
                   >
                     Archive
                   </button>

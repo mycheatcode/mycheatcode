@@ -947,7 +947,7 @@ export default function MyCodesPage() {
                                   handleUseCheatCode(selectedCode);
                                 }}
                                 className="w-full py-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 shadow-lg"
-                                style={{ backgroundColor: '#6fff6f', color: '#000000' }}
+                                style={{ backgroundColor: '#00ff41', color: '#000000' }}
                               >
                                 Use Cheat Code
                               </button>
@@ -984,7 +984,7 @@ export default function MyCodesPage() {
                 style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
               >
                 <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
-                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#6fff6f" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
                     <polyline points="20 6 9 17 4 12" strokeDasharray="100" strokeDashoffset="0"
                       style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
                   </svg>

@@ -33,12 +33,12 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
       dark: {
         bg: '#0a0a0a',
         canvasBg: 'transparent',
-        color: [111, 255, 111]
+        color: [0, 255, 65]  // #00ff41 digital green
       },
       light: {
         bg: '#fafafa',
         canvasBg: 'transparent',
-        color: [111, 255, 111]
+        color: [0, 255, 65]  // #00ff41 digital green
       }
     };
 

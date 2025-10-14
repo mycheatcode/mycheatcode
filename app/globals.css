@@ -43,34 +43,34 @@
   --font-display: var(--font-dm-sans);
 }
 
-/* DARK MODE
+/* DARK MODE - DIGITAL GREEN THEME
    ========== */
 .dark {
   /* Background */
   --bg-gradient-start: #000000;
   --bg-gradient-end: #000000;
 
-  /* Primary accent color */
-  --accent-color: #666666;
+  /* Primary accent color - Digital Green */
+  --accent-color: #00ff41;
 
   /* Text colors */
   --text-primary: #ffffff;
-  --text-secondary: #808080;
-  --text-tertiary: #666666;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-tertiary: rgba(255, 255, 255, 0.5);
 
   /* UI Elements */
-  --input-bg: #1a1a1a;
-  --input-border: #2a2a2a;
-  --input-text: #666666;
-  --input-placeholder: #666666;
+  --input-bg: #0d0d0d;
+  --input-border: #181818;
+  --input-text: #ffffff;
+  --input-placeholder: rgba(255, 255, 255, 0.4);
 
-  --button-bg: #6fff6f;
+  --button-bg: #00ff41;
   --button-text: #000000;
 
-  --card-bg: #1a1a1a;
-  --card-border: #2a2a2a;
+  --card-bg: #0d0d0d;
+  --card-border: #181818;
   --card-title: #ffffff;
-  --card-description: #808080;
+  --card-description: rgba(255, 255, 255, 0.7);
 
   /* Basketball court SVG */
   --court-color: rgba(200, 200, 200, 0.06);
