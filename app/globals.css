@@ -47,37 +47,37 @@
    ========== */
 .dark {
   /* Background */
-  --bg-gradient-start: #1a1a1a;
-  --bg-gradient-end: #0d0d0d;
+  --bg-gradient-start: #000000;
+  --bg-gradient-end: #000000;
 
   /* Primary accent color */
-  --accent-color: #c8c8c8;
+  --accent-color: #666666;
 
   /* Text colors */
   --text-primary: #ffffff;
-  --text-secondary: #9a9a9a;
+  --text-secondary: #808080;
   --text-tertiary: #666666;
 
   /* UI Elements */
-  --input-bg: rgba(35, 35, 35, 0.6);
-  --input-border: rgba(200, 200, 200, 0.12);
-  --input-text: #ffffff;
+  --input-bg: #1a1a1a;
+  --input-border: #2a2a2a;
+  --input-text: #666666;
   --input-placeholder: #666666;
 
-  --button-bg: #c8c8c8;
-  --button-text: #1a1a1a;
+  --button-bg: #66ff66;
+  --button-text: #000000;
 
-  --card-bg: #1f1f1f;
-  --card-border: rgba(200, 200, 200, 0.15);
+  --card-bg: #1a1a1a;
+  --card-border: #2a2a2a;
   --card-title: #ffffff;
-  --card-description: #9a9a9a;
+  --card-description: #808080;
 
   /* Basketball court SVG */
   --court-color: rgba(200, 200, 200, 0.06);
 
   /* Legacy variables for compatibility */
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #000000;
+  --foreground: #ffffff;
 }
 
 @theme inline {

@@ -141,11 +141,11 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center min-h-screen px-4 pt-20 pb-6">
         {/* Header Message */}
-        <div className="text-center mb-4">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 px-4 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
+        <div className="text-center mb-4 mx-4 rounded-3xl p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:whitespace-nowrap" style={{ color: 'var(--text-primary)' }}>
             Play With<br className="md:hidden" /> Confidence.
           </h1>
-          <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto px-4" style={{ color: 'var(--text-secondary)' }}>
+          <p className="text-sm md:text-base lg:text-lg max-w-xl lg:max-w-2xl mx-auto" style={{ color: 'var(--text-secondary)' }}>
             Start chatting to build your confidence.
           </p>
         </div>
