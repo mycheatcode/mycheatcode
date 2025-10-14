@@ -8,31 +8,13 @@ import ProgressCircles from '@/components/ProgressCircles';
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [message, setMessage] = useState('');
-  const [isDark, setIsDark] = useState(false);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
-    // Check for saved theme preference or default to light mode
-    const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
-      setIsDark(true);
-      document.documentElement.classList.add('dark');
-    }
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
   }, []);
-
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    if (!isDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -62,30 +44,7 @@ export default function Home() {
           </button>
           <div className="text-lg lg:text-xl font-semibold tracking-wide" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
         </div>
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-lg transition-colors"
-          style={{ color: 'var(--accent-color)', backgroundColor: 'transparent' }}
-          aria-label="Toggle theme"
-        >
-          {isDark ? (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="5"></circle>
-              <line x1="12" y1="1" x2="12" y2="3"></line>
-              <line x1="12" y1="21" x2="12" y2="23"></line>
-              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-              <line x1="1" y1="12" x2="3" y2="12"></line>
-              <line x1="21" y1="12" x2="23" y2="12"></line>
-              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-            </svg>
-          ) : (
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-            </svg>
-          )}
-        </button>
+        <div className="w-8"></div>
       </div>
 
       {/* Sidebar Navigation */}
@@ -153,13 +112,14 @@ export default function Home() {
           </div>
           {/* Half Court Image - Right Aligned */}
           <div
-            className="absolute right-0 top-0 bottom-0 w-1/3"
+            className="absolute right-0 top-0 bottom-0 w-auto"
             style={{
               backgroundImage: 'url(/half-court.png)',
-              backgroundSize: 'contain',
+              backgroundSize: 'auto 100%',
               backgroundPosition: 'right center',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.6
+              opacity: 0.6,
+              width: '50%'
             }}
           />
         </div>
@@ -167,7 +127,7 @@ export default function Home() {
         {/* Progress Visualizer */}
         <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-6">
           <ProgressCircles
-            theme={isDark ? 'dark' : 'light'}
+            theme="dark"
             onProgressUpdate={setProgressPercentage}
           />
         </div>
