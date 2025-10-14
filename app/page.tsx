@@ -47,8 +47,10 @@ export default function Home() {
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
       {/* Basketball Court Background - Mobile (vertical) */}
       <div
-        className="absolute inset-0 pointer-events-none z-0 lg:hidden"
+        className="absolute left-0 right-0 pointer-events-none z-0 lg:hidden"
         style={{
+          top: '60px',
+          bottom: 0,
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
           backgroundPosition: 'top center',
@@ -58,13 +60,18 @@ export default function Home() {
 
       {/* Basketball Court Background - Desktop (rotated 90deg) */}
       <div
-        className="hidden lg:block absolute inset-0 pointer-events-none z-0"
+        className="hidden lg:block absolute pointer-events-none z-0"
         style={{
+          top: '80px',
+          left: 0,
+          right: 0,
+          bottom: 0,
           backgroundImage: 'url(/basketball-court.png)',
           backgroundSize: 'contain',
           backgroundPosition: 'top center',
           backgroundRepeat: 'no-repeat',
-          transform: 'rotate(90deg)'
+          transform: 'rotate(90deg)',
+          transformOrigin: 'center center'
         }}
       />
 
