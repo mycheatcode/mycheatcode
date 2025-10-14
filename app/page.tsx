@@ -45,6 +45,45 @@ export default function Home() {
 
   return (
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
+      {/* Basketball Court Background */}
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden pointer-events-none z-0" style={{ opacity: 0.03 }}>
+        <svg width="100%" height="100%" viewBox="0 0 824 1448" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+          {/* Top half court */}
+          <path d="M 112 0 L 112 398 Q 112 398 312 398 L 512 398 Q 712 398 712 398 L 712 0" stroke="white" strokeWidth="4" fill="none"/>
+
+          {/* Top free throw line */}
+          <line x1="312" y1="0" x2="312" y2="248" stroke="white" strokeWidth="4"/>
+          <line x1="512" y1="0" x2="512" y2="248" stroke="white" strokeWidth="4"/>
+          <line x1="312" y1="248" x2="512" y2="248" stroke="white" strokeWidth="4"/>
+
+          {/* Top free throw circle */}
+          <circle cx="412" cy="248" r="100" stroke="white" strokeWidth="4" fill="none"/>
+
+          {/* Top basket */}
+          <circle cx="412" cy="28" r="28" stroke="white" strokeWidth="4" fill="none"/>
+          <line x1="354" y1="28" x2="470" y2="28" stroke="white" strokeWidth="4"/>
+
+          {/* Center court */}
+          <line x1="0" y1="724" x2="824" y2="724" stroke="white" strokeWidth="4"/>
+          <circle cx="412" cy="724" r="100" stroke="white" strokeWidth="4" fill="none"/>
+
+          {/* Bottom half court */}
+          <path d="M 112 1448 L 112 1050 Q 112 1050 312 1050 L 512 1050 Q 712 1050 712 1050 L 712 1448" stroke="white" strokeWidth="4" fill="none"/>
+
+          {/* Bottom free throw line */}
+          <line x1="312" y1="1448" x2="312" y2="1200" stroke="white" strokeWidth="4"/>
+          <line x1="512" y1="1448" x2="512" y2="1200" stroke="white" strokeWidth="4"/>
+          <line x1="312" y1="1200" x2="512" y2="1200" stroke="white" strokeWidth="4"/>
+
+          {/* Bottom free throw circle */}
+          <circle cx="412" cy="1200" r="100" stroke="white" strokeWidth="4" fill="none"/>
+
+          {/* Bottom basket */}
+          <circle cx="412" cy="1420" r="28" stroke="white" strokeWidth="4" fill="none"/>
+          <line x1="354" y1="1420" x2="470" y2="1420" stroke="white" strokeWidth="4"/>
+        </svg>
+      </div>
+
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center justify-between z-20">
         <div className="flex items-center gap-4">
