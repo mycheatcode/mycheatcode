@@ -47,12 +47,13 @@ export default function Home() {
     <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
       {/* X's and O's Play Diagram Background - centered on progress visual */}
       <div
-        className="absolute inset-0 pointer-events-none z-0 flex items-center justify-center"
+        className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: 'url(/basketball-court.png)',
-          backgroundSize: '400px 400px',
+          backgroundSize: 'contain',
           backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          backgroundRepeat: 'no-repeat',
+          zIndex: 1
         }}
       />
 
@@ -150,7 +151,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6">
+      <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6 relative z-10">
         {/* Header Message */}
         <div className="text-left mb-8 w-full max-w-2xl rounded-3xl p-5 md:p-8" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
