@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserSessionManager } from '../utils/userSession';
 
+// Force dark mode immediately
+if (typeof window !== 'undefined') {
+  document.documentElement.classList.add('dark');
+}
+
 interface Message {
   id: number;
   text: string;
@@ -37,6 +42,11 @@ export default function ChatHistory() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [chatToDelete, setChatToDelete] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
+  }, []);
 
   // Track the previous page
   useEffect(() => {
@@ -339,39 +349,93 @@ export default function ChatHistory() {
 
   return (
     <div className="min-h-screen font-sans" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
+      {/* Mobile & Desktop Header with Menu */}
+      <div className="lg:hidden absolute top-0 left-0 right-0 px-4 py-4 flex items-center gap-4 z-20">
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="p-2 rounded-lg transition-colors"
+          style={{ color: 'var(--accent-color)' }}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+        <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+      </div>
+
+      {/* Sidebar Navigation */}
+      <div
+        className={`lg:hidden fixed top-0 left-0 h-full w-64 border-r flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+      >
+        <div className="pt-20"></div>
+        <nav className="flex-1">
+          <div>
+            <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              </svg>
+              <span>Home</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/my-codes" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+              </svg>
+              <span>My Codes</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+              <span>Community Topics</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/chat-history" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+              </svg>
+              <span>Chat History</span>
+              <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
+            </Link>
+            <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+              <span>Profile</span>
+            </Link>
+          </div>
+        </nav>
+      </div>
+
+      {/* Overlay when menu is open */}
+      {menuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-20"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+          onClick={() => setMenuOpen(false)}
+        ></div>
+      )}
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative pb-[68px] overflow-y-auto">
+      <div className="lg:hidden min-h-screen relative pb-[68px] overflow-y-auto pt-16">
         {/* Header */}
-        <div className="p-4 border-b" style={{ borderColor: '#2a2a2a' }}>
-          {/* App Title */}
-          <div className="flex items-center justify-center relative mb-4">
-            <div className="text-lg font-semibold" style={{ color: '#00ff41' }}>mycheatcode.ai</div>
-            <div className="absolute right-0 w-6 h-6 flex items-center justify-center cursor-pointer" style={{ color: '#808080' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/>
-              </svg>
-            </div>
-          </div>
-
-          {/* Navigation */}
-          <div className="flex items-center justify-between mb-4">
-            <Link href="/" className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: '#00ff41' }}>
+        <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
+          {/* Back Button */}
+          <div className="flex items-center gap-4 mb-6">
+            <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
-            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff41">
-                <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
-              </svg>
-              <span className="text-xs font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
-            </div>
           </div>
 
           {/* Page Title */}
-          <div className="text-[1.8em] font-bold mb-2" style={{ color: '#ffffff' }}>Chat History</div>
-          <div className="text-sm leading-relaxed" style={{ color: '#808080' }}>Your conversations and cheat code journey</div>
+          <div className="text-3xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Chat History</div>
+          <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your conversations and cheat code journey</div>
         </div>
 
         {/* Search */}
