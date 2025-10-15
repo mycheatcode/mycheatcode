@@ -194,15 +194,54 @@ export default function ChatPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const isDemoMode = urlParams.get('demo') === 'true';
 
-    // Check for initial message from homepage
-    const initialMessage = typeof window !== 'undefined' ? localStorage.getItem('initialMessage') : null;
-    if (initialMessage) {
-      setInputText(initialMessage);
-      localStorage.removeItem('initialMessage');
-      // Focus the input after a brief delay
+    // Check for auto-send message from homepage
+    const autoSendMessage = typeof window !== 'undefined' ? localStorage.getItem('autoSendMessage') : null;
+    if (autoSendMessage) {
+      localStorage.removeItem('autoSendMessage');
+      // Set the input text temporarily
+      setInputText(autoSendMessage);
+      // Auto-send after initialization
       setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
+        const userMsg: Message = {
+          id: uid(),
+          text: autoSendMessage,
+          sender: 'user',
+          timestamp: new Date(),
+        };
+        appendMessage(userMsg);
+        setInputText('');
+        setIsTyping(true);
+        pendingCoachReply.current = true;
+
+        // Send to API
+        const payload = buildChatPayload([userMsg]);
+        fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+          .then(res => res.json())
+          .then(data => {
+            appendMessage({
+              id: uid(),
+              text: data.reply || 'Let's keep going. What part of that moment feels hardest?',
+              sender: 'coach',
+              timestamp: new Date(),
+            });
+          })
+          .catch(() => {
+            appendMessage({
+              id: uid(),
+              text: '⚠️ Could not reach the coach. Try again.',
+              sender: 'coach',
+              timestamp: new Date(),
+            });
+          })
+          .finally(() => {
+            setIsTyping(false);
+            pendingCoachReply.current = false;
+          });
+      }, 500);
     }
 
     // Load stored topic (if any)

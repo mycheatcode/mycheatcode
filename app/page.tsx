@@ -20,8 +20,8 @@ export default function Home() {
     e.preventDefault();
     if (!message.trim()) return;
 
-    // Navigate to chat with the message
-    localStorage.setItem('initialMessage', message);
+    // Store the message to be auto-sent in chat
+    localStorage.setItem('autoSendMessage', message);
     router.push('/chat');
   };
 
@@ -117,7 +117,7 @@ export default function Home() {
               backgroundSize: 'auto 100%',
               backgroundPosition: 'right center',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.15,
+              opacity: 0.3,
               width: '50%'
             }}
           />
