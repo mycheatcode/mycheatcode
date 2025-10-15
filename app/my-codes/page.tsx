@@ -1025,8 +1025,8 @@ export default function MyCodesPage() {
                 </div>
 
                 {/* Footer with Branding */}
-                <div className="pt-3 border-t mt-6" style={{ borderColor: 'var(--card-border)' }}>
-                  <div className="text-[10px] lg:text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                <div className="pt-2 border-t mt-4" style={{ borderColor: 'var(--card-border)' }}>
+                  <div className="text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                     MYCHEATCODE.AI
                   </div>
                 </div>
