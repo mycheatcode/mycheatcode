@@ -799,38 +799,38 @@ export default function MyCodesPage() {
               <div
                 key={code.id}
                 onClick={() => setSelectedCode(code)}
-                className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border transition-all cursor-pointer group ${
+                className={`rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative border transition-all cursor-pointer group ${
                   code.archived
                     ? 'opacity-60'
                     : 'hover:scale-[1.02]'
                 }`}
-                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
 
                 {/* Archive Badge */}
                 {code.archived && (
-                  <div className="absolute top-5 right-5">
-                    <div className="inline-block px-2.5 py-1 border rounded-lg" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                      <span className="text-[10px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
+                  <div className="absolute top-3 right-3">
+                    <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
+                      Archived
                     </div>
                   </div>
                 )}
 
-                {/* Card Content - Matching Title Card Style */}
-                <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
-                  <h1 className="text-3xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: 'var(--text-primary)' }}>
+                {/* Card Content */}
+                <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
+                  <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                     {code.title}
                   </h1>
-                  <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                  <div className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                  <div className="h-px w-12 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                  <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                     {code.category}
                   </div>
                 </div>
 
                 {/* Bottom Stats Row */}
-                <div className="flex items-center justify-between text-xs pt-4 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+                <div className="flex items-center justify-between text-[10px] pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
                   <div>
-                    <span className="font-medium">Last Session: {code.lastSession}</span>
+                    <span className="font-medium">Last: {code.lastSession}</span>
                   </div>
                   <div>
                     <span className="font-medium">{code.sessionsCompleted} sessions</span>
@@ -838,7 +838,7 @@ export default function MyCodesPage() {
                 </div>
 
                 {/* Hover Overlay with View Button */}
-                <div className="absolute inset-0 backdrop-blur-sm rounded-[2rem] opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
+                <div className="absolute inset-0 backdrop-blur-sm rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}>
                   <div className="px-8 py-3 rounded-xl font-semibold text-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
                     View Code
                   </div>
@@ -864,9 +864,9 @@ export default function MyCodesPage() {
           {/* Close Button */}
           <button
             onClick={handleCloseModal}
-            className="absolute top-6 right-6 p-3 text-zinc-400 hover:text-white transition-colors z-[120] bg-zinc-900/50 rounded-full border border-zinc-800/50"
+            className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
             </svg>
           </button>
@@ -874,19 +874,19 @@ export default function MyCodesPage() {
           {/* Card Container */}
           <div className="w-full max-w-lg">
             {/* Card with Navigation Inside */}
-            <div className="rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
+            <div className="rounded-2xl p-6 lg:p-10 min-h-[400px] lg:min-h-[500px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
               {/* Left Arrow - Centered */}
               <button
                 onClick={prevCard}
                 disabled={currentCard === 0}
-                className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
+                className={`absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
                   currentCard === 0
                     ? 'cursor-not-allowed opacity-30'
-                    : 'hover:bg-white/10 active:scale-95'
+                    : 'active:scale-95'
                 }`}
-                style={{ color: currentCard === 0 ? '#666666' : '#ffffff' }}
+                style={{ color: currentCard === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="15 18 9 12 15 6"></polyline>
                 </svg>
               </button>
@@ -895,20 +895,20 @@ export default function MyCodesPage() {
               <button
                 onClick={nextCard}
                 disabled={currentCard === buildCards(selectedCode).length - 1}
-                className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${
+                className={`absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
                   currentCard === buildCards(selectedCode).length - 1
                     ? 'cursor-not-allowed opacity-30'
-                    : 'hover:bg-white/10 active:scale-95'
+                    : 'active:scale-95'
                 }`}
-                style={{ color: currentCard === buildCards(selectedCode).length - 1 ? '#666666' : '#ffffff' }}
+                style={{ color: currentCard === buildCards(selectedCode).length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
               </button>
 
               {/* Card Content */}
-              <div className="flex-1 flex flex-col items-center justify-center text-center px-8">
+              <div className="flex-1 flex flex-col items-center justify-center text-center px-4 lg:px-6">
                 {(() => {
                   const cards = buildCards(selectedCode);
                   const card = cards[currentCard];
@@ -917,12 +917,12 @@ export default function MyCodesPage() {
                     <>
                       {/* Title Card */}
                       {card.type === 'title' && (
-                        <div className="space-y-10 mt-12">
-                          <h1 className="text-6xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: '#ffffff' }}>
+                        <div className="space-y-6 lg:space-y-8">
+                          <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                             {(card as any).title}
                           </h1>
-                          <div className="h-px w-24 mx-auto" style={{ backgroundColor: '#2a2a2a' }}></div>
-                          <div className="text-base font-semibold uppercase tracking-widest" style={{ color: '#808080' }}>
+                          <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                          <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                             {(card as any).category}
                           </div>
                         </div>
@@ -930,11 +930,11 @@ export default function MyCodesPage() {
 
                       {/* Section Cards (What, When) */}
                       {card.type === 'section' && (card as any).heading !== 'Why' && (
-                        <div className="space-y-12 max-w-md mt-12">
-                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
+                        <div className="space-y-6 lg:space-y-8 max-w-md">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
                             {(card as any).heading}
                           </div>
-                          <p className="text-3xl font-medium leading-[1.4]" style={{ color: '#ffffff' }}>
+                          <p className="text-xl lg:text-2xl font-medium leading-[1.4]" style={{ color: 'var(--text-primary)' }}>
                             {(card as any).content}
                           </p>
                         </div>
@@ -942,13 +942,13 @@ export default function MyCodesPage() {
 
                       {/* Why Card */}
                       {card.type === 'section' && (card as any).heading === 'Why' && (
-                        <div className="space-y-12 max-w-lg mt-12">
-                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
+                        <div className="space-y-6 lg:space-y-8 max-w-lg">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
                             {(card as any).heading}
                           </div>
-                          <div className="space-y-8">
+                          <div className="space-y-4 lg:space-y-6">
                             {(card as any).content.split('\n\n').map((paragraph: string, i: number) => (
-                              <p key={i} className="text-xl font-medium leading-[1.6]" style={{ color: '#ffffff' }}>
+                              <p key={i} className="text-base lg:text-lg font-medium leading-[1.6]" style={{ color: 'var(--text-primary)' }}>
                                 {paragraph}
                               </p>
                             ))}
@@ -958,20 +958,20 @@ export default function MyCodesPage() {
 
                       {/* Step Cards */}
                       {card.type === 'step' && 'stepNumber' in card && (
-                        <div className="space-y-12 max-w-lg mt-12">
-                          <div className="space-y-4">
-                            <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
+                        <div className="space-y-6 lg:space-y-8 max-w-lg">
+                          <div className="space-y-2 lg:space-y-3">
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
                               {(card as any).heading}
                             </div>
-                            <div className="text-sm font-semibold" style={{ color: '#666666' }}>
+                            <div className="text-xs lg:text-sm font-semibold" style={{ color: 'var(--text-tertiary)' }}>
                               Step {(card as any).stepNumber} of {(card as any).totalSteps}
                             </div>
                           </div>
-                          <div className="flex items-center gap-6">
-                            <div className="flex-shrink-0 w-14 h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
-                              <span className="font-bold text-xl" style={{ color: '#ffffff' }}>{(card as any).stepNumber}</span>
+                          <div className="flex items-center gap-4 lg:gap-6">
+                            <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                              <span className="font-bold text-lg lg:text-xl" style={{ color: 'var(--text-primary)' }}>{(card as any).stepNumber}</span>
                             </div>
-                            <p className="text-2xl font-medium leading-[1.5] text-left flex-1" style={{ color: '#ffffff' }}>
+                            <p className="text-lg lg:text-xl font-medium leading-[1.5] text-left flex-1" style={{ color: 'var(--text-primary)' }}>
                               {(card as any).content}
                             </p>
                           </div>
@@ -980,37 +980,37 @@ export default function MyCodesPage() {
 
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
-                        <div className="space-y-12 w-full max-w-md mt-12">
-                          <div className="text-xs uppercase font-bold tracking-[0.2em]" style={{ color: '#808080' }}>
+                        <div className="space-y-8 lg:space-y-10 w-full max-w-md">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
                             Your Cheat Code Phrase
                           </div>
-                          <div className="space-y-10">
-                            <p className="text-5xl font-bold leading-[1.2]" style={{ color: '#ffffff' }}>
+                          <div className="space-y-6 lg:space-y-8">
+                            <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
                               "{(card as any).content}"
                             </p>
-                            <div className="space-y-4 relative">
+                            <div className="space-y-3 lg:space-y-4 relative">
                               <button
                                 onClick={() => {
                                   handleUseCheatCode(selectedCode);
                                 }}
-                                className="w-full py-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 shadow-lg"
-                                style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                                className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
+                                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                               >
                                 Use Cheat Code
                               </button>
 
                               <button
                                 onClick={() => handleOpenChat(selectedCode)}
-                                className="w-full border py-4 rounded-2xl font-medium text-base transition-colors"
-                                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
+                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
+                                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                               >
                                 Open Chat
                               </button>
 
                               <button
                                 onClick={resetCards}
-                                className="w-full py-4 rounded-2xl font-medium text-base transition-colors"
-                                style={{ color: '#808080' }}
+                                className="w-full py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
+                                style={{ color: 'var(--text-secondary)' }}
                               >
                                 Back to Start
                               </button>
