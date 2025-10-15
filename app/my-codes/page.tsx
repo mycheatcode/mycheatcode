@@ -565,15 +565,6 @@ export default function MyCodesPage() {
       <div className="lg:hidden min-h-screen relative flex flex-col pt-16">
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
-          {/* Back Button */}
-          <div className="flex items-center gap-4 mb-6">
-            <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </Link>
-          </div>
-
           {/* Page Title */}
           <div className="text-3xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
           <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of mental performance cheat codes</div>

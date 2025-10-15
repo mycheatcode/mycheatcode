@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {/* Your Momentum Label */}
-        <div className="text-center mb-6">
+        <div className="text-center mb-3">
           <div
             className="text-[15px] font-semibold uppercase tracking-[1px]"
             style={{ color: 'rgba(255, 255, 255, 0.6)' }}

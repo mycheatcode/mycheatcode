@@ -536,14 +536,6 @@ export default function CommunityTopics() {
       <div className="flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-4 mb-6">
-            <Link href="/" className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </Link>
-          </div>
-
           <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Community Topics</div>
           <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
