@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 type Sender = 'user' | 'coach';
@@ -95,7 +95,7 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
   const card = cards[currentCard];
 
   return (
-    <div className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-6">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6" style={{ backgroundColor: 'rgba(0, 0, 0, 0.95)' }}>
       <style jsx>{`
         @keyframes checkmark-draw {
           0% {
@@ -130,12 +130,12 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
       {/* Success Message Overlay */}
       {showSuccess && (
         <div
-          className="fixed inset-0 z-[110] flex items-center justify-center bg-black/80 backdrop-blur-sm"
-          style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards' }}
+          className="fixed inset-0 z-[110] flex items-center justify-center backdrop-blur-sm"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)', animation: 'fade-out 0.4s ease-out 1.6s forwards' }}
         >
           <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
             {/* Large Green Checkmark */}
-            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
               <polyline
                 points="20 6 9 17 4 12"
                 strokeDasharray="100"
@@ -165,22 +165,22 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
 
       <div className="w-full max-w-lg">
         {/* Card Container */}
-        <div className="bg-zinc-950 rounded-[2rem] p-12 min-h-[600px] flex relative shadow-2xl border-2 border-zinc-800 overflow-hidden">
+        <div className="rounded-3xl p-8 min-h-[600px] flex relative shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000', border: '1px solid var(--card-border)' }}>
           {/* Top Branding Bar */}
-          <div className="absolute top-8 left-10 right-10 flex items-center justify-between z-10">
-            <div className="text-white text-sm font-bold tracking-wider">
+          <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
+            <div className="text-xs font-bold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
               MYCHEATCODE.AI
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-lg">
-              <div className="w-1.5 h-1.5 bg-green-500 rounded-full"></div>
-              <span className="text-zinc-400 text-xs font-semibold tracking-wide">CHEAT CODE</span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md" style={{ backgroundColor: 'var(--card-hover-bg)', border: '1px solid var(--card-border)' }}>
+              <div className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+              <span className="text-[10px] font-semibold tracking-wide" style={{ color: 'var(--accent-color)' }}>CHEAT CODE</span>
             </div>
           </div>
 
           {/* Bottom Watermark */}
-          <div className="absolute bottom-8 left-0 right-0 text-center z-10">
-            <div className="text-zinc-700 text-xs font-semibold tracking-wider">
-              YOUR AI MENTAL PERFORMANCE COACH
+          <div className="absolute bottom-6 left-0 right-0 text-center z-10">
+            <div className="text-[9px] font-medium tracking-wider opacity-40" style={{ color: 'var(--text-secondary)' }}>
+              MYCHEATCODE.AI
             </div>
           </div>
 
@@ -190,9 +190,12 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             disabled={currentCard === 0}
             className={`absolute left-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-20 ${
               currentCard === 0
-                ? 'text-zinc-700 cursor-not-allowed opacity-30'
-                : 'text-white hover:bg-white/10 active:scale-95'
+                ? 'cursor-not-allowed opacity-30'
+                : 'active:scale-95'
             }`}
+            style={{
+              color: currentCard === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)'
+            }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"></polyline>
@@ -205,9 +208,12 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             disabled={currentCard === cards.length - 1}
             className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all z-20 ${
               currentCard === cards.length - 1
-                ? 'text-zinc-700 cursor-not-allowed opacity-30'
-                : 'text-white hover:bg-white/10 active:scale-95'
+                ? 'cursor-not-allowed opacity-30'
+                : 'active:scale-95'
             }`}
+            style={{
+              color: currentCard === cards.length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)'
+            }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="9 18 15 12 9 6"></polyline>
@@ -217,43 +223,43 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
           {/* Card Content */}
           <div className="flex-1 flex flex-col items-center justify-center text-center px-8 relative z-10">
             {card.type === 'title' && 'label' in card && (
-              <div className="space-y-10 mt-12">
-                <h1 className="text-6xl font-bold text-white leading-[1.1] tracking-tight px-4">
+              <div className="space-y-8 mt-16">
+                <h1 className="text-4xl md:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                   {(card as any).title}
                 </h1>
-                <div className="h-px w-24 bg-zinc-700 mx-auto"></div>
-                <div className="text-zinc-400 text-base font-semibold uppercase tracking-widest">
+                <div className="h-[2px] w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                <div className="text-sm font-medium uppercase tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
                   {(card as any).subtitle}
                 </div>
               </div>
             )}
 
             {card.type === 'content' && 'content' in card && (
-              <div className="space-y-12 max-w-md mt-12">
-                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+              <div className="space-y-10 max-w-md mt-12">
+                <div className="text-xs uppercase font-bold tracking-[0.25em]" style={{ color: 'var(--accent-color)' }}>
                   {(card as any).heading}
                 </div>
-                <p className="text-white text-3xl font-medium leading-[1.4]">
+                <p className="text-2xl md:text-3xl font-normal leading-[1.5]" style={{ color: 'var(--text-primary)' }}>
                   {(card as any).content}
                 </p>
               </div>
             )}
 
             {card.type === 'step' && 'stepNumber' in card && (
-              <div className="space-y-12 max-w-lg mt-12">
-                <div className="space-y-4">
-                  <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+              <div className="space-y-10 max-w-lg mt-12">
+                <div className="space-y-3">
+                  <div className="text-xs uppercase font-bold tracking-[0.25em]" style={{ color: 'var(--accent-color)' }}>
                     {(card as any).heading}
                   </div>
-                  <div className="text-zinc-600 text-sm font-semibold">
+                  <div className="text-xs font-medium" style={{ color: 'var(--text-tertiary)' }}>
                     Step {(card as any).stepNumber} of {(card as any).totalSteps}
                   </div>
                 </div>
-                <div className="flex items-center gap-6">
-                  <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-zinc-900 border-2 border-zinc-700 flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">{(card as any).stepNumber}</span>
+                <div className="flex items-start gap-5">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-lg border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                    <span className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{(card as any).stepNumber}</span>
                   </div>
-                  <p className="text-white text-2xl font-medium leading-[1.5] text-left flex-1">
+                  <p className="text-xl font-normal leading-[1.6] text-left flex-1 pt-1" style={{ color: 'var(--text-primary)' }}>
                     {(card as any).content}
                   </p>
                 </div>
@@ -261,13 +267,13 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'why' && 'content' in card && !('stepNumber' in card) && (
-              <div className="space-y-12 max-w-lg mt-12">
-                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+              <div className="space-y-10 max-w-lg mt-12">
+                <div className="text-xs uppercase font-bold tracking-[0.25em]" style={{ color: 'var(--accent-color)' }}>
                   {(card as any).heading}
                 </div>
-                <div className="space-y-8">
+                <div className="space-y-6">
                   {(card as any).content.split('\n\n').map((paragraph: string, index: number) => (
-                    <p key={index} className="text-white text-xl font-medium leading-[1.6]">
+                    <p key={index} className="text-lg font-normal leading-[1.7]" style={{ color: 'var(--text-primary)' }}>
                       {paragraph}
                     </p>
                   ))}
@@ -276,37 +282,39 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             )}
 
             {card.type === 'phrase' && 'phrase' in card && (
-              <div className="space-y-12 w-full max-w-md mt-12">
-                <div className="text-zinc-500 text-xs uppercase font-bold tracking-[0.2em]">
+              <div className="space-y-10 w-full max-w-md mt-12">
+                <div className="text-xs uppercase font-bold tracking-[0.25em]" style={{ color: 'var(--accent-color)' }}>
                   Your Cheat Code Phrase
                 </div>
-                <div className="space-y-10">
-                  <p className="text-white text-5xl font-bold leading-[1.2]">
+                <div className="space-y-8">
+                  <p className="text-4xl md:text-5xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
                     {(card as any).phrase}
                   </p>
-                  <div className="space-y-4 relative">
+                  <div className="space-y-3 relative pt-4">
                     <button
                       onClick={handleAddToMyCodes}
                       disabled={showSuccess || hasAdded}
-                      className={`w-full py-5 rounded-2xl font-semibold text-lg transition-all shadow-lg ${
-                        hasAdded
-                          ? 'bg-green-500 text-white cursor-default'
-                          : 'bg-white text-black hover:bg-zinc-100 active:scale-[0.98]'
-                      }`}
+                      className="w-full py-4 rounded-xl font-semibold text-base transition-all active:scale-[0.98]"
+                      style={{
+                        backgroundColor: 'var(--button-bg)',
+                        color: 'var(--button-text)'
+                      }}
                     >
                       {hasAdded ? "Added!" : "Add to \"My Codes\""}
                     </button>
                     {hasAdded && (
                       <a
                         href="/my-codes"
-                        className="w-full block text-center bg-white text-black py-5 rounded-2xl font-semibold text-lg hover:bg-zinc-100 active:scale-[0.98] transition-all shadow-lg"
+                        className="w-full block text-center py-4 rounded-xl font-semibold text-base active:scale-[0.98] transition-all border"
+                        style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}
                       >
                         View All Codes
                       </a>
                     )}
                     <button
                       onClick={resetCards}
-                      className="w-full text-zinc-400 hover:text-white py-3 rounded-2xl font-medium text-base transition-colors hover:bg-white/5"
+                      className="w-full py-3 rounded-xl font-medium text-sm transition-colors"
+                      style={{ color: 'var(--text-secondary)' }}
                     >
                       Back to Start
                     </button>
@@ -323,17 +331,17 @@ function CheatCodeCards({ cheatCode, onClose }: { cheatCode: CheatCodeData; onCl
             <button
               key={index}
               onClick={() => setCurrentCard(index)}
-              className={`h-2 rounded-full transition-all ${
-                index === currentCard
-                  ? 'w-10 bg-white'
-                  : 'w-2 bg-zinc-700 hover:bg-zinc-600'
-              }`}
+              className="h-2 rounded-full transition-all"
+              style={{
+                width: index === currentCard ? '40px' : '8px',
+                backgroundColor: index === currentCard ? 'var(--accent-color)' : 'var(--card-border)'
+              }}
             />
           ))}
         </div>
 
         {/* Card Counter */}
-        <div className="text-center text-zinc-500 text-sm font-medium mt-6">
+        <div className="text-center text-sm font-medium mt-6" style={{ color: 'var(--text-secondary)' }}>
           {currentCard + 1} of {cards.length}
         </div>
       </div>
@@ -419,6 +427,11 @@ const demoMessages: Message[] = [
 
 export default function DemoChatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
+  }, []);
 
   // Helper to detect if a message contains a cheat code
   const isCheatCode = (text: string): boolean => {
@@ -518,83 +531,17 @@ export default function DemoChatPage() {
   };
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans">
+    <div className="min-h-screen font-sans" style={{ backgroundColor: 'var(--bg)', color: 'var(--text-primary)' }}>
       {/* Header */}
-      <div className="fixed top-0 left-0 right-0 px-6 py-5 flex items-center gap-4 z-50 bg-black border-b border-zinc-800">
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        <Link href="/" className="p-2 text-white hover:bg-zinc-800 rounded-lg transition-colors">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+      <div className="fixed top-0 left-0 right-0 px-4 py-4 flex items-center justify-center z-50 relative" style={{ backgroundColor: 'var(--bg)', borderBottom: '1px solid var(--card-border)' }}>
+        <Link href="/" className="absolute left-4 p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
         </Link>
-        <div className="text-white text-xl app-label">MYCHEATCODE.AI</div>
-        <div className="text-white text-lg font-semibold absolute left-1/2 transform -translate-x-1/2">Live Chat</div>
+        <div className="text-lg font-medium" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
       </div>
 
-      {/* Sidebar Navigation */}
-      <div className={`fixed top-0 left-0 h-full w-80 bg-zinc-950 border-r border-zinc-800 flex flex-col transform transition-transform duration-300 z-[60] ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="pt-20"></div>
-
-        <nav className="flex-1">
-          <div>
-            <Link href="/" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-              </svg>
-              <span>Home</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
-            </Link>
-
-            <Link href="/my-codes" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
-              </svg>
-              <span>My Codes</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
-            </Link>
-
-            <Link href="/community-topics" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-              </svg>
-              <span>Community Topics</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
-            </Link>
-
-            <Link href="/chat-history" className="flex items-center gap-3 p-4 text-white bg-zinc-900/50 font-medium cursor-pointer transition-colors relative">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-green-500">
-                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
-              </svg>
-              <span>Chat History</span>
-              <div className="absolute bottom-0 left-4 right-4 h-px bg-zinc-800"></div>
-            </Link>
-
-            <Link href="/profile" className="flex items-center gap-3 p-4 text-zinc-400 hover:text-white cursor-pointer transition-colors">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-              </svg>
-              <span>Profile</span>
-            </Link>
-          </div>
-        </nav>
-      </div>
-
-      {/* Overlay when menu is open */}
-      {menuOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-60 z-50"
-          onClick={() => setMenuOpen(false)}
-        ></div>
-      )}
 
       {/* Main Chat */}
       <div className="flex-1 flex flex-col pt-20">
@@ -603,9 +550,9 @@ export default function DemoChatPage() {
             {demoMessages.map((message) => (
               <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
                 {message.sender === 'user' ? (
-                  <div className="max-w-[65%] p-5 rounded-3xl border bg-white/5 text-white rounded-br-lg border-white/20">
+                  <div className="max-w-[65%] p-5 rounded-3xl border rounded-br-lg" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
                     <div className="text-base leading-relaxed">{message.text}</div>
-                    <div className="text-sm mt-3 text-zinc-400">
+                    <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
@@ -621,7 +568,7 @@ export default function DemoChatPage() {
                             <div className="space-y-4">
                               {/* Coach introduction text */}
                               {intro && (
-                                <div className="text-base leading-relaxed text-white whitespace-pre-wrap">
+                                <div className="text-base leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-primary)' }}>
                                   {intro}
                                 </div>
                               )}
@@ -632,7 +579,8 @@ export default function DemoChatPage() {
                                   setCurrentCheatCode(cheatCode);
                                   setShowCheatCode(true);
                                 }}
-                                className="w-full bg-white text-black px-6 py-4 rounded-xl font-semibold hover:bg-zinc-200 active:scale-[0.98] transition-all shadow-lg"
+                                className="w-full px-6 py-4 rounded-xl font-semibold active:scale-[0.98] transition-all"
+                                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                               >
                                 View Cheat Code
                               </button>
@@ -641,11 +589,11 @@ export default function DemoChatPage() {
                         })()}
                       </div>
                     ) : (
-                      <div className="text-base leading-relaxed text-white whitespace-pre-wrap">
+                      <div className="text-base leading-relaxed whitespace-pre-wrap" style={{ color: 'var(--text-primary)' }}>
                         {message.text}
                       </div>
                     )}
-                    <div className="text-sm mt-3 text-zinc-400">
+                    <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
                       {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </div>
                   </div>
@@ -656,14 +604,15 @@ export default function DemoChatPage() {
         </div>
 
         {/* Input Area (disabled for demo) */}
-        <div className="p-6 border-t border-zinc-800">
+        <div className="p-6" style={{ borderTop: '1px solid var(--card-border)' }}>
           <div className="max-w-4xl mx-auto">
             <div className="relative">
               <input
                 type="text"
                 placeholder="This is a demo - input disabled"
                 disabled
-                className="w-full bg-zinc-900 border border-zinc-800 rounded-2xl px-6 py-4 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-700 transition-colors opacity-50 cursor-not-allowed"
+                className="w-full rounded-2xl px-6 py-4 focus:outline-none transition-colors opacity-50 cursor-not-allowed"
+                style={{ backgroundColor: 'var(--input-bg)', border: '1px solid var(--input-border)', color: 'var(--input-text)' }}
               />
             </div>
           </div>
