@@ -103,7 +103,7 @@ export default function Home() {
         <div className="text-left w-full rounded-3xl p-8 relative overflow-hidden flex-shrink-0 min-h-[140px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
             <h1 className="text-3xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
-              Play With Confidence.
+              Play With<br />Confidence.
             </h1>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Start chatting to build your confidence.
