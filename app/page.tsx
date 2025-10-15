@@ -124,6 +124,16 @@ export default function Home() {
           />
         </div>
 
+        {/* Your Momentum Label */}
+        <div className="text-center mb-6">
+          <div
+            className="text-[15px] font-semibold uppercase tracking-[1px]"
+            style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+          >
+            YOUR MOMENTUM
+          </div>
+        </div>
+
         {/* Progress Visualizer */}
         <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-6">
           <ProgressCircles
