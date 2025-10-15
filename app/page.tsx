@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {/* Your Momentum Label */}
-        <div className="text-center mb-3">
+        <div className="text-center mb-1">
           <div
             className="text-[15px] font-semibold uppercase tracking-[1px]"
             style={{ color: 'rgba(255, 255, 255, 0.6)' }}
@@ -148,7 +148,7 @@ export default function Home() {
             {progressPercentage}%
           </div>
           <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-            Top players maintain 80%+
+            Elite players keep their momentum above 85%
           </p>
         </div>
 
