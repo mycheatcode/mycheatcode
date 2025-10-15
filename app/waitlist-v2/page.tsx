@@ -75,20 +75,20 @@ export default function WaitlistV2Page() {
   }
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' }}>
+    <div className="min-h-screen bg-white">
       {/* Header Navigation */}
       <header className="container mx-auto px-4 py-6">
         <nav className="flex items-center justify-center gap-3 flex-wrap">
           <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
             Reviews
           </button>
-          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/5" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
+          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-gray-50" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
             How It Works
           </button>
-          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/5" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
+          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-gray-50" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
             Apps
           </button>
-          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/5" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
+          <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-gray-50" style={{ backgroundColor: 'transparent', borderColor: '#00ff41', color: '#00ff41' }}>
             Our Philosophy
           </button>
         </nav>
@@ -99,11 +99,11 @@ export default function WaitlistV2Page() {
         <div className="max-w-6xl mx-auto">
           {/* Headline */}
           <div className="text-center mb-8">
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-white">
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-black">
               Mental coaching.<br />
-              <span className="text-white/60">Powered by AI.</span>
+              <span className="text-gray-600">Powered by AI.</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-8">
+            <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-8">
               Build confidence and master the mental side of basketball.
             </p>
 
@@ -245,7 +245,7 @@ export default function WaitlistV2Page() {
               {error && (
                 <p className="text-sm text-white/90 text-center">{error}</p>
               )}
-              <p className="text-center text-white/80 text-sm">
+              <p className="text-center text-gray-600 text-sm">
                 Get ahead of the game
               </p>
             </form>
@@ -254,16 +254,16 @@ export default function WaitlistV2Page() {
       </main>
 
       {/* Feature Videos Section - Replacing "Hit your health goals in 1-2-3" */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#0d0d0d' }}>
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-6xl mx-auto space-y-20">
 
           {/* Feature 1: Overcome Mental Barriers */}
           <div className="space-y-6">
             <div className="text-center space-y-3 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold" style={{ color: '#00ff41' }}>
+              <h2 className="text-3xl md:text-5xl font-bold text-black">
                 Overcome any mental barrier on the court
               </h2>
-              <p className="text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              <p className="text-lg md:text-xl leading-relaxed text-gray-600">
                 Talk with your AI coach to build confidence, master pressure moments, and elevate your mental game.
               </p>
             </div>
@@ -295,10 +295,10 @@ export default function WaitlistV2Page() {
           {/* Feature 2: Personalized Cheat Codes */}
           <div className="space-y-6">
             <div className="text-center space-y-3 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
+              <h2 className="text-3xl md:text-5xl font-bold text-black">
                 Get personalized cheat codes for any moment
               </h2>
-              <p className="text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              <p className="text-lg md:text-xl leading-relaxed text-gray-600">
                 Your AI coach creates custom step-by-step strategies you can rely on.
               </p>
             </div>
@@ -330,10 +330,10 @@ export default function WaitlistV2Page() {
           {/* Feature 3: Collect Codes */}
           <div className="space-y-6">
             <div className="text-center space-y-3 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold" style={{ color: '#00ff41' }}>
+              <h2 className="text-3xl md:text-5xl font-bold text-black">
                 Collect codes for each part of your game
               </h2>
-              <p className="text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              <p className="text-lg md:text-xl leading-relaxed text-gray-600">
                 Add and use strategies all season long. Accessible anytime, anywhere.
               </p>
             </div>
@@ -365,10 +365,10 @@ export default function WaitlistV2Page() {
           {/* Feature 4: Community Topics */}
           <div className="space-y-6">
             <div className="text-center space-y-3 max-w-3xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-bold text-white">
+              <h2 className="text-3xl md:text-5xl font-bold text-black">
                 Browse community topics for a quick start
               </h2>
-              <p className="text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+              <p className="text-lg md:text-xl leading-relaxed text-gray-600">
                 Real topics from real players. Find what speaks to you and level up your mental game.
               </p>
             </div>
@@ -401,27 +401,27 @@ export default function WaitlistV2Page() {
       </section>
 
       {/* The System - Replacing "Food Database" section */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#000000' }}>
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-5xl mx-auto">
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="border-2 rounded-3xl p-8 shadow-xl" style={{ backgroundColor: '#0d0d0d', borderColor: '#00ff41' }}>
+            <div className="border-2 rounded-3xl p-8 shadow-xl bg-white" style={{ borderColor: '#00ff41' }}>
               <div className="space-y-4">
                 <div className="text-3xl font-bold" style={{ color: '#00ff41' }}>
                   Chat = Growth
                 </div>
                 <div className="h-px w-16" style={{ backgroundColor: '#00ff41' }}></div>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                <p className="text-lg leading-relaxed text-gray-700">
                   Each conversation develops your mental game
                 </p>
               </div>
             </div>
-            <div className="border-2 rounded-3xl p-8 shadow-xl" style={{ backgroundColor: '#0d0d0d', borderColor: '#00ff41' }}>
+            <div className="border-2 rounded-3xl p-8 shadow-xl bg-white" style={{ borderColor: '#00ff41' }}>
               <div className="space-y-4">
                 <div className="text-3xl font-bold" style={{ color: '#00ff41' }}>
                   Consistency = Strength
                 </div>
                 <div className="h-px w-16" style={{ backgroundColor: '#00ff41' }}></div>
-                <p className="text-lg leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                <p className="text-lg leading-relaxed text-gray-700">
                   Progress fades if you're inactive. Keep chatting in all areas to stay sharp
                 </p>
               </div>
@@ -431,13 +431,13 @@ export default function WaitlistV2Page() {
       </section>
 
       {/* User Success Stories / Testimonials */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#0d0d0d' }}>
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center space-y-12">
-          <h2 className="text-3xl md:text-5xl font-bold" style={{ color: '#00ff41' }}>
+          <h2 className="text-3xl md:text-5xl font-bold text-black">
             Real players. Real results.
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
-            <div className="rounded-2xl p-6 shadow-lg" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
+            <div className="rounded-2xl p-6 shadow-lg bg-gray-50 border border-gray-200">
               <div className="flex gap-1 justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} className="w-5 h-5" fill="#FFD700" viewBox="0 0 24 24">
@@ -445,10 +445,10 @@ export default function WaitlistV2Page() {
                   </svg>
                 ))}
               </div>
-              <p className="italic mb-4" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>"This app helped me overcome my fear of taking the last shot. Game changer."</p>
-              <p className="font-semibold" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>- Sarah M.</p>
+              <p className="italic mb-4 text-gray-700">"This app helped me overcome my fear of taking the last shot. Game changer."</p>
+              <p className="font-semibold text-gray-500">- Sarah M.</p>
             </div>
-            <div className="rounded-2xl p-6 shadow-lg" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
+            <div className="rounded-2xl p-6 shadow-lg bg-gray-50 border border-gray-200">
               <div className="flex gap-1 justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} className="w-5 h-5" fill="#00ff41" viewBox="0 0 24 24">
@@ -456,10 +456,10 @@ export default function WaitlistV2Page() {
                   </svg>
                 ))}
               </div>
-              <p className="italic mb-4" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>"I used to get so nervous before games. Now I have strategies that actually work."</p>
-              <p className="font-semibold" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>- Marcus J.</p>
+              <p className="italic mb-4 text-gray-700">"I used to get so nervous before games. Now I have strategies that actually work."</p>
+              <p className="font-semibold text-gray-500">- Marcus J.</p>
             </div>
-            <div className="rounded-2xl p-6 shadow-lg" style={{ backgroundColor: '#1a1a1a', border: '1px solid #2d2d2d' }}>
+            <div className="rounded-2xl p-6 shadow-lg bg-gray-50 border border-gray-200">
               <div className="flex gap-1 justify-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <svg key={i} className="w-5 h-5" fill="#FFD700" viewBox="0 0 24 24">
@@ -467,46 +467,46 @@ export default function WaitlistV2Page() {
                   </svg>
                 ))}
               </div>
-              <p className="italic mb-4" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>"Finally, someone who gets the mental side of basketball. This is the edge I needed."</p>
-              <p className="font-semibold" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>- Tyler K.</p>
+              <p className="italic mb-4 text-gray-700">"Finally, someone who gets the mental side of basketball. This is the edge I needed."</p>
+              <p className="font-semibold text-gray-500">- Tyler K.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Our Philosophy */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#000000' }}>
+      <section className="py-20 px-4 bg-gray-50">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h2 className="text-3xl md:text-5xl font-bold" style={{ color: '#00ff41' }}>
+          <h2 className="text-3xl md:text-5xl font-bold text-black">
             Knowledge is power
           </h2>
-          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+          <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed text-gray-600">
             The mental game separates good players from great ones. We give you the tools to master yours—one conversation at a time.
           </p>
         </div>
       </section>
 
       {/* Social Proof - Built for players at */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#0d0d0d' }}>
+      <section className="py-20 px-4 bg-white">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <p className="text-sm uppercase tracking-wider font-semibold" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>Built for players at</p>
+          <p className="text-sm uppercase tracking-wider font-semibold text-gray-500">Built for players at</p>
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
             <span className="font-bold text-lg" style={{ color: '#00ff41' }}>Junior High</span>
-            <span className="font-bold text-lg text-white">High School</span>
+            <span className="font-bold text-lg text-black">High School</span>
             <span className="font-bold text-lg" style={{ color: '#00ff41' }}>College</span>
-            <span className="font-bold text-lg text-white">AAU</span>
+            <span className="font-bold text-lg text-black">AAU</span>
             <span className="font-bold text-lg" style={{ color: '#00ff41' }}>Semi-Pro</span>
           </div>
         </div>
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-32 px-4" style={{ backgroundColor: '#000000' }}>
+      <section className="py-32 px-4 bg-gray-50">
         <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-6xl font-bold text-white leading-tight">
+          <h2 className="text-4xl md:text-6xl font-bold text-black leading-tight">
             Ready to get started?
           </h2>
-          <p className="text-xl" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+          <p className="text-xl text-gray-600">
             Sign up now and get notified at launch
           </p>
           <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-4">
@@ -521,10 +521,10 @@ export default function WaitlistV2Page() {
                 placeholder="First name (optional)"
                 className="flex-1 px-5 py-3.5 rounded-full text-sm focus:outline-none transition-all"
                 style={{
-                  backgroundColor: '#1a1a1a',
-                  color: '#ffffff',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                  border: '1px solid #2d2d2d'
+                  backgroundColor: '#ffffff',
+                  color: '#000000',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #e5e5e5'
                 }}
               />
               <select
@@ -536,10 +536,10 @@ export default function WaitlistV2Page() {
                 className="flex-1 px-5 py-3.5 rounded-full text-sm focus:outline-none transition-all appearance-none cursor-pointer"
                 required
                 style={{
-                  backgroundColor: '#1a1a1a',
-                  color: '#ffffff',
-                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                  border: '1px solid #2d2d2d',
+                  backgroundColor: '#ffffff',
+                  color: '#000000',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                  border: '1px solid #e5e5e5',
                   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2300ff41'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
                   backgroundRepeat: 'no-repeat',
                   backgroundPosition: 'right 1rem center',
@@ -563,10 +563,10 @@ export default function WaitlistV2Page() {
               placeholder="Email address *"
               className="w-full px-5 py-3.5 rounded-full text-sm focus:outline-none transition-all"
               style={{
-                backgroundColor: '#1a1a1a',
-                color: '#ffffff',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                border: '1px solid #2d2d2d'
+                backgroundColor: '#ffffff',
+                color: '#000000',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                border: '1px solid #e5e5e5'
               }}
               required
             />
@@ -583,25 +583,25 @@ export default function WaitlistV2Page() {
               {isSubmitting ? 'Joining...' : 'Join Waitlist'}
             </button>
             {error && (
-              <p className="text-sm text-center" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>{error}</p>
+              <p className="text-sm text-center text-red-600">{error}</p>
             )}
           </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t" style={{ backgroundColor: '#0d0d0d', borderColor: '#2d2d2d' }}>
+      <footer className="py-12 px-4 border-t bg-white border-gray-200">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-sm" style={{ color: 'rgba(255, 255, 255, 0.5)' }}>
+            <p className="text-sm text-gray-500">
               © 2025 MyCheatCode. All rights reserved.
             </p>
             <div className="flex items-center gap-6">
-              <Link href="#" className="text-sm hover:text-white transition-colors" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Privacy</Link>
-              <Link href="#" className="text-sm hover:text-white transition-colors" style={{ color: 'rgba(255, 255, 255, 0.6)' }}>Terms</Link>
+              <Link href="#" className="text-sm text-gray-600 hover:text-black transition-colors">Privacy</Link>
+              <Link href="#" className="text-sm text-gray-600 hover:text-black transition-colors">Terms</Link>
               <a
                 href="mailto:team@mycheatcode.ai"
-                className="text-sm hover:text-white transition-colors"
+                className="text-sm transition-colors"
                 style={{ color: '#00ff41' }}
               >
                 team@mycheatcode.ai
