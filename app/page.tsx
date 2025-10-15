@@ -125,7 +125,7 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center flex-1 gap-4">
+        <div className="flex flex-col items-center justify-center flex-1 gap-2">
           {/* Your Momentum Label */}
           <div className="text-center">
             <div
