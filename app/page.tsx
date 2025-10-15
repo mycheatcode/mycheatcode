@@ -98,15 +98,14 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center flex-1 px-4 pt-16 pb-6 relative z-10 justify-between">
-        <div className="w-full space-y-6">
+      <div className="flex flex-col items-center flex-1 px-4 pt-14 pb-4 relative z-10 justify-between">
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-5 relative overflow-hidden" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-4 relative overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-2xl font-bold mb-1 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With Confidence.
             </h1>
-            <p className="text-sm md:text-lg" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
               Start chatting to build your confidence.
             </p>
           </div>
@@ -125,12 +124,12 @@ export default function Home() {
           />
         </div>
 
-        {/* Progress Section */}
-        <div className="flex flex-col items-center">
+        {/* Progress Section - Centered and Larger */}
+        <div className="flex flex-col items-center justify-center flex-1">
           {/* Your Momentum Label */}
-          <div className="text-center mb-1">
+          <div className="text-center mb-2">
             <div
-              className="text-[15px] font-semibold uppercase tracking-[1px]"
+              className="text-sm font-semibold uppercase tracking-[1px]"
               style={{ color: 'rgba(255, 255, 255, 0.6)' }}
             >
               YOUR MOMENTUM
@@ -138,7 +137,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[200px] aspect-square mb-1">
+          <div className="w-[240px] aspect-square mb-2">
             <ProgressCircles
               theme="dark"
               onProgressUpdate={setProgressPercentage}
@@ -147,18 +146,17 @@ export default function Home() {
 
           {/* Progress Percentage */}
           <div className="text-center">
-            <div className="text-4xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+            <div className="text-5xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
               {progressPercentage}%
             </div>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Elite players stay above 85%
             </p>
           </div>
         </div>
-        </div>
 
         {/* Bottom Section - Input and Button */}
-        <div className="w-full space-y-3">
+        <div className="w-full space-y-3 flex-shrink-0">
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} className="w-full">
           <div className="relative">
@@ -167,7 +165,7 @@ export default function Home() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-4 py-3 rounded-2xl text-sm focus:outline-none"
+              className="w-full px-5 py-4 rounded-2xl text-base focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
@@ -176,7 +174,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-xl transition-colors font-medium text-sm"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-xl transition-colors font-medium text-base"
               style={{
                 background: 'var(--button-bg)',
                 color: 'var(--button-text)'
@@ -190,7 +188,7 @@ export default function Home() {
         {/* View Community Topics Button */}
         <Link href="/community-topics" className="w-full">
           <button
-            className="w-full px-4 py-3 rounded-2xl text-sm font-medium transition-colors text-center"
+            className="w-full px-5 py-4 rounded-2xl text-base font-medium transition-colors text-center"
             style={{
               background: 'var(--card-bg)',
               border: '1px solid var(--card-border)',
