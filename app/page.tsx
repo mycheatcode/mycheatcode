@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen font-sans relative overflow-hidden" style={{ color: 'var(--text-primary)' }}>
+    <div className="min-h-screen font-sans relative overflow-hidden max-w-[430px] mx-auto" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
 
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center justify-between z-20">
