@@ -612,48 +612,48 @@ export default function MyCodesPage() {
         </div>
 
         {/* Cheat Codes List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto p-4 space-y-3">
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
               onClick={() => setSelectedCode(code)}
-              className={`rounded-[2rem] p-8 min-h-[280px] flex flex-col justify-between relative shadow-xl border transition-all duration-500 active:scale-[0.98] ${
+              className={`rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative border transition-all duration-500 active:scale-[0.98] ${
                 animatingCode === code.id
                   ? animationType === 'archive'
                     ? 'opacity-50 scale-95 blur-sm'
-                    : 'opacity-80 scale-105 shadow-lg'
+                    : 'opacity-80 scale-105'
                   : ''
               } ${
                 code.archived
                   ? 'opacity-60'
                   : ''
               }`}
-              style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
               {/* Archive Badge */}
               {code.archived && (
-                <div className="absolute top-5 right-5">
-                  <div className="inline-block px-2.5 py-1 border rounded-lg" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                    <span className="text-[10px] uppercase font-semibold tracking-wider" style={{ color: 'var(--text-secondary)' }}>Archived</span>
+                <div className="absolute top-3 right-3">
+                  <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
+                    Archived
                   </div>
                 </div>
               )}
 
-              {/* Card Content - Matching Desktop Title Card Style */}
-              <div className="space-y-6 flex-1 flex flex-col justify-center text-center">
-                <h1 className="text-3xl font-bold leading-[1.1] tracking-tight px-4" style={{ color: 'var(--text-primary)' }}>
+              {/* Card Content */}
+              <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
+                <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                   {code.title}
                 </h1>
-                <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                <div className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                <div className="h-px w-12 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
                   {code.category}
                 </div>
               </div>
 
               {/* Bottom Stats Row */}
-              <div className="flex items-center justify-between text-xs pt-4 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+              <div className="flex items-center justify-between text-[10px] pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
                 <div>
-                  <span className="font-medium">Last Session: {code.lastSession}</span>
+                  <span className="font-medium">Last: {code.lastSession}</span>
                 </div>
                 <div>
                   <span className="font-medium">{code.sessionsCompleted} sessions</span>
