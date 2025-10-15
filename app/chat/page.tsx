@@ -199,7 +199,11 @@ export default function ChatPage() {
     if (autoSendMessage) {
       localStorage.removeItem('autoSendMessage');
       setHasStarted(true);
+      setInitialized(true);
       setInputText('');
+
+      // Skip the welcome message by setting pendingWelcome
+      pendingWelcome.current = true;
 
       // Add user message first
       const userMsg: Message = {
@@ -242,6 +246,7 @@ export default function ChatPage() {
             pendingCoachReply.current = false;
           });
       }, 100);
+      return; // Skip the rest of initialization
     }
 
     // Load stored topic (if any)
