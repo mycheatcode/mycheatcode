@@ -908,8 +908,8 @@ export default function MyCodesPage() {
               </button>
 
               {/* Card Content */}
-              <div className="flex-1 flex flex-col justify-between px-4 lg:px-6 py-6 lg:py-8">
-                <div className="flex flex-col items-center text-center pt-8 lg:pt-12">
+              <div className="flex-1 flex flex-col justify-between px-4 lg:px-6 py-4 lg:py-6 pb-3 lg:pb-4">
+                <div className="flex-1 flex flex-col items-center justify-center text-center">
                   {(() => {
                     const cards = buildCards(selectedCode);
                     const card = cards[currentCard];
@@ -1025,7 +1025,7 @@ export default function MyCodesPage() {
                 </div>
 
                 {/* Footer with Branding */}
-                <div className="pt-2 border-t mt-4" style={{ borderColor: 'var(--card-border)' }}>
+                <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
                   <div className="text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                     MYCHEATCODE.AI
                   </div>
