@@ -100,12 +100,12 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center flex-1 px-4 pt-14 pb-4 relative z-10 justify-between">
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-4 relative overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
-            <h1 className="text-2xl font-bold mb-1 leading-tight" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-3xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With Confidence.
             </h1>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Start chatting to build your confidence.
             </p>
           </div>
