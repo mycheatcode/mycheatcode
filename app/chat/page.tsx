@@ -5,6 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TypingAnimation from '../../components/TypingAnimation';
 
+// Force dark mode immediately
+if (typeof window !== 'undefined') {
+  document.documentElement.classList.add('dark');
+}
+
 type Sender = 'user' | 'coach';
 
 interface Message {
@@ -44,6 +49,11 @@ export default function ChatPage() {
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  useEffect(() => {
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
+  }, []);
 
   // Helper to detect if a message contains a cheat code
   const isCheatCode = (text: string): boolean => {
