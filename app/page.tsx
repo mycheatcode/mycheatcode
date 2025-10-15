@@ -127,7 +127,7 @@ export default function Home() {
         {/* Progress Section - Centered and Larger */}
         <div className="flex flex-col items-center justify-center flex-1">
           {/* Your Momentum Label */}
-          <div className="text-center mb-4">
+          <div className="text-center mb-2">
             <div
               className="text-sm font-semibold uppercase tracking-[1px]"
               style={{ color: 'rgba(255, 255, 255, 0.6)' }}
@@ -137,7 +137,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[360px] aspect-square mb-4">
+          <div className="w-[380px] max-w-[90vw] aspect-square mb-2">
             <ProgressCircles
               theme="dark"
               onProgressUpdate={setProgressPercentage}
