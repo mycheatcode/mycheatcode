@@ -26,10 +26,10 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen font-sans relative overflow-hidden max-w-[430px] mx-auto" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
+    <div className="h-screen font-sans relative overflow-hidden max-w-[430px] mx-auto flex flex-col" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
 
       {/* Mobile & Desktop Header with Menu */}
-      <div className="absolute top-0 left-0 right-0 px-4 lg:px-6 py-4 lg:py-5 flex items-center justify-between z-20">
+      <div className="absolute top-0 left-0 right-0 px-4 py-4 flex items-center justify-between z-20">
         <div className="flex items-center gap-4">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
@@ -98,9 +98,10 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center min-h-screen px-4 pt-16 pb-6 relative z-10">
+      <div className="flex flex-col items-center flex-1 px-4 pt-16 pb-6 relative z-10 justify-between">
+        <div className="w-full space-y-6">
         {/* Header Message */}
-        <div className="text-left mb-8 w-full max-w-2xl rounded-3xl p-5 md:p-8 relative overflow-hidden" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-5 relative overflow-hidden" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
             <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With Confidence.
@@ -124,43 +125,49 @@ export default function Home() {
           />
         </div>
 
-        {/* Your Momentum Label */}
-        <div className="text-center mb-1">
-          <div
-            className="text-[15px] font-semibold uppercase tracking-[1px]"
-            style={{ color: 'rgba(255, 255, 255, 0.6)' }}
-          >
-            YOUR MOMENTUM
+        {/* Progress Section */}
+        <div className="flex flex-col items-center">
+          {/* Your Momentum Label */}
+          <div className="text-center mb-1">
+            <div
+              className="text-[15px] font-semibold uppercase tracking-[1px]"
+              style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+            >
+              YOUR MOMENTUM
+            </div>
+          </div>
+
+          {/* Progress Visualizer */}
+          <div className="w-[200px] aspect-square mb-1">
+            <ProgressCircles
+              theme="dark"
+              onProgressUpdate={setProgressPercentage}
+            />
+          </div>
+
+          {/* Progress Percentage */}
+          <div className="text-center">
+            <div className="text-4xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
+              {progressPercentage}%
+            </div>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+              Elite players stay above 85%
+            </p>
           </div>
         </div>
-
-        {/* Progress Visualizer */}
-        <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-1">
-          <ProgressCircles
-            theme="dark"
-            onProgressUpdate={setProgressPercentage}
-          />
         </div>
 
-        {/* Progress Percentage */}
-        <div className="text-center mb-8">
-          <div className="text-5xl md:text-6xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
-            {progressPercentage}%
-          </div>
-          <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-            Elite players stay above 85%
-          </p>
-        </div>
-
+        {/* Bottom Section - Input and Button */}
+        <div className="w-full space-y-3">
         {/* Chat Input */}
-        <form onSubmit={handleSendMessage} className="w-full max-w-2xl mb-3">
+        <form onSubmit={handleSendMessage} className="w-full">
           <div className="relative">
             <input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-5 py-4 md:px-6 md:py-5 rounded-2xl text-base md:text-lg focus:outline-none"
+              className="w-full px-4 py-3 rounded-2xl text-sm focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
@@ -169,7 +176,7 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 md:px-6 md:py-2.5 rounded-xl transition-colors font-medium text-sm md:text-base"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-1.5 rounded-xl transition-colors font-medium text-sm"
               style={{
                 background: 'var(--button-bg)',
                 color: 'var(--button-text)'
@@ -181,9 +188,9 @@ export default function Home() {
         </form>
 
         {/* View Community Topics Button */}
-        <Link href="/community-topics" className="w-full max-w-2xl">
+        <Link href="/community-topics" className="w-full">
           <button
-            className="w-full px-5 py-4 md:px-6 md:py-5 rounded-2xl text-base md:text-lg font-medium transition-colors text-center"
+            className="w-full px-4 py-3 rounded-2xl text-sm font-medium transition-colors text-center"
             style={{
               background: 'var(--card-bg)',
               border: '1px solid var(--card-border)',
@@ -193,6 +200,7 @@ export default function Home() {
             View Community Topics
           </button>
         </Link>
+        </div>
       </div>
     </div>
   );
