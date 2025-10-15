@@ -4,17 +4,75 @@ import { useState } from 'react';
 import Link from 'next/link';
 
 export default function WaitlistV2Page() {
+  const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [ageBracket, setAgeBracket] = useState('');
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim()) return;
+    if (isSubmitting || !email || !ageBracket) return;
 
-    // TODO: Add email to waitlist
-    console.log('Waitlist signup:', email);
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          firstName: firstName || undefined,
+          ageBracket,
+          referralCode: '',
+          consent: true,
+          nickname: ''
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.ok) {
+        setShowSuccess(true);
+      } else {
+        setError(data.error || 'Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (showSuccess) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(180deg, #8BA5D5 0%, #5B7EC8 50%, #4169E1 100%)' }}>
+        <div className="max-w-md w-full text-center space-y-6 bg-white/10 backdrop-blur-md rounded-3xl p-8">
+          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <div className="space-y-3">
+            <h1 className="text-3xl font-bold text-white">
+              Check your email
+            </h1>
+            <p className="text-lg text-white/90">
+              We sent you a confirmation link. Click it to secure your spot.
+            </p>
+          </div>
+          <button
+            onClick={() => setShowSuccess(false)}
+            className="text-white/80 hover:text-white underline text-sm"
+          >
+            Try again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #8BA5D5 0%, #5B7EC8 50%, #4169E1 100%)' }}>
@@ -56,80 +114,131 @@ export default function WaitlistV2Page() {
             </button>
           </div>
 
-          {/* iPhone Mockup Container */}
+          {/* iPhone Mockup Container - Smaller like MyFitnessPal */}
           <div className="flex justify-center items-center mb-12">
-            <div className="relative" style={{ width: '375px', height: '812px' }}>
+            <div className="relative" style={{ width: '280px', height: '605px' }}>
               {/* iPhone Frame */}
-              <div className="absolute inset-0 rounded-[55px] border-[12px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
+              <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                 {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[140px] h-[28px] bg-black rounded-b-3xl z-20"></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
 
                 {/* Screen Content Area - Placeholder for screenshot */}
-                <div className="absolute inset-[2px] rounded-[45px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                   <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                    <div className="text-center px-8">
-                      <div className="text-6xl mb-4">📱</div>
-                      <p className="text-gray-500 text-sm font-medium">App Screenshot</p>
-                      <p className="text-gray-400 text-xs mt-2">Place your iPhone screenshot here</p>
-                      <p className="text-gray-300 text-xs mt-1">Recommended: 1170 x 2532 px</p>
+                    <div className="text-center px-6">
+                      <div className="text-5xl mb-3">📱</div>
+                      <p className="text-gray-500 text-xs font-medium">App Screenshot</p>
+                      <p className="text-gray-400 text-[10px] mt-1">Place screenshot here</p>
+                      <p className="text-gray-300 text-[10px] mt-0.5">1170 x 2532 px</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Home Indicator */}
-                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[134px] h-[5px] bg-gray-300 rounded-full"></div>
+                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
               </div>
 
               {/* Phone Shadow */}
-              <div className="absolute inset-0 rounded-[55px]" style={{
-                boxShadow: '0 40px 80px rgba(0, 0, 0, 0.4), 0 15px 30px rgba(0, 0, 0, 0.25)',
+              <div className="absolute inset-0 rounded-[42px]" style={{
+                boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.25)',
                 pointerEvents: 'none'
               }}></div>
             </div>
           </div>
 
+          {/* Headline */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-white">
+              Mental coaching.<br />
+              <span className="text-white/60">Powered by AI.</span>
+            </h1>
+            <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
+              Build confidence and master the mental side of basketball.
+            </p>
+          </div>
+
           {/* Waitlist Form */}
-          <div id="waitlist-form" className="mt-16 max-w-md mx-auto">
-            {!submitted ? (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full px-6 py-4 rounded-full text-base focus:outline-none focus:ring-4 transition-all"
-                    style={{
-                      backgroundColor: '#FFFFFF',
-                      color: '#333333',
-                      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-                      border: 'none'
-                    }}
-                    required
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full px-6 py-4 rounded-full text-base font-bold transition-all hover:scale-[1.02] active:scale-[0.98]"
+          <div id="waitlist-form" className="mt-12 max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  value={firstName}
+                  onChange={(e) => {
+                    setFirstName(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="First name (optional)"
+                  className="flex-1 px-5 py-3.5 rounded-full text-sm focus:outline-none focus:ring-4 focus:ring-white/30 transition-all"
                   style={{
                     backgroundColor: '#FFFFFF',
-                    color: '#4169E1',
-                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+                    color: '#333333',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                    border: 'none'
+                  }}
+                />
+                <select
+                  value={ageBracket}
+                  onChange={(e) => {
+                    setAgeBracket(e.target.value);
+                    setError('');
+                  }}
+                  className="flex-1 px-5 py-3.5 rounded-full text-sm focus:outline-none focus:ring-4 focus:ring-white/30 transition-all appearance-none cursor-pointer"
+                  required
+                  style={{
+                    backgroundColor: '#FFFFFF',
+                    color: '#333333',
+                    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                    border: 'none',
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                    backgroundSize: '1.25rem'
                   }}
                 >
-                  Join Waitlist
-                </button>
-                <p className="text-center text-white text-sm opacity-90">
-                  Be the first to get access when we launch
-                </p>
-              </form>
-            ) : (
-              <div className="text-center p-8 rounded-3xl" style={{ backgroundColor: 'rgba(255, 255, 255, 0.25)', backdropFilter: 'blur(10px)' }}>
-                <div className="text-6xl mb-4">✅</div>
-                <h3 className="text-2xl font-bold text-white mb-2">You're on the list!</h3>
-                <p className="text-white text-opacity-90">We'll notify you when we launch.</p>
+                  <option value="" disabled>Age *</option>
+                  <option value="13-15">13-15</option>
+                  <option value="16-18">16-18</option>
+                  <option value="19-24">19-24</option>
+                  <option value="25+">25+</option>
+                </select>
               </div>
-            )}
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError('');
+                }}
+                placeholder="Email address *"
+                className="w-full px-5 py-3.5 rounded-full text-sm focus:outline-none focus:ring-4 focus:ring-white/30 transition-all"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  color: '#333333',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
+                  border: 'none'
+                }}
+                required
+              />
+              <button
+                type="submit"
+                disabled={isSubmitting || !email || !ageBracket}
+                className="w-full px-6 py-3.5 rounded-full text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  backgroundColor: '#FFFFFF',
+                  color: '#4169E1',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)'
+                }}
+              >
+                {isSubmitting ? 'Joining...' : 'Join Waitlist'}
+              </button>
+              {error && (
+                <p className="text-sm text-white/90 text-center">{error}</p>
+              )}
+              <p className="text-center text-white/80 text-sm">
+                Get ahead of the game
+              </p>
+            </form>
           </div>
         </div>
       </main>
