@@ -609,9 +609,9 @@ export default function DemoChatPage() {
             <div className="relative">
               <input
                 type="text"
-                placeholder="This is a demo - input disabled"
+                placeholder="Share what's on your mind..."
                 disabled
-                className="w-full rounded-2xl px-6 py-4 focus:outline-none transition-colors opacity-50 cursor-not-allowed"
+                className="w-full rounded-2xl px-6 py-4 focus:outline-none transition-colors cursor-not-allowed"
                 style={{ backgroundColor: 'var(--input-bg)', border: '1px solid var(--input-border)', color: 'var(--input-text)' }}
               />
             </div>
