@@ -198,22 +198,22 @@ export default function ChatPage() {
     const autoSendMessage = typeof window !== 'undefined' ? localStorage.getItem('autoSendMessage') : null;
     if (autoSendMessage) {
       localStorage.removeItem('autoSendMessage');
-      // Set the input text temporarily
-      setInputText(autoSendMessage);
-      // Auto-send after initialization
-      setTimeout(() => {
-        const userMsg: Message = {
-          id: uid(),
-          text: autoSendMessage,
-          sender: 'user',
-          timestamp: new Date(),
-        };
-        appendMessage(userMsg);
-        setInputText('');
-        setIsTyping(true);
-        pendingCoachReply.current = true;
+      setHasStarted(true);
+      setInputText('');
 
-        // Send to API
+      // Add user message first
+      const userMsg: Message = {
+        id: uid(),
+        text: autoSendMessage,
+        sender: 'user',
+        timestamp: new Date(),
+      };
+      appendMessage(userMsg);
+      setIsTyping(true);
+      pendingCoachReply.current = true;
+
+      // Send to API after a brief delay
+      setTimeout(() => {
         const payload = buildChatPayload([userMsg]);
         fetch('/api/chat', {
           method: 'POST',
@@ -241,7 +241,7 @@ export default function ChatPage() {
             setIsTyping(false);
             pendingCoachReply.current = false;
           });
-      }, 500);
+      }, 100);
     }
 
     // Load stored topic (if any)

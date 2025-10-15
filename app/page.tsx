@@ -117,7 +117,8 @@ export default function Home() {
               backgroundSize: 'auto 100%',
               backgroundPosition: 'right center',
               backgroundRepeat: 'no-repeat',
-              opacity: 0.3,
+              opacity: 0.5,
+              filter: 'brightness(1.5)',
               width: '50%'
             }}
           />
