@@ -268,12 +268,12 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
                 width: '400px',
-                height: '600px',
+                height: '400px',
                 background: 'linear-gradient(135deg, #E8D5FF 0%, #D4E4FF 100%)'
               }}>
-                <div className="relative" style={{ width: '280px', height: '560px' }}>
+                <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
@@ -303,12 +303,12 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
                 width: '400px',
-                height: '600px',
+                height: '400px',
                 background: 'linear-gradient(135deg, #FFE8D5 0%, #FFD4D4 100%)'
               }}>
-                <div className="relative" style={{ width: '280px', height: '560px' }}>
+                <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
@@ -338,12 +338,12 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
                 width: '400px',
-                height: '600px',
+                height: '400px',
                 background: 'linear-gradient(135deg, #D5FFE8 0%, #D4FFE4 100%)'
               }}>
-                <div className="relative" style={{ width: '280px', height: '560px' }}>
+                <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
@@ -373,12 +373,12 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
                 width: '400px',
-                height: '600px',
+                height: '400px',
                 background: 'linear-gradient(135deg, #FFE8F5 0%, #FFD4E4 100%)'
               }}>
-                <div className="relative" style={{ width: '280px', height: '560px' }}>
+                <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
