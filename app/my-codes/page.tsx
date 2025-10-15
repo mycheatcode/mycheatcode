@@ -1022,6 +1022,13 @@ export default function MyCodesPage() {
                   );
                 })()}
               </div>
+
+              {/* Branding - Bottom Right */}
+              <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6">
+                <div className="text-[10px] lg:text-xs font-semibold tracking-wider opacity-40" style={{ color: 'var(--accent-color)' }}>
+                  MYCHEATCODE.AI
+                </div>
+              </div>
             </div>
 
             {/* Success Animation Overlay */}
