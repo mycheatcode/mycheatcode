@@ -224,7 +224,7 @@ export default function ChatPage() {
           .then(data => {
             appendMessage({
               id: uid(),
-              text: data.reply || 'Let's keep going. What part of that moment feels hardest?',
+              text: data.reply || "Let's keep going. What part of that moment feels hardest?",
               sender: 'coach',
               timestamp: new Date(),
             });
