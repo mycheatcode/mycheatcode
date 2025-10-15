@@ -123,35 +123,22 @@ export default function WaitlistV2Page() {
             </button>
           </div>
 
-          {/* iPhone Mockup Container */}
+          {/* iPhone Mockup Container - Square with rounded corners like MyFitnessPal */}
           <div className="flex justify-center items-center mb-16">
-            <div className="relative" style={{ width: '280px', height: '605px' }}>
-              {/* iPhone Frame */}
-              <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-
-                {/* Screen Content Area - Placeholder for screenshot */}
-                <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                  <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                    <div className="text-center px-6">
-                      <div className="text-5xl mb-3">📱</div>
-                      <p className="text-gray-500 text-xs font-medium">App Screenshot</p>
-                      <p className="text-gray-400 text-[10px] mt-1">Place screenshot here</p>
-                      <p className="text-gray-300 text-[10px] mt-0.5">1170 x 2532 px</p>
-                    </div>
-                  </div>
+            <div className="relative rounded-[40px] overflow-hidden shadow-2xl" style={{
+              width: '340px',
+              height: '680px',
+              background: 'linear-gradient(135deg, #E8D5FF 0%, #D4E4FF 100%)'
+            }}>
+              {/* Screenshot Placeholder */}
+              <div className="w-full h-full flex items-center justify-center p-8">
+                <div className="text-center">
+                  <div className="text-6xl mb-4">📱</div>
+                  <p className="text-gray-600 text-sm font-medium">App Screenshot</p>
+                  <p className="text-gray-500 text-xs mt-2">Place screenshot here</p>
+                  <p className="text-gray-400 text-xs mt-1">1170 x 2532 px</p>
                 </div>
-
-                {/* Home Indicator */}
-                <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
               </div>
-
-              {/* Phone Shadow */}
-              <div className="absolute inset-0 rounded-[42px]" style={{
-                boxShadow: '0 30px 60px rgba(0, 0, 0, 0.4), 0 12px 24px rgba(0, 0, 0, 0.25)',
-                pointerEvents: 'none'
-              }}></div>
             </div>
           </div>
 
@@ -268,19 +255,17 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative" style={{ width: '280px', height: '605px' }}>
-                <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                      <div className="text-center px-6">
-                        <div className="text-5xl mb-3">📱</div>
-                        <p className="text-gray-500 text-xs font-medium">Demo Video 1</p>
-                        <p className="text-gray-400 text-[10px] mt-1">Chat Interface</p>
-                      </div>
-                    </div>
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl" style={{
+                width: '340px',
+                height: '680px',
+                background: 'linear-gradient(135deg, #E8D5FF 0%, #D4E4FF 100%)'
+              }}>
+                <div className="w-full h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">📱</div>
+                    <p className="text-gray-600 text-sm font-medium">Demo Video 1</p>
+                    <p className="text-gray-500 text-xs mt-2">Chat Interface</p>
                   </div>
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                 </div>
               </div>
             </div>
@@ -297,19 +282,17 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative" style={{ width: '280px', height: '605px' }}>
-                <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                      <div className="text-center px-6">
-                        <div className="text-5xl mb-3">📱</div>
-                        <p className="text-gray-500 text-xs font-medium">Demo Video 2</p>
-                        <p className="text-gray-400 text-[10px] mt-1">Cheat Code Creation</p>
-                      </div>
-                    </div>
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl" style={{
+                width: '340px',
+                height: '680px',
+                background: 'linear-gradient(135deg, #FFE8D5 0%, #FFD4D4 100%)'
+              }}>
+                <div className="w-full h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">📱</div>
+                    <p className="text-gray-600 text-sm font-medium">Demo Video 2</p>
+                    <p className="text-gray-500 text-xs mt-2">Cheat Code Creation</p>
                   </div>
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                 </div>
               </div>
             </div>
@@ -326,19 +309,17 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative" style={{ width: '280px', height: '605px' }}>
-                <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                      <div className="text-center px-6">
-                        <div className="text-5xl mb-3">📱</div>
-                        <p className="text-gray-500 text-xs font-medium">Demo Video 3</p>
-                        <p className="text-gray-400 text-[10px] mt-1">My Codes Library</p>
-                      </div>
-                    </div>
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl" style={{
+                width: '340px',
+                height: '680px',
+                background: 'linear-gradient(135deg, #D5FFE8 0%, #D4FFE4 100%)'
+              }}>
+                <div className="w-full h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">📱</div>
+                    <p className="text-gray-600 text-sm font-medium">Demo Video 3</p>
+                    <p className="text-gray-500 text-xs mt-2">My Codes Library</p>
                   </div>
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                 </div>
               </div>
             </div>
@@ -355,19 +336,17 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative" style={{ width: '280px', height: '605px' }}>
-                <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                      <div className="text-center px-6">
-                        <div className="text-5xl mb-3">📱</div>
-                        <p className="text-gray-500 text-xs font-medium">Demo Video 4</p>
-                        <p className="text-gray-400 text-[10px] mt-1">Community Topics</p>
-                      </div>
-                    </div>
+              <div className="relative rounded-[40px] overflow-hidden shadow-2xl" style={{
+                width: '340px',
+                height: '680px',
+                background: 'linear-gradient(135deg, #FFE8F5 0%, #FFD4E4 100%)'
+              }}>
+                <div className="w-full h-full flex items-center justify-center p-8">
+                  <div className="text-center">
+                    <div className="text-6xl mb-4">📱</div>
+                    <p className="text-gray-600 text-sm font-medium">Demo Video 4</p>
+                    <p className="text-gray-500 text-xs mt-2">Community Topics</p>
                   </div>
-                  <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                 </div>
               </div>
             </div>
