@@ -908,25 +908,26 @@ export default function MyCodesPage() {
               </button>
 
               {/* Card Content */}
-              <div className="flex-1 flex flex-col items-center justify-center text-center px-4 lg:px-6">
-                {(() => {
-                  const cards = buildCards(selectedCode);
-                  const card = cards[currentCard];
+              <div className="flex-1 flex flex-col px-4 lg:px-6 py-6 lg:py-8">
+                <div className="flex-1 flex flex-col items-center text-center pt-8 lg:pt-12">
+                  {(() => {
+                    const cards = buildCards(selectedCode);
+                    const card = cards[currentCard];
 
-                  return (
-                    <>
-                      {/* Title Card */}
-                      {card.type === 'title' && (
-                        <div className="space-y-6 lg:space-y-8">
-                          <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
-                            {(card as any).title}
-                          </h1>
-                          <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                          <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                            {(card as any).category}
+                    return (
+                      <>
+                        {/* Title Card */}
+                        {card.type === 'title' && (
+                          <div className="space-y-6 lg:space-y-8">
+                            <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                              {(card as any).title}
+                            </h1>
+                            <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                            <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                              {(card as any).category}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
 
                       {/* Section Cards (What, When) */}
                       {card.type === 'section' && (card as any).heading !== 'Why' && (
@@ -1021,12 +1022,13 @@ export default function MyCodesPage() {
                     </>
                   );
                 })()}
-              </div>
+                </div>
 
-              {/* Branding - Bottom Right */}
-              <div className="absolute bottom-4 right-4 lg:bottom-6 lg:right-6">
-                <div className="text-[10px] lg:text-xs font-semibold tracking-wider opacity-40" style={{ color: 'var(--accent-color)' }}>
-                  MYCHEATCODE.AI
+                {/* Footer with Branding */}
+                <div className="pt-4 lg:pt-6 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                  <div className="text-[10px] lg:text-xs font-semibold tracking-wider opacity-40" style={{ color: 'var(--accent-color)' }}>
+                    MYCHEATCODE.AI
+                  </div>
                 </div>
               </div>
             </div>
