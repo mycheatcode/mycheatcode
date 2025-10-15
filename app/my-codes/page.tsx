@@ -908,8 +908,8 @@ export default function MyCodesPage() {
               </button>
 
               {/* Card Content */}
-              <div className="flex-1 flex flex-col px-4 lg:px-6 py-6 lg:py-8">
-                <div className="flex-1 flex flex-col items-center text-center pt-8 lg:pt-12">
+              <div className="flex-1 flex flex-col justify-between px-4 lg:px-6 py-6 lg:py-8">
+                <div className="flex flex-col items-center text-center pt-8 lg:pt-12">
                   {(() => {
                     const cards = buildCards(selectedCode);
                     const card = cards[currentCard];
@@ -932,7 +932,7 @@ export default function MyCodesPage() {
                       {/* Section Cards (What, When) */}
                       {card.type === 'section' && (card as any).heading !== 'Why' && (
                         <div className="space-y-6 lg:space-y-8 max-w-md">
-                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                             {(card as any).heading}
                           </div>
                           <p className="text-xl lg:text-2xl font-medium leading-[1.4]" style={{ color: 'var(--text-primary)' }}>
@@ -944,7 +944,7 @@ export default function MyCodesPage() {
                       {/* Why Card */}
                       {card.type === 'section' && (card as any).heading === 'Why' && (
                         <div className="space-y-6 lg:space-y-8 max-w-lg">
-                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                             {(card as any).heading}
                           </div>
                           <div className="space-y-4 lg:space-y-6">
@@ -961,7 +961,7 @@ export default function MyCodesPage() {
                       {card.type === 'step' && 'stepNumber' in card && (
                         <div className="space-y-6 lg:space-y-8 max-w-lg">
                           <div className="space-y-2 lg:space-y-3">
-                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                               {(card as any).heading}
                             </div>
                             <div className="text-xs lg:text-sm font-semibold" style={{ color: 'var(--text-tertiary)' }}>
@@ -982,7 +982,7 @@ export default function MyCodesPage() {
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
                         <div className="space-y-8 lg:space-y-10 w-full max-w-md">
-                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--text-secondary)' }}>
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                             Your Cheat Code Phrase
                           </div>
                           <div className="space-y-6 lg:space-y-8">
@@ -1025,8 +1025,8 @@ export default function MyCodesPage() {
                 </div>
 
                 {/* Footer with Branding */}
-                <div className="pt-4 lg:pt-6 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                  <div className="text-[10px] lg:text-xs font-semibold tracking-wider opacity-40" style={{ color: 'var(--accent-color)' }}>
+                <div className="pt-3 border-t mt-6" style={{ borderColor: 'var(--card-border)' }}>
+                  <div className="text-[10px] lg:text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                     MYCHEATCODE.AI
                   </div>
                 </div>
