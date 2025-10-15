@@ -135,7 +135,7 @@ export default function Home() {
         </div>
 
         {/* Progress Visualizer */}
-        <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-6">
+        <div className="w-full max-w-[240px] md:max-w-[320px] aspect-square mb-1">
           <ProgressCircles
             theme="dark"
             onProgressUpdate={setProgressPercentage}
@@ -148,7 +148,7 @@ export default function Home() {
             {progressPercentage}%
           </div>
           <p className="text-sm md:text-base" style={{ color: 'var(--text-secondary)' }}>
-            Elite players keep their momentum above 85%
+            Elite players stay above 85%
           </p>
         </div>
 
