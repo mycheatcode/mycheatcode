@@ -94,7 +94,7 @@ export default function WaitlistV2Page() {
                 The first AI basketball confidence coach
               </p>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-white">
-                Build Real<br />
+                Build<br />
                 On Court<br />
                 Confidence
               </h1>
