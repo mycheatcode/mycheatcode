@@ -179,9 +179,9 @@ export default function WaitlistV2Page() {
       </div>
 
       {/* Wave Transition */}
-      <div className="relative h-24">
-        <svg className="absolute bottom-0 w-full h-24" preserveAspectRatio="none" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 0L60 8.5C120 17 240 34 360 37.3C480 40.7 600 30.3 720 28.2C840 26 960 32 1080 34C1200 36 1320 34 1380 33L1440 32V74H1380C1320 74 1200 74 1080 74C960 74 840 74 720 74C600 74 480 74 360 74C240 74 120 74 60 74H0V0Z" fill="#00b248"/>
+      <div className="relative h-20" style={{ backgroundColor: '#FFFFFF' }}>
+        <svg className="absolute bottom-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z" fill="#00b248"/>
         </svg>
       </div>
 
@@ -385,9 +385,9 @@ export default function WaitlistV2Page() {
       </section>
 
       {/* Wave Transition - Green to White */}
-      <div className="relative h-24" style={{ backgroundColor: '#FFFFFF' }}>
-        <svg className="absolute top-0 w-full h-24" preserveAspectRatio="none" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 74L60 65.5C120 57 240 40 360 36.7C480 33.3 600 43.7 720 45.8C840 48 960 42 1080 40C1200 38 1320 40 1380 41L1440 42V0H1380C1320 0 1200 0 1080 0C960 0 840 0 720 0C600 0 480 0 360 0C240 0 120 0 60 0H0V74Z" fill="#007a2e"/>
+      <div className="relative h-20" style={{ backgroundColor: '#FFFFFF' }}>
+        <svg className="absolute top-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0,120 C240,40 480,40 720,80 C960,120 1200,120 1440,80 L1440,0 L0,0 Z" fill="#007a2e"/>
         </svg>
       </div>
 
