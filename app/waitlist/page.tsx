@@ -101,9 +101,10 @@ export default function WaitlistV2Page() {
               onClick={() => {
                 const form = document.getElementById('waitlist-form');
                 if (form) {
-                  const yOffset = -100;
-                  const y = form.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                  window.scrollTo({ top: y, behavior: 'smooth' });
+                  const elementRect = form.getBoundingClientRect();
+                  const absoluteElementTop = elementRect.top + window.pageYOffset;
+                  const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+                  window.scrollTo({ top: middle, behavior: 'smooth' });
                 }
               }}
               className={`px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-base font-bold transition-all hover:scale-105 ${
@@ -143,9 +144,10 @@ export default function WaitlistV2Page() {
                   onClick={() => {
                     const form = document.getElementById('waitlist-form');
                     if (form) {
-                      const yOffset = -100;
-                      const y = form.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                      window.scrollTo({ top: y, behavior: 'smooth' });
+                      const elementRect = form.getBoundingClientRect();
+                      const absoluteElementTop = elementRect.top + window.pageYOffset;
+                      const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+                      window.scrollTo({ top: middle, behavior: 'smooth' });
                     }
                   }}
                   className="px-12 py-4 rounded-full text-xl font-bold transition-all hover:scale-105 flex items-center gap-2 mx-auto md:mx-0 shadow-xl"
@@ -546,7 +548,7 @@ export default function WaitlistV2Page() {
       {/* Final CTA Section - White background */}
       <section className="py-32 px-4" style={{ backgroundColor: '#FFFFFF' }}>
         <div className="max-w-3xl mx-auto text-center space-y-8">
-          <h2 className="text-4xl md:text-7xl font-bold text-black leading-tight">
+          <h2 className="text-3xl md:text-7xl font-bold text-black leading-tight">
             Get your confidence<br />cheat code
           </h2>
           <p className="text-lg md:text-xl text-gray-600">
