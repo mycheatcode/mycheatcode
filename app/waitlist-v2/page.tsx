@@ -136,11 +136,12 @@ export default function WaitlistV2Page() {
               <div className="relative" style={{ width: '280px', height: '560px' }}>
                 <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                   {/* Screen Content Area - Home Page Screenshot */}
-                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                  <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <img
                       src="/waitlist-media/home-page.png"
                       alt="MyCheatCode Home Page"
                       className="w-full h-full object-cover"
+                      style={{ objectPosition: 'center 8%' }}
                     />
                   </div>
 
@@ -272,11 +273,12 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#000000' }}>
                       <img
                         src="/waitlist-media/chat-with-coach.png"
                         alt="Chat with AI Coach"
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 8%' }}
                       />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
@@ -297,14 +299,14 @@ export default function WaitlistV2Page() {
               </p>
             </div>
             <div className="flex justify-center">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
+              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
                 width: '400px',
-                height: '400px',
+                height: '600px',
                 background: 'linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%)'
               }}>
-                <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
+                <div className="relative" style={{ width: '280px', height: '560px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#000000' }}>
                       <video
                         src="/waitlist-media/cheat-code-cue-cards.mov"
                         autoPlay
@@ -312,6 +314,7 @@ export default function WaitlistV2Page() {
                         muted
                         playsInline
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 8%' }}
                       />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
@@ -339,11 +342,12 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#000000' }}>
                       <img
                         src="/waitlist-media/my-codes-library.png"
                         alt="My Codes Library"
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 8%' }}
                       />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
@@ -371,11 +375,12 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+                    <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#000000' }}>
                       <img
                         src="/waitlist-media/community-topics.png"
                         alt="Community Topics"
                         className="w-full h-full object-cover"
+                        style={{ objectPosition: 'center 8%' }}
                       />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
