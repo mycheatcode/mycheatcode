@@ -100,7 +100,11 @@ export default function WaitlistV2Page() {
             <button
               onClick={() => {
                 const form = document.getElementById('waitlist-form');
-                form?.scrollIntoView({ behavior: 'smooth' });
+                if (form) {
+                  const yOffset = -100;
+                  const y = form.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
+                }
               }}
               className={`px-6 py-2 md:px-8 md:py-3 rounded-full text-sm md:text-base font-bold transition-all hover:scale-105 ${
                 showHeaderButton ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-4 pointer-events-none'
@@ -138,7 +142,11 @@ export default function WaitlistV2Page() {
                 <button
                   onClick={() => {
                     const form = document.getElementById('waitlist-form');
-                    form?.scrollIntoView({ behavior: 'smooth' });
+                    if (form) {
+                      const yOffset = -100;
+                      const y = form.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                      window.scrollTo({ top: y, behavior: 'smooth' });
+                    }
                   }}
                   className="px-12 py-4 rounded-full text-xl font-bold transition-all hover:scale-105 flex items-center gap-2 mx-auto md:mx-0 shadow-xl"
                   style={{ backgroundColor: '#00b248', color: '#FFFFFF' }}
