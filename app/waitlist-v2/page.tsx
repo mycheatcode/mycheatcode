@@ -145,7 +145,6 @@ export default function WaitlistV2Page() {
                 </div>
               </div>
             </div>
-          </div>
 
           {/* Star Rating & Testimonials Section */}
           <div className="text-center mb-16">
