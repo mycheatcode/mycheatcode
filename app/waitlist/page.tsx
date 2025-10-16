@@ -103,7 +103,7 @@ export default function WaitlistV2Page() {
                 if (form) {
                   const elementRect = form.getBoundingClientRect();
                   const absoluteElementTop = elementRect.top + window.pageYOffset;
-                  const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+                  const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2) - 150;
                   window.scrollTo({ top: middle, behavior: 'smooth' });
                 }
               }}
@@ -146,7 +146,7 @@ export default function WaitlistV2Page() {
                     if (form) {
                       const elementRect = form.getBoundingClientRect();
                       const absoluteElementTop = elementRect.top + window.pageYOffset;
-                      const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+                      const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2) - 150;
                       window.scrollTo({ top: middle, behavior: 'smooth' });
                     }
                   }}
