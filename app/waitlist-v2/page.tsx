@@ -125,13 +125,8 @@ export default function WaitlistV2Page() {
               </button>
             </div>
 
-            {/* iPhone Mockup Container - iPhone inside square container like MyFitnessPal */}
+            {/* iPhone Mockup - No container background */}
             <div className="flex justify-center items-center mb-16">
-              <div className="relative rounded-[40px] overflow-visible shadow-2xl p-8 flex items-center justify-center" style={{
-                width: '400px',
-                height: '600px',
-                background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)'
-              }}>
               {/* iPhone Frame */}
               <div className="relative" style={{ width: '280px', height: '560px' }}>
                 <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
