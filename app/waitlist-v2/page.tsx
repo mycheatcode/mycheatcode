@@ -78,35 +78,21 @@ export default function WaitlistV2Page() {
     <div className="min-h-screen">
       {/* Hero Section with Gradient Background - Like MyFitnessPal */}
       <div style={{ background: 'linear-gradient(180deg, #00e676 0%, #00c853 50%, #00b248 100%)' }}>
-        {/* Header Navigation */}
-        <header className="container mx-auto px-4 py-6">
-          <nav className="flex items-center justify-center gap-3 flex-wrap">
-            <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all" style={{ backgroundColor: '#FFFFFF', color: '#00b248' }}>
-              Reviews
-            </button>
-            <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/10" style={{ backgroundColor: 'transparent', borderColor: '#FFFFFF', color: '#FFFFFF' }}>
-              How It Works
-            </button>
-            <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/10" style={{ backgroundColor: 'transparent', borderColor: '#FFFFFF', color: '#FFFFFF' }}>
-              Apps
-            </button>
-            <button className="px-6 py-2.5 rounded-full text-sm font-semibold transition-all border-2 hover:bg-white/10" style={{ backgroundColor: 'transparent', borderColor: '#FFFFFF', color: '#FFFFFF' }}>
-              Our Philosophy
-            </button>
-          </nav>
-        </header>
-
         {/* Hero Section */}
-        <main className="container mx-auto px-4 py-8 pb-20">
+        <main className="container mx-auto px-4 pt-16 pb-20">
           <div className="max-w-6xl mx-auto">
             {/* Headline */}
             <div className="text-center mb-8">
+              <p className="text-lg md:text-xl text-white/90 mb-4">
+                The first AI basketball confidence coach
+              </p>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-white">
-                Mental coaching.<br />
-                <span className="text-white/80">Powered by AI.</span>
+                Build Real<br />
+                On Court<br />
+                Confidence
               </h1>
               <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8">
-                Build confidence and master the mental side of basketball.
+                Master the mental game of basketball and unlock your full potential on the court.
               </p>
 
               {/* CTA Button */}
