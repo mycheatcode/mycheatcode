@@ -49,10 +49,10 @@ function ConfirmContent() {
 
   if (status === 'loading') {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-zinc-400">Confirming your email...</p>
+          <div className="w-8 h-8 border-2 border-gray-300 border-t-green-600 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-gray-600">Confirming your email...</p>
         </div>
       </div>
     );
@@ -60,53 +60,53 @@ function ConfirmContent() {
 
   if (status === 'success') {
     return (
-      <div className="min-h-screen bg-black text-white">
+      <div className="min-h-screen bg-white">
         <main className="min-h-screen flex items-center justify-center px-4 py-8">
           <div className="w-full max-w-md text-center">
             {/* Success Icon */}
-            <div className="w-20 h-20 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-8">
+            <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-8" style={{ backgroundColor: '#00b248' }}>
               <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
               </svg>
             </div>
 
             {/* Logo */}
             <div className="inline-block mb-6">
-              <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold" style={{ color: '#00b248' }}>
                 MyCheatCode
               </h1>
             </div>
 
-            <h2 className="text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl font-bold mb-4 text-black">
               Email Confirmed!
             </h2>
 
-            <p className="text-lg text-zinc-400 mb-8 leading-relaxed">
+            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
               Thanks for confirming your email, {email}. You're now officially on the MyCheatCode early access list.
             </p>
 
             {/* What's Next */}
-            <div className="bg-zinc-900 border border-zinc-700 rounded-lg p-6 mb-8 text-left">
-              <h3 className="text-lg font-semibold text-white mb-3">What happens next?</h3>
-              <ul className="text-zinc-300 space-y-2">
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 mb-8 text-left">
+              <h3 className="text-lg font-semibold text-black mb-3">What happens next?</h3>
+              <ul className="text-gray-700 space-y-2">
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-400 mt-1">•</span>
+                  <span className="mt-1" style={{ color: '#00b248' }}>•</span>
                   <span>We'll send you exclusive updates as we build your AI basketball coach</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-400 mt-1">•</span>
+                  <span className="mt-1" style={{ color: '#00b248' }}>•</span>
                   <span>You'll get early access before the public launch</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-blue-400 mt-1">•</span>
+                  <span className="mt-1" style={{ color: '#00b248' }}>•</span>
                   <span>Your feedback will help shape the final product</span>
                 </li>
               </ul>
             </div>
 
             {/* Contact */}
-            <div className="text-sm text-zinc-400">
-              <p>Questions? Email us at <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">team@mycheatcode.ai</a></p>
+            <div className="text-sm text-gray-600">
+              <p>Questions? Email us at <a href="mailto:team@mycheatcode.ai" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode.ai</a></p>
             </div>
           </div>
         </main>
@@ -118,28 +118,28 @@ function ConfirmContent() {
   const isExpired = status === 'expired';
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-white">
       <main className="min-h-screen flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-md text-center">
           {/* Error Icon */}
-          <div className="w-20 h-20 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-8">
+          <div className="w-20 h-20 bg-red-500 rounded-full flex items-center justify-center mx-auto mb-8">
             <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
 
           {/* Logo */}
           <div className="inline-block mb-6">
-            <h1 className="text-xl font-bold bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            <h1 className="text-xl font-bold" style={{ color: '#00b248' }}>
               MyCheatCode
             </h1>
           </div>
 
-          <h2 className="text-3xl font-bold mb-4 text-white">
+          <h2 className="text-3xl font-bold mb-4 text-black">
             {isExpired ? 'Link Expired' : 'Confirmation Failed'}
           </h2>
 
-          <p className="text-lg text-zinc-400 mb-8 leading-relaxed">
+          <p className="text-lg text-gray-600 mb-8 leading-relaxed">
             {isExpired
               ? 'This confirmation link has expired. Please sign up again to get a new confirmation email.'
               : 'We couldn\'t confirm your email. The link may be invalid or already used.'
@@ -150,15 +150,16 @@ function ConfirmContent() {
           <div className="mb-8">
             <a
               href="/waitlist"
-              className="inline-block px-6 py-3 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl transition-all duration-200"
+              className="inline-block px-6 py-3 text-white font-bold rounded-xl transition-all duration-200 hover:opacity-90"
+              style={{ backgroundColor: '#00b248' }}
             >
               Sign Up Again
             </a>
           </div>
 
           {/* Contact */}
-          <div className="text-sm text-zinc-400">
-            <p>Need help? Email us at <a href="mailto:team@mycheatcode.ai" className="text-blue-400 hover:text-blue-300">team@mycheatcode.ai</a></p>
+          <div className="text-sm text-gray-600">
+            <p>Need help? Email us at <a href="mailto:team@mycheatcode.ai" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode.ai</a></p>
           </div>
         </div>
       </main>
@@ -168,7 +169,7 @@ function ConfirmContent() {
 
 export default function ConfirmPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><p className="text-gray-600">Loading...</p></div>}>
       <ConfirmContent />
     </Suspense>
   );
