@@ -138,16 +138,13 @@ export default function WaitlistV2Page() {
                   {/* Notch */}
                   <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
 
-                  {/* Screen Content Area - Placeholder for screenshot */}
+                  {/* Screen Content Area - Home Page Screenshot */}
                   <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                    <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                      <div className="text-center px-6">
-                        <div className="text-5xl mb-3">📱</div>
-                        <p className="text-gray-500 text-xs font-medium">App Screenshot</p>
-                        <p className="text-gray-400 text-[10px] mt-1">Place screenshot here</p>
-                        <p className="text-gray-300 text-[10px] mt-0.5">1170 x 2532 px</p>
-                      </div>
-                    </div>
+                    <img
+                      src="/waitlist-media/home-page.png"
+                      alt="MyCheatCode Home Page"
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
                   {/* Home Indicator */}
@@ -280,13 +277,11 @@ export default function WaitlistV2Page() {
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                      <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                        <div className="text-center px-6">
-                          <div className="text-5xl mb-3">📱</div>
-                          <p className="text-gray-500 text-xs font-medium">Demo Video 1</p>
-                          <p className="text-gray-400 text-[10px] mt-1">Chat Interface</p>
-                        </div>
-                      </div>
+                      <img
+                        src="/waitlist-media/chat-with-coach.png"
+                        alt="Chat with AI Coach"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                   </div>
@@ -315,13 +310,14 @@ export default function WaitlistV2Page() {
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                      <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                        <div className="text-center px-6">
-                          <div className="text-5xl mb-3">📱</div>
-                          <p className="text-gray-500 text-xs font-medium">Demo Video 2</p>
-                          <p className="text-gray-400 text-[10px] mt-1">Cheat Code Creation</p>
-                        </div>
-                      </div>
+                      <video
+                        src="/waitlist-media/cheat-code-cue-cards.mov"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                   </div>
@@ -350,13 +346,11 @@ export default function WaitlistV2Page() {
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                      <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                        <div className="text-center px-6">
-                          <div className="text-5xl mb-3">📱</div>
-                          <p className="text-gray-500 text-xs font-medium">Demo Video 3</p>
-                          <p className="text-gray-400 text-[10px] mt-1">My Codes Library</p>
-                        </div>
-                      </div>
+                      <img
+                        src="/waitlist-media/my-codes-library.png"
+                        alt="My Codes Library"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                   </div>
@@ -385,13 +379,11 @@ export default function WaitlistV2Page() {
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
                     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
-                      <div className="w-full h-full flex items-center justify-center" style={{ backgroundColor: '#F5F5F5' }}>
-                        <div className="text-center px-6">
-                          <div className="text-5xl mb-3">📱</div>
-                          <p className="text-gray-500 text-xs font-medium">Demo Video 4</p>
-                          <p className="text-gray-400 text-[10px] mt-1">Community Topics</p>
-                        </div>
-                      </div>
+                      <img
+                        src="/waitlist-media/community-topics.png"
+                        alt="Community Topics"
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 w-[100px] h-[4px] bg-gray-300 rounded-full"></div>
                   </div>
