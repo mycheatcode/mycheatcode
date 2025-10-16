@@ -64,24 +64,24 @@ export default function WaitlistV2Page() {
 
   if (showSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center px-4" style={{ background: 'linear-gradient(180deg, #8BA5D5 0%, #5B7EC8 50%, #4169E1 100%)' }}>
-        <div className="max-w-md w-full text-center space-y-6 bg-white/10 backdrop-blur-md rounded-3xl p-8">
-          <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: '#FFFFFF' }}>
+        <div className="max-w-md w-full text-center space-y-6 bg-white rounded-3xl p-8 shadow-2xl border border-gray-100">
+          <div className="w-20 h-20 rounded-full flex items-center justify-center mx-auto" style={{ backgroundColor: '#00b248' }}>
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
             </svg>
           </div>
           <div className="space-y-3">
-            <h1 className="text-3xl font-bold text-white">
+            <h1 className="text-3xl md:text-4xl font-bold text-black">
               Check your email
             </h1>
-            <p className="text-lg text-white/90">
+            <p className="text-lg text-gray-600">
               We sent you a confirmation link. Click it to secure your spot.
             </p>
           </div>
           <button
             onClick={() => setShowSuccess(false)}
-            className="text-white/80 hover:text-white underline text-sm"
+            className="text-gray-500 hover:text-gray-700 underline text-sm font-medium"
           >
             Try again
           </button>
