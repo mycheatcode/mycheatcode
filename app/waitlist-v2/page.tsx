@@ -78,12 +78,19 @@ export default function WaitlistV2Page() {
     <div className="min-h-screen">
       {/* Hero Section with Gradient Background - Like MyFitnessPal */}
       <div style={{ background: 'linear-gradient(180deg, #00e676 0%, #00c853 50%, #00b248 100%)' }}>
+        {/* Brand Header */}
+        <header className="container mx-auto px-4 pt-6">
+          <div className="flex items-center justify-center">
+            <h2 className="text-2xl md:text-3xl font-bold text-white">mycheatcode</h2>
+          </div>
+        </header>
+
         {/* Hero Section */}
-        <main className="container mx-auto px-4 pt-16 pb-20">
+        <main className="container mx-auto px-4 pt-12 pb-20">
           <div className="max-w-6xl mx-auto">
             {/* Headline */}
             <div className="text-center mb-8">
-              <p className="text-lg md:text-xl text-white/90 mb-4">
+              <p className="text-base md:text-lg text-white/90 mb-4">
                 The first AI basketball confidence coach
               </p>
               <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-white">
