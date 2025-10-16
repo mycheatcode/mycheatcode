@@ -80,8 +80,8 @@ export default function WaitlistV2Page() {
       <div style={{ background: 'linear-gradient(180deg, #00e676 0%, #00c853 50%, #00b248 100%)' }}>
         {/* Brand Header */}
         <header className="container mx-auto px-4 pt-6">
-          <div className="flex items-center justify-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-white">mycheatcode</h2>
+          <div className="flex items-center justify-start">
+            <h2 className="text-xl md:text-2xl font-bold text-white">MYCHEATCODE</h2>
           </div>
         </header>
 
