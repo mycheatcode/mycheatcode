@@ -110,7 +110,7 @@ export default function WaitlistV2Page() {
                 className="px-12 py-4 rounded-full text-xl font-bold transition-all hover:scale-105 flex items-center gap-2 mx-auto shadow-xl"
                 style={{ backgroundColor: '#FFFFFF', color: '#00b248' }}
               >
-                START TODAY
+                JOIN WAITLIST
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
                 </svg>
