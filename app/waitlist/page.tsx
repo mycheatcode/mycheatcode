@@ -216,7 +216,7 @@ export default function WaitlistV2Page() {
                 </div>
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
-                Chat with your coach
+                Chat with your AI coach
               </h2>
               <p className="text-xl leading-relaxed text-white/90 text-center md:text-left max-w-xl mx-auto md:mx-0">
                 Each conversation is geared towards confidence, and handling what the game throws at you
