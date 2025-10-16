@@ -178,13 +178,6 @@ export default function WaitlistV2Page() {
         </main>
       </div>
 
-      {/* Wave Transition */}
-      <div className="relative h-20" style={{ backgroundColor: '#FFFFFF' }}>
-        <svg className="absolute bottom-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,0 C240,80 480,80 720,40 C960,0 1200,0 1440,40 L1440,120 L0,120 Z" fill="#00b248"/>
-        </svg>
-      </div>
-
       {/* How It Works Section - Green background with decorative elements */}
       <section className="relative py-20 px-4 overflow-hidden" style={{ background: 'linear-gradient(180deg, #00b248 0%, #009639 50%, #007a2e 100%)' }}>
         {/* Decorative circles */}
@@ -206,13 +199,13 @@ export default function WaitlistV2Page() {
           {/* Feature 1: Chat with your coach */}
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             {/* Text Content */}
-            <div className="space-y-6 order-1 md:order-2">
-              <div className="flex justify-center md:justify-start mb-4">
+            <div className="order-1 md:order-2 px-4 md:px-0">
+              <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>1</span>
                 </div>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left">
+              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Chat with your coach
               </h2>
               <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
@@ -250,13 +243,13 @@ export default function WaitlistV2Page() {
           {/* Feature 2: Get personalized cheat codes */}
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content - on left for desktop */}
-            <div className="space-y-6 order-1 md:order-1">
-              <div className="flex justify-center md:justify-start mb-4">
+            <div className="order-1 md:order-1 px-4 md:px-0">
+              <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>2</span>
                 </div>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left">
+              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Get personalized cheat codes
               </h2>
               <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
@@ -296,13 +289,13 @@ export default function WaitlistV2Page() {
           {/* Feature 3: Collect your codes */}
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content */}
-            <div className="space-y-6 order-1 md:order-2">
-              <div className="flex justify-center md:justify-start mb-4">
+            <div className="order-1 md:order-2 px-4 md:px-0">
+              <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>3</span>
                 </div>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left">
+              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Save & collect your codes
               </h2>
               <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
@@ -340,13 +333,13 @@ export default function WaitlistV2Page() {
           {/* Feature 4: Browse topics */}
           <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content - on left for desktop */}
-            <div className="space-y-6 order-1 md:order-1">
-              <div className="flex justify-center md:justify-start mb-4">
+            <div className="order-1 md:order-1 px-4 md:px-0">
+              <div className="flex justify-center md:justify-start mb-6">
                 <div className="px-6 py-3 bg-white rounded-full shadow-lg">
                   <span className="text-base font-bold" style={{ color: '#00b248' }}>BONUS FEATURE</span>
                 </div>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left">
+              <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Community topics
               </h2>
               <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
@@ -383,13 +376,6 @@ export default function WaitlistV2Page() {
 
         </div>
       </section>
-
-      {/* Wave Transition - Green to White */}
-      <div className="relative h-20" style={{ backgroundColor: '#FFFFFF' }}>
-        <svg className="absolute top-0 w-full h-20" preserveAspectRatio="none" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0,120 C240,40 480,40 720,80 C960,120 1200,120 1440,80 L1440,0 L0,0 Z" fill="#007a2e"/>
-        </svg>
-      </div>
 
       {/* Track Your Progress Section - White background with subtle pattern */}
       <section className="relative py-20 px-4 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
