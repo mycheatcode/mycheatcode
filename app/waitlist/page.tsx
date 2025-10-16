@@ -197,9 +197,9 @@ export default function WaitlistV2Page() {
           </div>
 
           {/* Feature 1: Chat with your coach */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          <div className="md:grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             {/* Text Content */}
-            <div className="order-1 md:order-2 px-4 md:px-0">
+            <div className="order-1 md:order-2 mb-12 md:mb-0">
               <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>1</span>
@@ -208,7 +208,7 @@ export default function WaitlistV2Page() {
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Chat with your coach
               </h2>
-              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
+              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left max-w-xl mx-auto md:mx-0">
                 Each conversation is geared towards confidence, and handling what the game throws at you
               </p>
             </div>
@@ -241,9 +241,9 @@ export default function WaitlistV2Page() {
           </div>
 
           {/* Feature 2: Get personalized cheat codes */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
+          <div className="md:grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content - on left for desktop */}
-            <div className="order-1 md:order-1 px-4 md:px-0">
+            <div className="order-1 md:order-1 mb-12 md:mb-0">
               <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>2</span>
@@ -252,7 +252,7 @@ export default function WaitlistV2Page() {
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Get personalized cheat codes
               </h2>
-              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
+              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left max-w-xl mx-auto md:mx-0">
                 Your AI coach creates custom step-by-step strategies you can rely on.
               </p>
             </div>
@@ -287,9 +287,9 @@ export default function WaitlistV2Page() {
           </div>
 
           {/* Feature 3: Collect your codes */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
+          <div className="md:grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content */}
-            <div className="order-1 md:order-2 px-4 md:px-0">
+            <div className="order-1 md:order-2 mb-12 md:mb-0">
               <div className="flex justify-center md:justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg">
                   <span className="text-3xl font-bold" style={{ color: '#00b248' }}>3</span>
@@ -298,7 +298,7 @@ export default function WaitlistV2Page() {
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Save & collect your codes
               </h2>
-              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
+              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left max-w-xl mx-auto md:mx-0">
                 Add and use your strategies all season long. Accessible anytime, anywhere.
               </p>
             </div>
@@ -331,9 +331,9 @@ export default function WaitlistV2Page() {
           </div>
 
           {/* Feature 4: Browse topics */}
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
+          <div className="md:grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mt-32">
             {/* Text Content - on left for desktop */}
-            <div className="order-1 md:order-1 px-4 md:px-0">
+            <div className="order-1 md:order-1 mb-12 md:mb-0">
               <div className="flex justify-center md:justify-start mb-6">
                 <div className="px-6 py-3 bg-white rounded-full shadow-lg">
                   <span className="text-base font-bold" style={{ color: '#00b248' }}>BONUS FEATURE</span>
@@ -342,7 +342,7 @@ export default function WaitlistV2Page() {
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center md:text-left mb-6">
                 Community topics
               </h2>
-              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left">
+              <p className="text-xl leading-relaxed text-white/90 text-center md:text-left max-w-xl mx-auto md:mx-0">
                 Browse common topics among players for a quick start
               </p>
             </div>
