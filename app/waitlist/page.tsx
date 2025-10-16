@@ -544,7 +544,7 @@ export default function WaitlistV2Page() {
           <p className="text-lg md:text-xl text-gray-600">
             Sign up now and get early access at launch
           </p>
-          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-4">
+          <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-3 pt-4" id="waitlist-form">
             <div className="flex gap-3">
               <input
                 type="text"
