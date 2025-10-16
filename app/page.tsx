@@ -137,7 +137,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(600px,93vw)] aspect-square -my-16">
+          <div className="w-[min(400px,85vw)] aspect-square -my-8">
             <ProgressCircles
               theme="dark"
               onProgressUpdate={setProgressPercentage}

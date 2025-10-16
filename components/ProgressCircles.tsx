@@ -55,8 +55,8 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
 
       // Scale radii based on container size (use smaller dimension)
       const baseSize = Math.min(w, h);
-      const progressRadius = baseSize * 0.25;  // 25% of container
-      const goalRadius = baseSize * 0.475;     // 47.5% of container
+      const progressRadius = baseSize * 0.18;  // 18% of container
+      const goalRadius = baseSize * 0.34;      // 34% of container
       const segments = 100;
 
       // Draw goal circle (outer, filled and translucent)
