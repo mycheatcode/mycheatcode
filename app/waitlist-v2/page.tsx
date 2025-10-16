@@ -135,9 +135,6 @@ export default function WaitlistV2Page() {
               {/* iPhone Frame */}
               <div className="relative" style={{ width: '280px', height: '560px' }}>
                 <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  {/* Notch */}
-                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
-
                   {/* Screen Content Area - Home Page Screenshot */}
                   <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                     <img
@@ -275,7 +272,6 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                       <img
                         src="/waitlist-media/chat-with-coach.png"
@@ -308,7 +304,6 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                       <video
                         src="/waitlist-media/cheat-code-cue-cards.mov"
@@ -344,7 +339,6 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                       <img
                         src="/waitlist-media/my-codes-library.png"
@@ -377,7 +371,6 @@ export default function WaitlistV2Page() {
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black shadow-2xl overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[105px] h-[22px] bg-black rounded-b-3xl z-20"></div>
                     <div className="absolute inset-[2px] rounded-[34px] overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
                       <img
                         src="/waitlist-media/community-topics.png"
