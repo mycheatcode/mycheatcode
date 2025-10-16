@@ -178,9 +178,20 @@ export default function WaitlistV2Page() {
         </main>
       </div>
 
-      {/* How It Works Section - Green background */}
-      <section className="py-20 px-4" style={{ background: 'linear-gradient(180deg, #00b248 0%, #009639 50%, #007a2e 100%)' }}>
-        <div className="max-w-6xl mx-auto space-y-20">
+      {/* Wave Transition */}
+      <div className="relative h-24">
+        <svg className="absolute bottom-0 w-full h-24" preserveAspectRatio="none" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0L60 8.5C120 17 240 34 360 37.3C480 40.7 600 30.3 720 28.2C840 26 960 32 1080 34C1200 36 1320 34 1380 33L1440 32V74H1380C1320 74 1200 74 1080 74C960 74 840 74 720 74C600 74 480 74 360 74C240 74 120 74 60 74H0V0Z" fill="#00b248"/>
+        </svg>
+      </div>
+
+      {/* How It Works Section - Green background with decorative elements */}
+      <section className="relative py-20 px-4 overflow-hidden" style={{ background: 'linear-gradient(180deg, #00b248 0%, #009639 50%, #007a2e 100%)' }}>
+        {/* Decorative circles */}
+        <div className="absolute top-20 right-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 left-10 w-96 h-96 bg-white/5 rounded-full blur-3xl"></div>
+
+        <div className="max-w-6xl mx-auto space-y-20 relative z-10">
 
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -210,10 +221,11 @@ export default function WaitlistV2Page() {
             </div>
             {/* iPhone Image */}
             <div className="flex justify-center md:justify-end order-2 md:order-1">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden p-8 flex items-start justify-center transition-transform hover:scale-105 duration-300" style={{
                 width: '400px',
                 height: '400px',
-                background: '#FFFFFF'
+                background: '#FFFFFF',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black overflow-hidden" style={{
@@ -299,10 +311,11 @@ export default function WaitlistV2Page() {
             </div>
             {/* iPhone Image */}
             <div className="flex justify-center md:justify-end order-2 md:order-1">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden p-8 flex items-start justify-center transition-transform hover:scale-105 duration-300" style={{
                 width: '400px',
                 height: '400px',
-                background: '#FFFFFF'
+                background: '#FFFFFF',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black overflow-hidden" style={{
@@ -342,10 +355,11 @@ export default function WaitlistV2Page() {
             </div>
             {/* iPhone Image - on right for desktop */}
             <div className="flex justify-center md:justify-start order-2 md:order-2">
-              <div className="relative rounded-[40px] overflow-hidden shadow-2xl p-8 flex items-start justify-center" style={{
+              <div className="relative rounded-[40px] overflow-hidden p-8 flex items-start justify-center transition-transform hover:scale-105 duration-300" style={{
                 width: '400px',
                 height: '400px',
-                background: '#FFFFFF'
+                background: '#FFFFFF',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05)'
               }}>
                 <div className="relative" style={{ width: '280px', height: '560px', marginTop: '-20px' }}>
                   <div className="absolute inset-0 rounded-[42px] border-[10px] border-black overflow-hidden" style={{
@@ -370,9 +384,22 @@ export default function WaitlistV2Page() {
         </div>
       </section>
 
-      {/* Track Your Progress Section - White background */}
-      <section className="py-20 px-4" style={{ backgroundColor: '#FFFFFF' }}>
-        <div className="max-w-6xl mx-auto">
+      {/* Wave Transition - Green to White */}
+      <div className="relative h-24" style={{ backgroundColor: '#FFFFFF' }}>
+        <svg className="absolute top-0 w-full h-24" preserveAspectRatio="none" viewBox="0 0 1440 74" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 74L60 65.5C120 57 240 40 360 36.7C480 33.3 600 43.7 720 45.8C840 48 960 42 1080 40C1200 38 1320 40 1380 41L1440 42V0H1380C1320 0 1200 0 1080 0C960 0 840 0 720 0C600 0 480 0 360 0C240 0 120 0 60 0H0V74Z" fill="#007a2e"/>
+        </svg>
+      </div>
+
+      {/* Track Your Progress Section - White background with subtle pattern */}
+      <section className="relative py-20 px-4 overflow-hidden" style={{ backgroundColor: '#FFFFFF' }}>
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 opacity-[0.02]" style={{
+          backgroundImage: 'linear-gradient(#00b248 1px, transparent 1px), linear-gradient(90deg, #00b248 1px, transparent 1px)',
+          backgroundSize: '50px 50px'
+        }}></div>
+
+        <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
               Track Your Progress
