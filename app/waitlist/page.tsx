@@ -133,8 +133,8 @@ export default function WaitlistV2Page() {
                   Build On Court Confidence
                 </p>
                 <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-black">
-                  <span className="md:hidden">The first AI basketball<br />confidence coach</span>
-                  <span className="hidden md:inline">The first AI basketball<br />confidence coach</span>
+                  The first AI basketball<br />
+                  confidence coach
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto md:mx-0 mb-8">
                   Master the mental game of basketball and unlock your full potential on the court.
