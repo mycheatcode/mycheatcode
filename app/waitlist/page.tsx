@@ -8,6 +8,7 @@ export default function WaitlistV2Page() {
   const [firstName, setFirstName] = useState('');
   const [email, setEmail] = useState('');
   const [ageBracket, setAgeBracket] = useState('');
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -29,7 +30,7 @@ export default function WaitlistV2Page() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isSubmitting || !email || !ageBracket) return;
+    if (isSubmitting || !email || !ageBracket || !ageConfirmed) return;
 
     setIsSubmitting(true);
     setError('');
@@ -508,6 +509,22 @@ export default function WaitlistV2Page() {
               {
                 question: "Do I need basketball experience to use this?",
                 answer: "No! Whether you're just starting out or playing at an elite level, MyCheatCode.AI adapts to your experience and helps you build confidence for your specific situations."
+              },
+              {
+                question: "Is this therapy or counseling?",
+                answer: "No. MyCheatCode.AI is a mental performance coaching tool focused on building confidence and mental toughness. We are not therapists, and this is not a replacement for professional mental health services. Think of it like having a knowledgeable older player who helps you work through the mental side of basketball."
+              },
+              {
+                question: "Who is this for?",
+                answer: "Basketball players ages 13-24 who want to strengthen their mental game. Whether you're dealing with shooting slumps, coach relationships, pre-game nerves, or staying motivated, our AI coach helps you work through it."
+              },
+              {
+                question: "Is my information private?",
+                answer: "Absolutely. Your conversations are completely private and anonymous. Even if your team or club provides access, coaches and administrators cannot see your individual conversations - they only see overall usage numbers."
+              },
+              {
+                question: "What if I'm dealing with something serious?",
+                answer: "If you're experiencing a mental health crisis, thoughts of self-harm, or other serious concerns, please reach out to a qualified professional immediately. You can contact the 988 Suicide & Crisis Lifeline (call or text 988) or the Crisis Text Line (text HOME to 741741). MyCheatCode.AI is designed for performance coaching, not crisis intervention."
               }
             ].map((faq, index) => (
               <details key={index} className="group border-b border-gray-200">
@@ -541,6 +558,12 @@ export default function WaitlistV2Page() {
             <span className="font-bold text-lg" style={{ color: '#00ff41' }}>College</span>
             <span className="font-bold text-lg text-black">AAU</span>
             <span className="font-bold text-lg" style={{ color: '#00ff41' }}>Semi-Pro</span>
+          </div>
+          {/* Disclaimer */}
+          <div className="pt-8">
+            <p className="text-xs text-gray-400 leading-relaxed max-w-3xl mx-auto">
+              MyCheatCode.AI provides mental performance coaching and is not a substitute for professional mental health services. Users must be 13+. <Link href="#" className="underline hover:text-gray-500">Terms</Link> | <Link href="#" className="underline hover:text-gray-500">Privacy</Link> | <Link href="#" className="underline hover:text-gray-500">Crisis Resources</Link>
+            </p>
           </div>
         </div>
       </section>
@@ -615,10 +638,24 @@ export default function WaitlistV2Page() {
               }}
               required
             />
+            <label className="flex items-center gap-2 px-2 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={ageConfirmed}
+                onChange={(e) => {
+                  setAgeConfirmed(e.target.checked);
+                  setError('');
+                }}
+                className="w-4 h-4 rounded border-gray-300 cursor-pointer"
+                style={{ accentColor: '#00ff41' }}
+                required
+              />
+              <span className="text-sm text-gray-600">I confirm I am 13 years or older</span>
+            </label>
             <button
               type="submit"
-              disabled={isSubmitting || !email || !ageBracket}
-              className="w-full px-6 py-3.5 rounded-full text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed"
+              disabled={isSubmitting || !email || !ageBracket || !ageConfirmed}
+              className="w-full px-6 py-3.5 rounded-full text-sm font-bold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
               style={{
                 backgroundColor: '#00ff41',
                 color: '#000000',
