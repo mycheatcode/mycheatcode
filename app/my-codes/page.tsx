@@ -565,7 +565,7 @@ export default function MyCodesPage() {
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {/* Page Title */}
           <div className="text-3xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-          <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of mental performance cheat codes</div>
+          <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of confidence boosting cheat codes</div>
 
         </div>
 
@@ -753,7 +753,7 @@ export default function MyCodesPage() {
           {/* Header */}
           <div className="mb-8">
             <div className="text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-            <div className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of mental performance cheat codes</div>
+            <div className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of confidence boosting cheat codes</div>
           </div>
 
           {/* Categories Filter */}
