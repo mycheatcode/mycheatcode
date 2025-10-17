@@ -130,11 +130,11 @@ export default function WaitlistV2Page() {
               {/* Headline - Mobile centered, Desktop left-aligned */}
               <div className="text-center mb-8 md:text-left md:mb-0 md:order-1">
                 <p className="text-base md:text-lg text-gray-600 mb-4">
-                  Build On Court Confidence
+                  Build on court confidence
                 </p>
-                <h1 className="text-[2rem] md:text-6xl font-bold leading-tight mb-4 text-black uppercase">
-                  The first AI basketball<br />
-                  confidence coach
+                <h1 className="text-[2rem] md:text-6xl font-bold leading-tight mb-4 text-black capitalize">
+                  The First AI Basketball<br />
+                  Confidence Coach
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto md:mx-0 mb-8">
                   Master the mental game of basketball and unlock your full potential on the court.
