@@ -770,47 +770,45 @@ export default function ChatPage() {
 
         {/* Sidebar Navigation - Hidden by default, shown when menu is open */}
         <div
-          className={`fixed top-0 left-0 h-full w-80 border-r flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-          style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+          className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ backgroundColor: '#000000' }}
         >
-          <div className="pt-20"></div>
+          <div className="pt-24 px-6">
+            <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
+          </div>
 
-          <nav className="flex-1">
-            <div>
-              <Link href="/" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <nav className="flex-1 px-4">
+            <div className="space-y-1">
+              <Link href="/" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
                 </svg>
                 <span>Home</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/my-codes" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/my-codes" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
                 <span>My Codes</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-3 p-4 cursor-pointer transition-colors relative" style={{ color: 'var(--text-secondary)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
                 <span>Community Topics</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/chat-history" className="flex items-center gap-3 p-4 font-medium cursor-pointer transition-colors relative" style={{ color: 'var(--text-primary)', backgroundColor: 'var(--card-bg)', opacity: 0.8 }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--accent-color)' }}>
+              <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
                 </svg>
                 <span>Chat History</span>
-                <div className="absolute bottom-0 left-4 right-4 h-px" style={{ backgroundColor: 'var(--card-border)' }}></div>
               </Link>
 
-              <Link href="/profile" className="flex items-center gap-3 p-4 cursor-pointer transition-colors" style={{ color: 'var(--text-secondary)' }}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <Link href="/profile" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
                 <span>Profile</span>
