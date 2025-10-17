@@ -132,8 +132,8 @@ export default function WaitlistV2Page() {
                 <p className="text-base md:text-lg text-gray-600 mb-4">
                   Build On Court Confidence
                 </p>
-                <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 text-black">
-                  <span className="whitespace-nowrap">The first AI basketball</span><br />
+                <h1 className="text-[2rem] md:text-6xl font-bold leading-tight mb-4 text-black">
+                  The first AI basketball<br />
                   confidence coach
                 </h1>
                 <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto md:mx-0 mb-8">
