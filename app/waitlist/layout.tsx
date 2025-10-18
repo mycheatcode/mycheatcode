@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "AI Confidence Coach - Join Waitlist",
-  description: "The first AI basketball confidence coach. Build on court confidence and unlock your full potential. Join the waitlist for early access.",
+  description: "Master the mental game of basketball and unlock your full potential on the court.",
   icons: {
     icon: '/icon.svg',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: "AI Confidence Coach - Join Waitlist",
-    description: "The first AI basketball confidence coach. Build on court confidence and unlock your full potential. Join the waitlist for early access.",
+    description: "Master the mental game of basketball and unlock your full potential on the court.",
     url: "https://www.mycheatcode.ai/waitlist",
     siteName: "AI Confidence Coach - Join Waitlist",
     type: "website",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "AI Confidence Coach - Join Waitlist",
-    description: "The first AI basketball confidence coach. Build on court confidence and unlock your full potential. Join the waitlist for early access.",
+    description: "Master the mental game of basketball and unlock your full potential on the court.",
     images: ['https://www.mycheatcode.ai/og-image.png'],
   },
 };
