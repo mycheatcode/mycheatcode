@@ -23,17 +23,17 @@ export const metadata: Metadata = {
   viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
   icons: {
     icon: '/icon.svg',
-    apple: '/apple-icon.svg',
+    apple: '/apple-touch-icon.png',
   },
   openGraph: {
     title: "AI Confidence Coach - Join Waitlist",
     description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
     url: "https://www.mycheatcode.ai",
-    siteName: "MyCheatCode",
+    siteName: "AI Confidence Coach - Join Waitlist",
     type: "website",
     images: [
       {
-        url: '/opengraph-image.svg',
+        url: 'https://www.mycheatcode.ai/og-image.png',
         width: 1200,
         height: 630,
         alt: 'MyCheatCode AI',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AI Confidence Coach - Join Waitlist",
     description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
-    images: ['/twitter-image.svg'],
+    images: ['https://www.mycheatcode.ai/og-image.png'],
   },
 };
 
