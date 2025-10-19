@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     // Check if email exists in database
     const { data: signup, error: fetchError } = await supabase
       .from('waitlist_signups')
-      .select('email, status, confirmed_at')
+      .select('email, status, confirmed_at, email_send_attempts')
       .eq('email', email.toLowerCase())
       .single();
 
@@ -42,16 +42,31 @@ export async function POST(request: NextRequest) {
     const result = await sendConfirmationEmail(email.toLowerCase());
 
     if (!result.success) {
+      // Track failed attempt
+      await supabase
+        .from('waitlist_signups')
+        .update({
+          email_sent_successfully: false,
+          email_error: result.error || 'Failed to send email',
+          email_send_attempts: (signup.email_send_attempts || 0) + 1
+        })
+        .eq('email', email.toLowerCase());
+
       return NextResponse.json({
         success: false,
         error: result.error || 'Failed to send email'
       }, { status: 500 });
     }
 
-    // Update last_email_sent timestamp
+    // Update with success
     await supabase
       .from('waitlist_signups')
-      .update({ last_email_sent: new Date().toISOString() })
+      .update({
+        last_email_sent: new Date().toISOString(),
+        email_sent_successfully: true,
+        email_error: null,
+        email_send_attempts: (signup.email_send_attempts || 0) + 1
+      })
       .eq('email', email.toLowerCase());
 
     return NextResponse.json({

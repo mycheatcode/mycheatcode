@@ -159,11 +159,32 @@ export async function POST(request: NextRequest) {
       } as WaitlistApiResponse, { status: 500 });
     }
 
-    // Send confirmation email (don't block response on this)
-    sendConfirmationEmail(data.email.toLowerCase()).catch(error => {
-      console.error('Failed to send confirmation email:', error);
-      // Could log this to an error tracking service
-    });
+    // Send confirmation email and track the result
+    sendConfirmationEmail(data.email.toLowerCase())
+      .then(async (result) => {
+        // Update the database with email send status
+        await supabase
+          .from('waitlist_signups')
+          .update({
+            email_sent_successfully: result.success,
+            email_error: result.error || null,
+            email_send_attempts: 1,
+            last_email_sent: new Date().toISOString()
+          })
+          .eq('email', data.email.toLowerCase());
+      })
+      .catch(async (error) => {
+        console.error('Failed to send confirmation email:', error);
+        // Track the failure
+        await supabase
+          .from('waitlist_signups')
+          .update({
+            email_sent_successfully: false,
+            email_error: error.message || 'Unknown error',
+            email_send_attempts: 1
+          })
+          .eq('email', data.email.toLowerCase());
+      });
 
     return NextResponse.json({
       ok: true

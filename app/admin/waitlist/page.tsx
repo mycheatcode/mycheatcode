@@ -11,6 +11,9 @@ interface Signup {
   confirmed_at: string | null;
   last_email_sent: string | null;
   created_at: string;
+  email_sent_successfully: boolean | null;
+  email_error: string | null;
+  email_send_attempts: number;
 }
 
 export default function WaitlistAdminPage() {
@@ -217,6 +220,9 @@ export default function WaitlistAdminPage() {
                       Last Email
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                      Email Status
+                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Action
                     </th>
                   </tr>
@@ -224,7 +230,7 @@ export default function WaitlistAdminPage() {
                 <tbody className="divide-y divide-gray-200">
                   {filteredSignups.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                      <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
                         No signups found
                       </td>
                     </tr>
@@ -256,6 +262,38 @@ export default function WaitlistAdminPage() {
                           {signup.last_email_sent
                             ? new Date(signup.last_email_sent).toLocaleDateString()
                             : '-'}
+                        </td>
+                        <td className="px-6 py-4 text-sm">
+                          {signup.email_sent_successfully === null ? (
+                            <span className="text-gray-400 text-xs">No attempt</span>
+                          ) : signup.email_sent_successfully ? (
+                            <div className="flex flex-col gap-1">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">
+                                ✓ Delivered
+                              </span>
+                              {signup.email_send_attempts > 1 && (
+                                <span className="text-xs text-gray-500">
+                                  {signup.email_send_attempts} attempts
+                                </span>
+                              )}
+                            </div>
+                          ) : (
+                            <div className="flex flex-col gap-1">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                                ✗ Failed
+                              </span>
+                              {signup.email_error && (
+                                <span className="text-xs text-red-600 max-w-[150px] truncate" title={signup.email_error}>
+                                  {signup.email_error}
+                                </span>
+                              )}
+                              {signup.email_send_attempts > 0 && (
+                                <span className="text-xs text-gray-500">
+                                  {signup.email_send_attempts} attempts
+                                </span>
+                              )}
+                            </div>
+                          )}
                         </td>
                         <td className="px-6 py-4 text-sm">
                           {signup.status === 'confirmed' ? (

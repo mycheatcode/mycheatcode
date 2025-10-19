@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     // Fetch all signups, ordered by most recent first
     const { data: signups, error: fetchError } = await supabase
       .from('waitlist_signups')
-      .select('id, email, first_name, age_bracket, status, confirmed_at, last_email_sent, created_at')
+      .select('id, email, first_name, age_bracket, status, confirmed_at, last_email_sent, created_at, email_sent_successfully, email_error, email_send_attempts')
       .order('created_at', { ascending: false });
 
     if (fetchError) {
