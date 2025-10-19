@@ -61,13 +61,15 @@ export default function WaitlistAdminPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || 'Failed to fetch signups');
+        console.error('API Error:', data);
+        setError(data.error || `Failed to fetch signups (${response.status})`);
         return;
       }
 
       setSignups(data.signups || []);
     } catch (err) {
-      setError('Network error occurred');
+      console.error('Fetch error:', err);
+      setError(`Network error: ${err instanceof Error ? err.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }

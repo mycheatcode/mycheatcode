@@ -17,7 +17,8 @@ export async function GET(request: NextRequest) {
     if (fetchError) {
       console.error('Fetch error:', fetchError);
       return NextResponse.json({
-        error: 'Failed to fetch signups'
+        error: `Failed to fetch signups: ${fetchError.message}`,
+        details: fetchError
       }, { status: 500 });
     }
 
