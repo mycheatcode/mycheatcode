@@ -25,6 +25,7 @@ export default function WaitlistAdminPage() {
   const [error, setError] = useState('');
   const [resendingId, setResendingId] = useState<string | null>(null);
   const [resendMessage, setResendMessage] = useState<{id: string; message: string} | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Load all signups
   useEffect(() => {
@@ -98,6 +99,36 @@ export default function WaitlistAdminPage() {
       setError('Network error occurred');
     } finally {
       setResendingId(null);
+    }
+  };
+
+  const deleteUser = async (email: string, id: string) => {
+    if (!confirm(`Are you sure you want to delete ${email}?\n\nThis action cannot be undone.`)) {
+      return;
+    }
+
+    setDeletingId(id);
+    setError('');
+
+    try {
+      const response = await fetch('/api/waitlist/delete-user', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Remove from local state immediately
+        setSignups(prev => prev.filter(s => s.id !== id));
+      } else {
+        setError(data.error || 'Failed to delete user');
+      }
+    } catch (err) {
+      setError('Network error occurred');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -296,24 +327,34 @@ export default function WaitlistAdminPage() {
                           )}
                         </td>
                         <td className="px-6 py-4 text-sm">
-                          {signup.status === 'confirmed' ? (
-                            <span className="text-green-600 text-xs">✓ Done</span>
-                          ) : (
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => resendEmail(signup.email, signup.id)}
-                                disabled={resendingId === signup.id}
-                                className="px-3 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
-                              >
-                                {resendingId === signup.id ? 'Sending...' : '📧 Resend'}
-                              </button>
-                              {resendMessage?.id === signup.id && (
-                                <span className="text-green-600 text-xs whitespace-nowrap">
-                                  {resendMessage.message}
-                                </span>
-                              )}
-                            </div>
-                          )}
+                          <div className="flex items-center gap-2">
+                            {signup.status === 'confirmed' ? (
+                              <span className="text-green-600 text-xs">✓ Done</span>
+                            ) : (
+                              <>
+                                <button
+                                  onClick={() => resendEmail(signup.email, signup.id)}
+                                  disabled={resendingId === signup.id || deletingId === signup.id}
+                                  className="px-3 py-1 bg-blue-600 text-white rounded text-xs font-medium hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                                >
+                                  {resendingId === signup.id ? 'Sending...' : '📧 Resend'}
+                                </button>
+                                {resendMessage?.id === signup.id && (
+                                  <span className="text-green-600 text-xs whitespace-nowrap">
+                                    {resendMessage.message}
+                                  </span>
+                                )}
+                              </>
+                            )}
+                            <button
+                              onClick={() => deleteUser(signup.email, signup.id)}
+                              disabled={deletingId === signup.id || resendingId === signup.id}
+                              className="px-3 py-1 bg-red-600 text-white rounded text-xs font-medium hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+                              title="Delete user"
+                            >
+                              {deletingId === signup.id ? 'Deleting...' : '🗑️ Delete'}
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))
