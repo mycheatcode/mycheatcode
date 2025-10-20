@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import TypingAnimation from '../../components/TypingAnimation';
 import { createClient } from '@/lib/supabase/client';
 import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
+import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -44,6 +45,8 @@ export default function ChatPage() {
   const [initialized, setInitialized] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [savedCheatCodes, setSavedCheatCodes] = useState<Set<string>>(new Set());
+  const [savingCheatCode, setSavingCheatCode] = useState<string | null>(null);
   const router = useRouter();
   const supabase = createClient();
 
@@ -513,6 +516,56 @@ export default function ChatPage() {
     }
   };
 
+  /** Handle saving a cheat code to My Codes */
+  const handleSaveCheatCode = async (messageId: string, cheatCodeText: string) => {
+    if (!userId) {
+      alert('You must be logged in to save cheat codes');
+      return;
+    }
+
+    if (savedCheatCodes.has(messageId)) {
+      return; // Already saved
+    }
+
+    setSavingCheatCode(messageId);
+
+    try {
+      const cheatCode = parseCheatCode(cheatCodeText);
+
+      const cheatCodeData: CheatCodeData = {
+        title: cheatCode.title || 'Untitled Cheat Code',
+        category: cheatCode.category || 'In-Game',
+        what: cheatCode.what,
+        when: cheatCode.when,
+        how: cheatCode.how,
+        why: cheatCode.why,
+        phrase: cheatCode.phrase,
+        practice: cheatCode.practice,
+      };
+
+      const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
+
+      if (error) {
+        alert('Failed to save cheat code. Please try again.');
+        console.error('Error saving cheat code:', error);
+      } else {
+        // Mark as saved
+        setSavedCheatCodes(prev => new Set(prev).add(messageId));
+
+        // Log activity
+        await logActivity(userId, 'cheat_code_saved', {
+          cheat_code_id: cheatCodeId,
+          chat_id: currentChatId,
+        });
+      }
+    } catch (err) {
+      console.error('Unexpected error saving cheat code:', err);
+      alert('An unexpected error occurred');
+    } finally {
+      setSavingCheatCode(null);
+    }
+  };
+
   const sendMessage = async () => {
     const trimmed = inputText.trim();
     if (!trimmed) return;
@@ -689,8 +742,21 @@ export default function ChatPage() {
 
                                 {/* Add to My Codes Button */}
                                 <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                                  <button className="w-full font-medium py-2.5 px-4 rounded-lg transition-colors border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}>
-                                    Add to "My Codes"
+                                  <button
+                                    onClick={() => handleSaveCheatCode(message.id, cheatCodeText)}
+                                    disabled={savingCheatCode === message.id || savedCheatCodes.has(message.id)}
+                                    className="w-full font-medium py-2.5 px-4 rounded-lg transition-colors border disabled:opacity-50"
+                                    style={{
+                                      backgroundColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-bg)',
+                                      borderColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-border)',
+                                      color: savedCheatCodes.has(message.id) ? '#000' : 'var(--text-primary)'
+                                    }}
+                                  >
+                                    {savingCheatCode === message.id
+                                      ? 'Saving...'
+                                      : savedCheatCodes.has(message.id)
+                                      ? '✓ Saved to My Codes'
+                                      : 'Add to "My Codes"'}
                                   </button>
                                 </div>
                               </div>
@@ -939,8 +1005,21 @@ export default function ChatPage() {
 
                                     {/* Add to My Codes Button */}
                                     <div className="mt-6 pt-4 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                                      <button className="w-full font-medium py-3 px-4 rounded-xl transition-colors border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}>
-                                        Add to "My Codes"
+                                      <button
+                                        onClick={() => handleSaveCheatCode(message.id, cheatCodeText)}
+                                        disabled={savingCheatCode === message.id || savedCheatCodes.has(message.id)}
+                                        className="w-full font-medium py-3 px-4 rounded-xl transition-colors border disabled:opacity-50"
+                                        style={{
+                                          backgroundColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-bg)',
+                                          borderColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-border)',
+                                          color: savedCheatCodes.has(message.id) ? '#000' : 'var(--text-primary)'
+                                        }}
+                                      >
+                                        {savingCheatCode === message.id
+                                          ? 'Saving...'
+                                          : savedCheatCodes.has(message.id)
+                                          ? '✓ Saved to My Codes'
+                                          : 'Add to "My Codes"'}
                                       </button>
                                     </div>
                                   </div>
