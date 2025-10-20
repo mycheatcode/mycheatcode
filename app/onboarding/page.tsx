@@ -37,6 +37,17 @@ const CONFIDENCE_GOALS = [
   { value: 'consistency', label: 'Play with consistent confidence' }
 ];
 
+const TOPICS = [
+  { id: 'pre_game_nerves', title: 'Pre-Game Nerves', emoji: '😰', description: 'Feeling anxious before games' },
+  { id: 'missed_shots', title: 'Bouncing Back from Missed Shots', emoji: '🎯', description: 'Recovering quickly after mistakes' },
+  { id: 'pressure_moments', title: 'Pressure Situations', emoji: '⚡', description: 'Staying calm in clutch moments' },
+  { id: 'comparing_teammates', title: 'Comparing to Teammates', emoji: '👥', description: 'Feeling less skilled than others' },
+  { id: 'coach_criticism', title: 'Coach\'s Reactions', emoji: '📣', description: 'Handling feedback and criticism' },
+  { id: 'negative_self_talk', title: 'Negative Self-Talk', emoji: '💭', description: 'Stopping the inner critic' },
+  { id: 'inconsistent_performance', title: 'Inconsistent Performance', emoji: '📊', description: 'Playing well one day, poorly the next' },
+  { id: 'playing_up_competition', title: 'Playing Better Competition', emoji: '🏆', description: 'Confidence against stronger opponents' }
+];
+
 export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
@@ -49,7 +60,7 @@ export default function OnboardingPage() {
   const [confidenceLevel, setConfidenceLevel] = useState(3);
   const [blockers, setBlockers] = useState<string[]>([]);
   const [goal, setGoal] = useState('');
-  const [why, setWhy] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('');
 
   const router = useRouter();
   const supabase = createClient();
@@ -76,6 +87,10 @@ export default function OnboardingPage() {
     }
     if (step === 6 && !goal) {
       setError('Please select what you want to work on');
+      return;
+    }
+    if (step === 7 && !selectedTopic) {
+      setError('Please select a topic to start with');
       return;
     }
 
@@ -126,7 +141,7 @@ export default function OnboardingPage() {
           confidence_level: confidenceLevel,
           confidence_blockers: blockers,
           confidence_goal: goal,
-          biggest_challenge: why || null,
+          biggest_challenge: null,
           onboarding_completed: true,
           updated_at: new Date().toISOString()
         })
@@ -139,8 +154,16 @@ export default function OnboardingPage() {
         return;
       }
 
-      // Success! Redirect to home
-      router.push('/');
+      // Store selected topic for chat
+      localStorage.setItem('selectedTopic', JSON.stringify({
+        id: selectedTopic,
+        title: TOPICS.find(t => t.id === selectedTopic)?.title || '',
+        description: TOPICS.find(t => t.id === selectedTopic)?.description || '',
+        isFirstCode: true
+      }));
+
+      // Success! Redirect to chat to create first code
+      router.push('/chat');
       router.refresh();
     } catch (err) {
       console.error('Submit error:', err);
@@ -373,22 +396,34 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 7: Why */}
+          {/* Step 7: Choose Starting Topic */}
           {step === 7 && (
             <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl font-bold text-center">
-                Why does this matter to you?
-              </h1>
-              <p className="text-center text-zinc-400 text-sm -mt-2">
-                Optional - but it helps me coach you better
-              </p>
-              <textarea
-                value={why}
-                onChange={(e) => setWhy(e.target.value)}
-                placeholder="Share your thoughts..."
-                rows={5}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-5 text-lg text-white placeholder-zinc-500 focus:outline-none focus:border-green-500 transition-colors resize-none"
-              />
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-center mb-3">
+                  Pick where to start
+                </h1>
+                <p className="text-center text-zinc-400 text-sm">
+                  Choose the topic that resonates most right now
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {TOPICS.map((topic) => (
+                  <button
+                    key={topic.id}
+                    onClick={() => setSelectedTopic(topic.id)}
+                    className={`p-4 rounded-xl text-left font-medium transition-all border-2 ${
+                      selectedTopic === topic.id
+                        ? 'text-black'
+                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border-zinc-700'
+                    }`}
+                    style={selectedTopic === topic.id ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
+                  >
+                    <div className="text-2xl mb-2">{topic.emoji}</div>
+                    <div className="text-sm font-semibold leading-tight">{topic.title}</div>
+                  </button>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -400,7 +435,7 @@ export default function OnboardingPage() {
             disabled={loading}
             className="w-full py-4 rounded-xl font-semibold bg-white text-black hover:bg-gray-100 transition-colors disabled:opacity-50"
           >
-            {loading ? 'Saving...' : step === totalSteps ? "Let's Go!" : 'Continue'}
+            {loading ? 'Saving...' : step === totalSteps ? "Start Coaching" : 'Continue'}
           </button>
         </div>
       </div>

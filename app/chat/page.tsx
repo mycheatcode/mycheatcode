@@ -435,14 +435,16 @@ export default function ChatPage() {
       const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
       // Static welcome message
-      let welcomeText = "What's up! I'm your mental performance coach. What do you want to talk about?";
+      let welcomeText = "What's up! I'm your confidence coach. What do you want to talk about?";
 
       if (stored) {
         try {
           const topic = JSON.parse(stored);
 
-          // Use custom starter if available, otherwise use default topic messages
-          if (topic.customStarter) {
+          // Check if this is their first code from onboarding
+          if (topic.isFirstCode) {
+            welcomeText = `Hey! Let's create your first cheat code together. You picked "${topic.title}" - tell me about a recent time when this came up for you. What happened?`;
+          } else if (topic.customStarter) {
             welcomeText = topic.customStarter;
           } else {
             const topicMessages = [
@@ -487,14 +489,16 @@ export default function ChatPage() {
       } as any);
     }
 
-    // Meta: primary issue + number of turns
+    // Meta: primary issue + number of turns + first code flag
     const primaryIssue = typeof window !== 'undefined' ? localStorage.getItem('primary_issue') : null;
+    const isFirstCode = (selectedTopic as any)?.isFirstCode || false;
 
     return {
       messages: history,
       meta: {
         primaryIssue: primaryIssue || undefined,
         turns: history.length,
+        isFirstCode: isFirstCode,
       },
       userId: userId, // Include user ID for personalization
     };

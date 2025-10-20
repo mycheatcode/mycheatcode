@@ -128,10 +128,11 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Expect: { messages: [{role, content}...], meta?: { primaryIssue?: string, turns?: number }, userId?: string }
+    // Expect: { messages: [{role, content}...], meta?: { primaryIssue?: string, turns?: number, isFirstCode?: boolean }, userId?: string }
     const clientMessages = Array.isArray(body?.messages) ? (body.messages as ChatMsg[]) : [];
     const meta = body?.meta || {};
     const userId = body?.userId;
+    const isFirstCode = meta?.isFirstCode || false;
     const lastUser = [...clientMessages].reverse().find(m => m.role === 'user')?.content ?? '';
     const userExplicitlyAskedForCode = EXPLICIT_CODE_REGEX.test(lastUser);
 
@@ -201,11 +202,20 @@ export async function POST(req: Request) {
 
     // 3) Phase gate
     if (shouldGateCode) {
-      messages.push({
-        role: 'system',
-        content:
-          'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: Vary your language - don\'t repeat "this will help me understand" every time. Mix up your explanations with phrases like "perfect," "got it," "makes sense," then naturally lead into the next question. Keep the personal connection but don\'t overexplain the process repeatedly.',
-      });
+      // If it's their first code, be more eager to create it
+      if (isFirstCode && turns >= 2) {
+        messages.push({
+          role: 'system',
+          content:
+            'This is their FIRST cheat code. After 2-3 focused questions about their specific situation, you should create a cheat code. Be encouraging and explain this is their first personalized confidence tool. When you DO create it, first explain what the code will help them with in 1-2 sentences, then present the formatted cheat code using the required format labels.',
+        });
+      } else {
+        messages.push({
+          role: 'system',
+          content:
+            'Do not propose a cheat code yet. Ask exactly ONE focused question to understand their situation better. IMPORTANT: Vary your language - don\'t repeat "this will help me understand" every time. Mix up your explanations with phrases like "perfect," "got it," "makes sense," then naturally lead into the next question. Keep the personal connection but don\'t overexplain the process repeatedly.',
+        });
+      }
     } else {
       messages.push({
         role: 'system',
