@@ -1,12 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
-
-// Force dynamic rendering
-export const dynamic = 'force-dynamic';
+import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -14,19 +11,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [supabase, setSupabase] = useState<any>(null);
 
   const router = useRouter();
-
-  useEffect(() => {
-    // Initialize Supabase client
-    try {
-      const client = createClientComponentClient();
-      setSupabase(client);
-    } catch (error) {
-      console.error('Failed to create Supabase client:', error);
-    }
-  }, []);
+  const supabase = createClient();
 
   const validateForm = () => {
     if (!email || !password) {
@@ -51,25 +38,31 @@ export default function LoginPage() {
     e.preventDefault();
     setError('');
 
-    if (!supabase) {
-      setError('Authentication system not ready. Please try again.');
-      return;
-    }
-
     if (!validateForm()) return;
 
     setLoading(true);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
         setError(error.message);
-      } else {
-        router.push('/');
+      } else if (data.user) {
+        // Check if user has completed onboarding
+        const { data: userData } = await supabase
+          .from('users')
+          .select('onboarding_completed')
+          .eq('id', data.user.id)
+          .single();
+
+        if (userData?.onboarding_completed) {
+          router.push('/');
+        } else {
+          router.push('/onboarding');
+        }
         router.refresh();
       }
     } catch (err) {
@@ -159,14 +152,14 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              disabled={loading || !supabase}
+              disabled={loading}
               className={`w-full py-4 rounded-xl text-lg font-bold transition-all ${
-                loading || !supabase
+                loading
                   ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
                   : 'bg-white text-black hover:bg-gray-100 active:scale-98'
               }`}
             >
-              {loading ? 'Signing In...' : !supabase ? 'Initializing...' : 'Sign In'}
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
 
@@ -264,14 +257,14 @@ export default function LoginPage() {
 
               <button
                 type="submit"
-                disabled={loading || !supabase}
+                disabled={loading}
                 className={`w-full py-4 rounded-xl text-lg font-bold transition-all ${
-                  loading || !supabase
+                  loading
                     ? 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
                     : 'bg-white text-black hover:bg-gray-100 active:scale-98'
                 }`}
               >
-                {loading ? 'Signing In...' : !supabase ? 'Initializing...' : 'Sign In'}
+                {loading ? 'Signing In...' : 'Sign In'}
               </button>
             </form>
 
