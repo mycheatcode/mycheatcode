@@ -4,12 +4,31 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import ProgressCircles from '@/components/ProgressCircles';
+import { createClient } from '@/lib/supabase/client';
+import { getUserProgress, type ProgressData } from '@/lib/progress';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [progressPercentage, setProgressPercentage] = useState(0);
+  const [progressData, setProgressData] = useState<ProgressData | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
+  const supabase = createClient();
+
+  // Get current user and load progress
+  useEffect(() => {
+    const loadProgress = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+        const progress = await getUserProgress(user.id);
+        setProgressData(progress);
+        setProgressPercentage(progress.progress);
+      }
+    };
+    loadProgress();
+  }, [supabase]);
 
   useEffect(() => {
     // Always use dark mode
