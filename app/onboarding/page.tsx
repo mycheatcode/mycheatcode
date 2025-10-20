@@ -352,7 +352,7 @@ export default function OnboardingPage() {
           {step === 6 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                What do you want to work on?
+                What do you want to work on most?
               </h1>
               <div className="space-y-3">
                 {CONFIDENCE_GOALS.map((option) => (
