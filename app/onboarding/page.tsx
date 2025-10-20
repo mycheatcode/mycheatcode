@@ -1,221 +1,432 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
+
+const AGE_OPTIONS = [
+  { value: '13-15', label: '13-15' },
+  { value: '16-18', label: '16-18' },
+  { value: '19-24', label: '19-24' },
+  { value: '25+', label: '25+' }
+];
+
+const LEVEL_OPTIONS = [
+  { value: 'middle_school', label: 'Middle School' },
+  { value: 'high_school', label: 'High School' },
+  { value: 'college', label: 'College' },
+  { value: 'rec', label: 'Rec/Pickup' },
+  { value: 'solo', label: 'Training Solo' }
+];
+
+const CONFIDENCE_BLOCKERS = [
+  { value: 'missed_shots', label: 'Missing shots' },
+  { value: 'pressure', label: 'Pressure situations' },
+  { value: 'mistakes', label: 'Making mistakes in front of others' },
+  { value: 'comparison', label: 'Comparing myself to teammates' },
+  { value: 'coach_reactions', label: "Coach's reactions" },
+  { value: 'self_talk', label: 'Negative self-talk' },
+  { value: 'competition', label: 'Playing against better competition' }
+];
+
+const CONFIDENCE_GOALS = [
+  { value: 'bounce_back', label: 'Bounce back faster after mistakes' },
+  { value: 'pressure_moments', label: 'Stay confident in pressure moments' },
+  { value: 'stop_overthinking', label: 'Stop overthinking and just play' },
+  { value: 'self_belief', label: 'Believe in myself even when struggling' },
+  { value: 'consistency', label: 'Play with consistent confidence' }
+];
 
 export default function OnboardingPage() {
-  const [currentStep, setCurrentStep] = useState(1);
-  const [selectedLevel, setSelectedLevel] = useState('');
-  const [selectedGoals, setSelectedGoals] = useState<string[]>([]);
+  const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Form data
   const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [level, setLevel] = useState('');
+  const [confidenceLevel, setConfidenceLevel] = useState(3);
+  const [blockers, setBlockers] = useState<string[]>([]);
+  const [goal, setGoal] = useState('');
+  const [why, setWhy] = useState('');
+
   const router = useRouter();
+  const supabase = createClient();
 
-  const levels = [
-    { id: 'youth', label: 'Youth/Recreational', desc: 'Just starting out or playing for fun' },
-    { id: 'high-school', label: 'High School', desc: 'Varsity or JV level competition' },
-    { id: 'college', label: 'College', desc: 'D1, D2, D3, or JUCO level' },
-    { id: 'pro', label: 'Professional', desc: 'Pro, semi-pro, or overseas' },
-  ];
+  const totalSteps = 7;
 
-  const goals = [
-    { id: 'confidence', label: 'Build Confidence', icon: '💪' },
-    { id: 'focus', label: 'Improve Focus', icon: '🎯' },
-    { id: 'pressure', label: 'Handle Pressure', icon: '🔥' },
-    { id: 'consistency', label: 'Stay Consistent', icon: '📈' },
-    { id: 'leadership', label: 'Develop Leadership', icon: '👑' },
-    { id: 'recovery', label: 'Bounce Back', icon: '🔄' },
-  ];
+  const handleNext = () => {
+    // Validation for each step
+    if (step === 1 && !name.trim()) {
+      setError('Please enter your name');
+      return;
+    }
+    if (step === 2 && !age) {
+      setError('Please select your age');
+      return;
+    }
+    if (step === 3 && !level) {
+      setError('Please select your level');
+      return;
+    }
+    if (step === 5 && blockers.length === 0) {
+      setError('Please select at least one option');
+      return;
+    }
+    if (step === 6 && !goal) {
+      setError('Please select what you want to work on');
+      return;
+    }
 
-  const handleGoalToggle = (goalId: string) => {
-    setSelectedGoals(prev =>
-      prev.includes(goalId)
-        ? prev.filter(id => id !== goalId)
-        : [...prev, goalId]
-    );
+    setError('');
+
+    if (step < totalSteps) {
+      setStep(step + 1);
+    } else {
+      handleSubmit();
+    }
   };
 
-  const handleComplete = () => {
-    // Here you would save the onboarding data to your database
-    router.push('/');
+  const handleBack = () => {
+    if (step > 1) {
+      setError('');
+      setStep(step - 1);
+    }
   };
 
-  const renderStep = () => {
-    switch (currentStep) {
-      case 1:
-        return (
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">What's your name?</h2>
-            <p className="text-zinc-400 mb-8">Let's personalize your experience</p>
+  const toggleBlocker = (blocker: string) => {
+    if (blockers.includes(blocker)) {
+      setBlockers(blockers.filter(b => b !== blocker));
+    } else {
+      if (blockers.length < 3) {
+        setBlockers([...blockers, blocker]);
+      }
+    }
+  };
 
-            <div className="max-w-md mx-auto">
+  const handleSubmit = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        setError('Not authenticated');
+        return;
+      }
+
+      const { error: updateError } = await supabase
+        .from('users')
+        .update({
+          full_name: name,
+          age_bracket: age,
+          skill_level: level,
+          confidence_level: confidenceLevel,
+          confidence_blockers: blockers,
+          confidence_goal: goal,
+          biggest_challenge: why || null,
+          onboarding_completed: true,
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', user.id);
+
+      if (updateError) {
+        console.error('Update error:', updateError);
+        setError('Failed to save your information. Please try again.');
+        setLoading(false);
+        return;
+      }
+
+      // Success! Redirect to home
+      router.push('/');
+      router.refresh();
+    } catch (err) {
+      console.error('Submit error:', err);
+      setError('An unexpected error occurred');
+      setLoading(false);
+    }
+  };
+
+  const getConfidenceLabel = (value: number) => {
+    const labels = [
+      'I doubt myself constantly',
+      'Not very confident',
+      'Sometimes confident',
+      'Usually confident',
+      'I play with full confidence'
+    ];
+    return labels[value - 1];
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white font-sans flex flex-col">
+      {/* Progress Bar */}
+      <div className="w-full bg-zinc-900 h-1">
+        <div
+          className="h-full transition-all duration-300 ease-out"
+          style={{
+            width: `${(step / totalSteps) * 100}%`,
+            backgroundColor: '#00ff41'
+          }}
+        />
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col items-center justify-center p-6 max-w-2xl mx-auto w-full">
+        {/* Step Counter */}
+        <div className="text-zinc-500 text-sm mb-8">
+          Step {step} of {totalSteps}
+        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="w-full mb-6 bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-sm">
+            {error}
+          </div>
+        )}
+
+        {/* Step Content */}
+        <div className="w-full space-y-8 animate-fade-in">
+          {/* Step 1: Name */}
+          {step === 1 && (
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                What's your name?
+              </h1>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Enter your first name"
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-4 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-500 transition-colors text-center text-lg"
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-5 text-xl text-center text-white placeholder-zinc-500 focus:outline-none focus:border-green-500 transition-colors"
+                autoFocus
               />
             </div>
-          </div>
-        );
+          )}
 
-      case 2:
-        return (
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">What level do you play at?</h2>
-            <p className="text-zinc-400 mb-8">This helps us customize your cheat codes</p>
-
-            <div className="space-y-3 max-w-md mx-auto">
-              {levels.map((level) => (
-                <button
-                  key={level.id}
-                  onClick={() => setSelectedLevel(level.id)}
-                  className={`w-full p-4 rounded-xl border transition-all text-left ${
-                    selectedLevel === level.id
-                      ? 'bg-zinc-800 border-zinc-600 text-white'
-                      : 'bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800'
-                  }`}
-                >
-                  <div className="font-semibold">{level.label}</div>
-                  <div className="text-sm text-zinc-400">{level.desc}</div>
-                </button>
-              ))}
+          {/* Step 2: Age */}
+          {step === 2 && (
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                How old are you?
+              </h1>
+              <div className="grid grid-cols-2 gap-4">
+                {AGE_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setAge(option.value)}
+                    className={`p-6 rounded-xl text-lg font-semibold transition-all ${
+                      age === option.value
+                        ? 'bg-green-500 text-black'
+                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        );
+          )}
 
-      case 3:
-        return (
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-white mb-4">What are your goals?</h2>
-            <p className="text-zinc-400 mb-8">Select all that apply (you can change these later)</p>
-
-            <div className="grid grid-cols-2 gap-3 max-w-md mx-auto">
-              {goals.map((goal) => (
-                <button
-                  key={goal.id}
-                  onClick={() => handleGoalToggle(goal.id)}
-                  className={`p-4 rounded-xl border transition-all ${
-                    selectedGoals.includes(goal.id)
-                      ? 'bg-zinc-800 border-zinc-600 text-white'
-                      : 'bg-zinc-900 border-zinc-700 text-zinc-300 hover:bg-zinc-800'
-                  }`}
-                >
-                  <div className="text-2xl mb-2">{goal.icon}</div>
-                  <div className="text-sm font-semibold">{goal.label}</div>
-                </button>
-              ))}
+          {/* Step 3: Level */}
+          {step === 3 && (
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                What level are you<br />playing at?
+              </h1>
+              <div className="space-y-3">
+                {LEVEL_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setLevel(option.value)}
+                    className={`w-full p-5 rounded-xl text-lg font-semibold transition-all ${
+                      level === option.value
+                        ? 'bg-green-500 text-black'
+                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        );
+          )}
 
-      case 4:
-        return (
-          <div className="text-center">
-            <div className="text-6xl mb-6">🎉</div>
-            <h2 className="text-3xl font-bold text-white mb-4">
-              Welcome to your mental game, {name}!
-            </h2>
-            <p className="text-zinc-400 mb-8">
-              Your personalized cheat codes are being prepared. Ready to start building your mental performance?
-            </p>
-
-            <div className="bg-zinc-900 border border-zinc-700 rounded-xl p-6 max-w-md mx-auto mb-8">
-              <h3 className="text-white font-semibold mb-4">Your Profile</h3>
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-zinc-400">Level:</span>
-                  <span className="text-white">{levels.find(l => l.id === selectedLevel)?.label}</span>
+          {/* Step 4: Confidence Level */}
+          {step === 4 && (
+            <div className="space-y-8">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                How confident do you<br />feel on the court?
+              </h1>
+              <div className="space-y-6">
+                <div className="text-center">
+                  <div className="text-6xl font-bold mb-2" style={{ color: '#00ff41' }}>
+                    {confidenceLevel}
+                  </div>
+                  <div className="text-zinc-400 text-sm">
+                    {getConfidenceLabel(confidenceLevel)}
+                  </div>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-zinc-400">Goals:</span>
-                  <span className="text-white">{selectedGoals.length} selected</span>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={confidenceLevel}
+                  onChange={(e) => setConfidenceLevel(parseInt(e.target.value))}
+                  className="w-full h-3 rounded-lg appearance-none cursor-pointer"
+                  style={{
+                    background: `linear-gradient(to right, #00ff41 0%, #00ff41 ${((confidenceLevel - 1) / 4) * 100}%, #27272a ${((confidenceLevel - 1) / 4) * 100}%, #27272a 100%)`
+                  }}
+                />
+                <div className="flex justify-between text-xs text-zinc-500">
+                  <span>1</span>
+                  <span>2</span>
+                  <span>3</span>
+                  <span>4</span>
+                  <span>5</span>
                 </div>
               </div>
             </div>
-          </div>
-        );
-    }
-  };
+          )}
 
-  const canProceed = () => {
-    switch (currentStep) {
-      case 1: return name.trim().length > 0;
-      case 2: return selectedLevel !== '';
-      case 3: return selectedGoals.length > 0;
-      case 4: return true;
-      default: return false;
-    }
-  };
-
-  return (
-    <div className="bg-black min-h-screen text-white font-sans">
-      <div className="min-h-screen flex flex-col">
-        {/* Header */}
-        <div className="p-4 border-b border-zinc-800">
-          <div className="flex items-center justify-between max-w-4xl mx-auto">
-            <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
-            <div className="text-zinc-400 text-sm">
-              Step {currentStep} of 4
+          {/* Step 5: Confidence Blockers */}
+          {step === 5 && (
+            <div className="space-y-6">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-center mb-2">
+                  What kills your<br />confidence most?
+                </h1>
+                <p className="text-center text-zinc-400 text-sm">
+                  Select up to 3
+                </p>
+              </div>
+              <div className="space-y-3">
+                {CONFIDENCE_BLOCKERS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => toggleBlocker(option.value)}
+                    className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
+                      blockers.includes(option.value)
+                        ? 'bg-green-500 text-black'
+                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span>{option.label}</span>
+                      {blockers.includes(option.value) && (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                      )}
+                    </div>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
+          )}
 
-        {/* Progress Bar */}
-        <div className="p-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="w-full bg-zinc-800 rounded-full h-2">
-              <div
-                className="bg-white h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentStep / 4) * 100}%` }}
-              ></div>
+          {/* Step 6: Goal */}
+          {step === 6 && (
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                What do you want<br />to work on?
+              </h1>
+              <div className="space-y-3">
+                {CONFIDENCE_GOALS.map((option) => (
+                  <button
+                    key={option.value}
+                    onClick={() => setGoal(option.value)}
+                    className={`w-full p-5 rounded-xl text-left font-medium transition-all ${
+                      goal === option.value
+                        ? 'bg-green-500 text-black'
+                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {/* Step 7: Why */}
+          {step === 7 && (
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-center">
+                Why does this<br />matter to you?
+              </h1>
+              <p className="text-center text-zinc-400 text-sm -mt-2">
+                Optional - but it helps me coach you better
+              </p>
+              <textarea
+                value={why}
+                onChange={(e) => setWhy(e.target.value)}
+                placeholder="Share your thoughts..."
+                rows={5}
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl p-5 text-lg text-white placeholder-zinc-500 focus:outline-none focus:border-green-500 transition-colors resize-none"
+              />
+            </div>
+          )}
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex items-center justify-center p-6">
-          <div className="w-full max-w-2xl">
-            {renderStep()}
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="p-6 border-t border-zinc-800">
-          <div className="max-w-4xl mx-auto flex justify-between">
+        {/* Navigation Buttons */}
+        <div className="w-full mt-12 flex gap-4">
+          {step > 1 && (
             <button
-              onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-              disabled={currentStep === 1}
-              className={`px-6 py-3 rounded-xl transition-all ${
-                currentStep === 1
-                  ? 'opacity-50 cursor-not-allowed text-zinc-500'
-                  : 'text-zinc-300 hover:text-white hover:bg-zinc-800'
-              }`}
+              onClick={handleBack}
+              disabled={loading}
+              className="px-8 py-4 rounded-xl font-semibold text-white bg-zinc-800 hover:bg-zinc-700 transition-colors disabled:opacity-50"
             >
               Back
             </button>
-
-            <button
-              onClick={() => {
-                if (currentStep === 4) {
-                  handleComplete();
-                } else {
-                  setCurrentStep(currentStep + 1);
-                }
-              }}
-              disabled={!canProceed()}
-              className={`px-8 py-3 rounded-xl font-semibold transition-all ${
-                canProceed()
-                  ? 'bg-white text-black hover:bg-gray-100'
-                  : 'bg-zinc-800 text-zinc-500 cursor-not-allowed'
-              }`}
-            >
-              {currentStep === 4 ? 'Start Building' : 'Continue'}
-            </button>
-          </div>
+          )}
+          <button
+            onClick={handleNext}
+            disabled={loading}
+            className="flex-1 py-4 rounded-xl font-semibold text-black transition-colors disabled:opacity-50"
+            style={{ backgroundColor: '#00ff41' }}
+          >
+            {loading ? 'Saving...' : step === totalSteps ? "Let's Go!" : 'Continue'}
+          </button>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in {
+          animation: fadeIn 0.3s ease-out;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+          appearance: none;
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #00ff41;
+          cursor: pointer;
+          border: 3px solid #000;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #00ff41;
+          cursor: pointer;
+          border: 3px solid #000;
+        }
+      `}</style>
     </div>
   );
 }
