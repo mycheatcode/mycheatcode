@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-screen font-sans relative overflow-hidden lg:max-w-none max-w-[430px] mx-auto flex flex-col" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
+    <div className="h-screen font-sans relative overflow-hidden flex flex-col" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
 
       {/* Mobile & Desktop Header with Menu */}
       <div className="absolute top-0 left-0 right-0 px-4 py-4 flex items-center justify-between z-20">
@@ -98,7 +98,7 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 justify-between">
+      <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 justify-between max-w-[430px] lg:max-w-[600px] mx-auto w-full">
         {/* Header Message */}
         <div className="text-left w-full rounded-3xl p-8 relative overflow-hidden flex-shrink-0 min-h-[140px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
