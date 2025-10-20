@@ -276,7 +276,7 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div className="space-y-8">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                How confident do you<br />feel on the court?
+                How confident do you feel<br />on the court?
               </h1>
               <div className="space-y-6">
                 <div className="text-center">
@@ -314,7 +314,7 @@ export default function OnboardingPage() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold text-center mb-2">
-                  What kills your<br />confidence most?
+                  What kills your confidence<br />most?
                 </h1>
                 <p className="text-center text-zinc-400 text-sm">
                   Select up to 3
@@ -349,7 +349,7 @@ export default function OnboardingPage() {
           {step === 6 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                What do you want<br />to work on?
+                What do you want to<br />work on?
               </h1>
               <div className="space-y-3">
                 {CONFIDENCE_GOALS.map((option) => (
@@ -373,7 +373,7 @@ export default function OnboardingPage() {
           {step === 7 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                Why does this<br />matter to you?
+                Why does this matter<br />to you?
               </h1>
               <p className="text-center text-zinc-400 text-sm -mt-2">
                 Optional - but it helps me coach you better
