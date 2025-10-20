@@ -4,6 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import TypingAnimation from '../../components/TypingAnimation';
+import { createClient } from '@/lib/supabase/client';
+import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -40,7 +42,10 @@ export default function ChatPage() {
   const [selectedTopic, setSelectedTopic] = useState<any>(null);
   const [isRestoringChat, setIsRestoringChat] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const router = useRouter();
+  const supabase = createClient();
 
   /** duplication guards */
   const pendingCoachReply = useRef<boolean>(false);
@@ -49,6 +54,20 @@ export default function ChatPage() {
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+
+  // Get current user
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      } else {
+        // Redirect to login if not authenticated
+        router.push('/login');
+      }
+    };
+    getUser();
+  }, [supabase, router]);
 
   useEffect(() => {
     // Always use dark mode
@@ -474,7 +493,24 @@ export default function ChatPage() {
         primaryIssue: primaryIssue || undefined,
         turns: history.length,
       },
+      userId: userId, // Include user ID for personalization
     };
+  };
+
+  /** Save current chat to database */
+  const saveChatToDb = async (msgs: Message[]) => {
+    if (!userId) return;
+
+    const dbMessages: DBChatMessage[] = msgs.map(m => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.text,
+      timestamp: m.timestamp.toISOString(),
+    }));
+
+    const { chatId } = await saveChat(userId, dbMessages, currentChatId || undefined);
+    if (chatId && !currentChatId) {
+      setCurrentChatId(chatId);
+    }
   };
 
   const sendMessage = async () => {
@@ -519,12 +555,25 @@ export default function ChatPage() {
       }
 
       const data = await res.json();
-      appendMessage({
+      const coachMsg: Message = {
         id: uid(),
-        text: data.reply || 'Let’s keep going. What part of that moment feels hardest?',
+        text: data.reply || 'Let's keep going. What part of that moment feels hardest?',
         sender: 'coach',
         timestamp: new Date(),
-      });
+      };
+      appendMessage(coachMsg);
+
+      // Save chat to database after receiving response
+      const updatedMessages = [...messages, userMsg, coachMsg];
+      await saveChatToDb(updatedMessages);
+
+      // Log activity for progress tracking
+      if (userId) {
+        await logActivity(userId, 'chat', {
+          message_count: updatedMessages.length,
+          chat_id: currentChatId,
+        });
+      }
     } catch (err) {
       appendMessage({
         id: uid(),

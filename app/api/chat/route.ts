@@ -63,7 +63,7 @@ function hasSubstantialConversation(messages: ChatMsg[]): boolean {
 
 // Hard, non-negotiable coaching system prompt
 const SYSTEM_PROMPT = `
-You are MyCheatCode: a supportive basketball mental performance coach who talks like a cool older sibling or trusted friend.
+You are MyCheatCode: a supportive basketball confidence coach who talks like a cool older sibling or trusted friend.
 
 Tone & Style:
 - Talk directly TO the player, like you're chatting 1-on-1 with a friend
@@ -75,6 +75,8 @@ Tone & Style:
 - DON'T assume where they are or what they're doing right now (don't say "out there on the court" or assume they're currently playing)
 
 Objectives:
+- Your primary focus is building CONFIDENCE on the basketball court
+- Help players overcome mental blocks, build self-belief, and play with consistent confidence
 - Guide first, then prescribe. Ask 3-5 focused questions before proposing a cheat code unless the user explicitly asks for one.
 - Provide context for questions when needed, but don't overexplain every single time
 - Use varied language - don't repeat the same explanatory phrases ("this will help me understand")
@@ -126,9 +128,10 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    // Expect: { messages: [{role, content}...], meta?: { primaryIssue?: string, turns?: number } }
+    // Expect: { messages: [{role, content}...], meta?: { primaryIssue?: string, turns?: number }, userId?: string }
     const clientMessages = Array.isArray(body?.messages) ? (body.messages as ChatMsg[]) : [];
     const meta = body?.meta || {};
+    const userId = body?.userId;
     const lastUser = [...clientMessages].reverse().find(m => m.role === 'user')?.content ?? '';
     const userExplicitlyAskedForCode = EXPLICIT_CODE_REGEX.test(lastUser);
 
@@ -141,7 +144,54 @@ export async function POST(req: Request) {
     // 1) Core identity
     messages.push({ role: 'system', content: SYSTEM_PROMPT });
 
-    // 2) Light memory/context
+    // 2) User personalization context from onboarding (if userId provided)
+    if (userId) {
+      try {
+        // Fetch user data from Supabase
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+        if (supabaseUrl && supabaseKey) {
+          const userDataRes = await fetch(`${supabaseUrl}/rest/v1/users?id=eq.${userId}&select=*`, {
+            headers: {
+              'apikey': supabaseKey,
+              'Authorization': `Bearer ${supabaseKey}`,
+            },
+          });
+
+          if (userDataRes.ok) {
+            const userData = await userDataRes.json();
+            if (userData && userData.length > 0) {
+              const user = userData[0];
+
+              // Build personalization context
+              const personalContext = [];
+              if (user.full_name) personalContext.push(`Player's name: ${user.full_name}`);
+              if (user.age_bracket) personalContext.push(`Age: ${user.age_bracket}`);
+              if (user.skill_level) personalContext.push(`Level: ${user.skill_level}`);
+              if (user.confidence_level) personalContext.push(`Current confidence level: ${user.confidence_level}/5`);
+              if (user.confidence_blockers && Array.isArray(user.confidence_blockers) && user.confidence_blockers.length > 0) {
+                personalContext.push(`Main confidence blockers: ${user.confidence_blockers.join(', ')}`);
+              }
+              if (user.confidence_goal) personalContext.push(`Primary goal: ${user.confidence_goal}`);
+              if (user.biggest_challenge) personalContext.push(`Why it matters to them: ${user.biggest_challenge}`);
+
+              if (personalContext.length > 0) {
+                messages.push({
+                  role: 'system',
+                  content: `Context about this player (from their onboarding):\n${personalContext.join('\n')}\n\nUse this to personalize your coaching, but don't explicitly reference "onboarding" or repeat this info verbatim. Naturally incorporate their challenges and goals into your conversation.`,
+                });
+              }
+            }
+          }
+        }
+      } catch (err) {
+        // Silently fail - continue without personalization
+        console.error('Failed to fetch user context:', err);
+      }
+    }
+
+    // 3) Light memory/context
     if (meta?.primaryIssue) {
       messages.push({
         role: 'system',
