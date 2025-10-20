@@ -237,9 +237,10 @@ export default function OnboardingPage() {
                     onClick={() => setAge(option.value)}
                     className={`p-6 rounded-xl text-lg font-semibold transition-all ${
                       age === option.value
-                        ? 'bg-green-500 text-black'
+                        ? 'text-black border-2'
                         : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
                     }`}
+                    style={age === option.value ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
                   >
                     {option.label}
                   </button>
@@ -252,7 +253,7 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                What level are you<br />playing at?
+                What level are you playing at?
               </h1>
               <div className="space-y-3">
                 {LEVEL_OPTIONS.map((option) => (
@@ -261,9 +262,10 @@ export default function OnboardingPage() {
                     onClick={() => setLevel(option.value)}
                     className={`w-full p-5 rounded-xl text-lg font-semibold transition-all ${
                       level === option.value
-                        ? 'bg-green-500 text-black'
+                        ? 'text-black border-2'
                         : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
                     }`}
+                    style={level === option.value ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
                   >
                     {option.label}
                   </button>
@@ -276,7 +278,7 @@ export default function OnboardingPage() {
           {step === 4 && (
             <div className="space-y-8">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                How confident do you feel<br />on the court?
+                How confident do you feel on the court?
               </h1>
               <div className="space-y-6">
                 <div className="text-center">
@@ -314,7 +316,7 @@ export default function OnboardingPage() {
             <div className="space-y-6">
               <div>
                 <h1 className="text-4xl md:text-5xl font-bold text-center mb-2">
-                  What kills your confidence<br />most?
+                  What kills your confidence most?
                 </h1>
                 <p className="text-center text-zinc-400 text-sm">
                   Select up to 3
@@ -327,9 +329,10 @@ export default function OnboardingPage() {
                     onClick={() => toggleBlocker(option.value)}
                     className={`w-full p-4 rounded-xl text-left font-medium transition-all ${
                       blockers.includes(option.value)
-                        ? 'bg-green-500 text-black'
+                        ? 'text-black border-2'
                         : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
                     }`}
+                    style={blockers.includes(option.value) ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
                   >
                     <div className="flex items-center justify-between">
                       <span>{option.label}</span>
@@ -349,7 +352,7 @@ export default function OnboardingPage() {
           {step === 6 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                What do you want to<br />work on?
+                What do you want to work on?
               </h1>
               <div className="space-y-3">
                 {CONFIDENCE_GOALS.map((option) => (
@@ -358,9 +361,10 @@ export default function OnboardingPage() {
                     onClick={() => setGoal(option.value)}
                     className={`w-full p-5 rounded-xl text-left font-medium transition-all ${
                       goal === option.value
-                        ? 'bg-green-500 text-black'
+                        ? 'text-black border-2'
                         : 'bg-zinc-900 text-white hover:bg-zinc-800 border border-zinc-700'
                     }`}
+                    style={goal === option.value ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
                   >
                     {option.label}
                   </button>
@@ -373,7 +377,7 @@ export default function OnboardingPage() {
           {step === 7 && (
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl font-bold text-center">
-                Why does this matter<br />to you?
+                Why does this matter to you?
               </h1>
               <p className="text-center text-zinc-400 text-sm -mt-2">
                 Optional - but it helps me coach you better
@@ -394,8 +398,7 @@ export default function OnboardingPage() {
           <button
             onClick={handleNext}
             disabled={loading}
-            className="w-full py-4 rounded-xl font-semibold text-black transition-colors disabled:opacity-50"
-            style={{ backgroundColor: '#00ff41' }}
+            className="w-full py-4 rounded-xl font-semibold bg-white text-black hover:bg-gray-100 transition-colors disabled:opacity-50"
           >
             {loading ? 'Saving...' : step === totalSteps ? "Let's Go!" : 'Continue'}
           </button>
