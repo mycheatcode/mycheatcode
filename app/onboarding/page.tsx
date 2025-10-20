@@ -173,12 +173,30 @@ export default function OnboardingPage() {
         />
       </div>
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center p-6 max-w-2xl mx-auto w-full">
-        {/* Step Counter */}
-        <div className="text-zinc-500 text-sm mb-8">
-          Step {step} of {totalSteps}
+      {/* Header with Back Arrow */}
+      <div className="p-6 max-w-2xl mx-auto w-full">
+        <div className="flex items-center justify-between">
+          {step > 1 ? (
+            <button
+              onClick={handleBack}
+              disabled={loading}
+              className="p-2 -ml-2 text-white hover:text-green-500 transition-colors disabled:opacity-50"
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+              </svg>
+            </button>
+          ) : (
+            <div className="w-10"></div>
+          )}
+          <div className="text-zinc-500 text-sm">
+            Step {step} of {totalSteps}
+          </div>
         </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 flex flex-col p-6 pt-8 max-w-2xl mx-auto w-full">
 
         {/* Error Message */}
         {error && (
@@ -371,21 +389,12 @@ export default function OnboardingPage() {
           )}
         </div>
 
-        {/* Navigation Buttons */}
-        <div className="w-full mt-12 flex gap-4">
-          {step > 1 && (
-            <button
-              onClick={handleBack}
-              disabled={loading}
-              className="px-8 py-4 rounded-xl font-semibold text-white bg-zinc-800 hover:bg-zinc-700 transition-colors disabled:opacity-50"
-            >
-              Back
-            </button>
-          )}
+        {/* Continue Button */}
+        <div className="w-full mt-12">
           <button
             onClick={handleNext}
             disabled={loading}
-            className="flex-1 py-4 rounded-xl font-semibold text-black transition-colors disabled:opacity-50"
+            className="w-full py-4 rounded-xl font-semibold text-black transition-colors disabled:opacity-50"
             style={{ backgroundColor: '#00ff41' }}
           >
             {loading ? 'Saving...' : step === totalSteps ? "Let's Go!" : 'Continue'}
