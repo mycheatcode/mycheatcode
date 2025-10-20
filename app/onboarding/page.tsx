@@ -38,14 +38,62 @@ const CONFIDENCE_GOALS = [
 ];
 
 const TOPICS = [
-  { id: 'pre_game_nerves', title: 'Pre-Game Nerves', emoji: '😰', description: 'Feeling anxious before games' },
-  { id: 'missed_shots', title: 'Bouncing Back from Missed Shots', emoji: '🎯', description: 'Recovering quickly after mistakes' },
-  { id: 'pressure_moments', title: 'Pressure Situations', emoji: '⚡', description: 'Staying calm in clutch moments' },
-  { id: 'comparing_teammates', title: 'Comparing to Teammates', emoji: '👥', description: 'Feeling less skilled than others' },
-  { id: 'coach_criticism', title: 'Coach\'s Reactions', emoji: '📣', description: 'Handling feedback and criticism' },
-  { id: 'negative_self_talk', title: 'Negative Self-Talk', emoji: '💭', description: 'Stopping the inner critic' },
-  { id: 'inconsistent_performance', title: 'Inconsistent Performance', emoji: '📊', description: 'Playing well one day, poorly the next' },
-  { id: 'playing_up_competition', title: 'Playing Better Competition', emoji: '🏆', description: 'Confidence against stronger opponents' }
+  {
+    id: 'pre_game_nerves',
+    quote: 'I get nervous before big games',
+    context: 'When anxiety hits and your heart starts racing',
+    category: 'Pre-Game',
+    stats: '247 players worked through this'
+  },
+  {
+    id: 'missed_shots',
+    quote: 'I lose confidence after I miss my first few shots',
+    context: 'When early misses spiral into a rough shooting night',
+    category: 'In-Game',
+    stats: '156 players found their rhythm'
+  },
+  {
+    id: 'pressure_moments',
+    quote: 'I freeze up in pressure situations',
+    context: 'When the moment gets big and you tighten up',
+    category: 'In-Game',
+    stats: '203 players stayed calm'
+  },
+  {
+    id: 'comparing_teammates',
+    quote: 'I compare myself to my teammates',
+    context: 'Measuring yourself against others on your team',
+    category: 'Locker Room',
+    stats: '134 players focused inward'
+  },
+  {
+    id: 'coach_criticism',
+    quote: 'I struggle with my coach\'s criticism',
+    context: 'When feedback feels personal and harsh',
+    category: 'Off Court',
+    stats: '167 players handled it better'
+  },
+  {
+    id: 'negative_self_talk',
+    quote: 'My inner voice is too negative',
+    context: 'When your own thoughts become your worst enemy',
+    category: 'In-Game',
+    stats: '189 players changed the script'
+  },
+  {
+    id: 'inconsistent_performance',
+    quote: 'I play great one day, terrible the next',
+    context: 'When you can\'t find consistency game to game',
+    category: 'In-Game',
+    stats: '145 players found their rhythm'
+  },
+  {
+    id: 'playing_up_competition',
+    quote: 'I get intimidated by better competition',
+    context: 'When facing players who seem out of your league',
+    category: 'Pre-Game',
+    stats: '178 players found their edge'
+  }
 ];
 
 export default function OnboardingPage() {
@@ -155,10 +203,11 @@ export default function OnboardingPage() {
       }
 
       // Store selected topic for chat
+      const topic = TOPICS.find(t => t.id === selectedTopic);
       localStorage.setItem('selectedTopic', JSON.stringify({
         id: selectedTopic,
-        title: TOPICS.find(t => t.id === selectedTopic)?.title || '',
-        description: TOPICS.find(t => t.id === selectedTopic)?.description || '',
+        title: topic?.quote || '',
+        description: topic?.context || '',
         isFirstCode: true
       }));
 
@@ -407,21 +456,45 @@ export default function OnboardingPage() {
                   Choose the topic that resonates most right now
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3 max-h-[400px] overflow-y-auto">
                 {TOPICS.map((topic) => (
-                  <button
+                  <div
                     key={topic.id}
                     onClick={() => setSelectedTopic(topic.id)}
-                    className={`p-4 rounded-xl text-left font-medium transition-all border-2 ${
+                    className={`rounded-xl p-4 transition-all cursor-pointer border-2 ${
                       selectedTopic === topic.id
-                        ? 'text-black'
-                        : 'bg-zinc-900 text-white hover:bg-zinc-800 border-zinc-700'
+                        ? 'scale-[1.02]'
+                        : 'hover:bg-zinc-900'
                     }`}
-                    style={selectedTopic === topic.id ? { backgroundColor: '#00ff41', borderColor: '#00ff41' } : {}}
+                    style={{
+                      backgroundColor: selectedTopic === topic.id ? '#00ff41' : 'var(--card-bg)',
+                      borderColor: selectedTopic === topic.id ? '#00ff41' : 'var(--card-border)',
+                      color: selectedTopic === topic.id ? '#000' : 'var(--text-primary)'
+                    }}
                   >
-                    <div className="text-2xl mb-2">{topic.emoji}</div>
-                    <div className="text-sm font-semibold leading-tight">{topic.title}</div>
-                  </button>
+                    <div className="font-semibold mb-1 leading-tight text-sm">
+                      "{topic.quote}"
+                    </div>
+                    <div className="text-xs uppercase tracking-wide mb-2" style={{
+                      color: selectedTopic === topic.id ? 'rgba(0,0,0,0.6)' : 'var(--text-secondary)',
+                      opacity: selectedTopic === topic.id ? 1 : 0.7
+                    }}>
+                      {topic.category}
+                    </div>
+                    <div className="text-xs leading-relaxed mb-2" style={{
+                      color: selectedTopic === topic.id ? 'rgba(0,0,0,0.7)' : 'var(--text-secondary)'
+                    }}>
+                      {topic.context}
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs" style={{
+                      color: selectedTopic === topic.id ? 'rgba(0,0,0,0.5)' : 'var(--text-tertiary)'
+                    }}>
+                      <div className="w-1 h-1 rounded-full" style={{
+                        backgroundColor: selectedTopic === topic.id ? 'rgba(0,0,0,0.5)' : 'var(--accent-color)'
+                      }}></div>
+                      <span>{topic.stats}</span>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
