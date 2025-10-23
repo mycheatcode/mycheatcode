@@ -22,7 +22,7 @@ interface UserStats {
   activeCodes: number;
   archivedCodes: number;
   totalUsage: number;
-  averagePower: number;
+  mostUsedCode: string;
   daysActive: number;
 }
 
@@ -72,9 +72,16 @@ export default function Profile() {
           const activeCodes = codes.filter((code: any) => code.is_active !== false);
           const archivedCodes = codes.filter((code: any) => code.is_active === false);
           const totalUsage = codes.reduce((sum: number, code: any) => sum + (code.times_used || 0), 0);
-          const averagePower = codes.length > 0
-            ? Math.round(codes.reduce((sum: number, code: any) => sum + (code.power || 0), 0) / codes.length)
-            : 0;
+
+          // Find most used code
+          let mostUsedCode = 'None yet';
+          if (codes.length > 0) {
+            const sortedByUsage = [...codes].sort((a: any, b: any) => (b.times_used || 0) - (a.times_used || 0));
+            const topCode = sortedByUsage[0];
+            if (topCode && topCode.times_used > 0) {
+              mostUsedCode = topCode.title;
+            }
+          }
 
           // Calculate days active (days since account creation)
           const createdAt = new Date(userData?.created_at || user.created_at);
@@ -87,7 +94,7 @@ export default function Profile() {
             activeCodes: activeCodes.length,
             archivedCodes: archivedCodes.length,
             totalUsage,
-            averagePower,
+            mostUsedCode,
             daysActive,
           });
         }
@@ -233,8 +240,8 @@ export default function Profile() {
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.totalUsage || 0}x</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span style={{ color: 'var(--text-secondary)' }}>Average Power</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.averagePower || 0}%</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span style={{ color: 'var(--text-secondary)' }}>Days Active</span>
@@ -388,8 +395,8 @@ export default function Profile() {
                     <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.totalUsage || 0}x</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Average Power</span>
-                    <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.averagePower || 0}%</span>
+                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
+                    <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Days Active</span>
