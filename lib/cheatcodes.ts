@@ -376,3 +376,59 @@ export async function getUsageStats(
     };
   }
 }
+
+/**
+ * Archive a cheat code (set is_active to false)
+ */
+export async function archiveCheatCodeDb(
+  userId: string,
+  cheatCodeId: string
+): Promise<{ error?: string }> {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase
+      .from('cheat_codes')
+      .update({ is_active: false })
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error archiving cheat code:', error);
+      return { error: error.message };
+    }
+
+    return {};
+  } catch (err) {
+    console.error('Unexpected error archiving cheat code:', err);
+    return { error: 'Unexpected error' };
+  }
+}
+
+/**
+ * Reactivate a cheat code (set is_active to true)
+ */
+export async function reactivateCheatCodeDb(
+  userId: string,
+  cheatCodeId: string
+): Promise<{ error?: string }> {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase
+      .from('cheat_codes')
+      .update({ is_active: true })
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error reactivating cheat code:', error);
+      return { error: error.message };
+    }
+
+    return {};
+  } catch (err) {
+    console.error('Unexpected error reactivating cheat code:', err);
+    return { error: 'Unexpected error' };
+  }
+}

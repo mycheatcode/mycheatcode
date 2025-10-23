@@ -21,7 +21,7 @@ import ActiveCodesDisplay from '../../components/ActiveCodesDisplay';
 import OverallProgressCircle from '../../components/OverallProgressCircle';
 import StreakDisplay from '../../components/StreakDisplay';
 import { createClient } from '@/lib/supabase/client';
-import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats } from '@/lib/cheatcodes';
+import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, archiveCheatCodeDb, reactivateCheatCodeDb } from '@/lib/cheatcodes';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -387,36 +387,57 @@ export default function MyCodesPage() {
     return stats;
   };
 
-  const toggleArchiveStatus = (codeId: string) => {
+  const toggleArchiveStatus = async (codeId: string) => {
     const code = cheatCodes.find(c => c.id === codeId);
     if (!code) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
     // Start animation
     setAnimatingCode(codeId);
     setAnimationType(code.archived ? 'reactivate' : 'archive');
 
     // Delay the actual status change to allow animation
-    setTimeout(() => {
+    setTimeout(async () => {
       if (code.archived) {
-        // Reactivate
-        const result = reactivateCheatCode(codeId);
-        if (result.success) {
-          setCheatCodes(codes => codes.map(c =>
-            c.id === codeId ? { ...c, archived: false } : c
-          ));
-          console.log('Reactivated code:', result.reactivatedCode?.cheatCodeName);
-        } else if (result.needsArchivalDecision) {
-          // Handle the case where section is full
-          alert(`Your ${code.category} section is full (${MAX_ACTIVE_CODES_PER_SECTION} active codes). Archive another code first.`);
+        // Reactivate in database
+        const { error: dbError } = await reactivateCheatCodeDb(user.id, codeId);
+
+        if (dbError) {
+          console.error('Error reactivating in database:', dbError);
+          alert('Failed to reactivate cheat code. Please try again.');
+        } else {
+          // Reactivate in local management system
+          const result = reactivateCheatCode(codeId);
+          if (result.success) {
+            setCheatCodes(codes => codes.map(c =>
+              c.id === codeId ? { ...c, archived: false } : c
+            ));
+            console.log('Reactivated code:', result.reactivatedCode?.cheatCodeName);
+          } else if (result.needsArchivalDecision) {
+            // Handle the case where section is full
+            alert(`Your ${code.category} section is full (${MAX_ACTIVE_CODES_PER_SECTION} active codes). Archive another code first.`);
+            // Revert the database change
+            await archiveCheatCodeDb(user.id, codeId);
+          }
         }
       } else {
-        // Archive
-        const result = archiveCheatCode(codeId);
-        if (result.success) {
-          setCheatCodes(codes => codes.map(c =>
-            c.id === codeId ? { ...c, archived: true } : c
-          ));
-          console.log('Archived code:', result.archivedCode?.cheatCodeName);
+        // Archive in database
+        const { error: dbError } = await archiveCheatCodeDb(user.id, codeId);
+
+        if (dbError) {
+          console.error('Error archiving in database:', dbError);
+          alert('Failed to archive cheat code. Please try again.');
+        } else {
+          // Archive in local management system
+          const result = archiveCheatCode(codeId);
+          if (result.success) {
+            setCheatCodes(codes => codes.map(c =>
+              c.id === codeId ? { ...c, archived: true } : c
+            ));
+            console.log('Archived code:', result.archivedCode?.cheatCodeName);
+          }
         }
       }
 
@@ -1123,6 +1144,21 @@ export default function MyCodesPage() {
                                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                               >
                                 Open Chat
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleArchiveStatus(selectedCode.id);
+                                }}
+                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
+                                style={{
+                                  backgroundColor: 'var(--card-bg)',
+                                  borderColor: selectedCode.archived ? 'var(--accent-color)' : 'var(--card-border)',
+                                  color: selectedCode.archived ? 'var(--accent-color)' : 'var(--text-secondary)'
+                                }}
+                              >
+                                {selectedCode.archived ? '↩️ Reactivate Code' : '📦 Archive Code'}
                               </button>
                             </div>
                           </div>
