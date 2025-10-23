@@ -3,22 +3,52 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
   document.documentElement.classList.add('dark');
 }
 
-export default function CommunityTopics() {
+export default function RelatableTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [displayCount, setDisplayCount] = useState(10);
+  const [usedTopicIds, setUsedTopicIds] = useState<Set<number>>(new Set());
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     // Always use dark mode
     document.documentElement.classList.add('dark');
   }, []);
+
+  // Load user's chat history to track which topics have been used
+  useEffect(() => {
+    const loadUsedTopics = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Fetch all chats for this user
+      const { data: chats } = await supabase
+        .from('chats')
+        .select('selected_topic')
+        .eq('user_id', user.id);
+
+      if (chats) {
+        // Extract topic IDs from chats
+        const topicIds = new Set<number>();
+        chats.forEach((chat: any) => {
+          if (chat.selected_topic && chat.selected_topic.id) {
+            topicIds.add(chat.selected_topic.id);
+          }
+        });
+        setUsedTopicIds(topicIds);
+      }
+    };
+
+    loadUsedTopics();
+  }, [supabase]);
 
   const categories = ['All', 'Pre-Game', 'Off Court', 'Post-Game', 'In-Game', 'Locker Room'];
 
@@ -411,7 +441,7 @@ export default function CommunityTopics() {
     }));
 
     // Store where the user came from for proper back navigation
-    localStorage.setItem('chatReferrer', '/community-topics');
+    localStorage.setItem('chatReferrer', '/relatable-topics');
 
     // Navigate to chat immediately
     router.push('/chat');
@@ -454,7 +484,7 @@ export default function CommunityTopics() {
     // Clear any stored topic data
     localStorage.removeItem('selectedTopic');
     // Store where the user came from for proper back navigation
-    localStorage.setItem('chatReferrer', '/community-topics');
+    localStorage.setItem('chatReferrer', '/relatable-topics');
     // Navigate to blank chat
     router.push('/chat');
   };
@@ -499,11 +529,11 @@ export default function CommunityTopics() {
               </svg>
               <span>My Codes</span>
             </Link>
-            <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium transition-all" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
+            <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium transition-all" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
-              <span>Community Topics</span>
+              <span>Relatable Topics</span>
             </Link>
             <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -534,7 +564,7 @@ export default function CommunityTopics() {
       <div className="flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Community Topics</div>
+          <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Relatable Topics</div>
           <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
 
@@ -566,24 +596,37 @@ export default function CommunityTopics() {
               <div
                 onClick={() => handleTopicSelect(topic)}
                 className="relative rounded-2xl p-6 lg:p-8 transition-all cursor-pointer hover:scale-[1.01] active:scale-98 border-2"
-                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+                style={{
+                  backgroundColor: usedTopicIds.has(topic.id) ? 'rgba(0, 255, 65, 0.08)' : 'var(--card-bg)',
+                  borderColor: usedTopicIds.has(topic.id) ? 'rgba(0, 255, 65, 0.3)' : 'var(--card-border)'
+                }}
               >
-                {topic.trending && (
+                {/* Trending Badge (top-right) - only show if no completed badge */}
+                {topic.trending && !usedTopicIds.has(topic.id) && (
                   <div className="absolute top-3 lg:top-4 right-3 lg:right-4 px-2.5 lg:px-3 py-1 lg:py-1.5 rounded-lg text-xs font-bold uppercase tracking-wide" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
                     {topic.trending}
                   </div>
                 )}
 
-                <div className="text-lg lg:text-xl font-semibold mb-2 leading-tight pr-16 lg:pr-20" style={{ color: 'var(--text-primary)' }}>
+                {/* Completed Badge (top-right) */}
+                {usedTopicIds.has(topic.id) && (
+                  <div className="absolute top-4 lg:top-5 right-4 lg:right-5 w-7 h-7 lg:w-8 lg:h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(0, 255, 65, 0.3)' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                )}
+
+                <div className="text-lg lg:text-xl font-semibold mb-2 leading-tight pr-16 lg:pr-20" style={{ color: 'var(--text-primary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   "{topic.quote}"
                 </div>
-                <div className="text-xs uppercase tracking-wide mb-3 lg:mb-4" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-xs uppercase tracking-wide mb-3 lg:mb-4" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   {topic.category}
                 </div>
-                <div className="text-sm mb-3 lg:mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                <div className="text-sm mb-3 lg:mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   {topic.context}
                 </div>
-                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)' }}>
+                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   <div className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
                   <span>{topic.stats}</span>
                 </div>

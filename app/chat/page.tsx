@@ -20,6 +20,7 @@ interface Message {
   text: string;
   sender: Sender;
   timestamp: Date;
+  isHistoric?: boolean; // Skip typing animation for restored messages
 }
 
 /** tiny helper for unique ids */
@@ -47,6 +48,11 @@ export default function ChatPage() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [savedCheatCodes, setSavedCheatCodes] = useState<Set<string>>(new Set());
   const [savingCheatCode, setSavingCheatCode] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string>('');
+  const [isFirstCodeChat, setIsFirstCodeChat] = useState(false);
+  const [selectedCheatCode, setSelectedCheatCode] = useState<any>(null);
+  const [currentCard, setCurrentCard] = useState(0);
+  const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -57,13 +63,32 @@ export default function ChatPage() {
   const replyTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const welcomeTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const inputRef = useRef<HTMLTextAreaElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const mobileScrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const desktopScrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const isRestoringChatRef = useRef<boolean>(false);
 
-  // Get current user
+  // Get current user and their name
   useEffect(() => {
     const getUser = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
+
+        // Fetch user's name from database
+        try {
+          const { data: userData } = await supabase
+            .from('users')
+            .select('full_name')
+            .eq('id', user.id)
+            .single();
+
+          if (userData?.full_name) {
+            setUserName(userData.full_name);
+          }
+        } catch (err) {
+          console.error('Error fetching user name:', err);
+        }
       } else {
         // Redirect to login if not authenticated
         router.push('/login');
@@ -77,8 +102,109 @@ export default function ChatPage() {
     document.documentElement.classList.add('dark');
   }, []);
 
+  // Scroll to bottom function that can be called anytime
+  const scrollToBottom = () => {
+    const isMobile = window.innerWidth < 1024;
+
+    if (isMobile && mobileScrollContainerRef.current) {
+      const container = mobileScrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    } else if (!isMobile && desktopScrollContainerRef.current) {
+      const container = desktopScrollContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
+  };
+
+  // Auto-scroll to bottom when messages change (like ChatGPT/Claude)
+  useEffect(() => {
+    // Don't auto-scroll if we're currently restoring a chat (using ref to avoid dependency)
+    if (!isRestoringChatRef.current) {
+      // Use requestAnimationFrame for smoother scrolling after render
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          const isMobile = window.innerWidth < 1024;
+
+          if (isMobile && mobileScrollContainerRef.current) {
+            // For mobile: scroll the container div to its full height
+            const container = mobileScrollContainerRef.current;
+            container.scrollTop = container.scrollHeight;
+            console.log('Mobile scroll - scrollHeight:', container.scrollHeight, 'scrollTop:', container.scrollTop);
+          } else if (!isMobile && desktopScrollContainerRef.current) {
+            // For desktop: scroll the desktop container to its full height
+            const container = desktopScrollContainerRef.current;
+            container.scrollTop = container.scrollHeight;
+            console.log('Desktop scroll - scrollHeight:', container.scrollHeight, 'scrollTop:', container.scrollTop);
+          }
+        }, 200);
+      });
+    }
+  }, [messages, isTyping]);
+
+  // Additional scroll on mount when restoring chat
+  useEffect(() => {
+    if (isRestoringChat && messages.length > 0) {
+      console.log('=== SCROLL TO BOTTOM TRIGGERED ===');
+      console.log('Messages length:', messages.length);
+      console.log('Mobile ref exists:', !!mobileScrollContainerRef.current);
+      console.log('Desktop ref exists:', !!desktopScrollContainerRef.current);
+
+      // Set the ref to prevent auto-scroll from interfering
+      isRestoringChatRef.current = true;
+
+      // Multiple attempts to ensure scroll happens on both mobile and desktop
+      const scrollToBottom = () => {
+        // Check if we're on mobile (window width < 1024px which is the lg breakpoint)
+        const isMobile = window.innerWidth < 1024;
+
+        if (isMobile && mobileScrollContainerRef.current) {
+          // For mobile, scroll the container div to its full height
+          console.log('Mobile detected - scrolling container');
+          const scrollHeight = mobileScrollContainerRef.current.scrollHeight;
+          console.log('Mobile scroll - scrollHeight:', scrollHeight);
+          mobileScrollContainerRef.current.scrollTop = scrollHeight;
+          console.log('Mobile scroll - scrollTop set to:', mobileScrollContainerRef.current.scrollTop);
+        } else if (!isMobile && desktopScrollContainerRef.current) {
+          // For desktop, scroll the desktop container to its full height
+          const scrollHeight = desktopScrollContainerRef.current.scrollHeight;
+          console.log('Desktop scroll - scrollHeight:', scrollHeight);
+          desktopScrollContainerRef.current.scrollTop = scrollHeight;
+          console.log('Desktop scroll - scrollTop set to:', desktopScrollContainerRef.current.scrollTop);
+        }
+      };
+
+      // Try multiple times with increasing delays to ensure it works
+      requestAnimationFrame(() => {
+        scrollToBottom();
+
+        requestAnimationFrame(() => {
+          setTimeout(scrollToBottom, 100);
+
+          setTimeout(scrollToBottom, 300);
+
+          setTimeout(scrollToBottom, 500);
+
+          setTimeout(() => {
+            scrollToBottom();
+            // After final scroll attempt, reset the restoration flags
+            // This allows normal auto-scroll to resume for new messages
+            setTimeout(() => {
+              setIsRestoringChat(false);
+              isRestoringChatRef.current = false;
+              console.log('Restoration complete - normal scrolling resumed');
+            }, 100);
+          }, 1000);
+        });
+      });
+    }
+  }, [isRestoringChat, messages.length]);
+
   // Helper to detect if a message contains a cheat code
   const isCheatCode = (text: string): boolean => {
+    // Safety check: ensure text is a string
+    if (!text || typeof text !== 'string') {
+      return false;
+    }
+
     // Check for standard format
     const hasStandardFormat = text.includes('**What:**') && text.includes('**When:**') && text.includes('**How:**') && text.includes('**Why:**');
 
@@ -136,45 +262,58 @@ export default function ChatPage() {
   const parseCheatCode = (text: string) => {
     const cheatCode: any = {};
 
+    // Helper function to clean asterisks and extra spaces from text
+    const cleanText = (str: string): string => {
+      return str.replace(/\*+/g, '').trim();
+    };
+
     // Check if it's the alternative format first
     const isAlternativeFormat = text.includes('Title:') && text.includes('Trigger:');
 
     if (isAlternativeFormat) {
-      // Parse alternative format (Title/Trigger/Cue phrase/etc.)
+      // Parse alternative format (Title/What/Trigger/Cue phrase/etc.)
       // Handle both with and without asterisks, including inline format
-      const titleMatch = text.match(/Title:\s*([^T\n]+?)(?=Trigger:|$)/i);
-      const triggerMatch = text.match(/Trigger:\s*([^C\n]+?)(?=Cue phrase:|$)/i);
-      const cueMatch = text.match(/Cue phrase:\s*"?([^"F\n]+?)"?\s*(?=First action:|$)/i);
-      const firstActionMatch = text.match(/First action:\s*([^I\n]+?)(?=If\/Then:|$)/i);
-      const ifThenMatch = text.match(/If\/Then:\s*([^R]+?)(?=Reps:|$)/i);
-      const repsMatch = text.match(/Reps:\s*([\s\S]+?)(?=Does|$)/i);
+      const titleMatch = text.match(/Title:\s*([^\n]+?)(?=\s*(?:What:|Trigger:|$))/i);
+      const whatMatch = text.match(/What:\s*([^\n]+?)(?=\s*(?:Trigger:|$))/i);
+      const triggerMatch = text.match(/Trigger:\s*([^\n]+?)(?=\s*(?:Cue phrase:|$))/i);
+      const cueMatch = text.match(/Cue phrase:\s*"?([^"\n]+?)"?\s*(?=\s*(?:First action:|$))/i);
+      const firstActionMatch = text.match(/First action:\s*([^\n]+?)(?=\s*(?:If\/Then:|$))/i);
+      const ifThenMatch = text.match(/If\/Then:\s*([^\n]+?)(?=\s*(?:Reps:|$))/i);
+      const repsMatch = text.match(/Reps:\s*([^\n]+?)(?=\s*$)/i);
 
-      cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
+      cheatCode.title = titleMatch ? cleanText(titleMatch[1]) : 'Confidence Boost';
       cheatCode.category = 'In-Game';
 
-      // Map to standard format
-      cheatCode.what = titleMatch ? titleMatch[1].trim() : '';
-      cheatCode.when = triggerMatch ? triggerMatch[1].trim() : '';
-      cheatCode.phrase = cueMatch ? cueMatch[1].trim() : '';
+      // Use the "What" from the coach's response if provided, otherwise create a generic one
+      if (whatMatch) {
+        cheatCode.what = cleanText(whatMatch[1]);
+      } else {
+        // Fallback: Create a benefit-focused "what" based on the title
+        const title = titleMatch ? cleanText(titleMatch[1]) : '';
+        cheatCode.what = `Regain focus and confidence when ${title.toLowerCase().includes('shot') ? 'shooting' : title.toLowerCase().includes('free throw') ? 'taking free throws' : 'you need it most'}`;
+      }
+
+      cheatCode.when = triggerMatch ? cleanText(triggerMatch[1]) : '';
+      cheatCode.phrase = cueMatch ? cleanText(cueMatch[1]) : '';
 
       // Build the "How" section from First action and If/Then
-      const firstAction = firstActionMatch ? firstActionMatch[1].trim() : '';
-      const ifThen = ifThenMatch ? ifThenMatch[1].trim() : '';
-      const reps = repsMatch ? repsMatch[1].trim() : '';
+      const firstAction = firstActionMatch ? cleanText(firstActionMatch[1]) : '';
+      const ifThen = ifThenMatch ? cleanText(ifThenMatch[1]) : '';
+      const reps = repsMatch ? cleanText(repsMatch[1]) : '';
 
       const howParts = [];
-      if (firstAction) howParts.push(`• ${firstAction}`);
-      if (ifThen) howParts.push(`• ${ifThen}`);
-      if (reps) howParts.push(`• ${reps}`);
+      if (firstAction) howParts.push(`${firstAction}`);
+      if (ifThen) howParts.push(`${ifThen}`);
+      if (reps) howParts.push(`${reps}`);
 
       cheatCode.how = howParts.join('\n');
-      cheatCode.why = 'This technique helps you stay focused and calm under pressure';
+      cheatCode.why = 'This technique helps you stay focused and maintain confidence under pressure by giving you a clear, repeatable action when you need it most';
       cheatCode.practice = ''; // Already included in how
     } else {
       // Parse standard format
       // Extract title (look for emoji and title)
       const titleMatch = text.match(/\*\*🏀\s+([^*]+)\*\*/);
-      cheatCode.title = titleMatch ? titleMatch[1].trim() : 'Cheat Code';
+      cheatCode.title = titleMatch ? cleanText(titleMatch[1]) : 'Cheat Code';
 
       // Extract subtitle/phrase (look for italic text with quotes)
       const subtitleMatch = text.match(/\*"([^"]+)"\*/);
@@ -191,12 +330,12 @@ export default function ChatPage() {
       const phraseMatch = text.match(/\*\*Cheat Code Phrase:\*\*\s*"([^"]+)"|\*\*Cheat Code Phrase:\*\*\s*([^\n*]+)/);
       const practiceMatch = text.match(/💡\s*\*\*Practice:\*\*\s*([\s\S]*?)$/m);
 
-      cheatCode.what = whatMatch ? whatMatch[1].trim() : '';
-      cheatCode.when = whenMatch ? whenMatch[1].trim() : '';
-      cheatCode.how = howMatch ? howMatch[1].trim() : '';
-      cheatCode.why = whyMatch ? whyMatch[1].trim() : '';
-      cheatCode.phrase = phraseMatch ? (phraseMatch[1] || phraseMatch[2]).trim() : '';
-      cheatCode.practice = practiceMatch ? practiceMatch[1].trim() : '';
+      cheatCode.what = whatMatch ? cleanText(whatMatch[1]) : '';
+      cheatCode.when = whenMatch ? cleanText(whenMatch[1]) : '';
+      cheatCode.how = howMatch ? cleanText(howMatch[1]) : '';
+      cheatCode.why = whyMatch ? cleanText(whyMatch[1]) : '';
+      cheatCode.phrase = phraseMatch ? cleanText(phraseMatch[1] || phraseMatch[2]) : '';
+      cheatCode.practice = practiceMatch ? cleanText(practiceMatch[1]) : '';
     }
 
     return cheatCode;
@@ -222,178 +361,255 @@ export default function ChatPage() {
   useEffect(() => {
     if (initialized) return;
 
-    // Check for demo mode via URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const isDemoMode = urlParams.get('demo') === 'true';
+    const initializeChat = async () => {
+      // Check for demo mode via URL parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      const isDemoMode = urlParams.get('demo') === 'true';
 
-    // Check for auto-send message from homepage
-    const autoSendMessage = typeof window !== 'undefined' ? localStorage.getItem('autoSendMessage') : null;
-    if (autoSendMessage) {
-      localStorage.removeItem('autoSendMessage');
+      // Check for auto-send message from homepage
+      const autoSendMessage = typeof window !== 'undefined' ? localStorage.getItem('autoSendMessage') : null;
+      if (autoSendMessage) {
+        localStorage.removeItem('autoSendMessage');
+        setHasStarted(true);
+        setInitialized(true);
+        setInputText('');
+
+        // Skip the welcome message by setting pendingWelcome
+        pendingWelcome.current = true;
+
+        // Add user message first
+        const userMsg: Message = {
+          id: uid(),
+          text: autoSendMessage,
+          sender: 'user',
+          timestamp: new Date(),
+        };
+        appendMessage(userMsg);
+        setIsTyping(true);
+        pendingCoachReply.current = true;
+
+        // Send to API after a brief delay
+        setTimeout(() => {
+          const payload = buildChatPayload([userMsg]);
+          fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          })
+            .then(res => res.json())
+            .then(data => {
+              appendMessage({
+                id: uid(),
+                text: data.reply || "Let\\'s keep going. What part of that moment feels hardest?",
+                sender: 'coach',
+                timestamp: new Date(),
+              });
+            })
+            .catch(() => {
+              appendMessage({
+                id: uid(),
+                text: '⚠️ Could not reach the coach. Try again.',
+                sender: 'coach',
+                timestamp: new Date(),
+              });
+            })
+            .finally(() => {
+              setIsTyping(false);
+              pendingCoachReply.current = false;
+            });
+        }, 100);
+        return; // Skip the rest of initialization
+      }
+
+      // Load stored topic (if any) - ALWAYS check this first
+      const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
+      if (storedTopic) {
+        try {
+          const topic = JSON.parse(storedTopic);
+          console.log('Loaded selectedTopic from localStorage:', topic);
+          setSelectedTopic(topic);
+        } catch (error) {
+          console.error('Error parsing selectedTopic:', error);
+        }
+      } else {
+        console.log('No selectedTopic found in localStorage');
+      }
+
+      // Try to restore prior chat from localStorage first
+      const chatHistory = typeof window !== 'undefined' ? localStorage.getItem('chatHistory') : null;
+      if (chatHistory) {
+        try {
+          const parsed = JSON.parse(chatHistory);
+          if (parsed.isRestoringChat && Array.isArray(parsed.messages) && parsed.messages.length > 0) {
+            const restored: Message[] = parsed.messages.map((m: any) => {
+              // Determine sender - support both old format (sender field) and new format (role field)
+              let senderValue: Sender = 'coach'; // default to coach
+
+              // Check role field first (new format from database)
+              if (m.role === 'user') {
+                senderValue = 'user';
+              } else if (m.role === 'assistant') {
+                senderValue = 'coach';
+              }
+              // Fall back to sender field (old format or component state)
+              else if (m.sender === 'user') {
+                senderValue = 'user';
+              } else if (m.sender === 'coach') {
+                senderValue = 'coach';
+              }
+
+              const msg: Message = {
+                id: String(m.id ?? uid()),
+                text: m.content || m.text || '', // Database uses 'content', fallback to 'text'
+                sender: senderValue,
+                timestamp: new Date(m.timestamp),
+                isHistoric: true, // Mark as historic to skip typing animation
+              };
+              messageIds.current.add(msg.id);
+              return msg;
+            });
+            setMessages(restored);
+            setIsRestoringChat(true);
+            setHasStarted(true);
+            setInitialized(true);
+            pendingWelcome.current = true; // Prevent welcome message from being added
+
+            // Set the chat ID so new messages update the existing chat instead of creating a duplicate
+            if (parsed.sessionId) {
+              setCurrentChatId(parsed.sessionId);
+            }
+
+            // Keep chatHistory in localStorage for page refreshes - DON'T remove it
+            // It will be updated whenever new messages are sent
+            // Note: Scroll will be handled by the useEffect with isRestoringChat dependency
+            return;
+          }
+        } catch {
+          localStorage.removeItem('chatHistory');
+        }
+      }
+
+      // If no localStorage chat and we have a user, try to load active chat from database
+      if (userId) {
+        try {
+          const { getActiveChat } = await import('@/lib/chat');
+          const { chatId, messages: activeMessages, selectedTopic: dbSelectedTopic } = await getActiveChat(userId);
+
+          if (chatId && activeMessages && activeMessages.length > 0) {
+            setCurrentChatId(chatId);
+
+            // Restore selected topic if it was saved
+            if (dbSelectedTopic) {
+              setSelectedTopic(dbSelectedTopic);
+            }
+
+            const restored: Message[] = activeMessages.map((m: any) => {
+              // Determine sender - check multiple possible fields
+              let senderValue: Sender = 'coach'; // default to coach
+              if (m.role === 'user' || m.sender === 'user') {
+                senderValue = 'user';
+              } else if (m.role === 'assistant' || m.sender === 'coach') {
+                senderValue = 'coach';
+              }
+
+              return {
+                id: uid(),
+                text: m.content || m.text || '',
+                sender: senderValue,
+                timestamp: new Date(m.timestamp),
+                isHistoric: true,
+              };
+            });
+
+            restored.forEach(msg => messageIds.current.add(msg.id));
+            setMessages(restored);
+            setIsRestoringChat(true);
+            setHasStarted(true);
+            setInitialized(true);
+            pendingWelcome.current = true;
+
+            // Note: Scroll will be handled by the useEffect with isRestoringChat dependency
+            return;
+          }
+        } catch (err) {
+          console.error('Error loading active chat:', err);
+        }
+      }
+
+      // New chat: coach opens
       setHasStarted(true);
       setInitialized(true);
-      setInputText('');
 
-      // Skip the welcome message by setting pendingWelcome
-      pendingWelcome.current = true;
+      if (!pendingWelcome.current) {
+        pendingWelcome.current = true;
 
-      // Add user message first
-      const userMsg: Message = {
-        id: uid(),
-        text: autoSendMessage,
-        sender: 'user',
-        timestamp: new Date(),
-      };
-      appendMessage(userMsg);
-      setIsTyping(true);
-      pendingCoachReply.current = true;
-
-      // Send to API after a brief delay
-      setTimeout(() => {
-        const payload = buildChatPayload([userMsg]);
-        fetch('/api/chat', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload),
-        })
-          .then(res => res.json())
-          .then(data => {
-            appendMessage({
+        // Check if we should show the demo conversation
+        if (isDemoMode) {
+          // Create demo conversation for screenshots
+          const demoMessages: Message[] = [
+            {
               id: uid(),
-              text: data.reply || "Let's keep going. What part of that moment feels hardest?",
-              sender: 'coach',
-              timestamp: new Date(),
-            });
-          })
-          .catch(() => {
-            appendMessage({
+              text: "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() - 8 * 60000),
+            },
+            {
               id: uid(),
-              text: '⚠️ Could not reach the coach. Try again.',
-              sender: 'coach',
-              timestamp: new Date(),
-            });
-          })
-          .finally(() => {
-            setIsTyping(false);
-            pendingCoachReply.current = false;
-          });
-      }, 100);
-      return; // Skip the rest of initialization
-    }
-
-    // Load stored topic (if any)
-    const storedTopic = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
-    if (storedTopic) {
-      try {
-        const topic = JSON.parse(storedTopic);
-        setSelectedTopic(topic);
-      } catch {
-        // ignore
-      }
-    }
-
-    // Try to restore prior chat
-    const chatHistory = typeof window !== 'undefined' ? localStorage.getItem('chatHistory') : null;
-    if (chatHistory) {
-      try {
-        const parsed = JSON.parse(chatHistory);
-        if (parsed.isRestoringChat && Array.isArray(parsed.messages) && parsed.messages.length > 0) {
-          const restored: Message[] = parsed.messages.map((m: any) => {
-            const msg: Message = {
-              id: String(m.id ?? uid()),
-              text: m.text,
-              sender: m.sender as Sender,
-              timestamp: new Date(m.timestamp),
-            };
-            messageIds.current.add(msg.id);
-            return msg;
-          });
-          setMessages(restored);
-          setIsRestoringChat(true);
-          setHasStarted(true);
-          setInitialized(true);
-          localStorage.removeItem('chatHistory');
-          return;
-        }
-      } catch {
-        localStorage.removeItem('chatHistory');
-      }
-    }
-
-    // New chat: coach opens
-    setHasStarted(true);
-    setInitialized(true);
-
-    if (!pendingWelcome.current) {
-      pendingWelcome.current = true;
-
-      // Check if we should show the demo conversation
-      if (isDemoMode) {
-        // Create demo conversation for screenshots
-        const demoMessages: Message[] = [
-          {
-            id: uid(),
-            text: "Yo! Let's talk about your game. What's been challenging you or what do you want to work on?",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() - 8 * 60000),
-          },
-          {
-            id: uid(),
-            text: "My free throws. I get nervous late in games and miss easy ones",
-            sender: 'user' as Sender,
-            timestamp: new Date(Date.now() - 7 * 60000),
-          },
-          {
-            id: uid(),
-            text: "Got it. When do you notice the nerves most? Before the shot, while you are stepping to the line, or right as you release?",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() - 6 * 60000),
-          },
-          {
-            id: uid(),
-            text: "Mostly while I am stepping to the line and everyone's watching me. I feel rushed and want to get it over with",
-            sender: 'user' as Sender,
-            timestamp: new Date(Date.now() - 5 * 60000),
-          },
-          {
-            id: uid(),
-            text: "Do you have any specific thoughts when you're there at the line? What do you say to yourself before you shoot?",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() - 4 * 60000),
-          },
-          {
-            id: uid(),
-            text: "I just think \"don't miss\" and then I rush it",
-            sender: 'user' as Sender,
-            timestamp: new Date(Date.now() - 3 * 60000),
-          },
-          {
-            id: uid(),
-            text: "So the thought of missing speeds you up. Do you notice it in your body too?",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() - 2 * 60000),
-          },
-          {
-            id: uid(),
-            text: "Yeah, a bit, I feel tense and my hands get kind of jumpy",
-            sender: 'user' as Sender,
-            timestamp: new Date(Date.now() - 90000),
-          },
-          {
-            id: uid(),
-            text: "That's pressure talking. Let's flip it. What if every free throw had the exact same short routine? One that slowed you down and locked you in and blocked out all of those thoughts and feelings that don't help. Want me to give you a cheat code for that?",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() - 60000),
-          },
-          {
-            id: uid(),
-            text: "Yeah, please",
-            sender: 'user' as Sender,
-            timestamp: new Date(Date.now() - 30000),
-          },
-          {
-            id: uid(),
-            text: `Perfect. Here's your free throw lockdown routine:
+              text: "My free throws. I get nervous late in games and miss easy ones",
+              sender: 'user' as Sender,
+              timestamp: new Date(Date.now() - 7 * 60000),
+            },
+            {
+              id: uid(),
+              text: "Got it. When do you notice the nerves most? Before the shot, while you are stepping to the line, or right as you release?",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() - 6 * 60000),
+            },
+            {
+              id: uid(),
+              text: "Mostly while I am stepping to the line and everyone's watching me. I feel rushed and want to get it over with",
+              sender: 'user' as Sender,
+              timestamp: new Date(Date.now() - 5 * 60000),
+            },
+            {
+              id: uid(),
+              text: "Do you have any specific thoughts when you're there at the line? What do you say to yourself before you shoot?",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() - 4 * 60000),
+            },
+            {
+              id: uid(),
+              text: "I just think \"don't miss\" and then I rush it",
+              sender: 'user' as Sender,
+              timestamp: new Date(Date.now() - 3 * 60000),
+            },
+            {
+              id: uid(),
+              text: "So the thought of missing speeds you up. Do you notice it in your body too?",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() - 2 * 60000),
+            },
+            {
+              id: uid(),
+              text: "Yeah, a bit, I feel tense and my hands get kind of jumpy",
+              sender: 'user' as Sender,
+              timestamp: new Date(Date.now() - 90000),
+            },
+            {
+              id: uid(),
+              text: "That's pressure talking. Let's flip it. What if every free throw had the exact same short routine? One that slowed you down and locked you in and blocked out all of those thoughts and feelings that don't help. Want me to give you a cheat code for that?",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() - 60000),
+            },
+            {
+              id: uid(),
+              text: "Yeah, please",
+              sender: 'user' as Sender,
+              timestamp: new Date(Date.now() - 30000),
+            },
+            {
+              id: uid(),
+              text: `Perfect. Here's your free throw lockdown routine:
 
 **🏀 Free Throw Lockdown**
 
@@ -413,66 +629,84 @@ export default function ChatPage() {
 **Cheat Code Phrase:** "My line, my time"
 
 **Practice:** 20 free throws daily using this exact sequence`,
-            sender: 'coach' as Sender,
-            timestamp: new Date(),
-          },
-          {
-            id: uid(),
-            text: "Here's the key: that 3-count exhale is scientifically proven to calm your nervous system in under 5 seconds - perfect for the 10-second rule. The phrase isn't just motivation - it's claiming mental territory. Most players rush to the line feeling like the crowd owns that moment. When you say 'My line, my time,' you're literally taking control back.\n\nTry it right now - do that breath pattern and say the phrase. Feel different? That's your body switching from fight-or-flight to focused confidence.",
-            sender: 'coach' as Sender,
-            timestamp: new Date(Date.now() + 5000),
-          }
-        ];
+              sender: 'coach' as Sender,
+              timestamp: new Date(),
+            },
+            {
+              id: uid(),
+              text: "Here's the key: that 3-count exhale is scientifically proven to calm your nervous system in under 5 seconds - perfect for the 10-second rule. The phrase isn't just motivation - it's claiming mental territory. Most players rush to the line feeling like the crowd owns that moment. When you say 'My line, my time,' you're literally taking control back.\n\nTry it right now - do that breath pattern and say the phrase. Feel different? That's your body switching from fight-or-flight to focused confidence.",
+              sender: 'coach' as Sender,
+              timestamp: new Date(Date.now() + 5000),
+            }
+          ];
 
-        demoMessages.forEach(msg => {
-          messageIds.current.add(msg.id);
-        });
-        setMessages(demoMessages);
-        return;
-      }
-
-      // Show coach message immediately (no delay)
-      const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
-
-      // Static welcome message
-      let welcomeText = "What's up! I'm your confidence coach. What do you want to talk about?";
-
-      if (stored) {
-        try {
-          const topic = JSON.parse(stored);
-
-          // Check if this is their first code from onboarding
-          if (topic.isFirstCode) {
-            welcomeText = `Hey! Let's create your first cheat code together. You picked "${topic.title}" - tell me about a recent time when this came up for you. What happened?`;
-          } else if (topic.customStarter) {
-            welcomeText = topic.customStarter;
-          } else {
-            const topicMessages = [
-              `I see you're focused on: "${topic.title}". Walk me through what happened the last time this came up.`,
-              `Ah, working on "${topic.title}". Tell me about a recent time when this was an issue for you.`,
-              `Got it, "${topic.title}" is what we're tackling. What does this usually look like when it happens?`,
-              `Cool, so "${topic.title}" is on your mind. When did you last deal with this situation?`
-            ];
-            welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
-          }
-        } catch {
-          // ignore
+          demoMessages.forEach(msg => {
+            messageIds.current.add(msg.id);
+          });
+          setMessages(demoMessages);
+          return;
         }
-      }
 
-      appendMessage({
-        id: uid(),
-        text: welcomeText,
-        sender: 'coach',
-        timestamp: new Date(),
-      });
-    }
+        // Show coach message immediately (no delay)
+        const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
+
+        // Static welcome message
+        const greeting = userName ? `What's up ${userName}!` : "What's up!";
+        let welcomeText = `${greeting} I'm your confidence coach. What do you want to talk about?`;
+
+        if (stored) {
+          try {
+            const topic = JSON.parse(stored);
+
+            // Check if this is their first code from onboarding
+            if (topic.isFirstCode) {
+              setIsFirstCodeChat(true);
+
+              // Create indirect topic reference and simple question
+              const topicStarters = {
+                'pre_game_nerves': `${greeting} Let's dive into this and build your first cheat code. Before a big game, what's usually running through your head?`,
+                'missed_shots': `${greeting} Let's dive into this and build your first cheat code. When you miss a shot, what happens next? What do you usually do or think?`,
+                'pressure_moments': `${greeting} Let's dive into this and build your first cheat code. Think about the last pressure moment you had - what was going through your mind right before it?`,
+                'comparing_teammates': `${greeting} Let's dive into this and build your first cheat code. When you're around your teammates, what triggers that comparison feeling?`,
+                'coach_criticism': `${greeting} Let's dive into this and build your first cheat code. When your coach gives you feedback, how do you usually react in the moment?`,
+                'negative_self_talk': `${greeting} Let's dive into this and build your first cheat code. What's the most common negative thing you say to yourself during a game?`,
+                'inconsistent_performance': `${greeting} Let's dive into this and build your first cheat code. On your good days, what feels different compared to your off days?`,
+                'playing_up_competition': `${greeting} Let's dive into this and build your first cheat code. When you're facing someone better, what's the first thing you notice about yourself?`
+              };
+
+              welcomeText = topicStarters[topic.id] || `${greeting} Let's dive into this and build your first cheat code. What's been on your mind about your game lately?`;
+            } else if (topic.customStarter) {
+              welcomeText = topic.customStarter;
+            } else {
+              const topicMessages = [
+                `I see you're focused on something specific. Walk me through what happened the last time this came up.`,
+                `Tell me about a recent time when this was an issue for you.`,
+                `What does this usually look like when it happens?`,
+                `When did you last deal with this situation?`
+              ];
+              welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        appendMessage({
+          id: uid(),
+          text: welcomeText,
+          sender: 'coach',
+          timestamp: new Date(),
+        });
+      }
+    };
+
+    initializeChat();
 
     return () => {
       if (replyTimeout.current) clearTimeout(replyTimeout.current);
       if (welcomeTimeout.current) clearTimeout(welcomeTimeout.current);
     };
-  }, [initialized]);
+  }, [initialized, userId]);
 
   /** Build payload the API expects */
   const buildChatPayload = (msgs: Message[]) => {
@@ -514,9 +748,25 @@ export default function ChatPage() {
       timestamp: m.timestamp.toISOString(),
     }));
 
-    const { chatId } = await saveChat(userId, dbMessages, currentChatId || undefined);
+    const { chatId, error } = await saveChat(userId, dbMessages, currentChatId || undefined, selectedTopic);
+
+    // Silently handle errors - don't show to user
+    if (error) {
+      console.error('Error saving chat (non-critical):', error);
+      return;
+    }
+
     if (chatId && !currentChatId) {
       setCurrentChatId(chatId);
+    }
+
+    // Also update localStorage chatHistory so page refreshes restore the latest messages
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('chatHistory', JSON.stringify({
+        isRestoringChat: true,
+        messages: dbMessages,
+        sessionId: chatId || currentChatId
+      }));
     }
   };
 
@@ -561,6 +811,14 @@ export default function ChatPage() {
           cheat_code_id: cheatCodeId,
           chat_id: currentChatId,
         });
+
+        // Show success animation
+        setShowSaveSuccess(true);
+
+        // Redirect to home page after animation (2 seconds)
+        setTimeout(() => {
+          router.push('/');
+        }, 2000);
       }
     } catch (err) {
       console.error('Unexpected error saving cheat code:', err);
@@ -614,21 +872,25 @@ export default function ChatPage() {
       const data = await res.json();
       const coachMsg: Message = {
         id: uid(),
-        text: data.reply || 'Let's keep going. What part of that moment feels hardest?',
+        text: data.reply || "Let\\'s keep going. What part of that moment feels hardest?",
         sender: 'coach',
         timestamp: new Date(),
       };
       appendMessage(coachMsg);
 
-      // Save chat to database after receiving response
+      // Save chat to database after receiving response (non-blocking)
       const updatedMessages = [...messages, userMsg, coachMsg];
-      await saveChatToDb(updatedMessages);
+      saveChatToDb(updatedMessages).catch(err => {
+        console.error('Error saving chat:', err);
+      });
 
-      // Log activity for progress tracking
+      // Log activity for progress tracking (non-blocking)
       if (userId) {
-        await logActivity(userId, 'chat', {
+        logActivity(userId, 'chat', {
           message_count: updatedMessages.length,
           chat_id: currentChatId,
+        }).catch(err => {
+          console.error('Error logging activity:', err);
         });
       }
     } catch (err) {
@@ -651,18 +913,76 @@ export default function ChatPage() {
     }
   };
 
+  // Parse cheat code summary into card data (same as my-codes page)
+  const parseCheatCodeForCards = (cheatCode: any) => {
+    const { what, when, how, why, phrase, title, category } = cheatCode;
+
+    // Split "How" into steps
+    const howSteps = how ? how.split('\n').filter((s: string) => s.trim().length > 0).slice(0, 3) : [];
+
+    return { what, when, howSteps, why, phrase, title, category };
+  };
+
+  // Build cards array for swipeable interface
+  const buildCheatCodeCards = (cheatCode: any) => {
+    const { what, when, howSteps, why, phrase, title, category } = parseCheatCodeForCards(cheatCode);
+
+    return [
+      { type: 'title', title, category },
+      { type: 'section', heading: 'What', content: what },
+      { type: 'section', heading: 'When', content: when },
+      ...howSteps.map((step: string, index: number) => ({
+        type: 'step',
+        heading: 'How',
+        stepNumber: index + 1,
+        totalSteps: howSteps.length,
+        content: step.replace(/^[•\-]\s*/, '') // Remove bullet points
+      })),
+      { type: 'section', heading: 'Why', content: why },
+      { type: 'phrase', heading: 'Your Cheat Code Phrase', content: phrase }
+    ];
+  };
+
+  // Card navigation
+  const nextCard = () => {
+    if (!selectedCheatCode) return;
+    const cards = buildCheatCodeCards(selectedCheatCode);
+    if (currentCard < cards.length - 1) {
+      setCurrentCard(currentCard + 1);
+    }
+  };
+
+  const prevCard = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+    }
+  };
+
+  const resetCards = () => {
+    setCurrentCard(0);
+  };
+
+  const handleCloseCheatCodeModal = () => {
+    setSelectedCheatCode(null);
+    resetCards();
+  };
+
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <div className="lg:hidden h-screen flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--card-border)' }}>
+        <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
           <div className="flex items-center justify-between">
-            <button onClick={handleBack} className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: 'var(--accent-color)' }}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </button>
+            {!isFirstCodeChat ? (
+              <button onClick={handleBack} className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90" style={{ color: 'var(--accent-color)' }}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                </svg>
+              </button>
+            ) : (
+              <div className="w-8 h-8"></div>
+            )}
             <div className="text-lg font-semibold" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
             <div className="w-8 h-8"></div>
           </div>
@@ -682,125 +1002,105 @@ export default function ChatPage() {
         </div>
 
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((message) => (
-            <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-              {message.sender === 'user' ? (
-                <div className="max-w-[75%] p-3 rounded-3xl border rounded-br-lg" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
-                  <div className="text-[15px] leading-relaxed">{message.text}</div>
-                  <div className="text-xs mt-2" style={{ color: 'var(--text-tertiary)' }}>
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </div>
-                </div>
-              ) : (
-                <div className="w-full p-3">
-                  {isCheatCode(message.text) ? (
-                    // Special formatting for cheat codes with intro text
-                    <div>
-                      {(() => {
-                        const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
-                        const cheatCode = parseCheatCode(cheatCodeText);
-                        return (
-                          <div>
-                            {/* Coach introduction text */}
-                            {intro && (
-                              <div className="text-[15px] leading-relaxed whitespace-pre-wrap mb-4" style={{ color: 'var(--text-primary)' }}>
-                                {intro}
-                              </div>
-                            )}
-
-                            {/* Cheat code box - Matching My Codes page design */}
-                            <div className="border rounded-2xl p-4" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                              <div className="flex items-center gap-2 mb-3">
-                                <span className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Cheat Code</span>
-                              </div>
-                              <div className="space-y-2">
-                                <div className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{cheatCode.title}</div>
-                                <div className="text-xs uppercase tracking-wide mb-2" style={{ color: 'var(--text-secondary)' }}>{cheatCode.category}</div>
-                                <div className="space-y-1.5 text-sm">
-                                  {cheatCode.what && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>What:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.what}</span></div>}
-                                  {cheatCode.when && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>When:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.when}</span></div>}
-                                  {cheatCode.how && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>How:</span> <span className="whitespace-pre-line" style={{ color: 'var(--text-primary)' }}>{cheatCode.how}</span></div>}
-                                  {cheatCode.why && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Why:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.why}</span></div>}
-                                  {cheatCode.phrase && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Cheat Code Phrase:</span> <span style={{ color: 'var(--text-primary)' }}>"{cheatCode.phrase}"</span></div>}
-                                  {cheatCode.practice && <div><span className="font-medium" style={{ color: 'var(--text-secondary)' }}>Practice:</span> <span style={{ color: 'var(--text-primary)' }}>{cheatCode.practice}</span></div>}
-                                </div>
-
-                                {/* Power Bar - Clean monochrome style */}
-                                <div className="mt-4 space-y-2">
-                                  <div className="flex justify-between items-center">
-                                    <span style={{ color: 'var(--text-secondary)' }} className="text-sm uppercase tracking-wide">Cheat Code Power</span>
-                                    <span style={{ color: 'var(--text-primary)' }} className="text-sm font-semibold">75%</span>
-                                  </div>
-                                  <div className="w-full h-5 rounded-full overflow-hidden relative" style={{ backgroundColor: 'var(--card-bg)' }}>
-                                    <div
-                                      className="h-full rounded-full transition-all duration-300 ease-out"
-                                      style={{
-                                        backgroundColor: '#00ff41',
-                                        width: '75%'
-                                      }}
-                                    ></div>
-                                  </div>
-                                  <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>Log a usage to activate this code and build its strength</p>
-                                </div>
-
-                                {/* Add to My Codes Button */}
-                                <div className="mt-4 pt-3 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                                  <button
-                                    onClick={() => handleSaveCheatCode(message.id, cheatCodeText)}
-                                    disabled={savingCheatCode === message.id || savedCheatCodes.has(message.id)}
-                                    className="w-full font-medium py-2.5 px-4 rounded-lg transition-colors border disabled:opacity-50"
-                                    style={{
-                                      backgroundColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-bg)',
-                                      borderColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-border)',
-                                      color: savedCheatCodes.has(message.id) ? '#000' : 'var(--text-primary)'
-                                    }}
-                                  >
-                                    {savingCheatCode === message.id
-                                      ? 'Saving...'
-                                      : savedCheatCodes.has(message.id)
-                                      ? '✓ Saved to My Codes'
-                                      : 'Add to "My Codes"'}
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })()}
+        <div ref={mobileScrollContainerRef} className="flex-1 overflow-y-auto">
+          <div className="px-4 py-6 pb-8">
+            <div className="space-y-6">
+              {messages.map((message) => (
+                <div key={message.id} className="group">
+                  {message.sender === 'user' ? (
+                    <div className="flex justify-end">
+                      <div className="max-w-[80%]">
+                        <div className="px-4 py-2.5 rounded-2xl rounded-br-md" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'var(--text-primary)' }}>
+                          <div className="text-[15px] leading-[1.5]">{message.text}</div>
+                        </div>
+                        <div className="text-[11px] mt-1.5 px-1 text-right" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                          {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </div>
+                      </div>
                     </div>
                   ) : (
-                    <TypingAnimation
-                      key={message.id}
-                      text={message.text}
-                      speed={40}
-                      className="text-[15px] leading-relaxed whitespace-pre-wrap"
-                      style={{ color: 'var(--text-primary)' }}
-                    />
+                    <>
+                      {isCheatCode(message.text) ? (
+                        // Cheat code with View button - full width layout
+                        (() => {
+                          const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
+                          const cheatCode = parseCheatCode(cheatCodeText);
+                          return (
+                            <div className="w-full">
+                              {/* Coach introduction text */}
+                              {intro && (
+                                <div className="flex justify-start mb-4">
+                                  <div className="max-w-[85%]">
+                                    <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                      {intro}
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* View Cheat Code Button - Full Width */}
+                              <div className="flex justify-center w-full px-2">
+                                <button
+                                  onClick={() => setSelectedCheatCode({ ...cheatCode, messageId: message.id, messageText: cheatCodeText })}
+                                  className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                                  style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                                >
+                                  View Cheat Code
+                                </button>
+                              </div>
+
+                              {/* Timestamp */}
+                              <div className="text-[11px] mt-1.5 px-1" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
+                            </div>
+                          );
+                        })()
+                      ) : (
+                        <div className="flex justify-start">
+                          <div className="max-w-[85%]">
+                            {message.isHistoric ? (
+                              // Historic messages: no typing animation
+                              <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                {message.text}
+                              </div>
+                            ) : (
+                              // New messages: show typing animation
+                              <TypingAnimation
+                                key={message.id}
+                                text={message.text}
+                                speed={40}
+                                onTextChange={scrollToBottom}
+                                className="text-[15px] leading-[1.6] whitespace-pre-wrap"
+                                style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                              />
+                            )}
+                            <div className="text-[11px] mt-1.5 px-1" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                              {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
-                  <div className="text-xs mt-2" style={{ color: 'var(--text-tertiary)' }}>
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              ))}
+
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+                    <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDuration: '1s' }}></div>
+                    <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDelay: '0.15s', animationDuration: '1s' }}></div>
+                    <div className="w-1.5 h-1.5 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDelay: '0.3s', animationDuration: '1s' }}></div>
                   </div>
                 </div>
               )}
             </div>
-          ))}
-
-          {isTyping && (
-            <div className="flex justify-start">
-              <div className="w-full p-3">
-                <div className="flex space-x-1">
-                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
-                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.2s' }}></div>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
 
         {/* Input */}
-        <div className="p-4 border-t flex-shrink-0" style={{ borderColor: 'var(--card-border)' }}>
+        <div className="p-4 border-t flex-shrink-0 lg:hidden" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
           <div className="relative">
             <textarea
               ref={inputRef}
@@ -833,33 +1133,37 @@ export default function ChatPage() {
       </div>
 
       {/* Desktop */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="hidden lg:flex lg:flex-col lg:h-screen">
         {/* Header */}
-        <div className="fixed top-0 left-0 right-0 px-6 py-5 z-20">
+        <div className="px-6 py-5 flex-shrink-0" style={{ backgroundColor: '#000000' }}>
           <div className="flex items-center justify-between relative">
             <div className="flex items-center gap-4">
-              <button
-                onClick={() => setMenuOpen(!menuOpen)}
-                className="p-2 rounded-lg transition-colors"
-                style={{ color: 'var(--accent-color)' }}
-                type="button"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-              </button>
-              <button
-                onClick={handleBack}
-                className="p-2 rounded-lg transition-colors"
-                style={{ color: 'var(--accent-color)' }}
-                type="button"
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                </svg>
-              </button>
+              {!isFirstCodeChat && (
+                <button
+                  onClick={() => setMenuOpen(!menuOpen)}
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--accent-color)' }}
+                  type="button"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </svg>
+                </button>
+              )}
+              {!isFirstCodeChat && (
+                <button
+                  onClick={handleBack}
+                  className="p-2 rounded-lg transition-colors"
+                  style={{ color: 'var(--accent-color)' }}
+                  type="button"
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                  </svg>
+                </button>
+              )}
               <div className="text-xl app-label" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
             </div>
             <div className="text-lg font-semibold absolute left-1/2 transform -translate-x-1/2" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
@@ -912,11 +1216,11 @@ export default function ChatPage() {
                 <span>My Codes</span>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+              <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
-                <span>Community Topics</span>
+                <span>Relatable Topics</span>
               </Link>
 
               <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
@@ -937,134 +1241,106 @@ export default function ChatPage() {
         </div>
 
         {/* Main Chat */}
-        <div className="flex-1 flex flex-col" style={{ paddingTop: selectedTopic ? '200px' : '80px' }}>
-          <div className="flex-1 overflow-y-auto p-8 max-w-4xl mx-auto w-full">
-            <div className="space-y-6">
-              {messages.map((message) => (
-                <div key={message.id} className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                  {message.sender === 'user' ? (
-                    <div className="max-w-[65%] p-5 rounded-3xl border rounded-br-lg" style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
-                      <div className="text-base leading-relaxed">{message.text}</div>
-                      <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div ref={desktopScrollContainerRef} className="flex-1 overflow-y-auto max-w-4xl mx-auto w-full">
+            <div className="px-8 py-6 pb-8">
+              <div className="space-y-8">
+                {messages.map((message) => (
+                  <div key={message.id} className="group">
+                    {message.sender === 'user' ? (
+                      <div className="flex justify-end">
+                        <div className="max-w-[70%]">
+                          <div className="px-5 py-3 rounded-2xl rounded-br-md" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'var(--text-primary)' }}>
+                            <div className="text-[15px] leading-[1.5]">{message.text}</div>
+                          </div>
+                          <div className="text-[11px] mt-1.5 px-1 text-right" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                            {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  ) : (
-                    <div className="w-full p-5">
-                      {isCheatCode(message.text) ? (
-                        // Special formatting for cheat codes with intro text
-                        <div>
-                          {(() => {
-                            const { intro, cheatCodeText } = splitCheatCodeMessage(message.text);
+                    ) : (
+                      <>
+                        {isCheatCode(message.text) ? (
+                          // Cheat code with View button - full width layout
+                          (() => {
+                            const { intro, cheatCodeText} = splitCheatCodeMessage(message.text);
                             const cheatCode = parseCheatCode(cheatCodeText);
                             return (
-                              <div>
+                              <div className="w-full">
                                 {/* Coach introduction text */}
                                 {intro && (
-                                  <div className="text-base leading-relaxed whitespace-pre-wrap mb-6" style={{ color: 'var(--text-primary)' }}>
-                                    {intro}
+                                  <div className="flex justify-start mb-4">
+                                    <div className="max-w-[80%]">
+                                      <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                        {intro}
+                                      </div>
+                                    </div>
                                   </div>
                                 )}
 
-                                {/* Cheat code box - Matching My Codes page design */}
-                                <div className="border rounded-2xl p-6" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                                  <div className="flex items-center gap-2 mb-4">
-                                    <span className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>Cheat Code</span>
-                                  </div>
-                                  <div className="space-y-4">
-                                    <div className="font-bold text-xl" style={{ color: 'var(--text-primary)' }}>{cheatCode.title}</div>
-                                    <div className="text-sm uppercase tracking-wide" style={{ color: 'var(--text-secondary)' }}>{cheatCode.category}</div>
-                                    <div className="space-y-3 text-base">
-                                      {cheatCode.what && (
-                                        <div className="leading-relaxed">
-                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>What:</div>
-                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.what}</div>
-                                        </div>
-                                      )}
-                                      {cheatCode.when && (
-                                        <div className="leading-relaxed">
-                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>When:</div>
-                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.when}</div>
-                                        </div>
-                                      )}
-                                      {cheatCode.how && (
-                                        <div className="leading-relaxed">
-                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>How:</div>
-                                          <div className="whitespace-pre-line" style={{ color: 'var(--text-primary)' }}>{cheatCode.how}</div>
-                                        </div>
-                                      )}
-                                      {cheatCode.why && (
-                                        <div className="leading-relaxed">
-                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>Why:</div>
-                                          <div style={{ color: 'var(--text-primary)' }}>{cheatCode.why}</div>
-                                        </div>
-                                      )}
-                                      {cheatCode.phrase && (
-                                        <div className="leading-relaxed">
-                                          <div className="font-semibold mb-1" style={{ color: 'var(--text-secondary)' }}>Cheat Code Phrase:</div>
-                                          <div style={{ color: 'var(--text-primary)' }}>"{cheatCode.phrase}"</div>
-                                        </div>
-                                      )}
-                                    </div>
+                                {/* View Cheat Code Button - Full Width */}
+                                <div className="w-full">
+                                  <button
+                                    onClick={() => setSelectedCheatCode({ ...cheatCode, messageId: message.id, messageText: cheatCodeText })}
+                                    className="w-full rounded-xl px-8 py-2.5 transition-all hover:scale-[1.01] font-semibold text-sm"
+                                    style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                                  >
+                                    View Cheat Code
+                                  </button>
+                                </div>
 
-                                    {/* Add to My Codes Button */}
-                                    <div className="mt-6 pt-4 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                                      <button
-                                        onClick={() => handleSaveCheatCode(message.id, cheatCodeText)}
-                                        disabled={savingCheatCode === message.id || savedCheatCodes.has(message.id)}
-                                        className="w-full font-medium py-3 px-4 rounded-xl transition-colors border disabled:opacity-50"
-                                        style={{
-                                          backgroundColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-bg)',
-                                          borderColor: savedCheatCodes.has(message.id) ? '#00ff41' : 'var(--card-border)',
-                                          color: savedCheatCodes.has(message.id) ? '#000' : 'var(--text-primary)'
-                                        }}
-                                      >
-                                        {savingCheatCode === message.id
-                                          ? 'Saving...'
-                                          : savedCheatCodes.has(message.id)
-                                          ? '✓ Saved to My Codes'
-                                          : 'Add to "My Codes"'}
-                                      </button>
-                                    </div>
-                                  </div>
+                                {/* Timestamp */}
+                                <div className="text-[11px] mt-1.5 px-1" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                                  {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </div>
                               </div>
                             );
-                          })()}
-                        </div>
-                      ) : (
-                        <TypingAnimation
-                          key={message.id}
-                          text={message.text}
-                          speed={40}
-                          className="text-base leading-relaxed whitespace-pre-wrap"
-                          style={{ color: 'var(--text-primary)' }}
-                        />
-                      )}
-                      <div className="text-sm mt-3" style={{ color: 'var(--text-tertiary)' }}>
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                          })()
+                        ) : (
+                          <div className="flex justify-start">
+                            <div className="max-w-[80%]">
+                              {message.isHistoric ? (
+                                // Historic messages: no typing animation
+                                <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                  {message.text}
+                                </div>
+                              ) : (
+                                // New messages: show typing animation
+                                <TypingAnimation
+                                  key={message.id}
+                                  text={message.text}
+                                  speed={40}
+                                  onTextChange={scrollToBottom}
+                                  className="text-[15px] leading-[1.6] whitespace-pre-wrap"
+                                  style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                                />
+                              )}
+                              <div className="text-[11px] mt-1.5 px-1" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+                                {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                ))}
 
-              {isTyping && (
-                <div className="flex justify-start">
-                  <div className="w-full p-5">
-                    <div className="flex space-x-2">
-                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)' }}></div>
-                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.1s' }}></div>
-                      <div className="w-3 h-3 rounded-full animate-bounce" style={{ backgroundColor: 'var(--text-secondary)', animationDelay: '0.2s' }}></div>
+                {isTyping && (
+                  <div className="flex justify-start">
+                    <div className="flex items-center gap-1.5 px-4 py-3 rounded-2xl" style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDuration: '1s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDelay: '0.15s', animationDuration: '1s' }}></div>
+                      <div className="w-2 h-2 rounded-full animate-bounce" style={{ backgroundColor: 'rgba(255, 255, 255, 0.5)', animationDelay: '0.3s', animationDuration: '1s' }}></div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </div>
 
           {/* Input */}
-          <div className="p-8 border-t" style={{ borderColor: 'var(--card-border)' }}>
+          <div className="p-8 border-t flex-shrink-0 hidden lg:block" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
             <div className="max-w-4xl mx-auto relative">
               <textarea
                 ref={inputRef}
@@ -1096,6 +1372,236 @@ export default function ChatPage() {
           </div>
         </div>
       </div>
+
+      {/* Cheat Code Modal with Swipeable Cards */}
+      {selectedCheatCode && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+          {/* Close Button */}
+          <button
+            onClick={handleCloseCheatCodeModal}
+            className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border"
+            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+
+          {/* Card Container */}
+          <div className="w-full max-w-lg">
+            {/* Card with Navigation Inside */}
+            <div className="rounded-2xl p-6 lg:p-10 min-h-[400px] lg:min-h-[500px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+              {/* Left Arrow - Centered */}
+              <button
+                onClick={prevCard}
+                disabled={currentCard === 0}
+                className={`absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                  currentCard === 0
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'active:scale-95'
+                }`}
+                style={{ color: currentCard === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+
+              {/* Right Arrow - Centered */}
+              <button
+                onClick={nextCard}
+                disabled={currentCard === buildCheatCodeCards(selectedCheatCode).length - 1}
+                className={`absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                  currentCard === buildCheatCodeCards(selectedCheatCode).length - 1
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'active:scale-95'
+                }`}
+                style={{ color: currentCard === buildCheatCodeCards(selectedCheatCode).length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+
+              {/* Card Content */}
+              <div className="flex-1 flex flex-col justify-between px-4 lg:px-6 py-4 lg:py-6 pb-3 lg:pb-4">
+                <div className="flex-1 flex flex-col items-center justify-center text-center">
+                  {(() => {
+                    const cards = buildCheatCodeCards(selectedCheatCode);
+                    const card = cards[currentCard];
+
+                    return (
+                      <>
+                        {/* Title Card */}
+                        {card.type === 'title' && (
+                          <div className="space-y-6 lg:space-y-8">
+                            <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                              {(card as any).title}
+                            </h1>
+                            <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                            <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+                              {(card as any).category}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Section Cards (When) */}
+                        {card.type === 'section' && (card as any).heading !== 'Why' && (
+                          <div className="space-y-6 lg:space-y-8 max-w-md">
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              {(card as any).heading}
+                            </div>
+                            <p className="text-xl lg:text-2xl font-medium leading-[1.4]" style={{ color: 'var(--text-primary)' }}>
+                              {(card as any).content}
+                            </p>
+                          </div>
+                        )}
+
+                        {/* Why Card */}
+                        {card.type === 'section' && (card as any).heading === 'Why' && (
+                          <div className="space-y-6 lg:space-y-8 max-w-lg">
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              {(card as any).heading}
+                            </div>
+                            <div className="space-y-4 lg:space-y-6">
+                              {(card as any).content.split('\n\n').map((paragraph: string, i: number) => (
+                                <p key={i} className="text-base lg:text-lg font-medium leading-[1.6]" style={{ color: 'var(--text-primary)' }}>
+                                  {paragraph}
+                                </p>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Step Cards */}
+                        {card.type === 'step' && 'stepNumber' in card && (
+                          <div className="space-y-6 lg:space-y-8 max-w-lg">
+                            <div className="space-y-2 lg:space-y-3">
+                              <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                                {(card as any).heading}
+                              </div>
+                              <div className="text-xs lg:text-sm font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                                Step {(card as any).stepNumber} of {(card as any).totalSteps}
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4 lg:gap-6">
+                              <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                                <span className="font-bold text-lg lg:text-xl" style={{ color: 'var(--text-primary)' }}>{(card as any).stepNumber}</span>
+                              </div>
+                              <p className="text-lg lg:text-xl font-medium leading-[1.5] text-left flex-1" style={{ color: 'var(--text-primary)' }}>
+                                {(card as any).content}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Phrase Card (Final) */}
+                        {card.type === 'phrase' && (
+                          <div className="space-y-8 lg:space-y-10 w-full max-w-md">
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              Your Cheat Code Phrase
+                            </div>
+                            <div className="space-y-6 lg:space-y-8">
+                              <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
+                                "{(card as any).content}"
+                              </p>
+                              <button
+                                onClick={async () => {
+                                  await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText);
+                                }}
+                                disabled={savedCheatCodes.has(selectedCheatCode.messageId) || savingCheatCode === selectedCheatCode.messageId}
+                                className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
+                                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                              >
+                                {savedCheatCodes.has(selectedCheatCode.messageId)
+                                  ? '✓ Saved to My Codes'
+                                  : savingCheatCode === selectedCheatCode.messageId
+                                    ? 'Saving...'
+                                    : 'Add to My Codes'}
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </>
+                    );
+                  })()}
+                </div>
+
+                {/* Footer with Branding */}
+                <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                  <div className="text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                    MYCHEATCODE.AI
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Progress Indicator */}
+            <div className="flex justify-center gap-2 mt-6">
+              {buildCheatCodeCards(selectedCheatCode).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-1.5 rounded-full transition-all"
+                  style={{
+                    width: index === currentCard ? '2rem' : '0.375rem',
+                    backgroundColor: index === currentCard ? '#ffffff' : '#2a2a2a'
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Success Animation Overlay */}
+            {showSaveSuccess && (
+              <div
+                className="fixed inset-0 z-[120] flex items-center justify-center backdrop-blur-sm"
+                style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
+              >
+                <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                    <polyline points="20 6 9 17 4 12" strokeDasharray="100" strokeDashoffset="0"
+                      style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
+                  </svg>
+                  <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
+                    <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Saved to My Codes!</h3>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Animation Styles */}
+      <style jsx global>{`
+        @keyframes fade-in-scale {
+          0% {
+            opacity: 0;
+            transform: scale(0.8);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+
+        @keyframes fade-out {
+          0% {
+            opacity: 1;
+          }
+          100% {
+            opacity: 0;
+          }
+        }
+
+        @keyframes checkmark-draw {
+          0% {
+            stroke-dashoffset: 100;
+          }
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+      `}</style>
     </div>
   );
 }

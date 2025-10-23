@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
@@ -100,6 +100,8 @@ export default function OnboardingPage() {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   // Form data
   const [name, setName] = useState('');
@@ -114,6 +116,30 @@ export default function OnboardingPage() {
   const supabase = createClient();
 
   const totalSteps = 7;
+
+  // Check authentication on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession();
+
+        if (error || !session) {
+          console.error('No session found:', error);
+          router.push('/signup');
+          return;
+        }
+
+        setIsAuthenticated(true);
+        setCheckingAuth(false);
+      } catch (err) {
+        console.error('Auth check error:', err);
+        router.push('/signup');
+      }
+    };
+
+    checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleNext = () => {
     // Validation for each step
@@ -173,12 +199,16 @@ export default function OnboardingPage() {
     setError('');
 
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { session }, error: authError } = await supabase.auth.getSession();
 
-      if (!user) {
-        setError('Not authenticated');
+      if (authError || !session?.user) {
+        console.error('Auth error:', authError);
+        setError('Not authenticated. Please sign in again.');
+        setLoading(false);
         return;
       }
+
+      const user = session.user;
 
       const { error: updateError } = await supabase
         .from('users')
@@ -189,7 +219,6 @@ export default function OnboardingPage() {
           confidence_level: confidenceLevel,
           confidence_blockers: blockers,
           confidence_goal: goal,
-          biggest_challenge: null,
           onboarding_completed: true,
           updated_at: new Date().toISOString()
         })
@@ -213,7 +242,6 @@ export default function OnboardingPage() {
 
       // Success! Redirect to chat to create first code
       router.push('/chat');
-      router.refresh();
     } catch (err) {
       console.error('Submit error:', err);
       setError('An unexpected error occurred');
@@ -231,6 +259,22 @@ export default function OnboardingPage() {
     ];
     return labels[value - 1];
   };
+
+  // Show loading while checking auth
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-black text-white font-sans flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-xl" style={{ color: '#00ff41' }}>Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render the form if not authenticated (will redirect)
+  if (!isAuthenticated) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-black text-white font-sans flex flex-col">

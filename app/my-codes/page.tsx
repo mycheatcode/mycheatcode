@@ -20,6 +20,8 @@ import {
 import ActiveCodesDisplay from '../../components/ActiveCodesDisplay';
 import OverallProgressCircle from '../../components/OverallProgressCircle';
 import StreakDisplay from '../../components/StreakDisplay';
+import { createClient } from '@/lib/supabase/client';
+import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats } from '@/lib/cheatcodes';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -27,7 +29,8 @@ if (typeof window !== 'undefined') {
 }
 
 interface CheatCode {
-  id: number;
+  id: string; // UUID from database
+  displayId: number; // For UI display (1, 2, 3, etc.)
   title: string;
   category: string;
   power: number;
@@ -36,93 +39,130 @@ interface CheatCode {
   lastSession: string;
   sessionsCompleted: number;
   summary: string;
-  topicId?: number;
+  topicId?: string; // UUID of the chat session
   archived?: boolean;
+  timesUsed?: number;
+  lastUsedDaysAgo?: number | null;
 }
 
 export default function MyCodesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
-  const [animatingCode, setAnimatingCode] = useState<number | null>(null);
+  const [animatingCode, setAnimatingCode] = useState<string | null>(null);
   const [animationType, setAnimationType] = useState<'archive' | 'reactivate' | null>(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [showSuccess, setShowSuccess] = useState(false);
   const [hasAdded, setHasAdded] = useState(false);
-  const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([
-    {
-      id: 1,
-      title: "Free Throw Lockdown",
-      category: "In-Game",
-      power: 95,
-      streak: 8,
-      streakType: 'fire',
-      lastSession: "1 hour ago",
-      sessionsCompleted: 18,
-      summary: "**What**: A 3-step mental reset routine for free throws\n\n**When**: Standing at the free throw line during pressure moments\n\n**How**: Take a controlled breath (2-count inhale, 3-count exhale), say 'My line, my time' while visualizing the ball going in\n\n**Why**: Creates consistency and focus under pressure by combining breathing, positive self-talk, and visualization\n\n**Cheat Code Phrase**: \"My line, my time\"",
-      topicId: 1
-    },
-    {
-      id: 2,
-      title: "Team Chemistry Builder",
-      category: "Locker Room",
-      power: 62,
-      streak: 3,
-      streakType: 'fire',
-      lastSession: "Yesterday",
-      sessionsCompleted: 9,
-      summary: "**What**: Active leadership through genuine teammate support and connection\n\n**When**: In the locker room before/after games and during team interactions\n\n**How**: Be first to celebrate successes, first to encourage after mistakes, ask about teammates' lives outside basketball, lead by example in effort and attitude\n\n**Why**: Strong team chemistry elevates everyone's performance and creates a supportive environment where players thrive\n\n**Cheat Code Phrase**: \"Team first, always\"",
-      topicId: 2
-    },
-    {
-      id: 3,
-      title: "Pre-Game Confidence Boost",
-      category: "Pre-Game",
-      power: 28,
-      streak: 1,
-      streakType: 'calendar',
-      lastSession: "3 days ago",
-      sessionsCompleted: 4,
-      summary: "**What**: Mental preparation through visualization and positive affirmations\n\n**When**: 30 minutes before game time in a quiet space\n\n**How**: Visualize yourself making key plays, feeling confident, and leading your team. End with three power phrases about your specific strengths\n\n**Why**: Mental rehearsal primes your brain for success and builds unshakeable confidence before competition\n\n**Cheat Code Phrase**: \"I belong here\"",
-      topicId: 3
-    },
-    {
-      id: 4,
-      title: "Clutch Time Mentality",
-      category: "In-Game",
-      power: 83,
-      streak: 6,
-      streakType: 'fire',
-      lastSession: "Yesterday",
-      sessionsCompleted: 11,
-      summary: "**What**: Mental approach for handling high-pressure game situations\n\n**When**: During clutch moments, close games, or when the pressure is highest\n\n**How**: Slow down your breathing, think 'This is why I practice,' trust your instincts, play aggressive, and embrace the moment\n\n**Why**: Great players are made in pressure moments - this mindset separates champions from everyone else\n\n**Cheat Code Phrase**: \"This is why I practice\"",
-      topicId: 4
-    },
-    {
-      id: 5,
-      title: "Post-Game Mental Reset",
-      category: "Post-Game",
-      power: 42,
-      streak: 2,
-      streakType: 'calendar',
-      lastSession: "2 days ago",
-      sessionsCompleted: 6,
-      summary: "**What**: Structured post-game mental processing routine\n\n**When**: Within 30 minutes after every game ends\n\n**How**: Spend 10 minutes writing down 3 things you did well, 1 thing to improve, and set your mindset for the next game\n\n**Why**: Prevents negative mental spirals, builds confidence through recognizing progress, and maintains forward momentum\n\n**Cheat Code Phrase**: \"Learn, grow, next\"",
-      topicId: 5
-    }
-  ]);
+  const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
+  const [usedToday, setUsedToday] = useState(false);
+  const [isLoggingUsage, setIsLoggingUsage] = useState(false);
   const router = useRouter();
+  const supabase = createClient();
   const { addUsageLog, getCheatCodePower, getSectionCheatCodes } = useCheatCodePower();
   const { executeUpdate, getSectionDecayStatus } = useSectionRadar();
 
   // Engagement system hooks
   const { activeEvent, showFeedback, dismissFeedback } = useEngagementFeedback();
 
+  // Load real cheat codes from database
+  useEffect(() => {
+    const loadCheatCodes = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { cheatCodes: dbCodes, error } = await getUserCheatCodes(user.id);
+      if (error) {
+        console.error('Error fetching cheat codes:', error);
+        return;
+      }
+
+      if (!dbCodes || dbCodes.length === 0) {
+        return; // No codes yet
+      }
+
+      // Transform database cheat codes to match component interface
+      const transformedCodes: CheatCode[] = dbCodes.map((code: any, index: number) => {
+        // Calculate time since last use
+        const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
+        const now = new Date();
+        const diffMs = now.getTime() - lastUsed.getTime();
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffHours / 24);
+
+        let lastSession = 'Just now';
+        if (diffHours < 1) lastSession = 'Just now';
+        else if (diffHours < 24) lastSession = `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        else if (diffDays === 1) lastSession = 'Yesterday';
+        else lastSession = `${diffDays} days ago`;
+
+        // Determine streak type based on power and usage
+        let streakType: 'fire' | 'calendar' | 'sleep' | 'new' = 'new';
+        const power = code.power || 0;
+        if (power > 70 && diffDays < 2) streakType = 'fire';
+        else if (power > 40 && diffDays < 3) streakType = 'calendar';
+        else if (diffDays >= 3) streakType = 'sleep';
+
+        // Calculate streak (simplified - could be enhanced with actual usage tracking)
+        const streak = Math.max(1, Math.floor(power / 12));
+
+        return {
+          id: code.id, // Keep the real UUID
+          displayId: index + 1, // Sequential number for display
+          title: code.title,
+          category: code.category,
+          power: power,
+          streak: streak,
+          streakType: streakType,
+          lastSession: lastSession,
+          sessionsCompleted: code.sessions_completed || 0,
+          summary: code.content || '',
+          topicId: code.chat_id || undefined, // Keep as UUID string, don't parse to int
+          archived: code.is_active === false,
+          timesUsed: code.times_used || 0,
+          lastUsedDaysAgo: code.last_used_at ? diffDays : null
+        };
+      });
+
+      setCheatCodes(transformedCodes);
+    };
+
+    loadCheatCodes();
+  }, [supabase]);
+
   // Check for decay on page load
   useEffect(() => {
     // TODO: Add periodic decay check here if needed
     // This would call checkAndApplyDecayIfNeeded() to update power levels
   }, []);
+
+  // Check if selected code was used today
+  useEffect(() => {
+    const checkUsage = async () => {
+      console.log('=== Running useEffect to check usage ===');
+      console.log('Selected code:', selectedCode?.title, selectedCode?.id);
+
+      if (!selectedCode) {
+        console.log('No selected code, setting usedToday to false');
+        setUsedToday(false);
+        return;
+      }
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        console.log('No user found');
+        return;
+      }
+
+      console.log('Calling checkTodayUsage...');
+      const { usedToday: wasUsedToday } = await checkTodayUsage(user.id, selectedCode.id);
+      console.log('checkTodayUsage returned:', wasUsedToday);
+      console.log('Setting usedToday state to:', wasUsedToday);
+      setUsedToday(wasUsedToday);
+    };
+
+    checkUsage();
+  }, [selectedCode, supabase]);
 
 
   // Seed some test data on mount for demo purposes
@@ -168,7 +208,23 @@ export default function MyCodesPage() {
   // Function to add a log to a cheat code (updates both power system and section radar)
   const handleUseCheatCode = async (cheatCode: CheatCode) => {
     try {
+      setIsLoggingUsage(true);
       console.log(`=== Using cheat code: ${cheatCode.title} (ID: ${cheatCode.id}) ===`);
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        console.error('User not authenticated');
+        setIsLoggingUsage(false);
+        return;
+      }
+
+      // Log usage to database (using the real UUID)
+      const { error: logError } = await logCheatCodeUsage(user.id, cheatCode.id);
+      if (logError) {
+        console.error('Error logging usage:', logError);
+        setIsLoggingUsage(false);
+        return;
+      }
 
       // Check power BEFORE using
       const powerBefore = getCheatCodePower(cheatCode.id.toString());
@@ -220,16 +276,35 @@ export default function MyCodesPage() {
         triggerSuccessFeedback(); // Light haptic for regular usage
       }
 
-      // Update local state (simulate using the code)
+      // Show success animation
+      setShowSuccess(true);
+      setTimeout(() => {
+        setShowSuccess(false);
+        setUsedToday(true);
+        // Close the modal and return to my codes page after success animation
+        setTimeout(() => {
+          handleCloseModal();
+        }, 500);
+      }, 2000);
+
+      // Update local state
       setCheatCodes(prev => prev.map(code =>
         code.id === cheatCode.id
-          ? { ...code, sessionsCompleted: code.sessionsCompleted + 1, lastSession: 'Just now' }
+          ? {
+              ...code,
+              sessionsCompleted: code.sessionsCompleted + 1,
+              lastSession: 'Just now',
+              timesUsed: (code.timesUsed || 0) + 1,
+              lastUsedDaysAgo: 0
+            }
           : code
       ));
 
       console.log('Cheat code usage result:', result);
+      setIsLoggingUsage(false);
     } catch (error) {
       console.error('Error using cheat code:', error);
+      setIsLoggingUsage(false);
     }
   };
 
@@ -264,15 +339,6 @@ export default function MyCodesPage() {
     } else if (timeSinceLastUse > threshold48h * 0.75) { // 36+ hours
       const hoursUntilDecay = Math.ceil((threshold48h - timeSinceLastUse) / (60 * 60 * 1000));
       return { status: 'warning', hoursUntilDecay, icon: '⚠️', color: 'text-orange-400' };
-    }
-
-    // For demo purposes, let's show decay warnings on some codes
-    // This will work once the power system has data
-    if (cheatCode.id === 1) {
-      return { status: 'warning', hoursUntilDecay: 8, icon: '⚠️', color: 'text-orange-400' };
-    }
-    if (cheatCode.id === 4) {
-      return { status: 'decaying', hoursInactive: 72, icon: '🔋', color: 'text-red-400' };
     }
 
     return null;
@@ -321,7 +387,7 @@ export default function MyCodesPage() {
     return stats;
   };
 
-  const toggleArchiveStatus = (codeId: number) => {
+  const toggleArchiveStatus = (codeId: string) => {
     const code = cheatCodes.find(c => c.id === codeId);
     if (!code) return;
 
@@ -333,7 +399,7 @@ export default function MyCodesPage() {
     setTimeout(() => {
       if (code.archived) {
         // Reactivate
-        const result = reactivateCheatCode(codeId.toString());
+        const result = reactivateCheatCode(codeId);
         if (result.success) {
           setCheatCodes(codes => codes.map(c =>
             c.id === codeId ? { ...c, archived: false } : c
@@ -345,7 +411,7 @@ export default function MyCodesPage() {
         }
       } else {
         // Archive
-        const result = archiveCheatCode(codeId.toString());
+        const result = archiveCheatCode(codeId);
         if (result.success) {
           setCheatCodes(codes => codes.map(c =>
             c.id === codeId ? { ...c, archived: true } : c
@@ -376,26 +442,72 @@ export default function MyCodesPage() {
     }
   };
 
-  const handleOpenChat = (code: CheatCode) => {
+  const handleOpenChat = async (code: CheatCode) => {
     if (code.topicId) {
-      // Store comprehensive conversation data to continue exactly where left off
+      // Fetch the actual chat from database and restore it
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/chat');
+        return;
+      }
+
+      try {
+        console.log('Fetching chat with ID:', code.topicId, 'for user:', user.id);
+
+        // Fetch the chat from database using chat_id (using the already-initialized supabase client)
+        const { data: chatData, error } = await supabase
+          .from('chats')
+          .select('*')
+          .eq('id', code.topicId)
+          .eq('user_id', user.id)
+          .single();
+
+        console.log('Chat fetch result:', { chatData, error });
+
+        if (error || !chatData) {
+          console.error('Error fetching chat or chat not found:', error);
+          // Fall back to starting a new chat with topic
+          localStorage.setItem('selectedTopic', JSON.stringify({
+            title: code.title,
+            description: code.summary,
+          }));
+          router.push('/chat');
+          return;
+        }
+
+        // Store the chat history for restoration
+        localStorage.setItem('chatHistory', JSON.stringify({
+          isRestoringChat: true,
+          messages: chatData.messages || [],
+          sessionId: chatData.id
+        }));
+
+        // Store the ORIGINAL selected topic from the database, not the cheat code details
+        if (chatData.selected_topic) {
+          localStorage.setItem('selectedTopic', JSON.stringify({
+            ...chatData.selected_topic,
+            isReturningToExistingChat: true,
+          }));
+        }
+
+        router.push('/chat');
+      } catch (err) {
+        console.error('Error loading chat:', err);
+        // Fall back to starting a new chat with topic
+        localStorage.setItem('selectedTopic', JSON.stringify({
+          title: code.title,
+          description: code.summary,
+        }));
+        router.push('/chat');
+      }
+    } else {
+      // No chat ID - start fresh chat with topic
       localStorage.setItem('selectedTopic', JSON.stringify({
-        id: code.topicId,
         title: code.title,
         description: code.summary,
-        isReturningToExistingChat: true,
-        cheatCodeId: code.id,
-        conversationContext: {
-          category: code.category,
-          sessionsCompleted: code.sessionsCompleted,
-          currentPower: code.power,
-          currentStreak: code.streak,
-          lastSession: code.lastSession,
-          developedStrategy: code.summary
-        }
       }));
+      router.push('/chat');
     }
-    router.push('/chat');
   };
 
   const handleStartFreshChat = () => {
@@ -528,11 +640,11 @@ export default function MyCodesPage() {
               </svg>
               <span>My Codes</span>
             </Link>
-            <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+            <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
-              <span>Community Topics</span>
+              <span>Relatable Topics</span>
             </Link>
             <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -654,7 +766,7 @@ export default function MyCodesPage() {
                   <span className="font-medium">Last: {code.lastSession}</span>
                 </div>
                 <div>
-                  <span className="font-medium">{code.sessionsCompleted} sessions</span>
+                  <span className="font-medium">Completed {code.timesUsed || 0}x</span>
                 </div>
               </div>
             </div>
@@ -715,11 +827,11 @@ export default function MyCodesPage() {
                 <span>My Codes</span>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+              <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
-                <span>Community Topics</span>
+                <span>Relatable Topics</span>
               </Link>
 
               <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
@@ -829,7 +941,7 @@ export default function MyCodesPage() {
                     <span className="font-medium">Last: {code.lastSession}</span>
                   </div>
                   <div>
-                    <span className="font-medium">{code.sessionsCompleted} sessions</span>
+                    <span className="font-medium">Completed {code.timesUsed || 0}x</span>
                   </div>
                 </div>
 
@@ -985,16 +1097,25 @@ export default function MyCodesPage() {
                             <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
                               "{(card as any).content}"
                             </p>
+
                             <div className="space-y-3 lg:space-y-4 relative">
-                              <button
-                                onClick={() => {
-                                  handleUseCheatCode(selectedCode);
-                                }}
-                                className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
-                                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
-                              >
-                                Use Cheat Code
-                              </button>
+                              {usedToday ? (
+                                <div className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg flex items-center justify-center gap-2" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)', border: '1px solid var(--accent-color)' }}>
+                                  <span>✓</span>
+                                  <span>Logged Today</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    handleUseCheatCode(selectedCode);
+                                  }}
+                                  disabled={isLoggingUsage}
+                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                                >
+                                  {isLoggingUsage ? 'Logging...' : "Mark Complete"}
+                                </button>
+                              )}
 
                               <button
                                 onClick={() => handleOpenChat(selectedCode)}
@@ -1002,14 +1123,6 @@ export default function MyCodesPage() {
                                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                               >
                                 Open Chat
-                              </button>
-
-                              <button
-                                onClick={resetCards}
-                                className="w-full py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
-                                style={{ color: 'var(--text-secondary)' }}
-                              >
-                                Back to Start
                               </button>
                             </div>
                           </div>
@@ -1020,10 +1133,27 @@ export default function MyCodesPage() {
                 })()}
                 </div>
 
-                {/* Footer with Branding */}
+                {/* Footer with Branding and Usage Stats */}
                 <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
-                  <div className="text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-                    MYCHEATCODE.AI
+                  <div className="flex items-center justify-between text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                    <span>MYCHEATCODE.AI</span>
+                    <span className="flex items-center gap-2">
+                      {selectedCode.timesUsed !== undefined && selectedCode.timesUsed > 0 ? (
+                        <>
+                          <span>Completed {selectedCode.timesUsed}x</span>
+                          {selectedCode.lastUsedDaysAgo !== null && (
+                            <>
+                              <span>•</span>
+                              <span>
+                                {selectedCode.lastUsedDaysAgo === 0 ? 'Today' : selectedCode.lastUsedDaysAgo === 1 ? 'Yesterday' : `${selectedCode.lastUsedDaysAgo}d ago`}
+                              </span>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <span>Not completed yet</span>
+                      )}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -1041,7 +1171,7 @@ export default function MyCodesPage() {
                       style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
                   </svg>
                   <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
-                    <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Added to My Codes!</h3>
+                    <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Locked In!</h3>
                   </div>
                 </div>
               </div>

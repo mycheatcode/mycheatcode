@@ -7,6 +7,7 @@ interface TypingAnimationProps {
   speed?: number; // milliseconds per character
   delay?: number; // milliseconds before starting
   onComplete?: () => void;
+  onTextChange?: () => void; // Called whenever displayed text changes
   className?: string;
   style?: React.CSSProperties;
 }
@@ -16,6 +17,7 @@ export default function TypingAnimation({
   speed = 80,
   delay = 0,
   onComplete,
+  onTextChange,
   className = "",
   style
 }: TypingAnimationProps) {
@@ -49,6 +51,7 @@ export default function TypingAnimation({
           setDisplayedText(prev => {
             const newText = prev + char;
             console.log(`📝 New displayed text: "${newText}"`);
+            onTextChange?.(); // Notify parent that text changed
             return newText;
           });
 

@@ -5,9 +5,10 @@ import React, { useEffect, useRef } from 'react';
 interface ProgressCirclesProps {
   theme?: 'dark' | 'light';
   onProgressUpdate?: (percentage: number) => void;
+  progress?: number; // Actual progress percentage from database (0-100)
 }
 
-const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesProps) => {
+const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: ProgressCirclesProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -55,8 +56,13 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
 
       // Scale radii based on container size (use smaller dimension)
       const baseSize = Math.min(w, h);
-      const progressRadius = baseSize * 0.18;  // 18% of container
-      const goalRadius = baseSize * 0.34;      // 34% of container
+      const goalRadius = baseSize * 0.34;      // 34% of container (fixed outer circle)
+
+      // Calculate inner circle radius based on actual progress percentage
+      // Use LINEAR radius growth so visual matches percentage more accurately
+      const progressRatio = progress / 100;
+      const progressRadius = goalRadius * progressRatio;
+
       const segments = 100;
 
       // Draw goal circle (outer, filled and translucent)
@@ -110,13 +116,10 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Calculate percentage based on area ratio
-      const progressArea = Math.PI * Math.pow(progressRadius, 2);
-      const goalArea = Math.PI * Math.pow(goalRadius, 2);
-      const percentage = Math.round((progressArea / goalArea) * 100);
-
+      // Pass the actual progress percentage to the callback
+      // (No need to calculate - we already have it from the database)
       if (onProgressUpdate) {
-        onProgressUpdate(percentage);
+        onProgressUpdate(progress);
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -128,7 +131,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate }: ProgressCirclesPr
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [theme]);
+  }, [theme, progress, onProgressUpdate]);
 
   return (
     <canvas

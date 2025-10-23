@@ -1,27 +1,43 @@
 import { createClient } from './supabase/client';
 
 // Progress calculation rules:
-// - First 3 chats: +10% each
-// - Chats 4-10: +5% each
-// - Chats 11+: +2% each
-// - Decay: -5% per 24 hours of inactivity
-// - Caps at 100%, never below 0%
+// - Baseline: 25% (built-in confidence - every athlete starts here)
+// - First 5 chats: +3% each (40% at 5 chats)
+// - Chats 6-15: +2% each (60% at 15 chats)
+// - Chats 16-30: +1.5% each (82.5% at 30 chats)
+// - Chats 31-50: +1% each (can reach 100% at 50 chats)
+// - Chats 51+: +0.5% each (maintain/sustain 100%)
+// - Decay: -3% per 48 hours of inactivity
+// - Progress floor: 25% (baseline confidence never disappears)
+// - Caps at 100%
 
 function calculateChatContribution(chatCount: number): number {
   let progress = 0;
 
-  // First 3 chats: 10% each
-  if (chatCount >= 1) progress += Math.min(chatCount, 3) * 10;
+  // First 5 chats: 3% each
+  if (chatCount >= 1) progress += Math.min(chatCount, 5) * 3;
 
-  // Chats 4-10: 5% each
-  if (chatCount > 3) {
-    const chats4to10 = Math.min(chatCount - 3, 7);
-    progress += chats4to10 * 5;
+  // Chats 6-15: 2% each
+  if (chatCount > 5) {
+    const chats6to15 = Math.min(chatCount - 5, 10);
+    progress += chats6to15 * 2;
   }
 
-  // Chats 11+: 2% each
-  if (chatCount > 10) {
-    progress += (chatCount - 10) * 2;
+  // Chats 16-30: 1.5% each
+  if (chatCount > 15) {
+    const chats16to30 = Math.min(chatCount - 15, 15);
+    progress += chats16to30 * 1.5;
+  }
+
+  // Chats 31-50: 1% each
+  if (chatCount > 30) {
+    const chats31to50 = Math.min(chatCount - 30, 20);
+    progress += chats31to50 * 1;
+  }
+
+  // Chats 51+: 0.5% each
+  if (chatCount > 50) {
+    progress += (chatCount - 50) * 0.5;
   }
 
   return progress;
@@ -32,11 +48,12 @@ function calculateDecay(lastActivityTimestamp: number): number {
   const hoursSinceActivity = (now - lastActivityTimestamp) / (1000 * 60 * 60);
   const daysSinceActivity = hoursSinceActivity / 24;
 
-  // Decay starts after 24 hours
-  if (daysSinceActivity < 1) return 0;
+  // Decay starts after 48 hours (2 days)
+  if (daysSinceActivity < 2) return 0;
 
-  // -5% per 24 hours of inactivity
-  return Math.floor(daysSinceActivity) * 5;
+  // -3% per 48 hours of inactivity
+  const decayPeriods = Math.floor(daysSinceActivity / 2);
+  return decayPeriods * 3;
 }
 
 export interface ProgressData {
@@ -56,15 +73,14 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
   const supabase = createClient();
 
   try {
-    // Fetch user's activity log
-    const { data: activities, error } = await supabase
-      .from('activity_log')
-      .select('activity_type, created_at')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false });
+    // Count actual chat SESSIONS (not individual activities)
+    const { data: chats, error: chatsError } = await supabase
+      .from('chats')
+      .select('id, created_at')
+      .eq('user_id', userId);
 
-    if (error) {
-      console.error('Error fetching activity:', error);
+    if (chatsError) {
+      console.error('Error fetching chats:', chatsError);
       return {
         progress: 0,
         chatCount: 0,
@@ -76,27 +92,45 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
       };
     }
 
-    // Count chat activities
-    const chatActivities = activities?.filter((a) => a.activity_type === 'chat') || [];
-    const chatCount = chatActivities.length;
+    // Count total chat sessions
+    const chatCount = chats?.length || 0;
+
+    // Get most recent chat activity for decay calculation
+    const { data: activities, error } = await supabase
+      .from('activity_log')
+      .select('created_at')
+      .eq('user_id', userId)
+      .eq('activity_type', 'chat')
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.error('Error fetching activity:', error);
+    }
 
     // Get last activity timestamp
     const lastActivity = activities && activities.length > 0 ? new Date(activities[0].created_at).getTime() : 0;
 
+    // Baseline confidence (25%)
+    const BASELINE_CONFIDENCE = 25;
+
     // Calculate base progress from chats
-    const baseProgress = calculateChatContribution(chatCount);
+    const chatProgress = calculateChatContribution(chatCount);
 
     // Calculate decay
     const decay = lastActivity > 0 ? calculateDecay(lastActivity) : 0;
 
-    // Final progress (capped 0-100)
-    const finalProgress = Math.max(0, Math.min(100, baseProgress - decay));
+    // Total base progress = baseline + chat contribution
+    const baseProgress = BASELINE_CONFIDENCE + chatProgress;
 
-    // Calculate time until next decay
+    // Final progress (capped 25-100, never below baseline)
+    const finalProgress = Math.max(BASELINE_CONFIDENCE, Math.min(100, baseProgress - decay));
+
+    // Calculate time until next decay (decay happens every 48 hours)
     const hoursSinceActivity =
       lastActivity > 0 ? (Date.now() - lastActivity) / (1000 * 60 * 60) : 0;
     const hoursUntilNextDecay =
-      lastActivity > 0 ? Math.max(0, 24 - (hoursSinceActivity % 24)) : 0;
+      lastActivity > 0 ? Math.max(0, 48 - (hoursSinceActivity % 48)) : 0;
 
     return {
       progress: finalProgress,

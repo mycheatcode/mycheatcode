@@ -22,19 +22,24 @@ export async function saveCheatCode(
   const supabase = createClient();
 
   try {
+    // Build content from individual fields
+    const contentParts = [];
+    if (cheatCodeData.what) contentParts.push(`**What**: ${cheatCodeData.what}`);
+    if (cheatCodeData.when) contentParts.push(`**When**: ${cheatCodeData.when}`);
+    if (cheatCodeData.how) contentParts.push(`**How**: ${cheatCodeData.how}`);
+    if (cheatCodeData.why) contentParts.push(`**Why**: ${cheatCodeData.why}`);
+    if (cheatCodeData.phrase) contentParts.push(`**Cheat Code Phrase**: "${cheatCodeData.phrase}"`);
+
+    const content = contentParts.join('\n\n');
+
     const { data, error } = await supabase
       .from('cheat_codes')
       .insert({
         user_id: userId,
         title: cheatCodeData.title,
         category: cheatCodeData.category,
-        what: cheatCodeData.what || null,
-        when: cheatCodeData.when || null,
-        how: cheatCodeData.how || null,
-        why: cheatCodeData.why || null,
-        phrase: cheatCodeData.phrase || null,
-        practice: cheatCodeData.practice || null,
-        source_chat_id: chatId || null,
+        content: content,
+        chat_id: chatId || null,
       })
       .select('id')
       .single();
@@ -126,7 +131,6 @@ export async function updateCheatCode(
       .from('cheat_codes')
       .update({
         ...updates,
-        updated_at: new Date().toISOString(),
       })
       .eq('id', cheatCodeId)
       .eq('user_id', userId);
@@ -204,7 +208,6 @@ export async function updateCheatCodePower(
       .update({
         power: newPower,
         last_used_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
       })
       .eq('id', cheatCodeId)
       .eq('user_id', userId);
@@ -218,5 +221,158 @@ export async function updateCheatCodePower(
   } catch (err) {
     console.error('Unexpected error updating cheat code power:', err);
     return { error: 'Unexpected error' };
+  }
+}
+
+/**
+ * Log cheat code usage
+ * Creates a usage log entry and increments the usage count
+ */
+export async function logCheatCodeUsage(
+  userId: string,
+  cheatCodeId: string
+): Promise<{ error?: string }> {
+  const supabase = createClient();
+
+  try {
+    // Insert usage log entry (silently fail if table doesn't exist)
+    await supabase
+      .from('cheat_code_usage_log')
+      .insert({
+        user_id: userId,
+        cheat_code_id: cheatCodeId,
+      });
+
+    // Get current times_used count
+    const { data: code, error: fetchError } = await supabase
+      .from('cheat_codes')
+      .select('times_used')
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId)
+      .single();
+
+    if (fetchError) {
+      // If column doesn't exist, just skip silently
+      return {};
+    }
+
+    // Update times_used and last_used_at
+    await supabase
+      .from('cheat_codes')
+      .update({
+        times_used: (code.times_used || 0) + 1,
+        last_used_at: new Date().toISOString(),
+      })
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId);
+
+    return {};
+  } catch (err) {
+    // Silently handle errors
+    return {};
+  }
+}
+
+/**
+ * Check if a cheat code was used today
+ */
+export async function checkTodayUsage(
+  userId: string,
+  cheatCodeId: string
+): Promise<{ usedToday: boolean; error?: string }> {
+  const supabase = createClient();
+
+  try {
+    // Get today's date at midnight (start of day)
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    console.log('=== Checking today usage ===');
+    console.log('User ID:', userId);
+    console.log('Cheat Code ID:', cheatCodeId);
+    console.log('Today start:', today.toISOString());
+
+    const { data, error } = await supabase
+      .from('cheat_code_usage_log')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('cheat_code_id', cheatCodeId)
+      .gte('used_at', today.toISOString())
+      .limit(1);
+
+    if (error) {
+      console.log('Error checking usage:', error);
+      // Gracefully handle any errors (table doesn't exist, etc.)
+      // Just return false - not used today
+      return { usedToday: false };
+    }
+
+    const wasUsedToday = (data?.length || 0) > 0;
+    console.log('Data from query:', data);
+    console.log('Was used today?', wasUsedToday);
+
+    return { usedToday: wasUsedToday };
+  } catch (err) {
+    console.log('Exception checking usage:', err);
+    // Silently handle any errors and return false
+    return { usedToday: false };
+  }
+}
+
+/**
+ * Get usage statistics for a cheat code
+ */
+export async function getUsageStats(
+  userId: string,
+  cheatCodeId: string
+): Promise<{
+  timesUsed: number;
+  lastUsedAt: string | null;
+  lastUsedDaysAgo: number | null;
+  error?: string;
+}> {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from('cheat_codes')
+      .select('times_used, last_used_at')
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId)
+      .single();
+
+    if (error) {
+      console.error('Error fetching usage stats:', error);
+      return {
+        timesUsed: 0,
+        lastUsedAt: null,
+        lastUsedDaysAgo: null,
+        error: error.message,
+      };
+    }
+
+    // Calculate days ago
+    let lastUsedDaysAgo = null;
+    if (data.last_used_at) {
+      const lastUsed = new Date(data.last_used_at);
+      const now = new Date();
+      const diffTime = Math.abs(now.getTime() - lastUsed.getTime());
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      lastUsedDaysAgo = diffDays;
+    }
+
+    return {
+      timesUsed: data.times_used || 0,
+      lastUsedAt: data.last_used_at,
+      lastUsedDaysAgo,
+    };
+  } catch (err) {
+    console.error('Unexpected error fetching usage stats:', err);
+    return {
+      timesUsed: 0,
+      lastUsedAt: null,
+      lastUsedDaysAgo: null,
+      error: 'Unexpected error',
+    };
   }
 }

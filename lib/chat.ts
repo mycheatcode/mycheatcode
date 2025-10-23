@@ -12,19 +12,26 @@ export interface ChatMessage {
 export async function saveChat(
   userId: string,
   messages: ChatMessage[],
-  chatId?: string
+  chatId?: string,
+  selectedTopic?: any
 ): Promise<{ chatId: string; error?: string }> {
   const supabase = createClient();
 
   try {
     if (chatId) {
       // Update existing chat
+      const updateData: any = {
+        messages: messages,
+      };
+
+      // Only update selected_topic if it's provided (don't overwrite with undefined)
+      if (selectedTopic !== undefined) {
+        updateData.selected_topic = selectedTopic;
+      }
+
       const { error } = await supabase
         .from('chats')
-        .update({
-          messages: messages,
-          updated_at: new Date().toISOString(),
-        })
+        .update(updateData)
         .eq('id', chatId)
         .eq('user_id', userId);
 
@@ -42,6 +49,7 @@ export async function saveChat(
           user_id: userId,
           messages: messages,
           is_active: true,
+          selected_topic: selectedTopic || null,
         })
         .select('id')
         .single();
@@ -65,6 +73,7 @@ export async function saveChat(
 export async function getActiveChat(userId: string): Promise<{
   chatId?: string;
   messages?: ChatMessage[];
+  selectedTopic?: any;
   error?: string;
 }> {
   const supabase = createClient();
@@ -72,7 +81,7 @@ export async function getActiveChat(userId: string): Promise<{
   try {
     const { data, error } = await supabase
       .from('chats')
-      .select('id, messages')
+      .select('id, messages, selected_topic')
       .eq('user_id', userId)
       .eq('is_active', true)
       .order('created_at', { ascending: false })
@@ -91,6 +100,7 @@ export async function getActiveChat(userId: string): Promise<{
     return {
       chatId: data.id,
       messages: data.messages as ChatMessage[],
+      selectedTopic: data.selected_topic,
     };
   } catch (err) {
     console.error('Unexpected error fetching chat:', err);
@@ -109,7 +119,6 @@ export async function endActiveChat(userId: string, chatId: string): Promise<{ e
       .from('chats')
       .update({
         is_active: false,
-        updated_at: new Date().toISOString(),
       })
       .eq('id', chatId)
       .eq('user_id', userId);
@@ -122,6 +131,46 @@ export async function endActiveChat(userId: string, chatId: string): Promise<{ e
     return {};
   } catch (err) {
     console.error('Unexpected error ending chat:', err);
+    return { error: 'Unexpected error' };
+  }
+}
+
+/**
+ * Reactivate an archived chat session
+ */
+export async function unarchiveChat(userId: string, chatId: string): Promise<{ error?: string }> {
+  const supabase = createClient();
+
+  try {
+    // First, end any other active chats
+    const { error: endError } = await supabase
+      .from('chats')
+      .update({ is_active: false })
+      .eq('user_id', userId)
+      .eq('is_active', true);
+
+    if (endError) {
+      console.error('Error ending other chats:', endError);
+      return { error: endError.message };
+    }
+
+    // Then reactivate this chat
+    const { error } = await supabase
+      .from('chats')
+      .update({
+        is_active: true,
+      })
+      .eq('id', chatId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error unarchiving chat:', error);
+      return { error: error.message };
+    }
+
+    return {};
+  } catch (err) {
+    console.error('Unexpected error unarchiving chat:', err);
     return { error: 'Unexpected error' };
   }
 }

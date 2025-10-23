@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { UserSessionManager } from '../utils/userSession';
+import { createClient } from '@/lib/supabase/client';
+import { unarchiveChat } from '@/lib/chat';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -41,7 +43,9 @@ export default function ChatHistory() {
   const [chatSessions, setChatSessions] = useState<ChatSession[]>([]);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [chatToDelete, setChatToDelete] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     // Always use dark mode
@@ -59,185 +63,101 @@ export default function ChatHistory() {
 
   const filters = ['All', 'With Cheat Codes', 'Topics', 'Custom', 'Recent', 'Archived'];
 
-  // Initialize chat sessions data
+  // Initialize chat sessions data from database
   useEffect(() => {
-    // Load real user chat sessions
-    const userSessions = UserSessionManager.getUserChatSessions();
+    const loadChatHistory = async () => {
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
 
-    // If no real sessions exist, show sample data for demonstration
-    const initialChatSessions: ChatSession[] = userSessions.length > 0 ? userSessions : [
-    {
-      id: '1',
-      title: 'Free throw line nerves',
-      type: 'topic',
-      topicId: '1',
-      messageCount: 12,
-      lastMessage: 'Try the 4-4-4 breathing technique before each shot...',
-      createdAt: new Date('2024-01-15T10:00:00'),
-      updatedAt: new Date('2024-01-15T10:05:00'),
-      hasCheatCode: true,
-      category: 'Pre-Game',
-      selectedTopic: {
-        id: '1',
-        title: 'I get nervous at the free throw line when everyone\'s watching',
-        description: 'When all eyes are on you and your heart starts racing'
-      },
-      messages: [
-        {
-          id: 1,
-          text: 'I see you\'re dealing with: "I get nervous at the free throw line when everyone\'s watching". This is really common, and we can definitely work through this together. Let\'s start by understanding what\'s happening in those moments. Can you walk me through what it feels like when this happens?',
-          sender: 'coach',
-          timestamp: new Date('2024-01-15T10:00:00')
-        },
-        {
-          id: 2,
-          text: 'My heart starts racing and my hands get sweaty. I can hear everyone in the stands and I start thinking about missing the shot.',
-          sender: 'user',
-          timestamp: new Date('2024-01-15T10:02:00')
-        },
-        {
-          id: 3,
-          text: 'That makes perfect sense. Your body is responding to the pressure with a fight-or-flight response. Let\'s work on a technique to help you regain control in those moments. Try the 4-4-4 breathing technique before each shot...',
-          sender: 'coach',
-          timestamp: new Date('2024-01-15T10:05:00')
-        }
-      ]
-    },
-    {
-      id: '2',
-      title: 'Dealing with coach feedback',
-      type: 'custom',
-      messageCount: 8,
-      lastMessage: 'Remember, feedback is just information to help you grow...',
-      createdAt: new Date('2024-01-14T14:00:00'),
-      updatedAt: new Date('2024-01-14T14:05:00'),
-      hasCheatCode: false,
-      category: 'Off Court',
-      messages: [
-        {
-          id: 1,
-          text: 'Hey! I\'m your personal mental performance coach. I\'m here to help you build a custom cheat code for whatever\'s on your mind. What\'s going on in your game right now?',
-          sender: 'coach',
-          timestamp: new Date('2024-01-14T14:00:00')
-        },
-        {
-          id: 2,
-          text: 'My coach is constantly giving me feedback and corrections, and I\'m starting to feel like I can\'t do anything right.',
-          sender: 'user',
-          timestamp: new Date('2024-01-14T14:02:00')
-        },
-        {
-          id: 3,
-          text: 'I understand how that can feel overwhelming. Remember, feedback is just information to help you grow...',
-          sender: 'coach',
-          timestamp: new Date('2024-01-14T14:05:00')
-        }
-      ]
-    },
-    {
-      id: '3',
-      title: 'Shot not falling today',
-      type: 'topic',
-      topicId: '2',
-      messageCount: 15,
-      lastMessage: 'Focus on your form fundamentals and trust your mechanics...',
-      createdAt: new Date('2024-01-13T12:00:00'),
-      updatedAt: new Date('2024-01-14T15:30:00'),
-      hasCheatCode: true,
-      category: 'In-Game',
-      selectedTopic: {
-        id: '2',
-        title: 'My shot isn\'t falling and I\'m completely in my head about it',
-        description: 'That shooting slump that just won\'t break'
-      },
-      messages: [
-        {
-          id: 1,
-          text: 'I see you\'re dealing with: "My shot isn\'t falling and I\'m completely in my head about it". This is really common, and we can definitely work through this together. Let\'s start by understanding what\'s happening in those moments. Can you walk me through what it feels like when this happens?',
-          sender: 'coach',
-          timestamp: new Date('2024-01-13T12:00:00')
-        },
-        {
-          id: 2,
-          text: 'I\'ve missed like 8 shots in a row and now I\'m overthinking everything. My form, my follow through, everything feels off.',
-          sender: 'user',
-          timestamp: new Date('2024-01-13T12:02:00')
-        },
-        {
-          id: 3,
-          text: 'That\'s exactly what happens when we get in our heads. Your body knows how to shoot - you\'ve made thousands of shots before. Focus on your form fundamentals and trust your mechanics...',
-          sender: 'coach',
-          timestamp: new Date('2024-01-13T12:05:00')
-        }
-      ]
-    },
-    {
-      id: '4',
-      title: 'Building confidence after bad game',
-      type: 'custom',
-      messageCount: 6,
-      lastMessage: 'Every great player has off games. What matters is how you bounce back...',
-      createdAt: new Date('2024-01-12T16:00:00'),
-      updatedAt: new Date('2024-01-12T16:30:00'),
-      hasCheatCode: false,
-      category: 'Post-Game',
-      messages: [
-        {
-          id: 1,
-          text: 'Hey! I\'m your personal mental performance coach. I\'m here to help you build a custom cheat code for whatever\'s on your mind. What\'s going on in your game right now?',
-          sender: 'coach',
-          timestamp: new Date('2024-01-12T16:00:00')
-        },
-        {
-          id: 2,
-          text: 'I had a really bad game yesterday. Went 2 for 12 from the field and had 5 turnovers. I can\'t stop thinking about it.',
-          sender: 'user',
-          timestamp: new Date('2024-01-12T16:02:00')
-        },
-        {
-          id: 3,
-          text: 'I understand how that feels - those tough games can really stick with us. Every great player has off games. What matters is how you bounce back...',
-          sender: 'coach',
-          timestamp: new Date('2024-01-12T16:05:00')
-        }
-      ]
-    },
-    {
-      id: '5',
-      title: 'Old practice routine thoughts',
-      type: 'custom',
-      messageCount: 4,
-      lastMessage: 'Maybe I should try a different approach to warm-up...',
-      createdAt: new Date('2024-01-01T10:00:00'),
-      updatedAt: new Date('2024-01-01T10:15:00'),
-      hasCheatCode: false,
-      category: 'Off Court',
-      archived: true,
-      messages: [
-        {
-          id: 1,
-          text: 'Hey! I\'m your personal mental performance coach. I\'m here to help you build a custom cheat code for whatever\'s on your mind. What\'s going on in your game right now?',
-          sender: 'coach',
-          timestamp: new Date('2024-01-01T10:00:00')
-        },
-        {
-          id: 2,
-          text: 'I think my warm-up routine before practice might not be working for me anymore.',
-          sender: 'user',
-          timestamp: new Date('2024-01-01T10:02:00')
-        },
-        {
-          id: 3,
-          text: 'Maybe I should try a different approach to warm-up...',
-          sender: 'coach',
-          timestamp: new Date('2024-01-01T10:15:00')
-        }
-      ]
-    }
-  ];
+      if (authError) {
+        console.error('Auth error:', authError);
+        return;
+      }
 
-    setChatSessions(initialChatSessions);
-  }, []);
+      if (!user) {
+        console.log('No user logged in');
+        return;
+      }
+
+      setUserId(user.id);
+      console.log('Fetching chats for user:', user.id);
+
+      // Fetch real chats from database (including selected_topic)
+      const { data: chats, error } = await supabase
+        .from('chats')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false});
+
+      if (error) {
+        console.error('Error fetching chats:', error.message || error);
+        console.error('Full error object:', JSON.stringify(error, null, 2));
+        return;
+      }
+
+      console.log('Fetched chats:', chats?.length || 0);
+
+      // Transform database chats to ChatSession format
+      const transformedChats: ChatSession[] = (chats || []).map((chat: any) => {
+        const messages = Array.isArray(chat.messages) ? chat.messages : [];
+        const lastMessage = messages.length > 0
+          ? messages[messages.length - 1].content
+          : 'No messages yet';
+
+        // Determine title: use topic title if available, otherwise first user message
+        let title = 'Chat Session';
+        if (chat.selected_topic && chat.selected_topic.title) {
+          // Use topic title with quotations if available
+          title = `"${chat.selected_topic.title}"`;
+        } else {
+          // Fall back to first user message
+          const firstUserMessage = messages.find((m: any) => m.role === 'user');
+          if (firstUserMessage && firstUserMessage.content) {
+            title = firstUserMessage.content.substring(0, 50) + (firstUserMessage.content.length > 50 ? '...' : '');
+          }
+        }
+
+        // Check if any assistant message contains a cheat code
+        const hasCheatCode = messages.some((m: any) => {
+          if (m.role === 'assistant') {
+            const content = m.content || '';
+            // Check for standard cheat code format
+            const hasStandardFormat = content.includes('**What:**') && content.includes('**When:**') && content.includes('**How:**') && content.includes('**Why:**');
+            // Check for alternative format
+            const hasAlternativeFormat = (
+              (content.includes('Title:') || content.includes('title:')) &&
+              (content.includes('Trigger:') || content.includes('trigger:')) &&
+              (content.includes('Cue phrase:') || content.includes('cue phrase:'))
+            );
+            return hasStandardFormat || hasAlternativeFormat;
+          }
+          return false;
+        });
+
+        return {
+          id: chat.id,
+          title,
+          type: chat.selected_topic ? 'topic' as const : 'custom' as const,
+          messageCount: messages.length,
+          lastMessage,
+          createdAt: new Date(chat.created_at),
+          updatedAt: new Date(chat.created_at), // Use created_at as updated_at since there's no updated_at column
+          hasCheatCode,
+          archived: !chat.is_active,
+          selectedTopic: chat.selected_topic, // Include selected topic from database
+          messages: messages.map((m: any, idx: number) => ({
+            id: idx + 1,
+            text: m.content,
+            sender: m.role === 'user' ? 'user' as const : 'coach' as const,
+            timestamp: new Date(m.timestamp || chat.created_at)
+          }))
+        };
+      });
+
+      setChatSessions(transformedChats);
+    };
+
+    loadChatHistory();
+  }, [supabase]);
 
   const getFilteredChats = () => {
     let filtered = chatSessions;
@@ -313,15 +233,25 @@ export default function ChatHistory() {
     setShowDeleteConfirm(true);
   };
 
-  const confirmDelete = () => {
-    if (chatToDelete) {
-      // Delete from storage
-      UserSessionManager.deleteChatSession(chatToDelete);
+  const confirmDelete = async () => {
+    if (chatToDelete && userId) {
+      // Archive in database by setting is_active to false
+      const { error } = await supabase
+        .from('chats')
+        .update({ is_active: false })
+        .eq('id', chatToDelete)
+        .eq('user_id', userId);
 
-      // Update local state
-      setChatSessions(prevSessions =>
-        prevSessions.filter(chat => chat.id !== chatToDelete)
-      );
+      if (!error) {
+        // Update local state to mark as archived
+        setChatSessions(prevSessions =>
+          prevSessions.map(chat =>
+            chat.id === chatToDelete ? { ...chat, archived: true } : chat
+          )
+        );
+      } else {
+        console.error('Error archiving chat:', error);
+      }
     }
     setShowDeleteConfirm(false);
     setChatToDelete(null);
@@ -330,6 +260,31 @@ export default function ChatHistory() {
   const cancelDelete = () => {
     setShowDeleteConfirm(false);
     setChatToDelete(null);
+  };
+
+  const handleUnarchiveChat = async (chatId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    if (!userId) return;
+
+    const { error } = await unarchiveChat(userId, chatId);
+
+    if (!error) {
+      // Update local state to mark as unarchived
+      setChatSessions(prevSessions =>
+        prevSessions.map(chat =>
+          chat.id === chatId ? { ...chat, archived: false } : chat
+        )
+      );
+
+      // Navigate to the chat
+      const chat = chatSessions.find(c => c.id === chatId);
+      if (chat) {
+        handleChatClick(chat);
+      }
+    } else {
+      console.error('Error unarchiving chat:', error);
+    }
   };
 
   const handleStartFreshChat = () => {
@@ -387,11 +342,11 @@ export default function ChatHistory() {
               </svg>
               <span>My Codes</span>
             </Link>
-            <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+            <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
-              <span>Community Topics</span>
+              <span>Relatable Topics</span>
             </Link>
             <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium transition-all" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
@@ -442,7 +397,7 @@ export default function ChatHistory() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full border rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none transition-all"
-              style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
             />
           </div>
         </div>
@@ -456,8 +411,8 @@ export default function ChatHistory() {
               className="px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all border"
               style={
                 activeFilter === filter
-                  ? { backgroundColor: '#00ff41', color: '#000000', borderColor: '#00ff41' }
-                  : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
+                  ? { backgroundColor: 'var(--button-bg)', color: 'var(--button-text)', borderColor: 'var(--button-bg)' }
+                  : { backgroundColor: 'var(--card-bg)', color: 'var(--text-secondary)', borderColor: 'var(--card-border)' }
               }
             >
               {filter}
@@ -482,7 +437,7 @@ export default function ChatHistory() {
                 key={chat.id}
                 onClick={() => handleChatClick(chat)}
                 className="border rounded-xl p-4 transition-all cursor-pointer active:scale-98"
-                style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
@@ -494,31 +449,43 @@ export default function ChatHistory() {
                         </div>
                       )}
                       {chat.hasCheatCode && (
-                        <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#1a1a1a', color: '#00ff41', border: '1px solid #2a2a2a' }}>
+                        <span className="px-2 py-0.5 rounded-full text-xs font-medium" style={{ backgroundColor: '#0d4d1f', color: '#00ff41' }}>
                           ⚡ Cheat Code
                         </span>
                       )}
                     </div>
                   </div>
-                  <button
-                    onClick={(e) => handleDeleteChat(chat.id, e)}
-                    className="p-1"
-                    style={{ color: '#808080' }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                    </svg>
-                  </button>
+                  {!chat.archived && (
+                    <button
+                      onClick={(e) => handleDeleteChat(chat.id, e)}
+                      className="p-1"
+                      style={{ color: '#808080' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                      </svg>
+                    </button>
+                  )}
                 </div>
 
                 <div className="text-sm mb-3 line-clamp-2" style={{ color: '#808080' }}>
                   {chat.lastMessage}
                 </div>
 
-                <div className="flex items-center justify-between text-xs" style={{ color: '#666666' }}>
+                <div className="flex items-center justify-between text-xs mb-3" style={{ color: '#666666' }}>
                   <span>{chat.messageCount} messages</span>
                   <span>{formatDate(chat.updatedAt)}</span>
                 </div>
+
+                {chat.archived && (
+                  <button
+                    onClick={(e) => handleUnarchiveChat(chat.id, e)}
+                    className="w-full py-2 rounded-lg text-xs font-medium transition-colors border"
+                    style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}
+                  >
+                    Unarchive
+                  </button>
+                )}
               </div>
             ))
           )}
@@ -536,7 +503,7 @@ export default function ChatHistory() {
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
           <div className="fixed inset-0 flex items-center justify-center p-4 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-            <div className="rounded-2xl p-6 w-full max-w-sm" style={{ backgroundColor: '#1a1a1a' }}>
+            <div className="rounded-2xl p-6 w-full max-w-sm" style={{ backgroundColor: 'var(--card-bg)' }}>
               <div className="text-center">
                 <h3 className="font-semibold text-lg mb-2" style={{ color: '#ffffff' }}>Archive Chat?</h3>
                 <p className="text-sm mb-6" style={{ color: '#808080' }}>
@@ -546,14 +513,14 @@ export default function ChatHistory() {
                   <button
                     onClick={cancelDelete}
                     className="flex-1 py-3 px-4 rounded-xl border font-medium transition-colors"
-                    style={{ borderColor: '#2a2a2a', color: '#808080' }}
+                    style={{ borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="flex-1 py-3 px-4 rounded-xl font-medium transition-colors"
-                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                    style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                   >
                     Archive
                   </button>
@@ -604,11 +571,11 @@ export default function ChatHistory() {
                 <span>My Codes</span>
               </Link>
 
-              <Link href="/community-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+              <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                 </svg>
-                <span>Community Topics</span>
+                <span>Relatable Topics</span>
               </Link>
 
               <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium transition-all" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
@@ -642,11 +609,11 @@ export default function ChatHistory() {
           {/* Header */}
           <div className="mb-8">
             <div className="flex items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#00ff41">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent-color)">
                   <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
                 </svg>
-                <span className="text-sm font-semibold" style={{ color: '#ffffff' }}>5 DAY STREAK</span>
+                <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>5 DAY STREAK</span>
               </div>
 
               {/* Search Bar - 1/3 width, right aligned */}
@@ -663,7 +630,7 @@ export default function ChatHistory() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full border rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none transition-all"
-                  style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a', color: '#ffffff' }}
+                  style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                 />
               </div>
             </div>
@@ -682,8 +649,8 @@ export default function ChatHistory() {
                   className="px-6 py-3 rounded-full font-medium transition-all border"
                   style={
                     activeFilter === filter
-                      ? { backgroundColor: '#00ff41', color: '#000000', borderColor: '#00ff41' }
-                      : { backgroundColor: '#1a1a1a', color: '#808080', borderColor: '#2a2a2a' }
+                      ? { backgroundColor: 'var(--button-bg)', color: 'var(--button-text)', borderColor: 'var(--button-bg)' }
+                      : { backgroundColor: 'var(--card-bg)', color: 'var(--text-secondary)', borderColor: 'var(--card-border)' }
                   }
                 >
                   {filter}
@@ -709,7 +676,7 @@ export default function ChatHistory() {
                   key={chat.id}
                   onClick={() => handleChatClick(chat)}
                   className="border rounded-xl p-6 transition-all cursor-pointer hover:scale-[1.01]"
-                  style={{ backgroundColor: '#1a1a1a', borderColor: '#2a2a2a' }}
+                  style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
                 >
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -721,31 +688,43 @@ export default function ChatHistory() {
                           </div>
                         )}
                         {chat.hasCheatCode && (
-                          <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: '#1a1a1a', color: '#00ff41', border: '1px solid #2a2a2a' }}>
+                          <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ backgroundColor: '#0d4d1f', color: '#00ff41' }}>
                             ⚡ Cheat Code Created
                           </span>
                         )}
                       </div>
                     </div>
-                    <button
-                      onClick={(e) => handleDeleteChat(chat.id, e)}
-                      className="p-2"
-                      style={{ color: '#808080' }}
-                    >
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-                      </svg>
-                    </button>
+                    {!chat.archived && (
+                      <button
+                        onClick={(e) => handleDeleteChat(chat.id, e)}
+                        className="p-2"
+                        style={{ color: '#808080' }}
+                      >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                        </svg>
+                      </button>
+                    )}
                   </div>
 
                   <div className="mb-4 line-clamp-2" style={{ color: '#808080' }}>
                     {chat.lastMessage}
                   </div>
 
-                  <div className="flex items-center justify-between text-sm" style={{ color: '#666666' }}>
+                  <div className="flex items-center justify-between text-sm mb-4" style={{ color: '#666666' }}>
                     <span>{chat.messageCount} messages</span>
                     <span>{formatDate(chat.updatedAt)}</span>
                   </div>
+
+                  {chat.archived && (
+                    <button
+                      onClick={(e) => handleUnarchiveChat(chat.id, e)}
+                      className="w-full py-2.5 rounded-lg text-sm font-medium transition-colors border"
+                      style={{ backgroundColor: 'var(--card-bg)', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}
+                    >
+                      Unarchive
+                    </button>
+                  )}
                 </div>
               ))
             )}
@@ -765,7 +744,7 @@ export default function ChatHistory() {
         {/* Delete Confirmation Modal */}
         {showDeleteConfirm && (
           <div className="fixed inset-0 flex items-center justify-center p-8 z-50" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-            <div className="rounded-2xl p-8 w-full max-w-md" style={{ backgroundColor: '#1a1a1a' }}>
+            <div className="rounded-2xl p-8 w-full max-w-md" style={{ backgroundColor: 'var(--card-bg)' }}>
               <div className="text-center">
                 <h3 className="font-semibold text-xl mb-3" style={{ color: '#ffffff' }}>Archive Chat?</h3>
                 <p className="mb-8" style={{ color: '#808080' }}>
@@ -775,14 +754,14 @@ export default function ChatHistory() {
                   <button
                     onClick={cancelDelete}
                     className="flex-1 py-3 px-6 rounded-xl border font-medium transition-colors"
-                    style={{ borderColor: '#2a2a2a', color: '#808080' }}
+                    style={{ borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                   >
                     Cancel
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="flex-1 py-3 px-6 rounded-xl font-medium transition-colors"
-                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                    style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                   >
                     Archive
                   </button>

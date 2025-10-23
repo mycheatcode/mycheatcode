@@ -18,18 +18,6 @@ export default function SignupPage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const handleBack = () => {
-    // Check if we have a stored referrer, otherwise go to welcome page
-    const referrer = localStorage.getItem('signupReferrer');
-    if (referrer) {
-      localStorage.removeItem('signupReferrer'); // Clean up
-      router.push(referrer);
-    } else {
-      // Default to welcome page since that's where signup is typically accessed from
-      router.push('/welcome');
-    }
-  };
-
   const validateForm = () => {
     if (!email || !password || !confirmPassword) {
       setError('Please fill in all fields');
@@ -75,10 +63,17 @@ export default function SignupPage() {
       if (error) {
         setError(error.message);
       } else if (data.user) {
-        setSuccess('Account created! Redirecting to setup...');
-        setTimeout(() => {
-          router.push('/onboarding');
-        }, 1500);
+        // Check if email confirmation is required
+        if (data.session) {
+          // Session exists, redirect to onboarding
+          setSuccess('Account created! Redirecting to setup...');
+          setTimeout(() => {
+            router.push('/onboarding');
+          }, 1500);
+        } else {
+          // No session means email confirmation is required
+          setSuccess('Account created! Please check your email to confirm your account, then return to sign in.');
+        }
       }
     } catch (err) {
       setError('An unexpected error occurred');
@@ -93,14 +88,8 @@ export default function SignupPage() {
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <button onClick={handleBack} className="w-8 h-8 flex items-center justify-center text-white cursor-pointer transition-transform active:scale-90">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </button>
-            <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
-            <div className="w-8 h-8"></div>
+          <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
+            MYCHEATCODE.AI
           </div>
         </div>
 
@@ -108,7 +97,7 @@ export default function SignupPage() {
         <div className="flex-1 flex flex-col justify-center p-6">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-white mb-2">Create Account</h1>
-            <p className="text-zinc-400 text-sm">Start building your mental performance cheat codes</p>
+            <p className="text-zinc-400 text-sm">Start collecting cheat codes and building your confidence</p>
           </div>
 
           <form onSubmit={handleSignup} className="space-y-4">
@@ -231,11 +220,19 @@ export default function SignupPage() {
       <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">mycheatcode.ai</h1>
-            <p className="text-zinc-400 text-lg leading-relaxed">
-              Your personal mental performance coach.<br/>
-              Build custom cheat codes for peak performance.
+          <div className="text-center max-w-md">
+            <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
+              MYCHEATCODE.AI
+            </h1>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
+              Build on court confidence
+            </p>
+            <h2 className="text-4xl font-bold text-white mb-8 leading-tight">
+              The First AI Basketball<br/>
+              Confidence Coach
+            </h2>
+            <p className="text-zinc-400 text-base leading-relaxed">
+              Master the mental game of basketball and unlock your full potential on the court.
             </p>
           </div>
         </div>
@@ -244,14 +241,8 @@ export default function SignupPage() {
         <div className="w-1/2 bg-black flex flex-col justify-center p-12">
           <div className="max-w-md mx-auto w-full">
             <div className="mb-8">
-              <button onClick={handleBack} className="inline-flex items-center text-zinc-400 hover:text-white transition-colors mb-6">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-2">
-                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                </svg>
-                Back
-              </button>
               <h2 className="text-3xl font-bold text-white mb-2">Create Account</h2>
-              <p className="text-zinc-400">Start building your mental performance cheat codes</p>
+              <p className="text-zinc-400">Start collecting cheat codes and building your confidence</p>
             </div>
 
             <form onSubmit={handleSignup} className="space-y-6">
