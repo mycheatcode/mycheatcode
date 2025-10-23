@@ -970,7 +970,7 @@ export default function ChatPage() {
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile */}
-      <div className="lg:hidden h-screen flex flex-col">
+      <div className="lg:hidden h-dvh flex flex-col">
         {/* Header */}
         <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
           <div className="flex items-center justify-between">
