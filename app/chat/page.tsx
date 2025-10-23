@@ -968,9 +968,9 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+    <div className="fixed inset-0 font-sans overflow-hidden" style={{ color: 'var(--text-primary)' }}>
       {/* Mobile */}
-      <div className="lg:hidden h-dvh flex flex-col overflow-hidden">
+      <div className="lg:hidden h-full flex flex-col overflow-hidden">
         {/* Header */}
         <div className="p-4 border-b flex-shrink-0" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
           <div className="flex items-center justify-between">
@@ -1573,6 +1573,15 @@ export default function ChatPage() {
 
       {/* Animation Styles */}
       <style jsx global>{`
+        /* Prevent overscroll/rubber band effect on mobile */
+        html, body {
+          overscroll-behavior: none;
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+        }
+
         @keyframes fade-in-scale {
           0% {
             opacity: 0;
