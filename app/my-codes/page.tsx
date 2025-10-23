@@ -452,15 +452,32 @@ export default function MyCodesPage() {
   };
 
   const getFilteredCodes = () => {
+    let filtered: CheatCode[] = [];
+
     if (activeCategory === 'All') {
-      return cheatCodes;
+      filtered = [...cheatCodes];
     } else if (activeCategory === 'Active') {
-      return cheatCodes.filter(code => !code.archived);
+      filtered = cheatCodes.filter(code => !code.archived);
     } else if (activeCategory === 'Archived') {
-      return cheatCodes.filter(code => code.archived);
+      filtered = cheatCodes.filter(code => code.archived);
     } else {
-      return cheatCodes.filter(code => code.category === activeCategory && !code.archived);
+      filtered = cheatCodes.filter(code => code.category === activeCategory && !code.archived);
     }
+
+    // Sort by usage when "All" category is selected
+    // Most used codes first, then by archived status (active first), then least used/archived last
+    if (activeCategory === 'All') {
+      return filtered.sort((a, b) => {
+        // Active codes come before archived codes
+        if (a.archived !== b.archived) {
+          return a.archived ? 1 : -1;
+        }
+        // Within same archived status, sort by timesUsed (descending)
+        return (b.timesUsed || 0) - (a.timesUsed || 0);
+      });
+    }
+
+    return filtered;
   };
 
   const handleOpenChat = async (code: CheatCode) => {
@@ -693,7 +710,7 @@ export default function MyCodesPage() {
       )}
 
       {/* Mobile Design */}
-      <div className="lg:hidden min-h-screen relative flex flex-col pt-16">
+      <div className="lg:hidden h-screen relative flex flex-col pt-16 overflow-hidden">
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {/* Page Title */}
