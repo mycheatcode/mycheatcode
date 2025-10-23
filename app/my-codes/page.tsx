@@ -1151,14 +1151,14 @@ export default function MyCodesPage() {
                                   e.stopPropagation();
                                   toggleArchiveStatus(selectedCode.id);
                                 }}
-                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
+                                className="w-full py-2 text-xs transition-opacity hover:opacity-70"
                                 style={{
-                                  backgroundColor: 'var(--card-bg)',
-                                  borderColor: selectedCode.archived ? 'var(--accent-color)' : 'var(--card-border)',
-                                  color: selectedCode.archived ? 'var(--accent-color)' : 'var(--text-secondary)'
+                                  color: 'var(--text-tertiary)',
+                                  background: 'none',
+                                  border: 'none'
                                 }}
                               >
-                                {selectedCode.archived ? '↩️ Reactivate Code' : '📦 Archive Code'}
+                                {selectedCode.archived ? 'Reactivate Code' : 'Archive Code'}
                               </button>
                             </div>
                           </div>
