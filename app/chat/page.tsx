@@ -663,7 +663,7 @@ export default function ChatPage() {
               setIsFirstCodeChat(true);
 
               // Create indirect topic reference and simple question
-              const topicStarters = {
+              const topicStarters: Record<string, string> = {
                 'pre_game_nerves': `${greeting} Let's dive into this and build your first cheat code. Before a big game, what's usually running through your head?`,
                 'missed_shots': `${greeting} Let's dive into this and build your first cheat code. When you miss a shot, what happens next? What do you usually do or think?`,
                 'pressure_moments': `${greeting} Let's dive into this and build your first cheat code. Think about the last pressure moment you had - what was going through your mind right before it?`,
@@ -674,7 +674,7 @@ export default function ChatPage() {
                 'playing_up_competition': `${greeting} Let's dive into this and build your first cheat code. When you're facing someone better, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id] || `${greeting} Let's dive into this and build your first cheat code. What's been on your mind about your game lately?`;
+              welcomeText = topicStarters[topic.id as string] || `${greeting} Let's dive into this and build your first cheat code. What's been on your mind about your game lately?`;
             } else if (topic.customStarter) {
               welcomeText = topic.customStarter;
             } else {
