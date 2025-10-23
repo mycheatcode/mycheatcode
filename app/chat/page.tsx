@@ -97,6 +97,49 @@ export default function ChatPage() {
     getUser();
   }, [supabase, router]);
 
+  // Load saved cheat codes for this chat to prevent duplicates
+  useEffect(() => {
+    const loadSavedCheatCodes = async () => {
+      if (!userId || !currentChatId) return;
+
+      try {
+        // Fetch cheat codes that were saved from this chat
+        const { data: savedCodes, error } = await supabase
+          .from('cheat_codes')
+          .select('id, title')
+          .eq('user_id', userId)
+          .eq('chat_id', currentChatId);
+
+        if (error) {
+          console.error('Error loading saved cheat codes:', error);
+          return;
+        }
+
+        if (savedCodes && savedCodes.length > 0) {
+          // For each saved code, find the corresponding message in the chat
+          // and mark it as saved
+          const savedTitles = new Set(savedCodes.map(code => code.title));
+
+          messages.forEach((message) => {
+            if (isCheatCode(message.text)) {
+              const { cheatCodeText } = splitCheatCodeMessage(message.text);
+              const cheatCode = parseCheatCode(cheatCodeText);
+
+              // If this cheat code's title matches a saved one, mark it as saved
+              if (savedTitles.has(cheatCode.title)) {
+                setSavedCheatCodes(prev => new Set(prev).add(message.id));
+              }
+            }
+          });
+        }
+      } catch (err) {
+        console.error('Error loading saved cheat codes:', err);
+      }
+    };
+
+    loadSavedCheatCodes();
+  }, [userId, currentChatId, messages, supabase]);
+
   useEffect(() => {
     // Always use dark mode
     document.documentElement.classList.add('dark');
@@ -796,6 +839,24 @@ export default function ChatPage() {
         phrase: cheatCode.phrase,
         practice: cheatCode.practice,
       };
+
+      // Double-check if this cheat code already exists for this user
+      const { data: existingCodes, error: checkError } = await supabase
+        .from('cheat_codes')
+        .select('id')
+        .eq('user_id', userId)
+        .eq('title', cheatCodeData.title)
+        .limit(1);
+
+      if (checkError) {
+        console.error('Error checking for duplicate cheat codes:', checkError);
+      } else if (existingCodes && existingCodes.length > 0) {
+        // Cheat code already exists
+        setSavedCheatCodes(prev => new Set(prev).add(messageId));
+        alert('This cheat code has already been saved to My Codes');
+        setSavingCheatCode(null);
+        return;
+      }
 
       const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
 
