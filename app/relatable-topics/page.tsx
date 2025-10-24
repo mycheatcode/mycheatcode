@@ -432,6 +432,9 @@ export default function RelatableTopics() {
 
 
   const handleTopicSelect = (topic: any) => {
+    // Clear any existing chat history to prevent loading old messages
+    localStorage.removeItem('chatHistory');
+
     // Store in localStorage and navigate immediately
     localStorage.setItem('selectedTopic', JSON.stringify({
       id: topic.id,
