@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes } from '@/lib/cheatcodes';
+import { getUserProgress } from '@/lib/progress';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -23,6 +24,7 @@ interface UserStats {
   archivedCodes: number;
   totalUsage: number;
   mostUsedCode: string;
+  momentum: number;
   daysActive: number;
 }
 
@@ -65,6 +67,9 @@ export default function Profile() {
         // Fetch user's cheat codes
         const { cheatCodes: codes, error: codesError } = await getUserCheatCodes(user.id);
 
+        // Fetch user's momentum/progress
+        const progressData = await getUserProgress(user.id);
+
         if (codesError) {
           console.error('Error fetching cheat codes:', codesError);
         } else if (codes) {
@@ -95,6 +100,7 @@ export default function Profile() {
             archivedCodes: archivedCodes.length,
             totalUsage,
             mostUsedCode,
+            momentum: progressData.progress,
             daysActive,
           });
         }
@@ -219,9 +225,9 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Progress Stats */}
+              {/* Profile Stats */}
               <div className="rounded-xl p-6 border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Progress Stats</h3>
+                <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Profile Stats</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span style={{ color: 'var(--text-secondary)' }}>Total Cheat Codes</span>
@@ -242,6 +248,10 @@ export default function Profile() {
                   <div className="flex justify-between items-center">
                     <span style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span style={{ color: 'var(--text-secondary)' }}>Momentum</span>
+                    <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.momentum || 0}%</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span style={{ color: 'var(--text-secondary)' }}>Days Active</span>
@@ -374,9 +384,9 @@ export default function Profile() {
                 </div>
               </div>
 
-              {/* Progress Stats */}
+              {/* Profile Stats */}
               <div className="rounded-xl p-8 border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--text-primary)' }}>Progress Stats</h3>
+                <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--text-primary)' }}>Profile Stats</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Total Cheat Codes</span>
@@ -397,6 +407,10 @@ export default function Profile() {
                   <div className="flex justify-between items-center">
                     <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
                     <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Momentum</span>
+                    <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.momentum || 0}%</span>
                   </div>
                   <div className="flex justify-between items-center">
                     <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Days Active</span>
