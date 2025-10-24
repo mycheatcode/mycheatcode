@@ -4,7 +4,7 @@ import { Section } from './progressionSystem';
 
 // Decay configuration
 export const DECAY_CONFIG = {
-  inactivityThreshold: 48 * 60 * 60 * 1000, // 48 hours in milliseconds
+  inactivityThreshold: 72 * 60 * 60 * 1000, // 72 hours in milliseconds
   decayRatePerDay: 0.05, // 5% per day
   checkInterval: 24 * 60 * 60 * 1000 // 24 hours between decay checks
 };
@@ -88,13 +88,13 @@ export function calculateDecayAmount(
   // Calculate time since last decay check (not last use)
   const timeSinceLastDecay = Math.max(0, currentTime - lastDecayCheck);
 
-  // Only start decay after 48 hours of inactivity
+  // Only start decay after 72 hours of inactivity
   const inactivityTime = currentTime - cheatCode.lastUsedTimestamp;
   if (inactivityTime <= DECAY_CONFIG.inactivityThreshold) {
     return 0;
   }
 
-  // Calculate number of midnight boundaries crossed since decay should start (after 48h)
+  // Calculate number of midnight boundaries crossed since decay should start (after 72h)
   const decayStartTime = cheatCode.lastUsedTimestamp + DECAY_CONFIG.inactivityThreshold;
   const effectiveStartTime = Math.max(decayStartTime, lastDecayCheck);
 

@@ -7,7 +7,7 @@ import { createClient } from './supabase/client';
 // - Chats 16-30: +1.5% each (82.5% at 30 chats)
 // - Chats 31-50: +1% each (can reach 100% at 50 chats)
 // - Chats 51+: +0.5% each (maintain/sustain 100%)
-// - Decay: -3% per 48 hours of inactivity
+// - Decay: -3% per 72 hours of inactivity
 // - Progress floor: 25% (baseline confidence never disappears)
 // - Caps at 100%
 
@@ -48,11 +48,11 @@ function calculateDecay(lastActivityTimestamp: number): number {
   const hoursSinceActivity = (now - lastActivityTimestamp) / (1000 * 60 * 60);
   const daysSinceActivity = hoursSinceActivity / 24;
 
-  // Decay starts after 48 hours (2 days)
-  if (daysSinceActivity < 2) return 0;
+  // Decay starts after 72 hours (3 days)
+  if (daysSinceActivity < 3) return 0;
 
-  // -3% per 48 hours of inactivity
-  const decayPeriods = Math.floor(daysSinceActivity / 2);
+  // -3% per 72 hours of inactivity
+  const decayPeriods = Math.floor(daysSinceActivity / 3);
   return decayPeriods * 3;
 }
 
@@ -126,11 +126,11 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     // Final progress (capped 25-100, never below baseline)
     const finalProgress = Math.max(BASELINE_CONFIDENCE, Math.min(100, baseProgress - decay));
 
-    // Calculate time until next decay (decay happens every 48 hours)
+    // Calculate time until next decay (decay happens every 72 hours)
     const hoursSinceActivity =
       lastActivity > 0 ? (Date.now() - lastActivity) / (1000 * 60 * 60) : 0;
     const hoursUntilNextDecay =
-      lastActivity > 0 ? Math.max(0, 48 - (hoursSinceActivity % 48)) : 0;
+      lastActivity > 0 ? Math.max(0, 72 - (hoursSinceActivity % 72)) : 0;
 
     return {
       progress: finalProgress,
