@@ -22,7 +22,6 @@ interface UserStats {
   totalCodes: number;
   activeCodes: number;
   archivedCodes: number;
-  totalUsage: number;
   mostUsedCode: string;
   momentum: number;
   daysActive: number;
@@ -76,7 +75,6 @@ export default function Profile() {
           // Calculate stats
           const activeCodes = codes.filter((code: any) => code.is_active !== false);
           const archivedCodes = codes.filter((code: any) => code.is_active === false);
-          const totalUsage = codes.reduce((sum: number, code: any) => sum + (code.times_used || 0), 0);
 
           // Find most used code
           let mostUsedCode = 'None yet';
@@ -98,7 +96,6 @@ export default function Profile() {
             totalCodes: codes.length,
             activeCodes: activeCodes.length,
             archivedCodes: archivedCodes.length,
-            totalUsage,
             mostUsedCode,
             momentum: progressData.progress,
             daysActive,
@@ -196,7 +193,7 @@ export default function Profile() {
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           <div className="text-3xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Profile</div>
-          <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your basketball mental performance profile</div>
+          <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Track your progress and stats</div>
         </div>
 
         <div className="flex-1 flex flex-col p-4">
@@ -242,15 +239,11 @@ export default function Profile() {
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.archivedCodes || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span style={{ color: 'var(--text-secondary)' }}>Total Usage</span>
-                    <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.totalUsage || 0}x</span>
-                  </div>
-                  <div className="flex justify-between items-center">
                     <span style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span style={{ color: 'var(--text-secondary)' }}>Momentum</span>
+                    <span style={{ color: 'var(--text-secondary)' }}>Current Momentum</span>
                     <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{userStats?.momentum || 0}%</span>
                   </div>
                   <div className="flex justify-between items-center">
@@ -357,7 +350,7 @@ export default function Profile() {
         {/* Main Content */}
         <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
           <div className="text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Profile</div>
-          <div className="text-lg leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>Your basketball mental performance profile</div>
+          <div className="text-lg leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>Track your progress and stats</div>
 
           {loading ? (
             <div className="flex items-center justify-center h-64">
@@ -401,15 +394,11 @@ export default function Profile() {
                     <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.archivedCodes || 0}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Total Usage</span>
-                    <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.totalUsage || 0}x</span>
-                  </div>
-                  <div className="flex justify-between items-center">
                     <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Most Used Code</span>
                     <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.mostUsedCode || 'None yet'}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Momentum</span>
+                    <span className="text-lg" style={{ color: 'var(--text-secondary)' }}>Current Momentum</span>
                     <span className="font-semibold text-xl" style={{ color: 'var(--text-primary)' }}>{userStats?.momentum || 0}%</span>
                   </div>
                   <div className="flex justify-between items-center">
