@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
 import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
+import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
 import { getUserProgress } from '@/lib/progress';
 
 // Force dark mode immediately
@@ -56,6 +57,7 @@ export default function ChatPage() {
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
+  const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
   const supabase = createClient();
 
@@ -997,12 +999,31 @@ export default function ChatPage() {
 
               if (progressAfter.progress > progressBefore.progress) {
                 console.log('Momentum increased during chat! Showing notification.');
-                showMomentumProgress({
-                  previousMomentum: progressBefore.progress,
-                  newMomentum: progressAfter.progress,
-                  source: 'chat',
-                  chatCount: progressAfter.chatCount
-                });
+
+                // Check if a major milestone was reached (50%, 75%, 100%)
+                const majorMilestones = [50, 75, 100];
+                const reachedMilestone = majorMilestones.find(
+                  m => progressBefore.progress < m && progressAfter.progress >= m
+                );
+
+                if (reachedMilestone) {
+                  // Show full-screen toast for major milestones
+                  console.log('Major milestone reached:', reachedMilestone);
+                  showMomentumProgress({
+                    previousMomentum: progressBefore.progress,
+                    newMomentum: progressAfter.progress,
+                    source: 'chat',
+                    chatCount: progressAfter.chatCount
+                  });
+                } else {
+                  // Show subtle banner for regular progress
+                  console.log('Regular progress gain - showing banner');
+                  showMomentumBanner({
+                    previousMomentum: progressBefore.progress,
+                    newMomentum: progressAfter.progress,
+                    chatCount: progressAfter.chatCount
+                  });
+                }
               }
             } catch (err) {
               console.error('Error checking momentum after message:', err);
@@ -1688,11 +1709,19 @@ export default function ChatPage() {
         </div>
       )}
 
-      {/* Momentum Progress Toast */}
+      {/* Momentum Progress Toast - For major milestones only */}
       {toastData && (
         <MomentumProgressToast
           data={toastData}
           onDismiss={dismissToast}
+        />
+      )}
+
+      {/* Momentum Banner - For regular progress */}
+      {bannerData && (
+        <MomentumBanner
+          data={bannerData}
+          onDismiss={dismissBanner}
         />
       )}
 
