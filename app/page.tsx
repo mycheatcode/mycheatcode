@@ -185,7 +185,7 @@ export default function Home() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Type your message here..."
-              className="w-full px-5 py-4 rounded-2xl text-base focus:outline-none"
+              className="w-full px-5 py-4 pr-24 rounded-2xl text-base focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
