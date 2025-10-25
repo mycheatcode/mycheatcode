@@ -4,7 +4,7 @@ import { createClient } from './supabase/client';
  * NEW MOMENTUM SYSTEM
  *
  * FIRST-TIME BONUSES (one-time only):
- * - First meaningful chat (5+ messages): +2%
+ * - First meaningful chat (5+ USER messages, avg 20+ chars): +2%
  * - First code created: +5%
  * - First code completion: +3%
  *
@@ -15,7 +15,8 @@ import { createClient } from './supabase/client';
  * - Momentum 80-99%: +2% per code
  * - Momentum 100%: +1% per code
  *
- * MEANINGFUL CHATS (5+ messages, no code created):
+ * MEANINGFUL CHATS:
+ * - Requirements: 5+ USER messages (AI doesn't count), avg 20+ chars, no code created
  * - +1% per chat
  * - Max 3 counted per day
  *
@@ -359,9 +360,79 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
 }
 
 /**
- * Award momentum for meaningful chat (5+ messages, no code created)
+ * Check if a chat qualifies as "meaningful"
+ * Requirements:
+ * - 5+ messages FROM THE USER (AI responses don't count)
+ * - Average user message length >= 20 characters
+ * - No cheat code was created in this chat
+ */
+async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean> {
+  const supabase = createClient();
+
+  // Get all messages from this chat
+  const { data: chat, error } = await supabase
+    .from('chats')
+    .select('messages')
+    .eq('id', chatId)
+    .eq('user_id', userId)
+    .single();
+
+  if (error || !chat || !chat.messages) {
+    console.log('Could not fetch chat messages');
+    return false;
+  }
+
+  const messages = chat.messages as any[];
+
+  // Count user messages only (role === 'user')
+  const userMessages = messages.filter((m: any) => m.role === 'user');
+
+  // Must have at least 5 user messages
+  if (userMessages.length < 5) {
+    console.log(`Only ${userMessages.length} user messages, need 5+`);
+    return false;
+  }
+
+  // Calculate average user message length
+  const totalLength = userMessages.reduce((sum: number, m: any) => {
+    return sum + (m.content?.length || 0);
+  }, 0);
+  const avgLength = totalLength / userMessages.length;
+
+  // Average message must be at least 20 characters
+  if (avgLength < 20) {
+    console.log(`Average message length ${avgLength.toFixed(1)} chars, need 20+`);
+    return false;
+  }
+
+  // Check if a cheat code was created in this chat
+  const { data: codes } = await supabase
+    .from('cheat_codes')
+    .select('id')
+    .eq('user_id', userId)
+    .eq('chat_id', chatId)
+    .limit(1);
+
+  if (codes && codes.length > 0) {
+    console.log('Chat created a cheat code, not counting as meaningful chat');
+    return false;
+  }
+
+  console.log(`Chat qualifies as meaningful: ${userMessages.length} user messages, avg ${avgLength.toFixed(1)} chars`);
+  return true;
+}
+
+/**
+ * Award momentum for meaningful chat (5+ user messages, avg 20+ chars, no code created)
  */
 export async function awardMeaningfulChatMomentum(userId: string, chatId: string): Promise<number> {
+  // Check if chat qualifies as meaningful
+  const isMeaningful = await isMeaningfulChat(userId, chatId);
+  if (!isMeaningful) {
+    console.log('Chat does not meet meaningful criteria');
+    return 0;
+  }
+
   // Check if this is first meaningful chat
   const isFirstChat = !(await hasReceivedFirstTimeBonus(userId, 'first_chat'));
 
