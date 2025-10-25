@@ -45,7 +45,7 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
   const getMessage = () => {
     // Check for cheat code celebration first
     if (data.source === 'cheat_code_received') {
-      return 'You Got a Cheat Code!';
+      return 'Cheat Code Created!';
     }
 
     if (isMilestone) {
