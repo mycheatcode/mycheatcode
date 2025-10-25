@@ -9,7 +9,7 @@ import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/
 import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
-import { getUserProgress } from '@/lib/progress';
+import { getUserProgress, awardCodeCreationMomentum } from '@/lib/progress';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -864,10 +864,6 @@ export default function ChatPage() {
         return;
       }
 
-      // Get progress before saving
-      const progressBefore = await getUserProgress(userId);
-      console.log('Progress before saving:', progressBefore.progress);
-
       const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
 
       if (error) {
@@ -883,25 +879,23 @@ export default function ChatPage() {
           chat_id: currentChatId,
         });
 
-        // Get progress after saving
-        const progressAfter = await getUserProgress(userId);
-        console.log('Progress after saving:', progressAfter.progress);
-        const gain = progressAfter.progress - progressBefore.progress;
-        console.log('Progress difference:', gain);
+        // Award momentum using new system
+        const gainAmount = await awardCodeCreationMomentum(userId, cheatCodeId);
+        console.log('Momentum awarded:', gainAmount);
 
         // Store momentum gain for display in success animation
-        setMomentumGain(gain);
+        setMomentumGain(gainAmount);
 
-        if (progressAfter.progress > progressBefore.progress) {
+        if (gainAmount > 0) {
           console.log('Showing momentum notification!');
+          // Get updated progress to show
+          const updatedProgress = await getUserProgress(userId);
           showMomentumProgress({
-            previousMomentum: progressBefore.progress,
-            newMomentum: progressAfter.progress,
-            source: 'chat',
-            chatCount: progressAfter.chatCount
+            previousMomentum: updatedProgress.progress - gainAmount,
+            newMomentum: updatedProgress.progress,
+            source: 'cheat_code_received',
+            chatCount: updatedProgress.chatCount
           });
-        } else {
-          console.log('No progress gain - notification not shown');
         }
 
         // Show success animation

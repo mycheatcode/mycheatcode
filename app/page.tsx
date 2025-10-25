@@ -28,6 +28,7 @@ export default function Home() {
         setUserId(user.id);
         const progress = await getUserProgress(user.id);
         setProgressData(progress);
+        // Use the rounded-down progress for display
         setProgressPercentage(progress.progress);
 
         // Check if momentum increased since last home page visit
