@@ -22,6 +22,8 @@ import OverallProgressCircle from '../../components/OverallProgressCircle';
 import StreakDisplay from '../../components/StreakDisplay';
 import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, archiveCheatCodeDb, reactivateCheatCodeDb } from '@/lib/cheatcodes';
+import { awardCodeCompletionMomentum } from '@/lib/progress';
+import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -64,6 +66,9 @@ export default function MyCodesPage() {
 
   // Engagement system hooks
   const { activeEvent, showFeedback, dismissFeedback } = useEngagementFeedback();
+
+  // Momentum progress toast
+  const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
 
   // Load real cheat codes from database
   useEffect(() => {
@@ -274,6 +279,22 @@ export default function MyCodesPage() {
       // Regular usage feedback
       if (!result.sectionUpgrade) {
         triggerSuccessFeedback(); // Light haptic for regular usage
+      }
+
+      // Award momentum for code completion
+      const momentumGained = await awardCodeCompletionMomentum(user.id, cheatCode.id);
+      console.log('Momentum gained from completion:', momentumGained);
+
+      // Show momentum progress notification if momentum was gained
+      if (momentumGained > 0) {
+        const { getUserProgress } = await import('@/lib/progress');
+        const updatedProgress = await getUserProgress(user.id);
+        showMomentumProgress({
+          previousMomentum: updatedProgress.progress - momentumGained,
+          newMomentum: updatedProgress.progress,
+          source: 'completion',
+          chatCount: updatedProgress.chatCount
+        });
       }
 
       // Show success animation
@@ -1253,6 +1274,14 @@ export default function MyCodesPage() {
           event={activeEvent.event}
           eventData={activeEvent.eventData}
           onDismiss={dismissFeedback}
+        />
+      )}
+
+      {/* Momentum Progress Toast */}
+      {toastData && (
+        <MomentumProgressToast
+          data={toastData}
+          onDismiss={dismissToast}
         />
       )}
 

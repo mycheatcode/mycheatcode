@@ -9,7 +9,7 @@ import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/
 import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
-import { getUserProgress, awardCodeCreationMomentum } from '@/lib/progress';
+import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -1000,6 +1000,28 @@ export default function ChatPage() {
         }).catch(err => {
           console.error('Error logging activity:', err);
         });
+
+        // Check if chat qualifies for meaningful chat momentum (non-blocking)
+        // Only check if we have a current chat ID
+        if (currentChatId) {
+          awardMeaningfulChatMomentum(userId, currentChatId)
+            .then(async (momentumGained) => {
+              if (momentumGained > 0) {
+                console.log('Meaningful chat momentum awarded:', momentumGained);
+                // Show momentum notification
+                const updatedProgress = await getUserProgress(userId);
+                showMomentumProgress({
+                  previousMomentum: updatedProgress.progress - momentumGained,
+                  newMomentum: updatedProgress.progress,
+                  source: 'chat',
+                  chatCount: updatedProgress.chatCount
+                });
+              }
+            })
+            .catch(err => {
+              console.error('Error awarding meaningful chat momentum:', err);
+            });
+        }
       }
     } catch (err) {
       appendMessage({
