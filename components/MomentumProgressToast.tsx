@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export interface MomentumProgressData {
   previousMomentum: number;
   newMomentum: number;
-  source: 'chat' | 'code_usage' | 'cheat_code_received';
+  source: 'chat' | 'code_usage' | 'cheat_code_received' | 'completion';
   chatCount?: number;
   milestoneReached?: string; // e.g., "50%", "75%", "100%"
 }
