@@ -98,24 +98,22 @@ export interface ProgressData {
  */
 async function getUserSignupDate(userId: string): Promise<Date | null> {
   const supabase = createClient();
-  const { data, error } = await supabase.auth.admin.getUserById(userId);
 
-  if (error || !data?.user) {
-    // Fallback: try to get from users table if available
-    const { data: userData } = await supabase
-      .from('users')
-      .select('created_at')
-      .eq('id', userId)
-      .single();
+  // Try to get from users table
+  const { data: userData, error } = await supabase
+    .from('users')
+    .select('created_at')
+    .eq('id', userId)
+    .single();
 
-    if (userData?.created_at) {
-      return new Date(userData.created_at);
-    }
-
+  if (error || !userData?.created_at) {
+    // If no users table or no data, assume user is past day 3 (apply daily cap)
+    // This is safer than assuming they're within first 3 days
+    console.log('Could not get user signup date, assuming day 3+ (daily cap active)');
     return null;
   }
 
-  return new Date(data.user.created_at);
+  return new Date(userData.created_at);
 }
 
 /**
