@@ -56,6 +56,7 @@ export default function ChatPage() {
   const [selectedCheatCode, setSelectedCheatCode] = useState<any>(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  const [momentumGain, setMomentumGain] = useState<number>(0);
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
@@ -882,10 +883,14 @@ export default function ChatPage() {
           chat_id: currentChatId,
         });
 
-        // Get progress after saving and show momentum notification
+        // Get progress after saving
         const progressAfter = await getUserProgress(userId);
         console.log('Progress after saving:', progressAfter.progress);
-        console.log('Progress difference:', progressAfter.progress - progressBefore.progress);
+        const gain = progressAfter.progress - progressBefore.progress;
+        console.log('Progress difference:', gain);
+
+        // Store momentum gain for display in success animation
+        setMomentumGain(gain);
 
         if (progressAfter.progress > progressBefore.progress) {
           console.log('Showing momentum notification!');
@@ -905,6 +910,7 @@ export default function ChatPage() {
         // Hide success animation after 2 seconds (no redirect)
         setTimeout(() => {
           setShowSaveSuccess(false);
+          setMomentumGain(0); // Reset momentum gain
         }, 2000);
       }
     } catch (err) {
@@ -1671,6 +1677,11 @@ export default function ChatPage() {
                   </svg>
                   <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
                     <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Saved to My Codes!</h3>
+                    {momentumGain > 0 && (
+                      <p className="text-lg font-semibold mt-2" style={{ color: '#00ff41' }}>
+                        +{momentumGain.toFixed(momentumGain >= 10 ? 0 : 1)}% Momentum
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
