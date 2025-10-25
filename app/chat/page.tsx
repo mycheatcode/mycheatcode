@@ -927,6 +927,16 @@ export default function ChatPage() {
       }
     }
 
+    // Get progress before sending message
+    let progressBefore = null;
+    if (userId) {
+      try {
+        progressBefore = await getUserProgress(userId);
+      } catch (err) {
+        console.error('Error getting progress before message:', err);
+      }
+    }
+
     // Add user message locally
     const userMsg: Message = {
       id: uid(),
@@ -977,6 +987,28 @@ export default function ChatPage() {
         }).catch(err => {
           console.error('Error logging activity:', err);
         });
+
+        // Check for momentum progress after a delay (let DB update)
+        if (progressBefore) {
+          setTimeout(async () => {
+            try {
+              const progressAfter = await getUserProgress(userId);
+              console.log('Chat momentum check - Before:', progressBefore.progress, 'After:', progressAfter.progress);
+
+              if (progressAfter.progress > progressBefore.progress) {
+                console.log('Momentum increased during chat! Showing notification.');
+                showMomentumProgress({
+                  previousMomentum: progressBefore.progress,
+                  newMomentum: progressAfter.progress,
+                  source: 'chat',
+                  chatCount: progressAfter.chatCount
+                });
+              }
+            } catch (err) {
+              console.error('Error checking momentum after message:', err);
+            }
+          }, 1500); // Wait 1.5s for DB to update
+        }
       }
     } catch (err) {
       appendMessage({

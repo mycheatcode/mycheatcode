@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import ProgressCircles from '@/components/ProgressCircles';
 import { createClient } from '@/lib/supabase/client';
 import { getUserProgress, type ProgressData } from '@/lib/progress';
+import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,6 +14,7 @@ export default function Home() {
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
+  const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const router = useRouter();
   const supabase = createClient();
 
@@ -25,10 +27,32 @@ export default function Home() {
         const progress = await getUserProgress(user.id);
         setProgressData(progress);
         setProgressPercentage(progress.progress);
+
+        // Check if momentum increased since last home page visit
+        if (typeof window !== 'undefined') {
+          const lastHomeProgress = localStorage.getItem('lastHomePageProgress');
+          if (lastHomeProgress) {
+            const previousProgress = parseFloat(lastHomeProgress);
+            if (progress.progress > previousProgress) {
+              console.log('Momentum increased since last visit! Showing notification.');
+              // Show notification after a small delay so user can see the page first
+              setTimeout(() => {
+                showMomentumProgress({
+                  previousMomentum: previousProgress,
+                  newMomentum: progress.progress,
+                  source: 'chat',
+                  chatCount: progress.chatCount
+                });
+              }, 500);
+            }
+          }
+          // Store current progress for next visit
+          localStorage.setItem('lastHomePageProgress', progress.progress.toString());
+        }
       }
     };
     loadProgress();
-  }, [supabase]);
+  }, [supabase, showMomentumProgress]);
 
   useEffect(() => {
     // Always use dark mode
@@ -220,6 +244,14 @@ export default function Home() {
         </Link>
         </div>
       </div>
+
+      {/* Momentum Progress Toast */}
+      {toastData && (
+        <MomentumProgressToast
+          data={toastData}
+          onDismiss={dismissToast}
+        />
+      )}
     </div>
   );
 }
