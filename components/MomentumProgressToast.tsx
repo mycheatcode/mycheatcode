@@ -90,6 +90,9 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
     );
   };
 
+  // For non-milestone gains, show confetti-style layout
+  const showConfettiStyle = !isMilestone && data.source !== 'cheat_code_received';
+
   return (
     <div
       className={`fixed top-0 left-0 right-0 bottom-0 z-[100] transition-all duration-300 ${
@@ -116,8 +119,9 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
           maxWidth: '100%'
         }}
       >
+        {/* Icon */}
         <div style={{
-          marginBottom: '16px',
+          marginBottom: showConfettiStyle ? '16px' : '16px',
           transform: 'scale(1.5)',
           display: 'flex',
           alignItems: 'center',
@@ -125,19 +129,66 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
         }}>
           {getMilestoneIcon()}
         </div>
-        <div
-          className="font-bold"
-          style={{
-            color: 'var(--text-primary)',
-            fontSize: 'clamp(24px, 8vw, 48px)',
-            whiteSpace: 'nowrap',
-            textAlign: 'center',
-            width: '100%'
-          }}
-        >
-          {getMessage()}
-        </div>
+
+        {/* Confetti-style text layout for regular momentum gains */}
+        {showConfettiStyle ? (
+          <>
+            <div
+              className="font-bold mb-4"
+              style={{
+                color: '#00ff41',
+                fontSize: 'clamp(48px, 12vw, 96px)',
+                textAlign: 'center',
+                animation: 'pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                lineHeight: '1'
+              }}
+            >
+              +{gain.toFixed(gain >= 10 ? 0 : 1)}%
+            </div>
+            <div
+              className="font-semibold"
+              style={{
+                color: 'var(--text-primary)',
+                fontSize: 'clamp(20px, 5vw, 32px)',
+                textAlign: 'center'
+              }}
+            >
+              Momentum Gained!
+            </div>
+          </>
+        ) : (
+          /* Original layout for milestones and cheat codes */
+          <div
+            className="font-bold"
+            style={{
+              color: 'var(--text-primary)',
+              fontSize: 'clamp(24px, 8vw, 48px)',
+              whiteSpace: 'nowrap',
+              textAlign: 'center',
+              width: '100%'
+            }}
+          >
+            {getMessage()}
+          </div>
+        )}
       </div>
+
+      {/* Animation Styles */}
+      <style jsx>{`
+        @keyframes pop {
+          0% {
+            opacity: 0;
+            transform: scale(0.5);
+          }
+          60% {
+            transform: scale(1.1);
+          }
+          100% {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+      `}</style>
     </div>
   );
 }
