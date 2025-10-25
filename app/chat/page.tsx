@@ -876,9 +876,9 @@ export default function ChatPage() {
         // Show success animation
         setShowSaveSuccess(true);
 
-        // Redirect to home page after animation (2 seconds)
+        // Hide success animation after 2 seconds (no redirect)
         setTimeout(() => {
-          router.push('/');
+          setShowSaveSuccess(false);
         }, 2000);
       }
     } catch (err) {

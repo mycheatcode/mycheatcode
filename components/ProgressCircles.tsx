@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface ProgressCirclesProps {
   theme?: 'dark' | 'light';
@@ -10,6 +10,52 @@ interface ProgressCirclesProps {
 
 const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: ProgressCirclesProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [animatedProgress, setAnimatedProgress] = useState(progress);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // Handle progress growth animation when progress changes
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    // Get previous progress from localStorage
+    const previousProgress = parseFloat(localStorage.getItem('lastMomentumProgress') || '0');
+
+    // If progress increased, animate the growth
+    if (progress > previousProgress && previousProgress > 0) {
+      setIsAnimating(true);
+      const startProgress = previousProgress;
+      const endProgress = progress;
+      const duration = 3000; // 3 seconds animation for more noticeable effect
+      const startTime = Date.now();
+
+      const animateGrowth = () => {
+        const elapsed = Date.now() - startTime;
+        const progressRatio = Math.min(elapsed / duration, 1);
+
+        // Easing function for smooth animation (ease-in-out for more dramatic effect)
+        const easeInOut = progressRatio < 0.5
+          ? 4 * progressRatio * progressRatio * progressRatio
+          : 1 - Math.pow(-2 * progressRatio + 2, 3) / 2;
+        const currentProgress = startProgress + (endProgress - startProgress) * easeInOut;
+
+        setAnimatedProgress(currentProgress);
+
+        if (progressRatio < 1) {
+          requestAnimationFrame(animateGrowth);
+        } else {
+          setIsAnimating(false);
+          // Store new progress value
+          localStorage.setItem('lastMomentumProgress', progress.toString());
+        }
+      };
+
+      animateGrowth();
+    } else {
+      // No animation needed, just set directly
+      setAnimatedProgress(progress);
+      localStorage.setItem('lastMomentumProgress', progress.toString());
+    }
+  }, [progress]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -58,9 +104,9 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       const baseSize = Math.min(w, h);
       const goalRadius = baseSize * 0.34;      // 34% of container (fixed outer circle)
 
-      // Calculate inner circle radius based on actual progress percentage
+      // Calculate inner circle radius based on animated progress percentage
       // Use LINEAR radius growth so visual matches percentage more accurately
-      const progressRatio = progress / 100;
+      const progressRatio = animatedProgress / 100;
       const progressRadius = goalRadius * progressRatio;
 
       const segments = 100;
@@ -116,10 +162,9 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       ctx.fill();
       ctx.shadowBlur = 0;
 
-      // Pass the actual progress percentage to the callback
-      // (No need to calculate - we already have it from the database)
+      // Pass the animated progress percentage to the callback
       if (onProgressUpdate) {
-        onProgressUpdate(progress);
+        onProgressUpdate(Math.round(animatedProgress));
       }
 
       animationFrameId = requestAnimationFrame(animate);
@@ -131,7 +176,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [theme, progress, onProgressUpdate]);
+  }, [theme, animatedProgress, onProgressUpdate]);
 
   return (
     <canvas
