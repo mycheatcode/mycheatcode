@@ -929,16 +929,6 @@ export default function ChatPage() {
       }
     }
 
-    // Get progress before sending message
-    let progressBefore = null;
-    if (userId) {
-      try {
-        progressBefore = await getUserProgress(userId);
-      } catch (err) {
-        console.error('Error getting progress before message:', err);
-      }
-    }
-
     // Add user message locally
     const userMsg: Message = {
       id: uid(),
@@ -975,6 +965,27 @@ export default function ChatPage() {
       };
       appendMessage(coachMsg);
 
+      // Check if the coach just gave a cheat code - if so, celebrate!
+      if (isCheatCode(coachMsg.text)) {
+        // Get current progress to show in celebration
+        if (userId) {
+          try {
+            const currentProgress = await getUserProgress(userId);
+            // Show celebration for receiving a cheat code
+            setTimeout(() => {
+              showMomentumProgress({
+                previousMomentum: currentProgress.progress,
+                newMomentum: currentProgress.progress, // Same value, just celebrating the cheat code
+                source: 'cheat_code_received',
+                chatCount: currentProgress.chatCount
+              });
+            }, 1000); // Small delay so the message appears first
+          } catch (err) {
+            console.error('Error getting progress for cheat code celebration:', err);
+          }
+        }
+      }
+
       // Save chat to database after receiving response (non-blocking)
       const updatedMessages = [...messages, userMsg, coachMsg];
       saveChatToDb(updatedMessages).catch(err => {
@@ -989,47 +1000,6 @@ export default function ChatPage() {
         }).catch(err => {
           console.error('Error logging activity:', err);
         });
-
-        // Check for momentum progress after a delay (let DB update)
-        if (progressBefore) {
-          setTimeout(async () => {
-            try {
-              const progressAfter = await getUserProgress(userId);
-              console.log('Chat momentum check - Before:', progressBefore.progress, 'After:', progressAfter.progress);
-
-              if (progressAfter.progress > progressBefore.progress) {
-                console.log('Momentum increased during chat! Showing notification.');
-
-                // Check if a major milestone was reached (50%, 75%, 100%)
-                const majorMilestones = [50, 75, 100];
-                const reachedMilestone = majorMilestones.find(
-                  m => progressBefore.progress < m && progressAfter.progress >= m
-                );
-
-                if (reachedMilestone) {
-                  // Show full-screen toast for major milestones
-                  console.log('Major milestone reached:', reachedMilestone);
-                  showMomentumProgress({
-                    previousMomentum: progressBefore.progress,
-                    newMomentum: progressAfter.progress,
-                    source: 'chat',
-                    chatCount: progressAfter.chatCount
-                  });
-                } else {
-                  // Show subtle banner for regular progress
-                  console.log('Regular progress gain - showing banner');
-                  showMomentumBanner({
-                    previousMomentum: progressBefore.progress,
-                    newMomentum: progressAfter.progress,
-                    chatCount: progressAfter.chatCount
-                  });
-                }
-              }
-            } catch (err) {
-              console.error('Error checking momentum after message:', err);
-            }
-          }, 1500); // Wait 1.5s for DB to update
-        }
       }
     } catch (err) {
       appendMessage({

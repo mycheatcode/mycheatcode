@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 export interface MomentumProgressData {
   previousMomentum: number;
   newMomentum: number;
-  source: 'chat' | 'code_usage';
+  source: 'chat' | 'code_usage' | 'cheat_code_received';
   chatCount?: number;
   milestoneReached?: string; // e.g., "50%", "75%", "100%"
 }
@@ -43,6 +43,11 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
 
   // Get milestone message
   const getMessage = () => {
+    // Check for cheat code celebration first
+    if (data.source === 'cheat_code_received') {
+      return 'You Got a Cheat Code!';
+    }
+
     if (isMilestone) {
       if (data.newMomentum === 100) return 'Peak Momentum Reached!';
       if (data.newMomentum === 75) return '75% Momentum Reached!';
@@ -54,6 +59,15 @@ export default function MomentumProgressToast({ data, onDismiss }: MomentumProgr
 
   // Get milestone icon
   const getMilestoneIcon = () => {
+    // Lightning bolt for cheat code celebrations
+    if (data.source === 'cheat_code_received') {
+      return (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ color: 'var(--accent-color)' }}>
+          <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
+        </svg>
+      );
+    }
+
     if (!isMilestone) {
       // Regular up arrow
       return (
