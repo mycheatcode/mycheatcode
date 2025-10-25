@@ -863,6 +863,7 @@ export default function ChatPage() {
 
       // Get progress before saving
       const progressBefore = await getUserProgress(userId);
+      console.log('Progress before saving:', progressBefore.progress);
 
       const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
 
@@ -881,14 +882,19 @@ export default function ChatPage() {
 
         // Get progress after saving and show momentum notification
         const progressAfter = await getUserProgress(userId);
+        console.log('Progress after saving:', progressAfter.progress);
+        console.log('Progress difference:', progressAfter.progress - progressBefore.progress);
 
         if (progressAfter.progress > progressBefore.progress) {
+          console.log('Showing momentum notification!');
           showMomentumProgress({
             previousMomentum: progressBefore.progress,
             newMomentum: progressAfter.progress,
             source: 'chat',
             chatCount: progressAfter.chatCount
           });
+        } else {
+          console.log('No progress gain - notification not shown');
         }
 
         // Show success animation
