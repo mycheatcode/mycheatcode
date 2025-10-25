@@ -866,7 +866,7 @@ export default function ChatPage() {
 
       const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
 
-      if (error) {
+      if (error || !cheatCodeId) {
         alert('Failed to save cheat code. Please try again.');
         console.error('Error saving cheat code:', error);
       } else {
