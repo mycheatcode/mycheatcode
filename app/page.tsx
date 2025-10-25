@@ -16,6 +16,8 @@ export default function Home() {
   const [userId, setUserId] = useState<string | null>(null);
   const [showProgressAnimation, setShowProgressAnimation] = useState(false);
   const [momentumGain, setMomentumGain] = useState(0);
+  const [animatedProgress, setAnimatedProgress] = useState(0);
+  const [previousProgressValue, setPreviousProgressValue] = useState(0);
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const router = useRouter();
   const supabase = createClient();
@@ -37,21 +39,45 @@ export default function Home() {
           if (lastHomeProgress) {
             const previousProgress = parseFloat(lastHomeProgress);
             if (progress.progress > previousProgress) {
-              console.log('Momentum increased since last visit! Showing slide & reveal animation.');
+              console.log('Momentum increased since last visit! Showing number scroll animation.');
               const gain = progress.progress - previousProgress;
               setMomentumGain(gain);
+              setPreviousProgressValue(previousProgress);
+              setAnimatedProgress(previousProgress);
 
-              // Show slide & reveal animation after a small delay
+              // Start number scroll animation after a small delay
               setTimeout(() => {
                 setShowProgressAnimation(true);
-              }, 500);
 
-              // Auto-dismiss after 2.5 seconds
-              setTimeout(() => {
-                setShowProgressAnimation(false);
-                setMomentumGain(0);
-              }, 3000);
+                // Animate number counting up
+                const duration = 1500; // 1.5 seconds
+                const steps = 30;
+                const increment = gain / steps;
+                let currentStep = 0;
+
+                const interval = setInterval(() => {
+                  currentStep++;
+                  if (currentStep <= steps) {
+                    setAnimatedProgress(previousProgress + (increment * currentStep));
+                  } else {
+                    setAnimatedProgress(progress.progress);
+                    clearInterval(interval);
+
+                    // Hold at new value for a moment, then end animation
+                    setTimeout(() => {
+                      setShowProgressAnimation(false);
+                      setMomentumGain(0);
+                    }, 800);
+                  }
+                }, duration / steps);
+              }, 500);
+            } else {
+              // No gain, just show current progress
+              setAnimatedProgress(progress.progress);
             }
+          } else {
+            // First visit, just show current progress
+            setAnimatedProgress(progress.progress);
           }
           // Store current progress for next visit
           localStorage.setItem('lastHomePageProgress', progress.progress.toString());
@@ -187,42 +213,24 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className={`w-[min(400px,85vw)] aspect-square -my-8 relative overflow-visible ${showProgressAnimation ? 'slide-reveal-grow' : ''}`}>
+          <div className="w-[min(400px,85vw)] aspect-square -my-8 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
               onProgressUpdate={setProgressPercentage}
             />
-
-            {/* Slide & Reveal - Momentum Gain Card */}
-            {showProgressAnimation && momentumGain > 0 && (
-              <div
-                className="absolute inset-0 flex items-center justify-center"
-                style={{ animation: 'slide-up-fade 2.5s cubic-bezier(0.34, 1.56, 0.64, 1)' }}
-              >
-                <div
-                  className="px-8 py-6 rounded-3xl text-center"
-                  style={{
-                    backgroundColor: 'rgba(0, 255, 65, 0.15)',
-                    border: '2px solid #00ff41',
-                    backdropFilter: 'blur(12px)',
-                  }}
-                >
-                  <div className="text-5xl font-bold mb-2" style={{ color: '#00ff41' }}>
-                    +{momentumGain.toFixed(momentumGain >= 10 ? 0 : 1)}%
-                  </div>
-                  <div className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#ffffff' }}>
-                    Momentum Gained
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
 
-          {/* Progress Percentage */}
+          {/* Progress Percentage with Animation */}
           <div className="text-center">
-            <div className="text-5xl font-bold mb-1" style={{ color: 'var(--text-primary)' }}>
-              {progressPercentage}%
+            <div
+              className={`text-5xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
+              style={{
+                color: showProgressAnimation ? '#00ff41' : 'var(--text-primary)',
+                transform: showProgressAnimation ? 'scale(1.15)' : 'scale(1)',
+              }}
+            >
+              {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
             </div>
             <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
               Elite players stay above 85%
@@ -284,50 +292,6 @@ export default function Home() {
         />
       )}
 
-      {/* Animation Styles */}
-      <style jsx global>{`
-        .slide-reveal-grow {
-          animation: grow-bounce 2.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        @keyframes grow-bounce {
-          0% {
-            transform: translateY(30px) scale(0.85);
-            opacity: 0.7;
-          }
-          30% {
-            transform: translateY(0) scale(1.08);
-            opacity: 1;
-          }
-          50% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(0) scale(1);
-            opacity: 1;
-          }
-        }
-
-        @keyframes slide-up-fade {
-          0% {
-            opacity: 0;
-            transform: translateY(100px);
-          }
-          30% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          70% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-          100% {
-            opacity: 0;
-            transform: translateY(-50px);
-          }
-        }
-      `}</style>
     </div>
   );
 }
