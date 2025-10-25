@@ -82,9 +82,9 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     if (chatsError) {
       console.error('Error fetching chats:', chatsError);
       return {
-        progress: 0,
+        progress: 25, // Return baseline even on error
         chatCount: 0,
-        baseProgress: 0,
+        baseProgress: 25,
         decay: 0,
         lastActivity: null,
         hoursUntilNextDecay: 0,
@@ -144,9 +144,9 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
   } catch (err) {
     console.error('Unexpected error calculating progress:', err);
     return {
-      progress: 0,
+      progress: 25, // Return baseline even on error
       chatCount: 0,
-      baseProgress: 0,
+      baseProgress: 25,
       decay: 0,
       lastActivity: null,
       hoursUntilNextDecay: 0,

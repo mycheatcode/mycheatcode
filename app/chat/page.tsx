@@ -7,6 +7,8 @@ import TypingAnimation from '../../components/TypingAnimation';
 import { createClient } from '@/lib/supabase/client';
 import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
 import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
+import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
+import { getUserProgress } from '@/lib/progress';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -53,6 +55,7 @@ export default function ChatPage() {
   const [selectedCheatCode, setSelectedCheatCode] = useState<any>(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
+  const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const router = useRouter();
   const supabase = createClient();
 
@@ -858,6 +861,9 @@ export default function ChatPage() {
         return;
       }
 
+      // Get progress before saving
+      const progressBefore = await getUserProgress(userId);
+
       const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
 
       if (error) {
@@ -872,6 +878,18 @@ export default function ChatPage() {
           cheat_code_id: cheatCodeId,
           chat_id: currentChatId,
         });
+
+        // Get progress after saving and show momentum notification
+        const progressAfter = await getUserProgress(userId);
+
+        if (progressAfter.progress > progressBefore.progress) {
+          showMomentumProgress({
+            previousMomentum: progressBefore.progress,
+            newMomentum: progressAfter.progress,
+            source: 'chat',
+            chatCount: progressAfter.chatCount
+          });
+        }
 
         // Show success animation
         setShowSaveSuccess(true);
@@ -1630,6 +1648,14 @@ export default function ChatPage() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Momentum Progress Toast */}
+      {toastData && (
+        <MomentumProgressToast
+          data={toastData}
+          onDismiss={dismissToast}
+        />
       )}
 
       {/* Animation Styles */}
