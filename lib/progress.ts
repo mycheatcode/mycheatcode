@@ -98,14 +98,24 @@ export interface ProgressData {
  */
 async function getUserSignupDate(userId: string): Promise<Date | null> {
   const supabase = createClient();
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('created_at')
-    .eq('id', userId)
-    .single();
+  const { data, error } = await supabase.auth.admin.getUserById(userId);
 
-  if (error || !data) return null;
-  return new Date(data.created_at);
+  if (error || !data?.user) {
+    // Fallback: try to get from users table if available
+    const { data: userData } = await supabase
+      .from('users')
+      .select('created_at')
+      .eq('id', userId)
+      .single();
+
+    if (userData?.created_at) {
+      return new Date(userData.created_at);
+    }
+
+    return null;
+  }
+
+  return new Date(data.user.created_at);
 }
 
 /**
