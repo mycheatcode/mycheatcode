@@ -109,7 +109,6 @@ async function getUserSignupDate(userId: string): Promise<Date | null> {
   if (error || !userData?.created_at) {
     // If no users table or no data, assume user is past day 3 (apply daily cap)
     // This is safer than assuming they're within first 3 days
-    console.log('Could not get user signup date, assuming day 3+ (daily cap active)');
     return null;
   }
 
@@ -327,7 +326,6 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
-    console.log('Daily cap reached, no momentum awarded');
     return 0;
   }
 
@@ -362,7 +360,6 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
     await recordMomentumGain(userId, actualTierGain, 'code_creation', { code_id: codeId });
   }
 
-  console.log(`Awarded ${gainAmount}% momentum for code creation (first: ${isFirstCode}, tier: ${actualTierGain}%)`);
 
   return gainAmount;
 }
@@ -386,7 +383,6 @@ async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean
     .single();
 
   if (error || !chat || !chat.messages) {
-    console.log('Could not fetch chat messages');
     return false;
   }
 
@@ -397,7 +393,6 @@ async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean
 
   // Must have at least 5 user messages
   if (userMessages.length < 5) {
-    console.log(`Only ${userMessages.length} user messages, need 5+`);
     return false;
   }
 
@@ -409,7 +404,6 @@ async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean
 
   // Average message must be at least 20 characters
   if (avgLength < 20) {
-    console.log(`Average message length ${avgLength.toFixed(1)} chars, need 20+`);
     return false;
   }
 
@@ -422,11 +416,9 @@ async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean
     .limit(1);
 
   if (codes && codes.length > 0) {
-    console.log('Chat created a cheat code, not counting as meaningful chat');
     return false;
   }
 
-  console.log(`Chat qualifies as meaningful: ${userMessages.length} user messages, avg ${avgLength.toFixed(1)} chars`);
   return true;
 }
 
@@ -437,7 +429,6 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
   // Check if chat qualifies as meaningful
   const isMeaningful = await isMeaningfulChat(userId, chatId);
   if (!isMeaningful) {
-    console.log('Chat does not meet meaningful criteria');
     return 0;
   }
 
@@ -449,14 +440,12 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
-    console.log('Daily cap reached, no momentum awarded');
     return 0;
   }
 
   // Check max chats per day
   const chatsToday = await getMeaningfulChatsToday(userId);
   if (!isFirstChat && chatsToday >= MAX_CHATS_PER_DAY) {
-    console.log('Max meaningful chats per day reached');
     return 0;
   }
 
@@ -474,7 +463,6 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
     await recordMomentumGain(userId, MEANINGFUL_CHAT_GAIN, 'chat', { chat_id: chatId });
   }
 
-  console.log(`Awarded ${gainAmount}% momentum for meaningful chat (first: ${isFirstChat})`);
 
   return gainAmount;
 }
@@ -499,7 +487,6 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
     .limit(1);
 
   if (recentCompletion && recentCompletion.length > 0) {
-    console.log('Code already completed in last 24 hours');
     return 0;
   }
 
@@ -511,7 +498,6 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
-    console.log('Daily cap reached, no momentum awarded');
     return 0;
   }
 
@@ -527,7 +513,6 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
   gainAmount += CODE_COMPLETION_GAIN;
   await recordMomentumGain(userId, CODE_COMPLETION_GAIN, 'completion', { code_id: codeId });
 
-  console.log(`Awarded ${gainAmount}% momentum for code completion (first: ${isFirstCompletion})`);
 
   return gainAmount;
 }

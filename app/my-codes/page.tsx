@@ -144,25 +144,18 @@ export default function MyCodesPage() {
   // Check if selected code was used today
   useEffect(() => {
     const checkUsage = async () => {
-      console.log('=== Running useEffect to check usage ===');
-      console.log('Selected code:', selectedCode?.title, selectedCode?.id);
 
       if (!selectedCode) {
-        console.log('No selected code, setting usedToday to false');
         setUsedToday(false);
         return;
       }
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
-        console.log('No user found');
         return;
       }
 
-      console.log('Calling checkTodayUsage...');
       const { usedToday: wasUsedToday } = await checkTodayUsage(user.id, selectedCode.id);
-      console.log('checkTodayUsage returned:', wasUsedToday);
-      console.log('Setting usedToday state to:', wasUsedToday);
       setUsedToday(wasUsedToday);
     };
 
@@ -204,7 +197,6 @@ export default function MyCodesPage() {
             powerData.lastUsedTimestamp = Date.now() - (daysAgo * 24 * 60 * 60 * 1000);
           }
         } catch (error) {
-          console.log('Could not seed test data:', error);
         }
       }
     });
@@ -214,7 +206,6 @@ export default function MyCodesPage() {
   const handleUseCheatCode = async (cheatCode: CheatCode) => {
     try {
       setIsLoggingUsage(true);
-      console.log(`=== Using cheat code: ${cheatCode.title} (ID: ${cheatCode.id}) ===`);
 
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
@@ -233,8 +224,6 @@ export default function MyCodesPage() {
 
       // Check power BEFORE using
       const powerBefore = getCheatCodePower(cheatCode.id.toString());
-      console.log('Power before use:', powerBefore?.powerPercentage || 'Not found');
-      console.log('Mock data power:', cheatCode.power);
 
       // Add to power system first
       const updatedProfile = addUsageLog(
@@ -245,7 +234,6 @@ export default function MyCodesPage() {
 
       // Check power AFTER using
       const powerAfter = getCheatCodePower(cheatCode.id.toString());
-      console.log('Power after addUsageLog:', powerAfter?.powerPercentage);
 
       // Execute complete update flow: code → section → radar
       const result = await executeUpdate(
@@ -256,8 +244,6 @@ export default function MyCodesPage() {
 
       // Check power AFTER executeUpdate
       const powerAfterUpdate = getCheatCodePower(cheatCode.id.toString());
-      console.log('Power after executeUpdate:', powerAfterUpdate?.powerPercentage);
-      console.log('Real power returned by getRealPower:', getRealPower(cheatCode));
 
       // Check for achievement feedback
       if (result.sectionUpgrade?.newColor === 'green') {
@@ -283,7 +269,6 @@ export default function MyCodesPage() {
 
       // Award momentum for code completion
       const momentumGained = await awardCodeCompletionMomentum(user.id, cheatCode.id);
-      console.log('Momentum gained from completion:', momentumGained);
 
       // Show momentum progress notification if momentum was gained
       if (momentumGained > 0) {
@@ -321,7 +306,6 @@ export default function MyCodesPage() {
           : code
       ));
 
-      console.log('Cheat code usage result:', result);
       setIsLoggingUsage(false);
     } catch (error) {
       console.error('Error using cheat code:', error);
@@ -339,7 +323,6 @@ export default function MyCodesPage() {
   const getDecayStatus = (cheatCode: CheatCode) => {
     const powerData = getCheatCodePower(cheatCode.id.toString());
     if (!powerData) {
-      console.log('No power data found for:', cheatCode.title, cheatCode.id);
       return null;
     }
 
@@ -348,7 +331,6 @@ export default function MyCodesPage() {
     const hoursInactive = Math.floor(timeSinceLastUse / (60 * 60 * 1000));
     const threshold48h = 48 * 60 * 60 * 1000;
 
-    console.log(`Decay check for ${cheatCode.title}:`, {
       timeSinceLastUse: Math.floor(timeSinceLastUse / (60 * 60 * 1000)) + 'h',
       threshold48h: 48 + 'h',
       isDecaying: timeSinceLastUse > threshold48h,
@@ -435,7 +417,6 @@ export default function MyCodesPage() {
             setCheatCodes(codes => codes.map(c =>
               c.id === codeId ? { ...c, archived: false } : c
             ));
-            console.log('Reactivated code:', result.reactivatedCode?.cheatCodeName);
           } else if (result.needsArchivalDecision) {
             // Handle the case where section is full
             alert(`Your ${code.category} section is full (${MAX_ACTIVE_CODES_PER_SECTION} active codes). Archive another code first.`);
@@ -457,7 +438,6 @@ export default function MyCodesPage() {
             setCheatCodes(codes => codes.map(c =>
               c.id === codeId ? { ...c, archived: true } : c
             ));
-            console.log('Archived code:', result.archivedCode?.cheatCodeName);
           }
         }
       }
@@ -511,7 +491,6 @@ export default function MyCodesPage() {
       }
 
       try {
-        console.log('Fetching chat with ID:', code.topicId, 'for user:', user.id);
 
         // Fetch the chat from database using chat_id (using the already-initialized supabase client)
         const { data: chatData, error } = await supabase
@@ -521,7 +500,6 @@ export default function MyCodesPage() {
           .eq('user_id', user.id)
           .single();
 
-        console.log('Chat fetch result:', { chatData, error });
 
         if (error || !chatData) {
           console.error('Error fetching chat or chat not found:', error);

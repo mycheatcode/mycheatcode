@@ -148,7 +148,6 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
       return { success: false, error: error.message };
     }
 
-    console.log('Confirmation email sent successfully:', data?.id);
     return { success: true };
 
   } catch (error) {

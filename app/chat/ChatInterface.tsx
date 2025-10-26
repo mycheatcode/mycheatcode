@@ -48,7 +48,6 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
           timestamp: new Date()
         };
 
-        console.log('Adding initial coach message:', initialCoachMessage);
 
         setChatState(prev => ({
           ...prev,

@@ -177,12 +177,10 @@ export default function ChatPage() {
             // For mobile: scroll the container div to its full height
             const container = mobileScrollContainerRef.current;
             container.scrollTop = container.scrollHeight;
-            console.log('Mobile scroll - scrollHeight:', container.scrollHeight, 'scrollTop:', container.scrollTop);
           } else if (!isMobile && desktopScrollContainerRef.current) {
             // For desktop: scroll the desktop container to its full height
             const container = desktopScrollContainerRef.current;
             container.scrollTop = container.scrollHeight;
-            console.log('Desktop scroll - scrollHeight:', container.scrollHeight, 'scrollTop:', container.scrollTop);
           }
         }, 200);
       });
@@ -192,10 +190,6 @@ export default function ChatPage() {
   // Additional scroll on mount when restoring chat
   useEffect(() => {
     if (isRestoringChat && messages.length > 0) {
-      console.log('=== SCROLL TO BOTTOM TRIGGERED ===');
-      console.log('Messages length:', messages.length);
-      console.log('Mobile ref exists:', !!mobileScrollContainerRef.current);
-      console.log('Desktop ref exists:', !!desktopScrollContainerRef.current);
 
       // Set the ref to prevent auto-scroll from interfering
       isRestoringChatRef.current = true;
@@ -207,17 +201,12 @@ export default function ChatPage() {
 
         if (isMobile && mobileScrollContainerRef.current) {
           // For mobile, scroll the container div to its full height
-          console.log('Mobile detected - scrolling container');
           const scrollHeight = mobileScrollContainerRef.current.scrollHeight;
-          console.log('Mobile scroll - scrollHeight:', scrollHeight);
           mobileScrollContainerRef.current.scrollTop = scrollHeight;
-          console.log('Mobile scroll - scrollTop set to:', mobileScrollContainerRef.current.scrollTop);
         } else if (!isMobile && desktopScrollContainerRef.current) {
           // For desktop, scroll the desktop container to its full height
           const scrollHeight = desktopScrollContainerRef.current.scrollHeight;
-          console.log('Desktop scroll - scrollHeight:', scrollHeight);
           desktopScrollContainerRef.current.scrollTop = scrollHeight;
-          console.log('Desktop scroll - scrollTop set to:', desktopScrollContainerRef.current.scrollTop);
         }
       };
 
@@ -239,7 +228,6 @@ export default function ChatPage() {
             setTimeout(() => {
               setIsRestoringChat(false);
               isRestoringChatRef.current = false;
-              console.log('Restoration complete - normal scrolling resumed');
             }, 100);
           }, 1000);
         });
@@ -475,13 +463,11 @@ export default function ChatPage() {
       if (storedTopic) {
         try {
           const topic = JSON.parse(storedTopic);
-          console.log('Loaded selectedTopic from localStorage:', topic);
           setSelectedTopic(topic);
         } catch (error) {
           console.error('Error parsing selectedTopic:', error);
         }
       } else {
-        console.log('No selectedTopic found in localStorage');
       }
 
       // Try to restore prior chat from localStorage first
@@ -881,13 +867,11 @@ export default function ChatPage() {
 
         // Award momentum using new system
         const gainAmount = await awardCodeCreationMomentum(userId, cheatCodeId);
-        console.log('Momentum awarded:', gainAmount);
 
         // Store momentum gain for display in success animation
         setMomentumGain(gainAmount);
 
         if (gainAmount > 0) {
-          console.log('Showing momentum notification!');
           // Get updated progress to show
           const updatedProgress = await getUserProgress(userId);
           showMomentumProgress({
@@ -1007,7 +991,6 @@ export default function ChatPage() {
           awardMeaningfulChatMomentum(userId, currentChatId)
             .then(async (momentumGained) => {
               if (momentumGained > 0) {
-                console.log('Meaningful chat momentum awarded:', momentumGained);
                 // Show momentum notification
                 const updatedProgress = await getUserProgress(userId);
                 showMomentumProgress({

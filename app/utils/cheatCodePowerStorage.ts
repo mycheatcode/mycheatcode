@@ -77,20 +77,11 @@ export function resetPowerProfile(): UserPowerProfile {
 export function debugPowerProfile(): void {
   const profile = loadPowerProfile();
 
-  console.log('=== Power Profile Debug ===');
-  console.log('Account age:', Math.round((Date.now() - profile.accountCreatedTimestamp) / (24 * 60 * 60 * 1000)), 'days');
-  console.log('Total logs across all sections:', profile.totalLogsAcrossAllSections);
-  console.log('Honeymoon phase ended:', profile.honeymoonPhaseEnded);
 
   if (Object.keys(profile.cheatCodes).length === 0) {
-    console.log('No cheat codes found');
     return;
   }
 
-  console.log('Cheat codes:');
   Object.values(profile.cheatCodes).forEach(code => {
-    console.log(`- ${code.cheatCodeName} (${code.section}): ${code.powerPercentage}% (${code.totalLogs} logs)`);
-    console.log(`  Fresh bonus used: ${code.freshCodeBonusUsed}/2`);
-    console.log(`  Last used: ${Math.round((Date.now() - code.lastUsedTimestamp) / (60 * 1000))} minutes ago`);
   });
 }

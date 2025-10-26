@@ -10,7 +10,6 @@ export async function runDecayJob(): Promise<{
   decayed_codes: number;
   updated_users: Set<string>;
 }> {
-  console.log('Starting decay job...');
 
   const fortyEightHoursAgo = new Date();
   fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48);
@@ -83,7 +82,6 @@ export async function runDecayJob(): Promise<{
       decayedCodes++;
       updatedUsers.add(code.user_id);
 
-      console.log(`Decayed code ${code.id} from ${code.power_pct}% to ${newPowerPct}%`);
     }
   }
 
@@ -104,7 +102,6 @@ export async function runDecayJob(): Promise<{
     }
   }
 
-  console.log(`Decay job completed. Processed: ${processedCodes}, Decayed: ${decayedCodes}, Users updated: ${updatedUsers.size}`);
 
   return {
     processed_codes: processedCodes,
@@ -119,7 +116,6 @@ export async function runGreenHoldMaintenanceJob(): Promise<{
   sections_demoted: number;
   sections_warned: number;
 }> {
-  console.log('Starting Green Hold maintenance job...');
 
   const now = new Date();
   const gracePeriodEnd = new Date();
@@ -186,7 +182,6 @@ export async function runGreenHoldMaintenanceJob(): Promise<{
         }
 
         sectionsWarned++;
-        console.log(`Started grace period for user ${section.user_id} section ${section.section}`);
 
       } else {
         // Check if grace period has expired
@@ -221,7 +216,6 @@ export async function runGreenHoldMaintenanceJob(): Promise<{
           await calculateRadarState(section.user_id);
 
           sectionsDemoted++;
-          console.log(`Demoted user ${section.user_id} section ${section.section} from green to yellow`);
         }
       }
     } else if (section.grace_started_at) {
@@ -236,12 +230,10 @@ export async function runGreenHoldMaintenanceJob(): Promise<{
       if (clearGraceError) {
         console.error(`Failed to clear grace period for section ${section.id}:`, clearGraceError);
       } else {
-        console.log(`Cleared grace period for user ${section.user_id} section ${section.section}`);
       }
     }
   }
 
-  console.log(`Green Hold maintenance completed. Checked: ${sectionsChecked}, Demoted: ${sectionsDemoted}, Warned: ${sectionsWarned}`);
 
   return {
     sections_checked: sectionsChecked,

@@ -198,7 +198,6 @@ export function startGreenHoldTimer(section: Section): void {
   };
 
   saveGreenHoldState(state);
-  console.log(`Started Green Hold timer for ${section}`);
 }
 
 // Stop and record green hold timer
@@ -244,7 +243,6 @@ export function stopGreenHoldTimer(section: Section): GreenHoldRecord | null {
   };
 
   saveGreenHoldState(state);
-  console.log(`Stopped Green Hold timer for ${section}. Duration: ${formatDuration(holdDuration)}`);
 
   return record;
 }

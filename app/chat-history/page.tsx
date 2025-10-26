@@ -74,12 +74,10 @@ export default function ChatHistory() {
       }
 
       if (!user) {
-        console.log('No user logged in');
         return;
       }
 
       setUserId(user.id);
-      console.log('Fetching chats for user:', user.id);
 
       // Fetch real chats from database (including selected_topic)
       const { data: chats, error } = await supabase
@@ -94,7 +92,6 @@ export default function ChatHistory() {
         return;
       }
 
-      console.log('Fetched chats:', chats?.length || 0);
 
       // Transform database chats to ChatSession format
       const transformedChats: ChatSession[] = (chats || []).map((chat: any) => {

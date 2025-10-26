@@ -27,7 +27,6 @@ export default function TypingAnimation({
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    console.log('🎯 TypingAnimation: Starting with text:', text);
 
     // Reset everything
     setDisplayedText('');
@@ -41,23 +40,19 @@ export default function TypingAnimation({
 
     // Start delay then animation
     const startTimer = setTimeout(() => {
-      console.log('🚀 TypingAnimation: Starting typing animation');
 
       intervalRef.current = setInterval(() => {
         if (currentIndex.current < text.length) {
           const char = text[currentIndex.current];
-          console.log(`⌨️ Adding character ${currentIndex.current}: "${char}"`);
 
           setDisplayedText(prev => {
             const newText = prev + char;
-            console.log(`📝 New displayed text: "${newText}"`);
             onTextChange?.(); // Notify parent that text changed
             return newText;
           });
 
           currentIndex.current++;
         } else {
-          console.log('✅ TypingAnimation: Complete!');
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
           }

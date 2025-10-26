@@ -148,7 +148,6 @@ export function applyDecayToCheatCode(
   decayState.codeLastDecayCheck[cheatCode.cheatCodeId] = currentTime;
   saveDecayState(decayState);
 
-  console.log(`Applied ${decayAmount.toFixed(1)}% decay to ${cheatCode.cheatCodeName} (${cheatCode.powerPercentage}% → ${newPowerPercentage}%)`);
 
   return decayedCode;
 }

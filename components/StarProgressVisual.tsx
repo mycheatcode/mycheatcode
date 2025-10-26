@@ -353,12 +353,10 @@ const StarProgressVisual = ({
                   fill="transparent"
                   style={{ cursor: 'pointer', pointerEvents: 'all' }}
                   onClick={(e) => {
-                    console.log('Star section clicked:', section);
                     e.stopPropagation();
                     onClick(section);
                   }}
                   onMouseEnter={(e) => {
-                    console.log('Mouse entered section:', section);
                     e.currentTarget.setAttribute('fill', 'rgba(255,255,255,0.1)');
                   }}
                   onMouseLeave={(e) => {

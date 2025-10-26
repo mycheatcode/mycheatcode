@@ -331,7 +331,6 @@ export function executeCompleteUpdate(
   if (beforeSectionColor !== 'green' && afterSectionColor === 'green') {
     startGreenHoldTimer(section);
     greenHoldEvents.started = true;
-    console.log(`🟢 ${section} reached Green! Green Hold timer started.`);
   }
   // Section dropped from Green
   else if (beforeSectionColor === 'green' && afterSectionColor !== 'green' && hadActiveHold) {
@@ -341,7 +340,6 @@ export function executeCompleteUpdate(
         duration: record.holdDuration,
         wasRecord: true // Could implement record checking logic here
       };
-      console.log(`🔻 ${section} dropped from Green after ${Math.floor(record.holdDuration / (24*60*60*1000))} days.`);
     }
   }
   // Section stayed Green
@@ -353,7 +351,6 @@ export function executeCompleteUpdate(
   if (afterSectionColor === 'green') {
     const consistency = checkGreenConsistency(section);
     if (!consistency.meetsRequirements) {
-      console.log(`⚠️ ${section} Green maintenance requirements not met:`, consistency);
     }
   }
 
@@ -537,7 +534,6 @@ export function forceSectionDemotion(
   const holdRecord = stopGreenHoldTimer(section);
   const updatedRadarState = calculateRadarState(powerProfile, progressionProfile);
 
-  console.log(`🔄 Forced demotion for ${section} due to maintenance failure`);
 
   return {
     updatedRadarState,

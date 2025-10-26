@@ -76,7 +76,6 @@ export async function POST(req: Request) {
       "I'm here. Tell me a bit more so I can help.";
 
     const tookMs = Date.now() - startedAt;
-    console.log(`[/api/chat] ok model=${model} in ${tookMs}ms`);
 
     return Response.json({ reply }, { status: 200 });
   } catch (err: any) {

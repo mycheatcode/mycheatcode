@@ -27,7 +27,6 @@ export function triggerHapticFeedback(type: 'light' | 'medium' | 'heavy' = 'ligh
         }
       } catch (error) {
         // Silently fail if not supported
-        console.log('Haptic feedback not supported');
       }
     }
   }

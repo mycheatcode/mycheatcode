@@ -40,7 +40,6 @@ export default function Home() {
           if (lastHomeProgress) {
             const previousProgress = parseFloat(lastHomeProgress);
             if (progress.progress > previousProgress) {
-              console.log('Momentum increased since last visit! Showing number scroll animation.');
               const gain = progress.progress - previousProgress;
               setMomentumGain(gain);
               setPreviousProgressValue(previousProgress);

@@ -287,10 +287,6 @@ export async function checkTodayUsage(
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    console.log('=== Checking today usage ===');
-    console.log('User ID:', userId);
-    console.log('Cheat Code ID:', cheatCodeId);
-    console.log('Today start:', today.toISOString());
 
     const { data, error } = await supabase
       .from('cheat_code_usage_log')
@@ -301,19 +297,15 @@ export async function checkTodayUsage(
       .limit(1);
 
     if (error) {
-      console.log('Error checking usage:', error);
       // Gracefully handle any errors (table doesn't exist, etc.)
       // Just return false - not used today
       return { usedToday: false };
     }
 
     const wasUsedToday = (data?.length || 0) > 0;
-    console.log('Data from query:', data);
-    console.log('Was used today?', wasUsedToday);
 
     return { usedToday: wasUsedToday };
   } catch (err) {
-    console.log('Exception checking usage:', err);
     // Silently handle any errors and return false
     return { usedToday: false };
   }

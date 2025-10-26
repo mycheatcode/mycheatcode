@@ -121,7 +121,6 @@ export function addNotification(notification: NotificationData): void {
     );
 
     saveNotificationState(state);
-    console.log(`Added notification: ${notification.title}`);
   }
 }
 

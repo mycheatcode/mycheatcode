@@ -200,7 +200,6 @@ export function scheduleNotification(
 
   // Check if we can send more notifications
   if (!canSendNotification(state)) {
-    console.log('Notification limit reached, skipping:', type);
     return false;
   }
 
@@ -219,7 +218,6 @@ export function scheduleNotification(
     state.pendingNotifications.push(notification);
     saveNotificationState(state);
 
-    console.log(`Notification rescheduled for after quiet hours: ${new Date(rescheduledFor)}`);
     return true;
   }
 
@@ -227,7 +225,6 @@ export function scheduleNotification(
   state.pendingNotifications.push(notification);
   saveNotificationState(state);
 
-  console.log('Notification scheduled:', notification.title, new Date(scheduledFor));
   return true;
 }
 
@@ -248,7 +245,6 @@ export function processPendingNotifications(): PushNotification[] {
         state.weeklyCount++;
 
         // In a real app, you would send the actual push notification here
-        console.log('Sending push notification:', notification.title, notification.body);
 
         return false; // Remove from pending
       }
@@ -312,7 +308,6 @@ export function scheduleWinBackNotification(section: Section, longestHold: numbe
 // Request notification permissions (for web)
 export async function requestNotificationPermission(): Promise<boolean> {
   if (!('Notification' in window)) {
-    console.log('This browser does not support notifications');
     return false;
   }
 
@@ -347,7 +342,6 @@ export function showBrowserNotification(notification: PushNotification) {
       // Navigate to relevant section if applicable
       if (notification.section) {
         // This would integrate with your navigation system
-        console.log('Navigate to section:', notification.section);
       }
     };
 
