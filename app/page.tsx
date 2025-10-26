@@ -249,7 +249,7 @@ export default function Home() {
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message here..."
+              placeholder="Share what's on your mind..."
               className="w-full px-5 py-4 pr-24 rounded-2xl text-base focus:outline-none"
               style={{
                 background: 'var(--input-bg)',
