@@ -412,6 +412,7 @@ export default function WaitlistV2Page() {
               <div className="w-[min(400px,85vw)] aspect-square">
                 <ProgressCircles
                   theme="light"
+                  progress={30}
                   onProgressUpdate={() => {}}
                 />
               </div>
@@ -428,12 +429,6 @@ export default function WaitlistV2Page() {
               <p className="text-lg text-gray-700 leading-relaxed">
                 Stay consistent to keep your momentum strong. The more you engage with your AI coach, the brighter your progress shines.
               </p>
-              <div className="pt-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 rounded-full">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#00ff41' }}></div>
-                  <span className="text-sm font-semibold text-gray-700">Elite players stay above 85%</span>
-                </div>
-              </div>
             </div>
           </div>
         </div>
