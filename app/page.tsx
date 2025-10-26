@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { getUserProgress, type ProgressData } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import Footer from '@/components/Footer';
+import FeedbackButton from '@/components/FeedbackButton';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -292,6 +293,9 @@ export default function Home() {
           onDismiss={dismissToast}
         />
       )}
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
 
     </div>
   );

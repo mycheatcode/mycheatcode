@@ -10,6 +10,7 @@ import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
+import FeedbackButton from '@/components/FeedbackButton';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -1704,6 +1705,9 @@ export default function ChatPage() {
           onDismiss={dismissBanner}
         />
       )}
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
 
       {/* Animation Styles */}
       <style jsx global>{`
