@@ -7,6 +7,7 @@ import ProgressCircles from '@/components/ProgressCircles';
 import { createClient } from '@/lib/supabase/client';
 import { getUserProgress, type ProgressData } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -162,6 +163,7 @@ export default function Home() {
             </Link>
           </div>
         </nav>
+        <Footer />
       </div>
 
       {/* Overlay when menu is open */}
