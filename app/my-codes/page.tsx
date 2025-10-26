@@ -51,6 +51,7 @@ interface CheatCode {
 export default function MyCodesPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
   const [animatingCode, setAnimatingCode] = useState<string | null>(null);
   const [animationType, setAnimationType] = useState<'archive' | 'reactivate' | null>(null);
@@ -460,6 +461,15 @@ export default function MyCodesPage() {
       filtered = cheatCodes.filter(code => code.category === activeCategory && !code.archived);
     }
 
+    // Filter by search query
+    if (searchQuery) {
+      filtered = filtered.filter(code =>
+        code.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        code.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        code.summary.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
     // Sort by usage when "All" category is selected
     // Most used codes first, then by archived status (active first), then least used/archived last
     if (activeCategory === 'All') {
@@ -710,7 +720,26 @@ export default function MyCodesPage() {
           {/* Page Title */}
           <div className="text-3xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
           <div className="text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of confidence boosting cheat codes</div>
+        </div>
 
+        {/* Search */}
+        <div className="p-4 pb-4">
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              placeholder="Search cheat codes..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full border rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none transition-all"
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+            />
+          </div>
         </div>
 
         {/* Categories Filter */}
@@ -896,6 +925,26 @@ export default function MyCodesPage() {
         <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
+            {/* Search Bar - right aligned */}
+            <div className="flex items-center justify-end mb-6">
+              <div className="relative w-80">
+                <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="m21 21-4.35-4.35"/>
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search cheat codes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full border rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none transition-all"
+                  style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+                />
+              </div>
+            </div>
+
             <div className="text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
             <div className="text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your vault of confidence boosting cheat codes</div>
           </div>
