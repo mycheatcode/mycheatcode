@@ -32,6 +32,11 @@ export default function Profile() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -115,6 +120,104 @@ export default function Profile() {
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/login');
+  };
+
+  const handleEditProfile = () => {
+    setEditedName(userProfile?.full_name || '');
+    setIsEditing(true);
+  };
+
+  const handleSaveProfile = async () => {
+    if (!editedName.trim()) {
+      alert('Name cannot be empty');
+      return;
+    }
+
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { error } = await supabase
+        .from('users')
+        .update({ full_name: editedName })
+        .eq('id', user.id);
+
+      if (error) throw error;
+
+      setUserProfile(prev => prev ? { ...prev, full_name: editedName } : null);
+      setIsEditing(false);
+    } catch (err) {
+      console.error('Error updating profile:', err);
+      alert('Failed to update profile');
+    }
+  };
+
+  const handleExportData = async () => {
+    setIsExporting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Fetch all user data
+      const { cheatCodes } = await getUserCheatCodes(user.id);
+      const { data: chats } = await supabase
+        .from('chats')
+        .select('*')
+        .eq('user_id', user.id);
+
+      const exportData = {
+        profile: userProfile,
+        stats: userStats,
+        cheatCodes: cheatCodes || [],
+        chats: chats || [],
+        exportedAt: new Date().toISOString(),
+      };
+
+      // Create and download JSON file
+      const dataStr = JSON.stringify(exportData, null, 2);
+      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const url = URL.createObjectURL(dataBlob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `mycheatcode-data-${new Date().toISOString().split('T')[0]}.json`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error('Error exporting data:', err);
+      alert('Failed to export data');
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      // Delete user data from all tables
+      await supabase.from('momentum_gains').delete().eq('user_id', user.id);
+      await supabase.from('code_completions').delete().eq('user_id', user.id);
+      await supabase.from('cheat_codes').delete().eq('user_id', user.id);
+      await supabase.from('chats').delete().eq('user_id', user.id);
+      await supabase.from('activity_log').delete().eq('user_id', user.id);
+      await supabase.from('users').delete().eq('id', user.id);
+
+      // Delete auth user
+      await supabase.auth.admin.deleteUser(user.id);
+
+      // Sign out and redirect
+      await supabase.auth.signOut();
+      router.push('/signup');
+    } catch (err) {
+      console.error('Error deleting account:', err);
+      alert('Failed to delete account. Please contact support at team@mycheatcode.ai');
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
+    }
   };
 
   return (
@@ -212,14 +315,50 @@ export default function Profile() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h2 className="text-xl font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
-                      {userProfile?.full_name || 'Player'}
-                    </h2>
+                    {isEditing ? (
+                      <input
+                        type="text"
+                        value={editedName}
+                        onChange={(e) => setEditedName(e.target.value)}
+                        className="w-full px-3 py-2 rounded-lg text-lg font-semibold mb-1"
+                        style={{ backgroundColor: 'var(--input-bg)', border: '1px solid var(--input-border)', color: 'var(--input-text)' }}
+                      />
+                    ) : (
+                      <h2 className="text-xl font-semibold mb-1" style={{ color: 'var(--text-primary)' }}>
+                        {userProfile?.full_name || 'Player'}
+                      </h2>
+                    )}
                     <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
                       {userProfile?.email || 'Basketball Athlete'}
                     </p>
                   </div>
                 </div>
+                {isEditing ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleSaveProfile}
+                      className="flex-1 px-4 py-2 rounded-lg transition-colors font-medium"
+                      style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                    >
+                      Save
+                    </button>
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      className="flex-1 px-4 py-2 rounded-lg transition-colors font-medium"
+                      style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleEditProfile}
+                    className="w-full px-4 py-2 rounded-lg transition-colors font-medium"
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
+                  >
+                    Edit Profile
+                  </button>
+                )}
               </div>
 
               {/* Profile Stats */}
@@ -258,11 +397,26 @@ export default function Profile() {
                 <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Account</h3>
                 <div className="space-y-3">
                   <button
+                    onClick={handleExportData}
+                    disabled={isExporting}
+                    className="w-full text-left p-3 rounded-lg transition-colors"
+                    style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
+                  >
+                    {isExporting ? 'Exporting...' : 'Export My Data'}
+                  </button>
+                  <button
                     onClick={handleSignOut}
                     className="w-full text-left p-3 rounded-lg transition-colors"
                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
                   >
                     Sign Out
+                  </button>
+                  <button
+                    onClick={() => setShowDeleteConfirm(true)}
+                    className="w-full text-left p-3 rounded-lg transition-colors"
+                    style={{ backgroundColor: 'rgba(255, 0, 0, 0.1)', color: '#ff6464' }}
+                  >
+                    Delete Account
                   </button>
                 </div>
               </div>
@@ -270,6 +424,36 @@ export default function Profile() {
           )}
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.85)' }}>
+          <div className="max-w-md w-full rounded-xl p-6 border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+            <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Delete Account?</h3>
+            <p className="mb-6" style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+              This will permanently delete your account and all associated data including cheat codes, chats, and progress. This action cannot be undone.
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={handleDeleteAccount}
+                disabled={isDeleting}
+                className="flex-1 px-4 py-3 rounded-lg font-medium transition-colors"
+                style={{ backgroundColor: '#ff6464', color: '#ffffff' }}
+              >
+                {isDeleting ? 'Deleting...' : 'Yes, Delete My Account'}
+              </button>
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={isDeleting}
+                className="flex-1 px-4 py-3 rounded-lg font-medium transition-colors"
+                style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Desktop Design */}
       <div className="hidden lg:flex min-h-screen relative">
