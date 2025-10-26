@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import FeedbackButton from '@/components/FeedbackButton';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -564,7 +565,7 @@ export default function RelatableTopics() {
       )}
 
       {/* Mobile Footer - Floating Chat Button */}
-      <div className="fixed bottom-20 right-4 lg:hidden">
+      <div className="fixed bottom-20 right-4 z-50 lg:hidden">
         <button onClick={handleStartBlankChat} className="w-14 h-14 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -573,7 +574,7 @@ export default function RelatableTopics() {
       </div>
 
       {/* Desktop Footer - Floating Chat Button */}
-      <div className="fixed bottom-16 right-8 hidden lg:block">
+      <div className="fixed bottom-16 right-8 z-50 hidden lg:block">
         <button onClick={handleStartBlankChat} className="w-16 h-16 rounded-full flex items-center justify-center transition-colors shadow-lg" style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}>
           <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
@@ -684,6 +685,9 @@ export default function RelatableTopics() {
           </div>
         </div>
       </div>
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }

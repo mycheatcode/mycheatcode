@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
+import FeedbackButton from '@/components/FeedbackButton';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -609,6 +610,9 @@ export default function Profile() {
           )}
         </div>
       </div>
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }

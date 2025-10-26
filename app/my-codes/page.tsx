@@ -24,6 +24,7 @@ import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, archiveCheatCodeDb, reactivateCheatCodeDb } from '@/lib/cheatcodes';
 import { awardCodeCompletionMomentum } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
+import FeedbackButton from '@/components/FeedbackButton';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -1256,6 +1257,9 @@ export default function MyCodesPage() {
           onDismiss={dismissToast}
         />
       )}
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
 
       <style jsx global>{`
         @keyframes fade-in-scale {

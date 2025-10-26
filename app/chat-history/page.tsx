@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { UserSessionManager } from '../utils/userSession';
 import { createClient } from '@/lib/supabase/client';
 import { unarchiveChat } from '@/lib/chat';
+import FeedbackButton from '@/components/FeedbackButton';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -768,6 +769,9 @@ export default function ChatHistory() {
           </div>
         )}
       </div>
+
+      {/* Floating Feedback Button */}
+      <FeedbackButton />
     </div>
   );
 }
