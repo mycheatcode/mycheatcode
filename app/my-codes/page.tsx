@@ -331,12 +331,6 @@ export default function MyCodesPage() {
     const hoursInactive = Math.floor(timeSinceLastUse / (60 * 60 * 1000));
     const threshold48h = 48 * 60 * 60 * 1000;
 
-      timeSinceLastUse: Math.floor(timeSinceLastUse / (60 * 60 * 1000)) + 'h',
-      threshold48h: 48 + 'h',
-      isDecaying: timeSinceLastUse > threshold48h,
-      isWarning: timeSinceLastUse > threshold48h * 0.75
-    });
-
     if (timeSinceLastUse > threshold48h) {
       return { status: 'decaying', hoursInactive, icon: '🔋', color: 'text-red-400' };
     } else if (timeSinceLastUse > threshold48h * 0.75) { // 36+ hours
