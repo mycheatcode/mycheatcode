@@ -109,7 +109,7 @@ export default function PrivacyPolicy() {
               <li><strong>Withdraw Consent:</strong> Revoke permission for data processing</li>
             </ul>
             <p className="mt-4" style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              To exercise these rights, contact us at <a href="mailto:privacy@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>privacy@mycheatcode.ai</a>
+              To exercise these rights, contact us at <a href="mailto:team@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode.ai</a>
             </p>
           </section>
 
@@ -158,7 +158,7 @@ export default function PrivacyPolicy() {
               If you have questions about this privacy policy or our data practices, please contact us:
             </p>
             <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:privacy@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>privacy@mycheatcode.ai</a></p>
+              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:team@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode.ai</a></p>
               <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Website: <a href="https://mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>mycheatcode.ai</a></p>
             </div>
           </section>
