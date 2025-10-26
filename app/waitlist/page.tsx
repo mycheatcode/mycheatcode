@@ -412,7 +412,7 @@ export default function WaitlistV2Page() {
               <div className="w-[min(400px,85vw)] aspect-square">
                 <ProgressCircles
                   theme="light"
-                  progress={30}
+                  progress={50}
                   onProgressUpdate={() => {}}
                 />
               </div>
