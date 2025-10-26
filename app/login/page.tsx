@@ -163,7 +163,12 @@ export default function LoginPage() {
             </button>
           </form>
 
-          <div className="mt-6 text-center">
+          <div className="mt-6 text-center space-y-2">
+            <p className="text-zinc-400 text-sm">
+              <Link href="/forgot-password" className="text-white hover:underline">
+                Forgot password?
+              </Link>
+            </p>
             <p className="text-zinc-400 text-sm">
               Don't have an account?{' '}
               <Link href="/signup" className="text-white font-semibold hover:underline">
@@ -268,7 +273,12 @@ export default function LoginPage() {
               </button>
             </form>
 
-            <div className="mt-8 text-center">
+            <div className="mt-8 text-center space-y-3">
+              <p className="text-zinc-400">
+                <Link href="/forgot-password" className="text-white hover:underline">
+                  Forgot password?
+                </Link>
+              </p>
               <p className="text-zinc-400">
                 Don't have an account?{' '}
                 <Link href="/signup" className="text-white font-semibold hover:underline">
