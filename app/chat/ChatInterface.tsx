@@ -5,10 +5,33 @@ import { useRouter } from 'next/navigation';
 import { chatService, ChatMessage, ChatState } from '../utils/chatService';
 import { SectionType } from '../../lib/types';
 import TypingAnimation from '../../components/TypingAnimation';
+import CodeCardViewer, { parseCheatCode, ParsedCheatCode } from '../../components/CodeCardViewer';
 
 interface ChatInterfaceProps {
   section: SectionType;
   onBack: () => void;
+}
+
+// Helper function to detect if message contains a cheat code
+function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; textBeforeCode?: string; textAfterCode?: string } {
+  const codeBlockRegex = /```cheatcode\n([\s\S]*?)\n```/;
+  const match = text.match(codeBlockRegex);
+
+  if (match) {
+    const fullMatch = match[0];
+    const codeBlock = match[1];
+    const beforeIndex = text.indexOf(fullMatch);
+    const afterIndex = beforeIndex + fullMatch.length;
+
+    return {
+      hasCode: true,
+      codeBlock,
+      textBeforeCode: text.substring(0, beforeIndex).trim(),
+      textAfterCode: text.substring(afterIndex).trim()
+    };
+  }
+
+  return { hasCode: false };
 }
 
 export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
@@ -22,6 +45,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [completedAnimations, setCompletedAnimations] = useState<Set<string>>(new Set());
+  const [viewingCode, setViewingCode] = useState<ParsedCheatCode | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -221,52 +245,77 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-        {chatState.messages.map((message, index) => (
-          <div
-            key={message.id}
-            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+        {chatState.messages.map((message, index) => {
+          // Check if message contains a cheat code
+          const codeDetection = detectCheatCode(message.text);
+          const parsedCode = codeDetection.hasCode && codeDetection.codeBlock
+            ? parseCheatCode(codeDetection.codeBlock)
+            : null;
+
+          // For messages with codes, show only the text before the code + a button
+          const displayText = parsedCode
+            ? (codeDetection.textBeforeCode || 'I made you a cheat code.')
+            : message.text;
+
+          return (
             <div
-              className={`max-w-xs px-4 py-2 rounded-2xl ${
-                message.sender === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-zinc-800 text-white'
-              }`}
+              key={message.id}
+              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              {message.sender === 'coach' ? (
-                <TypingAnimation
-                  key={message.id}
-                  text={message.text}
-                  speed={80}
-                  className="text-sm whitespace-pre-wrap"
-                  onComplete={() => {
-                    setCompletedAnimations(prev => new Set(prev).add(message.id));
-                  }}
-                />
-              ) : (
-                <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+              {/* User message - standard bubble */}
+              {message.sender === 'user' && (
+                <div className="max-w-xs px-4 py-2 rounded-2xl bg-blue-600 text-white">
+                  <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                </div>
               )}
 
-              {/* Code offer buttons - only show after typing animation completes */}
-              {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => handleCodeResponse(true)}
-                    className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
-                  >
-                    Save Code
-                  </button>
-                  <button
-                    onClick={() => handleCodeResponse(false)}
-                    className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
-                  >
-                    Not Now
-                  </button>
+              {/* Coach message */}
+              {message.sender === 'coach' && (
+                <div className="max-w-md">
+                  <div className="px-4 py-2 rounded-2xl bg-zinc-800 text-white">
+                    <TypingAnimation
+                      key={message.id}
+                      text={displayText}
+                      speed={80}
+                      className="text-sm whitespace-pre-wrap"
+                      onComplete={() => {
+                        setCompletedAnimations(prev => new Set(prev).add(message.id));
+                      }}
+                    />
+
+                    {/* Code offer buttons - only show after typing animation completes */}
+                    {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
+                      <div className="mt-3 flex gap-2">
+                        <button
+                          onClick={() => handleCodeResponse(true)}
+                          className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
+                        >
+                          Save Code
+                        </button>
+                        <button
+                          onClick={() => handleCodeResponse(false)}
+                          className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
+                        >
+                          Not Now
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* View Cheat Code button - show if message contains a parsed code */}
+                  {parsedCode && completedAnimations.has(message.id) && (
+                    <button
+                      onClick={() => setViewingCode(parsedCode)}
+                      className="w-full mt-3 py-3 px-4 rounded-xl bg-white text-black font-semibold text-sm transition-all hover:bg-gray-100 active:scale-[0.98]"
+                    >
+                      View Cheat Code
+                    </button>
+                  )}
                 </div>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {/* Typing indicator */}
         {isTyping && (
@@ -307,6 +356,32 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
           </button>
         </div>
       </div>
+
+      {/* Fullscreen Code Viewer Modal */}
+      {viewingCode && (
+        <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center p-4">
+          {/* Close Button */}
+          <button
+            onClick={() => setViewingCode(null)}
+            className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border"
+            style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+
+          {/* Code Card Viewer */}
+          <CodeCardViewer
+            parsedCode={viewingCode}
+            onSave={() => {
+              handleCodeResponse(true);
+              setViewingCode(null);
+            }}
+            showSaveButton={true}
+          />
+        </div>
+      )}
     </div>
   );
 }
