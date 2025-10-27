@@ -5,10 +5,33 @@ import { useRouter } from 'next/navigation';
 import { chatService, ChatMessage, ChatState } from '../utils/chatService';
 import { SectionType } from '../../lib/types';
 import TypingAnimation from '../../components/TypingAnimation';
+import CodeCardViewer, { parseCheatCode, ParsedCheatCode } from '../../components/CodeCardViewer';
 
 interface ChatInterfaceProps {
   section: SectionType;
   onBack: () => void;
+}
+
+// Helper function to detect if message contains a cheat code
+function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; textBeforeCode?: string; textAfterCode?: string } {
+  const codeBlockRegex = /```cheatcode\n([\s\S]*?)\n```/;
+  const match = text.match(codeBlockRegex);
+
+  if (match) {
+    const fullMatch = match[0];
+    const codeBlock = match[1];
+    const beforeIndex = text.indexOf(fullMatch);
+    const afterIndex = beforeIndex + fullMatch.length;
+
+    return {
+      hasCode: true,
+      codeBlock,
+      textBeforeCode: text.substring(0, beforeIndex).trim(),
+      textAfterCode: text.substring(afterIndex).trim()
+    };
+  }
+
+  return { hasCode: false };
 }
 
 export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
@@ -221,52 +244,98 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
-        {chatState.messages.map((message, index) => (
-          <div
-            key={message.id}
-            className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+        {chatState.messages.map((message, index) => {
+          // Check if message contains a cheat code
+          const codeDetection = detectCheatCode(message.text);
+          const parsedCode = codeDetection.hasCode && codeDetection.codeBlock
+            ? parseCheatCode(codeDetection.codeBlock)
+            : null;
+
+          return (
             <div
-              className={`max-w-xs px-4 py-2 rounded-2xl ${
-                message.sender === 'user'
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-zinc-800 text-white'
-              }`}
+              key={message.id}
+              className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              {message.sender === 'coach' ? (
-                <TypingAnimation
-                  key={message.id}
-                  text={message.text}
-                  speed={80}
-                  className="text-sm whitespace-pre-wrap"
-                  onComplete={() => {
-                    setCompletedAnimations(prev => new Set(prev).add(message.id));
-                  }}
-                />
-              ) : (
-                <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+              {/* User message - standard bubble */}
+              {message.sender === 'user' && (
+                <div className="max-w-xs px-4 py-2 rounded-2xl bg-blue-600 text-white">
+                  <p className="text-sm whitespace-pre-wrap">{message.text}</p>
+                </div>
               )}
 
-              {/* Code offer buttons - only show after typing animation completes */}
-              {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
-                <div className="mt-3 flex gap-2">
-                  <button
-                    onClick={() => handleCodeResponse(true)}
-                    className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
-                  >
-                    Save Code
-                  </button>
-                  <button
-                    onClick={() => handleCodeResponse(false)}
-                    className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
-                  >
-                    Not Now
-                  </button>
+              {/* Coach message - check if it contains a code */}
+              {message.sender === 'coach' && !parsedCode && (
+                <div className="max-w-xs px-4 py-2 rounded-2xl bg-zinc-800 text-white">
+                  <TypingAnimation
+                    key={message.id}
+                    text={message.text}
+                    speed={80}
+                    className="text-sm whitespace-pre-wrap"
+                    onComplete={() => {
+                      setCompletedAnimations(prev => new Set(prev).add(message.id));
+                    }}
+                  />
+
+                  {/* Code offer buttons - only show after typing animation completes */}
+                  {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
+                    <div className="mt-3 flex gap-2">
+                      <button
+                        onClick={() => handleCodeResponse(true)}
+                        className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
+                      >
+                        Save Code
+                      </button>
+                      <button
+                        onClick={() => handleCodeResponse(false)}
+                        className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
+                      >
+                        Not Now
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Coach message with cheat code - render as cards */}
+              {message.sender === 'coach' && parsedCode && (
+                <div className="w-full max-w-2xl">
+                  {/* Text before code */}
+                  {codeDetection.textBeforeCode && (
+                    <div className="mb-4 px-4 py-2 rounded-2xl bg-zinc-800 text-white inline-block">
+                      <TypingAnimation
+                        key={`${message.id}-before`}
+                        text={codeDetection.textBeforeCode}
+                        speed={80}
+                        className="text-sm whitespace-pre-wrap"
+                      />
+                    </div>
+                  )}
+
+                  {/* Code card viewer */}
+                  <div className="my-6">
+                    <CodeCardViewer
+                      parsedCode={parsedCode}
+                      onSave={() => handleCodeResponse(true)}
+                      showSaveButton={true}
+                    />
+                  </div>
+
+                  {/* Text after code */}
+                  {codeDetection.textAfterCode && (
+                    <div className="mt-4 px-4 py-2 rounded-2xl bg-zinc-800 text-white inline-block">
+                      <TypingAnimation
+                        key={`${message.id}-after`}
+                        text={codeDetection.textAfterCode}
+                        speed={80}
+                        className="text-sm whitespace-pre-wrap"
+                      />
+                    </div>
+                  )}
                 </div>
               )}
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {/* Typing indicator */}
         {isTyping && (
