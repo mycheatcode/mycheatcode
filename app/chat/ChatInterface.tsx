@@ -14,27 +14,40 @@ interface ChatInterfaceProps {
 
 // Helper function to detect if message contains a cheat code
 function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; textBeforeCode?: string; textAfterCode?: string } {
-  // Look for ===CHEATCODE START=== and ===CHEATCODE END=== markers
-  const startMarker = '===CHEATCODE START===';
-  const endMarker = '===CHEATCODE END===';
+  console.log('🔍 Checking for code in message, text length:', text.length);
 
-  const startIndex = text.indexOf(startMarker);
-  const endIndex = text.indexOf(endMarker);
+  // Look for ===CHEATCODE START=== and ===CHEATCODE END=== markers (case insensitive, flexible spacing)
+  const startPattern = /===\s*CHEATCODE\s+START\s*===/i;
+  const endPattern = /===\s*CHEATCODE\s+END\s*===/i;
 
-  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
-    const codeBlockStart = startIndex + startMarker.length;
-    const codeBlock = text.substring(codeBlockStart, endIndex).trim();
-    const textBeforeCode = text.substring(0, startIndex).trim();
-    const textAfterCode = text.substring(endIndex + endMarker.length).trim();
+  const startMatch = text.match(startPattern);
+  const endMatch = text.match(endPattern);
 
-    return {
-      hasCode: true,
-      codeBlock,
-      textBeforeCode,
-      textAfterCode
-    };
+  if (startMatch && endMatch && startMatch.index !== undefined && endMatch.index !== undefined) {
+    const startIndex = startMatch.index;
+    const endIndex = endMatch.index;
+
+    if (endIndex > startIndex) {
+      const codeBlockStart = startIndex + startMatch[0].length;
+      const codeBlock = text.substring(codeBlockStart, endIndex).trim();
+      const textBeforeCode = text.substring(0, startIndex).trim();
+      const textAfterCode = text.substring(endIndex + endMatch[0].length).trim();
+
+      console.log('✅ CODE FOUND!');
+      console.log('- Text before:', textBeforeCode.substring(0, 50));
+      console.log('- Code block length:', codeBlock.length);
+      console.log('- Text after:', textAfterCode.substring(0, 50));
+
+      return {
+        hasCode: true,
+        codeBlock,
+        textBeforeCode,
+        textAfterCode
+      };
+    }
   }
 
+  console.log('❌ No code markers found in text');
   return { hasCode: false };
 }
 

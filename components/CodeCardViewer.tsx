@@ -16,9 +16,13 @@ export interface ParsedCheatCode {
 
 export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
   try {
-    console.log('Parsing code block:', codeBlock.substring(0, 100)); // Debug log
+    console.log('📝 PARSING CODE BLOCK');
+    console.log('First 200 chars:', codeBlock.substring(0, 200));
+    console.log('Total length:', codeBlock.length);
 
     const lines = codeBlock.trim().split('\n');
+    console.log('Total lines:', lines.length);
+
     let title = '';
     let category = '';
     let description = '';
@@ -33,13 +37,13 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
       // Parse header fields
       if (trimmedLine.startsWith('TITLE:')) {
         title = trimmedLine.substring(6).trim();
-        console.log('Found title:', title);
+        console.log('✅ Found TITLE:', title);
       } else if (trimmedLine.startsWith('CATEGORY:')) {
         category = trimmedLine.substring(9).trim();
-        console.log('Found category:', category);
+        console.log('✅ Found CATEGORY:', category);
       } else if (trimmedLine.startsWith('DESCRIPTION:')) {
         description = trimmedLine.substring(12).trim();
-        console.log('Found description:', description);
+        console.log('✅ Found DESCRIPTION:', description);
       } else if (trimmedLine.startsWith('CARD:')) {
         // Save previous card if exists
         if (currentCard) {
@@ -107,13 +111,25 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
       }
     });
 
+    console.log('📊 PARSE SUMMARY:');
+    console.log('- Title:', title || '❌ MISSING');
+    console.log('- Category:', category || '❌ MISSING');
+    console.log('- Description:', description || '(empty)');
+    console.log('- Cards found:', cards.length);
+    console.log('- Card types:', cards.map(c => c.type).join(', '));
+
     if (!title || !category || cards.length === 0) {
+      console.error('❌ PARSE FAILED: Missing required fields');
+      console.error('Has title?', !!title);
+      console.error('Has category?', !!category);
+      console.error('Has cards?', cards.length > 0);
       return null;
     }
 
+    console.log('✅ PARSE SUCCESSFUL!');
     return { title, category, description, cards };
   } catch (error) {
-    console.error('Error parsing cheat code:', error);
+    console.error('❌ PARSE ERROR:', error);
     return null;
   }
 }
