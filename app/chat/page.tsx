@@ -943,13 +943,15 @@ export default function ChatPage() {
 
       const data = await res.json();
 
-      // Debug: Log what we received from the API
-      if (data.reply && data.reply.includes('**🏀')) {
-        console.error('🔍 CHEAT CODE RECEIVED FROM API');
-        console.error('📝 First 300 chars:', data.reply.substring(0, 300));
-        console.error('📝 Last 200 chars:', data.reply.substring(data.reply.length - 200));
-        console.error('✅ Starts with text (not code)?', !data.reply.trim().startsWith('**🏀'));
-      }
+      // Debug: ALWAYS log what we received
+      console.error('====================================');
+      console.error('🤖 COACH RESPONSE RECEIVED');
+      console.error('Length:', data.reply?.length || 0);
+      console.error('First 300 chars:', data.reply?.substring(0, 300) || 'NO REPLY');
+      console.error('Contains basketball emoji?', data.reply?.includes('🏀') || false);
+      console.error('Contains **What:**?', data.reply?.includes('**What:**') || false);
+      console.error('Starts with?', data.reply?.substring(0, 20) || 'EMPTY');
+      console.error('====================================');
 
       const coachMsg: Message = {
         id: uid(),
