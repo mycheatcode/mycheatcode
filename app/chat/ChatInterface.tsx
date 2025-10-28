@@ -81,7 +81,8 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   const router = useRouter();
 
   // Debug: Log when component renders
-  console.log('🎬 ChatInterface rendered, messages:', chatState.messages.length);
+  console.error('🎬🎬🎬 ChatInterface MOUNTED - Version 2024-01-27-v2 🎬🎬🎬');
+  console.error('Total messages:', chatState.messages.length);
 
   useEffect(() => {
     // Auto-scroll to bottom when new messages arrive
