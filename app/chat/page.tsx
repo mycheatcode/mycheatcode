@@ -942,6 +942,15 @@ export default function ChatPage() {
       }
 
       const data = await res.json();
+
+      // Debug: Log what we received from the API
+      if (data.reply && data.reply.includes('**🏀')) {
+        console.error('🔍 CHEAT CODE RECEIVED FROM API');
+        console.error('📝 First 300 chars:', data.reply.substring(0, 300));
+        console.error('📝 Last 200 chars:', data.reply.substring(data.reply.length - 200));
+        console.error('✅ Starts with text (not code)?', !data.reply.trim().startsWith('**🏀'));
+      }
+
       const coachMsg: Message = {
         id: uid(),
         text: data.reply || "Let\\'s keep going. What part of that moment feels hardest?",
