@@ -768,7 +768,7 @@ export async function POST(req: Request) {
         messages.push({
           role: 'system',
           content:
-            'This is their FIRST cheat code. After 2-3 quality exchanges about their specific situation, generate the code. Say something like: "I made you a [Topic] Code. Flip through it and save it to your collection if you want to use it." Make it encouraging - this is their first personalized confidence tool.',
+            'This is their FIRST cheat code. After 2-3 quality exchanges about their specific situation, generate the code. REMEMBER: Start with 1-2 sentences of intro text explaining what you made them, THEN the code in markdown format, THEN 1 sentence telling them to flip through and save it. Make it encouraging - this is their first personalized confidence tool.',
         });
       } else {
         messages.push({
@@ -781,7 +781,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'Ready to generate code. Before creating, ensure you have: (1) specific confidence issue, (2) clear trigger/moment, (3) how it shows up in their play, (4) enough detail for personalized steps. If missing ANY detail, ask ONE more targeted question. When generating, say: "I made you a [Topic] Code. Flip through it - save it to your collection if you want to use it." Then present the code in the card format (Title card, What, When, How steps, Why, Cheat Code Phrase).',
+          'Ready to generate code. Before creating, ensure you have: (1) specific confidence issue, (2) clear trigger/moment, (3) how it shows up in their play, (4) enough detail for personalized steps. If missing ANY detail, ask ONE more targeted question. When generating the code, FOLLOW THE EXACT FORMAT from the system prompt: Start with 1-2 sentences of intro text, THEN the markdown code starting with **🏀**, THEN 1 sentence outro text. DO NOT skip intro or outro.',
       });
     }
 
