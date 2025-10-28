@@ -14,7 +14,17 @@ interface ChatInterfaceProps {
 
 // Helper function to detect if message contains a cheat code
 function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; textBeforeCode?: string; textAfterCode?: string } {
-  console.log('🔍 Checking for code in message, text length:', text.length);
+  console.error('🔍 DETECT FUNCTION CALLED, text length:', text.length);
+
+  // Check if text contains the markers at all (simple string check first)
+  const hasStartMarker = text.includes('===CHEATCODE START===') || text.includes('===CHEATCODE START ===');
+  const hasEndMarker = text.includes('===CHEATCODE END===') || text.includes('===CHEATCODE END ===');
+
+  console.error('Simple check - Has START marker:', hasStartMarker, 'Has END marker:', hasEndMarker);
+
+  if (hasStartMarker && hasEndMarker) {
+    console.error('🎯 MARKERS FOUND! Attempting regex match...');
+  }
 
   // Look for ===CHEATCODE START=== and ===CHEATCODE END=== markers (case insensitive, flexible spacing)
   const startPattern = /===\s*CHEATCODE\s+START\s*===/i;
@@ -23,9 +33,13 @@ function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; 
   const startMatch = text.match(startPattern);
   const endMatch = text.match(endPattern);
 
+  console.error('Regex match results - START:', !!startMatch, 'END:', !!endMatch);
+
   if (startMatch && endMatch && startMatch.index !== undefined && endMatch.index !== undefined) {
     const startIndex = startMatch.index;
     const endIndex = endMatch.index;
+
+    console.error('Match indices - START:', startIndex, 'END:', endIndex);
 
     if (endIndex > startIndex) {
       const codeBlockStart = startIndex + startMatch[0].length;
@@ -33,10 +47,10 @@ function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; 
       const textBeforeCode = text.substring(0, startIndex).trim();
       const textAfterCode = text.substring(endIndex + endMatch[0].length).trim();
 
-      console.log('✅ CODE FOUND!');
-      console.log('- Text before:', textBeforeCode.substring(0, 50));
-      console.log('- Code block length:', codeBlock.length);
-      console.log('- Text after:', textAfterCode.substring(0, 50));
+      console.error('✅ ✅ ✅ CODE SUCCESSFULLY DETECTED! ✅ ✅ ✅');
+      console.error('- Text before:', textBeforeCode.substring(0, 50));
+      console.error('- Code block length:', codeBlock.length);
+      console.error('- Text after:', textAfterCode.substring(0, 50));
 
       return {
         hasCode: true,
@@ -47,7 +61,7 @@ function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; 
     }
   }
 
-  console.log('❌ No code markers found in text');
+  console.error('❌ No valid code block found');
   return { hasCode: false };
 }
 
@@ -65,6 +79,9 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   const [viewingCode, setViewingCode] = useState<ParsedCheatCode | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  // Debug: Log when component renders
+  console.log('🎬 ChatInterface rendered, messages:', chatState.messages.length);
 
   useEffect(() => {
     // Auto-scroll to bottom when new messages arrive
@@ -262,7 +279,14 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
+        {(() => {
+          console.error('🚨 RENDERING MESSAGES - Total:', chatState.messages.length);
+          return null;
+        })()}
+
         {chatState.messages.map((message, index) => {
+          console.error('🔄 Processing message', index, 'sender:', message.sender, 'length:', message.text.length);
+
           // Check if message contains a cheat code - coach messages only
           const codeDetection = message.sender === 'coach' ? detectCheatCode(message.text) : { hasCode: false };
 
