@@ -835,6 +835,14 @@ export async function POST(req: Request) {
       }
     }
 
+    // 5) CRITICAL: Add final reminder right before AI responds if they asked for a code
+    if (userExplicitlyAskedForCode || !shouldGateCode) {
+      messages.push({
+        role: 'system',
+        content: 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. Structure: [1-2 sentences of intro] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro]. DO NOT output just the code by itself. This is MANDATORY.',
+      });
+    }
+
     // Call OpenAI (chat.completions)
     const openaiKey = process.env.OPENAI_API_KEY;
     if (!openaiKey) {
