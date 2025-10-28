@@ -420,7 +420,7 @@ CRITICAL: Codes are displayed as swipeable cue cards (like flashcards), NOT as t
 When you generate a code, you MUST use this EXACT format so the frontend can
 render it as interactive swipeable cards:
 
-\`\`\`cheatcode
+===CHEATCODE START===
 TITLE: [Code Title]
 CATEGORY: [Pre-Game | In-Game | Post-Game | Locker Room | Off Court]
 DESCRIPTION: [1-2 sentence personalized description]
@@ -445,7 +445,7 @@ CARD: Why
 
 CARD: Cheat Code Phrase
 [3-5 word mantra - personalized to their voice]
-\`\`\`
+===CHEATCODE END===
 
 RULES FOR EACH CARD:
 
@@ -498,11 +498,12 @@ TOTAL CARDS: 7-10 typically
 Title card + What + When + (1-4 How steps) + Why + Phrase
 
 CRITICAL OUTPUT REQUIREMENTS:
-1. ALWAYS wrap the code in \`\`\`cheatcode ... \`\`\` code fence
+1. ALWAYS wrap the code between ===CHEATCODE START=== and ===CHEATCODE END===
 2. ALWAYS include TITLE, CATEGORY, and DESCRIPTION at the top
 3. ALWAYS start each card with "CARD: [Card Type]"
 4. NEVER output codes as plain text or bullet points
 5. The code will be rendered as swipeable flashcards in the user's interface
+6. Put these markers on their own lines with nothing else on those lines
 
 PERSONALIZATION SUMMARY:
 - Cards WITH conversational references: Description, When, Why

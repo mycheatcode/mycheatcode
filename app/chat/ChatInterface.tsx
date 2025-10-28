@@ -14,20 +14,24 @@ interface ChatInterfaceProps {
 
 // Helper function to detect if message contains a cheat code
 function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; textBeforeCode?: string; textAfterCode?: string } {
-  const codeBlockRegex = /```cheatcode\n([\s\S]*?)\n```/;
-  const match = text.match(codeBlockRegex);
+  // Look for ===CHEATCODE START=== and ===CHEATCODE END=== markers
+  const startMarker = '===CHEATCODE START===';
+  const endMarker = '===CHEATCODE END===';
 
-  if (match) {
-    const fullMatch = match[0];
-    const codeBlock = match[1];
-    const beforeIndex = text.indexOf(fullMatch);
-    const afterIndex = beforeIndex + fullMatch.length;
+  const startIndex = text.indexOf(startMarker);
+  const endIndex = text.indexOf(endMarker);
+
+  if (startIndex !== -1 && endIndex !== -1 && endIndex > startIndex) {
+    const codeBlockStart = startIndex + startMarker.length;
+    const codeBlock = text.substring(codeBlockStart, endIndex).trim();
+    const textBeforeCode = text.substring(0, startIndex).trim();
+    const textAfterCode = text.substring(endIndex + endMarker.length).trim();
 
     return {
       hasCode: true,
       codeBlock,
-      textBeforeCode: text.substring(0, beforeIndex).trim(),
-      textAfterCode: text.substring(afterIndex).trim()
+      textBeforeCode,
+      textAfterCode
     };
   }
 
