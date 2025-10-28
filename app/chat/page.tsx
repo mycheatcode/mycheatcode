@@ -258,9 +258,16 @@ export default function ChatPage() {
 
   // Helper to split message into intro text and cheat code
   const splitCheatCodeMessage = (text: string) => {
-    // Check if the cheat code info is inline (all on one or few lines)
-    const inlineMatch = text.match(/(.*?)(Title:[\s\S]*)/i);
+    // First, check if **🏀 appears anywhere in the text (inline format)
+    const basketballEmojiIndex = text.indexOf('**🏀');
+    if (basketballEmojiIndex !== -1) {
+      const intro = text.substring(0, basketballEmojiIndex).trim();
+      const cheatCodeText = text.substring(basketballEmojiIndex).trim();
+      return { intro, cheatCodeText };
+    }
 
+    // Check if the cheat code info is inline with Title: format
+    const inlineMatch = text.match(/(.*?)(Title:[\s\S]*)/i);
     if (inlineMatch) {
       const intro = inlineMatch[1].trim();
       const cheatCodeText = inlineMatch[2].trim();
@@ -274,8 +281,8 @@ export default function ChatPage() {
     // Find where the cheat code structure starts
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      // Look for standard format markers (must start with ** to avoid matching intro text)
-      if (line.startsWith('**🏀') || line.startsWith('**What:**')) {
+      // Look for standard format markers
+      if (line.startsWith('**What:**')) {
         cheatCodeStartIndex = i;
         break;
       }
