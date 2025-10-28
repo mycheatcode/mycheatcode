@@ -250,13 +250,14 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
 
         {chatState.messages.map((message, index) => {
-          // Check if message contains a cheat code
-          const codeDetection = detectCheatCode(message.text);
+          // Check if message contains a cheat code - coach messages only
+          const codeDetection = message.sender === 'coach' ? detectCheatCode(message.text) : { hasCode: false };
 
           // Debug logging
           if (codeDetection.hasCode) {
             console.log('Code detected in message:', message.id);
-            console.log('Code block:', codeDetection.codeBlock);
+            console.log('Text before code:', codeDetection.textBeforeCode);
+            console.log('Code block length:', codeDetection.codeBlock?.length);
           }
 
           const parsedCode = codeDetection.hasCode && codeDetection.codeBlock
@@ -264,7 +265,10 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             : null;
 
           if (codeDetection.hasCode && !parsedCode) {
-            console.log('Failed to parse code for message:', message.id);
+            console.error('❌ Failed to parse code for message:', message.id);
+            console.log('Raw code block:', codeDetection.codeBlock);
+          } else if (parsedCode) {
+            console.log('✅ Successfully parsed code:', parsedCode.title);
           }
 
           // For messages with codes, show only the text before the code + a button
@@ -287,38 +291,41 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
               {/* Coach message */}
               {message.sender === 'coach' && (
                 <div className="max-w-md">
-                  <div className="px-4 py-2 rounded-2xl bg-zinc-800 text-white">
-                    <TypingAnimation
-                      key={message.id}
-                      text={displayText}
-                      speed={80}
-                      className="text-sm whitespace-pre-wrap"
-                      onComplete={() => {
-                        setCompletedAnimations(prev => new Set(prev).add(message.id));
-                      }}
-                    />
+                  {/* Only show chat bubble if there's text to display */}
+                  {displayText && (
+                    <div className="px-4 py-2 rounded-2xl bg-zinc-800 text-white">
+                      <TypingAnimation
+                        key={message.id}
+                        text={displayText}
+                        speed={80}
+                        className="text-sm whitespace-pre-wrap"
+                        onComplete={() => {
+                          setCompletedAnimations(prev => new Set(prev).add(message.id));
+                        }}
+                      />
 
-                    {/* Code offer buttons - only show after typing animation completes */}
-                    {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
-                      <div className="mt-3 flex gap-2">
-                        <button
-                          onClick={() => handleCodeResponse(true)}
-                          className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
-                        >
-                          Save Code
-                        </button>
-                        <button
-                          onClick={() => handleCodeResponse(false)}
-                          className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
-                        >
-                          Not Now
-                        </button>
-                      </div>
-                    )}
-                  </div>
+                      {/* Code offer buttons - only show after typing animation completes */}
+                      {message.contains_code_offer && message.is_valid_offer && completedAnimations.has(message.id) && (
+                        <div className="mt-3 flex gap-2">
+                          <button
+                            onClick={() => handleCodeResponse(true)}
+                            className="px-3 py-1 bg-green-600 hover:bg-green-700 rounded-lg text-xs font-medium transition-colors"
+                          >
+                            Save Code
+                          </button>
+                          <button
+                            onClick={() => handleCodeResponse(false)}
+                            className="px-3 py-1 bg-zinc-600 hover:bg-zinc-700 rounded-lg text-xs font-medium transition-colors"
+                          >
+                            Not Now
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  )}
 
-                  {/* View Cheat Code button - show if message contains a parsed code */}
-                  {parsedCode && completedAnimations.has(message.id) && (
+                  {/* View Cheat Code button - show immediately if code exists, don't wait for animation */}
+                  {parsedCode && (
                     <button
                       onClick={() => setViewingCode(parsedCode)}
                       className="w-full mt-3 py-3 px-4 rounded-xl bg-white text-black font-semibold text-sm transition-all hover:bg-gray-100 active:scale-[0.98]"
