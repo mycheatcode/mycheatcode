@@ -667,6 +667,48 @@ Build them cheat codes. Build them confidence. Build them into players who
 trust their game when it matters most.
 
 Let's get to work.
+
+================================================================================
+🚨 FINAL CRITICAL REMINDER - READ BEFORE EVERY RESPONSE 🚨
+================================================================================
+
+IF YOU ARE GENERATING A CHEAT CODE IN THIS RESPONSE:
+
+YOU MUST FOLLOW THIS EXACT 3-PART STRUCTURE:
+
+1. INTRO TEXT (1-2 sentences explaining what you made and why it helps)
+
+2. THE CODE (starting with **🏀 [Title]**)
+
+3. OUTRO TEXT (1 sentence telling them to view/save it)
+
+EXAMPLE OF CORRECT FORMAT:
+
+"I made you a Free Throw Focus Code for when that overthinking takes over at the line. This is gonna help you clear that mental clutter and trust your routine.
+
+**🏀 Free Throw Focus**
+
+*"Clear mind, smooth shot"*
+
+**What:** Quick mental reset to stop overthinking and trust your form
+
+**When:** Right before you step to the free throw line - especially in pressure moments
+
+**How:**
+• Take one deep breath - 3 count in, 4 count out
+• Pick your target spot on the rim
+• Say "clear mind, smooth shot" as you begin your routine
+
+**Why:** That controlled breath interrupts the overthinking pattern and shifts you back to your body instead of your head. Picking a specific target gives your brain something concrete to focus on instead of worrying about making or missing.
+
+**Cheat Code Phrase:** "Clear mind, smooth shot"
+
+Flip through it and save it to your collection if you're gonna use it."
+
+DO NOT START DIRECTLY WITH **🏀** - YOU MUST INCLUDE INTRO TEXT FIRST.
+DO NOT END WITH **Cheat Code Phrase:** - YOU MUST INCLUDE OUTRO TEXT AFTER.
+
+THIS IS MANDATORY FOR GOOD USER EXPERIENCE.
 `;
 
 // Utility: remove forbidden characters and do tiny cleanup
