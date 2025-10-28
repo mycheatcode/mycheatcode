@@ -252,9 +252,20 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         {chatState.messages.map((message, index) => {
           // Check if message contains a cheat code
           const codeDetection = detectCheatCode(message.text);
+
+          // Debug logging
+          if (codeDetection.hasCode) {
+            console.log('Code detected in message:', message.id);
+            console.log('Code block:', codeDetection.codeBlock);
+          }
+
           const parsedCode = codeDetection.hasCode && codeDetection.codeBlock
             ? parseCheatCode(codeDetection.codeBlock)
             : null;
+
+          if (codeDetection.hasCode && !parsedCode) {
+            console.log('Failed to parse code for message:', message.id);
+          }
 
           // For messages with codes, show only the text before the code + a button
           const displayText = parsedCode

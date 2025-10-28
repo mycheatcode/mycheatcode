@@ -16,6 +16,8 @@ export interface ParsedCheatCode {
 
 export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
   try {
+    console.log('Parsing code block:', codeBlock.substring(0, 100)); // Debug log
+
     const lines = codeBlock.trim().split('\n');
     let title = '';
     let category = '';
@@ -31,10 +33,13 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
       // Parse header fields
       if (trimmedLine.startsWith('TITLE:')) {
         title = trimmedLine.substring(6).trim();
+        console.log('Found title:', title);
       } else if (trimmedLine.startsWith('CATEGORY:')) {
         category = trimmedLine.substring(9).trim();
+        console.log('Found category:', category);
       } else if (trimmedLine.startsWith('DESCRIPTION:')) {
         description = trimmedLine.substring(12).trim();
+        console.log('Found description:', description);
       } else if (trimmedLine.startsWith('CARD:')) {
         // Save previous card if exists
         if (currentCard) {
