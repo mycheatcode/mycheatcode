@@ -878,7 +878,16 @@ export async function POST(req: Request) {
     const data = await resp.json();
 
     const raw = data?.choices?.[0]?.message?.content ?? '';
-    const reply = sanitizeReply(String(raw || 'Let’s keep going. What part of that moment feels hardest?'));
+    const reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
+
+    // Debug logging to see what AI actually returned
+    if (raw.includes('**🏀')) {
+      console.log('🔍 CODE DETECTED IN RESPONSE');
+      console.log('📝 First 200 chars:', raw.substring(0, 200));
+      console.log('📝 Last 200 chars:', raw.substring(raw.length - 200));
+      console.log('✅ Has intro before code?', !raw.trim().startsWith('**🏀'));
+      console.log('✅ Has outro after phrase?', !raw.trim().endsWith('"'));
+    }
 
     return new Response(JSON.stringify({ reply }), {
       status: 200,
