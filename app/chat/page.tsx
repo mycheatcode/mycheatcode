@@ -274,13 +274,13 @@ export default function ChatPage() {
     // Find where the cheat code structure starts
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
-      // Look for standard format markers
-      if (line.includes('🏀') || line.startsWith('**What:**')) {
+      // Look for standard format markers (must start with ** to avoid matching intro text)
+      if (line.startsWith('**🏀') || line.startsWith('**What:**')) {
         cheatCodeStartIndex = i;
         break;
       }
       // Look for alternative format markers
-      if (line.match(/^Title:/i) || line.match(/^Trigger:/i) || line.includes('Title:')) {
+      if (line.match(/^Title:/i) || line.match(/^Trigger:/i)) {
         cheatCodeStartIndex = i;
         break;
       }
