@@ -77,6 +77,8 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   const [isTyping, setIsTyping] = useState(false);
   const [completedAnimations, setCompletedAnimations] = useState<Set<string>>(new Set());
   const [viewingCode, setViewingCode] = useState<ParsedCheatCode | null>(null);
+  const [viewedCodes, setViewedCodes] = useState<Set<string>>(new Set()); // Track first-time views
+  const [codeBeingViewed, setCodeBeingViewed] = useState<{ code: ParsedCheatCode; messageId: string } | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -202,6 +204,49 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       e.preventDefault();
       sendMessage();
     }
+  };
+
+  const handleCodeClose = async (codeTitle: string, messageId: string) => {
+    // Check if this is the first time viewing this code
+    const codeKey = `${messageId}-${codeTitle}`;
+    const isFirstView = !viewedCodes.has(codeKey);
+
+    if (isFirstView) {
+      // Mark as viewed
+      setViewedCodes(prev => new Set(prev).add(codeKey));
+
+      // Trigger follow-up message from coach
+      setIsTyping(true);
+
+      try {
+        // Send a system message to trigger contextual follow-up
+        const response = await chatService.sendMessage(
+          section,
+          `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
+        );
+
+        // Add coach's follow-up message
+        const coachMessage: ChatMessage = {
+          id: `coach-followup-${Date.now()}`,
+          text: response.coach_response.text,
+          sender: 'coach',
+          timestamp: new Date()
+        };
+
+        setChatState(prev => ({
+          ...prev,
+          messages: [...prev.messages, coachMessage]
+        }));
+      } catch (error) {
+        console.error('Failed to send follow-up:', error);
+      } finally {
+        setIsTyping(false);
+      }
+    }
+
+    // Close the viewer
+    setViewingCode(null);
+    setCodeBeingViewed(null);
   };
 
   const handleCodeResponse = async (accepted: boolean) => {
@@ -365,7 +410,10 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
                   {/* View Cheat Code button - show immediately if code exists, don't wait for animation */}
                   {parsedCode && (
                     <button
-                      onClick={() => setViewingCode(parsedCode)}
+                      onClick={() => {
+                        setViewingCode(parsedCode);
+                        setCodeBeingViewed({ code: parsedCode, messageId: message.id });
+                      }}
                       className="w-full mt-3 py-3 px-4 rounded-xl bg-white text-black font-semibold text-sm transition-all hover:bg-gray-100 active:scale-[0.98]"
                     >
                       View Cheat Code
@@ -418,11 +466,11 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       </div>
 
       {/* Fullscreen Code Viewer Modal */}
-      {viewingCode && (
+      {viewingCode && codeBeingViewed && (
         <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center p-4">
           {/* Close Button */}
           <button
-            onClick={() => setViewingCode(null)}
+            onClick={() => handleCodeClose(codeBeingViewed.code.title, codeBeingViewed.messageId)}
             className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border"
             style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
           >
@@ -436,7 +484,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             parsedCode={viewingCode}
             onSave={() => {
               handleCodeResponse(true);
-              setViewingCode(null);
+              handleCodeClose(codeBeingViewed.code.title, codeBeingViewed.messageId);
             }}
             showSaveButton={true}
           />

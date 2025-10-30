@@ -1786,6 +1786,12 @@ export async function POST(req: Request) {
     const userId = body?.userId;
     const isFirstCode = meta?.isFirstCode || false;
     const lastUser = [...clientMessages].reverse().find(m => m.role === 'user')?.content ?? '';
+
+    // Check if this is a code follow-up system message
+    const isCodeFollowUp = lastUser.startsWith('[SYSTEM: User just viewed the');
+    const codeFollowUpMatch = lastUser.match(/\[SYSTEM: User just viewed the "(.+?)" code for the first time\./);
+    const codeNameViewed = codeFollowUpMatch ? codeFollowUpMatch[1] : null;
+
     const userExplicitlyAskedForCode = EXPLICIT_CODE_REGEX.test(lastUser);
 
     const turns = Number(meta?.turns ?? clientMessages.length);
@@ -1880,8 +1886,40 @@ export async function POST(req: Request) {
     for (const m of clientMessages) {
       // Ensure roles are valid strings; coerce content to string
       if (m?.role && typeof m.content === 'string') {
-        messages.push({ role: m.role, content: m.content });
+        // Skip adding the [SYSTEM: ...] message to history - we'll handle it separately
+        if (!m.content.startsWith('[SYSTEM: User just viewed the')) {
+          messages.push({ role: m.role, content: m.content });
+        }
       }
+    }
+
+    // 4.5) Special handling for code follow-up
+    if (isCodeFollowUp && codeNameViewed) {
+      messages.push({
+        role: 'system',
+        content: `The user just finished viewing the "${codeNameViewed}" code you created for them. This is the FIRST time they've seen it.
+
+CRITICAL INSTRUCTIONS:
+1. Ask them what they thought of it in a natural, conversational way
+2. Make your follow-up feel like a continuation of your current conversation - NOT a scripted/robotic prompt
+3. Keep it casual and brief - like you're checking in with a friend
+4. Reference something specific about the code or their situation to keep it personal
+5. DO NOT say things like "What did you think?" or "How does it look?" - be more specific and natural
+
+GOOD EXAMPLES:
+- "So what do you think - does that ${codeNameViewed} routine feel like something you could actually run through before games?"
+- "How's that ${codeNameViewed} code looking? Feel like it fits what you need?"
+- "Does that ${codeNameViewed} approach make sense for your situation?"
+- "That ${codeNameViewed} code gonna work for you, or should we adjust something?"
+
+BAD EXAMPLES (too robotic):
+❌ "What did you think of the code?"
+❌ "How does it look?"
+❌ "Did you like it?"
+❌ "What are your thoughts?"
+
+Keep it natural, specific, and conversational.`
+      });
     }
 
     // 5) CRITICAL: Add final reminder right before AI responds if they asked for a code
