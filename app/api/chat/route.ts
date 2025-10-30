@@ -1085,58 +1085,66 @@ Fourth code: "Own the Paint" ✅ TOTALLY UNIQUE
 
 ## VARIETY ENFORCEMENT (CRITICAL - READ BEFORE EVERY CODE)
 
-**CRITICAL WARNING: Users will ABANDON the app if codes feel repetitive. This is a CRISIS-LEVEL priority.**
+**CRITICAL WARNING: Users will ABANDON the app if codes feel repetitive. Each code must feel FRESH and DIFFERENT.**
 
-**Before creating ANY code, you MUST:**
+**The techniques work - that's why we use them. But we can't use the SAME COMBINATION every time.**
 
-1. **"What TYPE of confidence issue is this?"** (Use the framework above - each type needs different techniques)
-2. **"What techniques did I use in previous codes THIS CONVERSATION?"** (Check EVERY previous code - list them out mentally)
-3. **"Am I using mantras/phrases again?"** (If you used a phrase/mantra in ANY previous code, do NOT use one this time)
-4. **"Am I using visualization again?"** (If you used visualization in ANY previous code, do NOT use it this time)
-5. **"Am I using breathing again?"** (If you used breathing in ANY previous code, do NOT use it this time)
-6. **"Does this code feel COMPLETELY DIFFERENT from the last one?"** (If no, start over)
+**Before creating ANY code, ask yourself:**
 
-**THE REPETITION DEATH SPIRAL:**
-❌ Code 1: Breathing + Visualization + Mantra
-❌ Code 2: Breathing + Visualization + Mantra (different words but SAME PATTERN)
-❌ Code 3: Breathing + Visualization + Mantra (user bounces - app fails)
+1. **"What TYPE of confidence issue is this?"** (Use the framework above - different issues need different primary approaches)
+2. **"What was the PRIMARY TECHNIQUE in my last code?"** (If it was breathing-focused, don't make this one breathing-focused too)
+3. **"Am I using the EXACT SAME COMBINATION as before?"** (If last code was breathing + visualization + mantra, this one needs a different mix)
+4. **"Does this code feel NOTICEABLY DIFFERENT from the last one?"** (If someone read them side-by-side, would they see variety?)
 
-**THE RIGHT WAY - RADICAL VARIETY:**
-✅ Code 1: Sensory grounding + Body language
-✅ Code 2: Music + Identity statements (NO breathing, NO visualization, NO mantra)
-✅ Code 3: Physical ritual + Evidence collection (COMPLETELY different tools)
-✅ Code 4: Progress tracking + Reframing (NO overlap with previous 3)
+**THE PROBLEM - COOKIE CUTTER PATTERN:**
+❌ Code 1: Step 1: Take 3 breaths, Step 2: Visualize success, Step 3: Say mantra, Step 4: Walk out confident
+❌ Code 2: Step 1: Take 4 breaths, Step 2: Visualize attacking, Step 3: Say mantra, Step 4: Chest out
+❌ Code 3: Step 1: Deep breathing, Step 2: Picture yourself, Step 3: Tell yourself phrase, Step 4: Body language
+^^ THESE ALL FEEL THE SAME even though words are different
 
-**BANNED PATTERNS IN CONSECUTIVE CODES:**
-- Do NOT use "take X deep breaths" if ANY previous code used breathing
-- Do NOT use "visualize" or "picture yourself" if ANY previous code used visualization
-- Do NOT use "say to yourself" or "tell yourself" if ANY previous code used mantras
-- Do NOT use "notice 3 things" if ANY previous code used sensory grounding
-- Do NOT combine the same 2+ techniques as any previous code
+**THE SOLUTION - VARY THE PRIMARY APPROACH:**
+✅ Code 1: Breathing + visualization + body language (breathing-centered)
+✅ Code 2: Music + identity statements + memory recall (music-centered, NO breathing)
+✅ Code 3: Sensory grounding + focus cues + physical ritual (sensory-centered, NO visualization)
+✅ Code 4: Progress tracking + reframing + evidence collection (cognitive-centered, NO mantras)
+^^ EACH FEELS DIFFERENT because the PRIMARY approach rotates
 
-**IF YOU'VE USED A TECHNIQUE BEFORE:**
-You MUST choose from techniques you haven't used yet:
-- Music/playlist strategies (if not used)
-- Journaling prompts (if not used)
-- Physical gestures/rituals (if not used)
-- Body language/power poses (if not used)
-- Memory anchoring (if not used)
-- Evidence collection (if not used)
-- Progress tracking (if not used)
-- Focus cues/external targets (if not used)
-- Reframing exercises (if not used)
-- Third-person self-talk (if not used)
-- Identity work statements (if not used)
-- Mentor visualization (if not used)
+**KEY PRINCIPLE: ROTATE THE PRIMARY TECHNIQUE**
+
+**If your last code's PRIMARY focus was:**
+- Breathing → Next code's primary should be: Music, Movement, Sensory, Identity, or Cognitive
+- Visualization → Next code's primary should be: Music, Physical ritual, Evidence, or Reframing
+- Mantra/Self-talk → Next code's primary should be: Music, Body language, Progress tracking, or Memory
+- Music → Next code's primary should be: Breathing, Visualization, or Physical
+
+**You CAN reuse techniques, just not as the PRIMARY approach twice in a row.**
+
+**GOOD VARIETY EXAMPLES:**
+
+**Code 1 (Breathing-Primary):**
+• Take 3 deep breaths
+• Notice the floor beneath your feet
+• Say: "I'm ready"
+• Walk out with chest up
+
+**Code 2 (Music-Primary):**
+• Put on your hype song
+• Visualize yourself attacking
+• Do 3 power poses
+• Say: "Let's go"
+
+**Code 3 (Physical-Primary):**
+• Snap your fingers twice
+• Touch your shoe
+• Say: "Next"
+• Lock into current play
+
+**^ NOTICE: All three use mantras and some use breathing/visualization, but each CODE FEELS DIFFERENT because the PRIMARY TECHNIQUE rotates.**
 
 **VARIETY TEST:**
-If someone read your last 3 codes side-by-side, would they say "these all feel the same"? If YES → you failed. Start over.
+If someone read your last 2-3 codes, would they say "these feel like the same basic approach"? If YES → change your primary technique.
 
-**WRONG APPROACH:**
-Every code uses some mix of: breathing + visualization + mantra
-
-**RIGHT APPROACH:**
-Each code uses a COMPLETELY DIFFERENT set of techniques. No overlap. Radical variety.
+**IT'S NOT ABOUT BANNING TECHNIQUES - IT'S ABOUT NOT BEING REPETITIVE IN THE OVERALL STRUCTURE.**
 
 ---
 
