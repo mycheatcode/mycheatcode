@@ -851,18 +851,32 @@ You need to:
 4. Invite them to view it
 
 ### WRONG (no context):
-"Alright, here you go!"
-[Code]
+❌ "Alright, here you go!"
+❌ "Here it is!"
+❌ "Awesome! Here's what I've built for you:"
+❌ "Check this out:"
+❌ "Here's your code:"
+❌ "I've created something for you:"
+
+**WHY THESE ARE WRONG:** They don't tell the user WHAT you made or HOW it helps them. Zero context.
 
 ### RIGHT (proper framing):
-"Alright, I made you an Attack Mode code. This is gonna program your brain to go from reactive to aggressive before you even step on the court. Instead of your mind going blank and letting defenders dictate, this gets you locked into attack mode where you're hunting them. Check it out."
+✅ "Alright, I made you an Attack Mode code. This is gonna program your brain to go from reactive to aggressive before you even step on the court. Instead of your mind going blank and letting defenders dictate, this gets you locked into attack mode where you're hunting them. Check it out."
 [Code]
 
 ---
 
-### THE FORMULA FOR INTRO TEXT:
+### THE FORMULA FOR INTRO TEXT (MANDATORY):
 
-"I made/built you a [Code Name]. [What it does and how it addresses their specific issue]. [Invitation to view]."
+**"I made/built you a [Code Name]. [What it does and how it addresses their specific issue]. [Invitation to view]."**
+
+**MINIMUM REQUIREMENTS:**
+1. ✅ Name the code specifically
+2. ✅ Explain what it does (1-2 sentences)
+3. ✅ Connect to their specific issue discussed in conversation
+4. ✅ Invitation to view/check it out
+
+**If your intro text doesn't have ALL 4 elements, it's wrong.**
 
 ### EXAMPLE FRAMINGS:
 
@@ -1521,7 +1535,7 @@ export async function POST(req: Request) {
       messages.push({
         role: 'system',
         content:
-          'Ready to generate code. Before creating, ensure you have: (1) specific confidence issue, (2) clear trigger/moment, (3) how it shows up in their play, (4) enough detail for personalized steps. If missing ANY detail, ask ONE more targeted question. When generating the code, FOLLOW THE EXACT FORMAT from the system prompt: Start with 1-2 sentences of intro text, THEN the markdown code starting with **🏀**, THEN 1 sentence outro text. DO NOT skip intro or outro.',
+          'Ready to generate code. Before creating, ensure you have: (1) specific confidence issue, (2) clear trigger/moment, (3) how it shows up in their play, (4) enough detail for personalized steps. If missing ANY detail, ask ONE more targeted question. When generating the code, FOLLOW THE EXACT FORMAT from the system prompt: Start with intro text that includes: (1) code name, (2) what it does, (3) how it addresses their issue, (4) invitation to view. THEN the markdown code starting with **🏀**, THEN 1 sentence outro text. NEVER say just "Here you go!" or "Awesome! Here\'s what I\'ve built for you:" - you MUST explain what the code does.',
       });
     }
 
@@ -1537,7 +1551,7 @@ export async function POST(req: Request) {
     if (userExplicitlyAskedForCode || !shouldGateCode) {
       messages.push({
         role: 'system',
-        content: 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. Structure: [1-2 sentences of intro] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro]. DO NOT output just the code by itself. This is MANDATORY.',
+        content: 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro]. This is MANDATORY.',
       });
     }
 
