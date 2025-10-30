@@ -1979,9 +1979,47 @@ Keep it natural, specific, and conversational.`
 
     // 5) CRITICAL: Add final reminder right before AI responds if they asked for a code
     if (userExplicitlyAskedForCode || !shouldGateCode) {
+      // Extract all code names from conversation history
+      const previousCodeNames: string[] = [];
+      const previousTechniques: string[] = [];
+
+      for (const msg of clientMessages) {
+        if (msg.role === 'assistant' && msg.content.includes('**🏀')) {
+          // Extract code name
+          const titleMatch = msg.content.match(/\*\*🏀\s*([^*]+?)\*\*/);
+          if (titleMatch) {
+            previousCodeNames.push(titleMatch[1].trim());
+          }
+
+          // Detect techniques used
+          if (msg.content.toLowerCase().includes('breath') || msg.content.toLowerCase().includes('inhale')) {
+            previousTechniques.push('breathing');
+          }
+          if (msg.content.toLowerCase().includes('visualiz') || msg.content.toLowerCase().includes('picture yourself')) {
+            previousTechniques.push('visualization');
+          }
+          if (msg.content.toLowerCase().includes('say to yourself') || msg.content.toLowerCase().includes('tell yourself')) {
+            previousTechniques.push('mantra');
+          }
+        }
+      }
+
+      let criticalInstructions = 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro].';
+
+      // Add duplicate name warning
+      if (previousCodeNames.length > 0) {
+        criticalInstructions += `\n\n🚨 DUPLICATE NAME BLOCKER: You have already created codes with these names: ${previousCodeNames.join(', ')}. You CANNOT use ANY of these names again OR similar variations (e.g., if you used "Attack Mode", you cannot use "Attack Instinct" or any Attack-* variation). The user will get an error if you reuse a name. PICK A COMPLETELY DIFFERENT NAME from a different category/theme.`;
+      }
+
+      // Add variety warning
+      if (previousTechniques.length > 0) {
+        const lastTechnique = previousTechniques[previousTechniques.length - 1];
+        criticalInstructions += `\n\n🚨 VARIETY ENFORCEMENT: Your LAST code used ${lastTechnique} as the primary technique. This new code MUST use a DIFFERENT primary technique. Do NOT start with the same approach. Examples of different primary techniques: music/playlist, physical ritual (finger snap, etc), progress tracking, memory recall, identity statements, reframing, sensory grounding. ROTATE the primary approach to keep codes feeling fresh.`;
+      }
+
       messages.push({
         role: 'system',
-        content: 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro]. This is MANDATORY.',
+        content: criticalInstructions
       });
     }
 

@@ -207,16 +207,23 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   };
 
   const handleCodeClose = async (codeTitle: string, messageId: string) => {
+    console.log('🚪 handleCodeClose called:', { codeTitle, messageId });
+
     // Check if this is the first time viewing this code
     const codeKey = `${messageId}-${codeTitle}`;
     const isFirstView = !viewedCodes.has(codeKey);
 
+    console.log('👁️ First view check:', { codeKey, isFirstView, viewedCodes: Array.from(viewedCodes) });
+
     if (isFirstView) {
+      console.log('✅ First view confirmed - triggering follow-up');
+
       // Mark as viewed
       setViewedCodes(prev => new Set(prev).add(codeKey));
 
       // Trigger follow-up message from coach after a brief delay
       setTimeout(async () => {
+        console.log('⏰ Timeout fired - starting follow-up request');
         setIsTyping(true);
 
         try {
@@ -226,11 +233,15 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             content: msg.text
           }));
 
+          console.log('📝 Conversation messages:', conversationMessages.length);
+
           // Add the system trigger message
           conversationMessages.push({
             role: 'user',
             content: `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
           });
+
+          console.log('🌐 Calling API for follow-up...');
 
           // Call the API directly with the right format
           const response = await fetch('/api/chat', {
@@ -242,10 +253,19 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             })
           });
 
-          if (!response.ok) throw new Error('Failed to get follow-up');
+          console.log('📡 API response status:', response.status);
+
+          if (!response.ok) {
+            const errorText = await response.text();
+            console.error('❌ API error:', errorText);
+            throw new Error('Failed to get follow-up');
+          }
 
           const data = await response.json();
+          console.log('📦 API response data:', data);
+
           const coachResponse = data.reply || data.coach_response || '';
+          console.log('💬 Coach response:', coachResponse);
 
           // Add coach's follow-up message
           const coachMessage: ChatMessage = {
@@ -255,19 +275,23 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             timestamp: new Date()
           };
 
+          console.log('✅ Adding coach message to state');
           setChatState(prev => ({
             ...prev,
             messages: [...prev.messages, coachMessage]
           }));
         } catch (error) {
-          console.error('Failed to send follow-up:', error);
+          console.error('❌ Failed to send follow-up:', error);
         } finally {
           setIsTyping(false);
         }
       }, 500); // Brief delay so close animation completes first
+    } else {
+      console.log('⏭️ Not first view - skipping follow-up');
     }
 
     // Close the viewer immediately
+    console.log('🚪 Closing viewer');
     setViewingCode(null);
     setCodeBeingViewed(null);
   };
