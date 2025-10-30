@@ -14,11 +14,80 @@ export interface ParsedCheatCode {
   }>;
 }
 
+// Convert markdown format to CARD format
+function convertMarkdownToCardFormat(markdown: string): string {
+  console.log('🔄 CONVERTING MARKDOWN TO CARD FORMAT');
+
+  // Extract title from **🏀 Title**
+  const titleMatch = markdown.match(/\*\*🏀\s*(.+?)\*\*/);
+  const title = titleMatch ? titleMatch[1].trim() : 'Untitled Code';
+
+  // Extract subtitle/category from *"Subtitle"*
+  const subtitleMatch = markdown.match(/\*"(.+?)"\*/);
+  const category = subtitleMatch ? subtitleMatch[1].trim() : '';
+
+  // Start building CARD format
+  let cardFormat = `TITLE: ${title}\n`;
+  cardFormat += `CATEGORY: ${category}\n`;
+  cardFormat += `DESCRIPTION: \n\n`;
+
+  // Extract What section
+  const whatMatch = markdown.match(/\*\*What:\*\*\s*([^\n]+(?:\n(?!\*\*)[^\n]+)*)/);
+  if (whatMatch) {
+    cardFormat += `CARD: What\n${whatMatch[1].trim()}\n\n`;
+  }
+
+  // Extract When section
+  const whenMatch = markdown.match(/\*\*When:\*\*\s*([^\n]+(?:\n(?!\*\*)[^\n]+)*)/);
+  if (whenMatch) {
+    cardFormat += `CARD: When\n${whenMatch[1].trim()}\n\n`;
+  }
+
+  // Extract How section and split by bullet points
+  const howMatch = markdown.match(/\*\*How:\*\*\s*\n([\s\S]+?)(?=\n\*\*Why:|$)/);
+  if (howMatch) {
+    const howContent = howMatch[1].trim();
+    // Split by bullet points (• character)
+    const steps = howContent.split(/\n?•\s*/).filter(step => step.trim());
+
+    console.log(`📊 Found ${steps.length} HOW steps`);
+
+    steps.forEach((step, index) => {
+      cardFormat += `CARD: How - Step ${index + 1}\n${step.trim()}\n\n`;
+    });
+  }
+
+  // Extract Why section
+  const whyMatch = markdown.match(/\*\*Why:\*\*\s*([^\n]+(?:\n(?!\*\*)[^\n]+)*)/);
+  if (whyMatch) {
+    cardFormat += `CARD: Why\n${whyMatch[1].trim()}\n\n`;
+  }
+
+  // Extract Cheat Code Phrase
+  const phraseMatch = markdown.match(/\*\*Cheat Code Phrase:\*\*\s*"(.+?)"/);
+  if (phraseMatch) {
+    cardFormat += `CARD: Cheat Code Phrase\n${phraseMatch[1].trim()}\n`;
+  }
+
+  console.log('✅ CONVERSION COMPLETE');
+  console.log('Card format preview:', cardFormat.substring(0, 300));
+
+  return cardFormat;
+}
+
 export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
   try {
     console.log('📝 PARSING CODE BLOCK');
     console.log('First 200 chars:', codeBlock.substring(0, 200));
     console.log('Total length:', codeBlock.length);
+
+    // Check if this is markdown format (contains **🏀)
+    const isMarkdown = codeBlock.includes('**🏀');
+
+    if (isMarkdown) {
+      console.log('🔄 Detected markdown format, converting to CARD format...');
+      codeBlock = convertMarkdownToCardFormat(codeBlock);
+    }
 
     const lines = codeBlock.trim().split('\n');
     console.log('Total lines:', lines.length);
