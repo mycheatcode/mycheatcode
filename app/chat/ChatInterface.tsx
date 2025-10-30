@@ -215,36 +215,59 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       // Mark as viewed
       setViewedCodes(prev => new Set(prev).add(codeKey));
 
-      // Trigger follow-up message from coach
-      setIsTyping(true);
+      // Trigger follow-up message from coach after a brief delay
+      setTimeout(async () => {
+        setIsTyping(true);
 
-      try {
-        // Send a system message to trigger contextual follow-up
-        const response = await chatService.sendMessage(
-          section,
-          `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
-        );
+        try {
+          // Build conversation history in the format the API expects
+          const conversationMessages = chatState.messages.map(msg => ({
+            role: msg.sender === 'user' ? 'user' : 'assistant',
+            content: msg.text
+          }));
 
-        // Add coach's follow-up message
-        const coachMessage: ChatMessage = {
-          id: `coach-followup-${Date.now()}`,
-          text: response.coach_response.text,
-          sender: 'coach',
-          timestamp: new Date()
-        };
+          // Add the system trigger message
+          conversationMessages.push({
+            role: 'user',
+            content: `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
+          });
 
-        setChatState(prev => ({
-          ...prev,
-          messages: [...prev.messages, coachMessage]
-        }));
-      } catch (error) {
-        console.error('Failed to send follow-up:', error);
-      } finally {
-        setIsTyping(false);
-      }
+          // Call the API directly with the right format
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: conversationMessages,
+              userId: localStorage.getItem('userId') || undefined
+            })
+          });
+
+          if (!response.ok) throw new Error('Failed to get follow-up');
+
+          const data = await response.json();
+          const coachResponse = data.reply || data.coach_response || '';
+
+          // Add coach's follow-up message
+          const coachMessage: ChatMessage = {
+            id: `coach-followup-${Date.now()}`,
+            text: coachResponse,
+            sender: 'coach',
+            timestamp: new Date()
+          };
+
+          setChatState(prev => ({
+            ...prev,
+            messages: [...prev.messages, coachMessage]
+          }));
+        } catch (error) {
+          console.error('Failed to send follow-up:', error);
+        } finally {
+          setIsTyping(false);
+        }
+      }, 500); // Brief delay so close animation completes first
     }
 
-    // Close the viewer
+    // Close the viewer immediately
     setViewingCode(null);
     setCodeBeingViewed(null);
   };
