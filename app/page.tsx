@@ -26,6 +26,10 @@ export default function Home() {
 
   // Get current user and load progress
   useEffect(() => {
+    let animationTimeout: NodeJS.Timeout | null = null;
+    let animationInterval: NodeJS.Timeout | null = null;
+    let endAnimationTimeout: NodeJS.Timeout | null = null;
+
     const loadProgress = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
@@ -47,7 +51,7 @@ export default function Home() {
               setAnimatedProgress(previousProgress);
 
               // Start number scroll animation after a small delay
-              setTimeout(() => {
+              animationTimeout = setTimeout(() => {
                 setShowProgressAnimation(true);
 
                 // Animate number counting up
@@ -56,16 +60,16 @@ export default function Home() {
                 const increment = gain / steps;
                 let currentStep = 0;
 
-                const interval = setInterval(() => {
+                animationInterval = setInterval(() => {
                   currentStep++;
                   if (currentStep <= steps) {
                     setAnimatedProgress(previousProgress + (increment * currentStep));
                   } else {
                     setAnimatedProgress(progress.progress);
-                    clearInterval(interval);
+                    if (animationInterval) clearInterval(animationInterval);
 
                     // Hold at new value for a moment, then end animation
-                    setTimeout(() => {
+                    endAnimationTimeout = setTimeout(() => {
                       setShowProgressAnimation(false);
                       setMomentumGain(0);
                     }, 800);
@@ -86,7 +90,14 @@ export default function Home() {
       }
     };
     loadProgress();
-  }, [supabase, showMomentumProgress]);
+
+    // Cleanup function to clear all timers and intervals
+    return () => {
+      if (animationTimeout) clearTimeout(animationTimeout);
+      if (animationInterval) clearInterval(animationInterval);
+      if (endAnimationTimeout) clearTimeout(endAnimationTimeout);
+    };
+  }, [supabase]);
 
   useEffect(() => {
     // Always use dark mode

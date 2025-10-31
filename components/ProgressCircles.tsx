@@ -16,9 +16,16 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
   // Handle progress growth animation when progress changes
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    if (progress === 0) return; // Don't animate if progress is 0
 
     // Get previous progress from localStorage
     const previousProgress = parseFloat(localStorage.getItem('lastMomentumProgress') || '0');
+
+    // Only animate if there's a meaningful change (more than 0.1%)
+    if (Math.abs(progress - previousProgress) < 0.1) {
+      setAnimatedProgress(progress);
+      return;
+    }
 
     // If progress increased, animate the growth
     if (progress > previousProgress && previousProgress > 0) {
@@ -27,6 +34,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       const endProgress = progress;
       const duration = 3000; // 3 seconds animation for more noticeable effect
       const startTime = Date.now();
+      let animationFrameId: number;
 
       const animateGrowth = () => {
         const elapsed = Date.now() - startTime;
@@ -41,7 +49,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
         setAnimatedProgress(currentProgress);
 
         if (progressRatio < 1) {
-          requestAnimationFrame(animateGrowth);
+          animationFrameId = requestAnimationFrame(animateGrowth);
         } else {
           setIsAnimating(false);
           // Store new progress value
@@ -49,7 +57,12 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
         }
       };
 
-      animateGrowth();
+      animationFrameId = requestAnimationFrame(animateGrowth);
+
+      // Cleanup function
+      return () => {
+        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      };
     } else {
       // No animation needed, just set directly
       setAnimatedProgress(progress);
