@@ -1747,10 +1747,6 @@ export default function ChatPage() {
                             <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {(card as any).title}
                             </h1>
-                            <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                            <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                              {(card as any).category}
-                            </div>
                           </div>
                         )}
 
