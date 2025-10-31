@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import TypingAnimation from '../../components/TypingAnimation';
 import { createClient } from '@/lib/supabase/client';
 import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
-import { saveCheatCode, type CheatCodeData } from '@/lib/cheatcodes';
+import { saveCheatCode, type CheatCodeData, toggleFavoriteCheatCode, getUserCheatCodes } from '@/lib/cheatcodes';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
@@ -58,7 +58,21 @@ export default function ChatPage() {
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [momentumGain, setMomentumGain] = useState<number>(0);
-  const [viewedCodes, setViewedCodes] = useState<Set<string>>(new Set());
+  const [viewedCodes, setViewedCodes] = useState<Set<string>>(() => {
+    // Load viewed codes from localStorage on init
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('viewedCheatCodes');
+      if (stored) {
+        try {
+          return new Set(JSON.parse(stored));
+        } catch (e) {
+          return new Set();
+        }
+      }
+    }
+    return new Set();
+  });
+  const [favoritedCodes, setFavoritedCodes] = useState<Map<string, boolean>>(new Map());
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
@@ -147,6 +161,29 @@ export default function ChatPage() {
 
     loadSavedCheatCodes();
   }, [userId, currentChatId, messages, supabase]);
+
+  // Load favorite status for all user's cheat codes
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (!userId) return;
+
+      try {
+        const { cheatCodes, error } = await getUserCheatCodes(userId);
+        if (error || !cheatCodes) return;
+
+        // Build a map of code titles to favorite status
+        const favMap = new Map<string, boolean>();
+        cheatCodes.forEach((code: any) => {
+          favMap.set(code.title, code.is_favorite || false);
+        });
+        setFavoritedCodes(favMap);
+      } catch (err) {
+        console.error('Error loading favorites:', err);
+      }
+    };
+
+    loadFavorites();
+  }, [userId]);
 
   useEffect(() => {
     // Always use dark mode
@@ -1120,8 +1157,14 @@ export default function ChatPage() {
     if (isFirstView) {
       console.log('✅ First view confirmed - triggering follow-up');
 
-      // Mark as viewed
-      setViewedCodes(prev => new Set(prev).add(codeKey));
+      // Mark as viewed and persist to localStorage
+      setViewedCodes(prev => {
+        const updated = new Set(prev).add(codeKey);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('viewedCheatCodes', JSON.stringify(Array.from(updated)));
+        }
+        return updated;
+      });
 
       // Close the modal first
       setSelectedCheatCode(null);
@@ -1191,6 +1234,26 @@ export default function ChatPage() {
       setSelectedCheatCode(null);
       resetCards();
     }
+  };
+
+  const toggleFavoriteInChat = async (codeTitle: string, codeId?: string) => {
+    if (!userId) return;
+
+    // Get current favorite status
+    const currentStatus = favoritedCodes.get(codeTitle) || false;
+    const newStatus = !currentStatus;
+
+    // Update database if we have the code ID
+    if (codeId) {
+      const { error } = await toggleFavoriteCheatCode(userId, codeId, newStatus);
+      if (error) {
+        console.error('Error toggling favorite:', error);
+        return;
+      }
+    }
+
+    // Update local state
+    setFavoritedCodes(prev => new Map(prev).set(codeTitle, newStatus));
   };
 
   return (
