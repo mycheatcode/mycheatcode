@@ -490,9 +490,10 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
 
       {/* Input */}
       <div className="p-4 border-t border-zinc-800">
-        <div className="flex gap-2">
+        <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); sendMessage(); }}>
           <input
             type="text"
+            name="message"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={handleKeyPress}
@@ -501,7 +502,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
             className="flex-1 bg-zinc-800 text-white px-4 py-2 rounded-lg border border-zinc-700 focus:outline-none focus:border-blue-500 disabled:opacity-50"
           />
           <button
-            onClick={sendMessage}
+            type="submit"
             disabled={!inputText.trim() || chatState.is_loading}
             className="bg-blue-600 hover:bg-blue-700 disabled:bg-zinc-700 disabled:cursor-not-allowed px-4 py-2 rounded-lg transition-colors"
           >
@@ -509,7 +510,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
             </svg>
           </button>
-        </div>
+        </form>
       </div>
 
       {/* Fullscreen Code Viewer Modal */}
