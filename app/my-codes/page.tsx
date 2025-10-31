@@ -21,7 +21,7 @@ import ActiveCodesDisplay from '../../components/ActiveCodesDisplay';
 import OverallProgressCircle from '../../components/OverallProgressCircle';
 import StreakDisplay from '../../components/StreakDisplay';
 import { createClient } from '@/lib/supabase/client';
-import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, archiveCheatCodeDb, reactivateCheatCodeDb } from '@/lib/cheatcodes';
+import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, archiveCheatCodeDb, reactivateCheatCodeDb, toggleFavoriteCheatCode } from '@/lib/cheatcodes';
 import { awardCodeCompletionMomentum } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import FeedbackButton from '@/components/FeedbackButton';
@@ -46,6 +46,7 @@ interface CheatCode {
   archived?: boolean;
   timesUsed?: number;
   lastUsedDaysAgo?: number | null;
+  isFavorite?: boolean;
 }
 
 export default function MyCodesPage() {
@@ -127,7 +128,8 @@ export default function MyCodesPage() {
           topicId: code.chat_id || undefined, // Keep as UUID string, don't parse to int
           archived: code.is_active === false,
           timesUsed: code.times_used || 0,
-          lastUsedDaysAgo: code.last_used_at ? diffDays : null
+          lastUsedDaysAgo: code.last_used_at ? diffDays : null,
+          isFavorite: code.is_favorite || false
         };
       });
 
@@ -353,7 +355,7 @@ export default function MyCodesPage() {
     }
   }, []);
 
-  const categories = ['All', 'Active', 'Pre-Game', 'Off Court', 'Post-Game', 'In-Game', 'Locker Room', 'Archived'];
+  const categories = ['All', 'Favorites', 'New', 'Most Used', 'Archived'];
 
   const getStreakIcon = (type: string) => {
     switch (type) {
@@ -374,16 +376,38 @@ export default function MyCodesPage() {
 
   const getCategoryCount = (category: string) => {
     if (category === 'All') return cheatCodes.length;
-    if (category === 'Active') return cheatCodes.filter(code => !code.archived).length;
+    if (category === 'Favorites') return cheatCodes.filter(code => code.isFavorite && !code.archived).length;
+    if (category === 'New') return Math.min(10, cheatCodes.filter(code => !code.archived).length);
+    if (category === 'Most Used') return cheatCodes.filter(code => !code.archived && (code.timesUsed || 0) > 0).length;
     if (category === 'Archived') return cheatCodes.filter(code => code.archived).length;
-    return cheatCodes.filter(code => code.category === category && !code.archived).length;
+    return 0;
   };
 
-  // Get section management stats
-  const getSectionManagementInfo = (category: string) => {
-    if (category === 'Active' || category === 'Archived') return null;
-    const stats = getSectionStats(category as Section);
-    return stats;
+  const toggleFavorite = async (codeId: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    const code = cheatCodes.find(c => c.id === codeId);
+    if (!code) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const newFavoriteStatus = !code.isFavorite;
+
+    // Update database
+    const { error } = await toggleFavoriteCheatCode(user.id, codeId, newFavoriteStatus);
+
+    if (error) {
+      console.error('Error toggling favorite:', error);
+      return;
+    }
+
+    // Update local state
+    setCheatCodes(codes => codes.map(c =>
+      c.id === codeId ? { ...c, isFavorite: newFavoriteStatus } : c
+    ));
   };
 
   const toggleArchiveStatus = async (codeId: string) => {
@@ -453,12 +477,20 @@ export default function MyCodesPage() {
 
     if (activeCategory === 'All') {
       filtered = [...cheatCodes];
-    } else if (activeCategory === 'Active') {
-      filtered = cheatCodes.filter(code => !code.archived);
+    } else if (activeCategory === 'Favorites') {
+      filtered = cheatCodes.filter(code => code.isFavorite && !code.archived);
+    } else if (activeCategory === 'New') {
+      // Most recently created codes (top 10)
+      filtered = [...cheatCodes]
+        .filter(code => !code.archived)
+        .sort((a, b) => b.displayId - a.displayId) // Newer codes have higher displayId
+        .slice(0, 10);
+    } else if (activeCategory === 'Most Used') {
+      filtered = [...cheatCodes]
+        .filter(code => !code.archived && (code.timesUsed || 0) > 0)
+        .sort((a, b) => (b.timesUsed || 0) - (a.timesUsed || 0));
     } else if (activeCategory === 'Archived') {
       filtered = cheatCodes.filter(code => code.archived);
-    } else {
-      filtered = cheatCodes.filter(code => code.category === activeCategory && !code.archived);
     }
 
     // Filter by search query
@@ -745,8 +777,6 @@ export default function MyCodesPage() {
         {/* Categories Filter */}
         <div className="flex gap-2 p-4 pb-4 overflow-x-auto scrollbar-hide">
           {categories.map((category) => {
-            const sectionInfo = getSectionManagementInfo(category);
-
             return (
               <button
                 key={category}
@@ -759,14 +789,9 @@ export default function MyCodesPage() {
                 }
               >
                 <span>{category}</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-xs" style={{ opacity: 0.7 }}>
-                    {getCategoryCount(category)}
-                  </span>
-                  {sectionInfo && sectionInfo.slotsRemaining === 0 && (
-                    <span className="text-xs ml-1" style={{ color: 'var(--text-tertiary)' }}>FULL</span>
-                  )}
-                </div>
+                <span className="text-xs" style={{ opacity: 0.7 }}>
+                  {getCategoryCount(category)}
+                </span>
               </button>
             );
           })}
@@ -801,6 +826,23 @@ export default function MyCodesPage() {
               }`}
               style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
+              {/* Favorite Star - Top Left */}
+              <button
+                onClick={(e) => toggleFavorite(code.id, e)}
+                className="absolute top-3 left-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                style={{ backgroundColor: code.isFavorite ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+              >
+                {code.isFavorite ? (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" strokeWidth="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                ) : (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                  </svg>
+                )}
+              </button>
+
               {/* Archive Badge */}
               {code.archived && (
                 <div className="absolute top-3 right-3">
@@ -995,6 +1037,23 @@ export default function MyCodesPage() {
                 }`}
                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
+
+                {/* Favorite Star - Top Left */}
+                <button
+                  onClick={(e) => toggleFavorite(code.id, e)}
+                  className="absolute top-3 left-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                  style={{ backgroundColor: code.isFavorite ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                >
+                  {code.isFavorite ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  )}
+                </button>
 
                 {/* Archive Badge */}
                 {code.archived && (

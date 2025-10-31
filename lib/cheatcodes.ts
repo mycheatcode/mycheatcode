@@ -424,3 +424,32 @@ export async function reactivateCheatCodeDb(
     return { error: 'Unexpected error' };
   }
 }
+
+/**
+ * Toggle favorite status of a cheat code
+ */
+export async function toggleFavoriteCheatCode(
+  userId: string,
+  cheatCodeId: string,
+  isFavorite: boolean
+): Promise<{ error?: string }> {
+  const supabase = createClient();
+
+  try {
+    const { error } = await supabase
+      .from('cheat_codes')
+      .update({ is_favorite: isFavorite })
+      .eq('id', cheatCodeId)
+      .eq('user_id', userId);
+
+    if (error) {
+      console.error('Error toggling favorite:', error);
+      return { error: error.message };
+    }
+
+    return {};
+  } catch (err) {
+    console.error('Unexpected error toggling favorite:', err);
+    return { error: 'Unexpected error' };
+  }
+}
