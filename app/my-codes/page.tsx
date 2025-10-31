@@ -1123,6 +1123,28 @@ export default function MyCodesPage() {
           <div className="w-full max-w-lg">
             {/* Card with Navigation Inside */}
             <div className="rounded-2xl p-6 lg:p-10 min-h-[400px] lg:min-h-[500px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+              {/* Favorite Star - Top Right (only on final phrase card) */}
+              {currentCard === buildCards(selectedCode).length - 1 && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(selectedCode.id);
+                  }}
+                  className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                  style={{ backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                >
+                  {selectedCode.isFavorite ? (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  ) : (
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  )}
+                </button>
+              )}
+
               {/* Left Arrow - Centered */}
               <button
                 onClick={prevCard}
@@ -1229,27 +1251,7 @@ export default function MyCodesPage() {
 
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
-                        <div className="space-y-8 lg:space-y-10 w-full max-w-md relative">
-                          {/* Favorite Star - Top Right */}
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleFavorite(selectedCode.id);
-                            }}
-                            className="absolute -top-2 -right-2 p-2 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
-                            style={{ backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
-                          >
-                            {selectedCode.isFavorite ? (
-                              <svg width="22" height="22" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                              </svg>
-                            ) : (
-                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
-                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                              </svg>
-                            )}
-                          </button>
-
+                        <div className="space-y-8 lg:space-y-10 w-full max-w-md">
                           <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                             Your Cheat Code Phrase
                           </div>
