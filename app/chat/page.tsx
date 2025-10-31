@@ -1087,8 +1087,17 @@ export default function ChatPage() {
   const parseCheatCodeForCards = (cheatCode: any) => {
     const { what, when, how, why, phrase, title, category } = cheatCode;
 
-    // Split "How" into steps
-    const howSteps = how ? how.split('\n').filter((s: string) => s.trim().length > 0).slice(0, 3) : [];
+    // Split "How" into steps - handle both newlines and bullet points
+    let howSteps: string[] = [];
+    if (how) {
+      // First split by newlines
+      const lines = how.split('\n').filter((s: string) => s.trim().length > 0);
+
+      // Clean each line by removing bullet points and extra whitespace
+      howSteps = lines.map((line: string) =>
+        line.replace(/^[•\-\*]\s*/, '').trim()
+      ).filter((s: string) => s.length > 0);
+    }
 
     return { what, when, howSteps, why, phrase, title, category };
   };
@@ -1678,12 +1687,21 @@ export default function ChatPage() {
           <div className="w-full max-w-lg">
             {/* Card with Navigation Inside */}
             <div className="rounded-2xl p-6 lg:p-10 min-h-[400px] lg:min-h-[500px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-              {/* Favorite Star - Top Right (only on final phrase card) */}
+              {/* Favorite Star - Top Right (only on final phrase card, only show if code is saved) */}
               {currentCard === buildCheatCodeCards(selectedCheatCode).length - 1 && savedCheatCodes.has(selectedCheatCode.messageId) && (
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleFavoriteInChat(selectedCheatCode.title);
+                    // Find the cheat code ID from the saved codes
+                    const findCodeId = async () => {
+                      if (!userId) return;
+                      const { cheatCodes } = await getUserCheatCodes(userId);
+                      const code = cheatCodes?.find((c: any) => c.title === selectedCheatCode.title);
+                      if (code) {
+                        toggleFavoriteInChat(selectedCheatCode.title, code.id);
+                      }
+                    };
+                    findCodeId();
                   }}
                   className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
                   style={{ backgroundColor: favoritedCodes.get(selectedCheatCode.title) ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
