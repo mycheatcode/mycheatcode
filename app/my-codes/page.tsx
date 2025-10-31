@@ -1229,7 +1229,27 @@ export default function MyCodesPage() {
 
                       {/* Phrase Card (Final) */}
                       {card.type === 'phrase' && (
-                        <div className="space-y-8 lg:space-y-10 w-full max-w-md">
+                        <div className="space-y-8 lg:space-y-10 w-full max-w-md relative">
+                          {/* Favorite Star - Top Right */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleFavorite(selectedCode.id);
+                            }}
+                            className="absolute -top-2 -right-2 p-2 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                            style={{ backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                          >
+                            {selectedCode.isFavorite ? (
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                              </svg>
+                            ) : (
+                              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                              </svg>
+                            )}
+                          </button>
+
                           <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                             Your Cheat Code Phrase
                           </div>
@@ -1263,36 +1283,6 @@ export default function MyCodesPage() {
                                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                               >
                                 Open Chat
-                              </button>
-
-                              {/* Favorite Toggle Button */}
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  toggleFavorite(selectedCode.id);
-                                }}
-                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
-                                style={{
-                                  backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.1)' : 'var(--card-bg)',
-                                  borderColor: selectedCode.isFavorite ? 'var(--accent-color)' : 'var(--card-border)',
-                                  color: selectedCode.isFavorite ? 'var(--accent-color)' : 'var(--text-primary)'
-                                }}
-                              >
-                                {selectedCode.isFavorite ? (
-                                  <>
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                    </svg>
-                                    <span>Remove from Favorites</span>
-                                  </>
-                                ) : (
-                                  <>
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                    </svg>
-                                    <span>Add to Favorites</span>
-                                  </>
-                                )}
                               </button>
 
                               <button

@@ -1327,35 +1327,15 @@ export default function ChatPage() {
                                 </div>
                               )}
 
-                              {/* View Cheat Code Button with Favorite Star */}
-                              <div className="flex justify-center items-center gap-2 w-full px-2">
+                              {/* View Cheat Code Button - Full Width */}
+                              <div className="flex justify-center w-full px-2">
                                 <button
                                   onClick={() => setSelectedCheatCode({ ...cheatCode, messageId: message.id, messageText: cheatCodeText })}
-                                  className="flex-1 max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                                  className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
                                   style={{ backgroundColor: '#ffffff', color: '#000000' }}
                                 >
                                   View Cheat Code
                                 </button>
-                                {savedCheatCodes.has(message.id) && (
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      toggleFavoriteInChat(cheatCode.title);
-                                    }}
-                                    className="p-2 rounded-full transition-all active:scale-90"
-                                    style={{ backgroundColor: favoritedCodes.get(cheatCode.title) ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.1)' }}
-                                  >
-                                    {favoritedCodes.get(cheatCode.title) ? (
-                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                      </svg>
-                                    ) : (
-                                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="1.5">
-                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                      </svg>
-                                    )}
-                                  </button>
-                                )}
                               </div>
 
                               {/* Timestamp */}
@@ -1587,35 +1567,15 @@ export default function ChatPage() {
                                   </div>
                                 )}
 
-                                {/* View Cheat Code Button with Favorite Star */}
-                                <div className="flex items-center gap-2 w-full">
+                                {/* View Cheat Code Button - Full Width */}
+                                <div className="w-full">
                                   <button
                                     onClick={() => setSelectedCheatCode({ ...cheatCode, messageId: message.id, messageText: cheatCodeText })}
-                                    className="flex-1 rounded-xl px-8 py-2.5 transition-all hover:scale-[1.01] font-semibold text-sm"
+                                    className="w-full rounded-xl px-8 py-2.5 transition-all hover:scale-[1.01] font-semibold text-sm"
                                     style={{ backgroundColor: '#ffffff', color: '#000000' }}
                                   >
                                     View Cheat Code
                                   </button>
-                                  {savedCheatCodes.has(message.id) && (
-                                    <button
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleFavoriteInChat(cheatCode.title);
-                                      }}
-                                      className="p-2 rounded-full transition-all hover:scale-110 active:scale-90"
-                                      style={{ backgroundColor: favoritedCodes.get(cheatCode.title) ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.1)' }}
-                                    >
-                                      {favoritedCodes.get(cheatCode.title) ? (
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
-                                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                        </svg>
-                                      ) : (
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.5)" strokeWidth="1.5">
-                                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                                        </svg>
-                                      )}
-                                    </button>
-                                  )}
                                 </div>
 
                                 {/* Timestamp */}
@@ -1826,7 +1786,29 @@ export default function ChatPage() {
 
                         {/* Phrase Card (Final) */}
                         {card.type === 'phrase' && (
-                          <div className="space-y-8 lg:space-y-10 w-full max-w-md">
+                          <div className="space-y-8 lg:space-y-10 w-full max-w-md relative">
+                            {/* Favorite Star - Top Right */}
+                            {savedCheatCodes.has(selectedCheatCode.messageId) && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleFavoriteInChat(selectedCheatCode.title);
+                                }}
+                                className="absolute -top-2 -right-2 p-2 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                                style={{ backgroundColor: favoritedCodes.get(selectedCheatCode.title) ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                              >
+                                {favoritedCodes.get(selectedCheatCode.title) ? (
+                                  <svg width="22" height="22" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                  </svg>
+                                ) : (
+                                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                  </svg>
+                                )}
+                              </button>
+                            )}
+
                             <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                               Your Cheat Code Phrase
                             </div>
