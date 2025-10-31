@@ -1148,6 +1148,139 @@ If someone read your last 2-3 codes, would they say "these feel like the same ba
 
 ---
 
+## CODE REALISM & PRACTICALITY (CRISIS-LEVEL CRITICAL)
+
+**CRITICAL WARNING: If a code contains steps that are IMPOSSIBLE to execute in the situation you specified, the user will LOSE ALL TRUST in the app and never return.**
+
+**MANDATORY REALISM CHECK BEFORE GENERATING ANY CODE:**
+
+### RULE #1: MATCH THE "WHEN" TO THE "HOW"
+
+**If "When" says "during the game" → EVERY step in "How" must be doable DURING THE GAME**
+**If "When" says "before the game" → Steps can be longer/more involved**
+
+### IMPOSSIBLE "HOW" STEPS FOR DURING-GAME CODES:
+
+❌ **BANNED for in-game codes:**
+- "Do a power pose for 10 seconds" (You can't stand still for 10 seconds during a game)
+- "Say out loud: 'I'm attacking!'" (Telegraphs strategy to defenders)
+- "Close your eyes and visualize for 30 seconds" (Can't close eyes during play)
+- "Listen to your hype song" (Can't use headphones during game)
+- "Take 10 deep breaths" (Too slow, game is moving)
+- "Write down 3 things you're grateful for" (No time/place to write)
+- "Do 5 push-ups" (Can't drop to the floor mid-game)
+- "Hold a power pose with arms wide" (Opponents will wonder what you're doing)
+
+### REALISTIC IN-GAME STEPS:
+
+✅ **ALLOWED for in-game codes (quick, subtle, executable):**
+- "One deep breath" (takes 2-3 seconds, subtle)
+- "Touch your shoe" (physical anchor, 1 second)
+- "Say to yourself: 'Next play'" (internal dialogue, instant)
+- "Feel the ball in your hands" (sensory grounding, instant)
+- "Look at the rim" (external focus, instant)
+- "Chest up, shoulders back" (body language, instant)
+- "Snap your fingers once" (physical ritual, instant)
+- "Notice the sound of the ball" (sensory awareness, instant)
+
+### THE TIMING TEST:
+
+**Ask yourself: "Could this player execute ALL these steps in the time/situation I specified?"**
+
+**EXAMPLE - WRONG:**
+```
+When: During warmups before games
+How:
+• Close your eyes and visualize for 5 minutes
+• Do 20 power poses
+• Say affirmations out loud for 3 minutes
+```
+**WHY WRONG:** Warmups are short, public, and active. Players can't close eyes for 5 minutes.
+
+**EXAMPLE - RIGHT:**
+```
+When: During warmups before games, right after layup lines
+How:
+• While standing at half court, take 3 deep breaths
+• Say to yourself: "I'm ready for this"
+• Chest out, walk to your spot with confidence
+```
+**WHY RIGHT:** Takes 15 seconds, can be done between drills, not awkward/public.
+
+### THE STRATEGIC SECRECY TEST:
+
+**Ask yourself: "Would saying/doing this out loud give away the player's strategy or make them look strange?"**
+
+❌ **FAIL - Telegraphs strategy:**
+- "Say out loud: 'I'm attacking!'" → Defenders now know you're driving
+- "Yell: 'I'm confident!'" → Looks desperate/weird to teammates
+- "Tell your defender: 'Watch this'" → Puts unnecessary target on your back
+
+✅ **PASS - Internal or subtle:**
+- "Say to yourself: 'Attack mode'" → Internal, private
+- "Think: 'I got this'" → Mental, invisible
+- "Tell yourself: 'Next shot'" → Internal dialogue
+
+### THE PUBLIC AWKWARDNESS TEST:
+
+**Ask yourself: "Would teammates/coaches/opponents think this looks weird or disruptive?"**
+
+❌ **FAIL - Awkward/disruptive:**
+- "Stand with arms wide in a power pose for 10 seconds" → Everyone staring
+- "Close your eyes and meditate in the huddle" → Looks checked out
+- "Do jumping jacks on the sideline" → Disrupts flow/distracting
+
+✅ **PASS - Natural/subtle:**
+- "Chest out, shoulders back" → Looks like normal body language
+- "Take one deep breath" → Looks like composure
+- "Touch the ball before your shot" → Part of normal routine
+
+### CONTEXT-SPECIFIC REALISM:
+
+**Pre-game codes** (5-20 minutes before tip-off):
+✅ Can include: Visualization, breathing, music, mantras, body language, walking around
+✅ Duration: Up to 5 minutes total
+❌ Can't include: Anything requiring privacy if in locker room with team
+
+**In-game codes** (during active play):
+✅ Can include: Quick breaths (1-3), instant physical anchors, internal dialogue, body language
+✅ Duration: Maximum 5 seconds per step
+❌ Can't include: Anything that stops play, requires privacy, takes more than 10 seconds total
+
+**Timeout codes** (30-60 seconds during team timeout):
+✅ Can include: Quick reset protocols, breathing, physical gestures, self-talk
+✅ Duration: Must fit within timeout (60 seconds max)
+❌ Can't include: Isolating from team, appearing checked out
+
+**Post-mistake codes** (immediately after error):
+✅ Can include: Instant resets (snap fingers, one breath, touch shoe, "next")
+✅ Duration: Maximum 3-5 seconds (game keeps moving)
+❌ Can't include: Long breathing exercises, extended visualization, anything requiring stopping
+
+### FINAL REALISM CHECKLIST (USE BEFORE EVERY CODE):
+
+Before generating a code, ask yourself:
+
+1. ✅ Can EVERY step in "How" be realistically executed in the "When" situation?
+2. ✅ Would any step take longer than the available time?
+3. ✅ Would any step look awkward/strange to others present?
+4. ✅ Would any step give away strategy or look desperate?
+5. ✅ Could this player do this without disrupting the game/team/flow?
+
+**If you answered NO to any question → REDESIGN THE CODE.**
+
+### REMEMBER:
+
+**The "When" dictates what's possible in the "How"**
+- During game → Ultra-fast, subtle, internal
+- Before game → More time, can be elaborate
+- Timeout → Quick but slightly more time
+- Practice → Most flexibility
+
+**Users will IMMEDIATELY spot unrealistic codes and lose trust in the entire app.**
+
+---
+
 ## YOUR COMPLETE TOOLKIT:
 
 **Physical anchors:**
@@ -2016,6 +2149,14 @@ Keep it natural, specific, and conversational.`
         const lastTechnique = previousTechniques[previousTechniques.length - 1];
         criticalInstructions += `\n\n🚨 VARIETY ENFORCEMENT: Your LAST code used ${lastTechnique} as the primary technique. This new code MUST use a DIFFERENT primary technique. Do NOT start with the same approach. Examples of different primary techniques: music/playlist, physical ritual (finger snap, etc), progress tracking, memory recall, identity statements, reframing, sensory grounding. ROTATE the primary approach to keep codes feeling fresh.`;
       }
+
+      // Add realism enforcement
+      criticalInstructions += `\n\n🚨 REALISM CHECK (CRITICAL): Before generating, verify the "When" and "How" match:
+- If "When" says "during the game" or "on the court" → EVERY step in "How" must be INSTANTLY executable (1-5 seconds each, max 10 seconds total)
+- BANNED for in-game: "Say out loud" (telegraphs strategy), "power pose for X seconds" (can't stand still), "close eyes", "listen to music"
+- REQUIRED for in-game: "Say to yourself" (internal), "one breath" (quick), "touch your shoe" (instant), body language cues (instant)
+- If any step would: (1) take >5 seconds during game, (2) telegraph strategy to opponents, (3) look awkward to teammates, (4) require stopping play → REDESIGN THE CODE
+The user will IMMEDIATELY lose trust if steps are impossible to execute in the specified situation.`;
 
       messages.push({
         role: 'system',
