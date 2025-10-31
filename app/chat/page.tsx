@@ -52,6 +52,7 @@ export default function ChatPage() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [savedCheatCodes, setSavedCheatCodes] = useState<Set<string>>(new Set());
   const [savingCheatCode, setSavingCheatCode] = useState<string | null>(null);
+  const [cheatCodeIds, setCheatCodeIds] = useState<Map<string, string>>(new Map()); // messageId -> cheatCodeId mapping
   const [userName, setUserName] = useState<string>('');
   const [isFirstCodeChat, setIsFirstCodeChat] = useState(false);
   const [selectedCheatCode, setSelectedCheatCode] = useState<any>(null);
@@ -905,6 +906,9 @@ export default function ChatPage() {
         // Mark as saved
         setSavedCheatCodes(prev => new Set(prev).add(messageId));
 
+        // Store the cheat code ID for favorite toggling
+        setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
+
         // Log activity
         await logActivity(userId, 'cheat_code_saved', {
           cheat_code_id: cheatCodeId,
@@ -1692,16 +1696,10 @@ export default function ChatPage() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    // Find the cheat code ID from the saved codes
-                    const findCodeId = async () => {
-                      if (!userId) return;
-                      const { cheatCodes } = await getUserCheatCodes(userId);
-                      const code = cheatCodes?.find((c: any) => c.title === selectedCheatCode.title);
-                      if (code) {
-                        toggleFavoriteInChat(selectedCheatCode.title, code.id);
-                      }
-                    };
-                    findCodeId();
+                    const codeId = cheatCodeIds.get(selectedCheatCode.messageId);
+                    if (codeId) {
+                      toggleFavoriteInChat(selectedCheatCode.title, codeId);
+                    }
                   }}
                   className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
                   style={{ backgroundColor: favoritedCodes.get(selectedCheatCode.title) ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
