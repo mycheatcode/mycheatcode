@@ -58,6 +58,7 @@ export default function ChatPage() {
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [momentumGain, setMomentumGain] = useState<number>(0);
+  const [viewedCodes, setViewedCodes] = useState<Set<string>>(new Set());
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
@@ -1094,9 +1095,102 @@ export default function ChatPage() {
     setCurrentCard(0);
   };
 
-  const handleCloseCheatCodeModal = () => {
-    setSelectedCheatCode(null);
-    resetCards();
+  const handleCloseCheatCodeModal = async () => {
+    console.log('🚪 handleCloseCheatCodeModal called');
+
+    if (!selectedCheatCode) {
+      console.log('⚠️ No selectedCheatCode found');
+      return;
+    }
+
+    const codeTitle = selectedCheatCode.title;
+    const messageId = selectedCheatCode.messageId;
+
+    console.log('📋 Code details:', { codeTitle, messageId });
+
+    const codeKey = `${messageId}-${codeTitle}`;
+    const isFirstView = !viewedCodes.has(codeKey);
+
+    console.log('👁️ First view check:', {
+      codeKey,
+      isFirstView,
+      viewedCodes: Array.from(viewedCodes)
+    });
+
+    if (isFirstView) {
+      console.log('✅ First view confirmed - triggering follow-up');
+
+      // Mark as viewed
+      setViewedCodes(prev => new Set(prev).add(codeKey));
+
+      // Close the modal first
+      setSelectedCheatCode(null);
+      resetCards();
+
+      // Trigger follow-up after a delay
+      setTimeout(async () => {
+        console.log('⏰ Timeout fired - starting follow-up request');
+        setIsTyping(true);
+
+        try {
+          // Build conversation history with system message
+          const conversationMessages = messages.map(msg => ({
+            role: msg.sender === 'user' ? 'user' : 'assistant',
+            content: msg.text
+          }));
+
+          conversationMessages.push({
+            role: 'user',
+            content: `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
+          });
+
+          console.log('🌐 Calling API for follow-up...');
+          console.log('📤 Message count:', conversationMessages.length);
+
+          const response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              messages: conversationMessages,
+              userId: userId || undefined
+            })
+          });
+
+          console.log('📡 API response status:', response.status);
+
+          const data = await response.json();
+          console.log('📦 API response data:', data);
+
+          const coachResponse = data.reply || data.coach_response || '';
+          console.log('💬 Coach response length:', coachResponse.length);
+
+          const coachMsg: Message = {
+            id: uid(),
+            text: coachResponse,
+            sender: 'coach',
+            timestamp: new Date()
+          };
+
+          appendMessage(coachMsg);
+          console.log('✅ Follow-up message added to chat');
+
+          // Save to database
+          const updatedMessages = [...messages, coachMsg];
+          saveChatToDb(updatedMessages).catch(err => {
+            console.error('Error saving follow-up chat:', err);
+          });
+        } catch (error) {
+          console.error('❌ Failed to send follow-up:', error);
+        } finally {
+          setIsTyping(false);
+          console.log('🏁 Follow-up request complete');
+        }
+      }, 500);
+    } else {
+      console.log('⏭️ Code already viewed before - skipping follow-up');
+      setSelectedCheatCode(null);
+      resetCards();
+    }
   };
 
   return (
