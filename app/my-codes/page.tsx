@@ -355,7 +355,7 @@ export default function MyCodesPage() {
     }
   }, []);
 
-  const categories = ['All', 'Favorites', 'New', 'Most Used', 'Archived'];
+  const categories = ['All', 'New', 'Favorites', 'Most Used', 'Archived'];
 
   const getStreakIcon = (type: string) => {
     switch (type) {
@@ -862,10 +862,6 @@ export default function MyCodesPage() {
                 <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                   {code.title}
                 </h1>
-                <div className="h-px w-12 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                  {code.category}
-                </div>
               </div>
 
               {/* Bottom Stats Row */}
@@ -1074,10 +1070,6 @@ export default function MyCodesPage() {
                   <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                     {code.title}
                   </h1>
-                  <div className="h-px w-12 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                  <div className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                    {code.category}
-                  </div>
                 </div>
 
                 {/* Bottom Stats Row */}
