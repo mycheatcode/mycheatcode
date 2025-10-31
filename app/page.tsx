@@ -247,6 +247,7 @@ export default function Home() {
           <div className="relative">
             <input
               type="text"
+              name="message"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Share what's on your mind..."
