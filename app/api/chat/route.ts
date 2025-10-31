@@ -1188,23 +1188,21 @@ If someone read your last 2-3 codes, would they say "these feel like the same ba
 **Ask yourself: "Could this player execute ALL these steps in the time/situation I specified?"**
 
 **EXAMPLE - WRONG:**
-```
 When: During warmups before games
 How:
 • Close your eyes and visualize for 5 minutes
 • Do 20 power poses
 • Say affirmations out loud for 3 minutes
-```
+
 **WHY WRONG:** Warmups are short, public, and active. Players can't close eyes for 5 minutes.
 
 **EXAMPLE - RIGHT:**
-```
 When: During warmups before games, right after layup lines
 How:
 • While standing at half court, take 3 deep breaths
 • Say to yourself: "I'm ready for this"
 • Chest out, walk to your spot with confidence
-```
+
 **WHY RIGHT:** Takes 15 seconds, can be done between drills, not awkward/public.
 
 ### THE STRATEGIC SECRECY TEST:
