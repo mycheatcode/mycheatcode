@@ -1158,12 +1158,14 @@ export default function ChatPage() {
 
     console.log('📋 Code details:', { codeTitle, messageId });
 
-    const codeKey = `${messageId}-${codeTitle}`;
+    // Use chat ID + code title as key since message IDs change on refresh
+    const codeKey = `${currentChatId}-${codeTitle}`;
     const isFirstView = !viewedCodes.has(codeKey);
 
     console.log('👁️ First view check:', {
       codeKey,
       isFirstView,
+      currentChatId,
       viewedCodes: Array.from(viewedCodes)
     });
 
