@@ -826,14 +826,14 @@ export default function MyCodesPage() {
               }`}
               style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
             >
-              {/* Favorite Star - Top Left */}
+              {/* Favorite Star - Top Right (Mobile Priority) */}
               <button
                 onClick={(e) => toggleFavorite(code.id, e)}
-                className="absolute top-3 left-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
-                style={{ backgroundColor: code.isFavorite ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                style={{ backgroundColor: code.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
               >
                 {code.isFavorite ? (
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" strokeWidth="1.5">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                   </svg>
                 ) : (
@@ -843,9 +843,9 @@ export default function MyCodesPage() {
                 )}
               </button>
 
-              {/* Archive Badge */}
+              {/* Archive Badge - Moved to Top Left */}
               {code.archived && (
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 left-3">
                   <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
                     Archived
                   </div>
@@ -1038,14 +1038,14 @@ export default function MyCodesPage() {
                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
 
-                {/* Favorite Star - Top Left */}
+                {/* Favorite Star - Top Right */}
                 <button
                   onClick={(e) => toggleFavorite(code.id, e)}
-                  className="absolute top-3 left-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
-                  style={{ backgroundColor: code.isFavorite ? 'rgba(255, 215, 0, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                  className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                  style={{ backgroundColor: code.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
                 >
                   {code.isFavorite ? (
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#FFD700" stroke="#FFD700" strokeWidth="1.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
                   ) : (
@@ -1055,9 +1055,9 @@ export default function MyCodesPage() {
                   )}
                 </button>
 
-                {/* Archive Badge */}
+                {/* Archive Badge - Moved to Top Left */}
                 {code.archived && (
-                  <div className="absolute top-3 right-3">
+                  <div className="absolute top-3 left-3">
                     <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
                       Archived
                     </div>
@@ -1263,6 +1263,36 @@ export default function MyCodesPage() {
                                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
                               >
                                 Open Chat
+                              </button>
+
+                              {/* Favorite Toggle Button */}
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleFavorite(selectedCode.id);
+                                }}
+                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-2"
+                                style={{
+                                  backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.1)' : 'var(--card-bg)',
+                                  borderColor: selectedCode.isFavorite ? 'var(--accent-color)' : 'var(--card-border)',
+                                  color: selectedCode.isFavorite ? 'var(--accent-color)' : 'var(--text-primary)'
+                                }}
+                              >
+                                {selectedCode.isFavorite ? (
+                                  <>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                    </svg>
+                                    <span>Remove from Favorites</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                    </svg>
+                                    <span>Add to Favorites</span>
+                                  </>
+                                )}
                               </button>
 
                               <button
