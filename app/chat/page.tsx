@@ -1154,21 +1154,21 @@ export default function ChatPage() {
       viewedCodes: Array.from(viewedCodes)
     });
 
+    // Close the modal first
+    setSelectedCheatCode(null);
+    resetCards();
+
     if (isFirstView) {
       console.log('✅ First view confirmed - triggering follow-up');
 
-      // Mark as viewed and persist to localStorage
-      setViewedCodes(prev => {
-        const updated = new Set(prev).add(codeKey);
-        if (typeof window !== 'undefined') {
-          localStorage.setItem('viewedCheatCodes', JSON.stringify(Array.from(updated)));
-        }
-        return updated;
-      });
+      // Mark as viewed IMMEDIATELY and persist to localStorage
+      const updatedSet = new Set(viewedCodes).add(codeKey);
+      setViewedCodes(updatedSet);
 
-      // Close the modal first
-      setSelectedCheatCode(null);
-      resetCards();
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('viewedCheatCodes', JSON.stringify(Array.from(updatedSet)));
+        console.log('💾 Saved to localStorage:', Array.from(updatedSet));
+      }
 
       // Trigger follow-up after a delay
       setTimeout(async () => {
@@ -1231,8 +1231,6 @@ export default function ChatPage() {
       }, 500);
     } else {
       console.log('⏭️ Code already viewed before - skipping follow-up');
-      setSelectedCheatCode(null);
-      resetCards();
     }
   };
 
