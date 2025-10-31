@@ -408,6 +408,11 @@ export default function MyCodesPage() {
     setCheatCodes(codes => codes.map(c =>
       c.id === codeId ? { ...c, isFavorite: newFavoriteStatus } : c
     ));
+
+    // Also update selectedCode if it's the same code
+    setSelectedCode(prev =>
+      prev && prev.id === codeId ? { ...prev, isFavorite: newFavoriteStatus } : prev
+    );
   };
 
   const toggleArchiveStatus = async (codeId: string) => {
