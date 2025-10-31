@@ -2091,20 +2091,26 @@ CRITICAL INSTRUCTIONS:
 3. Keep it casual and brief - like you're checking in with a friend
 4. Reference something specific about the code or their situation to keep it personal
 5. DO NOT say things like "What did you think?" or "How does it look?" - be more specific and natural
+6. ALWAYS remind them they can ask questions or request changes - make it clear you're open to adjusting anything that doesn't fit
 
 GOOD EXAMPLES:
-- "So what do you think - does that ${codeNameViewed} routine feel like something you could actually run through before games?"
-- "How's that ${codeNameViewed} code looking? Feel like it fits what you need?"
-- "Does that ${codeNameViewed} approach make sense for your situation?"
-- "That ${codeNameViewed} code gonna work for you, or should we adjust something?"
+- "So what do you think - does that ${codeNameViewed} routine feel like something you could actually run through before games? If anything doesn't make sense or you want to change something, just let me know."
+- "How's that ${codeNameViewed} code looking? Feel like it fits what you need, or should we adjust something?"
+- "Does that ${codeNameViewed} approach make sense for your situation? If something feels off or you want me to tweak anything, just say the word."
+- "That ${codeNameViewed} code gonna work for you? If you want to change any part of it or have questions, we can dial it in."
 
-BAD EXAMPLES (too robotic):
+BAD EXAMPLES (too robotic or doesn't invite feedback):
 ❌ "What did you think of the code?"
 ❌ "How does it look?"
 ❌ "Did you like it?"
 ❌ "What are your thoughts?"
+❌ "So, does that work for you?" (doesn't explicitly invite changes)
 
-Keep it natural, specific, and conversational.`
+REQUIRED: Your follow-up MUST include both:
+- A specific question about how the code fits their situation
+- An explicit invitation to ask questions or request changes
+
+Keep it natural, specific, and conversational while making them feel comfortable requesting adjustments.`
       });
     }
 
