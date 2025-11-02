@@ -2409,6 +2409,8 @@ export async function POST(req: Request) {
     const messages: ChatMsg[] = [];
 
     // 1) Core identity
+    console.log('🔍 SYSTEM PROMPT VERSION: v3.1 with PRE-FLIGHT CHECKS');
+    console.log('🔍 System prompt starts with:', SYSTEM_PROMPT.substring(0, 100));
     messages.push({ role: 'system', content: SYSTEM_PROMPT });
 
     // 2) User personalization context from onboarding (if userId provided)
