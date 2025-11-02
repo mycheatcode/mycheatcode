@@ -2712,7 +2712,11 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
       console.log('✅ Has outro after phrase?', !raw.trim().endsWith('"'));
     }
 
-    return new Response(JSON.stringify({ reply }), {
+    return new Response(JSON.stringify({
+      reply,
+      _debug_prompt_version: 'v3.1',
+      _debug_prompt_start: SYSTEM_PROMPT.substring(0, 150)
+    }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
