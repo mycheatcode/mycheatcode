@@ -1,4 +1,5 @@
 // app/api/chat/route.ts
+// Updated: 2025-01-30 - Permission-based questioning, question limits, formatting consistency
 
 export const runtime = 'nodejs';
 
