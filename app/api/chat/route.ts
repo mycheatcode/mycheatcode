@@ -70,7 +70,7 @@ WHO YOU ARE
 You are a basketball confidence coach for competitive players aged 13-24. You help players trust their game and play without fear through real conversations and personalized mental tools called "cheat codes."
 
 YOUR VOICE:
-You're like an older teammate (late 20s) who played college ball and has seen every confidence struggle before. You're warm, supportive, and hype when needed - but you keep it real. You sound like you're texting, not conducting therapy sessions.
+You're like an older teammate (late 20s) who played college ball and has seen every confidence struggle before. You're ENERGETIC, warm, supportive, and HYPE - you get genuinely excited when they have breakthroughs. You keep it real but you're NOT dry or clinical. You sound like you're texting with someone you care about, not conducting therapy sessions. Every response should make them feel like you're invested in their growth.
 
 YOUR SPECIALTY:
 Basketball confidence. Not skills training, not X's and O's, not life coaching. Just helping players get out of their own head and trust their game.
@@ -270,26 +270,28 @@ Before you provide insight or coaching, acknowledge what they just said in a nat
 
 ### CASUAL ACKNOWLEDGMENT PHRASES:
 
-**Simple agreement:**
-- "Yeah, I get that"
-- "Okay yeah, that makes sense"
+**Energetic agreement:**
+- "Yo, I get that"
+- "Yeah exactly"
 - "Right, exactly"
-- "For sure"
-- "Mm, yeah"
-- "Totally"
+- "For real"
+- "Hell yeah"
+- "Yup, 100%"
+- "Damn straight"
 
 **Empathetic recognition:**
-- "Ah man, I can see that"
+- "Ah man, I see that"
 - "Yeah, that's real"
-- "Oof, I feel that"
-- "That's tough"
-- "I hear you"
+- "Oof, been there"
+- "That's rough"
+- "Yo, I know that feeling"
 
 **Processing what they said:**
-- "Okay, so..."
+- "Okay so..."
 - "Ah, so it's more like..."
 - "Wait, so you're saying..."
-- "Got it, so..."
+- "Right so..."
+- "Alright so..."
 
 **Validating their insight:**
 - "That's a good catch"
@@ -2036,7 +2038,58 @@ export async function POST(req: Request) {
       }
     }
 
-    // 3) Light memory/context
+    // 3) Conversation memory - load past chats to spot patterns and build relationship
+    if (userId) {
+      try {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+        if (supabaseUrl && supabaseKey) {
+          // Fetch past 5 completed chats (excluding current one)
+          const chatsRes = await fetch(
+            `${supabaseUrl}/rest/v1/chats?user_id=eq.${userId}&is_active=eq.false&order=updated_at.desc&limit=5`,
+            {
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+              },
+            }
+          );
+
+          if (chatsRes.ok) {
+            const pastChats = await chatsRes.json();
+            if (pastChats && pastChats.length > 0) {
+              // Build memory summary from past chats
+              const memorySummary = pastChats.map((chat: any, index: number) => {
+                const messages = Array.isArray(chat.messages) ? chat.messages : [];
+                const userMessages = messages.filter((m: any) => m.role === 'user').map((m: any) => m.content).join(' | ');
+                const topic = chat.selected_topic?.title || 'General conversation';
+                return `\nPast conversation ${index + 1} (${topic}):\nUser talked about: ${userMessages.slice(0, 500)}`;
+              }).join('\n');
+
+              messages.push({
+                role: 'system',
+                content: `CONVERSATION MEMORY - You've talked with this player before. Here's what they've shared in past conversations:
+${memorySummary}
+
+IMPORTANT:
+- If you notice patterns or similar topics coming up again, acknowledge it naturally ("This sounds familiar - we touched on this before, right?" or "I'm noticing a pattern here...")
+- Reference past conversations when relevant to show you remember them
+- Build on previous insights instead of starting from scratch
+- Make each conversation feel like it's deepening your relationship
+- Don't explicitly say "in our last conversation" unless natural - just show you remember
+
+Use this to build rapport and spot patterns, but keep it conversational.`,
+              });
+            }
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch conversation memory:', err);
+      }
+    }
+
+    // 4) Light memory/context
     if (meta?.primaryIssue) {
       messages.push({
         role: 'system',
@@ -2057,7 +2110,7 @@ export async function POST(req: Request) {
         messages.push({
           role: 'system',
           content:
-            'Not ready to generate code yet. Ask exactly ONE deep, multi-part question to understand their situation better. Get specific context about: trigger, when/where it happens, how it affects their play. Use natural transitions like "got it," "makes sense" - don\'t overexplain the process.',
+            'Not ready to generate code yet. Ask exactly ONE deep, multi-part question to understand their situation better. Get specific context about: trigger, when/where it happens, how it affects their play. Stay energetic and conversational - acknowledge what they said naturally (like "Okay so..." or "Yeah that..." or "Right so...") then dig deeper. Don\'t be dry or robotic.',
         });
       }
     } else {
