@@ -139,9 +139,8 @@ export default function ChatPage() {
         }
 
         if (savedCodes && savedCodes.length > 0) {
-          // For each saved code, find the corresponding message in the chat
-          // and mark it as saved
-          const savedTitles = new Set(savedCodes.map(code => code.title));
+          // Create a map of title -> code ID for quick lookup
+          const titleToIdMap = new Map(savedCodes.map(code => [code.title, code.id]));
 
           messages.forEach((message) => {
             if (isCheatCode(message.text)) {
@@ -149,8 +148,11 @@ export default function ChatPage() {
               const cheatCode = parseCheatCode(cheatCodeText);
 
               // If this cheat code's title matches a saved one, mark it as saved
-              if (savedTitles.has(cheatCode.title)) {
+              const codeId = titleToIdMap.get(cheatCode.title);
+              if (codeId) {
                 setSavedCheatCodes(prev => new Set(prev).add(message.id));
+                // Also store the code ID for favorite toggling
+                setCheatCodeIds(prev => new Map(prev).set(message.id, codeId));
               }
             }
           });
