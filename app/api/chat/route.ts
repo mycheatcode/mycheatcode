@@ -2666,6 +2666,23 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
       });
     }
 
+    // CRITICAL: Add final pre-response checks (last message before OpenAI call)
+    messages.push({
+      role: 'system',
+      content: `🚨 FINAL CHECK BEFORE YOU RESPOND 🚨
+
+Count your question marks. If you have 3 or more → REWRITE NOW.
+
+Ask yourself:
+1. Did I ask permission before diving into questions? NO → Add "Want me to help you with this?"
+2. Did I explain WHY I'm asking questions? NO → Add "If we dig into X, I can build you Y"
+3. Am I asking about impact they already described? YES → DELETE that question
+4. Did I say "let's dig deeper" with no context? YES → Explain the purpose
+5. Did I ask "what do you think would help?" YES → TELL them what would help instead
+
+If ANY check fails, REWRITE your response before sending.`
+    });
+
     // Call OpenAI (chat.completions)
     const openaiKey = process.env.OPENAI_API_KEY;
     if (!openaiKey) {
