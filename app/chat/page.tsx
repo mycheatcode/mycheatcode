@@ -74,6 +74,7 @@ export default function ChatPage() {
     return new Set();
   });
   const [favoritedCodes, setFavoritedCodes] = useState<Map<string, boolean>>(new Map());
+  const followUpInProgressRef = useRef<Set<string>>(new Set()); // Track codes with follow-up in progress
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
@@ -1162,13 +1163,32 @@ export default function ChatPage() {
 
     // Use chat ID + code title as key since message IDs change on refresh
     const codeKey = `${currentChatId}-${codeTitle}`;
-    const isFirstView = !viewedCodes.has(codeKey);
+
+    // Check BOTH state AND localStorage to prevent race conditions
+    let alreadyViewed = viewedCodes.has(codeKey);
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('viewedCheatCodes');
+      if (stored) {
+        try {
+          const storedSet = new Set(JSON.parse(stored));
+          if (storedSet.has(codeKey)) {
+            alreadyViewed = true;
+          }
+        } catch (e) {
+          console.error('Error checking localStorage:', e);
+        }
+      }
+    }
+
+    const isFirstView = !alreadyViewed;
 
     console.log('👁️ First view check:', {
       codeKey,
       isFirstView,
+      alreadyViewed,
       currentChatId,
-      viewedCodes: Array.from(viewedCodes)
+      viewedCodesState: Array.from(viewedCodes),
+      localStorageCheck: alreadyViewed
     });
 
     // Close the modal first
@@ -1178,7 +1198,16 @@ export default function ChatPage() {
     if (isFirstView) {
       console.log('✅ First view confirmed - triggering follow-up');
 
-      // Mark as viewed IMMEDIATELY and persist to localStorage
+      // Check if follow-up already in progress for this code
+      if (followUpInProgressRef.current.has(codeKey)) {
+        console.log('⚠️ Follow-up already in progress for this code, skipping');
+        return;
+      }
+
+      // Mark follow-up as in progress
+      followUpInProgressRef.current.add(codeKey);
+
+      // Mark as viewed IMMEDIATELY in BOTH state AND localStorage
       const updatedSet = new Set(viewedCodes).add(codeKey);
       setViewedCodes(updatedSet);
 
