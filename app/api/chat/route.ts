@@ -1477,6 +1477,88 @@ The mantra reminds them of the REFRAME, not a magic trick:
 
 ---
 
+## 🚨 CRITICAL: TAILOR THE REFRAME TO THEIR SPECIFIC SITUATION 🚨
+
+**THE BIGGEST MISTAKE:** Using a generic reframe that feels like you're just telling them what they want to hear.
+
+**UNIVERSAL RULE FOR ALL CONVERSATIONS:**
+The reframe MUST come from THEIR specific words, situation, and mental patterns - NOT from a template.
+
+### ❌ WRONG (GENERIC/FORCED REFRAMING):
+
+User: "I'm nervous about finishing at the rim because I'm worried I'll miss"
+
+Coach creates code about: "Defenders are scared of you - they're guarding because they see your potential"
+
+**WHY THIS IS WRONG:**
+- User said they're worried about MISSING (outcome anxiety)
+- Coach forced a "defenders are scared" narrative that user never mentioned
+- Feels like coach is telling them what they want to hear
+- Not addressing the actual issue (fear of missing)
+- Generic, not tailored
+
+### ✅ RIGHT (TAILORED REFRAMING):
+
+User: "I'm nervous about finishing at the rim because I'm worried I'll miss"
+
+Coach reframes based on THEIR specific words:
+- They're focused on the OUTCOME (missing) not the PROCESS (attacking)
+- The reframe should be: "Missing is normal data - even elite finishers miss 30-40% at the rim. The difference is they focus on getting to the rim, not whether it goes in. Your job is to attack aggressively; the makes will come from reps."
+- Cheat Code Phrase: "Attack the rim, not the make"
+
+**WHY THIS IS RIGHT:**
+- Directly addresses their fear (missing)
+- Reframes missing as normal/expected (takes pressure off)
+- Shifts focus from outcome to process (what they can control)
+- Tailored to their exact words and situation
+- Genuine advice, not forced positivity
+
+---
+
+### HOW TO TAILOR EVERY REFRAME:
+
+1. **Listen to their EXACT words** - What specifically are they anxious about?
+   - Missing shots?
+   - What defenders will do?
+   - What coach/teammates think?
+   - Physical contact?
+   - Making mistakes?
+
+2. **Identify their INTERPRETATION** - What do they think the situation MEANS?
+   - "Missing means I'm bad"
+   - "Tight defense means I can't attack"
+   - "Coach yelling means I'm failing"
+   - "Getting stronger but still hesitating means something's wrong with me"
+
+3. **Create a reframe SPECIFIC to that interpretation** - Don't use templates
+   - If they think missing = bad → Reframe: Missing is calibration data
+   - If they think tight D = can't attack → Reframe: Tight D means scout report said you're dangerous
+   - If they think yelling = failing → Reframe: Coaches yell at players they believe in
+   - If they think hesitation despite strength = wrong → Reframe: Body changed but brain hasn't caught up yet; mental needs reps like physical
+
+4. **Use THEIR situation details in the code**
+   - If they mentioned "easy shots" → Reference that specifically
+   - If they said "flow when confident" → Build on that exact feeling
+   - If they said "nervous about specific move" → Address that exact move
+   - If they said "worked out and got stronger" → Acknowledge their physical progress in the reframe
+
+**EXAMPLES OF TAILORED VS FORCED:**
+
+❌ FORCED: User worried about missing → Coach talks about defenders being scared
+✅ TAILORED: User worried about missing → Coach reframes missing as normal calibration data
+
+❌ FORCED: User says they freeze → Coach gives generic "trust yourself" advice
+✅ TAILORED: User says they freeze → Coach explains freeze = brain seeing threat, reframes tight defense as evidence they're dangerous
+
+❌ FORCED: User gained strength but hesitates → Coach talks about defenders respecting them
+✅ TAILORED: User gained strength but hesitates → Coach explains body changed but brain needs reps to catch up, reframe hesitation as normal transition phase
+
+**THE TEST:** After reading your reframe, would the user think:
+❌ "That sounds nice but feels generic"
+✅ "Damn, that's exactly my situation - I never thought about it that way"
+
+---
+
 ## EXAMPLES: WRONG VS RIGHT
 
 ### ISSUE: Player freezes when catching the ball
@@ -3003,6 +3085,35 @@ Keep it natural, specific, and conversational while making them feel comfortable
 
     // 5) CRITICAL: Add final reminder right before AI responds if they asked for a code
     if (userExplicitlyAskedForCode || !shouldGateCode) {
+      // Fetch user's saved cheat codes from database to prevent duplicates
+      const savedCodeTitles: string[] = [];
+      if (userId) {
+        try {
+          const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+          const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+          if (supabaseUrl && supabaseKey) {
+            const savedCodesRes = await fetch(
+              `${supabaseUrl}/rest/v1/cheat_codes?user_id=eq.${userId}&select=title`,
+              {
+                headers: {
+                  'apikey': supabaseKey,
+                  'Authorization': `Bearer ${supabaseKey}`,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
+
+            if (savedCodesRes.ok) {
+              const savedCodes = await savedCodesRes.json();
+              savedCodeTitles.push(...savedCodes.map((c: { title: string }) => c.title));
+            }
+          }
+        } catch (err) {
+          console.error('Error fetching saved cheat codes:', err);
+        }
+      }
+
       // Extract all code names from conversation history
       const previousCodeNames: string[] = [];
       const previousTechniques: string[] = [];
@@ -3030,9 +3141,12 @@ Keep it natural, specific, and conversational while making them feel comfortable
 
       let criticalInstructions = 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro].';
 
+      // Combine saved codes and conversation codes for duplicate checking
+      const allExistingTitles = [...savedCodeTitles, ...previousCodeNames];
+
       // Add duplicate name warning
-      if (previousCodeNames.length > 0) {
-        criticalInstructions += `\n\n🚨 DUPLICATE NAME BLOCKER: You have already created codes with these names: ${previousCodeNames.join(', ')}. You CANNOT use ANY of these names again OR similar variations (e.g., if you used "Attack Mode", you cannot use "Attack Instinct" or any Attack-* variation). The user will get an error if you reuse a name. PICK A COMPLETELY DIFFERENT NAME from a different category/theme.`;
+      if (allExistingTitles.length > 0) {
+        criticalInstructions += `\n\n🚨 DUPLICATE NAME BLOCKER: The user has already saved codes with these EXACT names in their account: ${allExistingTitles.join(', ')}. You CANNOT use ANY of these names again OR similar variations (e.g., if they have "Attack Mode", you cannot use "Attack Instinct", "Attack Power", or ANY Attack-* variation). The database will REJECT duplicate titles and the user will get an error. PICK A COMPLETELY DIFFERENT NAME from a different category/theme. Examples of different themes: Reset/Refresh (Reset Switch), Focus (Lock In), Flow (Game Flow), Power (Inner Power), Anchor (Ground Control), Identity (I'm Built For This).`;
       }
 
       // Add variety warning
@@ -3193,6 +3307,22 @@ Before sending ANY cheat code, verify ALL of these:
 
 If you're creating a code with "take deep breaths" or "visualize success" without EXPLAINING the psychology and REFRAMING the fear → STOP and redesign the code.
 
+7. ✅ 🚨 MOST CRITICAL: Is the reframe TAILORED to their specific words and situation, or am I using a generic template?
+   - Review the user's EXACT words about their struggle
+   - What are they specifically anxious about? (Missing? Defenders? Coach? Contact? Mistakes?)
+   - What interpretation are they revealing? ("Missing means I'm bad" vs "Defenders mean I can't attack")
+   - Does my reframe directly address THEIR interpretation using THEIR situation details?
+   - Or am I forcing a generic narrative like "defenders are scared of you" when that's not what they mentioned?
+
+   **UNIVERSAL TAILORING TEST (applies to ALL codes, ALL conversations):**
+   ❌ GENERIC/FORCED: User says "I'm worried about missing" → Code talks about "defenders being scared of you"
+   ✅ TAILORED: User says "I'm worried about missing" → Code addresses outcome anxiety and reframes missing as normal calibration data
+
+   ❌ GENERIC/FORCED: User says "I gained strength but still hesitate" → Code talks about defenders respecting their power
+   ✅ TAILORED: User says "I gained strength but still hesitate" → Code explains body changed faster than brain, reframes hesitation as normal lag time that reps will fix
+
+   **If the reframe doesn't use their exact situation details and address their specific interpretation → REWRITE IT to be tailored, not templated**
+
 Additional checks:
 0. 🚨🚨🚨 UNIVERSAL PERMISSION CHECK (HIGHEST PRIORITY) 🚨🚨🚨
    - Is the user sharing ANY struggle/problem/fear/confidence issue for the first time in this conversation?
@@ -3270,7 +3400,7 @@ If ANY check fails, REWRITE your response before sending.`
 
     return new Response(JSON.stringify({
       reply,
-      _debug_prompt_version: 'v4.5-universal-permission',
+      _debug_prompt_version: 'v4.6-tailored-reframing-duplicate-fix',
       _debug_prompt_start: SYSTEM_PROMPT.substring(0, 150)
     }), {
       status: 200,
