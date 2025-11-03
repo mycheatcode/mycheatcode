@@ -3416,7 +3416,7 @@ function sanitizeReply(text: string): string {
 
 /**
  * Auto-format long paragraphs into scannable chunks for teen attention spans
- * Breaks after: sentence endings, colons, section markers
+ * Breaks after key phrases and every 2-3 complete sentences
  * Preserves existing breaks and cheat code formatting
  */
 function formatForTeenAttention(text: string): string {
@@ -3425,42 +3425,42 @@ function formatForTeenAttention(text: string): string {
     return text;
   }
 
-  // Split into sentences (periods, question marks, exclamation points)
-  const sentences = text.split(/([.?!])\s+/);
+  // Split into complete sentences (include the punctuation with the sentence)
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
   let formatted = '';
-  let buffer = '';
   let sentenceCount = 0;
 
-  for (let i = 0; i < sentences.length; i++) {
-    const part = sentences[i];
+  for (let sentence of sentences) {
+    sentence = sentence.trim();
+    if (!sentence) continue;
 
-    // Skip empty parts
-    if (!part || part.trim() === '') continue;
+    // Add this sentence to output
+    formatted += sentence;
+    sentenceCount++;
 
-    buffer += part;
+    // Check if we should add a break after this sentence
+    const shouldBreak =
+      // After 2-3 sentences, add break
+      sentenceCount >= 2 ||
+      // After key section markers
+      sentence.toLowerCase().includes("here's what's happening") ||
+      sentence.toLowerCase().includes("but here's the reality") ||
+      sentence.toLowerCase().includes("that's the flip") ||
+      sentence.toLowerCase().includes("the reality is") ||
+      sentence.toLowerCase().includes("here's what you need") ||
+      // After questions
+      sentence.endsWith('?');
 
-    // Check if this is a sentence ending punctuation
-    if (/[.?!]/.test(part)) {
-      sentenceCount++;
-
-      // Add double line break after 2-3 sentences OR after colons/section markers
-      if (sentenceCount >= 2 || buffer.match(/:\s*$/) || buffer.includes('Here\'s what') || buffer.includes('The reality') || buffer.includes('That\'s the flip')) {
-        formatted += buffer.trim() + '\n\n';
-        buffer = '';
-        sentenceCount = 0;
-      } else {
-        formatted += buffer;
-        buffer = '';
-      }
+    if (shouldBreak) {
+      formatted += '\n\n';
+      sentenceCount = 0;
+    } else {
+      formatted += ' ';
     }
   }
 
-  // Add any remaining buffer
-  if (buffer.trim()) {
-    formatted += buffer.trim();
-  }
-
-  // Clean up triple+ newlines
+  // Clean up extra spaces and newlines
+  formatted = formatted.replace(/\s+\n/g, '\n');
   formatted = formatted.replace(/\n{3,}/g, '\n\n');
 
   return formatted.trim();
