@@ -3385,7 +3385,7 @@ If you DON'T reference relevant past conversations when they exist, the player w
         messages.push({
           role: 'system',
           content:
-            'Not ready to generate code yet. Ask exactly ONE deep, multi-part question to understand their situation better. Get specific context about: trigger, when/where it happens, how it affects their play. Stay energetic and conversational - acknowledge what they said naturally (like "Okay so..." or "Yeah that..." or "Right so...") then dig deeper. Don\'t be dry or robotic.',
+            'Not ready to generate code yet - BUT DON\'T INTERROGATE. If the user gave you specifics (their thought, when it happens, the outcome), TEACH THE REFRAME NOW in conversation. Explain what\'s happening, give them the reality/logic, show them the flip they need. Make it natural and energetic. If they were vague ("I just get nervous"), ask 1-2 clarifying questions to get their specific thought and situation. DO NOT ask them to repeat information they already gave you.',
         });
       }
     } else {
@@ -3828,7 +3828,7 @@ If ANY check fails, REWRITE your response before sending.`
 
     return new Response(JSON.stringify({
       reply,
-      _debug_prompt_version: 'v5.3-remove-all-old-interrogation-patterns',
+      _debug_prompt_version: 'v5.4-fix-gating-logic-interrogation',
       _debug_prompt_start: SYSTEM_PROMPT.substring(0, 150)
     }), {
       status: 200,
