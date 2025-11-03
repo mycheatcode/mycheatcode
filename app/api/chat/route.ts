@@ -94,11 +94,7 @@ Before sending ANY response, verify ALL of these:
 
 **CORRECT PATTERN WHEN USER SHARES DETAILED STRUGGLE:**
 1. React authentically (not "Oof, I get that" - respond to THEIR specific words naturally)
-2. IMMEDIATELY teach the reframe with **SHORT PARAGRAPHS (1-3 sentences) and DOUBLE LINE BREAKS (\\n\\n) between ideas**:
-   - "Here's what's happening:" [1-2 sentences + \\n\\n]
-   - "But here's the reality:" [1-2 sentences + \\n\\n]
-   - "That's the flip:" [1-2 sentences + \\n\\n]
-   - 🚨 **NO WALLS OF TEXT** - use actual double newlines (\\n\\n) to create blank lines
+2. IMMEDIATELY teach the reframe: "Here's what's happening... Here's the reality... Here's the flip..."
 3. OFFER 2-3 phrase options tailored to their situation: "The flip is: 'X' or 'Y' or 'Z' - which feels most like you?"
 4. User picks/modifies → Reinforce their choice: "Perfect. '[Their phrase]' - that's YOUR flip."
 5. ANCHOR to their real memory: "Think of [moment they mentioned] with '[their phrase]' - feel the difference?"
@@ -3414,58 +3410,6 @@ function sanitizeReply(text: string): string {
   return out;
 }
 
-/**
- * Auto-format long paragraphs into scannable chunks for teen attention spans
- * Breaks after key phrases and every 2-3 complete sentences
- * Preserves existing breaks and cheat code formatting
- */
-function formatForTeenAttention(text: string): string {
-  // Don't process if already has breaks or is a cheat code
-  if (text.includes('\n\n') || text.includes('**🏀')) {
-    return text;
-  }
-
-  // Split into complete sentences (include the punctuation with the sentence)
-  const sentences = text.match(/[^.!?]+[.!?]+/g) || [text];
-  let formatted = '';
-  let sentenceCount = 0;
-
-  for (let sentence of sentences) {
-    sentence = sentence.trim();
-    if (!sentence) continue;
-
-    // Add this sentence to output
-    formatted += sentence;
-    sentenceCount++;
-
-    // Check if we should add a break after this sentence
-    const shouldBreak =
-      // After 2-3 sentences, add break
-      sentenceCount >= 2 ||
-      // After key section markers
-      sentence.toLowerCase().includes("here's what's happening") ||
-      sentence.toLowerCase().includes("but here's the reality") ||
-      sentence.toLowerCase().includes("that's the flip") ||
-      sentence.toLowerCase().includes("the reality is") ||
-      sentence.toLowerCase().includes("here's what you need") ||
-      // After questions
-      sentence.endsWith('?');
-
-    if (shouldBreak) {
-      formatted += '\n\n';
-      sentenceCount = 0;
-    } else {
-      formatted += ' ';
-    }
-  }
-
-  // Clean up extra spaces and newlines
-  formatted = formatted.replace(/\s+\n/g, '\n');
-  formatted = formatted.replace(/\n{3,}/g, '\n\n');
-
-  return formatted.trim();
-}
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -3820,24 +3764,11 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
       role: 'system',
       content: `🚨 FINAL CHECK BEFORE YOU RESPOND 🚨
 
-🚨🚨🚨 FORMATTING REQUIREMENT: USE DOUBLE LINE BREAKS (PHYSICAL NEWLINES) 🚨🚨🚨
-Break EVERY teaching response into mini-paragraphs (1-3 sentences max).
-After EACH mini-paragraph, output TWO \\n characters (double newline).
-This creates ACTUAL blank lines for visual breathing room.
-NO WALLS OF TEXT - teens will abandon reading dense paragraphs.
-
-CORRECT EXAMPLE (with actual double newlines):
-"That's a powerful place to be.\\n\\nHere's what's happening:\\nYour body leveled up but your mind hasn't caught up.\\n\\nThe reality is:\\nHesitation comes from fear of mistakes."
-
 THE CORRECT FLOW FOR HANDLING USER STRUGGLES (CO-CREATION):
 
 **IF USER GIVES DETAILED STRUGGLE (negative thought + when + outcome):**
 1. React authentically (varied, not "Oof, I get that")
-2. TEACH the reframe immediately with SHORT PARAGRAPHS and BLANK LINES:
-   - Break "what's happening" into 1-2 sentences + blank line
-   - Break "the reality" into 1-2 sentences + blank line
-   - Break "the flip" into 1-2 sentences + blank line
-   - Use **bold** for key phrases
+2. TEACH the reframe immediately (what's happening + reality + direction of flip)
 3. OFFER 2-3 phrase options tailored to their situation: "The flip is: 'X' or 'Y' or 'Z' - which feels most like you?"
 4. Wait for their choice → Reinforce it: "Perfect. '[Their phrase]' - that's YOUR flip."
 5. ANCHOR to memory: "Think of [moment] with '[their phrase]' - feel difference?"
@@ -4158,10 +4089,7 @@ If ANY check fails, REWRITE your response before sending.`
     const data = await resp.json();
 
     const raw = data?.choices?.[0]?.message?.content ?? '';
-    let reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
-
-    // Auto-format for teen attention spans (break up walls of text)
-    reply = formatForTeenAttention(reply);
+    const reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
 
     // Debug logging to see what AI actually returned
     if (raw.includes('**🏀')) {
