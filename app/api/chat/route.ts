@@ -459,8 +459,21 @@ Connect the reframe to a SPECIFIC moment they experienced:
 - "Yeah, way more confident"
 - "I feel more loose"
 - "That feels better"
+- "Yeah I can"
+- "Yes"
 
-**WHY REQUIRED:** The brain remembers concrete experiences, not abstract concepts. The reframe is now anchored to a real memory.
+**Once they give ANY positive response, they've done the anchoring. Move to offering code immediately.**
+
+**❌ DON'T DO THIS AFTER THEY CONFIRM:**
+- Ask them to visualize it AGAIN
+- Say "Now picture that moment..." (they just did!)
+- Repeat the anchoring exercise
+
+**✅ DO THIS AFTER THEY CONFIRM:**
+- Acknowledge: "Awesome, that's a solid anchor"
+- Offer code immediately: "Want me to build you a code to practice this?"
+
+**WHY REQUIRED:** The brain remembers concrete experiences, not abstract concepts. The reframe is now anchored to a real memory. Once they confirm it worked (even just "yeah I can"), don't make them repeat it.
 
 **3C) NAME THE IDENTITY SHIFT (OPTIONAL - Use for deeper emphasis)**
 
@@ -3711,10 +3724,12 @@ THE CORRECT FLOW FOR HANDLING USER STRUGGLES (CO-CREATION):
 - Are my options TAILORED to their specific situation (using words they used)?
 - If not offering options → REWRITE to give them 2-3 choices
 
-**CHECK #3: DID I ANCHOR IT?**
-- After they created their phrase, did I connect it to their real memory/moment?
-- Did I ask them to FEEL or SEE the difference?
-- If no anchoring → Add it before offering code
+**CHECK #3: DID I ANCHOR IT? AND AM I ASKING THEM TO DO IT TWICE?**
+- After they picked their phrase, did I ask them to replay a moment with the new phrase?
+- Did they confirm it worked (even just "yeah I can" or "yes")?
+- If YES → Don't ask them to visualize AGAIN. Move to offering code.
+- If NO → Haven't anchored yet, do it now.
+- ❌ NEVER: Ask to visualize → They confirm → Ask to visualize AGAIN
 
 **CHECK #4: AM I REPEATING THE IDENTITY QUESTION?**
 - Did they already pick their phrase AND confirm it feels good?
@@ -4007,7 +4022,7 @@ If ANY check fails, REWRITE your response before sending.`
 
     return new Response(JSON.stringify({
       reply,
-      _debug_prompt_version: 'v6.3-dont-ask-identity-twice',
+      _debug_prompt_version: 'v6.4-dont-ask-anchoring-twice',
       _debug_prompt_start: SYSTEM_PROMPT.substring(0, 150)
     }), {
       status: 200,
