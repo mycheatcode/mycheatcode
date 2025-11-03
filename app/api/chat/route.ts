@@ -3647,7 +3647,29 @@ Keep it natural, specific, and conversational while making them feel comfortable
         }
       }
 
-      let criticalInstructions = 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro].';
+      // Check if a code was JUST created in the last 1-2 exchanges
+      let recentlyCreatedCode: string | null = null;
+      const recentMessages = clientMessages.slice(-4); // Check last 4 messages (2 exchanges)
+
+      for (const msg of recentMessages) {
+        if (msg.role === 'assistant' && msg.content.includes('**🏀')) {
+          const titleMatch = msg.content.match(/\*\*🏀\s*([^*]+?)\*\*/);
+          if (titleMatch) {
+            recentlyCreatedCode = titleMatch[1].trim();
+            console.log('[RECENT CODE DETECTED]:', recentlyCreatedCode);
+            break; // Get the most recent one
+          }
+        }
+      }
+
+      let criticalInstructions = '';
+
+      // If a code was just created, prevent regeneration
+      if (recentlyCreatedCode) {
+        criticalInstructions += `🚨🚨🚨 CONVERSATION CONTINUITY - CODE ALREADY EXISTS 🚨🚨🚨\n\nYou JUST created a code called "${recentlyCreatedCode}" in the last 1-2 messages. The user is now asking a follow-up question or expressing a concern about THAT code.\n\n**DO NOT:**\n- Treat this as a NEW code creation request\n- Say "Want me to build you a code?" (it already exists!)\n- Say "Alright, I made you a code called '${recentlyCreatedCode}'" (you already did!)\n- Regenerate the code from scratch\n\n**DO:**\n- Recognize this is a FOLLOW-UP conversation about the existing "${recentlyCreatedCode}" code\n- Address their question/concern directly\n- If they want changes, offer to "update" or "adjust" the code, not "create" a new one\n- Continue the conversation naturally, building off what was just discussed\n\n**EXAMPLE:**\nUser: "I think it feels pretty good.. what if I don't really have any times in mind where I've attacked good?"\nYou: "That's actually perfect - you don't NEED a memory of attacking great. The anchor works because you're connecting the phrase to ANY moment where you felt that hesitation. Even if you've never attacked 'perfectly,' you've definitely felt the difference between hesitating vs going for it. That contrast is enough. The code will help you build NEW confident attack memories going forward."\n\nThis is conversation continuity. Keep the context and build on it.\n\n---\n\n`;
+      }
+
+      criticalInstructions += 'CRITICAL INSTRUCTION FOR THIS RESPONSE: If you are generating a cheat code, you MUST include intro text BEFORE the code and outro text AFTER the code. The intro text MUST include: (1) the code name, (2) what it does in 1-2 sentences, (3) how it addresses their specific issue, (4) invitation to view. DO NOT say "Awesome! Here\'s what I\'ve built for you:" or "Here you go!" or similar - you must explain WHAT you built and WHY. Structure: [Intro with code name + explanation + connection to their issue] + [blank line] + [code starting with **🏀**] + [blank line] + [1 sentence outro].';
 
       // Combine saved codes and conversation codes for duplicate checking
       const allExistingTitles = [...savedCodeTitles, ...previousCodeNames];
