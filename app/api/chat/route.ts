@@ -1234,7 +1234,7 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 **SITUATION: Coach yells at player after a mistake**
 
 ### ❌ OLD BAD APPROACH (mental tricks):
-```
+
 **When:** Right after coach yells at you
 **How:**
 • Take 3 deep breaths (in through nose, out through mouth)
@@ -1242,7 +1242,6 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 • Visualize your last successful play
 • Shake it off and refocus
 **Cheat Code Phrase:** "I trust my game"
-```
 
 **WHY THIS FAILS:**
 - The coach's words still linger in their mind
@@ -1254,7 +1253,7 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 ---
 
 ### ✅ NEW RIGHT APPROACH (cognitive reframing):
-```
+
 **What:** A mental reframe that turns your coach's anger into proof they believe in you
 
 **When:** Right after your coach yells at you - before you touch the ball again
@@ -1269,7 +1268,6 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 **Why:** Your coach's yelling isn't proof you're screwing up - it's proof they think you're capable of more. Bad coaches ignore bad players. Good coaches push players they believe in. This reframe turns their anger from something that scares you into something that fires you up. You're not avoiding their words - you're understanding what they actually mean.
 
 **Cheat Code Phrase:** "They yell because they believe"
-```
 
 **WHY THIS WORKS:**
 - Explains the PSYCHOLOGY (coaches yell at players they believe in)
