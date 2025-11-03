@@ -3414,6 +3414,58 @@ function sanitizeReply(text: string): string {
   return out;
 }
 
+/**
+ * Auto-format long paragraphs into scannable chunks for teen attention spans
+ * Breaks after: sentence endings, colons, section markers
+ * Preserves existing breaks and cheat code formatting
+ */
+function formatForTeenAttention(text: string): string {
+  // Don't process if already has breaks or is a cheat code
+  if (text.includes('\n\n') || text.includes('**🏀')) {
+    return text;
+  }
+
+  // Split into sentences (periods, question marks, exclamation points)
+  const sentences = text.split(/([.?!])\s+/);
+  let formatted = '';
+  let buffer = '';
+  let sentenceCount = 0;
+
+  for (let i = 0; i < sentences.length; i++) {
+    const part = sentences[i];
+
+    // Skip empty parts
+    if (!part || part.trim() === '') continue;
+
+    buffer += part;
+
+    // Check if this is a sentence ending punctuation
+    if (/[.?!]/.test(part)) {
+      sentenceCount++;
+
+      // Add double line break after 2-3 sentences OR after colons/section markers
+      if (sentenceCount >= 2 || buffer.match(/:\s*$/) || buffer.includes('Here\'s what') || buffer.includes('The reality') || buffer.includes('That\'s the flip')) {
+        formatted += buffer.trim() + '\n\n';
+        buffer = '';
+        sentenceCount = 0;
+      } else {
+        formatted += buffer;
+        buffer = '';
+      }
+    }
+  }
+
+  // Add any remaining buffer
+  if (buffer.trim()) {
+    formatted += buffer.trim();
+  }
+
+  // Clean up triple+ newlines
+  formatted = formatted.replace(/\n{3,}/g, '\n\n');
+
+  return formatted.trim();
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -4106,7 +4158,10 @@ If ANY check fails, REWRITE your response before sending.`
     const data = await resp.json();
 
     const raw = data?.choices?.[0]?.message?.content ?? '';
-    const reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
+    let reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
+
+    // Auto-format for teen attention spans (break up walls of text)
+    reply = formatForTeenAttention(reply);
 
     // Debug logging to see what AI actually returned
     if (raw.includes('**🏀')) {
