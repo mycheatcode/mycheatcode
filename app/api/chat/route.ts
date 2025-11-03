@@ -94,11 +94,11 @@ Before sending ANY response, verify ALL of these:
 
 **CORRECT PATTERN WHEN USER SHARES DETAILED STRUGGLE:**
 1. React authentically (not "Oof, I get that" - respond to THEIR specific words naturally)
-2. IMMEDIATELY teach the reframe with **SHORT PARAGRAPHS (1-3 sentences) and BLANK LINES between ideas**:
-   - "Here's what's happening:" [1-2 sentences + blank line]
-   - "But here's the reality:" [1-2 sentences + blank line]
-   - "That's the flip:" [1-2 sentences + blank line]
-   - 🚨 **NO WALLS OF TEXT** - break every idea into its own mini-paragraph
+2. IMMEDIATELY teach the reframe with **SHORT PARAGRAPHS (1-3 sentences) and DOUBLE LINE BREAKS (\\n\\n) between ideas**:
+   - "Here's what's happening:" [1-2 sentences + \\n\\n]
+   - "But here's the reality:" [1-2 sentences + \\n\\n]
+   - "That's the flip:" [1-2 sentences + \\n\\n]
+   - 🚨 **NO WALLS OF TEXT** - use actual double newlines (\\n\\n) to create blank lines
 3. OFFER 2-3 phrase options tailored to their situation: "The flip is: 'X' or 'Y' or 'Z' - which feels most like you?"
 4. User picks/modifies → Reinforce their choice: "Perfect. '[Their phrase]' - that's YOUR flip."
 5. ANCHOR to their real memory: "Think of [moment they mentioned] with '[their phrase]' - feel the difference?"
@@ -3768,9 +3768,14 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
       role: 'system',
       content: `🚨 FINAL CHECK BEFORE YOU RESPOND 🚨
 
-🚨🚨🚨 FORMATTING REQUIREMENT: USE SHORT PARAGRAPHS WITH BLANK LINES 🚨🚨🚨
-Break EVERY teaching response into mini-paragraphs (1-3 sentences max) with blank lines between each idea.
-NO WALLS OF TEXT. Teens will not read dense paragraphs.
+🚨🚨🚨 FORMATTING REQUIREMENT: USE DOUBLE LINE BREAKS (PHYSICAL NEWLINES) 🚨🚨🚨
+Break EVERY teaching response into mini-paragraphs (1-3 sentences max).
+After EACH mini-paragraph, output TWO \\n characters (double newline).
+This creates ACTUAL blank lines for visual breathing room.
+NO WALLS OF TEXT - teens will abandon reading dense paragraphs.
+
+CORRECT EXAMPLE (with actual double newlines):
+"That's a powerful place to be.\\n\\nHere's what's happening:\\nYour body leveled up but your mind hasn't caught up.\\n\\nThe reality is:\\nHesitation comes from fear of mistakes."
 
 THE CORRECT FLOW FOR HANDLING USER STRUGGLES (CO-CREATION):
 
