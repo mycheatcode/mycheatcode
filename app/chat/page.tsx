@@ -1364,7 +1364,7 @@ export default function ChatPage() {
                               {intro && (
                                 <div className="flex justify-start mb-4">
                                   <div className="max-w-[85%]">
-                                    <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                    <div className="text-[15px] leading-[1.6]" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                                       {intro}
                                     </div>
                                   </div>
@@ -1394,7 +1394,7 @@ export default function ChatPage() {
                           <div className="max-w-[85%]">
                             {message.isHistoric ? (
                               // Historic messages: no typing animation
-                              <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                              <div className="text-[15px] leading-[1.6]" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                                 {message.text}
                               </div>
                             ) : (
@@ -1404,7 +1404,7 @@ export default function ChatPage() {
                                 text={message.text}
                                 speed={40}
                                 onTextChange={scrollToBottom}
-                                className="text-[15px] leading-[1.6] whitespace-pre-wrap"
+                                className="text-[15px] leading-[1.6]"
                                 style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                               />
                             )}
@@ -1604,7 +1604,7 @@ export default function ChatPage() {
                                 {intro && (
                                   <div className="flex justify-start mb-4">
                                     <div className="max-w-[80%]">
-                                      <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                      <div className="text-[15px] leading-[1.6]" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                                         {intro}
                                       </div>
                                     </div>
@@ -1634,7 +1634,7 @@ export default function ChatPage() {
                             <div className="max-w-[80%]">
                               {message.isHistoric ? (
                                 // Historic messages: no typing animation
-                                <div className="text-[15px] leading-[1.6] whitespace-pre-wrap" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
+                                <div className="text-[15px] leading-[1.6]" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                                   {message.text}
                                 </div>
                               ) : (
@@ -1644,7 +1644,7 @@ export default function ChatPage() {
                                   text={message.text}
                                   speed={40}
                                   onTextChange={scrollToBottom}
-                                  className="text-[15px] leading-[1.6] whitespace-pre-wrap"
+                                  className="text-[15px] leading-[1.6]"
                                   style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                                 />
                               )}
