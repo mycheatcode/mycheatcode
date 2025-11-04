@@ -648,6 +648,7 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
 
     // CRITICAL: Add final pre-response checks (last message before OpenAI call)
     messages.push({
+      role: 'system',
       content: `🚨 QUICK CHECK BEFORE YOU RESPOND 🚨
 
 1. **Did I wait for their response if I asked a question?**
