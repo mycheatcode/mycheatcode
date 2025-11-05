@@ -7,7 +7,7 @@ export interface ParsedCheatCode {
   category: string;
   description: string;
   cards: Array<{
-    type: 'what' | 'when' | 'how' | 'why' | 'phrase';
+    type: 'what' | 'when' | 'how' | 'why' | 'remember' | 'phrase';
     content: string;
     stepNumber?: number;
     totalSteps?: number;
@@ -57,10 +57,16 @@ function convertMarkdownToCardFormat(markdown: string): string {
     });
   }
 
-  // Extract Why section
-  const whyMatch = markdown.match(/\*\*Why:\*\*\s*([^\n]+(?:\n(?!\*\*)[^\n]+)*)/);
+  // Extract Why section (stop before Remember or Cheat Code Phrase)
+  const whyMatch = markdown.match(/\*\*Why:\*\*\s*([^\n]+(?:\n(?!\*\*(?:Remember|Cheat Code Phrase):)[^\n]+)*)/);
   if (whyMatch) {
     cardFormat += `CARD: Why\n${whyMatch[1].trim()}\n\n`;
+  }
+
+  // Extract Remember section (stop before Cheat Code Phrase)
+  const rememberMatch = markdown.match(/\*\*Remember:\*\*\s*([^\n]+(?:\n(?!\*\*Cheat Code Phrase:)[^\n]+)*)/);
+  if (rememberMatch) {
+    cardFormat += `CARD: Remember\n${rememberMatch[1].trim()}\n\n`;
   }
 
   // Extract Cheat Code Phrase
@@ -130,6 +136,8 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
             cards.push({ type: 'when', content: currentCard.content.trim() });
           } else if (cardType === 'why') {
             cards.push({ type: 'why', content: currentCard.content.trim() });
+          } else if (cardType === 'remember') {
+            cards.push({ type: 'remember', content: currentCard.content.trim() });
           } else if (cardType.includes('phrase')) {
             cards.push({ type: 'phrase', content: currentCard.content.trim() });
           }
@@ -167,6 +175,8 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
         cards.push({ type: 'when', content: currentCard.content.trim() });
       } else if (cardType === 'why') {
         cards.push({ type: 'why', content: currentCard.content.trim() });
+      } else if (cardType === 'remember') {
+        cards.push({ type: 'remember', content: currentCard.content.trim() });
       } else if (cardType.includes('phrase')) {
         cards.push({ type: 'phrase', content: currentCard.content.trim() });
       }
@@ -340,6 +350,22 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
               <div className="space-y-6 lg:space-y-8 max-w-lg">
                 <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                   Why
+                </div>
+                <div className="space-y-4 lg:space-y-6">
+                  {card.content.split('\n\n').map((paragraph, i) => (
+                    <p key={i} className="text-base lg:text-lg font-medium leading-[1.6]" style={{ color: 'var(--text-primary)' }}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Remember Card */}
+            {card.type === 'remember' && (
+              <div className="space-y-6 lg:space-y-8 max-w-lg">
+                <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                  Remember
                 </div>
                 <div className="space-y-4 lg:space-y-6">
                   {card.content.split('\n\n').map((paragraph, i) => (
