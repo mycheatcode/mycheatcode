@@ -199,6 +199,7 @@ Return ONLY a JSON object with a "scenarios" key containing the array of scenari
       situation: string;
       current_thought: string;
       options: GameOption[];
+      scenario_type: 'internal' | 'external';
     }>;
 
     try {
