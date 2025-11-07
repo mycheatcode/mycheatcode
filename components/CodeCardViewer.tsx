@@ -47,14 +47,40 @@ function convertMarkdownToCardFormat(markdown: string): string {
   const howMatch = markdown.match(/\*\*How:\*\*\s*\n([\s\S]+?)(?=\n\*\*Why:|$)/);
   if (howMatch) {
     const howContent = howMatch[1].trim();
-    // Split by bullet points (• character)
-    const steps = howContent.split(/\n?•\s*/).filter(step => step.trim());
+    console.log('🔍 RAW HOW CONTENT:', howContent);
+    console.log('🔍 HOW CONTENT LENGTH:', howContent.length);
+    console.log('🔍 HOW CONTENT REPR:', JSON.stringify(howContent));
 
-    console.log(`📊 Found ${steps.length} HOW steps`);
+    // Split by bullet points - support •, *, or -
+    // This regex splits on bullets that either:
+    // 1. Start at the beginning of the string (^)
+    // 2. Come after a newline (\n)
+    // This ensures we catch ALL bullets including the first one
+    let steps = howContent.split(/(?:^|\n)\s*[•\*\-]\s*/);
 
-    steps.forEach((step, index) => {
-      cardFormat += `CARD: How - Step ${index + 1}\n${step.trim()}\n\n`;
-    });
+    // Filter out empty strings from the split
+    steps = steps.filter(step => step.trim()).map(step => step.trim());
+
+    console.log(`📊 AFTER SPLIT: Found ${steps.length} HOW steps`);
+    console.log('📊 Steps detail:', JSON.stringify(steps, null, 2));
+
+    // Additional fallback: if we only got 1 step but the content has multiple bullets,
+    // try splitting by the bullet character directly (handles case where bullets might be on same line)
+    if (steps.length === 1 && (howContent.match(/[•\*\-]/g) || []).length > 1) {
+      console.log('⚠️ FALLBACK: Only 1 step found but multiple bullets detected, trying alternative split');
+      // Try splitting by bullet character with optional surrounding whitespace
+      steps = howContent.split(/\s*[•\*\-]\s*/);
+      steps = steps.filter(step => step.trim()).map(step => step.trim());
+      console.log(`📊 FALLBACK RESULT: Found ${steps.length} HOW steps:`, steps);
+    }
+
+    // Only create multiple cards if we actually have multiple steps
+    if (steps.length > 0) {
+      steps.forEach((step, index) => {
+        console.log(`✅ Creating HOW card ${index + 1}/${steps.length}: ${step.substring(0, 50)}...`);
+        cardFormat += `CARD: How - Step ${index + 1}\n${step}\n\n`;
+      });
+    }
   }
 
   // Extract Why section (stop before Remember or Cheat Code Phrase)
@@ -287,14 +313,13 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
                 <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                   {card.title}
                 </h1>
-                <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                  {card.category}
-                </div>
                 {card.description && (
-                  <p className="text-sm lg:text-base leading-relaxed max-w-md" style={{ color: 'var(--text-secondary)' }}>
-                    {card.description}
-                  </p>
+                  <>
+                    <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                    <p className="text-sm lg:text-base leading-relaxed max-w-md" style={{ color: 'var(--text-secondary)' }}>
+                      {card.description}
+                    </p>
+                  </>
                 )}
               </div>
             )}
@@ -325,7 +350,7 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
 
             {/* How Card (Step) */}
             {card.type === 'how' && (
-              <div className="space-y-6 lg:space-y-8 max-w-lg">
+              <div className="space-y-6 lg:space-y-8 w-full max-w-lg">
                 <div className="space-y-2 lg:space-y-3">
                   <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                     How
@@ -334,11 +359,11 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
                     Step {card.stepNumber} of {card.totalSteps}
                   </div>
                 </div>
-                <div className="flex items-center gap-4 lg:gap-6">
+                <div className="flex items-start gap-4 lg:gap-6">
                   <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                     <span className="font-bold text-lg lg:text-xl" style={{ color: 'var(--text-primary)' }}>{card.stepNumber}</span>
                   </div>
-                  <p className="text-lg lg:text-xl font-medium leading-[1.5] text-left flex-1" style={{ color: 'var(--text-primary)' }}>
+                  <p className="text-lg lg:text-xl font-medium leading-[1.5] text-left flex-1 break-words overflow-wrap-anywhere" style={{ color: 'var(--text-primary)' }}>
                     {card.content}
                   </p>
                 </div>

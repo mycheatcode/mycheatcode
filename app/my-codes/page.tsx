@@ -25,6 +25,8 @@ import { getUserCheatCodes, logCheatCodeUsage, checkTodayUsage, getUsageStats, a
 import { awardCodeCompletionMomentum } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import FeedbackButton from '@/components/FeedbackButton';
+import CheatCodeGame from '@/components/CheatCodeGame';
+import type { GameSessionResult } from '@/lib/types/game';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -47,6 +49,7 @@ interface CheatCode {
   timesUsed?: number;
   lastUsedDaysAgo?: number | null;
   isFavorite?: boolean;
+  created_at?: string; // Timestamp from database for accurate sorting
 }
 
 export default function MyCodesPage() {
@@ -62,6 +65,9 @@ export default function MyCodesPage() {
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
   const [usedToday, setUsedToday] = useState(false);
   const [isLoggingUsage, setIsLoggingUsage] = useState(false);
+  const [showGameModal, setShowGameModal] = useState(false);
+  const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
+  const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
   const router = useRouter();
   const supabase = createClient();
   const { addUsageLog, getCheatCodePower, getSectionCheatCodes } = useCheatCodePower();
@@ -129,7 +135,8 @@ export default function MyCodesPage() {
           archived: code.is_active === false,
           timesUsed: code.times_used || 0,
           lastUsedDaysAgo: code.last_used_at ? diffDays : null,
-          isFavorite: code.is_favorite || false
+          isFavorite: code.is_favorite || false,
+          created_at: code.created_at // Store timestamp for accurate sorting
         };
       });
 
@@ -488,7 +495,12 @@ export default function MyCodesPage() {
       // Most recently created codes (top 10)
       filtered = [...cheatCodes]
         .filter(code => !code.archived)
-        .sort((a, b) => b.displayId - a.displayId) // Newer codes have higher displayId
+        .sort((a, b) => {
+          // Sort by actual creation timestamp, most recent first
+          const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+          const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+          return timeB - timeA;
+        })
         .slice(0, 10);
     } else if (activeCategory === 'Most Used') {
       filtered = [...cheatCodes]
@@ -597,6 +609,18 @@ export default function MyCodesPage() {
 
     // Navigate to chat page
     router.push('/chat');
+  };
+
+  const handleStartGame = (cheatCodeId: string, title: string) => {
+    setGameCheatCodeId(cheatCodeId);
+    setGameCheatCodeTitle(title);
+    setShowGameModal(true);
+  };
+
+  const handleCloseGameModal = () => {
+    setShowGameModal(false);
+    setGameCheatCodeId(null);
+    setGameCheatCodeTitle('');
   };
 
   // Parse summary into card data
@@ -1189,10 +1213,6 @@ export default function MyCodesPage() {
                             <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {(card as any).title}
                             </h1>
-                            <div className="h-px w-16 lg:w-20 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                            <div className="text-xs lg:text-sm font-semibold uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-                              {(card as any).category}
-                            </div>
                           </div>
                         )}
 
@@ -1266,13 +1286,12 @@ export default function MyCodesPage() {
                               ) : (
                                 <button
                                   onClick={() => {
-                                    handleUseCheatCode(selectedCode);
+                                    handleStartGame(selectedCode.id, selectedCode.title);
                                   }}
-                                  disabled={isLoggingUsage}
-                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
                                   style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                                 >
-                                  {isLoggingUsage ? 'Logging...' : "Mark Complete"}
+                                  Practice
                                 </button>
                               )}
 
@@ -1387,6 +1406,28 @@ export default function MyCodesPage() {
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      {/* Game Modal */}
+      {showGameModal && gameCheatCodeId && (
+        <CheatCodeGame
+          cheatCodeId={gameCheatCodeId}
+          cheatCodeTitle={gameCheatCodeTitle}
+          onComplete={(result: GameSessionResult) => {
+            console.log('Game completed:', result);
+            // Don't close modal here - let user see results screen first
+            // Results screen has "Done" button that calls onClose
+            if (result.momentum_awarded > 0) {
+              showMomentumProgress({
+                previousMomentum: result.previous_momentum,
+                newMomentum: result.new_momentum,
+                source: 'completion',
+                chatCount: 0
+              });
+            }
+          }}
+          onClose={handleCloseGameModal}
+        />
+      )}
 
       <style jsx global>{`
         @keyframes fade-in-scale {
