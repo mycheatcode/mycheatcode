@@ -1392,7 +1392,15 @@ export default function ChatPage() {
             pendingCoachReply.current = true;
 
             try {
-              const payload = buildChatPayload(messages, systemContext);
+              // Create a hidden system message for the game result context
+              const systemMsg: Message = {
+                id: uid(),
+                text: systemContext,
+                sender: 'user', // Sent as 'user' so it's included in conversation context
+                timestamp: new Date(),
+              };
+
+              const payload = buildChatPayload([...messages, systemMsg]);
               const res = await fetch('/api/chat', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
