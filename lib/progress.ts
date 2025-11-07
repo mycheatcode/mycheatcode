@@ -140,7 +140,7 @@ async function getDailyGain(userId: string): Promise<number> {
 async function recordMomentumGain(
   userId: string,
   gainAmount: number,
-  source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion',
+  source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion' | 'game' | 'first_game',
   metadata?: any
 ) {
   const supabase = createClient();
@@ -513,6 +513,58 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
   gainAmount += CODE_COMPLETION_GAIN;
   await recordMomentumGain(userId, CODE_COMPLETION_GAIN, 'completion', { code_id: codeId });
 
+
+  return gainAmount;
+}
+
+/**
+ * Award momentum for completing a game
+ * Score-based: 3/3 = +5%, 2/3 = +3%, 1/3 = +1%, 0/3 = 0%
+ * First play bonus: +5% additional if played immediately after code creation
+ */
+export async function awardGameCompletionMomentum(
+  userId: string,
+  codeId: string,
+  score: number,
+  isFirstPlay: boolean
+): Promise<number> {
+  // Get current progress
+  const currentProgress = await getUserProgress(userId);
+
+  // Check daily cap
+  if (currentProgress.dailyCapReached) {
+    return 0;
+  }
+
+  let gainAmount = 0;
+
+  // Score-based momentum
+  if (score === 3) {
+    gainAmount += 5; // Perfect score
+  } else if (score === 2) {
+    gainAmount += 3; // Good score
+  } else if (score === 1) {
+    gainAmount += 1; // Okay score
+  }
+  // score === 0 gets nothing
+
+  // Award score-based gain
+  if (gainAmount > 0) {
+    await recordMomentumGain(userId, gainAmount, 'game', {
+      code_id: codeId,
+      score,
+      is_first_play: isFirstPlay,
+    });
+  }
+
+  // First play bonus (if played right after code creation)
+  if (isFirstPlay) {
+    const bonusGain = 5;
+    gainAmount += bonusGain;
+    await recordMomentumGain(userId, bonusGain, 'first_game', {
+      code_id: codeId,
+    });
+  }
 
   return gainAmount;
 }
