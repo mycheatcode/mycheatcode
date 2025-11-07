@@ -82,6 +82,7 @@ export default function ChatPage() {
     return new Set();
   });
   const [favoritedCodes, setFavoritedCodes] = useState<Map<string, boolean>>(new Map());
+  const [completedTyping, setCompletedTyping] = useState<Set<string>>(new Set());
   const followUpInProgressRef = useRef<Set<string>>(new Set()); // Track codes with follow-up in progress
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
@@ -1573,6 +1574,7 @@ export default function ChatPage() {
                                   text={message.text}
                                   speed={40}
                                   onTextChange={scrollToBottom}
+                                  onComplete={() => setCompletedTyping(prev => new Set(prev).add(message.id))}
                                   className="text-[15px] leading-[1.6]"
                                   style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                                 />
@@ -1583,8 +1585,8 @@ export default function ChatPage() {
                             </div>
                           </div>
 
-                          {/* Get Reps In Button - shown in follow-up messages */}
-                          {message.gameButtonCodeId && (
+                          {/* Get Reps In Button - shown after typing completes */}
+                          {message.gameButtonCodeId && (message.isHistoric || completedTyping.has(message.id)) && (
                             <div className="flex justify-center w-full px-2 mt-4">
                               <button
                                 onClick={() => {
@@ -1836,6 +1838,7 @@ export default function ChatPage() {
                                     text={message.text}
                                     speed={40}
                                     onTextChange={scrollToBottom}
+                                    onComplete={() => setCompletedTyping(prev => new Set(prev).add(message.id))}
                                     className="text-[15px] leading-[1.6]"
                                     style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                                   />
@@ -1846,8 +1849,8 @@ export default function ChatPage() {
                               </div>
                             </div>
 
-                            {/* Get Reps In Button - shown in follow-up messages */}
-                            {message.gameButtonCodeId && (
+                            {/* Get Reps In Button - shown after typing completes */}
+                            {message.gameButtonCodeId && (message.isHistoric || completedTyping.has(message.id)) && (
                               <div className="w-full mt-4">
                                 <button
                                   onClick={() => {

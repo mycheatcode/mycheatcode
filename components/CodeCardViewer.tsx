@@ -89,6 +89,19 @@ function convertMarkdownToCardFormat(markdown: string): string {
       console.log(`📊 FALLBACK 3 RESULT: Found ${steps.length} HOW steps`);
     }
 
+    // FALLBACK 4: If we detect numbered list pattern but still only 1 step, split by numbers anywhere in text
+    if (steps.length === 1 && howContent.match(/\d+\./g) && (howContent.match(/\d+\./g) || []).length > 1) {
+      console.log('⚠️ FALLBACK 4: Detected multiple numbers, splitting by number pattern anywhere');
+      // Split by number pattern even if not at line start (handles "1. text 2. text 3. text" on same line)
+      steps = howContent.split(/\s+\d+\.\s+/);
+      // Also handle if first item doesn't have leading space
+      if (steps[0] && /^\d+\.\s+/.test(howContent)) {
+        steps[0] = steps[0].replace(/^\d+\.\s+/, '');
+      }
+      steps = steps.filter(step => step.trim()).map(step => step.trim());
+      console.log(`📊 FALLBACK 4 RESULT: Found ${steps.length} HOW steps`);
+    }
+
     // Only create multiple cards if we actually have multiple steps
     if (steps.length > 0) {
       steps.forEach((step, index) => {
