@@ -25,6 +25,14 @@ export default function TypingAnimation({
   const [isComplete, setIsComplete] = useState(false);
   const currentIndex = useRef(0);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const onCompleteRef = useRef(onComplete);
+  const onTextChangeRef = useRef(onTextChange);
+
+  // Keep refs updated
+  useEffect(() => {
+    onCompleteRef.current = onComplete;
+    onTextChangeRef.current = onTextChange;
+  });
 
   useEffect(() => {
 
@@ -47,7 +55,7 @@ export default function TypingAnimation({
 
           setDisplayedText(prev => {
             const newText = prev + char;
-            onTextChange?.(); // Notify parent that text changed
+            onTextChangeRef.current?.(); // Notify parent that text changed
             return newText;
           });
 
@@ -57,7 +65,7 @@ export default function TypingAnimation({
             clearInterval(intervalRef.current);
           }
           setIsComplete(true);
-          onComplete?.();
+          onCompleteRef.current?.();
         }
       }, speed);
     }, delay);
@@ -68,7 +76,7 @@ export default function TypingAnimation({
         clearInterval(intervalRef.current);
       }
     };
-  }, [text, speed, delay, onComplete]);
+  }, [text, speed, delay]);
 
   return (
     <span className={className} style={style}>
