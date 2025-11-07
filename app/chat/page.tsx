@@ -1552,7 +1552,7 @@ export default function ChatPage() {
                           </div>
 
                           {/* Get Reps In Button - shown in follow-up messages */}
-                          {message.gameButtonCodeId && message.isHistoric && (
+                          {message.gameButtonCodeId && (
                             <div className="flex justify-center w-full px-2 mt-4">
                               <button
                                 onClick={() => {
@@ -1567,7 +1567,7 @@ export default function ChatPage() {
                                   boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
                                 }}
                               >
-                                Get Reps In
+                                🏀 Get Reps In
                               </button>
                             </div>
                           )}
@@ -1815,7 +1815,7 @@ export default function ChatPage() {
                             </div>
 
                             {/* Get Reps In Button - shown in follow-up messages */}
-                            {message.gameButtonCodeId && message.isHistoric && (
+                            {message.gameButtonCodeId && (
                               <div className="w-full mt-4">
                                 <button
                                   onClick={() => {
@@ -1830,7 +1830,7 @@ export default function ChatPage() {
                                     boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
                                   }}
                                 >
-                                  Get Reps In
+                                  🏀 Get Reps In
                                 </button>
                               </div>
                             )}
