@@ -333,10 +333,19 @@ CHEAT CODE FORMAT (NON-NEGOTIABLE - REQUIRED FOR FRONTEND)
 **What:** [What this addresses - 1-2 sentences]
 **When:** [Specific trigger/moment when to use - be specific to THEIR situation]
 **How:**
-• [Step 1 - concrete action - if involves repeating phrase, specify "in your mind" NOT out loud]
-• [Step 2 - concrete action]
-• [Step 3 - concrete action]
-🚨 CRITICAL: Each bullet point MUST be on its OWN LINE. Press ENTER after each bullet. DO NOT put multiple bullets on the same line.
+1. [Step 1 - concrete action - if involves repeating phrase, specify "in your mind" NOT out loud]
+2. [Step 2 - concrete action]
+3. [Step 3 - concrete action]
+🚨 CRITICAL FORMAT REQUIREMENTS - NO EXCEPTIONS:
+- Use NUMBERED format (1. 2. 3.) NOT bullet points
+- Each numbered item MUST be on a SEPARATE LINE
+- Press ENTER after EACH numbered step
+- NEVER put multiple steps on the same line
+- Example of CORRECT format:
+  **How:**
+  1. First step here
+  2. Second step here
+  3. Third step here
 **Why:** [Psychology explanation - why this works for THEIR specific issue]
 **Remember:** [Key insight/fact/analogy that cements WHY this matters - e.g., "NBA players miss 30-40% of drives" or "Your brain changed slower than your body - reps will catch it up" or the core psychological reframe they need to internalize]
 **Cheat Code Phrase:** "[THEIR EXACT PHRASE IN QUOTES]"

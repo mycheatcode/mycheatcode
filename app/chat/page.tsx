@@ -1246,18 +1246,20 @@ export default function ChatPage() {
 
               // Generate game scenarios immediately after saving
               console.log('🎮 Generating practice game scenarios...');
-              fetch('/api/game/generate-scenarios', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  cheat_code_id: cheatCodeId,
-                  cheat_code_data: cheatCodeData,
-                  initial: true // Generate 3 scenarios initially
-                })
-              }).then(res => res.json()).then(data => {
-                if (data.success) {
-                  console.log(`✅ Generated ${data.scenarios_count} initial scenarios`);
-                  // Generate remaining scenarios in background
+              try {
+                const scenarioResponse = await fetch('/api/game/generate-scenarios', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    cheat_code_id: cheatCodeId,
+                    cheat_code_data: cheatCodeData,
+                    initial: true // Generate 3 scenarios initially
+                  })
+                });
+                const scenarioData = await scenarioResponse.json();
+                if (scenarioData.success) {
+                  console.log(`✅ Generated ${scenarioData.scenarios_count} initial scenarios`);
+                  // Generate remaining scenarios in background (don't await)
                   fetch('/api/game/generate-scenarios', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1268,9 +1270,11 @@ export default function ChatPage() {
                     })
                   }).catch(err => console.error('Error generating additional scenarios:', err));
                 } else {
-                  console.error('Failed to generate scenarios:', data.error);
+                  console.error('Failed to generate scenarios:', scenarioData.error);
                 }
-              }).catch(err => console.error('Error generating scenarios:', err));
+              } catch (err) {
+                console.error('Error generating scenarios:', err);
+              }
             }
           }
         } catch (err) {
