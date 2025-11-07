@@ -11,8 +11,6 @@ import MomentumProgressToast, { useMomentumProgressToast } from '@/components/Mo
 import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
-import CheatCodeGame from '@/components/CheatCodeGame';
-import type { GameSessionResult } from '@/lib/types/game';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -27,8 +25,6 @@ interface Message {
   sender: Sender;
   timestamp: Date;
   isHistoric?: boolean; // Skip typing animation for restored messages
-  gameButtonCodeId?: string; // If set, show "Get Reps In" button for this cheat code
-  gameButtonCodeTitle?: string; // Title of the code for the game button
 }
 
 /** tiny helper for unique ids */
@@ -63,10 +59,6 @@ export default function ChatPage() {
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [momentumGain, setMomentumGain] = useState<number>(0);
-  const [showGameModal, setShowGameModal] = useState(false);
-  const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
-  const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
-  const [isFirstGamePlay, setIsFirstGamePlay] = useState(false);
   const [viewedCodes, setViewedCodes] = useState<Set<string>>(() => {
     // Load viewed codes from localStorage on init
     if (typeof window !== 'undefined') {
@@ -83,8 +75,6 @@ export default function ChatPage() {
   });
   const [favoritedCodes, setFavoritedCodes] = useState<Map<string, boolean>>(new Map());
   const followUpInProgressRef = useRef<Set<string>>(new Set()); // Track codes with follow-up in progress
-  const completedTypingAnimationsRef = useRef<Set<string>>(new Set()); // Track message IDs where typing animation is done
-  const [, forceUpdate] = useState({}); // For forcing re-render when animation completes
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
@@ -559,8 +549,6 @@ export default function ChatPage() {
                 sender: senderValue,
                 timestamp: new Date(m.timestamp),
                 isHistoric: true, // Mark as historic to skip typing animation
-                ...(m.gameButtonCodeId && { gameButtonCodeId: m.gameButtonCodeId }),
-                ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
               messageIds.current.add(msg.id);
               return msg;
@@ -615,8 +603,6 @@ export default function ChatPage() {
                 sender: senderValue,
                 timestamp: new Date(m.timestamp),
                 isHistoric: true,
-                ...(m.gameButtonCodeId && { gameButtonCodeId: m.gameButtonCodeId }),
-                ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
             });
 
@@ -845,8 +831,6 @@ export default function ChatPage() {
       role: m.sender === 'user' ? 'user' : 'assistant',
       content: m.text,
       timestamp: m.timestamp.toISOString(),
-      ...(m.gameButtonCodeId && { gameButtonCodeId: m.gameButtonCodeId }),
-      ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
     }));
 
     const { chatId, error } = await saveChat(userId, dbMessages, currentChatId || undefined, selectedTopic);
@@ -927,31 +911,6 @@ export default function ChatPage() {
 
         // Store the cheat code ID for favorite toggling
         setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
-
-        // Generate game scenarios progressively (3 initial, then 7 more)
-        // First generate 3 scenarios for fast loading
-        fetch('/api/game/generate-scenarios', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            cheat_code_id: cheatCodeId,
-            cheat_code_data: cheatCodeData,
-            initial: true, // Request initial 3 scenarios
-          }),
-        })
-          .then(() => {
-            // Then generate remaining 7 scenarios in background
-            fetch('/api/game/generate-scenarios', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                cheat_code_id: cheatCodeId,
-                cheat_code_data: cheatCodeData,
-                initial: false, // Request remaining scenarios
-              }),
-            }).catch(err => console.error('Failed to generate additional scenarios:', err));
-          })
-          .catch(err => console.error('Failed to generate initial scenarios:', err));
 
         // Log activity
         await logActivity(userId, 'cheat_code_saved', {
@@ -1257,81 +1216,6 @@ export default function ChatPage() {
         console.log('💾 Saved to localStorage:', Array.from(updatedSet));
       }
 
-      // Auto-save the code on first view so we have the ID for the game button
-      let savedCheatCodeId = cheatCodeIds.get(messageId);
-      if (!savedCheatCodeId && selectedCheatCode && userId) {
-        console.log('💾 Auto-saving cheat code for game button...');
-        try {
-          const cheatCodeData = parseCheatCode(selectedCheatCode.messageText);
-          if (cheatCodeData) {
-            const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
-            if (!error && cheatCodeId) {
-              savedCheatCodeId = cheatCodeId;
-              setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
-              setSavedCheatCodes(prev => new Set(prev).add(messageId));
-              console.log('✅ Auto-saved cheat code with ID:', cheatCodeId);
-
-              // 🚨 PROACTIVE: Generate game scenarios progressively (3 initial, then 7 more)
-              console.log('🎮 Starting proactive game scenario generation (progressive loading)...');
-              const cheatData = {
-                title: cheatCodeData.title,
-                category: cheatCodeData.category,
-                what: cheatCodeData.what,
-                when: cheatCodeData.when,
-                how: cheatCodeData.how,
-                why: cheatCodeData.why,
-                phrase: cheatCodeData.phrase,
-                original_situation: selectedCheatCode.messageText,
-                original_thought: '', // Could extract from conversation if needed
-              };
-
-              // First generate 3 scenarios for fast loading
-              fetch('/api/game/generate-scenarios', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  cheat_code_id: cheatCodeId,
-                  cheat_code_data: cheatData,
-                  initial: true,
-                }),
-              })
-                .then(res => res.json())
-                .then(data => {
-                  if (data.success) {
-                    console.log('✅ Initial 3 scenarios generated! Generating remaining 7...');
-                    // Now generate remaining 7 scenarios in background
-                    fetch('/api/game/generate-scenarios', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        cheat_code_id: cheatCodeId,
-                        cheat_code_data: cheatData,
-                        initial: false,
-                      }),
-                    })
-                      .then(res => res.json())
-                      .then(data2 => {
-                        if (data2.success) {
-                          console.log('✅ All 10 scenarios generated successfully!');
-                        } else {
-                          console.error('⚠️ Failed to generate additional scenarios:', data2.error);
-                        }
-                      })
-                      .catch(err => console.error('🚫 Error generating additional scenarios:', err));
-                  } else {
-                    console.error('⚠️ Failed to generate initial scenarios:', data.error);
-                  }
-                })
-                .catch(err => console.error('⚠️ Error generating game scenarios:', err));
-            } else {
-              console.error('⚠️ Failed to auto-save cheat code:', error);
-            }
-          }
-        } catch (err) {
-          console.error('⚠️ Error auto-saving cheat code:', err);
-        }
-      }
-
       // Trigger follow-up after a delay
       setTimeout(async () => {
         console.log('⏰ Timeout fired - starting follow-up request');
@@ -1346,18 +1230,7 @@ export default function ChatPage() {
 
           conversationMessages.push({
             role: 'user',
-            content: `[SYSTEM INSTRUCTION - NON-NEGOTIABLE: User just viewed the "${codeTitle}" code for the first time.
-
-YOU MUST DO EXACTLY THIS:
-1. Ask what they thought of the code
-2. Tell them to practice it RIGHT NOW with the button below
-
-REQUIRED FORMAT - DO NOT DEVIATE:
-First paragraph: "So, how's that '${codeTitle}' code feeling for you? [add one specific question about if it'll help in their situation]"
-
-Second paragraph: "If it feels right, get some reps in with it now while it's fresh - hit that button below to practice!"
-
-YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will appear below your message automatically.]`
+            content: `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
           });
 
           console.log('🌐 Calling API for follow-up...');
@@ -1384,13 +1257,11 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
             id: uid(),
             text: coachResponse,
             sender: 'coach',
-            timestamp: new Date(),
-            gameButtonCodeId: savedCheatCodeId,
-            gameButtonCodeTitle: codeTitle
+            timestamp: new Date()
           };
 
           appendMessage(coachMsg);
-          console.log('✅ Follow-up message added to chat with game button:', { cheatCodeId: savedCheatCodeId, codeTitle });
+          console.log('✅ Follow-up message added to chat');
 
           // Save to database
           const updatedMessages = [...messages, coachMsg];
@@ -1401,9 +1272,7 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
           console.error('❌ Failed to send follow-up:', error);
         } finally {
           setIsTyping(false);
-          // Clear the in-progress flag after completion
-          followUpInProgressRef.current.delete(codeKey);
-          console.log('🏁 Follow-up request complete, cleared in-progress flag');
+          console.log('🏁 Follow-up request complete');
         }
       }, 500);
     } else {
@@ -1429,108 +1298,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
 
     // Update local state
     setFavoritedCodes(prev => new Map(prev).set(codeTitle, newStatus));
-  };
-
-  const handleStartGame = (cheatCodeId: string, title: string, isFirstPlay: boolean = false) => {
-    setGameCheatCodeId(cheatCodeId);
-    setGameCheatCodeTitle(title);
-    setIsFirstGamePlay(isFirstPlay);
-    setShowGameModal(true);
-  };
-
-  const handleGameComplete = async (result: GameSessionResult) => {
-    console.log('Game completed:', result);
-
-    // Show momentum gain if any
-    if (result.momentum_awarded > 0) {
-      showMomentumBanner({
-        previousMomentum: result.previous_momentum,
-        newMomentum: result.new_momentum,
-      });
-    }
-
-    // Results will stay visible until user clicks Done or Play Again
-    // No auto-close
-  };
-
-  const handleCloseGameModal = async () => {
-    // Get the game result from the CheatCodeGame component if available
-    const gameResult = gameCheatCodeId; // We'll need to pass result data differently
-
-    setShowGameModal(false);
-    setGameCheatCodeId(null);
-
-    // Trigger coach follow-up message about their performance
-    // Only when closing (not when playing again)
-    setTimeout(async () => {
-      // Check if there was a completed game session
-      if (userId && gameCheatCodeId) {
-        try {
-          // Fetch the most recent game session for this cheat code
-          const supabase = createClient();
-          const { data: sessions } = await supabase
-            .from('game_sessions')
-            .select('score, total_questions, is_first_play, momentum_awarded')
-            .eq('user_id', userId)
-            .eq('cheat_code_id', gameCheatCodeId)
-            .order('created_at', { ascending: false })
-            .limit(1);
-
-          if (sessions && sessions.length > 0) {
-            const result = sessions[0];
-            const systemContext = `[SYSTEM CONTEXT - The user just completed a practice game. Their score: ${result.score}/${result.total_questions} correct. ${result.is_first_play ? 'This was their first time playing this code.' : 'They\'ve practiced this code before.'} Momentum gained: +${result.momentum_awarded.toFixed(1)}%. Reference their score and ask an appropriate follow-up question about how the practice felt or if they want to talk through any of the scenarios.]`;
-
-            // Send system context directly to API without displaying it to user
-            setIsTyping(true);
-            pendingCoachReply.current = true;
-
-            try {
-              // Create a hidden system message for context
-              const systemMsg: Message = {
-                id: uid(),
-                text: systemContext,
-                sender: 'user',
-                timestamp: new Date(),
-              };
-
-              const payload = buildChatPayload([...messages, systemMsg]);
-              const res = await fetch('/api/chat', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload),
-              });
-
-              if (!res.ok) {
-                throw new Error(`API ${res.status}`);
-              }
-
-              const data = await res.json();
-
-              const coachMsg: Message = {
-                id: uid(),
-                text: data.reply || "How'd that practice feel?",
-                sender: 'coach',
-                timestamp: new Date(),
-              };
-              appendMessage(coachMsg);
-
-              // Save chat to database
-              const updatedMessages = [...messages, coachMsg];
-              saveChatToDb(updatedMessages).catch(err => {
-                console.error('Error saving chat:', err);
-              });
-            } catch (error) {
-              console.error('Error sending game follow-up:', error);
-            } finally {
-              setIsTyping(false);
-              pendingCoachReply.current = false;
-            }
-          }
-        } catch (error) {
-          console.error('Error fetching game result:', error);
-        }
-      }
-    }, 500);
   };
 
   return (
@@ -1623,7 +1390,7 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                           );
                         })()
                       ) : (
-                        <div className="flex justify-start flex-col">
+                        <div className="flex justify-start">
                           <div className="max-w-[85%]">
                             {message.isHistoric ? (
                               // Historic messages: no typing animation
@@ -1637,13 +1404,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                                 text={message.text}
                                 speed={40}
                                 onTextChange={scrollToBottom}
-                                onComplete={() => {
-                                  // Mark this message's typing animation as complete
-                                  if (!completedTypingAnimationsRef.current.has(message.id)) {
-                                    completedTypingAnimationsRef.current.add(message.id);
-                                    forceUpdate({}); // Trigger re-render to show button
-                                  }
-                                }}
                                 className="text-[15px] leading-[1.6]"
                                 style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                               />
@@ -1652,27 +1412,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                               {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                             </div>
                           </div>
-
-                          {/* Get Reps In Button - shown in follow-up messages ONLY after typing completes */}
-                          {message.gameButtonCodeId && (message.isHistoric || completedTypingAnimationsRef.current.has(message.id)) && (
-                            <div className="flex justify-center w-full px-2 mt-4">
-                              <button
-                                onClick={() => {
-                                  if (message.gameButtonCodeId && message.gameButtonCodeTitle) {
-                                    handleStartGame(message.gameButtonCodeId, message.gameButtonCodeTitle, true);
-                                  }
-                                }}
-                                className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
-                                style={{
-                                  backgroundColor: '#00ff41',
-                                  color: '#000000',
-                                  boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
-                                }}
-                              >
-                                Get Reps In
-                              </button>
-                            </div>
-                          )}
                         </div>
                       )}
                     </>
@@ -1891,7 +1630,7 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                             );
                           })()
                         ) : (
-                          <div className="flex justify-start flex-col">
+                          <div className="flex justify-start">
                             <div className="max-w-[80%]">
                               {message.isHistoric ? (
                                 // Historic messages: no typing animation
@@ -1905,13 +1644,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                                   text={message.text}
                                   speed={40}
                                   onTextChange={scrollToBottom}
-                                  onComplete={() => {
-                                    // Mark this message's typing animation as complete
-                                    if (!completedTypingAnimationsRef.current.has(message.id)) {
-                                      completedTypingAnimationsRef.current.add(message.id);
-                                      forceUpdate({}); // Trigger re-render to show button
-                                    }
-                                  }}
                                   className="text-[15px] leading-[1.6]"
                                   style={{ color: 'rgba(255, 255, 255, 0.9)' }}
                                 />
@@ -1920,27 +1652,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
                                 {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </div>
                             </div>
-
-                            {/* Get Reps In Button - shown in follow-up messages ONLY after typing completes */}
-                            {message.gameButtonCodeId && (message.isHistoric || completedTypingAnimationsRef.current.has(message.id)) && (
-                              <div className="w-full mt-4">
-                                <button
-                                  onClick={() => {
-                                    if (message.gameButtonCodeId && message.gameButtonCodeTitle) {
-                                      handleStartGame(message.gameButtonCodeId, message.gameButtonCodeTitle, true);
-                                    }
-                                  }}
-                                  className="w-full rounded-xl px-8 py-2.5 transition-all hover:scale-[1.01] font-semibold text-sm"
-                                  style={{
-                                    backgroundColor: '#00ff41',
-                                    color: '#000000',
-                                    boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
-                                  }}
-                                >
-                                  Get Reps In
-                                </button>
-                              </div>
-                            )}
                           </div>
                         )}
                       </>
@@ -2237,19 +1948,6 @@ YOU MUST INCLUDE THE SECOND PARAGRAPH. This is not optional. The button will app
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
-
-      {/* Game Modal */}
-      {showGameModal && gameCheatCodeId && (
-        <div className="fixed inset-0 bg-black z-[120]">
-          <CheatCodeGame
-            cheatCodeId={gameCheatCodeId}
-            cheatCodeTitle={gameCheatCodeTitle}
-            isFirstPlay={isFirstGamePlay}
-            onComplete={handleGameComplete}
-            onClose={handleCloseGameModal}
-          />
-        </div>
-      )}
 
       {/* Animation Styles */}
       <style jsx global>{`
