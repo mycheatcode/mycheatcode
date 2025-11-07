@@ -1,5 +1,5 @@
 'use client';
-
+// Version: 2025-11-07-v2 - HOW parsing fix with FALLBACK 1 priority
 import { useState } from 'react';
 
 export interface ParsedCheatCode {
