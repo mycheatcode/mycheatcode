@@ -44,19 +44,20 @@ function convertMarkdownToCardFormat(markdown: string): string {
   }
 
   // Extract How section and split by bullet points
-  const howMatch = markdown.match(/\*\*How:\*\*\s*\n([\s\S]+?)(?=\n\*\*Why:|$)/);
+  // Updated regex to be more flexible - match How: with optional newline/whitespace before content
+  const howMatch = markdown.match(/\*\*How:\*\*\s*([\s\S]+?)(?=\n\*\*(?:Why|Remember|Cheat Code Phrase):|$)/);
   if (howMatch) {
     const howContent = howMatch[1].trim();
     console.log('🔍 RAW HOW CONTENT:', howContent);
     console.log('🔍 HOW CONTENT LENGTH:', howContent.length);
     console.log('🔍 HOW CONTENT REPR:', JSON.stringify(howContent));
 
-    // Split by bullet points - support •, *, or -
+    // Split by bullet points - support •, *, -, or numbered lists (1., 2., etc)
     // This regex splits on bullets that either:
     // 1. Start at the beginning of the string (^)
     // 2. Come after a newline (\n)
-    // This ensures we catch ALL bullets including the first one
-    let steps = howContent.split(/(?:^|\n)\s*[•\*\-]\s*/);
+    // 3. Support numbered lists like "1.", "2.", etc
+    let steps = howContent.split(/(?:^|\n)\s*(?:[•\*\-]|\d+\.)\s+/);
 
     // Filter out empty strings from the split
     steps = steps.filter(step => step.trim()).map(step => step.trim());
@@ -66,10 +67,10 @@ function convertMarkdownToCardFormat(markdown: string): string {
 
     // Additional fallback: if we only got 1 step but the content has multiple bullets,
     // try splitting by the bullet character directly (handles case where bullets might be on same line)
-    if (steps.length === 1 && (howContent.match(/[•\*\-]/g) || []).length > 1) {
+    if (steps.length === 1 && (howContent.match(/[•\*\-]|\d+\./g) || []).length > 1) {
       console.log('⚠️ FALLBACK: Only 1 step found but multiple bullets detected, trying alternative split');
       // Try splitting by bullet character with optional surrounding whitespace
-      steps = howContent.split(/\s*[•\*\-]\s*/);
+      steps = howContent.split(/\s*(?:[•\*\-]|\d+\.)\s+/);
       steps = steps.filter(step => step.trim()).map(step => step.trim());
       console.log(`📊 FALLBACK RESULT: Found ${steps.length} HOW steps:`, steps);
     }
