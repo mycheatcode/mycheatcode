@@ -65,14 +65,28 @@ function convertMarkdownToCardFormat(markdown: string): string {
     console.log(`📊 AFTER SPLIT: Found ${steps.length} HOW steps`);
     console.log('📊 Steps detail:', JSON.stringify(steps, null, 2));
 
-    // Additional fallback: if we only got 1 step but the content has multiple bullets,
-    // try splitting by the bullet character directly (handles case where bullets might be on same line)
+    // FALLBACK 1: If we only got 1 step but content has multiple bullets, try different split
     if (steps.length === 1 && (howContent.match(/[•\*\-]|\d+\./g) || []).length > 1) {
-      console.log('⚠️ FALLBACK: Only 1 step found but multiple bullets detected, trying alternative split');
-      // Try splitting by bullet character with optional surrounding whitespace
-      steps = howContent.split(/\s*(?:[•\*\-]|\d+\.)\s+/);
+      console.log('⚠️ FALLBACK 1: Trying alternative split (bullets with optional space)');
+      // Try splitting by bullet with OPTIONAL space after it
+      steps = howContent.split(/\s*(?:[•\*\-]|\d+\.)\s*/);
       steps = steps.filter(step => step.trim()).map(step => step.trim());
-      console.log(`📊 FALLBACK RESULT: Found ${steps.length} HOW steps:`, steps);
+      console.log(`📊 FALLBACK 1 RESULT: Found ${steps.length} HOW steps`);
+    }
+
+    // FALLBACK 2: If still only 1 step, try splitting by just the bullet character
+    if (steps.length === 1 && (howContent.match(/[•\*\-]/g) || []).length > 1) {
+      console.log('⚠️ FALLBACK 2: Trying split by just bullet character');
+      steps = howContent.split(/[•\*\-]/);
+      steps = steps.filter(step => step.trim()).map(step => step.trim());
+      console.log(`📊 FALLBACK 2 RESULT: Found ${steps.length} HOW steps`);
+    }
+
+    // FALLBACK 3: If STILL only 1 step and it contains newlines, split by newlines and clean up bullets
+    if (steps.length === 1 && howContent.includes('\n')) {
+      console.log('⚠️ FALLBACK 3: Trying split by newlines');
+      steps = howContent.split('\n').map(line => line.replace(/^[\s•\*\-\d.]+/, '').trim()).filter(s => s);
+      console.log(`📊 FALLBACK 3 RESULT: Found ${steps.length} HOW steps`);
     }
 
     // Only create multiple cards if we actually have multiple steps

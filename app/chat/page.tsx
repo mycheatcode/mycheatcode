@@ -1243,6 +1243,34 @@ export default function ChatPage() {
               setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
               setSavedCheatCodes(prev => new Set(prev).add(messageId));
               console.log('✅ Auto-saved cheat code with ID:', cheatCodeId);
+
+              // Generate game scenarios immediately after saving
+              console.log('🎮 Generating practice game scenarios...');
+              fetch('/api/game/generate-scenarios', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  cheat_code_id: cheatCodeId,
+                  cheat_code_data: cheatCodeData,
+                  initial: true // Generate 3 scenarios initially
+                })
+              }).then(res => res.json()).then(data => {
+                if (data.success) {
+                  console.log(`✅ Generated ${data.scenarios_count} initial scenarios`);
+                  // Generate remaining scenarios in background
+                  fetch('/api/game/generate-scenarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      cheat_code_id: cheatCodeId,
+                      cheat_code_data: cheatCodeData,
+                      initial: false // Generate 7 more scenarios
+                    })
+                  }).catch(err => console.error('Error generating additional scenarios:', err));
+                } else {
+                  console.error('Failed to generate scenarios:', data.error);
+                }
+              }).catch(err => console.error('Error generating scenarios:', err));
             }
           }
         } catch (err) {
@@ -1567,7 +1595,7 @@ export default function ChatPage() {
                                   boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
                                 }}
                               >
-                                🏀 Get Reps In
+                                Get Reps In
                               </button>
                             </div>
                           )}
@@ -1830,7 +1858,7 @@ export default function ChatPage() {
                                     boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
                                   }}
                                 >
-                                  🏀 Get Reps In
+                                  Get Reps In
                                 </button>
                               </div>
                             )}
