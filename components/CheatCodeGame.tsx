@@ -150,6 +150,13 @@ export default function CheatCodeGame({
         });
         const data = await response.json();
         console.log('🎯 API response:', data);
+
+        // Debug: Log raw content if available
+        if (data.debug && data.rawContent) {
+          console.log('🐛 DEBUG MODE - Raw content from database:');
+          console.log(data.rawContent);
+        }
+
         if (data.success && data.cheatCode) {
           console.log('✅ Setting cheat code data:', data.cheatCode);
           setCheatCodeData({

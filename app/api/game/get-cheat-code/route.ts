@@ -94,10 +94,24 @@ export async function POST(request: NextRequest) {
     console.log('📄 Content length:', content.length);
     console.log('📄 First 500 chars:', content.substring(0, 500));
     console.log('📄 Contains CARD:', content.includes('CARD:'));
+    console.log('📄 Full content:', content); // Debug: log full content
 
     const { phrase, what } = parseCheatCodeContent(content);
 
     console.log('✅ Final extracted - phrase:', phrase, 'what:', what);
+
+    // TEMPORARY DEBUG: Return raw content for inspection
+    if (!phrase && !what) {
+      return NextResponse.json({
+        success: true,
+        debug: true,
+        rawContent: content,
+        cheatCode: {
+          phrase,
+          what,
+        },
+      });
+    }
 
     return NextResponse.json({
       success: true,
