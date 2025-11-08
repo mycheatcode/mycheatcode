@@ -1300,6 +1300,8 @@ export default function ChatPage() {
 
       // Auto-save the code on first view so we have the ID for the game button
       let savedCheatCodeId = cheatCodeIds.get(messageId);
+      let shouldSendFollowUp = true;
+
       if (!savedCheatCodeId && selectedCheatCode && userId) {
         console.log('💾 Auto-saving cheat code for game button...');
         try {
@@ -1348,15 +1350,16 @@ export default function ChatPage() {
 
               // Store the scenario ready status for the follow-up message
               savedCheatCodeId = scenariosReady ? cheatCodeId : undefined;
-
-              // CRITICAL: Call follow-up message HERE, after scenarios are ready
-              // This ensures the button only appears when scenarios are actually generated
-              sendFollowUpMessage(savedCheatCodeId);
             }
           }
         } catch (err) {
           console.error('Error auto-saving cheat code:', err);
         }
+      }
+
+      // Send follow-up message for ALL first-time code views (after scenario generation if new code)
+      if (shouldSendFollowUp) {
+        sendFollowUpMessage(savedCheatCodeId);
       }
     } else {
       console.log('⏭️ Code already viewed before - skipping follow-up');
