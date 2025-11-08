@@ -52,13 +52,6 @@ export default function CheatCodeGame({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
-  const [result, setResult] = useState<GameSessionResult | null>(null);
-  const [showIntro, setShowIntro] = useState(true);
-  const [isTimeout, setIsTimeout] = useState(false);
-  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
-  const [cheatCodeData, setCheatCodeData] = useState<CheatCodeData | null>(null);
-  const [selectedFeedback, setSelectedFeedback] = useState<typeof scenarios[0]['options'][0] | null>(null);
-
   const MOTIVATIONAL_QUOTES = [
     { text: "Your thoughts shape your reality on the court", author: null },
     { text: "Confidence is built one rep at a time", author: null },
@@ -71,6 +64,15 @@ export default function CheatCodeGame({
     { text: "The mind is the limit", author: null },
     { text: "Believe in your training", author: null },
   ];
+
+  const [result, setResult] = useState<GameSessionResult | null>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const [isTimeout, setIsTimeout] = useState(false);
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(() =>
+    Math.floor(Math.random() * MOTIVATIONAL_QUOTES.length)
+  );
+  const [cheatCodeData, setCheatCodeData] = useState<CheatCodeData | null>(null);
+  const [selectedFeedback, setSelectedFeedback] = useState<typeof scenarios[0]['options'][0] | null>(null);
 
   const currentScenario = scenarios[currentScenarioIndex];
   const currentPrompt = PROMPTS[currentScenarioIndex % PROMPTS.length];
@@ -132,9 +134,14 @@ export default function CheatCodeGame({
   useEffect(() => {
     async function fetchCheatCodeData() {
       try {
-        const response = await fetch(`/api/cheat-codes/${cheatCodeId}`);
+        // Use the same pattern as scenario fetching - create a simple API call
+        const response = await fetch('/api/game/get-cheat-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cheat_code_id: cheatCodeId }),
+        });
         const data = await response.json();
-        if (data.success) {
+        if (data.success && data.cheatCode) {
           setCheatCodeData({
             phrase: data.cheatCode.phrase,
             what: data.cheatCode.what,
