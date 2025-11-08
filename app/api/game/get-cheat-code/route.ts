@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import { parseCheatCode } from '@/components/CodeCardViewer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,27 +45,34 @@ export async function POST(request: NextRequest) {
       }, { status: 404 });
     }
 
-    // Parse the content to extract phrase and what
+    // Parse the content using the existing parseCheatCode function
     const content = cheatCode.content || '';
-    console.log('📝 Raw content:', content.substring(0, 500)); // Log first 500 chars
+    const parsed = parseCheatCode(content);
+
+    if (!parsed) {
+      console.error('❌ Failed to parse cheat code content');
+      return NextResponse.json({
+        success: false,
+        error: 'Failed to parse cheat code content',
+      }, { status: 500 });
+    }
+
+    // Extract phrase and what from parsed cards
     let phrase = '';
     let what = '';
 
-    // Extract phrase (CARD: Phrase or CARD: Cheat Code Phrase)
-    const phraseMatch = content.match(/CARD:\s*(?:Cheat Code )?Phrase\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
-    console.log('🔍 Phrase match:', phraseMatch);
-    if (phraseMatch) {
-      phrase = phraseMatch[1].trim();
+    const phraseCard = parsed.cards.find(card => card.type === 'phrase');
+    const whatCard = parsed.cards.find(card => card.type === 'what');
+
+    if (phraseCard) {
+      phrase = phraseCard.content;
     }
 
-    // Extract what (CARD: What)
-    const whatMatch = content.match(/CARD:\s*What\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
-    console.log('🔍 What match:', whatMatch);
-    if (whatMatch) {
-      what = whatMatch[1].trim();
+    if (whatCard) {
+      what = whatCard.content;
     }
 
-    console.log('✅ Extracted - phrase:', phrase, 'what:', what);
+    console.log('✅ Extracted from parsed cards - phrase:', phrase, 'what:', what);
 
     return NextResponse.json({
       success: true,

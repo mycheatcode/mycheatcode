@@ -406,16 +406,7 @@ export default function CheatCodeGame({
             </p>
           </div>
 
-          {/* 5. Remember section - ALWAYS show with border box */}
-          <div className="border-2 border-gray-700 rounded-lg p-4 bg-gray-900/50">
-            <p className="text-base text-gray-300 leading-relaxed text-center">
-              <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.what
-                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
-                : `This is your "${cheatCodeTitle}" cheat code. Apply your mental reframe to each scenario.`}
-            </p>
-          </div>
-
-          {/* 6. Start Practice button */}
+          {/* 5. Start Practice button */}
           <button
             onClick={() => {
               setShowIntro(false);
@@ -431,6 +422,15 @@ export default function CheatCodeGame({
           >
             Start Practice
           </button>
+
+          {/* 6. Remember section - ALWAYS show with border box, positioned UNDER button */}
+          <div className="border-2 border-gray-700 rounded-lg p-4 bg-gray-900/50">
+            <p className="text-base text-gray-300 leading-relaxed text-center">
+              <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.what
+                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
+                : `This is your "${cheatCodeTitle}" cheat code. Apply your mental reframe to each scenario.`}
+            </p>
+          </div>
         </div>
       </div>
     );
