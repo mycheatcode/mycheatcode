@@ -65,11 +65,15 @@ function convertMarkdownToCardFormat(markdown: string): string {
     console.log(`📊 AFTER SPLIT: Found ${steps.length} HOW steps`);
     console.log('📊 Steps detail:', JSON.stringify(steps, null, 2));
 
-    // FALLBACK 1: If we only got 1 step but content has multiple bullets, try different split
-    if (steps.length === 1 && (howContent.match(/[•\*\-]|\d+\./g) || []).length > 1) {
-      console.log('⚠️ FALLBACK 1: Trying alternative split (bullets with optional space)');
-      // Try splitting by bullet with OPTIONAL space after it
-      steps = howContent.split(/\s*(?:[•\*\-]|\d+\.)\s*/);
+    // FALLBACK 1: If we only got 1 step but content has multiple numbered items, try splitting by numbers only
+    if (steps.length === 1 && howContent.match(/\d+\./g) && (howContent.match(/\d+\./g) || []).length > 1) {
+      console.log('⚠️ FALLBACK 1: Trying split by numbers only (ignoring bullets/dashes)');
+      // Split by number pattern ONLY - don't split on bullets/dashes since those might be in the text
+      steps = howContent.split(/\s+\d+\.\s+/);
+      // Handle if first item has leading number
+      if (steps[0] && /^\d+\.\s+/.test(howContent)) {
+        steps[0] = steps[0].replace(/^\d+\.\s+/, '');
+      }
       steps = steps.filter(step => step.trim()).map(step => step.trim());
       console.log(`📊 FALLBACK 1 RESULT: Found ${steps.length} HOW steps`);
     }
