@@ -1232,63 +1232,6 @@ export default function ChatPage() {
         console.log('💾 Saved to localStorage:', Array.from(updatedSet));
       }
 
-      // Auto-save the code on first view so we have the ID for the game button
-      let savedCheatCodeId = cheatCodeIds.get(messageId);
-      if (!savedCheatCodeId && selectedCheatCode && userId) {
-        console.log('💾 Auto-saving cheat code for game button...');
-        try {
-          const cheatCodeData = parseCheatCode(selectedCheatCode.messageText);
-          if (cheatCodeData) {
-            const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
-            if (!error && cheatCodeId) {
-              savedCheatCodeId = cheatCodeId;
-              setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
-              setSavedCheatCodes(prev => new Set(prev).add(messageId));
-              console.log('✅ Auto-saved cheat code with ID:', cheatCodeId);
-
-              // Generate game scenarios immediately after saving
-              console.log('🎮 Generating practice game scenarios...');
-              let scenariosReady = false;
-              try {
-                const scenarioResponse = await fetch('/api/game/generate-scenarios', {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({
-                    cheat_code_id: cheatCodeId,
-                    cheat_code_data: cheatCodeData,
-                    initial: true // Generate 3 scenarios initially
-                  })
-                });
-                const scenarioData = await scenarioResponse.json();
-                if (scenarioData.success) {
-                  console.log(`✅ Generated ${scenarioData.scenarios_count} initial scenarios - READY FOR GAME!`);
-                  scenariosReady = true;
-                  // Generate remaining scenarios in background (don't await)
-                  fetch('/api/game/generate-scenarios', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      cheat_code_id: cheatCodeId,
-                      cheat_code_data: cheatCodeData,
-                      initial: false // Generate 7 more scenarios
-                    })
-                  }).catch(err => console.error('Error generating additional scenarios:', err));
-                } else {
-                  console.error('Failed to generate scenarios:', scenarioData.error);
-                }
-              } catch (err) {
-                console.error('Error generating scenarios:', err);
-              }
-
-              // Store the scenario ready status for the follow-up message
-              savedCheatCodeId = scenariosReady ? cheatCodeId : undefined;
-            }
-          }
-        } catch (err) {
-          console.error('Error auto-saving cheat code:', err);
-        }
-      }
-
       // Trigger follow-up after ensuring scenarios are ready
       // This function will be called after scenario generation completes
       const sendFollowUpMessage = async (cheatCodeIdForButton: string | undefined) => {
@@ -1355,8 +1298,66 @@ export default function ChatPage() {
         }
       };
 
-      // Wait a moment, then send follow-up (scenarios will generate in parallel)
-      setTimeout(() => sendFollowUpMessage(savedCheatCodeId), 500);
+      // Auto-save the code on first view so we have the ID for the game button
+      let savedCheatCodeId = cheatCodeIds.get(messageId);
+      if (!savedCheatCodeId && selectedCheatCode && userId) {
+        console.log('💾 Auto-saving cheat code for game button...');
+        try {
+          const cheatCodeData = parseCheatCode(selectedCheatCode.messageText);
+          if (cheatCodeData) {
+            const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
+            if (!error && cheatCodeId) {
+              savedCheatCodeId = cheatCodeId;
+              setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
+              setSavedCheatCodes(prev => new Set(prev).add(messageId));
+              console.log('✅ Auto-saved cheat code with ID:', cheatCodeId);
+
+              // Generate game scenarios immediately after saving
+              console.log('🎮 Generating practice game scenarios...');
+              let scenariosReady = false;
+              try {
+                const scenarioResponse = await fetch('/api/game/generate-scenarios', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    cheat_code_id: cheatCodeId,
+                    cheat_code_data: cheatCodeData,
+                    initial: true // Generate 3 scenarios initially
+                  })
+                });
+                const scenarioData = await scenarioResponse.json();
+                if (scenarioData.success) {
+                  console.log(`✅ Generated ${scenarioData.scenarios_count} initial scenarios - READY FOR GAME!`);
+                  scenariosReady = true;
+                  // Generate remaining scenarios in background (don't await)
+                  fetch('/api/game/generate-scenarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      cheat_code_id: cheatCodeId,
+                      cheat_code_data: cheatCodeData,
+                      initial: false // Generate 7 more scenarios
+                    })
+                  }).catch(err => console.error('Error generating additional scenarios:', err));
+                } else {
+                  console.error('Failed to generate scenarios:', scenarioData.error);
+                }
+              } catch (err) {
+                console.error('Error generating scenarios:', err);
+              }
+
+              // Store the scenario ready status for the follow-up message
+              savedCheatCodeId = scenariosReady ? cheatCodeId : undefined;
+
+              // CRITICAL: Call follow-up message HERE, after scenarios are ready
+              // This ensures the button only appears when scenarios are actually generated
+              sendFollowUpMessage(savedCheatCodeId);
+            }
+          }
+        } catch (err) {
+          console.error('Error auto-saving cheat code:', err);
+        }
+      }
     } else {
       console.log('⏭️ Code already viewed before - skipping follow-up');
     }

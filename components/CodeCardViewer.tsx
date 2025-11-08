@@ -1,5 +1,5 @@
 'use client';
-// Version: 2025-11-07-v3 - CRITICAL FIX: HOW parsing must split numbered steps on same line
+// Version: 2025-11-07-v4 - CRITICAL FIX: Updated regex to handle numbered items without leading spaces
 import { useState } from 'react';
 
 export interface ParsedCheatCode {
@@ -68,14 +68,16 @@ function convertMarkdownToCardFormat(markdown: string): string {
     // FALLBACK 1: If we only got 1 step but content has multiple numbered items, try splitting by numbers only
     if (steps.length === 1 && howContent.match(/\d+\./g) && (howContent.match(/\d+\./g) || []).length > 1) {
       console.log('⚠️ FALLBACK 1: Trying split by numbers only (ignoring bullets/dashes)');
-      // Split by number pattern ONLY - don't split on bullets/dashes since those might be in the text
-      steps = howContent.split(/\s+\d+\.\s+/);
+      // Split by number pattern - match space(s) or start-of-string, then digit(s), then dot, then space(s)
+      // This handles: "1. First 2. Second 3. Third" OR "text 2. Second" OR "text- 2. Second"
+      steps = howContent.split(/\s*\d+\.\s+/);
       // Handle if first item has leading number
       if (steps[0] && /^\d+\.\s+/.test(howContent)) {
         steps[0] = steps[0].replace(/^\d+\.\s+/, '');
       }
       steps = steps.filter(step => step.trim()).map(step => step.trim());
       console.log(`📊 FALLBACK 1 RESULT: Found ${steps.length} HOW steps`);
+      console.log('📊 FALLBACK 1 STEPS:', JSON.stringify(steps, null, 2));
     }
 
     // FALLBACK 2: If still only 1 step, try splitting by just the bullet character
