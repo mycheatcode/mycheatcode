@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body: GenerateScenariosRequest = await request.json();
-    const { cheat_code_id, cheat_code_data, initial } = body;
+    const { cheat_code_id, cheat_code_data, initial, count } = body;
 
     if (!cheat_code_id || !cheat_code_data) {
       return NextResponse.json(
@@ -46,8 +46,8 @@ export async function POST(request: NextRequest) {
     const skillLevel = userProfile?.skill_level || 'recreational';
     const ageBracket = userProfile?.age_bracket || 'adult';
 
-    // Generate 3 scenarios initially for fast loading, then 7 more later
-    const scenarioCount = initial === true ? 3 : 7;
+    // Support explicit count, or use initial flag for backward compatibility
+    const scenarioCount = count !== undefined ? count : (initial === true ? 3 : 7);
 
     const prompt = `You are a basketball confidence coach creating practice scenarios for a mental reframing game.
 

@@ -60,6 +60,7 @@ export interface GenerateScenariosRequest {
     original_thought?: string; // The negative thought they were having
   };
   initial?: boolean; // If true, generate 3 scenarios for fast loading, otherwise 7
+  count?: number; // Explicit count of scenarios to generate (overrides initial)
 }
 
 export interface GenerateScenariosResponse {
