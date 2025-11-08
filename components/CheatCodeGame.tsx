@@ -359,15 +359,25 @@ export default function CheatCodeGame({
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
         <div className="max-w-2xl w-full space-y-8">
-          {/* Title and emoji */}
-          <div className="text-center space-y-2">
-            <div className="text-6xl mb-4">🏀</div>
-            <h1 className="text-4xl font-bold">Get Reps In</h1>
-            <p className="text-xl text-gray-400">Practice your cheat code</p>
+          {/* Title with green circle */}
+          <div className="text-center space-y-6">
+            <div className="flex justify-center">
+              <div
+                className="w-20 h-20 rounded-full"
+                style={{
+                  backgroundColor: '#00ff41',
+                  boxShadow: '0 0 40px rgba(0, 255, 65, 0.4)'
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <h1 className="text-4xl font-bold">Get Reps In</h1>
+              <p className="text-xl text-gray-400">Practice your cheat code</p>
+            </div>
           </div>
 
           {/* Instructions */}
-          <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-8">
+          <div className="text-center">
             <p className="text-lg text-gray-300 leading-relaxed">
               For each of the following scenarios, choose the best mental reframe - the thought that would help you perform at your best.
             </p>
@@ -375,7 +385,7 @@ export default function CheatCodeGame({
 
           {/* Cheat Code Reminder */}
           {cheatCodeData && cheatCodeData.phrase && (
-            <div className="bg-[#0a0a0a] border-2 rounded-2xl p-8 space-y-3"
+            <div className="bg-[#0a0a0a] border-2 rounded-2xl p-8 space-y-4"
               style={{
                 borderColor: '#00ff41',
                 boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)'
@@ -388,9 +398,14 @@ export default function CheatCodeGame({
                 "{cheatCodeData.phrase}"
               </div>
               {cheatCodeData.what && (
-                <p className="text-base text-gray-400 leading-relaxed pt-2">
-                  {cheatCodeData.what}
-                </p>
+                <div className="space-y-2 pt-2">
+                  <div className="text-sm font-semibold uppercase tracking-wider text-gray-400">
+                    Remember:
+                  </div>
+                  <p className="text-base text-gray-300 leading-relaxed">
+                    {cheatCodeData.what}
+                  </p>
+                </div>
               )}
             </div>
           )}
