@@ -53,16 +53,16 @@ export default function CheatCodeGame({
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
 
   const MOTIVATIONAL_QUOTES = [
-    "Your thoughts shape your reality on the court",
-    "Confidence is built one rep at a time",
-    "Mental reps count just as much as physical ones",
-    "The game is 90% mental, the other half is physical - Yogi Berra",
-    "Champions aren't born in the gym, they're made in the mind",
-    "Your next shot is always your best shot",
-    "Trust the process, trust yourself",
-    "Pressure is a privilege",
-    "The mind is the limit",
-    "Believe in your training",
+    { text: "Your thoughts shape your reality on the court", author: null },
+    { text: "Confidence is built one rep at a time", author: null },
+    { text: "Mental reps count just as much as physical ones", author: null },
+    { text: "The game is 90% mental, the other half is physical", author: "Yogi Berra" },
+    { text: "Champions aren't born in the gym, they're made in the mind", author: null },
+    { text: "Your next shot is always your best shot", author: null },
+    { text: "Trust the process, trust yourself", author: null },
+    { text: "Pressure is a privilege", author: null },
+    { text: "The mind is the limit", author: null },
+    { text: "Believe in your training", author: null },
   ];
 
   const currentScenario = scenarios[currentScenarioIndex];
@@ -74,7 +74,7 @@ export default function CheatCodeGame({
 
     const interval = setInterval(() => {
       setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_QUOTES.length);
-    }, 3000); // Change quote every 3 seconds
+    }, 5000); // Change quote every 5 seconds (increased from 3)
 
     return () => clearInterval(interval);
   }, [loading, MOTIVATIONAL_QUOTES.length]);
@@ -82,8 +82,8 @@ export default function CheatCodeGame({
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
     let retryCount = 0;
-    const maxRetries = 5;
-    const retryDelay = 4000; // 4 seconds between retries (total wait: ~20 seconds)
+    const maxRetries = 8;
+    const retryDelay = 3000; // 3 seconds between retries (total wait: ~24 seconds)
 
     async function fetchScenarios() {
       try {
@@ -255,17 +255,23 @@ export default function CheatCodeGame({
           </div>
 
           {/* Rotating Motivational Quote - Front and Center */}
-          <div className="relative min-h-[120px] flex items-center justify-center">
-            <p
+          <div className="relative min-h-[160px] flex flex-col items-center justify-center">
+            <div
               key={currentQuoteIndex}
-              className="text-3xl md:text-4xl font-bold text-white leading-relaxed px-4"
+              className="space-y-4"
               style={{
-                animation: 'fadeIn 0.5s ease-in-out',
-                color: '#00ff41'
+                animation: 'fadeIn 0.5s ease-in-out'
               }}
             >
-              "{MOTIVATIONAL_QUOTES[currentQuoteIndex]}"
-            </p>
+              <p className="text-3xl md:text-4xl font-bold text-white leading-relaxed px-4 text-center">
+                "{MOTIVATIONAL_QUOTES[currentQuoteIndex].text}"
+              </p>
+              {MOTIVATIONAL_QUOTES[currentQuoteIndex].author && (
+                <p className="text-lg text-gray-400 text-center">
+                  — {MOTIVATIONAL_QUOTES[currentQuoteIndex].author}
+                </p>
+              )}
+            </div>
           </div>
 
           {/* Loading Text - Smaller, less prominent */}
