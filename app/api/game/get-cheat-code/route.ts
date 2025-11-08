@@ -1,47 +1,65 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-// Server-safe content parser
+// Server-safe content parser - handles both CARD and markdown formats
 function parseCheatCodeContent(content: string): { phrase: string; what: string } {
   let phrase = '';
   let what = '';
 
-  // Split by lines
-  const lines = content.split('\n');
-  let currentCard = '';
-  let currentContent: string[] = [];
+  // Check if content uses markdown format (with **whatIs#:) or CARD format
+  const isMarkdownFormat = content.includes('**whatIs#:') || content.includes('**Cheat Code Phrase**:');
 
-  for (let i = 0; i < lines.length; i++) {
-    const trimmed = lines[i].trim();
-
-    if (trimmed.startsWith('CARD:')) {
-      // Save previous card
-      if (currentCard === 'What' && currentContent.length > 0) {
-        what = currentContent.join(' ').trim();
-      } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
-        phrase = currentContent.join(' ').trim();
-      }
-
-      // Start new card
-      currentCard = trimmed.substring(5).trim();
-      currentContent = [];
-    } else if (currentCard && trimmed &&
-               !trimmed.startsWith('TITLE:') &&
-               !trimmed.startsWith('CATEGORY:') &&
-               !trimmed.startsWith('DESCRIPTION:')) {
-      // Add to current card content
-      currentContent.push(trimmed);
+  if (isMarkdownFormat) {
+    // Parse markdown format
+    const whatMatch = content.match(/\*\*whatIs#:\s*(.+?)(?=\n\*\*|$)/s);
+    if (whatMatch) {
+      what = whatMatch[1].trim();
     }
-  }
 
-  // Save last card
-  if (currentCard === 'What' && currentContent.length > 0) {
-    what = currentContent.join(' ').trim();
-  } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
-    phrase = currentContent.join(' ').trim();
-  }
+    const phraseMatch = content.match(/\*\*Cheat Code Phrase\*\*:\s*"(.+?)"/);
+    if (phraseMatch) {
+      phrase = phraseMatch[1].trim();
+    }
 
-  console.log('🔍 Parser debug - currentCard:', currentCard, 'phrase:', phrase, 'what:', what);
+    console.log('🔍 Parser (markdown) - phrase:', phrase, 'what:', what);
+  } else {
+    // Parse CARD format
+    const lines = content.split('\n');
+    let currentCard = '';
+    let currentContent: string[] = [];
+
+    for (let i = 0; i < lines.length; i++) {
+      const trimmed = lines[i].trim();
+
+      if (trimmed.startsWith('CARD:')) {
+        // Save previous card
+        if (currentCard === 'What' && currentContent.length > 0) {
+          what = currentContent.join(' ').trim();
+        } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+          phrase = currentContent.join(' ').trim();
+        }
+
+        // Start new card
+        currentCard = trimmed.substring(5).trim();
+        currentContent = [];
+      } else if (currentCard && trimmed &&
+                 !trimmed.startsWith('TITLE:') &&
+                 !trimmed.startsWith('CATEGORY:') &&
+                 !trimmed.startsWith('DESCRIPTION:')) {
+        // Add to current card content
+        currentContent.push(trimmed);
+      }
+    }
+
+    // Save last card
+    if (currentCard === 'What' && currentContent.length > 0) {
+      what = currentContent.join(' ').trim();
+    } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+      phrase = currentContent.join(' ').trim();
+    }
+
+    console.log('🔍 Parser (CARD) - phrase:', phrase, 'what:', what);
+  }
 
   return { phrase, what };
 }
