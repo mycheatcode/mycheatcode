@@ -406,12 +406,12 @@ export default function CheatCodeGame({
             </p>
           </div>
 
-          {/* 5. Remember section - ALWAYS show */}
-          <div className="text-center">
-            <p className="text-base text-gray-300 leading-relaxed">
-              <span className="font-semibold">Remember:</span> {cheatCodeData && cheatCodeData.what
-                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}`
-                : 'Apply your mental reframe to each scenario'}
+          {/* 5. Remember section - ALWAYS show with border box */}
+          <div className="border-2 border-gray-700 rounded-lg p-4 bg-gray-900/50">
+            <p className="text-base text-gray-300 leading-relaxed text-center">
+              <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.what
+                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
+                : `This is your "${cheatCodeTitle}" cheat code. Apply your mental reframe to each scenario.`}
             </p>
           </div>
 

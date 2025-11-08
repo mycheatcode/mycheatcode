@@ -46,20 +46,25 @@ export async function POST(request: NextRequest) {
 
     // Parse the content to extract phrase and what
     const content = cheatCode.content || '';
+    console.log('📝 Raw content:', content.substring(0, 500)); // Log first 500 chars
     let phrase = '';
     let what = '';
 
     // Extract phrase (CARD: Phrase or CARD: Cheat Code Phrase)
     const phraseMatch = content.match(/CARD:\s*(?:Cheat Code )?Phrase\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
+    console.log('🔍 Phrase match:', phraseMatch);
     if (phraseMatch) {
       phrase = phraseMatch[1].trim();
     }
 
     // Extract what (CARD: What)
     const whatMatch = content.match(/CARD:\s*What\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
+    console.log('🔍 What match:', whatMatch);
     if (whatMatch) {
       what = whatMatch[1].trim();
     }
+
+    console.log('✅ Extracted - phrase:', phrase, 'what:', what);
 
     return NextResponse.json({
       success: true,
