@@ -1248,6 +1248,7 @@ export default function ChatPage() {
 
               // Generate game scenarios immediately after saving
               console.log('🎮 Generating practice game scenarios...');
+              let scenariosReady = false;
               try {
                 const scenarioResponse = await fetch('/api/game/generate-scenarios', {
                   method: 'POST',
@@ -1260,7 +1261,8 @@ export default function ChatPage() {
                 });
                 const scenarioData = await scenarioResponse.json();
                 if (scenarioData.success) {
-                  console.log(`✅ Generated ${scenarioData.scenarios_count} initial scenarios`);
+                  console.log(`✅ Generated ${scenarioData.scenarios_count} initial scenarios - READY FOR GAME!`);
+                  scenariosReady = true;
                   // Generate remaining scenarios in background (don't await)
                   fetch('/api/game/generate-scenarios', {
                     method: 'POST',
@@ -1277,6 +1279,9 @@ export default function ChatPage() {
               } catch (err) {
                 console.error('Error generating scenarios:', err);
               }
+
+              // Store the scenario ready status for the follow-up message
+              savedCheatCodeId = scenariosReady ? cheatCodeId : null;
             }
           }
         } catch (err) {
@@ -1284,9 +1289,10 @@ export default function ChatPage() {
         }
       }
 
-      // Trigger follow-up after a delay
-      setTimeout(async () => {
-        console.log('⏰ Timeout fired - starting follow-up request');
+      // Trigger follow-up after ensuring scenarios are ready
+      // This function will be called after scenario generation completes
+      const sendFollowUpMessage = async (cheatCodeIdForButton: string | null) => {
+        console.log('⏰ Starting follow-up request with scenarios ready');
         setIsTyping(true);
 
         try {
@@ -1326,12 +1332,13 @@ export default function ChatPage() {
             text: coachResponse,
             sender: 'coach',
             timestamp: new Date(),
-            gameButtonCodeId: savedCheatCodeId,
-            gameButtonCodeTitle: codeTitle
+            // Only add game button if scenarios were successfully generated
+            ...(cheatCodeIdForButton && { gameButtonCodeId: cheatCodeIdForButton }),
+            ...(cheatCodeIdForButton && { gameButtonCodeTitle: codeTitle })
           };
 
           appendMessage(coachMsg);
-          console.log('✅ Follow-up message added to chat with game button:', { cheatCodeId: savedCheatCodeId, codeTitle });
+          console.log('✅ Follow-up message added to chat', cheatCodeIdForButton ? 'with game button' : 'without game button', { cheatCodeId: cheatCodeIdForButton, codeTitle });
 
           // Save to database
           const updatedMessages = [...messages, coachMsg];
@@ -1346,7 +1353,10 @@ export default function ChatPage() {
           followUpInProgressRef.current.delete(codeKey);
           console.log('🏁 Follow-up request complete, cleared in-progress flag');
         }
-      }, 500);
+      };
+
+      // Wait a moment, then send follow-up (scenarios will generate in parallel)
+      setTimeout(() => sendFollowUpMessage(savedCheatCodeId), 500);
     } else {
       console.log('⏭️ Code already viewed before - skipping follow-up');
     }

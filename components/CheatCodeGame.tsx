@@ -271,7 +271,7 @@ export default function CheatCodeGame({
                 </div>
                 {result.is_first_play && (
                   <div className="text-sm text-gray-400 mt-2">
-                    Includes first play bonus! 🎉
+                    Congrats on your first practice!
                   </div>
                 )}
               </div>
@@ -432,9 +432,9 @@ export default function CheatCodeGame({
           </div>
         </div>
 
-        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col justify-center gap-30">
-          {/* Top Section - Scenario */}
-          <div className="space-y-6">
+        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col overflow-hidden">
+          {/* Top Section - Scenario (fixed height) */}
+          <div className="flex-shrink-0 space-y-6 py-6">
             {/* Shot Clock Timer */}
             <div className="flex justify-center">
               <div className="relative">
@@ -474,16 +474,17 @@ export default function CheatCodeGame({
             </div>
           </div>
 
-          {/* Bottom Section - Prompt & Options */}
-          <div className="space-y-5">
+          {/* Bottom Section - Prompt & Options (scrollable) */}
+          <div className="flex-1 flex flex-col overflow-hidden">
             {/* Prompt */}
             {!showFeedback && (
-              <p className="text-center text-base text-gray-400">{currentPrompt}</p>
+              <p className="text-center text-base text-gray-400 mb-5 flex-shrink-0">{currentPrompt}</p>
             )}
 
-            {/* Options */}
-            <div className="space-y-3">
-              {shuffledOptions.map((option, index) => {
+            {/* Scrollable Options Container */}
+            <div className="flex-1 overflow-y-auto pb-4" style={{ maxHeight: 'calc(100vh - 500px)' }}>
+              <div className="space-y-3">
+                {shuffledOptions.map((option, index) => {
                 const isSelected = selectedOption === index;
                 const isOptimal = option.type === 'optimal';
                 const showAsCorrect = showFeedback && isOptimal;
@@ -524,10 +525,11 @@ export default function CheatCodeGame({
                   </button>
                 );
               })}
+              </div>
             </div>
 
-            {/* Progress */}
-            <div className="flex justify-center gap-2 pt-2">
+            {/* Progress - fixed at bottom of options section */}
+            <div className="flex justify-center gap-2 pt-4 flex-shrink-0">
               {scenarios.map((_, index) => (
                 <div
                   key={index}
