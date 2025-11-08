@@ -50,9 +50,34 @@ export default function CheatCodeGame({
   const [result, setResult] = useState<GameSessionResult | null>(null);
   const [showIntro, setShowIntro] = useState(true);
   const [isTimeout, setIsTimeout] = useState(false);
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+
+  const MOTIVATIONAL_QUOTES = [
+    "Your thoughts shape your reality on the court",
+    "Confidence is built one rep at a time",
+    "Mental reps count just as much as physical ones",
+    "The game is 90% mental, the other half is physical - Yogi Berra",
+    "Champions aren't born in the gym, they're made in the mind",
+    "Your next shot is always your best shot",
+    "Trust the process, trust yourself",
+    "Pressure is a privilege",
+    "The mind is the limit",
+    "Believe in your training",
+  ];
 
   const currentScenario = scenarios[currentScenarioIndex];
   const currentPrompt = PROMPTS[currentScenarioIndex % PROMPTS.length];
+
+  // Rotate motivational quotes while loading
+  useEffect(() => {
+    if (!loading) return;
+
+    const interval = setInterval(() => {
+      setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_QUOTES.length);
+    }, 3000); // Change quote every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [loading, MOTIVATIONAL_QUOTES.length]);
 
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
@@ -216,10 +241,44 @@ export default function CheatCodeGame({
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center z-[200]">
-        <div className="text-center space-y-4">
-          <div className="text-xl">Loading Practice...</div>
-          <div className="text-sm text-gray-500">Getting your scenarios ready</div>
+        <div className="text-center space-y-8 max-w-md px-6">
+          {/* Spinning Basketball Icon */}
+          <div className="flex justify-center">
+            <div className="text-6xl animate-spin">🏀</div>
+          </div>
+
+          {/* Loading Text */}
+          <div className="space-y-2">
+            <div className="text-2xl font-bold">Preparing Your Practice</div>
+            <div className="text-sm text-gray-500">Getting your scenarios ready...</div>
+          </div>
+
+          {/* Rotating Motivational Quote */}
+          <div className="relative h-20 flex items-center justify-center">
+            <p
+              key={currentQuoteIndex}
+              className="text-lg text-gray-300 italic animate-fade-in px-4"
+              style={{
+                animation: 'fadeIn 0.5s ease-in-out'
+              }}
+            >
+              "{MOTIVATIONAL_QUOTES[currentQuoteIndex]}"
+            </p>
+          </div>
         </div>
+
+        <style jsx>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}</style>
       </div>
     );
   }
@@ -390,10 +449,10 @@ export default function CheatCodeGame({
           />
         </div>
 
-        {/* Main content area */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 max-w-2xl mx-auto w-full">
+        {/* Main content area - Centered vertically and horizontally */}
+        <div className="flex-1 flex items-center justify-center px-6 py-12 max-w-2xl mx-auto w-full">
           {/* Scenario text */}
-          <div className="space-y-8 mb-12 text-center animate-fadeIn">
+          <div className="space-y-8 text-center animate-fadeIn">
             <h2 className="text-2xl md:text-3xl leading-relaxed text-white px-4">
               {currentScenario.situation}
             </h2>

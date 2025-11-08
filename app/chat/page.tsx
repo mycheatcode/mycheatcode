@@ -1321,72 +1321,70 @@ export default function ChatPage() {
         }
       }
 
-      // Check if scenarios exist, generate only if needed
+      // Send follow-up message IMMEDIATELY after code is closed
+      // Show button right away - scenarios will generate in background
+      sendFollowUpMessage(savedCheatCodeId);
+
+      // Generate scenarios in background (don't block the follow-up message)
       if (savedCheatCodeId && cheatCodeData) {
         console.log('🔍 Checking if scenarios already exist...');
-        try {
-          // First check if scenarios exist
-          const checkResponse = await fetch('/api/game/get-scenarios', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cheat_code_id: savedCheatCodeId })
-          });
-          const checkData = await checkResponse.json();
-
-          if (checkData.success && checkData.has_scenarios) {
-            console.log('✅ Scenarios already exist - READY FOR GAME!');
-            scenariosReady = true;
-          } else {
-            console.log('🎮 No scenarios found - generating first scenario...');
-            // FAST PATH: Generate just 1 scenario first (takes ~6-7 seconds instead of ~20)
-            const firstScenarioResponse = await fetch('/api/game/generate-scenarios', {
+        (async () => {
+          try {
+            // First check if scenarios exist
+            const checkResponse = await fetch('/api/game/get-scenarios', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({
-                cheat_code_id: savedCheatCodeId,
-                cheat_code_data: cheatCodeData,
-                count: 1 // Generate just 1 scenario
-              })
+              body: JSON.stringify({ cheat_code_id: savedCheatCodeId })
             });
-            const firstScenarioData = await firstScenarioResponse.json();
-            if (firstScenarioData.success) {
-              console.log('✅ Generated first scenario - READY FOR GAME!');
-              scenariosReady = true;
+            const checkData = await checkResponse.json();
 
-              // Generate 2 more scenarios in background (don't await)
-              console.log('🔄 Generating 2 more scenarios in background...');
-              fetch('/api/game/generate-scenarios', {
+            if (checkData.success && checkData.has_scenarios) {
+              console.log('✅ Scenarios already exist - READY FOR GAME!');
+            } else {
+              console.log('🎮 No scenarios found - generating in background...');
+              // Generate 1 scenario, then 2 more, then 7 more (all in background)
+              const firstScenarioResponse = await fetch('/api/game/generate-scenarios', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                   cheat_code_id: savedCheatCodeId,
                   cheat_code_data: cheatCodeData,
-                  count: 2 // Generate 2 more scenarios
+                  count: 1
                 })
-              }).then(() => {
-                console.log('✅ Generated 2 more scenarios');
-                // Then generate remaining 7 scenarios
-                return fetch('/api/game/generate-scenarios', {
+              });
+              const firstScenarioData = await firstScenarioResponse.json();
+              if (firstScenarioData.success) {
+                console.log('✅ Generated first scenario');
+
+                // Generate 2 more scenarios
+                fetch('/api/game/generate-scenarios', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({
                     cheat_code_id: savedCheatCodeId,
                     cheat_code_data: cheatCodeData,
-                    initial: false // Generate 7 more scenarios
+                    count: 2
                   })
-                });
-              }).catch(err => console.error('Error generating additional scenarios:', err));
-            } else {
-              console.error('Failed to generate first scenario:', firstScenarioData.error);
+                }).then(() => {
+                  console.log('✅ Generated 2 more scenarios');
+                  // Then generate remaining 7 scenarios
+                  return fetch('/api/game/generate-scenarios', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      cheat_code_id: savedCheatCodeId,
+                      cheat_code_data: cheatCodeData,
+                      initial: false
+                    })
+                  });
+                }).catch(err => console.error('Error generating additional scenarios:', err));
+              }
             }
+          } catch (err) {
+            console.error('Error checking/generating scenarios:', err);
           }
-        } catch (err) {
-          console.error('Error checking/generating scenarios:', err);
-        }
+        })();
       }
-
-      // Send follow-up message for ALL first-time code views (after scenario generation completes)
-      sendFollowUpMessage(scenariosReady ? savedCheatCodeId : undefined);
     } else {
       console.log('⏭️ Code already viewed before - skipping follow-up');
     }
