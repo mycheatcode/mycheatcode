@@ -1,6 +1,49 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { parseCheatCode } from '@/components/CodeCardViewer';
+
+// Server-safe content parser
+function parseCheatCodeContent(content: string): { phrase: string; what: string } {
+  let phrase = '';
+  let what = '';
+
+  // Split by lines
+  const lines = content.split('\n');
+  let currentCard = '';
+  let currentContent = '';
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('CARD:')) {
+      // Save previous card
+      if (currentCard === 'What' && currentContent) {
+        what = currentContent.trim();
+      } else if (currentCard.includes('Phrase') && currentContent) {
+        phrase = currentContent.trim();
+      }
+
+      // Start new card
+      currentCard = trimmed.substring(5).trim();
+      currentContent = '';
+    } else if (currentCard && trimmed && !trimmed.startsWith('TITLE:') && !trimmed.startsWith('CATEGORY:') && !trimmed.startsWith('DESCRIPTION:')) {
+      // Add to current card content
+      if (currentContent) {
+        currentContent += ' ' + trimmed;
+      } else {
+        currentContent = trimmed;
+      }
+    }
+  }
+
+  // Save last card
+  if (currentCard === 'What' && currentContent) {
+    what = currentContent.trim();
+  } else if (currentCard.includes('Phrase') && currentContent) {
+    phrase = currentContent.trim();
+  }
+
+  return { phrase, what };
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -45,34 +88,11 @@ export async function POST(request: NextRequest) {
       }, { status: 404 });
     }
 
-    // Parse the content using the existing parseCheatCode function
+    // Parse the content
     const content = cheatCode.content || '';
-    const parsed = parseCheatCode(content);
+    const { phrase, what } = parseCheatCodeContent(content);
 
-    if (!parsed) {
-      console.error('❌ Failed to parse cheat code content');
-      return NextResponse.json({
-        success: false,
-        error: 'Failed to parse cheat code content',
-      }, { status: 500 });
-    }
-
-    // Extract phrase and what from parsed cards
-    let phrase = '';
-    let what = '';
-
-    const phraseCard = parsed.cards.find(card => card.type === 'phrase');
-    const whatCard = parsed.cards.find(card => card.type === 'what');
-
-    if (phraseCard) {
-      phrase = phraseCard.content;
-    }
-
-    if (whatCard) {
-      what = whatCard.content;
-    }
-
-    console.log('✅ Extracted from parsed cards - phrase:', phrase, 'what:', what);
+    console.log('✅ Extracted - phrase:', phrase, 'what:', what);
 
     return NextResponse.json({
       success: true,

@@ -377,9 +377,9 @@ export default function CheatCodeGame({
   if (showIntro && !loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
-        <div className="max-w-2xl w-full space-y-6">
+        <div className="max-w-2xl w-full">
           {/* 1. Green Circle */}
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-8">
             <div
               className="w-20 h-20 rounded-full"
               style={{
@@ -390,17 +390,17 @@ export default function CheatCodeGame({
           </div>
 
           {/* 2. Header */}
-          <div className="text-center">
+          <div className="text-center mb-3">
             <h1 className="text-4xl font-bold">Ready?</h1>
           </div>
 
           {/* 3. Subtext */}
-          <div className="text-center">
+          <div className="text-center mb-8">
             <p className="text-xl text-gray-400">Practice your cheat code</p>
           </div>
 
           {/* 4. Practice game description */}
-          <div className="text-center">
+          <div className="text-center mb-10">
             <p className="text-base text-gray-300 leading-relaxed">
               For each of the following scenarios, choose the best mental reframe - the thought that would help you perform at your best.
             </p>
@@ -413,7 +413,7 @@ export default function CheatCodeGame({
               setShowScenario(true);
               setScenarioTimeLeft(10);
             }}
-            className="w-full py-5 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+            className="w-full py-5 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98] mb-6"
             style={{
               backgroundColor: '#00ff41',
               color: '#000000',
