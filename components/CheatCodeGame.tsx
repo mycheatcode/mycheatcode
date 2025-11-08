@@ -241,29 +241,36 @@ export default function CheatCodeGame({
   if (loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center z-[200]">
-        <div className="text-center space-y-8 max-w-md px-6">
-          {/* Spinning Basketball Icon */}
+        <div className="text-center space-y-12 max-w-2xl px-6">
+          {/* Pulsing Green Circle - matches home momentum visual */}
           <div className="flex justify-center">
-            <div className="text-6xl animate-spin">🏀</div>
+            <div
+              className="w-24 h-24 rounded-full"
+              style={{
+                backgroundColor: '#00ff41',
+                animation: 'pulse 2s ease-in-out infinite',
+                boxShadow: '0 0 40px rgba(0, 255, 65, 0.6)'
+              }}
+            />
           </div>
 
-          {/* Loading Text */}
-          <div className="space-y-2">
-            <div className="text-2xl font-bold">Preparing Your Practice</div>
-            <div className="text-sm text-gray-500">Getting your scenarios ready...</div>
-          </div>
-
-          {/* Rotating Motivational Quote */}
-          <div className="relative h-20 flex items-center justify-center">
+          {/* Rotating Motivational Quote - Front and Center */}
+          <div className="relative min-h-[120px] flex items-center justify-center">
             <p
               key={currentQuoteIndex}
-              className="text-lg text-gray-300 italic animate-fade-in px-4"
+              className="text-3xl md:text-4xl font-bold text-white leading-relaxed px-4"
               style={{
-                animation: 'fadeIn 0.5s ease-in-out'
+                animation: 'fadeIn 0.5s ease-in-out',
+                color: '#00ff41'
               }}
             >
               "{MOTIVATIONAL_QUOTES[currentQuoteIndex]}"
             </p>
+          </div>
+
+          {/* Loading Text - Smaller, less prominent */}
+          <div className="space-y-2">
+            <div className="text-sm text-gray-500">Preparing your practice...</div>
           </div>
         </div>
 
@@ -276,6 +283,16 @@ export default function CheatCodeGame({
             to {
               opacity: 1;
               transform: translateY(0);
+            }
+          }
+          @keyframes pulse {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 1;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 0.8;
             }
           }
         `}</style>
@@ -436,9 +453,9 @@ export default function CheatCodeGame({
     const progress = ((10 - scenarioTimeLeft) / 10) * 100;
 
     return (
-      <div className="fixed inset-0 bg-black flex flex-col z-[200]">
+      <div className="fixed inset-0 bg-black z-[200]">
         {/* Green progress bar at top */}
-        <div className="w-full h-1.5" style={{ backgroundColor: '#1a1a1a' }}>
+        <div className="absolute top-0 left-0 right-0 w-full h-1.5" style={{ backgroundColor: '#1a1a1a' }}>
           <div
             className="h-full transition-all duration-1000 ease-linear"
             style={{
@@ -449,33 +466,35 @@ export default function CheatCodeGame({
           />
         </div>
 
-        {/* Main content area - Centered vertically and horizontally */}
-        <div className="flex-1 flex items-center justify-center px-6 py-12 max-w-2xl mx-auto w-full">
+        {/* Main content area - Perfectly centered */}
+        <div className="absolute inset-0 flex items-center justify-center px-6">
           {/* Scenario text */}
-          <div className="space-y-8 text-center animate-fadeIn">
-            <h2 className="text-2xl md:text-3xl leading-relaxed text-white px-4">
+          <div className="space-y-10 text-center animate-fadeIn max-w-2xl">
+            <h2 className="text-2xl md:text-3xl leading-relaxed text-white">
               {currentScenario.situation}
             </h2>
 
-            <p className="text-lg md:text-xl italic text-red-400 px-4">
+            <p className="text-xl md:text-2xl italic text-red-400">
               "{currentScenario.current_thought}"
             </p>
           </div>
         </div>
 
         {/* Skip button anchored to bottom */}
-        <div className="pb-8 px-6 flex justify-center max-w-2xl mx-auto w-full">
-          <button
-            onClick={() => setShowScenario(false)}
-            className="w-full py-4 rounded-xl font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98]"
-            style={{
-              backgroundColor: '#00ff41',
-              color: '#000000',
-              boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
-            }}
-          >
-            I'm Ready
-          </button>
+        <div className="absolute bottom-0 left-0 right-0 pb-8 px-6 flex justify-center">
+          <div className="w-full max-w-2xl">
+            <button
+              onClick={() => setShowScenario(false)}
+              className="w-full py-4 rounded-xl font-semibold text-base transition-all hover:scale-[1.02] active:scale-[0.98]"
+              style={{
+                backgroundColor: '#00ff41',
+                color: '#000000',
+                boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+              }}
+            >
+              I'm Ready
+            </button>
+          </div>
         </div>
       </div>
     );
