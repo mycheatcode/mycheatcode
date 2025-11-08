@@ -1281,7 +1281,7 @@ export default function ChatPage() {
               }
 
               // Store the scenario ready status for the follow-up message
-              savedCheatCodeId = scenariosReady ? cheatCodeId : null;
+              savedCheatCodeId = scenariosReady ? cheatCodeId : undefined;
             }
           }
         } catch (err) {
@@ -1291,7 +1291,7 @@ export default function ChatPage() {
 
       // Trigger follow-up after ensuring scenarios are ready
       // This function will be called after scenario generation completes
-      const sendFollowUpMessage = async (cheatCodeIdForButton: string | null) => {
+      const sendFollowUpMessage = async (cheatCodeIdForButton: string | undefined) => {
         console.log('⏰ Starting follow-up request with scenarios ready');
         setIsTyping(true);
 
