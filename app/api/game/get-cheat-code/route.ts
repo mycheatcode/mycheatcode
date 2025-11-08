@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     // Fetch cheat code data
     const { data: cheatCode, error: fetchError } = await supabase
       .from('cheat_codes')
-      .select('phrase, what')
+      .select('content')
       .eq('id', cheat_code_id)
       .eq('user_id', user.id)
       .maybeSingle();
@@ -44,9 +44,29 @@ export async function POST(request: NextRequest) {
       }, { status: 404 });
     }
 
+    // Parse the content to extract phrase and what
+    const content = cheatCode.content || '';
+    let phrase = '';
+    let what = '';
+
+    // Extract phrase (CARD: Phrase or CARD: Cheat Code Phrase)
+    const phraseMatch = content.match(/CARD:\s*(?:Cheat Code )?Phrase\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
+    if (phraseMatch) {
+      phrase = phraseMatch[1].trim();
+    }
+
+    // Extract what (CARD: What)
+    const whatMatch = content.match(/CARD:\s*What\s*\n([^\n]+(?:\n(?!CARD:)[^\n]+)*)/i);
+    if (whatMatch) {
+      what = whatMatch[1].trim();
+    }
+
     return NextResponse.json({
       success: true,
-      cheatCode,
+      cheatCode: {
+        phrase,
+        what,
+      },
     });
   } catch (error) {
     console.error('Error fetching cheat code:', error);
