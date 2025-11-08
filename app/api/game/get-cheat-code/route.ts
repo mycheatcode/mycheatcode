@@ -9,38 +9,39 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
   // Split by lines
   const lines = content.split('\n');
   let currentCard = '';
-  let currentContent = '';
+  let currentContent: string[] = [];
 
-  for (const line of lines) {
-    const trimmed = line.trim();
+  for (let i = 0; i < lines.length; i++) {
+    const trimmed = lines[i].trim();
 
     if (trimmed.startsWith('CARD:')) {
       // Save previous card
-      if (currentCard === 'What' && currentContent) {
-        what = currentContent.trim();
-      } else if (currentCard.includes('Phrase') && currentContent) {
-        phrase = currentContent.trim();
+      if (currentCard === 'What' && currentContent.length > 0) {
+        what = currentContent.join(' ').trim();
+      } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+        phrase = currentContent.join(' ').trim();
       }
 
       // Start new card
       currentCard = trimmed.substring(5).trim();
-      currentContent = '';
-    } else if (currentCard && trimmed && !trimmed.startsWith('TITLE:') && !trimmed.startsWith('CATEGORY:') && !trimmed.startsWith('DESCRIPTION:')) {
+      currentContent = [];
+    } else if (currentCard && trimmed &&
+               !trimmed.startsWith('TITLE:') &&
+               !trimmed.startsWith('CATEGORY:') &&
+               !trimmed.startsWith('DESCRIPTION:')) {
       // Add to current card content
-      if (currentContent) {
-        currentContent += ' ' + trimmed;
-      } else {
-        currentContent = trimmed;
-      }
+      currentContent.push(trimmed);
     }
   }
 
   // Save last card
-  if (currentCard === 'What' && currentContent) {
-    what = currentContent.trim();
-  } else if (currentCard.includes('Phrase') && currentContent) {
-    phrase = currentContent.trim();
+  if (currentCard === 'What' && currentContent.length > 0) {
+    what = currentContent.join(' ').trim();
+  } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+    phrase = currentContent.join(' ').trim();
   }
+
+  console.log('🔍 Parser debug - currentCard:', currentCard, 'phrase:', phrase, 'what:', what);
 
   return { phrase, what };
 }
@@ -90,9 +91,13 @@ export async function POST(request: NextRequest) {
 
     // Parse the content
     const content = cheatCode.content || '';
+    console.log('📄 Content length:', content.length);
+    console.log('📄 First 500 chars:', content.substring(0, 500));
+    console.log('📄 Contains CARD:', content.includes('CARD:'));
+
     const { phrase, what } = parseCheatCodeContent(content);
 
-    console.log('✅ Extracted - phrase:', phrase, 'what:', what);
+    console.log('✅ Final extracted - phrase:', phrase, 'what:', what);
 
     return NextResponse.json({
       success: true,
