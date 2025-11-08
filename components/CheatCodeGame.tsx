@@ -11,6 +11,11 @@ interface CheatCodeGameProps {
   onClose?: () => void;
 }
 
+interface CheatCodeData {
+  phrase?: string;
+  what?: string;
+}
+
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -51,6 +56,8 @@ export default function CheatCodeGame({
   const [showIntro, setShowIntro] = useState(true);
   const [isTimeout, setIsTimeout] = useState(false);
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+  const [cheatCodeData, setCheatCodeData] = useState<CheatCodeData | null>(null);
+  const [selectedFeedback, setSelectedFeedback] = useState<typeof scenarios[0]['options'][0] | null>(null);
 
   const MOTIVATIONAL_QUOTES = [
     { text: "Your thoughts shape your reality on the court", author: null },
@@ -119,6 +126,25 @@ export default function CheatCodeGame({
 
     // Start fetching with a small initial delay to give scenarios time to start generating
     setTimeout(fetchScenarios, 1500);
+  }, [cheatCodeId]);
+
+  // Fetch cheat code data for intro screen
+  useEffect(() => {
+    async function fetchCheatCodeData() {
+      try {
+        const response = await fetch(`/api/cheat-codes/${cheatCodeId}`);
+        const data = await response.json();
+        if (data.success) {
+          setCheatCodeData({
+            phrase: data.cheatCode.phrase,
+            what: data.cheatCode.what,
+          });
+        }
+      } catch (err) {
+        console.error('Failed to fetch cheat code data:', err);
+      }
+    }
+    fetchCheatCodeData();
   }, [cheatCodeId]);
 
   // Shuffle options when scenario changes
@@ -190,7 +216,9 @@ export default function CheatCodeGame({
 
     setSelectedOption(index);
     setUserAnswers([...userAnswers, originalIndex]);
+    setSelectedFeedback(selectedOptionData);
 
+    // Update score immediately for correct tracking
     if (selectedOptionData.type === 'optimal') {
       setScore(score + 1);
     }
@@ -326,6 +354,68 @@ export default function CheatCodeGame({
     );
   }
 
+  // Intro screen - show before starting the game
+  if (showIntro && !loading) {
+    return (
+      <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
+        <div className="max-w-2xl w-full space-y-8">
+          {/* Title and emoji */}
+          <div className="text-center space-y-2">
+            <div className="text-6xl mb-4">🏀</div>
+            <h1 className="text-4xl font-bold">Get Reps In</h1>
+            <p className="text-xl text-gray-400">Practice your cheat code</p>
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-8">
+            <p className="text-lg text-gray-300 leading-relaxed">
+              For each of the following scenarios, choose the best mental reframe - the thought that would help you perform at your best.
+            </p>
+          </div>
+
+          {/* Cheat Code Reminder */}
+          {cheatCodeData && cheatCodeData.phrase && (
+            <div className="bg-[#0a0a0a] border-2 rounded-2xl p-8 space-y-3"
+              style={{
+                borderColor: '#00ff41',
+                boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)'
+              }}
+            >
+              <div className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#00ff41' }}>
+                Your Cheat Code
+              </div>
+              <div className="text-2xl font-bold text-white">
+                "{cheatCodeData.phrase}"
+              </div>
+              {cheatCodeData.what && (
+                <p className="text-base text-gray-400 leading-relaxed pt-2">
+                  {cheatCodeData.what}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Start button */}
+          <button
+            onClick={() => {
+              setShowIntro(false);
+              setShowScenario(true);
+              setScenarioTimeLeft(10);
+            }}
+            className="w-full py-5 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
+            style={{
+              backgroundColor: '#00ff41',
+              color: '#000000',
+              boxShadow: '0 0 30px rgba(0, 255, 65, 0.3)',
+            }}
+          >
+            Start Practice
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (gameComplete && result) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
@@ -405,55 +495,7 @@ export default function CheatCodeGame({
     return null;
   }
 
-  const selectedFeedback = selectedOption !== null ? shuffledOptions[selectedOption] : null;
-
-  // Intro card - shown before the first scenario
-  if (showIntro) {
-    return (
-      <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
-        <div className="max-w-2xl w-full space-y-8">
-          {/* Title */}
-          <div className="text-center space-y-4">
-            <div className="text-5xl mb-4">🎯</div>
-            <h1 className="text-3xl font-bold">Get Reps In</h1>
-            <p className="text-lg text-gray-400">Practice your mental reframe</p>
-          </div>
-
-          {/* Instructions */}
-          <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-8 space-y-6">
-            <div className="space-y-4 text-gray-300">
-              <p className="text-base leading-relaxed">
-                You'll see {scenarios.length} real basketball scenarios where negative thoughts show up.
-              </p>
-              <p className="text-base leading-relaxed">
-                For each one, choose the best mental reframe - the thought that would help you perform at your best.
-              </p>
-              <p className="text-base leading-relaxed">
-                Take your time to read each scenario, then pick the answer that feels right.
-              </p>
-            </div>
-          </div>
-
-          {/* Start button */}
-          <button
-            onClick={() => {
-              setShowIntro(false);
-              setShowScenario(true);
-              setScenarioTimeLeft(10);
-            }}
-            className="w-full py-4 rounded-xl font-semibold text-lg transition-all hover:scale-[1.02] active:scale-[0.98]"
-            style={{
-              backgroundColor: '#00ff41',
-              color: '#000000',
-              boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
-            }}
-          >
-            Start Practice
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Intro screen is shown earlier (lines 357-413) before scenarios are loaded
 
   // Scenario introduction screen
   if (showScenario) {
