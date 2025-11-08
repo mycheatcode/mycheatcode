@@ -83,7 +83,7 @@ export default function CheatCodeGame({
 
     const interval = setInterval(() => {
       setCurrentQuoteIndex((prev) => (prev + 1) % MOTIVATIONAL_QUOTES.length);
-    }, 5000); // Change quote every 5 seconds (increased from 3)
+    }, 4000); // Change quote every 4 seconds
 
     return () => clearInterval(interval);
   }, [loading, MOTIVATIONAL_QUOTES.length]);
@@ -93,6 +93,8 @@ export default function CheatCodeGame({
     let retryCount = 0;
     const maxRetries = 10;
     const retryDelay = 2500; // 2.5 seconds between retries (total wait: ~25 seconds)
+    const minLoadTime = 8000; // Minimum 8 seconds (2 quotes at 4 seconds each)
+    const startTime = Date.now();
 
     async function fetchScenarios() {
       try {
@@ -118,8 +120,14 @@ export default function CheatCodeGame({
           return;
         }
 
-        setScenarios(data.scenarios);
-        setLoading(false);
+        // Ensure minimum loading time for at least 2 quotes
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+
+        setTimeout(() => {
+          setScenarios(data.scenarios);
+          setLoading(false);
+        }, remainingTime);
       } catch (err) {
         setError('Failed to load game');
         setLoading(false);
