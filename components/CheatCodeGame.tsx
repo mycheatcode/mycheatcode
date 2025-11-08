@@ -142,21 +142,25 @@ export default function CheatCodeGame({
   useEffect(() => {
     async function fetchCheatCodeData() {
       try {
-        // Use the same pattern as scenario fetching - create a simple API call
+        console.log('🎯 Fetching cheat code data for:', cheatCodeId);
         const response = await fetch('/api/game/get-cheat-code', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ cheat_code_id: cheatCodeId }),
         });
         const data = await response.json();
+        console.log('🎯 API response:', data);
         if (data.success && data.cheatCode) {
+          console.log('✅ Setting cheat code data:', data.cheatCode);
           setCheatCodeData({
             phrase: data.cheatCode.phrase,
             what: data.cheatCode.what,
           });
+        } else {
+          console.error('❌ API returned unsuccessful or missing cheatCode:', data);
         }
       } catch (err) {
-        console.error('Failed to fetch cheat code data:', err);
+        console.error('❌ Failed to fetch cheat code data:', err);
       }
     }
     fetchCheatCodeData();
@@ -387,7 +391,7 @@ export default function CheatCodeGame({
 
           {/* 2. Header */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold">Get Reps In</h1>
+            <h1 className="text-4xl font-bold">Ready?</h1>
           </div>
 
           {/* 3. Subtext */}
@@ -402,14 +406,14 @@ export default function CheatCodeGame({
             </p>
           </div>
 
-          {/* 5. Remember section */}
-          {cheatCodeData && cheatCodeData.what && (
-            <div className="text-center">
-              <p className="text-base text-gray-300 leading-relaxed">
-                <span className="font-semibold">Remember:</span> This cheat code is all about {cheatCodeData.what.toLowerCase()}
-              </p>
-            </div>
-          )}
+          {/* 5. Remember section - ALWAYS show */}
+          <div className="text-center">
+            <p className="text-base text-gray-300 leading-relaxed">
+              <span className="font-semibold">Remember:</span> {cheatCodeData && cheatCodeData.what
+                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}`
+                : 'Apply your mental reframe to each scenario'}
+            </p>
+          </div>
 
           {/* 6. Start Practice button */}
           <button
