@@ -173,6 +173,25 @@ export default function CheatCodeGame({
     fetchCheatCodeData();
   }, [cheatCodeId]);
 
+  // Handle browser back button to prevent navigation away from app
+  useEffect(() => {
+    if (!onClose) return;
+
+    // Push a history state when modal opens
+    window.history.pushState({ modal: 'game-intro' }, '');
+
+    const handlePopState = () => {
+      // When back button is pressed, close the modal instead of navigating
+      onClose();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [onClose]);
+
   // Shuffle options when scenario changes
   useEffect(() => {
     if (currentScenario) {
@@ -384,15 +403,16 @@ export default function CheatCodeGame({
   if (showIntro && !loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
-        {/* Close/Back Button */}
+        {/* Back Button - matches chat style */}
         {onClose && (
           <button
             onClick={onClose}
-            className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+            className="absolute top-6 left-6 p-2 transition-colors"
             aria-label="Go back"
+            style={{ color: '#00ff41' }}
           >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="15 18 9 12 15 6"></polyline>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7"/>
             </svg>
           </button>
         )}
