@@ -441,14 +441,14 @@ export default function CheatCodeGame({
                     const firstSentence = whyText.split(/remember:|\./).filter(s => s.trim().length > 10)[0] || whyText;
                     const cleanedText = firstSentence
                       .replace(/^this works because\s+/, '')
-                      .replace(/^shifting your focus from/, 'Shifting your focus from')
+                      .replace(/^shifting your focus from/, 'shifting your focus from')
                       .replace(/builds confidence/, 'builds confidence')
                       .replace(/allows you/, 'allows you')
                       .trim();
-                    return `"${cheatCodeData.phrase}" – ${cleanedText.charAt(0).toUpperCase() + cleanedText.slice(1)}.`;
+                    return `This code is about ${cleanedText}.`;
                   })()
                 : cheatCodeData && cheatCodeData.phrase
-                ? `"${cheatCodeData.phrase}" – Practice this mindset shift.`
+                ? `This code is about practicing this mindset shift.`
                 : `Practice your "${cheatCodeTitle}" mindset shift.`}
             </p>
           </div>
