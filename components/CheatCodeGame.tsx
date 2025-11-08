@@ -373,59 +373,45 @@ export default function CheatCodeGame({
   if (showIntro && !loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
-        <div className="max-w-2xl w-full space-y-8">
-          {/* Title with green circle */}
-          <div className="text-center space-y-6">
-            <div className="flex justify-center">
-              <div
-                className="w-20 h-20 rounded-full"
-                style={{
-                  backgroundColor: '#00ff41',
-                  boxShadow: '0 0 40px rgba(0, 255, 65, 0.4)'
-                }}
-              />
-            </div>
-            <div className="space-y-2">
-              <h1 className="text-4xl font-bold">Get Reps In</h1>
-              <p className="text-xl text-gray-400">Practice your cheat code</p>
-            </div>
+        <div className="max-w-2xl w-full space-y-6">
+          {/* 1. Green Circle */}
+          <div className="flex justify-center">
+            <div
+              className="w-20 h-20 rounded-full"
+              style={{
+                backgroundColor: '#00ff41',
+                boxShadow: '0 0 40px rgba(0, 255, 65, 0.4)'
+              }}
+            />
           </div>
 
-          {/* Instructions */}
+          {/* 2. Header */}
           <div className="text-center">
-            <p className="text-lg text-gray-300 leading-relaxed">
+            <h1 className="text-4xl font-bold">Get Reps In</h1>
+          </div>
+
+          {/* 3. Subtext */}
+          <div className="text-center">
+            <p className="text-xl text-gray-400">Practice your cheat code</p>
+          </div>
+
+          {/* 4. Practice game description */}
+          <div className="text-center">
+            <p className="text-base text-gray-300 leading-relaxed">
               For each of the following scenarios, choose the best mental reframe - the thought that would help you perform at your best.
             </p>
           </div>
 
-          {/* Cheat Code Reminder */}
-          {cheatCodeData && cheatCodeData.phrase && (
-            <div className="bg-[#0a0a0a] border-2 rounded-2xl p-8 space-y-4"
-              style={{
-                borderColor: '#00ff41',
-                boxShadow: '0 0 20px rgba(0, 255, 65, 0.15)'
-              }}
-            >
-              <div className="text-sm font-semibold uppercase tracking-wider" style={{ color: '#00ff41' }}>
-                Your Cheat Code
-              </div>
-              <div className="text-2xl font-bold text-white">
-                "{cheatCodeData.phrase}"
-              </div>
-              {cheatCodeData.what && (
-                <div className="space-y-2 pt-2">
-                  <div className="text-sm font-semibold uppercase tracking-wider text-gray-400">
-                    Remember:
-                  </div>
-                  <p className="text-base text-gray-300 leading-relaxed">
-                    {cheatCodeData.what}
-                  </p>
-                </div>
-              )}
+          {/* 5. Remember section */}
+          {cheatCodeData && cheatCodeData.what && (
+            <div className="text-center">
+              <p className="text-base text-gray-300 leading-relaxed">
+                <span className="font-semibold">Remember:</span> This cheat code is all about {cheatCodeData.what.toLowerCase()}
+              </p>
             </div>
           )}
 
-          {/* Start button */}
+          {/* 6. Start Practice button */}
           <button
             onClick={() => {
               setShowIntro(false);
