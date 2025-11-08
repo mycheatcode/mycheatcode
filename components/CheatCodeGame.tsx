@@ -435,22 +435,21 @@ export default function CheatCodeGame({
             <p className="text-base text-gray-300 leading-relaxed text-center">
               <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.phrase && cheatCodeData.what
                 ? (() => {
-                    // Extract just the core belief from the why section
-                    const whyText = cheatCodeData.what.toLowerCase();
-                    // Try to extract the first sentence before "remember:" or period
-                    const firstSentence = whyText.split(/remember:|\./).filter(s => s.trim().length > 10)[0] || whyText;
+                    // Extract the first sentence from the why section (before "remember:" or first period)
+                    const firstSentence = cheatCodeData.what.split(/remember:|\./).filter(s => s.trim().length > 10)[0] || cheatCodeData.what;
 
-                    // Clean up the text to make it flow with "This code is about..."
+                    // Remove "This works because" and capitalize first letter
                     let cleanedText = firstSentence
-                      .replace(/^this works because\s+/, '')
-                      .replace(/\s+builds confidence/g, ' building confidence')
-                      .replace(/\s+allows you/g, ' and allows you')
+                      .replace(/^this works because\s+/i, '')
                       .trim();
 
-                    return `This code is about ${cleanedText}.`;
+                    // Capitalize first letter
+                    cleanedText = cleanedText.charAt(0).toUpperCase() + cleanedText.slice(1);
+
+                    return `${cleanedText}.`;
                   })()
                 : cheatCodeData && cheatCodeData.phrase
-                ? `This code is about practicing this mindset shift.`
+                ? `This mindset shift will help you perform at your best.`
                 : `Practice your "${cheatCodeTitle}" mindset shift.`}
             </p>
           </div>
