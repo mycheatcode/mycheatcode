@@ -82,8 +82,8 @@ export default function CheatCodeGame({
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
     let retryCount = 0;
-    const maxRetries = 8;
-    const retryDelay = 3000; // 3 seconds between retries (total wait: ~24 seconds)
+    const maxRetries = 10;
+    const retryDelay = 2500; // 2.5 seconds between retries (total wait: ~25 seconds)
 
     async function fetchScenarios() {
       try {
@@ -117,7 +117,8 @@ export default function CheatCodeGame({
       }
     }
 
-    fetchScenarios();
+    // Start fetching with a small initial delay to give scenarios time to start generating
+    setTimeout(fetchScenarios, 1500);
   }, [cheatCodeId]);
 
   // Shuffle options when scenario changes
