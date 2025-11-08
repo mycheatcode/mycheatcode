@@ -434,10 +434,22 @@ export default function CheatCodeGame({
           <div className="border-2 border-gray-700 rounded-lg p-4 bg-gray-900/50">
             <p className="text-base text-gray-300 leading-relaxed text-center">
               <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.phrase && cheatCodeData.what
-                ? `Your "${cheatCodeData.phrase}" cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
+                ? (() => {
+                    // Extract just the core belief from the why section
+                    const whyText = cheatCodeData.what.toLowerCase();
+                    // Try to extract the first sentence before "remember:" or period
+                    const firstSentence = whyText.split(/remember:|\./).filter(s => s.trim().length > 10)[0] || whyText;
+                    const cleanedText = firstSentence
+                      .replace(/^this works because\s+/, '')
+                      .replace(/^shifting your focus from/, 'Shifting your focus from')
+                      .replace(/builds confidence/, 'builds confidence')
+                      .replace(/allows you/, 'allows you')
+                      .trim();
+                    return `"${cheatCodeData.phrase}" – ${cleanedText.charAt(0).toUpperCase() + cleanedText.slice(1)}.`;
+                  })()
                 : cheatCodeData && cheatCodeData.phrase
-                ? `Your "${cheatCodeData.phrase}" cheat code will help you reframe your thinking in these scenarios.`
-                : `This is your "${cheatCodeTitle}" cheat code. Apply your mental reframe to each scenario.`}
+                ? `"${cheatCodeData.phrase}" – Practice this mindset shift.`
+                : `Practice your "${cheatCodeTitle}" mindset shift.`}
             </p>
           </div>
         </div>

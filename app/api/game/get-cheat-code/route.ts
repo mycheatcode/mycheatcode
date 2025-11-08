@@ -6,23 +6,41 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
   let phrase = '';
   let what = '';
 
-  // Check if content uses markdown format (with **whatIs#:) or CARD format
-  const isMarkdownFormat = content.includes('**whatIs#:') || content.includes('**Cheat Code Phrase**:');
+  // Check if content uses markdown format (with **Why**: or **whyIs#:) or CARD format
+  const isMarkdownFormat = content.includes('**Why**:') || content.includes('**whyIs#:') || content.includes('**Cheat Code Phrase**:');
 
   if (isMarkdownFormat) {
     // Parse markdown format using simple indexOf and substring
-    // Extract what content
-    const whatStart = content.indexOf('**whatIs#:');
-    if (whatStart !== -1) {
-      const contentAfterWhat = content.substring(whatStart + '**whatIs#:'.length);
+    // Extract why content (the belief/mindset) - try both formats
+    let whyStart = content.indexOf('**Why**:');
+    if (whyStart === -1) {
+      whyStart = content.indexOf('**whyIs#:');
+    }
+
+    console.log('🔍 whyStart position:', whyStart);
+
+    if (whyStart !== -1) {
+      const markerLength = content.substring(whyStart).startsWith('**Why**:') ? '**Why**:'.length : '**whyIs#:'.length;
+      const contentAfterWhy = content.substring(whyStart + markerLength);
+      console.log('🔍 contentAfterWhy length:', contentAfterWhy.length);
+      console.log('🔍 contentAfterWhy first 200 chars:', contentAfterWhy.substring(0, 200));
+
       // Find the next ** marker
-      const nextMarker = contentAfterWhat.indexOf('**');
+      const nextMarker = contentAfterWhy.indexOf('**');
+      console.log('🔍 nextMarker position:', nextMarker);
+
       if (nextMarker !== -1) {
-        what = contentAfterWhat.substring(0, nextMarker).replace(/\s+/g, ' ').trim();
+        const extracted = contentAfterWhy.substring(0, nextMarker);
+        console.log('🔍 extracted (before trim):', extracted);
+        what = extracted.replace(/\s+/g, ' ').trim();
+        console.log('🔍 why (after trim):', what);
       } else {
         // If no next marker, take everything until end
-        what = contentAfterWhat.replace(/\s+/g, ' ').trim();
+        what = contentAfterWhy.replace(/\s+/g, ' ').trim();
+        console.log('🔍 why (no next marker, after trim):', what);
       }
+    } else {
+      console.log('🔍 **Why**: or **whyIs#: not found in content');
     }
 
     // Extract phrase from quoted text
@@ -31,7 +49,7 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
       phrase = phraseMatch[1].trim();
     }
 
-    console.log('🔍 Parser (markdown) - phrase:', phrase, 'what:', what);
+    console.log('🔍 Parser (markdown) - phrase:', phrase, 'why:', what);
   } else {
     // Parse CARD format
     const lines = content.split('\n');
