@@ -384,6 +384,19 @@ export default function CheatCodeGame({
   if (showIntro && !loading) {
     return (
       <div className="fixed inset-0 bg-black text-white flex items-center justify-center p-6 z-[200]">
+        {/* Close/Back Button */}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all"
+            aria-label="Go back"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+        )}
+
         <div className="max-w-2xl w-full">
           {/* 1. Green Circle */}
           <div className="flex justify-center mb-8">
