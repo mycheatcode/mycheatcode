@@ -11,7 +11,7 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
 
   if (isMarkdownFormat) {
     // Parse markdown format
-    const whatMatch = content.match(/\*\*whatIs#:\s*(.+?)(?=\n\*\*|$)/s);
+    const whatMatch = content.match(/\*\*whatIs#:\s*(.+?)(?=\n\*\*|$)/);
     if (whatMatch) {
       what = whatMatch[1].trim();
     }
