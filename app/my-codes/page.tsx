@@ -621,6 +621,9 @@ export default function MyCodesPage() {
     setShowGameModal(false);
     setGameCheatCodeId(null);
     setGameCheatCodeTitle('');
+    // Also close the cheat code card modal to return to my codes page
+    setSelectedCode(null);
+    resetCards();
   };
 
   // Parse summary into card data
