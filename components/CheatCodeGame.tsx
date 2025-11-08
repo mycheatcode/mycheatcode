@@ -433,8 +433,10 @@ export default function CheatCodeGame({
           {/* 6. Remember section - ALWAYS show with border box, positioned UNDER button */}
           <div className="border-2 border-gray-700 rounded-lg p-4 bg-gray-900/50">
             <p className="text-base text-gray-300 leading-relaxed text-center">
-              <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.what
-                ? `This cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
+              <span className="font-semibold text-white">Remember:</span> {cheatCodeData && cheatCodeData.phrase && cheatCodeData.what
+                ? `Your "${cheatCodeData.phrase}" cheat code is all about ${cheatCodeData.what.toLowerCase()}.`
+                : cheatCodeData && cheatCodeData.phrase
+                ? `Your "${cheatCodeData.phrase}" cheat code will help you reframe your thinking in these scenarios.`
                 : `This is your "${cheatCodeTitle}" cheat code. Apply your mental reframe to each scenario.`}
             </p>
           </div>

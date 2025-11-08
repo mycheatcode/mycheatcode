@@ -10,20 +10,22 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
   const isMarkdownFormat = content.includes('**whatIs#:') || content.includes('**Cheat Code Phrase**:');
 
   if (isMarkdownFormat) {
-    // Parse markdown format - handle both single-line and multi-line content
-    // Extract what - match until we hit another ** section or certain keywords
-    const whatMatch = content.match(/\*\*whatIs#:\s*(.+?)(?=\s*\*\*(?:whenIs|howIs|whyIs|Cheat Code)|$)/i);
+    // Parse markdown format - be more flexible with whitespace and newlines
+    // Extract what - look for content after **whatIs#:
+    const whatMatch = content.match(/\*\*whatIs#:\s*([^*]+?)(?=\s*\*\*|$)/);
     if (whatMatch) {
-      what = whatMatch[1].trim();
+      // Clean up the matched content - remove extra whitespace
+      what = whatMatch[1].replace(/\s+/g, ' ').trim();
     }
 
     // Extract phrase from quoted text
-    const phraseMatch = content.match(/\*\*Cheat Code Phrase\*\*:\s*"(.+?)"/);
+    const phraseMatch = content.match(/\*\*Cheat Code Phrase\*\*:\s*"([^"]+)"/);
     if (phraseMatch) {
       phrase = phraseMatch[1].trim();
     }
 
     console.log('🔍 Parser (markdown) - phrase:', phrase, 'what:', what);
+    console.log('🔍 What match details:', whatMatch);
   } else {
     // Parse CARD format
     const lines = content.split('\n');
