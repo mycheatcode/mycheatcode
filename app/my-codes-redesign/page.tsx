@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { getUserCheatCodes, toggleFavoriteCheatCode } from '@/lib/cheatcodes';
+import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import ProgressCircles from '@/components/ProgressCircles';
 import FeedbackButton from '@/components/FeedbackButton';
@@ -109,32 +109,6 @@ export default function MyCodesRedesignPage() {
     }
   }, [cheatCodes]);
 
-  // Toggle favorite
-  const toggleFavorite = async (codeId: string, e: React.MouseEvent) => {
-    e.stopPropagation();
-
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
-
-    const code = cheatCodes.find(c => c.id === codeId);
-    if (!code) return;
-
-    const newFavoriteStatus = !code.isFavorite;
-    await toggleFavoriteCheatCode(user.id, codeId, newFavoriteStatus);
-
-    setCheatCodes(codes => codes.map(c =>
-      c.id === codeId ? { ...c, isFavorite: newFavoriteStatus } : c
-    ));
-  };
-
-  // Format last session helper
-  const formatLastSession = (daysAgo: number | null) => {
-    if (daysAgo === null) return 'Never';
-    if (daysAgo === 0) return 'Today';
-    if (daysAgo === 1) return '1 day ago';
-    return `${daysAgo} days ago`;
-  };
-
   // Calculate insights
   const activeCodes = cheatCodes.filter(c => !c.archived);
   const recentlyCreated = [...activeCodes].sort((a, b) => {
@@ -199,7 +173,7 @@ export default function MyCodesRedesignPage() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
-              <span>My Codes</span>
+              <span>My Codes (Redesign)</span>
             </Link>
           </div>
         </nav>
@@ -328,76 +302,54 @@ export default function MyCodesRedesignPage() {
             <div className="flex-1 overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>Recent Codes</h2>
-                <Link href="/my-codes/view-all" className="text-sm font-medium" style={{ color: 'var(--text-tertiary)' }}>
+                <Link href="/my-codes" className="text-sm font-medium" style={{ color: 'var(--text-tertiary)' }}>
                   View All →
                 </Link>
               </div>
               <div className="grid grid-cols-2 gap-4">
-                {recentlyCreated.map((code, index) => (
+                {recentlyCreated.map((code) => (
                   <div
                     key={code.id}
                     onClick={() => router.push(`/my-codes?code=${code.id}`)}
-                    className="rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative transition-all cursor-pointer hover:scale-[1.02]"
-                    style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
+                    className="rounded-2xl p-5 min-h-[140px] flex flex-col justify-between relative border transition-all cursor-pointer hover:scale-[1.02]"
+                    style={{
+                      backgroundColor: 'var(--card-bg)',
+                      borderColor: 'var(--card-border)',
+                      borderLeftWidth: (code.lastUsedDaysAgo ?? 0) > 2 ? '3px' : '1px',
+                      borderLeftColor: (code.lastUsedDaysAgo ?? 0) > 2 ? '#fb923c' : 'var(--card-border)'
+                    }}
                   >
-                    {/* Favorite Star */}
-                    <button
-                      onClick={(e) => toggleFavorite(code.id, e)}
-                      className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
-                      style={{ backgroundColor: code.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
-                    >
-                      {code.isFavorite ? (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                    {/* Badge indicators */}
+                    {(code.lastUsedDaysAgo ?? 0) > 2 && (
+                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(251, 146, 60, 0.25)', border: '1.5px solid #fb923c', color: '#fb923c' }}>
+                        Practice
+                      </div>
+                    )}
+                    {(code.timesUsed || 0) === 0 && (code.lastUsedDaysAgo ?? 0) <= 2 && (
+                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(96, 165, 250, 0.25)', border: '1.5px solid #60a5fa', color: '#60a5fa' }}>
+                        New
+                      </div>
+                    )}
+                    {code.isFavorite && (
+                      <div className="absolute top-3 right-3">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent-color)">
                           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                         </svg>
-                      ) : (
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
-                          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                        </svg>
-                      )}
-                    </button>
-
-                    {/* New Badge - only show on first 2 codes if they're new */}
-                    {index < 2 && (code.timesUsed || 0) === 0 && (
-                      <div className="absolute top-3 left-3">
-                        <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'rgba(96, 165, 250, 0.15)', borderColor: '#60a5fa', color: '#60a5fa' }}>
-                          New
-                        </div>
                       </div>
                     )}
 
-                    {/* Card Content */}
-                    <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
-                      <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                    <div className="space-y-3 flex-1 flex flex-col justify-center">
+                      <h3 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                         {code.title}
-                      </h1>
+                      </h3>
                     </div>
 
-                    {/* Bottom Stats Row */}
-                    <div className="flex items-center justify-between text-[10px] pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
-                      <div>
-                        <span className="font-medium">Last: {formatLastSession(code.lastUsedDaysAgo)}</span>
-                      </div>
-                      <div>
-                        <span className="font-medium">Completed {code.timesUsed || 0}x</span>
-                      </div>
+                    <div className="flex items-center justify-between text-xs pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+                      <span className="font-medium">Completed {code.timesUsed || 0}x</span>
                     </div>
                   </div>
                 ))}
               </div>
-
-              {/* View All Button */}
-              {activeCodes.length > 5 && (
-                <div className="mt-6">
-                  <button
-                    onClick={() => router.push('/my-codes/view-all')}
-                    className="w-full py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                    style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-secondary)' }}
-                  >
-                    View All Codes →
-                  </button>
-                </div>
-              )}
             </div>
 
             {/* Empty State */}
@@ -534,76 +486,54 @@ export default function MyCodesRedesignPage() {
           <div className="p-4">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Recent Codes</h2>
-              <Link href="/my-codes/view-all" className="text-xs font-medium" style={{ color: 'var(--text-tertiary)' }}>
+              <Link href="/my-codes" className="text-xs font-medium" style={{ color: 'var(--text-tertiary)' }}>
                 View All →
               </Link>
             </div>
             <div className="space-y-3">
-              {recentlyCreated.map((code, index) => (
+              {recentlyCreated.map((code) => (
                 <div
                   key={code.id}
                   onClick={() => router.push(`/my-codes?code=${code.id}`)}
-                  className="rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative transition-all active:scale-[0.98]"
-                  style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
+                  className="rounded-2xl p-5 min-h-[140px] flex flex-col justify-between relative border transition-all active:scale-[0.98]"
+                  style={{
+                    backgroundColor: 'var(--card-bg)',
+                    borderColor: 'var(--card-border)',
+                    borderLeftWidth: (code.lastUsedDaysAgo ?? 0) > 2 ? '3px' : '1px',
+                    borderLeftColor: (code.lastUsedDaysAgo ?? 0) > 2 ? '#fb923c' : 'var(--card-border)'
+                  }}
                 >
-                  {/* Favorite Star */}
-                  <button
-                    onClick={(e) => toggleFavorite(code.id, e)}
-                    className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
-                    style={{ backgroundColor: code.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
-                  >
-                    {code.isFavorite ? (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                  {/* Badge indicators */}
+                  {(code.lastUsedDaysAgo ?? 0) > 2 && (
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(251, 146, 60, 0.25)', border: '1.5px solid #fb923c', color: '#fb923c' }}>
+                      Practice
+                    </div>
+                  )}
+                  {(code.timesUsed || 0) === 0 && (code.lastUsedDaysAgo ?? 0) <= 2 && (
+                    <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: 'rgba(96, 165, 250, 0.25)', border: '1.5px solid #60a5fa', color: '#60a5fa' }}>
+                      New
+                    </div>
+                  )}
+                  {code.isFavorite && (
+                    <div className="absolute top-3 right-3">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--accent-color)">
                         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                       </svg>
-                    ) : (
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                      </svg>
-                    )}
-                  </button>
-
-                  {/* New Badge - only show on first 2 codes if they're new */}
-                  {index < 2 && (code.timesUsed || 0) === 0 && (
-                    <div className="absolute top-3 left-3">
-                      <div className="inline-block px-2 py-0.5 border rounded-md text-[10px] uppercase font-semibold tracking-wider" style={{ backgroundColor: 'rgba(96, 165, 250, 0.15)', borderColor: '#60a5fa', color: '#60a5fa' }}>
-                        New
-                      </div>
                     </div>
                   )}
 
-                  {/* Card Content */}
-                  <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
-                    <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                  <div className="space-y-3 flex-1 flex flex-col justify-center">
+                    <h3 className="text-xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                       {code.title}
-                    </h1>
+                    </h3>
                   </div>
 
-                  {/* Bottom Stats Row */}
-                  <div className="flex items-center justify-between text-[10px] pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
-                    <div>
-                      <span className="font-medium">Last: {formatLastSession(code.lastUsedDaysAgo)}</span>
-                    </div>
-                    <div>
-                      <span className="font-medium">Completed {code.timesUsed || 0}x</span>
-                    </div>
+                  <div className="flex items-center justify-between text-xs pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+                    <span className="font-medium">Completed {code.timesUsed || 0}x</span>
                   </div>
                 </div>
               ))}
             </div>
-
-            {/* View All Button */}
-            {activeCodes.length > 5 && (
-              <div className="mt-4">
-                <button
-                  onClick={() => router.push('/my-codes/view-all')}
-                  className="w-full py-3 rounded-xl font-medium text-sm transition-all active:scale-[0.98]"
-                  style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', color: 'var(--text-secondary)' }}
-                >
-                  View All Codes →
-                </button>
-              </div>
-            )}
           </div>
 
           {/* Empty State */}
