@@ -704,32 +704,26 @@ export default function MyCodesPage() {
 
       // Split "How" into steps - handle newline-separated steps
       if (how) {
-        // Split by newlines and filter out empty lines and standalone numbers
-        const lines = how.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        // Try to split by numbered steps (e.g., "1. ", "2. ", "3. ")
+        // Look for patterns like "1. " at the start of lines
+        const numberedSteps = how.split(/(?=\d+\.\s)/).filter(s => s.trim().length > 0);
 
-        // Remove standalone numbers (like "1.", "2.", "3.") and join multi-line steps
-        let currentStep = '';
-        for (const line of lines) {
-          // Check if line is just a number (like "1." or "2.")
-          if (/^\d+\.$/.test(line)) {
-            // If we have a current step, save it
-            if (currentStep) {
-              howSteps.push(currentStep);
-            }
-            currentStep = '';
+        if (numberedSteps.length > 1) {
+          // We found numbered steps - clean them up
+          howSteps = numberedSteps.map(step => {
+            // Remove the leading number and any extra whitespace
+            return step.replace(/^\d+\.\s*/, '').trim();
+          }).filter(s => s.length > 0);
+        } else {
+          // No numbered steps found, try splitting by newlines
+          const lines = how.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+          if (lines.length > 1) {
+            howSteps = lines;
           } else {
-            // Add to current step
-            currentStep += (currentStep ? ' ' : '') + line;
+            // Fall back to sentence-based splitting
+            howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
           }
-        }
-        // Don't forget the last step
-        if (currentStep) {
-          howSteps.push(currentStep);
-        }
-
-        // If we didn't find numbered steps, try splitting by sentences
-        if (howSteps.length === 0) {
-          howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
         }
       }
     }
