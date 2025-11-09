@@ -7,8 +7,6 @@ import TypingAnimation from '../../components/TypingAnimation';
 import { createClient } from '@/lib/supabase/client';
 import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/chat';
 import { saveCheatCode, type CheatCodeData, toggleFavoriteCheatCode, getUserCheatCodes } from '@/lib/cheatcodes';
-import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
-import MomentumBanner, { useMomentumBanner } from '@/components/MomentumBanner';
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
 import CheatCodeGame from '@/components/CheatCodeGame';
@@ -85,8 +83,6 @@ export default function ChatPage() {
   const completedTypingRef = useRef<Set<string>>(new Set()); // Track completed typing animations
   const [, forceUpdate] = useState({}); // For forcing re-render when button should appear
   const followUpInProgressRef = useRef<Set<string>>(new Set()); // Track codes with follow-up in progress
-  const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
-  const { bannerData, showMomentumBanner, dismissBanner } = useMomentumBanner();
   const router = useRouter();
   const supabase = createClient();
 
@@ -1071,14 +1067,8 @@ export default function ChatPage() {
           awardMeaningfulChatMomentum(userId, currentChatId)
             .then(async (momentumGained) => {
               if (momentumGained > 0) {
-                // Show momentum notification
-                const updatedProgress = await getUserProgress(userId);
-                showMomentumProgress({
-                  previousMomentum: updatedProgress.progress - momentumGained,
-                  newMomentum: updatedProgress.progress,
-                  source: 'chat',
-                  chatCount: updatedProgress.chatCount
-                });
+                // Momentum awarded silently (no notification)
+                console.log('Meaningful chat momentum awarded:', momentumGained);
               }
             })
             .catch(err => {
@@ -1427,13 +1417,7 @@ export default function ChatPage() {
   const handleGameComplete = async (result: GameSessionResult) => {
     console.log('Game completed:', result);
 
-    // Show momentum gain if any
-    if (result.momentum_awarded > 0) {
-      showMomentumBanner({
-        previousMomentum: result.previous_momentum,
-        newMomentum: result.new_momentum,
-      });
-    }
+    // Momentum awarded silently (no notification)
 
     // Results will stay visible until user clicks Done or Play Again
     // No auto-close
@@ -2199,21 +2183,6 @@ export default function ChatPage() {
         </div>
       )}
 
-      {/* Momentum Progress Toast - For major milestones only */}
-      {toastData && (
-        <MomentumProgressToast
-          data={toastData}
-          onDismiss={dismissToast}
-        />
-      )}
-
-      {/* Momentum Banner - For regular progress */}
-      {bannerData && (
-        <MomentumBanner
-          data={bannerData}
-          onDismiss={dismissBanner}
-        />
-      )}
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
