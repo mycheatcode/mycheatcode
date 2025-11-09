@@ -558,6 +558,17 @@ export default function ChatPage() {
                 ...(m.gameButtonCodeId && { gameButtonCodeId: m.gameButtonCodeId }),
                 ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
+
+              // Debug: Log if this message has a game button
+              if (m.gameButtonCodeId) {
+                console.log('📦 Restored message with game button:', {
+                  messageId: msg.id,
+                  codeId: m.gameButtonCodeId,
+                  codeTitle: m.gameButtonCodeTitle,
+                  messagePreview: msg.text.substring(0, 50)
+                });
+              }
+
               messageIds.current.add(msg.id);
               return msg;
             });
@@ -605,7 +616,7 @@ export default function ChatPage() {
                 senderValue = 'coach';
               }
 
-              return {
+              const msg = {
                 id: uid(),
                 text: m.content || m.text || '',
                 sender: senderValue,
@@ -614,6 +625,18 @@ export default function ChatPage() {
                 ...(m.gameButtonCodeId && { gameButtonCodeId: m.gameButtonCodeId }),
                 ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
+
+              // Debug: Log if this message has a game button
+              if (m.gameButtonCodeId) {
+                console.log('📦 Restored from DB with game button:', {
+                  messageId: msg.id,
+                  codeId: m.gameButtonCodeId,
+                  codeTitle: m.gameButtonCodeTitle,
+                  messagePreview: msg.text.substring(0, 50)
+                });
+              }
+
+              return msg;
             });
 
             restored.forEach(msg => messageIds.current.add(msg.id));
