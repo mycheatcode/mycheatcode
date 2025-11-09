@@ -825,9 +825,9 @@ export default function ChatPage() {
 
               const topicId = topic.id as string;
               const followUps = topicFollowUps[topicId] || [
-                `Walk me through what happened the last time this came up.`,
-                `Tell me about a recent time when this was an issue.`,
-                `When did you last deal with this?`
+                `When was the last time this happened?`,
+                `Tell me more about this.`,
+                `What's going on with this?`
               ];
               welcomeText = followUps[Math.floor(Math.random() * followUps.length)];
             }
