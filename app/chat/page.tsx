@@ -771,10 +771,10 @@ export default function ChatPage() {
         // Natural welcome message
         const greeting = userName ? `What's up ${userName}!` : "What's up!";
         const freshChatIntros = [
-          `${greeting} What's been on your mind with your game lately?`,
-          `${greeting} What are you working on with your game right now?`,
-          `${greeting} What do you want to talk about with your basketball?`,
-          `${greeting} What's going on with your game?`
+          `${greeting} I'm pumped to work with you. What's been going on with your game?`,
+          `${greeting} Let's get into it - what do you want to talk about with your basketball?`,
+          `${greeting} I'm fired up to help you out. What's on your mind with your game?`,
+          `${greeting} Ready to dive in? What are you working on right now?`
         ];
         let welcomeText = freshChatIntros[Math.floor(Math.random() * freshChatIntros.length)];
 
@@ -788,17 +788,17 @@ export default function ChatPage() {
 
               // Natural, tailored topic starters
               const topicStarters: Record<string, string> = {
-                'pre_game_nerves': `${greeting} Before a big game, what's usually running through your head?`,
-                'missed_shots': `${greeting} When you miss a shot, what happens next? What do you usually think or do?`,
-                'pressure_moments': `${greeting} Think about the last pressure moment you had - what was going through your mind right before it?`,
-                'comparing_teammates': `${greeting} When you're around your teammates, what triggers that comparison feeling?`,
-                'coach_criticism': `${greeting} When your coach gives you feedback, how do you usually react in the moment?`,
-                'negative_self_talk': `${greeting} What's the most common negative thing you say to yourself during a game?`,
-                'inconsistent_performance': `${greeting} On your good days, what feels different compared to your off days?`,
-                'playing_up_competition': `${greeting} When you're facing someone better, what's the first thing you notice about yourself?`
+                'pre_game_nerves': `${greeting} Let's talk about those pre-game nerves. What's usually running through your head before a big game?`,
+                'missed_shots': `${greeting} I want to help you with this. When you miss a shot, what happens next in your head?`,
+                'pressure_moments': `${greeting} Pressure moments - let's dive into this. Think about the last time you felt it - what was going through your mind?`,
+                'comparing_teammates': `${greeting} This is a big one. When you're around your teammates, what triggers that comparison feeling?`,
+                'coach_criticism': `${greeting} Let's work on this together. When your coach gives you feedback, how do you usually react?`,
+                'negative_self_talk': `${greeting} I'm glad you want to tackle this. What's the most common negative thing you say to yourself during games?`,
+                'inconsistent_performance': `${greeting} This is something we can definitely fix. On your good days vs your off days - what feels different?`,
+                'playing_up_competition': `${greeting} Let's get into this. When you're facing someone you think is better, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id as string] || `${greeting} What's been on your mind about your game lately?`;
+              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to work on this with you. What's been on your mind about your game?`;
             } else if (topic.customStarter) {
               welcomeText = topic.customStarter;
             } else {
