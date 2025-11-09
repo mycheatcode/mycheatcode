@@ -704,9 +704,14 @@ export default function MyCodesPage() {
 
       // Split "How" into steps - handle newline-separated steps
       if (how) {
+        console.log('🔍 HOW field content:', how);
+        console.log('🔍 HOW length:', how.length);
+
         // Try to split by numbered steps (e.g., "1. ", "2. ", "3. ")
-        // Look for patterns like "1. " at the start of lines
+        // This works whether numbers are inline or on separate lines
         const numberedSteps = how.split(/(?=\d+\.\s)/).filter(s => s.trim().length > 0);
+
+        console.log('🔍 Split by numbers, got', numberedSteps.length, 'parts:', numberedSteps);
 
         if (numberedSteps.length > 1) {
           // We found numbered steps - clean them up
@@ -718,11 +723,14 @@ export default function MyCodesPage() {
           // No numbered steps found, try splitting by newlines
           const lines = how.split('\n').map(l => l.trim()).filter(l => l.length > 0);
 
+          console.log('🔍 Split by newlines, got', lines.length, 'lines:', lines);
+
           if (lines.length > 1) {
             howSteps = lines;
           } else {
             // Fall back to sentence-based splitting
             howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+            console.log('🔍 Fell back to sentence splitting, got:', howSteps.length, 'sentences');
           }
         }
       }
