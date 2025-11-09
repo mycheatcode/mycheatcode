@@ -768,13 +768,13 @@ export default function ChatPage() {
         // Show coach message immediately (no delay)
         const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
-        // Natural welcome message
+        // Natural welcome message - open and exploratory, not prescriptive
         const greeting = userName ? `What's up ${userName}!` : "What's up!";
         const freshChatIntros = [
           `${greeting} I'm pumped to work with you. What's been going on with your game?`,
           `${greeting} Let's get into it - what do you want to talk about?`,
           `${greeting} I'm fired up to help you out. What's on your mind with your game?`,
-          `${greeting} Ready to dive in? What are you working on right now?`
+          `${greeting} Ready to dive in? What's been on your mind lately?`
         ];
         let welcomeText = freshChatIntros[Math.floor(Math.random() * freshChatIntros.length)];
 
