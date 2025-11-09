@@ -774,7 +774,19 @@ export default function ChatPage() {
           `${greeting} I'm pumped to work with you. What's been going on with your game?`,
           `${greeting} Let's get into it - what do you want to talk about?`,
           `${greeting} I'm fired up to help you out. What's on your mind with your game?`,
-          `${greeting} Ready to dive in? What's been on your mind lately?`
+          `${greeting} Ready to dive in? What's been on your mind lately?`,
+          `${greeting} Good to see you. What's been happening with your basketball?`,
+          `${greeting} I'm here for whatever you want to talk through. What's going on?`,
+          `${greeting} Let's talk. What's on your mind?`,
+          `${greeting} I'm excited to work with you. What do you want to get into?`,
+          `${greeting} Alright, what are we talking about today?`,
+          `${greeting} I'm ready when you are. What's been going on?`,
+          `${greeting} Let's do this. What do you want to work through?`,
+          `${greeting} I'm all ears. What's happening with you?`,
+          `${greeting} Talk to me. What's on your mind with your game?`,
+          `${greeting} What's going on? I'm here to help however I can.`,
+          `${greeting} Let's get started. What do you want to dive into?`,
+          `${greeting} I'm listening. What's been on your mind?`
         ];
         let welcomeText = freshChatIntros[Math.floor(Math.random() * freshChatIntros.length)];
 
