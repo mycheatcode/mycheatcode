@@ -1017,22 +1017,7 @@ export default function ChatPage() {
       // Check if the coach just gave a cheat code - if so, celebrate!
       if (isCheatCode(coachMsg.text)) {
         // Get current progress to show in celebration
-        if (userId) {
-          try {
-            const currentProgress = await getUserProgress(userId);
-            // Show celebration for receiving a cheat code
-            setTimeout(() => {
-              showMomentumProgress({
-                previousMomentum: currentProgress.progress,
-                newMomentum: currentProgress.progress, // Same value, just celebrating the cheat code
-                source: 'cheat_code_received',
-                chatCount: currentProgress.chatCount
-              });
-            }, 1000); // Small delay so the message appears first
-          } catch (err) {
-            console.error('Error getting progress for cheat code celebration:', err);
-          }
-        }
+        // Cheat code received (no notification needed)
       }
 
       // Save chat to database after receiving response (non-blocking)
