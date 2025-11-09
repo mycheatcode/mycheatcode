@@ -817,9 +817,16 @@ export default function ChatPage() {
               if (topicStarters[topic.id as string]) {
                 welcomeText = topicStarters[topic.id as string];
               }
-              // Otherwise, if we have a topic title/quote, reference it directly
+              // Otherwise, acknowledge what they're working on naturally
               else if (topic.title) {
-                welcomeText = `${greeting} I see you want to work on "${topic.title}" - that's real and a lot of players deal with this. Tell me more about what's going on with this?`;
+                // More natural ways to reference the topic without quoting it
+                const naturalAcknowledgments = [
+                  `${greeting} I can tell this is something that's been on your mind. A lot of players deal with this kind of thing. Walk me through what's been going on?`,
+                  `${greeting} I'm glad you want to work on this - it's something I see all the time with players. Tell me more about when this shows up for you?`,
+                  `${greeting} This is real, and you're not alone in feeling this way. Help me understand what's going on with this?`,
+                  `${greeting} I know this can be tough to deal with. Let's dive into it - what's been happening with this?`
+                ];
+                welcomeText = naturalAcknowledgments[Math.floor(Math.random() * naturalAcknowledgments.length)];
               }
               // Final fallback
               else {
