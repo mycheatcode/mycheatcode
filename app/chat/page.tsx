@@ -745,9 +745,15 @@ export default function ChatPage() {
         // Show coach message immediately (no delay)
         const stored = typeof window !== 'undefined' ? localStorage.getItem('selectedTopic') : null;
 
-        // Static welcome message
+        // Natural welcome message
         const greeting = userName ? `What's up ${userName}!` : "What's up!";
-        let welcomeText = `${greeting} I'm your confidence coach. What do you want to talk about?`;
+        const freshChatIntros = [
+          `${greeting} What's been on your mind with your game lately?`,
+          `${greeting} What are you working on with your game right now?`,
+          `${greeting} What do you want to talk about with your basketball?`,
+          `${greeting} What's going on with your game?`
+        ];
+        let welcomeText = freshChatIntros[Math.floor(Math.random() * freshChatIntros.length)];
 
         if (stored) {
           try {
@@ -757,29 +763,73 @@ export default function ChatPage() {
             if (topic.isFirstCode) {
               setIsFirstCodeChat(true);
 
-              // Create indirect topic reference and simple question
+              // Natural, tailored topic starters
               const topicStarters: Record<string, string> = {
-                'pre_game_nerves': `${greeting} Let's dive into this and build your first cheat code. Before a big game, what's usually running through your head?`,
-                'missed_shots': `${greeting} Let's dive into this and build your first cheat code. When you miss a shot, what happens next? What do you usually do or think?`,
-                'pressure_moments': `${greeting} Let's dive into this and build your first cheat code. Think about the last pressure moment you had - what was going through your mind right before it?`,
-                'comparing_teammates': `${greeting} Let's dive into this and build your first cheat code. When you're around your teammates, what triggers that comparison feeling?`,
-                'coach_criticism': `${greeting} Let's dive into this and build your first cheat code. When your coach gives you feedback, how do you usually react in the moment?`,
-                'negative_self_talk': `${greeting} Let's dive into this and build your first cheat code. What's the most common negative thing you say to yourself during a game?`,
-                'inconsistent_performance': `${greeting} Let's dive into this and build your first cheat code. On your good days, what feels different compared to your off days?`,
-                'playing_up_competition': `${greeting} Let's dive into this and build your first cheat code. When you're facing someone better, what's the first thing you notice about yourself?`
+                'pre_game_nerves': `${greeting} Before a big game, what's usually running through your head?`,
+                'missed_shots': `${greeting} When you miss a shot, what happens next? What do you usually think or do?`,
+                'pressure_moments': `${greeting} Think about the last pressure moment you had - what was going through your mind right before it?`,
+                'comparing_teammates': `${greeting} When you're around your teammates, what triggers that comparison feeling?`,
+                'coach_criticism': `${greeting} When your coach gives you feedback, how do you usually react in the moment?`,
+                'negative_self_talk': `${greeting} What's the most common negative thing you say to yourself during a game?`,
+                'inconsistent_performance': `${greeting} On your good days, what feels different compared to your off days?`,
+                'playing_up_competition': `${greeting} When you're facing someone better, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id as string] || `${greeting} Let's dive into this and build your first cheat code. What's been on your mind about your game lately?`;
+              welcomeText = topicStarters[topic.id as string] || `${greeting} What's been on your mind about your game lately?`;
             } else if (topic.customStarter) {
               welcomeText = topic.customStarter;
             } else {
-              const topicMessages = [
-                `I see you're focused on something specific. Walk me through what happened the last time this came up.`,
-                `Tell me about a recent time when this was an issue for you.`,
-                `What does this usually look like when it happens?`,
-                `When did you last deal with this situation?`
+              // For non-first-code topics, use natural follow-ups tailored to each topic
+              const topicFollowUps: Record<string, string[]> = {
+                'pre_game_nerves': [
+                  `Before big games, what's the main thing that gets in your head?`,
+                  `Walk me through what happens mentally before a big game.`,
+                  `When you're about to play an important game, what runs through your mind?`
+                ],
+                'missed_shots': [
+                  `When you miss a shot, what's the first thought that hits you?`,
+                  `Tell me what happens after you miss - what goes through your mind?`,
+                  `How do you usually react when a shot doesn't fall?`
+                ],
+                'pressure_moments': [
+                  `Think of the last time you felt pressure in a game - what was going through your head?`,
+                  `What happens mentally when you're in a high-pressure moment?`,
+                  `When the pressure's on, what thoughts come up for you?`
+                ],
+                'comparing_teammates': [
+                  `When do you find yourself comparing to your teammates the most?`,
+                  `What triggers that comparison feeling around your teammates?`,
+                  `How does comparing yourself to teammates usually show up for you?`
+                ],
+                'coach_criticism': [
+                  `When your coach gives you tough feedback, what's your first reaction?`,
+                  `How do you usually handle it when your coach calls you out?`,
+                  `What goes through your mind when your coach criticizes you?`
+                ],
+                'negative_self_talk': [
+                  `What's the most common negative thing you tell yourself during games?`,
+                  `When does that negative self-talk usually kick in?`,
+                  `What are you saying to yourself when you're playing badly?`
+                ],
+                'inconsistent_performance': [
+                  `On your good days, what feels different compared to off days?`,
+                  `What changes between when you play well and when you don't?`,
+                  `Why do you think your performance varies so much?`
+                ],
+                'playing_up_competition': [
+                  `When you're facing someone better, what's the first thing you notice about yourself?`,
+                  `How do you feel going up against someone you think is better than you?`,
+                  `What happens mentally when you know you're playing up?`
+                ]
+              };
+
+              const topicId = topic.id as string;
+              const followUps = topicFollowUps[topicId] || [
+                `Walk me through what happened the last time this came up.`,
+                `Tell me about a recent time when this was an issue.`,
+                `When did you last deal with this?`
               ];
-              welcomeText = topicMessages[Math.floor(Math.random() * topicMessages.length)];
+              welcomeText = followUps[Math.floor(Math.random() * followUps.length)];
             }
           } catch {
             // ignore
