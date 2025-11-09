@@ -936,18 +936,7 @@ export default function ChatPage() {
         // Store momentum gain for display in success animation
         setMomentumGain(gainAmount);
 
-        if (gainAmount > 0) {
-          // Get updated progress to show
-          const updatedProgress = await getUserProgress(userId);
-          showMomentumProgress({
-            previousMomentum: updatedProgress.progress - gainAmount,
-            newMomentum: updatedProgress.progress,
-            source: 'cheat_code_received',
-            chatCount: updatedProgress.chatCount
-          });
-        }
-
-        // Show success animation
+        // Show success animation (momentum already displayed in the success message)
         setShowSaveSuccess(true);
 
         // Hide success animation after 2 seconds (no redirect)
