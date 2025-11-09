@@ -128,8 +128,8 @@ export default function MyCodesRedesignPage() {
   };
 
   // Format last session helper
-  const formatLastSession = (daysAgo: number | null) => {
-    if (daysAgo === null) return 'Never';
+  const formatLastSession = (daysAgo: number | null | undefined) => {
+    if (daysAgo === null || daysAgo === undefined) return 'Never';
     if (daysAgo === 0) return 'Today';
     if (daysAgo === 1) return '1 day ago';
     return `${daysAgo} days ago`;
