@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { getUserCheatCodes, toggleFavoriteCheatCode } from '@/lib/cheatcodes';
+import { getUserCheatCodes, toggleFavoriteCheatCode, checkTodayUsage, archiveCheatCodeDb, reactivateCheatCodeDb } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
 import CheatCodeGame from '@/components/CheatCodeGame';
@@ -35,6 +35,12 @@ export default function ViewAllCodesPage() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
   const [currentCard, setCurrentCard] = useState(0);
+  const [animatingCode, setAnimatingCode] = useState<string | null>(null);
+  const [animationType, setAnimationType] = useState<'archive' | 'reactivate' | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [hasAdded, setHasAdded] = useState(false);
+  const [usedToday, setUsedToday] = useState(false);
+  const [isLoggingUsage, setIsLoggingUsage] = useState(false);
   const [showGameModal, setShowGameModal] = useState(false);
   const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
   const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
@@ -122,6 +128,26 @@ export default function ViewAllCodesPage() {
     }
   }, [searchParams, cheatCodes, router]);
 
+  // Check if selected code was used today
+  useEffect(() => {
+    const checkUsage = async () => {
+      if (!selectedCode) {
+        setUsedToday(false);
+        return;
+      }
+
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        return;
+      }
+
+      const { usedToday: wasUsedToday } = await checkTodayUsage(user.id, selectedCode.id);
+      setUsedToday(wasUsedToday);
+    };
+
+    checkUsage();
+  }, [selectedCode, supabase]);
+
   // Toggle favorite
   const toggleFavorite = async (codeId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -192,6 +218,121 @@ export default function ViewAllCodesPage() {
     };
 
     loadData();
+  };
+
+  // Handle opening chat
+  const handleOpenChat = async (code: CheatCode) => {
+    if (code.topicId) {
+      // Fetch the actual chat from database and restore it
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/chat');
+        return;
+      }
+
+      try {
+        // Fetch the chat from database using chat_id
+        const { data: chatData, error } = await supabase
+          .from('chats')
+          .select('*')
+          .eq('id', code.topicId)
+          .eq('user_id', user.id)
+          .single();
+
+        if (error || !chatData) {
+          console.error('Error fetching chat or chat not found:', error);
+          // Fall back to starting a new chat with topic
+          localStorage.setItem('selectedTopic', JSON.stringify({
+            title: code.title,
+            description: code.summary,
+          }));
+          router.push('/chat');
+          return;
+        }
+
+        // Store the chat history for restoration
+        localStorage.setItem('chatHistory', JSON.stringify({
+          isRestoringChat: true,
+          messages: chatData.messages || [],
+          sessionId: chatData.id
+        }));
+
+        // Store the ORIGINAL selected topic from the database
+        if (chatData.selected_topic) {
+          localStorage.setItem('selectedTopic', JSON.stringify({
+            ...chatData.selected_topic,
+            isReturningToExistingChat: true,
+          }));
+        }
+
+        router.push('/chat');
+      } catch (err) {
+        console.error('Error loading chat:', err);
+        // Fall back to starting a new chat with topic
+        localStorage.setItem('selectedTopic', JSON.stringify({
+          title: code.title,
+          description: code.summary,
+        }));
+        router.push('/chat');
+      }
+    } else {
+      // No chat ID - start fresh chat with topic
+      localStorage.setItem('selectedTopic', JSON.stringify({
+        title: code.title,
+        description: code.summary,
+      }));
+      router.push('/chat');
+    }
+  };
+
+  // Toggle archive status
+  const toggleArchiveStatus = async (codeId: string) => {
+    const code = cheatCodes.find(c => c.id === codeId);
+    if (!code) return;
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Start animation
+    setAnimatingCode(codeId);
+    setAnimationType(code.archived ? 'reactivate' : 'archive');
+
+    // Delay the actual status change to allow animation
+    setTimeout(async () => {
+      if (code.archived) {
+        // Reactivate in database
+        const { error: dbError } = await reactivateCheatCodeDb(user.id, codeId);
+
+        if (dbError) {
+          console.error('Error reactivating in database:', dbError);
+          alert('Failed to reactivate cheat code. Please try again.');
+        } else {
+          setCheatCodes(codes => codes.map(c =>
+            c.id === codeId ? { ...c, archived: false } : c
+          ));
+        }
+      } else {
+        // Archive in database
+        const { error: dbError } = await archiveCheatCodeDb(user.id, codeId);
+
+        if (dbError) {
+          console.error('Error archiving in database:', dbError);
+          alert('Failed to archive cheat code. Please try again.');
+        } else {
+          setCheatCodes(codes => codes.map(c =>
+            c.id === codeId ? { ...c, archived: true } : c
+          ));
+        }
+      }
+
+      // Clear animation state
+      setTimeout(() => {
+        setAnimatingCode(null);
+        setAnimationType(null);
+      }, 300);
+    }, 150);
+
+    setSelectedCode(null);
   };
 
   // Get filtered codes based on category and search
@@ -777,148 +918,265 @@ export default function ViewAllCodesPage() {
         </div>
       </div>
 
-      {/* Code Detail Modal - Cue Card Carousel */}
-      {selectedCode && (() => {
-        const cards = buildCards(selectedCode);
-        const card: any = cards[currentCard];
-        const isLastCard = currentCard === cards.length - 1;
+      {/* Cheat Code Cue Cards Modal */}
+      {selectedCode && (
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+          {/* Close Button */}
+          <button
+            onClick={handleCloseModal}
+            className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
 
-        return (
-          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={handleCloseModal}>
-            <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
-              {/* Close button */}
-              <button
-                onClick={handleCloseModal}
-                className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors z-10"
-                style={{ color: 'var(--text-secondary)' }}
-              >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 6L6 18M6 6l12 12"/>
-                </svg>
-              </button>
-
-              {/* Favorite Star - only on last card */}
-              {isLastCard && (
+          {/* Card Container */}
+          <div className="w-full max-w-lg">
+            {/* Card with Navigation Inside */}
+            <div className="rounded-2xl p-6 lg:p-10 min-h-[400px] lg:min-h-[500px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+              {/* Favorite Star - Top Right (only on final phrase card) */}
+              {currentCard === buildCards(selectedCode).length - 1 && (
                 <button
-                  onClick={(e) => toggleFavorite(selectedCode.id, e)}
-                  className="absolute top-4 left-4 p-2 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavorite(selectedCode.id, e);
+                  }}
+                  className="absolute top-3 right-3 p-1.5 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
                   style={{ backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
                 >
                   {selectedCode.isFavorite ? (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
                   ) : (
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
                       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
                     </svg>
                   )}
                 </button>
               )}
 
+              {/* Left Arrow - Centered */}
+              <button
+                onClick={prevCard}
+                disabled={currentCard === 0}
+                className={`absolute left-2 lg:left-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                  currentCard === 0
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'active:scale-95'
+                }`}
+                style={{ color: currentCard === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+
+              {/* Right Arrow - Centered */}
+              <button
+                onClick={nextCard}
+                disabled={currentCard === buildCards(selectedCode).length - 1}
+                className={`absolute right-2 lg:right-4 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                  currentCard === buildCards(selectedCode).length - 1
+                    ? 'cursor-not-allowed opacity-30'
+                    : 'active:scale-95'
+                }`}
+                style={{ color: currentCard === buildCards(selectedCode).length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+
               {/* Card Content */}
-              <div className="min-h-[400px] flex flex-col justify-center items-center text-center px-8 py-12">
-                {card.type === 'title' && (
-                  <>
-                    <div className="text-sm mb-4 px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
-                      {card.category}
-                    </div>
-                    <h1 className="text-4xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-                      {card.title}
-                    </h1>
-                    <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
-                      Swipe through to review your cheat code
-                    </p>
-                  </>
-                )}
+              <div className="flex-1 flex flex-col justify-between px-4 lg:px-6 py-4 lg:py-6 pb-3 lg:pb-4">
+                <div className="flex-1 flex flex-col items-center justify-center text-center">
+                  {(() => {
+                    const cards = buildCards(selectedCode);
+                    const card = cards[currentCard];
 
-                {card.type === 'section' && (
-                  <>
-                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
-                      {card.heading}
-                    </div>
-                    <p className="text-xl leading-relaxed" style={{ color: 'var(--text-primary)' }}>
-                      {card.content}
-                    </p>
-                  </>
-                )}
+                    return (
+                      <>
+                        {/* Title Card */}
+                        {card.type === 'title' && (
+                          <div className="space-y-6 lg:space-y-8">
+                            <h1 className="text-3xl lg:text-5xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                              {(card as any).title}
+                            </h1>
+                          </div>
+                        )}
 
-                {card.type === 'step' && (
-                  <>
-                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
-                      {card.heading} - Step {card.stepNumber} of {card.totalSteps}
-                    </div>
-                    <p className="text-xl leading-relaxed" style={{ color: 'var(--text-primary)' }}>
-                      {card.content}
-                    </p>
-                  </>
-                )}
+                      {/* Section Cards (What, When) */}
+                      {card.type === 'section' && (card as any).heading !== 'Why' && (
+                        <div className="space-y-6 lg:space-y-8 max-w-md">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                            {(card as any).heading}
+                          </div>
+                          <p className="text-xl lg:text-2xl font-medium leading-[1.4]" style={{ color: 'var(--text-primary)' }}>
+                            {(card as any).content}
+                          </p>
+                        </div>
+                      )}
 
-                {card.type === 'phrase' && (
-                  <>
-                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
-                      {card.heading}
-                    </div>
-                    <p className="text-3xl font-bold leading-relaxed mb-8" style={{ color: 'var(--accent-color)' }}>
-                      "{card.content}"
-                    </p>
-                    <button
-                      onClick={() => {
-                        handleStartGame(selectedCode.id, selectedCode.title);
-                        handleCloseModal();
-                      }}
-                      className="px-8 py-4 rounded-xl font-bold text-lg transition-all active:scale-95"
-                      style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                    >
-                      Start Practice
-                    </button>
-                  </>
-                )}
-              </div>
+                      {/* Why Card */}
+                      {card.type === 'section' && (card as any).heading === 'Why' && (
+                        <div className="space-y-6 lg:space-y-8 max-w-lg">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                            {(card as any).heading}
+                          </div>
+                          <div className="space-y-4 lg:space-y-6">
+                            {(card as any).content.split('\n\n').map((paragraph: string, i: number) => (
+                              <p key={i} className="text-base lg:text-lg font-medium leading-[1.6]" style={{ color: 'var(--text-primary)' }}>
+                                {paragraph}
+                              </p>
+                            ))}
+                          </div>
+                        </div>
+                      )}
 
-              {/* Navigation */}
-              <div className="flex items-center justify-between mt-6">
-                {/* Left Arrow */}
-                <button
-                  onClick={prevCard}
-                  disabled={currentCard === 0}
-                  className="p-3 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/5"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M15 18l-6-6 6-6"/>
-                  </svg>
-                </button>
+                      {/* Step Cards */}
+                      {card.type === 'step' && 'stepNumber' in card && (
+                        <div className="space-y-6 lg:space-y-8 max-w-lg">
+                          <div className="space-y-2 lg:space-y-3">
+                            <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              {(card as any).heading}
+                            </div>
+                            <div className="text-xs lg:text-sm font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                              Step {(card as any).stepNumber} of {(card as any).totalSteps}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-4 lg:gap-6">
+                            <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 rounded-xl border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                              <span className="font-bold text-lg lg:text-xl" style={{ color: 'var(--text-primary)' }}>{(card as any).stepNumber}</span>
+                            </div>
+                            <p className="text-lg lg:text-xl font-medium leading-[1.5] text-left flex-1" style={{ color: 'var(--text-primary)' }}>
+                              {(card as any).content}
+                            </p>
+                          </div>
+                        </div>
+                      )}
 
-                {/* Progress Dots */}
-                <div className="flex gap-2">
-                  {cards.map((_, index) => (
-                    <div
-                      key={index}
-                      className="w-2 h-2 rounded-full transition-all"
-                      style={{
-                        backgroundColor: index === currentCard ? 'var(--accent-color)' : 'rgba(255, 255, 255, 0.2)'
-                      }}
-                    />
-                  ))}
+                      {/* Phrase Card (Final) */}
+                      {card.type === 'phrase' && (
+                        <div className="space-y-8 lg:space-y-10 w-full max-w-md">
+                          <div className="text-[10px] lg:text-xs uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                            Your Cheat Code Phrase
+                          </div>
+                          <div className="space-y-6 lg:space-y-8">
+                            <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
+                              "{(card as any).content}"
+                            </p>
+
+                            <div className="space-y-3 lg:space-y-4 relative">
+                              {usedToday ? (
+                                <div className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg flex items-center justify-center gap-2" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)', border: '1px solid var(--accent-color)' }}>
+                                  <span>✓</span>
+                                  <span>Logged Today</span>
+                                </div>
+                              ) : (
+                                <button
+                                  onClick={() => {
+                                    handleStartGame(selectedCode.id, selectedCode.title);
+                                  }}
+                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
+                                  style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                                >
+                                  Practice
+                                </button>
+                              )}
+
+                              <button
+                                onClick={() => handleOpenChat(selectedCode)}
+                                className="w-full border py-3 lg:py-4 rounded-xl font-medium text-sm lg:text-base transition-colors"
+                                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+                              >
+                                Open Chat
+                              </button>
+
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleArchiveStatus(selectedCode.id);
+                                }}
+                                className="w-full py-2 text-xs transition-opacity hover:opacity-70"
+                                style={{
+                                  color: 'var(--text-tertiary)',
+                                  background: 'none',
+                                  border: 'none'
+                                }}
+                              >
+                                {selectedCode.archived ? 'Reactivate Code' : 'Archive Code'}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </>
+                  );
+                })()}
                 </div>
 
-                {/* Right Arrow */}
-                <button
-                  onClick={nextCard}
-                  disabled={isLastCard}
-                  className="p-3 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/5"
-                  style={{ color: 'var(--text-secondary)' }}
-                >
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M9 18l6-6-6-6"/>
-                  </svg>
-                </button>
+                {/* Footer with Branding and Usage Stats */}
+                <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                  <div className="flex items-center justify-between text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                    <span>MYCHEATCODE.AI</span>
+                    <span className="flex items-center gap-2">
+                      {selectedCode.timesUsed !== undefined && selectedCode.timesUsed > 0 ? (
+                        <>
+                          <span>Completed {selectedCode.timesUsed}x</span>
+                          {selectedCode.lastUsedDaysAgo !== null && (
+                            <>
+                              <span>•</span>
+                              <span>
+                                {selectedCode.lastUsedDaysAgo === 0 ? 'Today' : selectedCode.lastUsedDaysAgo === 1 ? 'Yesterday' : `${selectedCode.lastUsedDaysAgo}d ago`}
+                              </span>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        <span>Not completed yet</span>
+                      )}
+                    </span>
+                  </div>
+                </div>
               </div>
             </div>
+
+            {/* Success Animation Overlay */}
+            {showSuccess && (
+              <div
+                className="fixed inset-0 z-[110] flex items-center justify-center backdrop-blur-sm"
+                style={{ animation: 'fade-out 0.4s ease-out 1.6s forwards', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
+              >
+                <div className="flex flex-col items-center gap-4" style={{ animation: 'fade-in-scale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+                  <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="square" strokeLinejoin="miter">
+                    <polyline points="20 6 9 17 4 12" strokeDasharray="100" strokeDashoffset="0"
+                      style={{ animation: 'checkmark-draw 0.6s ease-out 0.1s backwards' }} />
+                  </svg>
+                  <div className="text-center" style={{ animation: 'fade-in-scale 0.4s ease-out 0.2s backwards' }}>
+                    <h3 className="text-3xl font-bold mb-1" style={{ color: '#ffffff' }}>Locked In!</h3>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Progress Indicator */}
+            <div className="flex justify-center gap-2 mt-6">
+              {buildCards(selectedCode).map((_, index) => (
+                <div
+                  key={index}
+                  className="h-1.5 rounded-full transition-all"
+                  style={{
+                    width: index === currentCard ? '2rem' : '0.375rem',
+                    backgroundColor: index === currentCard ? '#ffffff' : '#2a2a2a'
+                  }}
+                />
+              ))}
+            </div>
           </div>
-        );
-      })()}
+        </div>
+      )}
 
       {/* Game Modal */}
       {showGameModal && gameCheatCodeId && (
