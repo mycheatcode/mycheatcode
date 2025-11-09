@@ -626,27 +626,85 @@ export default function MyCodesPage() {
     resetCards();
   };
 
-  // Parse summary into card data
+  // Parse summary into card data - handles both CARD format and markdown format
   const parseCheatCodeSummary = (summary: string) => {
-    const sections = summary.split('\n\n');
-    let what = '', when = '', how = '', why = '', phrase = '';
+    let what = '', when = '', why = '', phrase = '';
+    let howSteps: string[] = [];
 
-    sections.forEach(section => {
-      if (section.startsWith('**What**:')) {
-        what = section.replace('**What**: ', '').trim();
-      } else if (section.startsWith('**When**:')) {
-        when = section.replace('**When**: ', '').trim();
-      } else if (section.startsWith('**How**:')) {
-        how = section.replace('**How**: ', '').trim();
-      } else if (section.startsWith('**Why**:')) {
-        why = section.replace('**Why**: ', '').trim();
-      } else if (section.startsWith('**Cheat Code Phrase**:')) {
-        phrase = section.replace('**Cheat Code Phrase**: ', '').replace(/"/g, '').trim();
+    // Check if content uses CARD format
+    const isCardFormat = summary.includes('CARD:');
+
+    if (isCardFormat) {
+      // Parse CARD format
+      const lines = summary.split('\n');
+      let currentCard = '';
+      let currentContent: string[] = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const trimmed = lines[i].trim();
+
+        if (trimmed.startsWith('CARD:')) {
+          // Save previous card
+          if (currentCard === 'What' && currentContent.length > 0) {
+            what = currentContent.join(' ').trim();
+          } else if (currentCard === 'When' && currentContent.length > 0) {
+            when = currentContent.join(' ').trim();
+          } else if (currentCard.startsWith('How - Step') && currentContent.length > 0) {
+            howSteps.push(currentContent.join(' ').trim());
+          } else if (currentCard === 'Why' && currentContent.length > 0) {
+            why = currentContent.join(' ').trim();
+          } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+            phrase = currentContent.join(' ').trim();
+          }
+
+          // Start new card
+          currentCard = trimmed.substring(5).trim(); // Remove "CARD: "
+          currentContent = [];
+        } else if (currentCard && trimmed &&
+                   !trimmed.startsWith('TITLE:') &&
+                   !trimmed.startsWith('CATEGORY:') &&
+                   !trimmed.startsWith('DESCRIPTION:')) {
+          // Add to current card content
+          currentContent.push(trimmed);
+        }
       }
-    });
 
-    // Split "How" into steps (assuming comma-separated or sentence-based)
-    const howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+      // Save last card
+      if (currentCard === 'What' && currentContent.length > 0) {
+        what = currentContent.join(' ').trim();
+      } else if (currentCard === 'When' && currentContent.length > 0) {
+        when = currentContent.join(' ').trim();
+      } else if (currentCard.startsWith('How - Step') && currentContent.length > 0) {
+        howSteps.push(currentContent.join(' ').trim());
+      } else if (currentCard === 'Why' && currentContent.length > 0) {
+        why = currentContent.join(' ').trim();
+      } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+        phrase = currentContent.join(' ').trim();
+      }
+    } else {
+      // Parse markdown format (legacy)
+      const sections = summary.split('\n\n');
+      let how = '';
+
+      sections.forEach(section => {
+        if (section.startsWith('**What**:')) {
+          what = section.replace('**What**: ', '').trim();
+        } else if (section.startsWith('**When**:')) {
+          when = section.replace('**When**: ', '').trim();
+        } else if (section.startsWith('**How**:')) {
+          how = section.replace('**How**: ', '').trim();
+        } else if (section.startsWith('**Why**:')) {
+          why = section.replace('**Why**: ', '').trim();
+        } else if (section.startsWith('**Cheat Code Phrase**:')) {
+          phrase = section.replace('**Cheat Code Phrase**: ', '').replace(/"/g, '').trim();
+        }
+      });
+
+      // Split "How" into steps (assuming comma-separated or sentence-based)
+      if (how) {
+        howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+      }
+    }
 
     return { what, when, howSteps, why, phrase };
   };
