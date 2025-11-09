@@ -802,57 +802,19 @@ export default function ChatPage() {
             } else if (topic.customStarter) {
               welcomeText = topic.customStarter;
             } else {
-              // For non-first-code topics, use natural follow-ups tailored to each topic
-              const topicFollowUps: Record<string, string[]> = {
-                'pre_game_nerves': [
-                  `Before big games, what's the main thing that gets in your head?`,
-                  `Walk me through what happens mentally before a big game.`,
-                  `When you're about to play an important game, what runs through your mind?`
-                ],
-                'missed_shots': [
-                  `When you miss a shot, what's the first thought that hits you?`,
-                  `Tell me what happens after you miss - what goes through your mind?`,
-                  `How do you usually react when a shot doesn't fall?`
-                ],
-                'pressure_moments': [
-                  `Think of the last time you felt pressure in a game - what was going through your head?`,
-                  `What happens mentally when you're in a high-pressure moment?`,
-                  `When the pressure's on, what thoughts come up for you?`
-                ],
-                'comparing_teammates': [
-                  `When do you find yourself comparing to your teammates the most?`,
-                  `What triggers that comparison feeling around your teammates?`,
-                  `How does comparing yourself to teammates usually show up for you?`
-                ],
-                'coach_criticism': [
-                  `When your coach gives you tough feedback, what's your first reaction?`,
-                  `How do you usually handle it when your coach calls you out?`,
-                  `What goes through your mind when your coach criticizes you?`
-                ],
-                'negative_self_talk': [
-                  `What's the most common negative thing you tell yourself during games?`,
-                  `When does that negative self-talk usually kick in?`,
-                  `What are you saying to yourself when you're playing badly?`
-                ],
-                'inconsistent_performance': [
-                  `On your good days, what feels different compared to off days?`,
-                  `What changes between when you play well and when you don't?`,
-                  `Why do you think your performance varies so much?`
-                ],
-                'playing_up_competition': [
-                  `When you're facing someone better, what's the first thing you notice about yourself?`,
-                  `How do you feel going up against someone you think is better than you?`,
-                  `What happens mentally when you know you're playing up?`
-                ]
+              // Use empathetic topic starters for all topics
+              const topicStarters: Record<string, string> = {
+                'pre_game_nerves': `${greeting} I know pre-game nerves can be rough - that anxious feeling before a big game is real. Tell me what's usually running through your head when you're about to play?`,
+                'missed_shots': `${greeting} Missing shots and then spiraling mentally - I know how frustrating that cycle is. When you miss a shot, what happens next in your head?`,
+                'pressure_moments': `${greeting} Pressure moments can mess with you if you don't have a way to handle them. Think about the last time you felt it - what was going through your mind?`,
+                'comparing_teammates': `${greeting} Comparing yourself to your teammates is one of those things that can really eat at your confidence. When does that comparison feeling hit you the most?`,
+                'coach_criticism': `${greeting} Getting called out by your coach can sting, especially when you're already hard on yourself. When your coach gives you feedback, what's your first reaction?`,
+                'negative_self_talk': `${greeting} That negative voice in your head during games - I know it can get loud. What's the most common thing you're telling yourself when things aren't going well?`,
+                'inconsistent_performance': `${greeting} Inconsistency is one of the most frustrating things in basketball - not knowing which version of you is gonna show up. On your good days vs off days, what feels different?`,
+                'playing_up_competition': `${greeting} Playing against someone you think is better than you - that can mess with your whole mindset before you even start. When you're facing someone like that, what's the first thing you notice about yourself?`
               };
 
-              const topicId = topic.id as string;
-              const followUps = topicFollowUps[topicId] || [
-                `When was the last time this happened?`,
-                `Tell me more about this.`,
-                `What's going on with this?`
-              ];
-              welcomeText = followUps[Math.floor(Math.random() * followUps.length)];
+              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
             }
           } catch {
             // ignore
