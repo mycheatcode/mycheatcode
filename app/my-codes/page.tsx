@@ -631,6 +631,8 @@ export default function MyCodesPage() {
     let what = '', when = '', why = '', phrase = '';
     let howSteps: string[] = [];
 
+    console.log('📋 Parsing summary, first 500 chars:', summary.substring(0, 500));
+
     // Check if content uses CARD format
     const isCardFormat = summary.includes('CARD:');
 
@@ -700,12 +702,39 @@ export default function MyCodesPage() {
         }
       });
 
-      // Split "How" into steps (assuming comma-separated or sentence-based)
+      // Split "How" into steps - handle newline-separated steps
       if (how) {
-        howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+        // Split by newlines and filter out empty lines and standalone numbers
+        const lines = how.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+        // Remove standalone numbers (like "1.", "2.", "3.") and join multi-line steps
+        let currentStep = '';
+        for (const line of lines) {
+          // Check if line is just a number (like "1." or "2.")
+          if (/^\d+\.$/.test(line)) {
+            // If we have a current step, save it
+            if (currentStep) {
+              howSteps.push(currentStep);
+            }
+            currentStep = '';
+          } else {
+            // Add to current step
+            currentStep += (currentStep ? ' ' : '') + line;
+          }
+        }
+        // Don't forget the last step
+        if (currentStep) {
+          howSteps.push(currentStep);
+        }
+
+        // If we didn't find numbered steps, try splitting by sentences
+        if (howSteps.length === 0) {
+          howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+        }
       }
     }
 
+    console.log('✅ Parsed howSteps:', howSteps);
     return { what, when, howSteps, why, phrase };
   };
 
