@@ -817,14 +817,27 @@ export default function ChatPage() {
               if (topicStarters[topic.id as string]) {
                 welcomeText = topicStarters[topic.id as string];
               }
-              // Otherwise, acknowledge what they're working on naturally
+              // Otherwise, acknowledge what they're working on naturally with lots of variety
               else if (topic.title) {
-                // More natural ways to reference the topic without quoting it
                 const naturalAcknowledgments = [
-                  `${greeting} I can tell this is something that's been on your mind. A lot of players deal with this kind of thing. Walk me through what's been going on?`,
-                  `${greeting} I'm glad you want to work on this - it's something I see all the time with players. Tell me more about when this shows up for you?`,
-                  `${greeting} This is real, and you're not alone in feeling this way. Help me understand what's going on with this?`,
-                  `${greeting} I know this can be tough to deal with. Let's dive into it - what's been happening with this?`
+                  `${greeting} I can tell this is something that's been on your mind. Walk me through what's been going on?`,
+                  `${greeting} I'm glad you want to work on this. Tell me more about when this shows up for you?`,
+                  `${greeting} This is real - a lot of players go through this. Help me understand what's going on?`,
+                  `${greeting} I know this can be tough. Let's dive into it - what's been happening?`,
+                  `${greeting} Alright, let's get into this. What's been going on with you lately?`,
+                  `${greeting} I'm here to help you with this. When does this usually come up for you?`,
+                  `${greeting} Yeah, I see this all the time with players. What's your experience with this been like?`,
+                  `${greeting} Let's talk through this. How long has this been on your mind?`,
+                  `${greeting} I get it - this stuff can feel heavy. Tell me what's been happening?`,
+                  `${greeting} You're not alone in dealing with this. Walk me through your situation?`,
+                  `${greeting} Good that you want to tackle this. What's the story here?`,
+                  `${greeting} Let's work through this together. What's been your experience with this?`,
+                  `${greeting} I'm pumped to help with this. Give me the context - what's going on?`,
+                  `${greeting} Alright, I want to understand this better. What happens for you?`,
+                  `${greeting} This is something we can definitely work on. Tell me more about it?`,
+                  `${greeting} I hear you on this. When did you start noticing this?`,
+                  `${greeting} Let's break this down. What does this look like for you?`,
+                  `${greeting} Okay, I'm listening. What's been your experience?`
                 ];
                 welcomeText = naturalAcknowledgments[Math.floor(Math.random() * naturalAcknowledgments.length)];
               }
