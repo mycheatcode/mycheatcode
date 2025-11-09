@@ -4,6 +4,8 @@ export interface ChatMessage {
   role: 'user' | 'assistant';
   content: string;
   timestamp: string;
+  gameButtonCodeId?: string; // For "Get Reps In" button persistence
+  gameButtonCodeTitle?: string; // Title for the game button
 }
 
 /**
