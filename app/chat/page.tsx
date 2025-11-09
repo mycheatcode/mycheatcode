@@ -799,10 +799,9 @@ export default function ChatPage() {
               };
 
               welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
-            } else if (topic.customStarter) {
-              welcomeText = topic.customStarter;
             } else {
-              // Use empathetic topic starters for all topics
+              // Use empathetic responses that reference the actual topic
+              // Try to match known topic IDs first
               const topicStarters: Record<string, string> = {
                 'pre_game_nerves': `${greeting} I know pre-game nerves can be rough - that anxious feeling before a big game is real. Tell me what's usually running through your head when you're about to play?`,
                 'missed_shots': `${greeting} Missing shots and then spiraling mentally - I know how frustrating that cycle is. When you miss a shot, what happens next in your head?`,
@@ -814,7 +813,18 @@ export default function ChatPage() {
                 'playing_up_competition': `${greeting} Playing against someone you think is better than you - that can mess with your whole mindset before you even start. When you're facing someone like that, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
+              // If we have a string ID match, use it
+              if (topicStarters[topic.id as string]) {
+                welcomeText = topicStarters[topic.id as string];
+              }
+              // Otherwise, if we have a topic title/quote, reference it directly
+              else if (topic.title) {
+                welcomeText = `${greeting} I see you want to work on "${topic.title}" - that's real and a lot of players deal with this. Tell me more about what's going on with this?`;
+              }
+              // Final fallback
+              else {
+                welcomeText = `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
+              }
             }
           } catch {
             // ignore
