@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes, toggleFavoriteCheatCode } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import ProgressCircles from '@/components/ProgressCircles';
 import FeedbackButton from '@/components/FeedbackButton';
+import CheatCodeGame from '@/components/CheatCodeGame';
+import type { GameSessionResult } from '@/lib/types/game';
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -23,6 +25,8 @@ interface CheatCode {
   isFavorite?: boolean;
   archived?: boolean;
   created_at?: string;
+  summary?: string;
+  topicId?: string;
 }
 
 interface UserProgress {
@@ -36,7 +40,12 @@ export default function MyCodesRedesignPage() {
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
   const [todaysFocus, setTodaysFocus] = useState<CheatCode | null>(null);
+  const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
+  const [showGameModal, setShowGameModal] = useState(false);
+  const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
+  const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createClient();
 
   // Load user data
@@ -65,7 +74,9 @@ export default function MyCodesRedesignPage() {
             lastUsedDaysAgo: code.last_used_at ? diffDays : null,
             isFavorite: code.is_favorite || false,
             archived: code.is_active === false,
-            created_at: code.created_at
+            created_at: code.created_at,
+            summary: code.content || '',
+            topicId: code.chat_id || undefined
           };
         });
         setCheatCodes(transformedCodes);
@@ -109,6 +120,30 @@ export default function MyCodesRedesignPage() {
     }
   }, [cheatCodes]);
 
+  // Handle URL query parameters (?code= and ?practice=)
+  useEffect(() => {
+    const codeId = searchParams.get('code');
+    const practiceId = searchParams.get('practice');
+
+    if (codeId && cheatCodes.length > 0) {
+      const code = cheatCodes.find(c => c.id === codeId);
+      if (code) {
+        setSelectedCode(code);
+        // Clear the URL parameter
+        router.replace('/my-codes', { scroll: false });
+      }
+    } else if (practiceId && cheatCodes.length > 0) {
+      const code = cheatCodes.find(c => c.id === practiceId);
+      if (code) {
+        setGameCheatCodeId(code.id);
+        setGameCheatCodeTitle(code.title);
+        setShowGameModal(true);
+        // Clear the URL parameter
+        router.replace('/my-codes', { scroll: false });
+      }
+    }
+  }, [searchParams, cheatCodes, router]);
+
   // Toggle favorite
   const toggleFavorite = async (codeId: string, e: React.MouseEvent) => {
     e.stopPropagation();
@@ -125,6 +160,64 @@ export default function MyCodesRedesignPage() {
     setCheatCodes(codes => codes.map(c =>
       c.id === codeId ? { ...c, isFavorite: newFavoriteStatus } : c
     ));
+
+    // Also update selectedCode if it's the same code
+    if (selectedCode && selectedCode.id === codeId) {
+      setSelectedCode({ ...selectedCode, isFavorite: newFavoriteStatus });
+    }
+  };
+
+  // Handle opening practice game
+  const handleStartGame = (cheatCodeId: string, title: string) => {
+    setGameCheatCodeId(cheatCodeId);
+    setGameCheatCodeTitle(title);
+    setShowGameModal(true);
+  };
+
+  // Handle closing game modal
+  const handleCloseGameModal = () => {
+    setShowGameModal(false);
+    setGameCheatCodeId(null);
+    setGameCheatCodeTitle('');
+  };
+
+  // Handle game completion
+  const handleGameComplete = (result: GameSessionResult) => {
+    // Reload cheat codes to get updated stats
+    const loadData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const { cheatCodes: dbCodes } = await getUserCheatCodes(user.id);
+      if (dbCodes) {
+        const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
+          const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
+          const now = new Date();
+          const diffMs = now.getTime() - lastUsed.getTime();
+          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+          return {
+            id: code.id,
+            title: code.title,
+            category: code.category,
+            timesUsed: code.times_used || 0,
+            lastUsedDaysAgo: code.last_used_at ? diffDays : null,
+            isFavorite: code.is_favorite || false,
+            archived: code.is_active === false,
+            created_at: code.created_at,
+            summary: code.content || '',
+            topicId: code.chat_id || undefined
+          };
+        });
+        setCheatCodes(transformedCodes);
+      }
+
+      // Also reload user progress
+      const progress = await getUserProgress(user.id);
+      setUserProgress(progress);
+    };
+
+    loadData();
   };
 
   // Format last session helper
@@ -313,7 +406,13 @@ export default function MyCodesRedesignPage() {
                     <div className="text-xs opacity-80">Random code practice</div>
                   </button>
                   <button
-                    onClick={() => router.push('/chat')}
+                    onClick={() => {
+                      // Clear all chat-related data for fresh start
+                      localStorage.removeItem('selectedTopic');
+                      localStorage.removeItem('chatHistory');
+                      localStorage.removeItem('chatReferrer');
+                      router.push('/chat');
+                    }}
                     className="rounded-xl p-4 border text-left transition-colors"
                     style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
                   >
@@ -520,7 +619,13 @@ export default function MyCodesRedesignPage() {
                 <div className="text-xs opacity-80">Random code practice</div>
               </button>
               <button
-                onClick={() => router.push('/chat')}
+                onClick={() => {
+                  // Clear all chat-related data for fresh start
+                  localStorage.removeItem('selectedTopic');
+                  localStorage.removeItem('chatHistory');
+                  localStorage.removeItem('chatReferrer');
+                  router.push('/chat');
+                }}
                 className="rounded-xl p-4 border text-left transition-colors"
                 style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
               >
@@ -631,6 +736,82 @@ export default function MyCodesRedesignPage() {
           )}
         </div>
       </div>
+
+      {/* Code Detail Modal */}
+      {selectedCode && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedCode(null)}>
+          <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            {/* Header */}
+            <div className="flex items-start justify-between mb-6">
+              <div className="flex-1">
+                <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{selectedCode.title}</h2>
+                <div className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{selectedCode.category}</div>
+              </div>
+              <button
+                onClick={() => setSelectedCode(null)}
+                className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+              </button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                <div className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Times Practiced</div>
+                <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{selectedCode.timesUsed || 0}</div>
+              </div>
+              <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                <div className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Last Practice</div>
+                <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{formatLastSession(selectedCode.lastUsedDaysAgo)}</div>
+              </div>
+            </div>
+
+            {/* Content Preview */}
+            {selectedCode.summary && (
+              <div className="mb-6 p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                  {selectedCode.summary.substring(0, 200)}{selectedCode.summary.length > 200 ? '...' : ''}
+                </div>
+              </div>
+            )}
+
+            {/* Actions */}
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  handleStartGame(selectedCode.id, selectedCode.title);
+                  setSelectedCode(null);
+                }}
+                className="flex-1 py-3 rounded-xl font-bold transition-all active:scale-95"
+                style={{ backgroundColor: '#00ff41', color: '#000000' }}
+              >
+                Start Practice
+              </button>
+              <button
+                onClick={() => setSelectedCode(null)}
+                className="px-6 py-3 rounded-xl font-medium border transition-all hover:bg-white/5"
+                style={{ borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Game Modal */}
+      {showGameModal && gameCheatCodeId && (
+        <CheatCodeGame
+          cheatCodeId={gameCheatCodeId}
+          cheatCodeTitle={gameCheatCodeTitle}
+          onComplete={handleGameComplete}
+          onClose={handleCloseGameModal}
+        />
+      )}
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
