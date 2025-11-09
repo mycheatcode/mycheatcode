@@ -626,34 +626,34 @@ export default function CheatCodeGame({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black text-white flex flex-col p-6 z-[200]">
-        {/* Question Counter Header */}
-        <div className="max-w-2xl w-full mx-auto pt-4 pb-2">
-          <div className="text-center text-sm text-gray-500">
+      <div className="fixed inset-0 bg-black text-white flex flex-col p-4 z-[200]">
+        {/* Question Counter Header - Compact */}
+        <div className="max-w-2xl w-full mx-auto pt-2 pb-1">
+          <div className="text-center text-xs text-gray-500">
             Question {currentScenarioIndex + 1} of {scenarios.length}
           </div>
         </div>
 
         <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col overflow-hidden">
-          {/* Top Section - Scenario (fixed height) */}
-          <div className="flex-shrink-0 space-y-6 py-6">
-            {/* Shot Clock Timer */}
+          {/* Top Section - Scenario (compact) */}
+          <div className="flex-shrink-0 space-y-3 py-3">
+            {/* Shot Clock Timer - Smaller */}
             <div className="flex justify-center">
               <div className="relative">
-                <svg width="100" height="100" className="transform -rotate-90">
+                <svg width="70" height="70" className="transform -rotate-90">
                   {/* Background circle */}
-                  <circle cx="50" cy="50" r="45" fill="none" stroke="#1a1a1a" strokeWidth="6" />
+                  <circle cx="35" cy="35" r="32" fill="none" stroke="#1a1a1a" strokeWidth="5" />
                   {/* Progress circle */}
                   <circle
-                    cx="50"
-                    cy="50"
-                    r="45"
+                    cx="35"
+                    cy="35"
+                    r="32"
                     fill="none"
                     stroke={timeLeft > 12 ? '#00ff41' : timeLeft > 6 ? '#f59e0b' : '#ef4444'}
-                    strokeWidth="6"
+                    strokeWidth="5"
                     strokeLinecap="round"
-                    strokeDasharray={`${2 * Math.PI * 45}`}
-                    strokeDashoffset={`${2 * Math.PI * 45 * (1 - timeLeft / 24)}`}
+                    strokeDasharray={`${2 * Math.PI * 32}`}
+                    strokeDashoffset={`${2 * Math.PI * 32 * (1 - timeLeft / 24)}`}
                     style={{
                       transition: 'stroke-dashoffset 1s linear',
                       filter: timeLeft > 12 ? 'drop-shadow(0 0 6px rgba(0, 255, 65, 0.6))' : 'none',
@@ -661,16 +661,16 @@ export default function CheatCodeGame({
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-3xl font-bold">{timeLeft}</span>
+                  <span className="text-2xl font-bold">{timeLeft}</span>
                 </div>
               </div>
             </div>
 
-            {/* Scenario */}
-            <div className="text-center space-y-6">
-              <h2 className="text-xl leading-relaxed px-4">{currentScenario.situation}</h2>
+            {/* Scenario - More Compact */}
+            <div className="text-center space-y-2">
+              <h2 className="text-base leading-snug px-3">{currentScenario.situation}</h2>
 
-              <p className="text-base italic text-red-400/90 px-4">
+              <p className="text-sm italic text-red-400/90 px-3">
                 "{currentScenario.current_thought}"
               </p>
             </div>
@@ -680,11 +680,11 @@ export default function CheatCodeGame({
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Prompt */}
             {!showFeedback && (
-              <p className="text-center text-base text-gray-400 mb-5 flex-shrink-0">{currentPrompt}</p>
+              <p className="text-center text-sm text-gray-400 mb-3 flex-shrink-0">{currentPrompt}</p>
             )}
 
             {/* Scrollable Options Container */}
-            <div className="flex-1 overflow-y-auto pb-4" style={{ maxHeight: 'calc(100vh - 500px)' }}>
+            <div className="flex-1 overflow-y-auto pb-4" style={{ maxHeight: 'calc(100vh - 320px)' }}>
               <div className="space-y-3">
                 {shuffledOptions.map((option, index) => {
                 const isSelected = selectedOption === index;
