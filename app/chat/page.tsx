@@ -775,7 +775,7 @@ export default function ChatPage() {
           `${greeting} Let's get into it - what do you want to talk about?`,
           `${greeting} I'm fired up to help you out. What's on your mind with your game?`,
           `${greeting} Ready to dive in? What's been on your mind lately?`,
-          `${greeting} Good to see you. What's been happening with your basketball?`,
+          `${greeting} Good to see you. What's been happening with you?`,
           `${greeting} I'm here for whatever you want to talk through. What's going on?`,
           `${greeting} Let's talk. What's on your mind?`,
           `${greeting} I'm excited to work with you. What do you want to get into?`,
