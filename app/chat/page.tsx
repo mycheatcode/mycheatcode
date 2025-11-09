@@ -786,19 +786,19 @@ export default function ChatPage() {
             if (topic.isFirstCode) {
               setIsFirstCodeChat(true);
 
-              // Natural, tailored topic starters
+              // Natural, tailored topic starters with empathy
               const topicStarters: Record<string, string> = {
-                'pre_game_nerves': `${greeting} Let's talk about those pre-game nerves. What's usually running through your head before a big game?`,
-                'missed_shots': `${greeting} I want to help you with this. When you miss a shot, what happens next in your head?`,
-                'pressure_moments': `${greeting} Pressure moments - let's dive into this. Think about the last time you felt it - what was going through your mind?`,
-                'comparing_teammates': `${greeting} This is a big one. When you're around your teammates, what triggers that comparison feeling?`,
-                'coach_criticism': `${greeting} Let's work on this together. When your coach gives you feedback, how do you usually react?`,
-                'negative_self_talk': `${greeting} I'm glad you want to tackle this. What's the most common negative thing you say to yourself during games?`,
-                'inconsistent_performance': `${greeting} This is something we can definitely fix. On your good days vs your off days - what feels different?`,
-                'playing_up_competition': `${greeting} Let's get into this. When you're facing someone you think is better, what's the first thing you notice about yourself?`
+                'pre_game_nerves': `${greeting} I know pre-game nerves can be rough - that anxious feeling before a big game is real. Tell me what's usually running through your head when you're about to play?`,
+                'missed_shots': `${greeting} Missing shots and then spiraling mentally - I know how frustrating that cycle is. When you miss a shot, what happens next in your head?`,
+                'pressure_moments': `${greeting} Pressure moments can mess with you if you don't have a way to handle them. Think about the last time you felt it - what was going through your mind?`,
+                'comparing_teammates': `${greeting} Comparing yourself to your teammates is one of those things that can really eat at your confidence. When does that comparison feeling hit you the most?`,
+                'coach_criticism': `${greeting} Getting called out by your coach can sting, especially when you're already hard on yourself. When your coach gives you feedback, what's your first reaction?`,
+                'negative_self_talk': `${greeting} That negative voice in your head during games - I know it can get loud. What's the most common thing you're telling yourself when things aren't going well?`,
+                'inconsistent_performance': `${greeting} Inconsistency is one of the most frustrating things in basketball - not knowing which version of you is gonna show up. On your good days vs off days, what feels different?`,
+                'playing_up_competition': `${greeting} Playing against someone you think is better than you - that can mess with your whole mindset before you even start. When you're facing someone like that, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to work on this with you. What's been on your mind about your game?`;
+              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
             } else if (topic.customStarter) {
               welcomeText = topic.customStarter;
             } else {
