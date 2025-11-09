@@ -844,7 +844,10 @@ export default function MyCodesPage() {
           {getFilteredCodes().map((code) => (
             <div
               key={code.id}
-              onClick={() => setSelectedCode(code)}
+              onClick={() => {
+                console.log('🔍 Opened cheat code - ID:', code.id, 'Title:', code.title);
+                setSelectedCode(code);
+              }}
               className={`rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative border transition-all duration-500 active:scale-[0.98] ${
                 animatingCode === code.id
                   ? animationType === 'archive'
@@ -1057,7 +1060,10 @@ export default function MyCodesPage() {
             {getFilteredCodes().map((code) => (
               <div
                 key={code.id}
-                onClick={() => setSelectedCode(code)}
+                onClick={() => {
+                  console.log('🔍 Opened cheat code - ID:', code.id, 'Title:', code.title);
+                  setSelectedCode(code);
+                }}
                 className={`rounded-2xl p-5 min-h-[200px] flex flex-col justify-between relative border transition-all cursor-pointer group ${
                   code.archived
                     ? 'opacity-60'
