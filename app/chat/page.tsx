@@ -772,7 +772,7 @@ export default function ChatPage() {
         const greeting = userName ? `What's up ${userName}!` : "What's up!";
         const freshChatIntros = [
           `${greeting} I'm pumped to work with you. What's been going on with your game?`,
-          `${greeting} Let's get into it - what do you want to talk about with your basketball?`,
+          `${greeting} Let's get into it - what do you want to talk about?`,
           `${greeting} I'm fired up to help you out. What's on your mind with your game?`,
           `${greeting} Ready to dive in? What are you working on right now?`
         ];
