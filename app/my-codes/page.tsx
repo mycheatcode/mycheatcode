@@ -41,6 +41,7 @@ export default function MyCodesRedesignPage() {
   const [loading, setLoading] = useState(true);
   const [todaysFocus, setTodaysFocus] = useState<CheatCode | null>(null);
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
+  const [currentCard, setCurrentCard] = useState(0);
   const [showGameModal, setShowGameModal] = useState(false);
   const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
   const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
@@ -226,6 +227,153 @@ export default function MyCodesRedesignPage() {
     if (daysAgo === 0) return 'Today';
     if (daysAgo === 1) return '1 day ago';
     return `${daysAgo} days ago`;
+  };
+
+  // Parse summary into card data - handles both CARD format and markdown format
+  const parseCheatCodeSummary = (summary: string) => {
+    let what = '', when = '', why = '', phrase = '';
+    let howSteps: string[] = [];
+
+    // Check if content uses CARD format
+    const isCardFormat = summary.includes('CARD:');
+
+    if (isCardFormat) {
+      // Parse CARD format
+      const lines = summary.split('\n');
+      let currentCard = '';
+      let currentContent: string[] = [];
+
+      for (let i = 0; i < lines.length; i++) {
+        const trimmed = lines[i].trim();
+
+        if (trimmed.startsWith('CARD:')) {
+          // Save previous card
+          if (currentCard === 'What' && currentContent.length > 0) {
+            what = currentContent.join(' ').trim();
+          } else if (currentCard === 'When' && currentContent.length > 0) {
+            when = currentContent.join(' ').trim();
+          } else if (currentCard.startsWith('How - Step') && currentContent.length > 0) {
+            howSteps.push(currentContent.join(' ').trim());
+          } else if (currentCard === 'Why' && currentContent.length > 0) {
+            why = currentContent.join(' ').trim();
+          } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+            phrase = currentContent.join(' ').trim();
+          }
+
+          // Start new card
+          currentCard = trimmed.substring(5).trim(); // Remove "CARD: "
+          currentContent = [];
+        } else if (currentCard && trimmed &&
+                   !trimmed.startsWith('TITLE:') &&
+                   !trimmed.startsWith('CATEGORY:') &&
+                   !trimmed.startsWith('DESCRIPTION:')) {
+          // Add to current card content
+          currentContent.push(trimmed);
+        }
+      }
+
+      // Save last card
+      if (currentCard === 'What' && currentContent.length > 0) {
+        what = currentContent.join(' ').trim();
+      } else if (currentCard === 'When' && currentContent.length > 0) {
+        when = currentContent.join(' ').trim();
+      } else if (currentCard.startsWith('How - Step') && currentContent.length > 0) {
+        howSteps.push(currentContent.join(' ').trim());
+      } else if (currentCard === 'Why' && currentContent.length > 0) {
+        why = currentContent.join(' ').trim();
+      } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
+        phrase = currentContent.join(' ').trim();
+      }
+    } else {
+      // Parse markdown format (legacy)
+      const sections = summary.split('\n\n');
+      let how = '';
+
+      sections.forEach(section => {
+        if (section.startsWith('**What**:')) {
+          what = section.replace('**What**: ', '').trim();
+        } else if (section.startsWith('**When**:')) {
+          when = section.replace('**When**: ', '').trim();
+        } else if (section.startsWith('**How**:')) {
+          how = section.replace('**How**: ', '').trim();
+        } else if (section.startsWith('**Why**:')) {
+          why = section.replace('**Why**: ', '').trim();
+        } else if (section.startsWith('**Cheat Code Phrase**:')) {
+          phrase = section.replace('**Cheat Code Phrase**: ', '').replace(/"/g, '').trim();
+        }
+      });
+
+      // Split "How" into steps
+      if (how) {
+        // Try to split by numbered steps (e.g., "1. ", "2. ", "3. ")
+        const numberedSteps = how.split(/(?=\d+\.\s)/).filter(s => s.trim().length > 0);
+
+        if (numberedSteps.length > 1) {
+          // We found numbered steps - clean them up
+          howSteps = numberedSteps.map(step => {
+            // Remove the leading number and any extra whitespace
+            return step.replace(/^\d+\.\s*/, '').trim();
+          }).filter(s => s.length > 0);
+        } else {
+          // No numbered steps found, try splitting by newlines
+          const lines = how.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+
+          if (lines.length > 1) {
+            howSteps = lines;
+          } else {
+            // Fall back to sentence-based splitting
+            howSteps = how.split(/(?<=[.!?])\s+/).filter(s => s.trim().length > 0).slice(0, 3);
+          }
+        }
+      }
+    }
+
+    return { what, when, howSteps, why, phrase };
+  };
+
+  // Build cards array for swipeable interface
+  const buildCards = (code: CheatCode) => {
+    const { what, when, howSteps, why, phrase } = parseCheatCodeSummary(code.summary || '');
+
+    return [
+      { type: 'title', title: code.title, category: code.category },
+      { type: 'section', heading: 'What', content: what },
+      { type: 'section', heading: 'When', content: when },
+      ...howSteps.map((step, index) => ({
+        type: 'step',
+        heading: 'How',
+        stepNumber: index + 1,
+        totalSteps: howSteps.length,
+        content: step
+      })),
+      { type: 'section', heading: 'Why', content: why },
+      { type: 'phrase', heading: 'Your Cheat Code Phrase', content: phrase }
+    ];
+  };
+
+  // Card navigation
+  const nextCard = () => {
+    if (!selectedCode) return;
+    const cards = buildCards(selectedCode);
+    if (currentCard < cards.length - 1) {
+      setCurrentCard(currentCard + 1);
+    }
+  };
+
+  const prevCard = () => {
+    if (currentCard > 0) {
+      setCurrentCard(currentCard - 1);
+    }
+  };
+
+  const resetCards = () => {
+    setCurrentCard(0);
+  };
+
+  // Reset states when closing modal
+  const handleCloseModal = () => {
+    setSelectedCode(null);
+    resetCards();
   };
 
   // Calculate insights
@@ -737,71 +885,148 @@ export default function MyCodesRedesignPage() {
         </div>
       </div>
 
-      {/* Code Detail Modal */}
-      {selectedCode && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={() => setSelectedCode(null)}>
-          <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-            {/* Header */}
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex-1">
-                <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>{selectedCode.title}</h2>
-                <div className="text-sm" style={{ color: 'var(--text-tertiary)' }}>{selectedCode.category}</div>
-              </div>
+      {/* Code Detail Modal - Cue Card Carousel */}
+      {selectedCode && (() => {
+        const cards = buildCards(selectedCode);
+        const card: any = cards[currentCard];
+        const isLastCard = currentCard === cards.length - 1;
+
+        return (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50" onClick={handleCloseModal}>
+            <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative" onClick={(e) => e.stopPropagation()}>
+              {/* Close button */}
               <button
-                onClick={() => setSelectedCode(null)}
-                className="p-2 rounded-lg hover:bg-white/5 transition-colors"
+                onClick={handleCloseModal}
+                className="absolute top-4 right-4 p-2 rounded-lg hover:bg-white/5 transition-colors z-10"
                 style={{ color: 'var(--text-secondary)' }}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M18 6L6 18M6 6l12 12"/>
                 </svg>
               </button>
-            </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-2 gap-4 mb-6">
-              <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                <div className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Times Practiced</div>
-                <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{selectedCode.timesUsed || 0}</div>
-              </div>
-              <div className="p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                <div className="text-xs mb-1" style={{ color: 'var(--text-tertiary)' }}>Last Practice</div>
-                <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{formatLastSession(selectedCode.lastUsedDaysAgo)}</div>
-              </div>
-            </div>
+              {/* Favorite Star - only on last card */}
+              {isLastCard && (
+                <button
+                  onClick={(e) => toggleFavorite(selectedCode.id, e)}
+                  className="absolute top-4 left-4 p-2 rounded-full transition-all hover:scale-110 active:scale-95 z-10"
+                  style={{ backgroundColor: selectedCode.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                >
+                  {selectedCode.isFavorite ? (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#00ff41" stroke="#00ff41" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  ) : (
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255, 255, 255, 0.3)" strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  )}
+                </button>
+              )}
 
-            {/* Content Preview */}
-            {selectedCode.summary && (
-              <div className="mb-6 p-4 rounded-xl border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-                <div className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                  {selectedCode.summary.substring(0, 200)}{selectedCode.summary.length > 200 ? '...' : ''}
+              {/* Card Content */}
+              <div className="min-h-[400px] flex flex-col justify-center items-center text-center px-8 py-12">
+                {card.type === 'title' && (
+                  <>
+                    <div className="text-sm mb-4 px-3 py-1 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
+                      {card.category}
+                    </div>
+                    <h1 className="text-4xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
+                      {card.title}
+                    </h1>
+                    <p className="text-base" style={{ color: 'var(--text-secondary)' }}>
+                      Swipe through to review your cheat code
+                    </p>
+                  </>
+                )}
+
+                {card.type === 'section' && (
+                  <>
+                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
+                      {card.heading}
+                    </div>
+                    <p className="text-xl leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                      {card.content}
+                    </p>
+                  </>
+                )}
+
+                {card.type === 'step' && (
+                  <>
+                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
+                      {card.heading} - Step {card.stepNumber} of {card.totalSteps}
+                    </div>
+                    <p className="text-xl leading-relaxed" style={{ color: 'var(--text-primary)' }}>
+                      {card.content}
+                    </p>
+                  </>
+                )}
+
+                {card.type === 'phrase' && (
+                  <>
+                    <div className="text-sm font-bold uppercase tracking-wider mb-6" style={{ color: 'var(--accent-color)' }}>
+                      {card.heading}
+                    </div>
+                    <p className="text-3xl font-bold leading-relaxed mb-8" style={{ color: 'var(--accent-color)' }}>
+                      "{card.content}"
+                    </p>
+                    <button
+                      onClick={() => {
+                        handleStartGame(selectedCode.id, selectedCode.title);
+                        handleCloseModal();
+                      }}
+                      className="px-8 py-4 rounded-xl font-bold text-lg transition-all active:scale-95"
+                      style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                    >
+                      Start Practice
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {/* Navigation */}
+              <div className="flex items-center justify-between mt-6">
+                {/* Left Arrow */}
+                <button
+                  onClick={prevCard}
+                  disabled={currentCard === 0}
+                  className="p-3 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/5"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                  </svg>
+                </button>
+
+                {/* Progress Dots */}
+                <div className="flex gap-2">
+                  {cards.map((_, index) => (
+                    <div
+                      key={index}
+                      className="w-2 h-2 rounded-full transition-all"
+                      style={{
+                        backgroundColor: index === currentCard ? 'var(--accent-color)' : 'rgba(255, 255, 255, 0.2)'
+                      }}
+                    />
+                  ))}
                 </div>
-              </div>
-            )}
 
-            {/* Actions */}
-            <div className="flex gap-3">
-              <button
-                onClick={() => {
-                  handleStartGame(selectedCode.id, selectedCode.title);
-                  setSelectedCode(null);
-                }}
-                className="flex-1 py-3 rounded-xl font-bold transition-all active:scale-95"
-                style={{ backgroundColor: '#00ff41', color: '#000000' }}
-              >
-                Start Practice
-              </button>
-              <button
-                onClick={() => setSelectedCode(null)}
-                className="px-6 py-3 rounded-xl font-medium border transition-all hover:bg-white/5"
-                style={{ borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-              >
-                Close
-              </button>
+                {/* Right Arrow */}
+                <button
+                  onClick={nextCard}
+                  disabled={isLastCard}
+                  className="p-3 rounded-lg transition-all disabled:opacity-30 disabled:cursor-not-allowed hover:bg-white/5"
+                  style={{ color: 'var(--text-secondary)' }}
+                >
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M9 18l6-6-6-6"/>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Game Modal */}
       {showGameModal && gameCheatCodeId && (
