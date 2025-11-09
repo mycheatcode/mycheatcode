@@ -1110,16 +1110,32 @@ export default function ChatPage() {
   const parseCheatCodeForCards = (cheatCode: any) => {
     const { what, when, how, why, phrase, title, category } = cheatCode;
 
-    // Split "How" into steps - handle both newlines and bullet points
+    // Split "How" into steps - handle numbered steps (inline or newline-separated)
     let howSteps: string[] = [];
     if (how) {
-      // First split by newlines
-      const lines = how.split('\n').filter((s: string) => s.trim().length > 0);
+      // Try to split by numbered steps (e.g., "1. ", "2. ", "3. ")
+      // This works whether numbers are inline or on separate lines
+      const numberedSteps = how.split(/(?=\d+\.\s)/).filter((s: string) => s.trim().length > 0);
 
-      // Clean each line by removing bullet points and extra whitespace
-      howSteps = lines.map((line: string) =>
-        line.replace(/^[•\-\*]\s*/, '').trim()
-      ).filter((s: string) => s.length > 0);
+      if (numberedSteps.length > 1) {
+        // We found numbered steps - clean them up
+        howSteps = numberedSteps.map((step: string) => {
+          // Remove the leading number and any extra whitespace
+          return step.replace(/^\d+\.\s*/, '').trim();
+        }).filter((s: string) => s.length > 0);
+      } else {
+        // No numbered steps found, try splitting by newlines
+        const lines = how.split('\n').map((l: string) => l.trim()).filter((l: string) => l.length > 0);
+
+        if (lines.length > 1) {
+          howSteps = lines.map((line: string) =>
+            line.replace(/^[•\-\*]\s*/, '').trim()
+          ).filter((s: string) => s.length > 0);
+        } else {
+          // Fall back to sentence-based splitting
+          howSteps = how.split(/(?<=[.!?])\s+/).filter((s: string) => s.trim().length > 0).slice(0, 3);
+        }
+      }
     }
 
     return { what, when, howSteps, why, phrase, title, category };
