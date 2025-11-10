@@ -318,6 +318,7 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
       firstTimeBonus: 0,
       dailyGainToday: 0,
       dailyCapReached: false,
+      streak: 0,
     };
   }
 }
