@@ -32,6 +32,7 @@ interface CheatCode {
 interface UserProgress {
   progress: number;
   chatCount: number;
+  streak?: number;
 }
 
 export default function MyCodesRedesignPage() {
@@ -664,9 +665,9 @@ export default function MyCodesRedesignPage() {
                 <div>
                   <div className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
                   <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
-                  {userProgress && userProgress.chatCount > 0 && (
+                  {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
                     <div className="text-sm mt-3 inline-block px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                      {userProgress.chatCount} {userProgress.chatCount === 1 ? 'game' : 'games'} completed
+                      🔥 {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
                     </div>
                   )}
                 </div>
@@ -889,9 +890,9 @@ export default function MyCodesRedesignPage() {
             <div>
               <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
               <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
-              {userProgress && userProgress.chatCount > 0 && (
+              {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
                 <div className="text-xs mt-3 inline-block px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                  {userProgress.chatCount} {userProgress.chatCount === 1 ? 'game' : 'games'} completed
+                  🔥 {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
                 </div>
               )}
             </div>

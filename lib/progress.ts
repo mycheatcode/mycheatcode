@@ -238,6 +238,14 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
       .eq('user_id', userId);
     const completionCount = completions?.length || 0;
 
+    // Get streak data from users table
+    const { data: userData } = await supabase
+      .from('users')
+      .select('streak_days_7')
+      .eq('id', userId)
+      .single();
+    const streak = userData?.streak_days_7 || 0;
+
     // Get last activity timestamp
     const { data: activities } = await supabase
       .from('activity_log')
@@ -291,6 +299,7 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
       firstTimeBonus,
       dailyGainToday,
       dailyCapReached,
+      streak,
     };
   } catch (err) {
     console.error('Unexpected error calculating progress:', err);
