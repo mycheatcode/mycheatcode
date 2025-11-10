@@ -118,31 +118,24 @@ export async function POST(request: NextRequest) {
               phrase: sections['your cheat code phrase'] || '',
             };
 
-            const prompt = `You are a basketball confidence coach creating practice scenarios for a mental reframing game.
+            const prompt = `Create 10 basketball mental game scenarios for "${codeData.title}" (${codeData.category}).
 
-**Player Context:**
-- Skill Level: ${skillLevel}
-- Age Bracket: ${ageBracket}
+Context: ${codeData.what || codeData.when || codeData.phrase || 'Mental reframing'}
 
-**Cheat Code Details:**
-- Title: ${codeData.title}
-- Category: ${codeData.category}
-- What: ${codeData.what || 'N/A'}
-- When: ${codeData.when || 'N/A'}
-- Phrase: ${codeData.phrase || 'N/A'}
+Each scenario JSON:
+{
+  "situation": "Brief basketball scenario",
+  "current_thought": "Negative thought",
+  "scenario_type": "internal" or "external",
+  "options": [
+    {"text": "Option 1", "type": "negative", "feedback": "Brief explanation"},
+    {"text": "Option 2", "type": "negative", "feedback": "Brief explanation"},
+    {"text": "Option 3", "type": "helpful", "feedback": "Brief explanation"},
+    {"text": "Option 4", "type": "optimal", "feedback": "Brief explanation"}
+  ]
+}
 
-Generate exactly 10 practice scenarios that are DIRECTLY RELATED to this specific cheat code.
-
-Each scenario must have:
-- "situation": Brief basketball scenario (1-2 sentences)
-- "current_thought": The negative thought
-- "scenario_type": "internal" or "external"
-- "options": Array of 4 options (2 negative, 1 helpful, 1 optimal), each with:
-  - "text": Answer option text
-  - "type": "negative", "helpful", or "optimal"
-  - "feedback": Explanation (2-3 sentences)
-
-Return ONLY valid JSON with a "scenarios" key containing the array.`;
+Return: {"scenarios": [...]}`;
 
             const completion = await openai.chat.completions.create({
               model: 'gpt-4o-mini',

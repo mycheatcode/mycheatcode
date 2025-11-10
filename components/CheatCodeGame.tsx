@@ -96,9 +96,9 @@ export default function CheatCodeGame({
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
     let retryCount = 0;
-    const maxRetries = 20; // Increased from 10 to 20 (50 seconds total)
-    const retryDelay = 2500; // 2.5 seconds between retries
-    const minLoadTime = 8000; // Minimum 8 seconds (2 quotes at 4 seconds each)
+    const maxRetries = 25; // Increased retries for safety
+    const retryDelay = 1500; // Faster retry - 1.5 seconds between retries
+    const minLoadTime = 4000; // Minimum 4 seconds (1 quote display)
     const startTime = Date.now();
 
     async function fetchScenarios() {
@@ -133,7 +133,7 @@ export default function CheatCodeGame({
           return;
         }
 
-        // Ensure minimum loading time for at least 2 quotes
+        // Ensure minimum loading time for at least 1 quote
         const elapsedTime = Date.now() - startTime;
         const remainingTime = Math.max(0, minLoadTime - elapsedTime);
 
@@ -147,8 +147,8 @@ export default function CheatCodeGame({
       }
     }
 
-    // Start fetching with a small initial delay to give scenarios time to start generating
-    setTimeout(fetchScenarios, 1500);
+    // Start fetching immediately - no initial delay
+    fetchScenarios();
   }, [cheatCodeId]);
 
   // Fetch cheat code data for intro screen
