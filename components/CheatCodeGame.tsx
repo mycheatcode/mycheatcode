@@ -101,12 +101,20 @@ export default function CheatCodeGame({
         const response = await fetch('/api/game/get-scenarios', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ cheat_code_id: cheatCodeId }),
+          body: JSON.stringify({
+            cheat_code_id: cheatCodeId,
+            auto_generate: retryCount === 0, // Auto-generate on first attempt
+          }),
         });
 
         const data = await response.json();
 
         if (!data.success || !data.has_scenarios) {
+          // If generation was triggered, give it more time
+          if (data.generating && retryCount === 0) {
+            console.log('🎮 Scenarios are being generated, will retry in ${retryDelay}ms...');
+          }
+
           // Retry if scenarios aren't ready yet (might still be generating)
           if (retryCount < maxRetries) {
             retryCount++;
