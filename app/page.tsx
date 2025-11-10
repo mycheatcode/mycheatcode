@@ -189,12 +189,12 @@ export default function Home() {
       {/* Main Content */}
       <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 justify-between max-w-[430px] lg:max-w-[600px] mx-auto w-full">
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-8 relative overflow-hidden flex-shrink-0 min-h-[140px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 min-h-[120px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
-            <h1 className="text-3xl font-bold mb-2 leading-tight" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="text-2xl font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With<br />Confidence.
             </h1>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
               Start chatting to build your confidence.
             </p>
           </div>
@@ -214,11 +214,11 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center flex-1">
+        <div className="flex flex-col items-center justify-center flex-1 py-4">
           {/* Your Momentum Label */}
-          <div className="text-center mb-2">
+          <div className="text-center mb-3">
             <div
-              className="text-sm font-semibold uppercase tracking-[1px]"
+              className="text-xs font-semibold uppercase tracking-[1px]"
               style={{ color: 'rgba(255, 255, 255, 0.6)' }}
             >
               YOUR MOMENTUM
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(400px,85vw)] aspect-square -my-8 relative overflow-visible">
+          <div className="w-[min(350px,75vw)] aspect-square -my-6 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
@@ -235,7 +235,7 @@ export default function Home() {
           </div>
 
           {/* Progress Percentage with Animation */}
-          <div className="text-center">
+          <div className="text-center mt-2">
             <div
               className={`text-5xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
               style={{
@@ -245,7 +245,7 @@ export default function Home() {
             >
               {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
             </div>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
               Elite players stay above 85%
             </p>
           </div>
