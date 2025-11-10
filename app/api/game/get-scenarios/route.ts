@@ -93,11 +93,11 @@ export async function POST(request: NextRequest) {
 
         const sections = parseContent(content);
 
-        // Trigger generation asynchronously (don't await - let it run in background)
-        (async () => {
-          try {
-            console.log('🎮 Starting background scenario generation for:', cheat_code_id);
+        console.log('🎮 Starting scenario generation for:', cheat_code_id);
 
+        // Start generation in background (use Promise without await)
+        const generatePromise = (async () => {
+          try {
             // Fetch user profile for context
             const { data: userProfile } = await supabase
               .from('users')
@@ -162,6 +162,13 @@ Return: {"scenarios": [...]}`;
             console.error('❌ Background generation failed:', err);
           }
         })();
+
+        // Don't await the promise - let it run in background
+        // But keep reference so it doesn't get garbage collected
+        if (typeof globalThis !== 'undefined') {
+          (globalThis as any).__pendingGenerations = (globalThis as any).__pendingGenerations || [];
+          (globalThis as any).__pendingGenerations.push(generatePromise);
+        }
 
         return NextResponse.json({
           success: true,
