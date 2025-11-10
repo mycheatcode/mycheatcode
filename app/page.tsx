@@ -187,9 +187,9 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 max-w-[430px] lg:max-w-[600px] mx-auto w-full">
+      <div className="flex flex-col items-center flex-1 px-4 relative z-10 max-w-[430px] lg:max-w-[600px] mx-auto w-full" style={{ paddingTop: 'max(4rem, 8vh)', paddingBottom: 'max(1rem, 2vh)' }}>
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 min-h-[120px] mb-4" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 min-h-[120px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)', marginBottom: 'max(1rem, 2vh)' }}>
           <div className="relative z-10">
             <h1 className="text-2xl font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With<br />Confidence.
@@ -214,7 +214,7 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center mb-4">
+        <div className="flex flex-col items-center justify-center" style={{ marginBottom: 'max(1rem, 2vh)' }}>
           {/* Your Momentum Label */}
           <div className="text-center mb-2">
             <div
