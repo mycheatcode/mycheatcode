@@ -673,7 +673,7 @@ export default function MyCodesRedesignPage() {
                   )}
                   <div>
                     <div className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-                    <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Practice, create and save your personalized cheat codes</div>
+                    <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Create, save and practice your personalized cheat codes</div>
                   </div>
                 </div>
                 {userProgress && (
@@ -904,7 +904,7 @@ export default function MyCodesRedesignPage() {
                 )}
                 <div>
                   <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-                  <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Practice, create and save your personalized cheat codes</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Create, save and practice your personalized cheat codes</div>
                 </div>
               </div>
               {userProgress && (
