@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(350px,75vw)] aspect-square -my-6 relative overflow-visible">
+          <div className="w-[min(350px,75vw)] aspect-square -my-12 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
@@ -252,7 +252,7 @@ export default function Home() {
         </div>
 
         {/* Bottom Section - Input and Button */}
-        <div className="w-full space-y-3 flex-shrink-0 -mt-8">
+        <div className="w-full space-y-3 flex-shrink-0 -mt-12">
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} className="w-full">
           <div className="relative">
