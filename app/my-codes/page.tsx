@@ -661,18 +661,21 @@ export default function MyCodesRedesignPage() {
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="mb-6">
+              <div className="flex items-center justify-between mb-6">
+                {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
+                  <div className="flex items-center gap-2 px-4 py-2 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent-color)">
+                      <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                    </svg>
+                    <span className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>{userProgress.streak} DAY STREAK</span>
+                  </div>
+                )}
+                <div className="flex-1"></div>
+              </div>
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
                   <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
-                  {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
-                    <div className="text-sm mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M13.5 0.67s0.74 2.65 0.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l0.03-0.36c-5.21 1.52-7.5 6.93-7.5 11.57 0 6.63 5.37 12 12 12s12-5.37 12-12c0-6.33-5.33-10.67-10.23-15.81z"/>
-                      </svg>
-                      {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
-                    </div>
-                  )}
                 </div>
                 {userProgress && (
                   <div className="flex flex-col items-center gap-1">
@@ -889,19 +892,20 @@ export default function MyCodesRedesignPage() {
       <div className="lg:hidden min-h-screen relative flex flex-col pt-16">
         <div className="flex-1 flex flex-col">
           {/* Header */}
-          <div className="p-4 border-b flex items-center justify-between" style={{ borderColor: 'var(--card-border)', overflow: 'visible' }}>
-            <div>
-              <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-              <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
-              {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
-                <div className="text-xs mt-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M13.5 0.67s0.74 2.65 0.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l0.03-0.36c-5.21 1.52-7.5 6.93-7.5 11.57 0 6.63 5.37 12 12 12s12-5.37 12-12c0-6.33-5.33-10.67-10.23-15.81z"/>
-                  </svg>
-                  {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
-                </div>
-              )}
-            </div>
+          <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
+            {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
+              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border mb-4 inline-flex" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)">
+                  <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                </svg>
+                <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{userProgress.streak} DAY STREAK</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between" style={{ overflow: 'visible' }}>
+              <div>
+                <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
+                <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
+              </div>
             {userProgress && (
               <div className="flex flex-col items-center gap-1" style={{ overflow: 'visible' }}>
                 <div className="w-[100px] aspect-square overflow-visible">
