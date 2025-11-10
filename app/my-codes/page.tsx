@@ -660,8 +660,8 @@ export default function MyCodesRedesignPage() {
         <div className="flex-1 pt-8 px-8 pb-8 max-w-4xl mx-auto">
           <div className="flex flex-col h-full">
             {/* Header */}
-            <div className="mb-8">
-              <div className="flex items-start justify-between">
+            <div className="mb-8" style={{ overflow: 'visible' }}>
+              <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
                 <div className="flex flex-col justify-end" style={{ minHeight: '150px' }}>
                   {userProgress && userProgress.streak !== undefined && (
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-4" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', width: 'fit-content' }}>
@@ -677,8 +677,8 @@ export default function MyCodesRedesignPage() {
                   </div>
                 </div>
                 {userProgress && (
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="w-[120px] aspect-square overflow-visible">
+                  <div className="flex flex-col items-center gap-1" style={{ overflow: 'visible' }}>
+                    <div className="w-[120px] aspect-square p-4" style={{ overflow: 'visible', margin: '-1rem' }}>
                       <ProgressCircles
                         theme="dark"
                         progress={userProgress.progress}
@@ -908,8 +908,8 @@ export default function MyCodesRedesignPage() {
                 </div>
               </div>
               {userProgress && (
-                <div className="flex flex-col items-center gap-1">
-                  <div className="w-[100px] aspect-square overflow-visible">
+                <div className="flex flex-col items-center gap-1" style={{ overflow: 'visible' }}>
+                  <div className="w-[100px] aspect-square p-3" style={{ overflow: 'visible', margin: '-0.75rem' }}>
                     <ProgressCircles
                       theme="dark"
                       progress={userProgress.progress}
