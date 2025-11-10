@@ -214,9 +214,9 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center flex-1 py-4">
+        <div className="flex flex-col items-center justify-center flex-1 py-2">
           {/* Your Momentum Label */}
-          <div className="text-center mb-3">
+          <div className="text-center mb-2">
             <div
               className="text-xs font-semibold uppercase tracking-[1px]"
               style={{ color: 'rgba(255, 255, 255, 0.6)' }}
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(350px,75vw)] aspect-square -my-6 relative overflow-visible">
+          <div className="w-[min(320px,70vw)] aspect-square -my-8 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
@@ -235,9 +235,9 @@ export default function Home() {
           </div>
 
           {/* Progress Percentage with Animation */}
-          <div className="text-center mt-2">
+          <div className="text-center mt-1">
             <div
-              className={`text-5xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
+              className={`text-4xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
               style={{
                 color: showProgressAnimation ? '#00ff41' : 'var(--text-primary)',
                 transform: showProgressAnimation ? 'scale(1.15)' : 'scale(1)',
