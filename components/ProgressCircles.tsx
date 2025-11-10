@@ -149,7 +149,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       ctx.fill();
 
       // Draw progress circle (inner) with enhanced glow
-      ctx.shadowBlur = 50;
+      ctx.shadowBlur = 30;
       ctx.shadowColor = `rgba(${currentTheme.color[0]}, ${currentTheme.color[1]}, ${currentTheme.color[2]}, 1)`;
       ctx.fillStyle = `rgba(${currentTheme.color[0]}, ${currentTheme.color[1]}, ${currentTheme.color[2]}, 1)`;
       ctx.beginPath();
