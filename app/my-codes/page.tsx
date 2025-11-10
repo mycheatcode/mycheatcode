@@ -666,8 +666,11 @@ export default function MyCodesRedesignPage() {
                   <div className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
                   <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
                   {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
-                    <div className="text-sm mt-3 inline-block px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                      🔥 {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
+                    <div className="text-sm mt-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M13.5 0.67s0.74 2.65 0.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l0.03-0.36c-5.21 1.52-7.5 6.93-7.5 11.57 0 6.63 5.37 12 12 12s12-5.37 12-12c0-6.33-5.33-10.67-10.23-15.81z"/>
+                      </svg>
+                      {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
                     </div>
                   )}
                 </div>
@@ -891,8 +894,11 @@ export default function MyCodesRedesignPage() {
               <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
               <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
               {userProgress && userProgress.streak !== undefined && userProgress.streak > 0 && (
-                <div className="text-xs mt-3 inline-block px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
-                  🔥 {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
+                <div className="text-xs mt-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-full" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', color: 'var(--accent-color)' }}>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M13.5 0.67s0.74 2.65 0.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l0.03-0.36c-5.21 1.52-7.5 6.93-7.5 11.57 0 6.63 5.37 12 12 12s12-5.37 12-12c0-6.33-5.33-10.67-10.23-15.81z"/>
+                  </svg>
+                  {userProgress.streak} day{userProgress.streak === 1 ? '' : 's'} streak
                 </div>
               )}
             </div>

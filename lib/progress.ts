@@ -91,6 +91,7 @@ export interface ProgressData {
   firstTimeBonus: number;
   dailyGainToday: number;
   dailyCapReached: boolean;
+  streak: number;
 }
 
 /**
