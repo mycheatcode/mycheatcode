@@ -187,9 +187,9 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 justify-between max-w-[430px] lg:max-w-[600px] mx-auto w-full">
+      <div className="flex flex-col items-center flex-1 px-4 pt-20 pb-4 relative z-10 max-w-[430px] lg:max-w-[600px] mx-auto w-full">
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 min-h-[120px]" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 min-h-[120px] mb-4" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
             <h1 className="text-2xl font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With<br />Confidence.
@@ -214,9 +214,9 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center flex-1 py-2">
+        <div className="flex flex-col items-center justify-center mb-4">
           {/* Your Momentum Label */}
-          <div className="text-center mb-3">
+          <div className="text-center mb-2">
             <div
               className="text-xs font-semibold uppercase tracking-[1px]"
               style={{ color: 'rgba(255, 255, 255, 0.6)' }}
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(350px,75vw)] aspect-square -my-12 relative overflow-visible">
+          <div className="w-[min(350px,75vw)] aspect-square -my-8 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
@@ -235,7 +235,7 @@ export default function Home() {
           </div>
 
           {/* Progress Percentage with Animation */}
-          <div className="text-center mt-2">
+          <div className="text-center">
             <div
               className={`text-5xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
               style={{
@@ -252,7 +252,7 @@ export default function Home() {
         </div>
 
         {/* Bottom Section - Input and Button */}
-        <div className="w-full space-y-3 flex-shrink-0 -mt-12">
+        <div className="w-full space-y-3">
         {/* Chat Input */}
         <form onSubmit={handleSendMessage} className="w-full">
           <div className="relative">
