@@ -1,6 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getRandomScenarios, hasGameScenarios } from '@/lib/game';
+import { getRandomScenarios, hasGameScenarios, saveGameScenarios } from '@/lib/game';
+import OpenAI from 'openai';
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 export async function POST(request: NextRequest) {
   try {
@@ -88,17 +93,22 @@ export async function POST(request: NextRequest) {
 
         const sections = parseContent(content);
 
-        // Trigger generation in the background (non-blocking)
-        const generateUrl = new URL('/api/game/generate-scenarios', request.url);
-        fetch(generateUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Cookie': request.headers.get('cookie') || '',
-          },
-          body: JSON.stringify({
-            cheat_code_id,
-            cheat_code_data: {
+        // Trigger generation asynchronously (don't await - let it run in background)
+        (async () => {
+          try {
+            console.log('🎮 Starting background scenario generation for:', cheat_code_id);
+
+            // Fetch user profile for context
+            const { data: userProfile } = await supabase
+              .from('users')
+              .select('skill_level, age_bracket')
+              .eq('id', user.id)
+              .maybeSingle();
+
+            const skillLevel = userProfile?.skill_level || 'recreational';
+            const ageBracket = userProfile?.age_bracket || 'adult';
+
+            const codeData = {
               title: cheatCodeData.title,
               category: cheatCodeData.category,
               what: sections.what || '',
@@ -106,10 +116,59 @@ export async function POST(request: NextRequest) {
               how: sections.how || '',
               why: sections.why || '',
               phrase: sections['your cheat code phrase'] || '',
-            },
-            count: 10,
-          }),
-        }).catch(err => console.error('Background generation error:', err));
+            };
+
+            const prompt = `You are a basketball confidence coach creating practice scenarios for a mental reframing game.
+
+**Player Context:**
+- Skill Level: ${skillLevel}
+- Age Bracket: ${ageBracket}
+
+**Cheat Code Details:**
+- Title: ${codeData.title}
+- Category: ${codeData.category}
+- What: ${codeData.what || 'N/A'}
+- When: ${codeData.when || 'N/A'}
+- Phrase: ${codeData.phrase || 'N/A'}
+
+Generate exactly 10 practice scenarios that are DIRECTLY RELATED to this specific cheat code.
+
+Each scenario must have:
+- "situation": Brief basketball scenario (1-2 sentences)
+- "current_thought": The negative thought
+- "scenario_type": "internal" or "external"
+- "options": Array of 4 options (2 negative, 1 helpful, 1 optimal), each with:
+  - "text": Answer option text
+  - "type": "negative", "helpful", or "optimal"
+  - "feedback": Explanation (2-3 sentences)
+
+Return ONLY valid JSON with a "scenarios" key containing the array.`;
+
+            const completion = await openai.chat.completions.create({
+              model: 'gpt-4o-mini',
+              max_tokens: 8000,
+              temperature: 0.8,
+              response_format: { type: 'json_object' },
+              messages: [
+                { role: 'system', content: 'You are a basketball confidence coach. Respond with valid JSON only.' },
+                { role: 'user', content: prompt },
+              ],
+            });
+
+            const responseText = completion.choices[0].message.content || '';
+            const parsed = JSON.parse(responseText);
+            const scenarios = parsed.scenarios || parsed;
+
+            if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
+              await saveGameScenarios(user.id, cheat_code_id, scenarios, supabase);
+              console.log('✅ Scenarios generated and saved:', scenarios.length);
+            } else {
+              console.error('❌ Invalid scenario count:', scenarios.length);
+            }
+          } catch (err) {
+            console.error('❌ Background generation failed:', err);
+          }
+        })();
 
         return NextResponse.json({
           success: true,

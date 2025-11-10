@@ -53,18 +53,21 @@ export default function CheatCodeGame({
   const [error, setError] = useState<string | null>(null);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
   const MOTIVATIONAL_QUOTES = [
-    { text: "I've missed more than 9,000 shots in my career. I've lost almost 300 games. I've failed over and over. And that is why I succeed.", author: "Michael Jordan" },
+    { text: "Your thoughts shape your reality on the court", author: null },
+    { text: "Confidence is built one rep at a time", author: null },
+    { text: "Mental reps count just as much as physical ones", author: null },
+    { text: "I've missed more than 9,000 shots in my career. I've failed over and over. And that is why I succeed.", author: "Michael Jordan" },
+    { text: "Champions aren't born in the gym, they're made in the mind", author: null },
+    { text: "Your next shot is always your best shot", author: null },
     { text: "Hard work beats talent when talent doesn't work hard.", author: "Kevin Durant" },
-    { text: "The most important thing is to try and inspire people so that they can be great in whatever they want to do.", author: "Kobe Bryant" },
-    { text: "Pressure is something you feel when you don't know what you're doing.", author: "Peyton Manning" },
-    { text: "I can accept failure, everyone fails at something. But I can't accept not trying.", author: "Michael Jordan" },
-    { text: "The only difference between a good shot and a bad shot is if it goes in or not.", author: "Charles Barkley" },
+    { text: "Trust the process, trust yourself", author: null },
     { text: "Everything negative - pressure, challenges - is all an opportunity for me to rise.", author: "Kobe Bryant" },
-    { text: "You miss 100% of the shots you don't take.", author: "Wayne Gretzky" },
-    { text: "I've never been afraid to fail.", author: "Michael Jordan" },
+    { text: "Pressure is a privilege", author: null },
+    { text: "The mind is the limit", author: null },
+    { text: "I can accept failure, everyone fails at something. But I can't accept not trying.", author: "Michael Jordan" },
+    { text: "Believe in your training", author: null },
+    { text: "The only difference between a good shot and a bad shot is if it goes in or not.", author: "Charles Barkley" },
     { text: "Mental toughness is to physical as four is to one.", author: "Bobby Knight" },
-    { text: "Confidence comes from being prepared.", author: "John Wooden" },
-    { text: "It's not about the shoes, it's about what you do in them.", author: "Michael Jordan" },
   ];
 
   const [result, setResult] = useState<GameSessionResult | null>(null);
