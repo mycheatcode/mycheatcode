@@ -105,25 +105,43 @@ export default function MyCodesRedesignPage() {
 
     const activeCodes = cheatCodes.filter(c => !c.archived);
 
-    // Priority 1: Codes that need practice (3+ days old)
-    const needsPractice = activeCodes.filter(c => (c.lastUsedDaysAgo ?? 999) > 2);
+    // Priority 1: Codes that haven't been used today and need practice (2+ days old)
+    const needsPractice = activeCodes.filter(c => {
+      const daysAgo = c.lastUsedDaysAgo ?? 999;
+      return daysAgo > 1; // Not used today or yesterday
+    });
+
     if (needsPractice.length > 0) {
+      // Sort by days since last use (oldest first)
       const sorted = [...needsPractice].sort((a, b) => (b.lastUsedDaysAgo ?? 0) - (a.lastUsedDaysAgo ?? 0));
       setTodaysFocus(sorted[0]);
       return;
     }
 
-    // Priority 2: New codes that haven't been tried
+    // Priority 2: New codes that haven't been tried yet
     const newCodes = activeCodes.filter(c => (c.timesUsed || 0) === 0);
     if (newCodes.length > 0) {
-      setTodaysFocus(newCodes[0]);
+      // Get the oldest new code
+      const sorted = [...newCodes].sort((a, b) => {
+        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+        return timeA - timeB;
+      });
+      setTodaysFocus(sorted[0]);
       return;
     }
 
-    // Priority 3: Least used code
-    const sorted = [...activeCodes].sort((a, b) => (a.timesUsed || 0) - (b.timesUsed || 0));
-    if (sorted.length > 0) {
+    // Priority 3: Least used code that wasn't used today
+    const notUsedToday = activeCodes.filter(c => (c.lastUsedDaysAgo ?? 999) > 0);
+    if (notUsedToday.length > 0) {
+      const sorted = [...notUsedToday].sort((a, b) => (a.timesUsed || 0) - (b.timesUsed || 0));
       setTodaysFocus(sorted[0]);
+      return;
+    }
+
+    // Fallback: Any active code
+    if (activeCodes.length > 0) {
+      setTodaysFocus(activeCodes[0]);
     }
   }, [cheatCodes]);
 
@@ -671,7 +689,11 @@ export default function MyCodesRedesignPage() {
                     <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>{todaysFocus.title}</h3>
                     <div className="flex gap-3">
                       <button
-                        onClick={() => router.push(`/my-codes?practice=${todaysFocus.id}`)}
+                        onClick={() => {
+                          setGameCheatCodeId(todaysFocus.id);
+                          setGameCheatCodeTitle(todaysFocus.title);
+                          setShowGameModal(true);
+                        }}
                         className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
                         style={{ backgroundColor: '#00ff41', color: '#000000' }}
                       >
@@ -681,7 +703,10 @@ export default function MyCodesRedesignPage() {
                         Start Practice
                       </button>
                       <button
-                        onClick={() => router.push(`/my-codes?code=${todaysFocus.id}`)}
+                        onClick={() => {
+                          setSelectedCode(todaysFocus);
+                          resetCards();
+                        }}
                         className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
                         style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                       >
@@ -702,7 +727,9 @@ export default function MyCodesRedesignPage() {
                     onClick={() => {
                       if (activeCodes.length > 0) {
                         const randomCode = activeCodes[Math.floor(Math.random() * activeCodes.length)];
-                        router.push(`/my-codes?practice=${randomCode.id}`);
+                        setGameCheatCodeId(randomCode.id);
+                        setGameCheatCodeTitle(randomCode.title);
+                        setShowGameModal(true);
                       }
                     }}
                     disabled={activeCodes.length === 0}
@@ -884,7 +911,11 @@ export default function MyCodesRedesignPage() {
                 <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>{todaysFocus.title}</h3>
                 <div className="flex gap-3">
                   <button
-                    onClick={() => router.push(`/my-codes?practice=${todaysFocus.id}`)}
+                    onClick={() => {
+                      setGameCheatCodeId(todaysFocus.id);
+                      setGameCheatCodeTitle(todaysFocus.title);
+                      setShowGameModal(true);
+                    }}
                     className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
                     style={{ backgroundColor: '#00ff41', color: '#000000' }}
                   >
@@ -894,7 +925,10 @@ export default function MyCodesRedesignPage() {
                     Start Practice
                   </button>
                   <button
-                    onClick={() => router.push(`/my-codes?code=${todaysFocus.id}`)}
+                    onClick={() => {
+                      setSelectedCode(todaysFocus);
+                      resetCards();
+                    }}
                     className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
                     style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                   >
@@ -915,7 +949,9 @@ export default function MyCodesRedesignPage() {
                 onClick={() => {
                   if (activeCodes.length > 0) {
                     const randomCode = activeCodes[Math.floor(Math.random() * activeCodes.length)];
-                    router.push(`/my-codes?practice=${randomCode.id}`);
+                    setGameCheatCodeId(randomCode.id);
+                    setGameCheatCodeTitle(randomCode.title);
+                    setShowGameModal(true);
                   }
                 }}
                 disabled={activeCodes.length === 0}
