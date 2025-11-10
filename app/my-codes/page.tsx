@@ -657,12 +657,12 @@ export default function MyCodesRedesignPage() {
       {/* Desktop Layout */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Main Content with max-w-4xl wrapper */}
-        <div className="flex-1 pt-12 px-8 pb-8 max-w-4xl mx-auto">
+        <div className="flex-1 pt-8 px-8 pb-8 max-w-4xl mx-auto">
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="mb-8">
               <div className="flex items-start justify-between">
-                <div className="flex flex-col justify-end" style={{ minHeight: '165px' }}>
+                <div className="flex flex-col justify-end" style={{ minHeight: '150px' }}>
                   {userProgress && userProgress.streak !== undefined && (
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-4" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', width: 'fit-content' }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--accent-color)">
