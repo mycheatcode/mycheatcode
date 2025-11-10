@@ -675,7 +675,7 @@ export default function MyCodesRedesignPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <div className="text-4xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-                  <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
+                  <div className="text-base mt-1" style={{ color: 'var(--text-tertiary)' }}>Practice, create and save your personalized cheat codes</div>
                 </div>
                 {userProgress && (
                   <div className="flex flex-col items-center gap-1">
@@ -904,25 +904,26 @@ export default function MyCodesRedesignPage() {
             <div className="flex items-center justify-between" style={{ overflow: 'visible' }}>
               <div>
                 <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-                <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Your vault of confidence boosting cheat codes</div>
+                <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Practice, create and save your personalized cheat codes</div>
               </div>
-            {userProgress && (
-              <div className="flex flex-col items-center gap-1" style={{ overflow: 'visible' }}>
-                <div className="w-[100px] aspect-square overflow-visible">
-                  <ProgressCircles
-                    theme="dark"
-                    progress={userProgress.progress}
-                    onProgressUpdate={() => {}}
-                  />
+              {userProgress && (
+                <div className="flex flex-col items-center gap-1" style={{ overflow: 'visible' }}>
+                  <div className="w-[100px] aspect-square overflow-visible">
+                    <ProgressCircles
+                      theme="dark"
+                      progress={userProgress.progress}
+                      onProgressUpdate={() => {}}
+                    />
+                  </div>
+                  <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
+                    {userProgress.progress}%
+                  </div>
+                  <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                    MOMENTUM
+                  </div>
                 </div>
-                <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                  {userProgress.progress}%
-                </div>
-                <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-                  MOMENTUM
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           {/* Today's Focus Section */}
