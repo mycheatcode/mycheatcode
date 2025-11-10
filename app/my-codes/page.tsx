@@ -99,11 +99,22 @@ export default function MyCodesRedesignPage() {
     loadData();
   }, [supabase]);
 
-  // Set today's focus (smart selection based on user's codes)
+  // Set today's focus (smart selection based on user's codes with daily rotation)
   useEffect(() => {
     if (cheatCodes.length === 0) return;
 
     const activeCodes = cheatCodes.filter(c => !c.archived);
+    if (activeCodes.length === 0) return;
+
+    // Get today's date as a seed for consistent daily selection
+    const today = new Date();
+    const dailySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+
+    // Seeded random function for consistent selection within the same day
+    const seededRandom = (seed: number, max: number) => {
+      const x = Math.sin(seed) * 10000;
+      return Math.floor((x - Math.floor(x)) * max);
+    };
 
     // Priority 1: Codes that haven't been used today and need practice (2+ days old)
     const needsPractice = activeCodes.filter(c => {
@@ -112,22 +123,26 @@ export default function MyCodesRedesignPage() {
     });
 
     if (needsPractice.length > 0) {
-      // Sort by days since last use (oldest first)
+      // Sort by days since last use (oldest first), then use daily seed to pick from top candidates
       const sorted = [...needsPractice].sort((a, b) => (b.lastUsedDaysAgo ?? 0) - (a.lastUsedDaysAgo ?? 0));
-      setTodaysFocus(sorted[0]);
+      // Pick from top 3 candidates using daily seed (or all if less than 3)
+      const topCandidates = sorted.slice(0, Math.min(3, sorted.length));
+      const selectedIndex = seededRandom(dailySeed, topCandidates.length);
+      setTodaysFocus(topCandidates[selectedIndex]);
       return;
     }
 
     // Priority 2: New codes that haven't been tried yet
     const newCodes = activeCodes.filter(c => (c.timesUsed || 0) === 0);
     if (newCodes.length > 0) {
-      // Get the oldest new code
+      // Get the oldest new codes, then rotate daily
       const sorted = [...newCodes].sort((a, b) => {
         const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
         const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
         return timeA - timeB;
       });
-      setTodaysFocus(sorted[0]);
+      const selectedIndex = seededRandom(dailySeed, sorted.length);
+      setTodaysFocus(sorted[selectedIndex]);
       return;
     }
 
@@ -135,14 +150,16 @@ export default function MyCodesRedesignPage() {
     const notUsedToday = activeCodes.filter(c => (c.lastUsedDaysAgo ?? 999) > 0);
     if (notUsedToday.length > 0) {
       const sorted = [...notUsedToday].sort((a, b) => (a.timesUsed || 0) - (b.timesUsed || 0));
-      setTodaysFocus(sorted[0]);
+      // Pick from top candidates using daily seed
+      const topCandidates = sorted.slice(0, Math.min(3, sorted.length));
+      const selectedIndex = seededRandom(dailySeed, topCandidates.length);
+      setTodaysFocus(topCandidates[selectedIndex]);
       return;
     }
 
-    // Fallback: Any active code
-    if (activeCodes.length > 0) {
-      setTodaysFocus(activeCodes[0]);
-    }
+    // Fallback: Rotate through all active codes daily
+    const selectedIndex = seededRandom(dailySeed, activeCodes.length);
+    setTodaysFocus(activeCodes[selectedIndex]);
   }, [cheatCodes]);
 
   // Handle URL query parameters (?code= and ?practice=)
