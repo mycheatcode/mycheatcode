@@ -219,14 +219,14 @@ export default function Home() {
           <div className="text-center mb-3">
             <div
               className="font-semibold uppercase tracking-[1px]"
-              style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}
+              style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}
             >
               YOUR MOMENTUM
             </div>
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(320px,68vw)] aspect-square -my-6 relative overflow-visible">
+          <div className="aspect-square -my-6 relative overflow-visible" style={{ width: 'min(420px, 85vw)' }}>
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
@@ -239,14 +239,14 @@ export default function Home() {
             <div
               className={`font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
               style={{
-                fontSize: 'clamp(2.5rem, 10vw, 3rem)',
+                fontSize: 'clamp(2.5rem, 12vw, 4rem)',
                 color: showProgressAnimation ? '#00ff41' : 'var(--text-primary)',
                 transform: showProgressAnimation ? 'scale(1.15)' : 'scale(1)',
               }}
             >
               {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
             </div>
-            <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
               Elite players stay above 85%
             </p>
           </div>
