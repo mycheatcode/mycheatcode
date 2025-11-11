@@ -747,81 +747,114 @@ export default function MyCodesRedesignPage() {
                       {completedToday.size}/{todaysFocusCodes.length} completed
                     </div>
                   </div>
-                  <div
-                    className="relative overflow-hidden rounded-2xl border"
-                    style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}
-                    onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
-                    onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
-                    onTouchEnd={() => {
-                      if (!touchStart || !touchEnd) return;
-                      const distance = touchStart - touchEnd;
-                      const isLeftSwipe = distance > 50;
-                      const isRightSwipe = distance < -50;
+                  <div className="relative rounded-2xl border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
+                    {/* Left Arrow */}
+                    <button
+                      onClick={() => setCurrentFocusIndex(Math.max(0, currentFocusIndex - 1))}
+                      disabled={currentFocusIndex === 0}
+                      className={`absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full z-10 transition-all ${
+                        currentFocusIndex === 0
+                          ? 'cursor-not-allowed opacity-30'
+                          : 'hover:bg-white/10 active:scale-95'
+                      }`}
+                      style={{ color: currentFocusIndex === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                      </svg>
+                    </button>
 
-                      if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
-                        setCurrentFocusIndex(currentFocusIndex + 1);
-                      }
-                      if (isRightSwipe && currentFocusIndex > 0) {
-                        setCurrentFocusIndex(currentFocusIndex - 1);
-                      }
-                      setTouchStart(0);
-                      setTouchEnd(0);
-                    }}
-                  >
-                    <div className="p-5">
-                      <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                      <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
-                        {todaysFocusCodes[currentFocusIndex].title}
-                      </h3>
-                      <div className="flex gap-3 mb-4">
-                        <button
-                          onClick={() => {
-                            const currentCode = todaysFocusCodes[currentFocusIndex];
-                            setGameCheatCodeId(currentCode.id);
-                            setGameCheatCodeTitle(currentCode.title);
-                            setShowGameModal(true);
-                          }}
-                          className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                          style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                          disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
-                        >
-                          {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
-                            <>✓ Completed</>
-                          ) : (
-                            <>
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M8 5v14l11-7z"/>
-                              </svg>
-                              Start Practice
-                            </>
-                          )}
-                        </button>
-                        <button
-                          onClick={() => {
-                            setSelectedCode(todaysFocusCodes[currentFocusIndex]);
-                            resetCards();
-                          }}
-                          className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                          style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                        >
-                          View Code
-                        </button>
-                      </div>
-                      {/* Dot indicators */}
-                      <div className="flex justify-center gap-1.5">
-                        {todaysFocusCodes.map((_, index) => (
+                    {/* Right Arrow */}
+                    <button
+                      onClick={() => setCurrentFocusIndex(Math.min(todaysFocusCodes.length - 1, currentFocusIndex + 1))}
+                      disabled={currentFocusIndex === todaysFocusCodes.length - 1}
+                      className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full z-10 transition-all ${
+                        currentFocusIndex === todaysFocusCodes.length - 1
+                          ? 'cursor-not-allowed opacity-30'
+                          : 'hover:bg-white/10 active:scale-95'
+                      }`}
+                      style={{ color: currentFocusIndex === todaysFocusCodes.length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </button>
+
+                    <div
+                      className="overflow-hidden rounded-2xl"
+                      onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+                      onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+                      onTouchEnd={() => {
+                        if (!touchStart || !touchEnd) return;
+                        const distance = touchStart - touchEnd;
+                        const isLeftSwipe = distance > 50;
+                        const isRightSwipe = distance < -50;
+
+                        if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
+                          setCurrentFocusIndex(currentFocusIndex + 1);
+                        }
+                        if (isRightSwipe && currentFocusIndex > 0) {
+                          setCurrentFocusIndex(currentFocusIndex - 1);
+                        }
+                        setTouchStart(0);
+                        setTouchEnd(0);
+                      }}
+                    >
+                      <div className="p-5 px-10 transition-transform duration-300 ease-out">
+                        <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                        <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                          {todaysFocusCodes[currentFocusIndex].title}
+                        </h3>
+                        <div className="flex gap-3 mb-4">
                           <button
-                            key={index}
-                            onClick={() => setCurrentFocusIndex(index)}
-                            className="transition-all"
-                            style={{
-                              width: index === currentFocusIndex ? '24px' : '6px',
-                              height: '6px',
-                              borderRadius: '3px',
-                              backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                            onClick={() => {
+                              const currentCode = todaysFocusCodes[currentFocusIndex];
+                              setGameCheatCodeId(currentCode.id);
+                              setGameCheatCodeTitle(currentCode.title);
+                              setShowGameModal(true);
                             }}
-                          />
-                        ))}
+                            className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                            style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                            disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
+                          >
+                            {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
+                              <>✓ Completed</>
+                            ) : (
+                              <>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                Start Practice
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedCode(todaysFocusCodes[currentFocusIndex]);
+                              resetCards();
+                            }}
+                            className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                            style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                          >
+                            View Code
+                          </button>
+                        </div>
+                        {/* Dot indicators */}
+                        <div className="flex justify-center gap-1.5">
+                          {todaysFocusCodes.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setCurrentFocusIndex(index)}
+                              className="transition-all"
+                              style={{
+                                width: index === currentFocusIndex ? '24px' : '6px',
+                                height: '6px',
+                                borderRadius: '3px',
+                                backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                              }}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -830,9 +863,6 @@ export default function MyCodesRedesignPage() {
 
               {/* Quick Actions */}
               <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Quick Actions</span>
-                </div>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     onClick={() => {
@@ -1029,81 +1059,114 @@ export default function MyCodesRedesignPage() {
                   {completedToday.size}/{todaysFocusCodes.length} completed
                 </div>
               </div>
-              <div
-                className="relative overflow-hidden rounded-2xl border"
-                style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}
-                onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
-                onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
-                onTouchEnd={() => {
-                  if (!touchStart || !touchEnd) return;
-                  const distance = touchStart - touchEnd;
-                  const isLeftSwipe = distance > 50;
-                  const isRightSwipe = distance < -50;
+              <div className="relative rounded-2xl border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
+                {/* Left Arrow */}
+                <button
+                  onClick={() => setCurrentFocusIndex(Math.max(0, currentFocusIndex - 1))}
+                  disabled={currentFocusIndex === 0}
+                  className={`absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full z-10 transition-all ${
+                    currentFocusIndex === 0
+                      ? 'cursor-not-allowed opacity-30'
+                      : 'active:scale-95'
+                  }`}
+                  style={{ color: currentFocusIndex === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
 
-                  if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
-                    setCurrentFocusIndex(currentFocusIndex + 1);
-                  }
-                  if (isRightSwipe && currentFocusIndex > 0) {
-                    setCurrentFocusIndex(currentFocusIndex - 1);
-                  }
-                  setTouchStart(0);
-                  setTouchEnd(0);
-                }}
-              >
-                <div className="p-5">
-                  <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                  <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
-                    {todaysFocusCodes[currentFocusIndex].title}
-                  </h3>
-                  <div className="flex gap-3 mb-4">
-                    <button
-                      onClick={() => {
-                        const currentCode = todaysFocusCodes[currentFocusIndex];
-                        setGameCheatCodeId(currentCode.id);
-                        setGameCheatCodeTitle(currentCode.title);
-                        setShowGameModal(true);
-                      }}
-                      className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                      style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                      disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
-                    >
-                      {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
-                        <>✓ Completed</>
-                      ) : (
-                        <>
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
-                          Start Practice
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={() => {
-                        setSelectedCode(todaysFocusCodes[currentFocusIndex]);
-                        resetCards();
-                      }}
-                      className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                      style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                    >
-                      View Code
-                    </button>
-                  </div>
-                  {/* Dot indicators */}
-                  <div className="flex justify-center gap-1.5">
-                    {todaysFocusCodes.map((_, index) => (
+                {/* Right Arrow */}
+                <button
+                  onClick={() => setCurrentFocusIndex(Math.min(todaysFocusCodes.length - 1, currentFocusIndex + 1))}
+                  disabled={currentFocusIndex === todaysFocusCodes.length - 1}
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full z-10 transition-all ${
+                    currentFocusIndex === todaysFocusCodes.length - 1
+                      ? 'cursor-not-allowed opacity-30'
+                      : 'active:scale-95'
+                  }`}
+                  style={{ color: currentFocusIndex === todaysFocusCodes.length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+
+                <div
+                  className="overflow-hidden rounded-2xl"
+                  onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+                  onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+                  onTouchEnd={() => {
+                    if (!touchStart || !touchEnd) return;
+                    const distance = touchStart - touchEnd;
+                    const isLeftSwipe = distance > 50;
+                    const isRightSwipe = distance < -50;
+
+                    if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
+                      setCurrentFocusIndex(currentFocusIndex + 1);
+                    }
+                    if (isRightSwipe && currentFocusIndex > 0) {
+                      setCurrentFocusIndex(currentFocusIndex - 1);
+                    }
+                    setTouchStart(0);
+                    setTouchEnd(0);
+                  }}
+                >
+                  <div className="p-5 px-10 transition-transform duration-300 ease-out">
+                    <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                    <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                      {todaysFocusCodes[currentFocusIndex].title}
+                    </h3>
+                    <div className="flex gap-3 mb-4">
                       <button
-                        key={index}
-                        onClick={() => setCurrentFocusIndex(index)}
-                        className="transition-all"
-                        style={{
-                          width: index === currentFocusIndex ? '24px' : '6px',
-                          height: '6px',
-                          borderRadius: '3px',
-                          backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                        onClick={() => {
+                          const currentCode = todaysFocusCodes[currentFocusIndex];
+                          setGameCheatCodeId(currentCode.id);
+                          setGameCheatCodeTitle(currentCode.title);
+                          setShowGameModal(true);
                         }}
-                      />
-                    ))}
+                        className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                        style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                        disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
+                      >
+                        {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
+                          <>✓ Completed</>
+                        ) : (
+                          <>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Start Practice
+                          </>
+                        )}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setSelectedCode(todaysFocusCodes[currentFocusIndex]);
+                          resetCards();
+                        }}
+                        className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                        style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                      >
+                        View Code
+                      </button>
+                    </div>
+                    {/* Dot indicators */}
+                    <div className="flex justify-center gap-1.5">
+                      {todaysFocusCodes.map((_, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setCurrentFocusIndex(index)}
+                          className="transition-all"
+                          style={{
+                            width: index === currentFocusIndex ? '24px' : '6px',
+                            height: '6px',
+                            borderRadius: '3px',
+                            backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                          }}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1112,9 +1175,6 @@ export default function MyCodesRedesignPage() {
 
           {/* Quick Actions */}
           <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--card-border)' }}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--text-tertiary)' }}>Quick Actions</span>
-            </div>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => {
