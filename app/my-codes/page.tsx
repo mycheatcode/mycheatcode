@@ -781,8 +781,7 @@ export default function MyCodesRedesignPage() {
                     </button>
 
                     <div
-                      className="overflow-x-visible px-10"
-                      style={{ scrollSnapType: 'x mandatory' }}
+                      className="overflow-hidden rounded-2xl"
                       onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
                       onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
                       onTouchEnd={() => {
@@ -802,67 +801,65 @@ export default function MyCodesRedesignPage() {
                       }}
                     >
                       <div
-                        className="flex gap-4 transition-transform duration-500 ease-out"
+                        className="flex transition-transform duration-500 ease-out"
                         style={{
-                          transform: `translateX(calc(-${currentFocusIndex * 100}% - ${currentFocusIndex * 16}px))`,
+                          transform: `translateX(-${currentFocusIndex * 100}%)`,
                         }}
                       >
                         {todaysFocusCodes.map((code, index) => (
-                          <div key={code.id} className="flex-shrink-0" style={{ width: 'calc(100% - 80px)', scrollSnapAlign: 'center' }}>
-                            <div className="p-5">
-                              <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                              <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
-                                {code.title}
-                              </h3>
-                              <div className="flex gap-3 mb-4">
+                          <div key={code.id} className="w-full flex-shrink-0 p-5 px-10">
+                            <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                            <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                              {code.title}
+                            </h3>
+                            <div className="flex gap-3 mb-4">
+                              <button
+                                onClick={() => {
+                                  setGameCheatCodeId(code.id);
+                                  setGameCheatCodeTitle(code.title);
+                                  setShowGameModal(true);
+                                }}
+                                className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                                style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                                disabled={completedToday.has(code.id)}
+                              >
+                                {completedToday.has(code.id) ? (
+                                  <>✓ Completed</>
+                                ) : (
+                                  <>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                      <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                    Start Practice
+                                  </>
+                                )}
+                              </button>
+                              <button
+                                onClick={() => {
+                                  setSelectedCode(code);
+                                  resetCards();
+                                }}
+                                className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                                style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                              >
+                                View Code
+                              </button>
+                            </div>
+                            {/* Dot indicators */}
+                            <div className="flex justify-center gap-1.5">
+                              {todaysFocusCodes.map((_, dotIndex) => (
                                 <button
-                                  onClick={() => {
-                                    setGameCheatCodeId(code.id);
-                                    setGameCheatCodeTitle(code.title);
-                                    setShowGameModal(true);
+                                  key={dotIndex}
+                                  onClick={() => setCurrentFocusIndex(dotIndex)}
+                                  className="transition-all"
+                                  style={{
+                                    width: dotIndex === currentFocusIndex ? '24px' : '6px',
+                                    height: '6px',
+                                    borderRadius: '3px',
+                                    backgroundColor: dotIndex === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
                                   }}
-                                  className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                                  style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                                  disabled={completedToday.has(code.id)}
-                                >
-                                  {completedToday.has(code.id) ? (
-                                    <>✓ Completed</>
-                                  ) : (
-                                    <>
-                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                        <path d="M8 5v14l11-7z"/>
-                                      </svg>
-                                      Start Practice
-                                    </>
-                                  )}
-                                </button>
-                                <button
-                                  onClick={() => {
-                                    setSelectedCode(code);
-                                    resetCards();
-                                  }}
-                                  className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                                  style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                                >
-                                  View Code
-                                </button>
-                              </div>
-                              {/* Dot indicators */}
-                              <div className="flex justify-center gap-1.5">
-                                {todaysFocusCodes.map((_, dotIndex) => (
-                                  <button
-                                    key={dotIndex}
-                                    onClick={() => setCurrentFocusIndex(dotIndex)}
-                                    className="transition-all"
-                                    style={{
-                                      width: dotIndex === currentFocusIndex ? '24px' : '6px',
-                                      height: '6px',
-                                      borderRadius: '3px',
-                                      backgroundColor: dotIndex === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
-                                    }}
-                                  />
-                                ))}
-                              </div>
+                                />
+                              ))}
                             </div>
                           </div>
                         ))}
@@ -1104,8 +1101,7 @@ export default function MyCodesRedesignPage() {
                 </button>
 
                 <div
-                  className="overflow-x-visible px-10"
-                  style={{ scrollSnapType: 'x mandatory' }}
+                  className="overflow-hidden rounded-2xl"
                   onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
                   onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
                   onTouchEnd={() => {
@@ -1125,67 +1121,65 @@ export default function MyCodesRedesignPage() {
                   }}
                 >
                   <div
-                    className="flex gap-4 transition-transform duration-500 ease-out"
+                    className="flex transition-transform duration-500 ease-out"
                     style={{
-                      transform: `translateX(calc(-${currentFocusIndex * 100}% - ${currentFocusIndex * 16}px))`,
+                      transform: `translateX(-${currentFocusIndex * 100}%)`,
                     }}
                   >
                     {todaysFocusCodes.map((code, index) => (
-                      <div key={code.id} className="flex-shrink-0" style={{ width: 'calc(100% - 80px)', scrollSnapAlign: 'center' }}>
-                        <div className="p-5">
-                          <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                          <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
-                            {code.title}
-                          </h3>
-                          <div className="flex gap-3 mb-4">
+                      <div key={code.id} className="w-full flex-shrink-0 p-5 px-10">
+                        <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                        <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                          {code.title}
+                        </h3>
+                        <div className="flex gap-3 mb-4">
+                          <button
+                            onClick={() => {
+                              setGameCheatCodeId(code.id);
+                              setGameCheatCodeTitle(code.title);
+                              setShowGameModal(true);
+                            }}
+                            className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                            style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                            disabled={completedToday.has(code.id)}
+                          >
+                            {completedToday.has(code.id) ? (
+                              <>✓ Completed</>
+                            ) : (
+                              <>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                Start Practice
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => {
+                              setSelectedCode(code);
+                              resetCards();
+                            }}
+                            className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                            style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                          >
+                            View Code
+                          </button>
+                        </div>
+                        {/* Dot indicators */}
+                        <div className="flex justify-center gap-1.5">
+                          {todaysFocusCodes.map((_, dotIndex) => (
                             <button
-                              onClick={() => {
-                                setGameCheatCodeId(code.id);
-                                setGameCheatCodeTitle(code.title);
-                                setShowGameModal(true);
+                              key={dotIndex}
+                              onClick={() => setCurrentFocusIndex(dotIndex)}
+                              className="transition-all"
+                              style={{
+                                width: dotIndex === currentFocusIndex ? '24px' : '6px',
+                                height: '6px',
+                                borderRadius: '3px',
+                                backgroundColor: dotIndex === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
                               }}
-                              className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                              style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                              disabled={completedToday.has(code.id)}
-                            >
-                              {completedToday.has(code.id) ? (
-                                <>✓ Completed</>
-                              ) : (
-                                <>
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M8 5v14l11-7z"/>
-                                  </svg>
-                                  Start Practice
-                                </>
-                              )}
-                            </button>
-                            <button
-                              onClick={() => {
-                                setSelectedCode(code);
-                                resetCards();
-                              }}
-                              className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                              style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                            >
-                              View Code
-                            </button>
-                          </div>
-                          {/* Dot indicators */}
-                          <div className="flex justify-center gap-1.5">
-                            {todaysFocusCodes.map((_, dotIndex) => (
-                              <button
-                                key={dotIndex}
-                                onClick={() => setCurrentFocusIndex(dotIndex)}
-                                className="transition-all"
-                                style={{
-                                  width: dotIndex === currentFocusIndex ? '24px' : '6px',
-                                  height: '6px',
-                                  borderRadius: '3px',
-                                  backgroundColor: dotIndex === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
-                                }}
-                              />
-                            ))}
-                          </div>
+                            />
+                          ))}
                         </div>
                       </div>
                     ))}
