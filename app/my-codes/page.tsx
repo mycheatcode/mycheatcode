@@ -819,7 +819,7 @@ export default function MyCodesRedesignPage() {
                                   setGameCheatCodeTitle(code.title);
                                   setShowGameModal(true);
                                 }}
-                                className="flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                                className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
                                 style={{ backgroundColor: '#00ff41', color: '#000000' }}
                                 disabled={completedToday.has(code.id)}
                               >
@@ -827,7 +827,7 @@ export default function MyCodesRedesignPage() {
                                   <>✓ Completed</>
                                 ) : (
                                   <>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                       <path d="M8 5v14l11-7z"/>
                                     </svg>
                                     Start Practice
@@ -839,7 +839,7 @@ export default function MyCodesRedesignPage() {
                                   setSelectedCode(code);
                                   resetCards();
                                 }}
-                                className="flex-1 border py-3 px-4 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                                className="flex-1 border py-3 px-3 rounded-xl font-medium text-xs transition-all hover:bg-white/5"
                                 style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                               >
                                 View Code
@@ -1139,7 +1139,7 @@ export default function MyCodesRedesignPage() {
                               setGameCheatCodeTitle(code.title);
                               setShowGameModal(true);
                             }}
-                            className="flex-1 py-3 px-4 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                            className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
                             style={{ backgroundColor: '#00ff41', color: '#000000' }}
                             disabled={completedToday.has(code.id)}
                           >
@@ -1147,7 +1147,7 @@ export default function MyCodesRedesignPage() {
                               <>✓ Completed</>
                             ) : (
                               <>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                                   <path d="M8 5v14l11-7z"/>
                                 </svg>
                                 Start Practice
@@ -1159,7 +1159,7 @@ export default function MyCodesRedesignPage() {
                               setSelectedCode(code);
                               resetCards();
                             }}
-                            className="flex-1 border py-3 px-4 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                            className="flex-1 border py-3 px-3 rounded-xl font-medium text-xs transition-all hover:bg-white/5"
                             style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
                           >
                             View Code
