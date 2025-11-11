@@ -40,7 +40,11 @@ export default function MyCodesRedesignPage() {
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
-  const [todaysFocus, setTodaysFocus] = useState<CheatCode | null>(null);
+  const [todaysFocusCodes, setTodaysFocusCodes] = useState<CheatCode[]>([]);
+  const [currentFocusIndex, setCurrentFocusIndex] = useState(0);
+  const [completedToday, setCompletedToday] = useState<Set<string>>(new Set());
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const [selectedCode, setSelectedCode] = useState<CheatCode | null>(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [animatingCode, setAnimatingCode] = useState<string | null>(null);
@@ -100,7 +104,7 @@ export default function MyCodesRedesignPage() {
     loadData();
   }, [supabase]);
 
-  // Set today's focus (smart selection based on user's codes with daily rotation)
+  // Set today's focus (smart selection based on user's codes with daily rotation - now selects 3 codes)
   useEffect(() => {
     if (cheatCodes.length === 0) return;
 
@@ -117,50 +121,76 @@ export default function MyCodesRedesignPage() {
       return Math.floor((x - Math.floor(x)) * max);
     };
 
-    // Priority 1: Codes that haven't been used today and need practice (2+ days old)
+    // Seeded shuffle function for array
+    const seededShuffle = (array: CheatCode[], seed: number) => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = seededRandom(seed + i, i + 1);
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    const selectedCodes: CheatCode[] = [];
+
+    // Priority 1: Codes that need practice (2+ days old)
     const needsPractice = activeCodes.filter(c => {
       const daysAgo = c.lastUsedDaysAgo ?? 999;
-      return daysAgo > 1; // Not used today or yesterday
-    });
-
-    if (needsPractice.length > 0) {
-      // Sort by days since last use (oldest first), then use daily seed to pick from top candidates
-      const sorted = [...needsPractice].sort((a, b) => (b.lastUsedDaysAgo ?? 0) - (a.lastUsedDaysAgo ?? 0));
-      // Pick from top 3 candidates using daily seed (or all if less than 3)
-      const topCandidates = sorted.slice(0, Math.min(3, sorted.length));
-      const selectedIndex = seededRandom(dailySeed, topCandidates.length);
-      setTodaysFocus(topCandidates[selectedIndex]);
-      return;
-    }
+      return daysAgo > 1;
+    }).sort((a, b) => (b.lastUsedDaysAgo ?? 0) - (a.lastUsedDaysAgo ?? 0));
 
     // Priority 2: New codes that haven't been tried yet
-    const newCodes = activeCodes.filter(c => (c.timesUsed || 0) === 0);
-    if (newCodes.length > 0) {
-      // Get the oldest new codes, then rotate daily
-      const sorted = [...newCodes].sort((a, b) => {
-        const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
-        const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
-        return timeA - timeB;
-      });
-      const selectedIndex = seededRandom(dailySeed, sorted.length);
-      setTodaysFocus(sorted[selectedIndex]);
-      return;
+    const newCodes = activeCodes.filter(c => (c.timesUsed || 0) === 0).sort((a, b) => {
+      const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
+      const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+      return timeA - timeB;
+    });
+
+    // Priority 3: Least used codes
+    const leastUsed = activeCodes.filter(c => (c.lastUsedDaysAgo ?? 999) > 0)
+      .sort((a, b) => (a.timesUsed || 0) - (b.timesUsed || 0));
+
+    // Combine all priorities into a pool
+    const pool: CheatCode[] = [];
+    const addedIds = new Set<string>();
+
+    // Add up to 2 from needsPractice
+    for (const code of needsPractice.slice(0, 2)) {
+      if (!addedIds.has(code.id)) {
+        pool.push(code);
+        addedIds.add(code.id);
+      }
     }
 
-    // Priority 3: Least used code that wasn't used today
-    const notUsedToday = activeCodes.filter(c => (c.lastUsedDaysAgo ?? 999) > 0);
-    if (notUsedToday.length > 0) {
-      const sorted = [...notUsedToday].sort((a, b) => (a.timesUsed || 0) - (b.timesUsed || 0));
-      // Pick from top candidates using daily seed
-      const topCandidates = sorted.slice(0, Math.min(3, sorted.length));
-      const selectedIndex = seededRandom(dailySeed, topCandidates.length);
-      setTodaysFocus(topCandidates[selectedIndex]);
-      return;
+    // Add up to 1 from newCodes
+    for (const code of newCodes.slice(0, 1)) {
+      if (!addedIds.has(code.id)) {
+        pool.push(code);
+        addedIds.add(code.id);
+      }
     }
 
-    // Fallback: Rotate through all active codes daily
-    const selectedIndex = seededRandom(dailySeed, activeCodes.length);
-    setTodaysFocus(activeCodes[selectedIndex]);
+    // Fill remaining slots from leastUsed
+    for (const code of leastUsed) {
+      if (!addedIds.has(code.id) && pool.length < 6) {
+        pool.push(code);
+        addedIds.add(code.id);
+      }
+    }
+
+    // If pool still not big enough, add remaining active codes
+    for (const code of activeCodes) {
+      if (!addedIds.has(code.id) && pool.length < 6) {
+        pool.push(code);
+        addedIds.add(code.id);
+      }
+    }
+
+    // Shuffle the pool and take first 3 (or less if not enough codes)
+    const shuffled = seededShuffle(pool, dailySeed);
+    const finalSelection = shuffled.slice(0, Math.min(3, shuffled.length));
+
+    setTodaysFocusCodes(finalSelection);
   }, [cheatCodes]);
 
   // Handle URL query parameters (?code= and ?practice=)
@@ -246,6 +276,11 @@ export default function MyCodesRedesignPage() {
 
   // Handle game completion
   const handleGameComplete = (result: GameSessionResult) => {
+    // Add the completed code to today's completed set
+    if (gameCheatCodeId) {
+      setCompletedToday(prev => new Set([...prev, gameCheatCodeId]));
+    }
+
     // Reload cheat codes to get updated stats
     const loadData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -699,42 +734,95 @@ export default function MyCodesRedesignPage() {
             {/* Two-column layout for Today's Focus & Quick Actions */}
             <div className="grid grid-cols-2 gap-6 mb-6">
               {/* Today's Focus Section */}
-              {todaysFocus && (
+              {todaysFocusCodes.length > 0 && (
                 <div>
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                    </svg>
-                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                      <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                    </div>
+                    <div className="text-xs font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                      {completedToday.size}/{todaysFocusCodes.length} completed
+                    </div>
                   </div>
-                  <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
-                    <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                    <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>{todaysFocus.title}</h3>
-                    <div className="flex gap-3">
-                      <button
-                        onClick={() => {
-                          setGameCheatCodeId(todaysFocus.id);
-                          setGameCheatCodeTitle(todaysFocus.title);
-                          setShowGameModal(true);
-                        }}
-                        className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                        style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                      >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M8 5v14l11-7z"/>
-                        </svg>
-                        Start Practice
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedCode(todaysFocus);
-                          resetCards();
-                        }}
-                        className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                        style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                      >
-                        View Code
-                      </button>
+                  <div
+                    className="relative overflow-hidden rounded-2xl border"
+                    style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}
+                    onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+                    onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+                    onTouchEnd={() => {
+                      if (!touchStart || !touchEnd) return;
+                      const distance = touchStart - touchEnd;
+                      const isLeftSwipe = distance > 50;
+                      const isRightSwipe = distance < -50;
+
+                      if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
+                        setCurrentFocusIndex(currentFocusIndex + 1);
+                      }
+                      if (isRightSwipe && currentFocusIndex > 0) {
+                        setCurrentFocusIndex(currentFocusIndex - 1);
+                      }
+                      setTouchStart(0);
+                      setTouchEnd(0);
+                    }}
+                  >
+                    <div className="p-5">
+                      <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                      <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        {todaysFocusCodes[currentFocusIndex].title}
+                      </h3>
+                      <div className="flex gap-3 mb-4">
+                        <button
+                          onClick={() => {
+                            const currentCode = todaysFocusCodes[currentFocusIndex];
+                            setGameCheatCodeId(currentCode.id);
+                            setGameCheatCodeTitle(currentCode.title);
+                            setShowGameModal(true);
+                          }}
+                          className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                          style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                          disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
+                        >
+                          {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
+                            <>✓ Completed</>
+                          ) : (
+                            <>
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                              </svg>
+                              Start Practice
+                            </>
+                          )}
+                        </button>
+                        <button
+                          onClick={() => {
+                            setSelectedCode(todaysFocusCodes[currentFocusIndex]);
+                            resetCards();
+                          }}
+                          className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                          style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                        >
+                          View Code
+                        </button>
+                      </div>
+                      {/* Dot indicators */}
+                      <div className="flex justify-center gap-1.5">
+                        {todaysFocusCodes.map((_, index) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentFocusIndex(index)}
+                            className="transition-all"
+                            style={{
+                              width: index === currentFocusIndex ? '24px' : '6px',
+                              height: '6px',
+                              borderRadius: '3px',
+                              backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                            }}
+                          />
+                        ))}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -928,42 +1016,95 @@ export default function MyCodesRedesignPage() {
           </div>
 
           {/* Today's Focus Section */}
-          {todaysFocus && (
+          {todaysFocusCodes.length > 0 && (
             <div className="p-4 pb-3 border-b" style={{ borderColor: 'var(--card-border)' }}>
-              <div className="flex items-center gap-2 mb-3">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                </svg>
-                <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                </div>
+                <div className="text-xs font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                  {completedToday.size}/{todaysFocusCodes.length} completed
+                </div>
               </div>
-              <div className="rounded-2xl p-5 border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
-                <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>{todaysFocus.title}</h3>
-                <div className="flex gap-3">
-                  <button
-                    onClick={() => {
-                      setGameCheatCodeId(todaysFocus.id);
-                      setGameCheatCodeTitle(todaysFocus.title);
-                      setShowGameModal(true);
-                    }}
-                    className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
-                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    Start Practice
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedCode(todaysFocus);
-                      resetCards();
-                    }}
-                    className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
-                    style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
-                  >
-                    View Code
-                  </button>
+              <div
+                className="relative overflow-hidden rounded-2xl border"
+                style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}
+                onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
+                onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
+                onTouchEnd={() => {
+                  if (!touchStart || !touchEnd) return;
+                  const distance = touchStart - touchEnd;
+                  const isLeftSwipe = distance > 50;
+                  const isRightSwipe = distance < -50;
+
+                  if (isLeftSwipe && currentFocusIndex < todaysFocusCodes.length - 1) {
+                    setCurrentFocusIndex(currentFocusIndex + 1);
+                  }
+                  if (isRightSwipe && currentFocusIndex > 0) {
+                    setCurrentFocusIndex(currentFocusIndex - 1);
+                  }
+                  setTouchStart(0);
+                  setTouchEnd(0);
+                }}
+              >
+                <div className="p-5">
+                  <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                  <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                    {todaysFocusCodes[currentFocusIndex].title}
+                  </h3>
+                  <div className="flex gap-3 mb-4">
+                    <button
+                      onClick={() => {
+                        const currentCode = todaysFocusCodes[currentFocusIndex];
+                        setGameCheatCodeId(currentCode.id);
+                        setGameCheatCodeTitle(currentCode.title);
+                        setShowGameModal(true);
+                      }}
+                      className="flex-1 py-3 rounded-xl font-bold text-sm transition-all active:scale-95 flex items-center justify-center gap-2"
+                      style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                      disabled={completedToday.has(todaysFocusCodes[currentFocusIndex].id)}
+                    >
+                      {completedToday.has(todaysFocusCodes[currentFocusIndex].id) ? (
+                        <>✓ Completed</>
+                      ) : (
+                        <>
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                          Start Practice
+                        </>
+                      )}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSelectedCode(todaysFocusCodes[currentFocusIndex]);
+                        resetCards();
+                      }}
+                      className="flex-1 border py-3 rounded-xl font-medium text-sm transition-all hover:bg-white/5"
+                      style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                    >
+                      View Code
+                    </button>
+                  </div>
+                  {/* Dot indicators */}
+                  <div className="flex justify-center gap-1.5">
+                    {todaysFocusCodes.map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentFocusIndex(index)}
+                        className="transition-all"
+                        style={{
+                          width: index === currentFocusIndex ? '24px' : '6px',
+                          height: '6px',
+                          borderRadius: '3px',
+                          backgroundColor: index === currentFocusIndex ? '#00ff41' : 'rgba(255, 255, 255, 0.2)'
+                        }}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
