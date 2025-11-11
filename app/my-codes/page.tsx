@@ -807,7 +807,15 @@ export default function MyCodesRedesignPage() {
                         }}
                       >
                         {todaysFocusCodes.map((code, index) => (
-                          <div key={code.id} className="w-full flex-shrink-0 py-5 px-10">
+                          <div key={code.id} className="w-full flex-shrink-0 py-5 px-10 relative">
+                            {/* Completed Badge */}
+                            {completedToday.has(code.id) && (
+                              <div className="absolute top-5 right-10 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                  <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+                              </div>
+                            )}
                             <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                             <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {code.title}
@@ -1127,7 +1135,15 @@ export default function MyCodesRedesignPage() {
                     }}
                   >
                     {todaysFocusCodes.map((code, index) => (
-                      <div key={code.id} className="w-full flex-shrink-0 py-5 px-10">
+                      <div key={code.id} className="w-full flex-shrink-0 py-5 px-10 relative">
+                        {/* Completed Badge */}
+                        {completedToday.has(code.id) && (
+                          <div className="absolute top-5 right-10 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                          </div>
+                        )}
                         <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                         <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                           {code.title}
