@@ -104,6 +104,29 @@ export default function MyCodesRedesignPage() {
     loadData();
   }, [supabase]);
 
+  // Load completed today from localStorage
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const today = new Date().toDateString();
+    const storedData = localStorage.getItem('todaysFocusCompleted');
+
+    if (storedData) {
+      try {
+        const { date, completed } = JSON.parse(storedData);
+        if (date === today) {
+          setCompletedToday(new Set(completed));
+        } else {
+          // New day, clear completed
+          localStorage.removeItem('todaysFocusCompleted');
+        }
+      } catch (e) {
+        // Invalid data, clear it
+        localStorage.removeItem('todaysFocusCompleted');
+      }
+    }
+  }, []);
+
   // Set today's focus (smart selection based on user's codes with daily rotation - now selects 3 codes)
   useEffect(() => {
     if (cheatCodes.length === 0) return;
@@ -278,7 +301,20 @@ export default function MyCodesRedesignPage() {
   const handleGameComplete = (result: GameSessionResult) => {
     // Add the completed code to today's completed set
     if (gameCheatCodeId) {
-      setCompletedToday(prev => new Set([...prev, gameCheatCodeId]));
+      setCompletedToday(prev => {
+        const newSet = new Set([...prev, gameCheatCodeId]);
+
+        // Save to localStorage
+        if (typeof window !== 'undefined') {
+          const today = new Date().toDateString();
+          localStorage.setItem('todaysFocusCompleted', JSON.stringify({
+            date: today,
+            completed: Array.from(newSet)
+          }));
+        }
+
+        return newSet;
+      });
     }
 
     // Reload cheat codes to get updated stats
@@ -808,14 +844,6 @@ export default function MyCodesRedesignPage() {
                       >
                         {todaysFocusCodes.map((code, index) => (
                           <div key={code.id} className="w-full flex-shrink-0 py-5 px-10 relative">
-                            {/* Completed Badge */}
-                            {completedToday.has(code.id) && (
-                              <div className="absolute top-5 right-10 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                  <polyline points="20 6 9 17 4 12"></polyline>
-                                </svg>
-                              </div>
-                            )}
                             <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                             <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {code.title}
@@ -828,7 +856,10 @@ export default function MyCodesRedesignPage() {
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
-                                style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                                style={{
+                                  backgroundColor: completedToday.has(code.id) ? 'rgba(0, 255, 65, 0.15)' : '#00ff41',
+                                  color: completedToday.has(code.id) ? '#00ff41' : '#000000'
+                                }}
                                 disabled={completedToday.has(code.id)}
                               >
                                 {completedToday.has(code.id) ? (
@@ -1136,14 +1167,6 @@ export default function MyCodesRedesignPage() {
                   >
                     {todaysFocusCodes.map((code, index) => (
                       <div key={code.id} className="w-full flex-shrink-0 py-5 px-10 relative">
-                        {/* Completed Badge */}
-                        {completedToday.has(code.id) && (
-                          <div className="absolute top-5 right-10 w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000000" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                              <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
-                          </div>
-                        )}
                         <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                         <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                           {code.title}
@@ -1156,7 +1179,10 @@ export default function MyCodesRedesignPage() {
                               setShowGameModal(true);
                             }}
                             className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
-                            style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                            style={{
+                              backgroundColor: completedToday.has(code.id) ? 'rgba(0, 255, 65, 0.15)' : '#00ff41',
+                              color: completedToday.has(code.id) ? '#00ff41' : '#000000'
+                            }}
                             disabled={completedToday.has(code.id)}
                           >
                             {completedToday.has(code.id) ? (
