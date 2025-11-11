@@ -807,9 +807,9 @@ export default function MyCodesRedesignPage() {
                         }}
                       >
                         {todaysFocusCodes.map((code, index) => (
-                          <div key={code.id} className="w-full flex-shrink-0 p-5 px-10">
+                          <div key={code.id} className="w-full flex-shrink-0 p-5">
                             <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                            <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                            <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {code.title}
                             </h3>
                             <div className="flex gap-3 mb-4">
@@ -1127,9 +1127,9 @@ export default function MyCodesRedesignPage() {
                     }}
                   >
                     {todaysFocusCodes.map((code, index) => (
-                      <div key={code.id} className="w-full flex-shrink-0 p-5 px-10">
+                      <div key={code.id} className="w-full flex-shrink-0 p-5">
                         <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
-                        <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                        <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
                           {code.title}
                         </h3>
                         <div className="flex gap-3 mb-4">
