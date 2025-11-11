@@ -747,7 +747,7 @@ export default function MyCodesRedesignPage() {
                       {completedToday.size}/{todaysFocusCodes.length} completed
                     </div>
                   </div>
-                  <div className="relative">
+                  <div className="relative rounded-2xl border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
                     {/* Left Arrow */}
                     <button
                       onClick={() => setCurrentFocusIndex(Math.max(0, currentFocusIndex - 1))}
@@ -781,7 +781,8 @@ export default function MyCodesRedesignPage() {
                     </button>
 
                     <div
-                      className="overflow-hidden"
+                      className="overflow-x-visible px-10"
+                      style={{ scrollSnapType: 'x mandatory' }}
                       onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
                       onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
                       onTouchEnd={() => {
@@ -801,14 +802,14 @@ export default function MyCodesRedesignPage() {
                       }}
                     >
                       <div
-                        className="flex transition-transform duration-500 ease-out"
+                        className="flex gap-4 transition-transform duration-500 ease-out"
                         style={{
-                          transform: `translateX(-${currentFocusIndex * 100}%)`,
+                          transform: `translateX(calc(-${currentFocusIndex * 100}% - ${currentFocusIndex * 16}px))`,
                         }}
                       >
                         {todaysFocusCodes.map((code, index) => (
-                          <div key={code.id} className="w-full flex-shrink-0 px-10">
-                            <div className="rounded-2xl border p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
+                          <div key={code.id} className="flex-shrink-0" style={{ width: 'calc(100% - 80px)', scrollSnapAlign: 'center' }}>
+                            <div className="p-5">
                               <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                               <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
                                 {code.title}
@@ -1069,7 +1070,7 @@ export default function MyCodesRedesignPage() {
                   {completedToday.size}/{todaysFocusCodes.length} completed
                 </div>
               </div>
-              <div className="relative">
+              <div className="relative rounded-2xl border" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
                 {/* Left Arrow */}
                 <button
                   onClick={() => setCurrentFocusIndex(Math.max(0, currentFocusIndex - 1))}
@@ -1103,7 +1104,8 @@ export default function MyCodesRedesignPage() {
                 </button>
 
                 <div
-                  className="overflow-hidden"
+                  className="overflow-x-visible px-10"
+                  style={{ scrollSnapType: 'x mandatory' }}
                   onTouchStart={(e) => setTouchStart(e.targetTouches[0].clientX)}
                   onTouchMove={(e) => setTouchEnd(e.targetTouches[0].clientX)}
                   onTouchEnd={() => {
@@ -1123,14 +1125,14 @@ export default function MyCodesRedesignPage() {
                   }}
                 >
                   <div
-                    className="flex transition-transform duration-500 ease-out"
+                    className="flex gap-4 transition-transform duration-500 ease-out"
                     style={{
-                      transform: `translateX(-${currentFocusIndex * 100}%)`,
+                      transform: `translateX(calc(-${currentFocusIndex * 100}% - ${currentFocusIndex * 16}px))`,
                     }}
                   >
                     {todaysFocusCodes.map((code, index) => (
-                      <div key={code.id} className="w-full flex-shrink-0 px-10">
-                        <div className="rounded-2xl border p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
+                      <div key={code.id} className="flex-shrink-0" style={{ width: 'calc(100% - 80px)', scrollSnapAlign: 'center' }}>
+                        <div className="p-5">
                           <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
                           <h3 className="text-xl font-bold mb-4 leading-tight" style={{ color: 'var(--text-primary)' }}>
                             {code.title}
