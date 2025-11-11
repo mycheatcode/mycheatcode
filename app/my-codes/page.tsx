@@ -796,23 +796,20 @@ export default function MyCodesRedesignPage() {
               {todaysFocusCodes.length > 0 && (
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    {completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? (
-                      <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2">
+                      {completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? (
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="none">
                           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
-                        <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#00ff41' }}>All Complete! 🔥</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
+                      ) : (
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
                           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                         </svg>
-                        <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
-                      </div>
-                    )}
+                      )}
+                      <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                    </div>
                     <div
-                      className={`text-xs font-semibold ${completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? 'animate-pulse' : ''}`}
+                      className="text-xs font-semibold"
                       style={{ color: completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? '#00ff41' : 'var(--text-tertiary)' }}
                     >
                       {completedToday.size}/{todaysFocusCodes.length} completed
@@ -1131,23 +1128,20 @@ export default function MyCodesRedesignPage() {
           {todaysFocusCodes.length > 0 && (
             <div className="p-4 pb-3 border-b" style={{ borderColor: 'var(--card-border)' }}>
               <div className="flex items-center justify-between mb-3">
-                {completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? (
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
+                  {completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? (
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="#00ff41" stroke="none">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
-                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: '#00ff41' }}>All Complete! 🔥</span>
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
+                  ) : (
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
                       <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
                     </svg>
-                    <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
-                  </div>
-                )}
+                  )}
+                  <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                </div>
                 <div
-                  className={`text-xs font-semibold ${completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? 'animate-pulse' : ''}`}
+                  className="text-xs font-semibold"
                   style={{ color: completedToday.size === todaysFocusCodes.length && todaysFocusCodes.length > 0 ? '#00ff41' : 'var(--text-tertiary)' }}
                 >
                   {completedToday.size}/{todaysFocusCodes.length} completed
