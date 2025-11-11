@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="aspect-square -my-6 relative overflow-visible" style={{ width: 'clamp(320px, 68vw, 420px)' }}>
+          <div className="w-[min(420px,68vw)] aspect-square -my-6 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
