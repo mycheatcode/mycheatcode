@@ -191,10 +191,10 @@ export default function Home() {
         {/* Header Message */}
         <div className="text-left w-full rounded-3xl p-5 relative overflow-hidden flex-shrink-0 mb-3" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
-            <h1 className="text-2xl font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)' }}>
+            <h1 className="font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)', fontSize: 'clamp(1.5rem, 5vw, 2rem)' }}>
               Play With<br />Confidence.
             </h1>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}>
               Start chatting to build your confidence.
             </p>
           </div>
@@ -218,8 +218,8 @@ export default function Home() {
           {/* Your Momentum Label */}
           <div className="text-center mb-3">
             <div
-              className="text-xs font-semibold uppercase tracking-[1px]"
-              style={{ color: 'rgba(255, 255, 255, 0.6)' }}
+              className="font-semibold uppercase tracking-[1px]"
+              style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}
             >
               YOUR MOMENTUM
             </div>
@@ -237,15 +237,16 @@ export default function Home() {
           {/* Progress Percentage with Animation */}
           <div className="text-center">
             <div
-              className={`text-5xl font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
+              className={`font-bold mb-1 transition-all duration-300 ${showProgressAnimation ? 'number-pulse-green' : ''}`}
               style={{
+                fontSize: 'clamp(2.5rem, 10vw, 3rem)',
                 color: showProgressAnimation ? '#00ff41' : 'var(--text-primary)',
                 transform: showProgressAnimation ? 'scale(1.15)' : 'scale(1)',
               }}
             >
               {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
             </div>
-            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 2.5vw, 0.875rem)' }}>
               Elite players stay above 85%
             </p>
           </div>
@@ -262,8 +263,9 @@ export default function Home() {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Share what's on your mind..."
-              className="w-full px-5 py-4 pr-24 rounded-2xl text-base focus:outline-none"
+              className="w-full px-5 py-4 pr-24 rounded-2xl focus:outline-none"
               style={{
+                fontSize: 'clamp(0.875rem, 3vw, 1rem)',
                 background: 'var(--input-bg)',
                 border: '1px solid var(--input-border)',
                 color: 'var(--input-text)'
@@ -271,8 +273,9 @@ export default function Home() {
             />
             <button
               type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-xl transition-colors font-medium text-base"
+              className="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2 rounded-xl transition-colors font-medium"
               style={{
+                fontSize: 'clamp(0.875rem, 3vw, 1rem)',
                 background: 'var(--button-bg)',
                 color: 'var(--button-text)'
               }}
@@ -285,8 +288,9 @@ export default function Home() {
         {/* View Relatable Topics Button */}
         <Link href="/relatable-topics" className="w-full">
           <button
-            className="w-full px-5 py-4 rounded-2xl text-base font-medium transition-colors text-center"
+            className="w-full px-5 py-4 rounded-2xl font-medium transition-colors text-center"
             style={{
+              fontSize: 'clamp(0.875rem, 3vw, 1rem)',
               background: 'var(--card-bg)',
               border: '1px solid var(--card-border)',
               color: 'var(--card-title)'
