@@ -187,9 +187,9 @@ export default function Home() {
       )}
 
       {/* Main Content */}
-      <div className="flex flex-col items-center px-4 pt-20 relative z-10 max-w-[430px] lg:max-w-[600px] mx-auto w-full" style={{ minHeight: '100vh', paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))' }}>
+      <div className="flex flex-col items-center px-4 pt-16 pb-6 relative z-10 max-w-[430px] lg:max-w-[600px] mx-auto w-full" style={{ minHeight: '100vh' }}>
         {/* Header Message */}
-        <div className="text-left w-full rounded-3xl p-6 relative overflow-hidden flex-shrink-0 mb-4" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
+        <div className="text-left w-full rounded-3xl p-5 relative overflow-hidden flex-shrink-0 mb-3" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
           <div className="relative z-10">
             <h1 className="text-2xl font-bold mb-1.5 leading-tight" style={{ color: 'var(--text-primary)' }}>
               Play With<br />Confidence.
@@ -214,7 +214,7 @@ export default function Home() {
         </div>
 
         {/* Progress Section - Centered and Larger */}
-        <div className="flex flex-col items-center justify-center flex-1 -mt-2">
+        <div className="flex flex-col items-center justify-center flex-1 -mt-4">
           {/* Your Momentum Label */}
           <div className="text-center mb-2">
             <div
@@ -226,7 +226,7 @@ export default function Home() {
           </div>
 
           {/* Progress Visualizer */}
-          <div className="w-[min(350px,75vw)] aspect-square -my-8 relative overflow-visible">
+          <div className="w-[min(340px,72vw)] aspect-square -my-8 relative overflow-visible">
             <ProgressCircles
               theme="dark"
               progress={progressPercentage}
