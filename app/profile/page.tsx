@@ -38,8 +38,16 @@ export default function Profile() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastType, setToastType] = useState<'success' | 'error'>('success');
   const router = useRouter();
   const supabase = createClient();
+
+  const showToast = (message: string, type: 'success' | 'error' = 'success') => {
+    setToastMessage(message);
+    setToastType(type);
+    setTimeout(() => setToastMessage(null), 3000);
+  };
 
   useEffect(() => {
     // Always use dark mode
@@ -130,7 +138,7 @@ export default function Profile() {
 
   const handleSaveProfile = async () => {
     if (!editedName.trim()) {
-      alert('Name cannot be empty');
+      showToast('Name cannot be empty', 'error');
       return;
     }
 
@@ -147,9 +155,10 @@ export default function Profile() {
 
       setUserProfile(prev => prev ? { ...prev, full_name: editedName } : null);
       setIsEditing(false);
+      showToast('Profile updated successfully');
     } catch (err) {
-      console.error('Error updating profile:', err);
-      alert('Failed to update profile');
+      // Error updating profile handled silently
+      showToast('Failed to update profile', 'error');
     }
   };
 
@@ -185,9 +194,10 @@ export default function Profile() {
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
+      showToast('Data exported successfully');
     } catch (err) {
-      console.error('Error exporting data:', err);
-      alert('Failed to export data');
+      // Error exporting data handled silently
+      showToast('Failed to export data', 'error');
     } finally {
       setIsExporting(false);
     }
@@ -214,8 +224,8 @@ export default function Profile() {
       await supabase.auth.signOut();
       router.push('/signup');
     } catch (err) {
-      console.error('Error deleting account:', err);
-      alert('Failed to delete account. Please contact support at team@mycheatcode.ai');
+      // Error deleting account handled silently
+      showToast('Failed to delete account. Please contact support at team@mycheatcode.ai', 'error');
       setIsDeleting(false);
       setShowDeleteConfirm(false);
     }
@@ -613,6 +623,19 @@ export default function Profile() {
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div
+          className="fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 rounded-lg shadow-lg z-50 transition-all"
+          style={{
+            backgroundColor: toastType === 'success' ? '#22c55e' : '#ef4444',
+            color: '#ffffff'
+          }}
+        >
+          {toastMessage}
+        </div>
+      )}
     </div>
   );
 }
