@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
+import { DbCheatCode } from '@/lib/types';
 
 interface UserProfile {
   full_name: string;
@@ -82,13 +83,13 @@ export default function Profile() {
           console.error('Error fetching cheat codes:', codesError);
         } else if (codes) {
           // Calculate stats
-          const activeCodes = codes.filter((code: any) => code.is_active !== false);
-          const archivedCodes = codes.filter((code: any) => code.is_active === false);
+          const activeCodes = codes.filter((code: DbCheatCode) => code.is_active !== false);
+          const archivedCodes = codes.filter((code: DbCheatCode) => code.is_active === false);
 
           // Find most used code
           let mostUsedCode = 'None yet';
           if (codes.length > 0) {
-            const sortedByUsage = [...codes].sort((a: any, b: any) => (b.times_used || 0) - (a.times_used || 0));
+            const sortedByUsage = [...codes].sort((a: DbCheatCode, b: DbCheatCode) => (b.times_used || 0) - (a.times_used || 0));
             const topCode = sortedByUsage[0];
             if (topCode && topCode.times_used > 0) {
               mostUsedCode = topCode.title;

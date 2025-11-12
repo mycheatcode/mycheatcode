@@ -28,8 +28,8 @@ export default function ForgotPassword() {
       if (error) throw error;
 
       setSent(true);
-    } catch (err: any) {
-      setError(err.message || 'Failed to send reset email');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to send reset email');
     } finally {
       setLoading(false);
     }

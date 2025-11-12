@@ -8,6 +8,7 @@ import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import ProgressCircles from '@/components/ProgressCircles';
 import FeedbackButton from '@/components/FeedbackButton';
+import { DbCheatCode } from '@/lib/types';
 
 interface CheatCode {
   id: string;
@@ -51,7 +52,7 @@ export default function MyCodesRedesignPage() {
       // Load cheat codes
       const { cheatCodes: dbCodes } = await getUserCheatCodes(user.id);
       if (dbCodes) {
-        const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
+        const transformedCodes: CheatCode[] = dbCodes.map((code: DbCheatCode) => {
           const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
           const now = new Date();
           const diffMs = now.getTime() - lastUsed.getTime();

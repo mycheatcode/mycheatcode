@@ -7,6 +7,7 @@ import { UserSessionManager } from '../utils/userSession';
 import { createClient } from '@/lib/supabase/client';
 import { unarchiveChat } from '@/lib/chat';
 import FeedbackButton from '@/components/FeedbackButton';
+import { DbChat, DbMessage } from '@/lib/types';
 
 interface Message {
   id: number;
@@ -27,7 +28,13 @@ interface ChatSession {
   hasCheatCode: boolean;
   category?: string;
   messages: Message[];
-  selectedTopic?: any;
+  selectedTopic?: {
+    id?: number;
+    title?: string;
+    quote: string;
+    context: string;
+    category: string;
+  };
   archived?: boolean;
 }
 
@@ -87,7 +94,7 @@ export default function ChatHistory() {
 
 
       // Transform database chats to ChatSession format
-      const transformedChats: ChatSession[] = (chats || []).map((chat: any) => {
+      const transformedChats: ChatSession[] = (chats || []).map((chat: DbChat) => {
         const messages = Array.isArray(chat.messages) ? chat.messages : [];
         const lastMessage = messages.length > 0
           ? messages[messages.length - 1].content
@@ -95,19 +102,22 @@ export default function ChatHistory() {
 
         // Determine title: use topic title if available, otherwise first user message
         let title = 'Chat Session';
-        if (chat.selected_topic && chat.selected_topic.title) {
+        if (chat.selected_topic && 'title' in chat.selected_topic && chat.selected_topic.title) {
           // Use topic title with quotations if available
           title = `"${chat.selected_topic.title}"`;
+        } else if (chat.selected_topic && 'quote' in chat.selected_topic) {
+          // Fallback to quote if title is not available
+          title = `"${chat.selected_topic.quote}"`;
         } else {
           // Fall back to first user message
-          const firstUserMessage = messages.find((m: any) => m.role === 'user');
+          const firstUserMessage = messages.find((m: DbMessage) => m.role === 'user');
           if (firstUserMessage && firstUserMessage.content) {
             title = firstUserMessage.content.substring(0, 50) + (firstUserMessage.content.length > 50 ? '...' : '');
           }
         }
 
         // Check if any assistant message contains a cheat code
-        const hasCheatCode = messages.some((m: any) => {
+        const hasCheatCode = messages.some((m: DbMessage) => {
           if (m.role === 'assistant') {
             const content = m.content || '';
             // Check for standard cheat code format
@@ -132,9 +142,9 @@ export default function ChatHistory() {
           createdAt: new Date(chat.created_at),
           updatedAt: new Date(chat.created_at), // Use created_at as updated_at since there's no updated_at column
           hasCheatCode,
-          archived: !chat.is_active,
+          archived: chat.is_archived || false,
           selectedTopic: chat.selected_topic, // Include selected topic from database
-          messages: messages.map((m: any, idx: number) => ({
+          messages: messages.map((m: DbMessage, idx: number) => ({
             id: idx + 1,
             text: m.content,
             sender: m.role === 'user' ? 'user' as const : 'coach' as const,

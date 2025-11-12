@@ -11,6 +11,46 @@ import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum
 import FeedbackButton from '@/components/FeedbackButton';
 import CheatCodeGame from '@/components/CheatCodeGame';
 import type { GameSessionResult } from '@/lib/types/game';
+import { DbChat, DbMessage, DbCheatCode } from '@/lib/types';
+
+interface ParsedCheatCode {
+  title: string;
+  category: string;
+  what?: string;
+  when?: string;
+  how?: string;
+  why?: string;
+  phrase?: string;
+  trigger?: string;
+  firstAction?: string;
+  ifThen?: string;
+  reps?: string;
+  subtitle?: string;
+  practice?: string;
+  messageText?: string;
+}
+
+interface CheatCodeCard {
+  type: 'title' | 'section' | 'steps' | 'phrase' | 'step';
+  title?: string;
+  category?: string;
+  heading?: string;
+  content?: string;
+  steps?: string[];
+  phrase?: string;
+  stepNumber?: number;
+  totalSteps?: number;
+}
+
+interface ParsedCheatCodeForCards {
+  what?: string;
+  when?: string;
+  howSteps: string[];
+  why?: string;
+  phrase?: string;
+  title: string;
+  category: string;
+}
 
 // Force dark mode immediately
 if (typeof window !== 'undefined') {
@@ -47,7 +87,7 @@ export default function ChatPage() {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
-  const [selectedTopic, setSelectedTopic] = useState<any>(null);
+  const [selectedTopic, setSelectedTopic] = useState<{ id: number; title: string; description: string; customStarter?: string | null } | null>(null);
   const [isRestoringChat, setIsRestoringChat] = useState(false);
   const [initialized, setInitialized] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -57,7 +97,7 @@ export default function ChatPage() {
   const [cheatCodeIds, setCheatCodeIds] = useState<Map<string, string>>(new Map()); // messageId -> cheatCodeId mapping
   const [userName, setUserName] = useState<string>('');
   const [isFirstCodeChat, setIsFirstCodeChat] = useState(false);
-  const [selectedCheatCode, setSelectedCheatCode] = useState<any>(null);
+  const [selectedCheatCode, setSelectedCheatCode] = useState<(ParsedCheatCode & { messageId: string }) | null>(null);
   const [currentCard, setCurrentCard] = useState(0);
   const [showSaveSuccess, setShowSaveSuccess] = useState(false);
   const [momentumGain, setMomentumGain] = useState<number>(0);
@@ -183,7 +223,7 @@ export default function ChatPage() {
 
         // Build a map of code titles to favorite status
         const favMap = new Map<string, boolean>();
-        cheatCodes.forEach((code: any) => {
+        cheatCodes.forEach((code: DbCheatCode) => {
           favMap.set(code.title, code.is_favorite || false);
         });
         setFavoritedCodes(favMap);
@@ -352,8 +392,8 @@ export default function ChatPage() {
   };
 
   // Helper to parse cheat code from text
-  const parseCheatCode = (text: string) => {
-    const cheatCode: any = {};
+  const parseCheatCode = (text: string): ParsedCheatCode => {
+    const cheatCode: Partial<ParsedCheatCode> = {};
 
     // Helper function to clean asterisks and extra spaces from text
     const cleanText = (str: string): string => {
@@ -401,7 +441,10 @@ export default function ChatPage() {
 
       cheatCode.how = howParts.join('\n');
       cheatCode.why = 'This technique helps you stay focused and maintain confidence under pressure by giving you a clear, repeatable action when you need it most';
-      cheatCode.practice = ''; // Already included in how
+      cheatCode.trigger = triggerMatch ? cleanText(triggerMatch[1]) : '';
+      cheatCode.firstAction = firstAction;
+      cheatCode.ifThen = ifThen;
+      cheatCode.reps = reps;
     } else {
       // Parse standard format
       // Extract title (look for emoji and title)
@@ -428,10 +471,22 @@ export default function ChatPage() {
       cheatCode.how = howMatch ? cleanText(howMatch[1]) : '';
       cheatCode.why = whyMatch ? cleanText(whyMatch[1]) : '';
       cheatCode.phrase = phraseMatch ? cleanText(phraseMatch[1] || phraseMatch[2]) : '';
-      cheatCode.practice = practiceMatch ? cleanText(practiceMatch[1]) : '';
     }
 
-    return cheatCode;
+    // Ensure all required fields are present
+    return {
+      title: cheatCode.title || 'Confidence Boost',
+      category: cheatCode.category || 'In-Game',
+      what: cheatCode.what,
+      when: cheatCode.when,
+      how: cheatCode.how,
+      why: cheatCode.why,
+      phrase: cheatCode.phrase,
+      trigger: cheatCode.trigger,
+      firstAction: cheatCode.firstAction,
+      ifThen: cheatCode.ifThen,
+      reps: cheatCode.reps
+    };
   };
 
   const appendMessage = (msg: Message) => {
@@ -1121,7 +1176,7 @@ export default function ChatPage() {
   };
 
   // Parse cheat code summary into card data (same as my-codes page)
-  const parseCheatCodeForCards = (cheatCode: any) => {
+  const parseCheatCodeForCards = (cheatCode: ParsedCheatCode): ParsedCheatCodeForCards => {
     const { what, when, how, why, phrase, title, category } = cheatCode;
 
     // Split "How" into steps - handle numbered steps (inline or newline-separated)
@@ -1156,22 +1211,22 @@ export default function ChatPage() {
   };
 
   // Build cards array for swipeable interface
-  const buildCheatCodeCards = (cheatCode: any) => {
+  const buildCheatCodeCards = (cheatCode: ParsedCheatCode): CheatCodeCard[] => {
     const { what, when, howSteps, why, phrase, title, category } = parseCheatCodeForCards(cheatCode);
 
     return [
-      { type: 'title', title, category },
-      { type: 'section', heading: 'What', content: what },
-      { type: 'section', heading: 'When', content: when },
+      { type: 'title' as const, title, category },
+      { type: 'section' as const, heading: 'What', content: what },
+      { type: 'section' as const, heading: 'When', content: when },
       ...howSteps.map((step: string, index: number) => ({
-        type: 'step',
+        type: 'step' as const,
         heading: 'How',
         stepNumber: index + 1,
         totalSteps: howSteps.length,
         content: step.replace(/^[•\-]\s*/, '') // Remove bullet points
       })),
-      { type: 'section', heading: 'Why', content: why },
-      { type: 'phrase', heading: 'Your Cheat Code Phrase', content: phrase }
+      { type: 'section' as const, heading: 'Why', content: why },
+      { type: 'phrase' as const, heading: 'Your Cheat Code Phrase', content: phrase }
     ];
   };
 
@@ -1310,7 +1365,7 @@ export default function ChatPage() {
       let scenariosReady = false;
 
       // Parse cheat code data (needed for both save and scenario generation)
-      const cheatCodeData = selectedCheatCode ? parseCheatCode(selectedCheatCode.messageText) : null;
+      const cheatCodeData = selectedCheatCode?.messageText ? parseCheatCode(selectedCheatCode.messageText) : null;
 
       // If code not saved yet, save it first
       if (!savedCheatCodeId && cheatCodeData && userId) {
@@ -2113,7 +2168,7 @@ export default function ChatPage() {
                               </p>
                               <button
                                 onClick={async () => {
-                                  await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText);
+                                  await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText || '');
                                 }}
                                 disabled={savedCheatCodes.has(selectedCheatCode.messageId) || savingCheatCode === selectedCheatCode.messageId}
                                 className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"

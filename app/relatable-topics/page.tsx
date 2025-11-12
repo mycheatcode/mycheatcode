@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import FeedbackButton from '@/components/FeedbackButton';
+import { DbChat } from '@/lib/types';
 
 export default function RelatableTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -29,14 +30,14 @@ export default function RelatableTopics() {
       // Fetch all chats for this user
       const { data: chats } = await supabase
         .from('chats')
-        .select('selected_topic')
+        .select('id, user_id, messages, created_at, updated_at, selected_topic')
         .eq('user_id', user.id);
 
       if (chats) {
         // Extract topic IDs from chats
         const topicIds = new Set<number>();
-        chats.forEach((chat: any) => {
-          if (chat.selected_topic && chat.selected_topic.id) {
+        chats.forEach((chat: DbChat) => {
+          if (chat.selected_topic && 'id' in chat.selected_topic && typeof chat.selected_topic.id === 'number') {
             topicIds.add(chat.selected_topic.id);
           }
         });
@@ -428,7 +429,7 @@ export default function RelatableTopics() {
   ];
 
 
-  const handleTopicSelect = (topic: any) => {
+  const handleTopicSelect = (topic: { id: number; quote: string; context: string; customStarter?: string }) => {
     // Clear any existing chat history to prevent loading old messages
     localStorage.removeItem('chatHistory');
 

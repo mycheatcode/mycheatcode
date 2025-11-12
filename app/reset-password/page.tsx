@@ -42,8 +42,8 @@ export default function ResetPassword() {
 
       alert('Password updated successfully!');
       router.push('/login');
-    } catch (err: any) {
-      setError(err.message || 'Failed to reset password');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to reset password');
       setLoading(false);
     }
   };

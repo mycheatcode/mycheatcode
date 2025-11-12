@@ -167,3 +167,40 @@ export const DECAY_THRESHOLD_HOURS = 48;
 export const DECAY_AMOUNT = 5;
 export const GREEN_MAINTENANCE_DAYS = 4;
 export const GREEN_GRACE_PERIOD_DAYS = 2;
+
+// Database model types for current app structure
+export interface DbChat {
+  id: string;
+  user_id: string;
+  messages: DbMessage[];
+  created_at: string;
+  updated_at: string;
+  is_archived?: boolean;
+  selected_topic?: {
+    quote: string;
+    context: string;
+    category: string;
+  };
+}
+
+export interface DbMessage {
+  id: string;
+  role: MessageRole;
+  content: string;
+  timestamp?: string;
+  cheatCodeId?: string;
+  scenariosReady?: boolean;
+}
+
+export interface DbCheatCode {
+  id: string;
+  user_id: string;
+  title: string;
+  category: string;
+  content: string;
+  times_used?: number;
+  last_used_at?: string;
+  created_at: string;
+  is_active?: boolean;
+  is_favorite?: boolean;
+}
