@@ -78,14 +78,6 @@ function hasMandatoryStepsComplete(messages: ChatMsg[]): boolean {
   const coachAnchored = hasAnchoredPhrase(messages);
   const userConfirmed = hasConfirmedVisualization(messages);
 
-  console.log('🔍 MANDATORY STEPS CHECK:', {
-    offeredPhrases,
-    userPicked,
-    coachAnchored,
-    userConfirmed,
-    allComplete: offeredPhrases && userPicked && coachAnchored && userConfirmed
-  });
-
   // ALL must be true
   return offeredPhrases && userPicked && coachAnchored && userConfirmed;
 }
@@ -4142,8 +4134,6 @@ export async function POST(req: Request) {
     const messages: ChatMsg[] = [];
 
     // 1) Core identity
-    console.log('🔍 SYSTEM PROMPT VERSION: v8.0 PRINCIPLE-BASED');
-    console.log('🔍 System prompt starts with:', SYSTEM_PROMPT.substring(0, 100));
     messages.push({ role: 'system', content: SYSTEM_PROMPT });
 
     // 2) User personalization context from onboarding (if userId provided)
@@ -4189,7 +4179,6 @@ export async function POST(req: Request) {
         }
       } catch (err) {
         // Silently fail - continue without personalization
-        console.error('Failed to fetch user context:', err);
       }
     }
 
@@ -4263,7 +4252,7 @@ If you DON'T reference relevant past conversations when they exist, the player w
           }
         }
       } catch (err) {
-        console.error('Failed to fetch conversation memory:', err);
+        // Error handled silently
       }
     }
 
@@ -4442,13 +4431,10 @@ IF YOU DON'T INCLUDE THE PRACTICE PARAGRAPH, YOU HAVE COMPLETELY FAILED THIS TAS
             if (savedCodesRes.ok) {
               const savedCodes = await savedCodesRes.json();
               savedCodeTitles.push(...savedCodes.map((c: { title: string }) => c.title));
-              console.log('[DUPLICATE CHECK] Fetched saved code titles:', savedCodeTitles);
-            } else {
-              console.error('[DUPLICATE CHECK] Failed to fetch saved codes:', savedCodesRes.status, savedCodesRes.statusText);
             }
           }
         } catch (err) {
-          console.error('Error fetching saved cheat codes:', err);
+          // Error handled silently
         }
       }
 
@@ -4486,7 +4472,6 @@ IF YOU DON'T INCLUDE THE PRACTICE PARAGRAPH, YOU HAVE COMPLETELY FAILED THIS TAS
           const titleMatch = msg.content.match(/\*\*🏀\s*([^*]+?)\*\*/);
           if (titleMatch) {
             recentlyCreatedCode = titleMatch[1].trim();
-            console.log('[RECENT CODE DETECTED]:', recentlyCreatedCode);
             break; // Get the most recent one
           }
         }
@@ -4507,8 +4492,6 @@ IF YOU DON'T INCLUDE THE PRACTICE PARAGRAPH, YOU HAVE COMPLETELY FAILED THIS TAS
       // Add duplicate name warning
       if (allExistingTitles.length > 0) {
         criticalInstructions += `\n\n🚨 DUPLICATE NAME BLOCKER: The user has already saved codes with these EXACT names in their account: ${allExistingTitles.join(', ')}. You CANNOT use ANY of these names again OR similar variations (e.g., if they have "Attack Mode", you cannot use "Attack Instinct", "Attack Power", or ANY Attack-* variation). The database will REJECT duplicate titles and the user will get an error. PICK A COMPLETELY DIFFERENT NAME from a different category/theme. Examples of different themes: Reset/Refresh (Reset Switch), Focus (Lock In), Flow (Game Flow), Power (Inner Power), Anchor (Ground Control), Identity (I'm Built For This).`;
-
-        console.log('[DUPLICATE CHECK] Warning AI about existing titles:', allExistingTitles);
       }
 
       // Add variety warning
@@ -4575,15 +4558,6 @@ The user will IMMEDIATELY lose trust if steps are impossible to execute in the s
 
     const raw = data?.choices?.[0]?.message?.content ?? '';
     const reply = sanitizeReply(String(raw || "Let's keep going. What part of that moment feels hardest?"));
-
-    // Debug logging to see what AI actually returned
-    if (raw.includes('**🏀')) {
-      console.log('🔍 CODE DETECTED IN RESPONSE');
-      console.log('📝 First 200 chars:', raw.substring(0, 200));
-      console.log('📝 Last 200 chars:', raw.substring(raw.length - 200));
-      console.log('✅ Has intro before code?', !raw.trim().startsWith('**🏀'));
-      console.log('✅ Has outro after phrase?', !raw.trim().endsWith('"'));
-    }
 
     return new Response(JSON.stringify({
       reply,

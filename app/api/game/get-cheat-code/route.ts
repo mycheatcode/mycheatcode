@@ -17,30 +17,20 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
       whyStart = content.indexOf('**whyIs#:');
     }
 
-    console.log('🔍 whyStart position:', whyStart);
-
     if (whyStart !== -1) {
       const markerLength = content.substring(whyStart).startsWith('**Why**:') ? '**Why**:'.length : '**whyIs#:'.length;
       const contentAfterWhy = content.substring(whyStart + markerLength);
-      console.log('🔍 contentAfterWhy length:', contentAfterWhy.length);
-      console.log('🔍 contentAfterWhy first 200 chars:', contentAfterWhy.substring(0, 200));
 
       // Find the next ** marker
       const nextMarker = contentAfterWhy.indexOf('**');
-      console.log('🔍 nextMarker position:', nextMarker);
 
       if (nextMarker !== -1) {
         const extracted = contentAfterWhy.substring(0, nextMarker);
-        console.log('🔍 extracted (before trim):', extracted);
         what = extracted.replace(/\s+/g, ' ').trim();
-        console.log('🔍 why (after trim):', what);
       } else {
         // If no next marker, take everything until end
         what = contentAfterWhy.replace(/\s+/g, ' ').trim();
-        console.log('🔍 why (no next marker, after trim):', what);
       }
-    } else {
-      console.log('🔍 **Why**: or **whyIs#: not found in content');
     }
 
     // Extract phrase from quoted text
@@ -48,8 +38,6 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
     if (phraseMatch) {
       phrase = phraseMatch[1].trim();
     }
-
-    console.log('🔍 Parser (markdown) - phrase:', phrase, 'why:', what);
   } else {
     // Parse CARD format
     const lines = content.split('\n');
@@ -85,8 +73,6 @@ function parseCheatCodeContent(content: string): { phrase: string; what: string 
     } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
       phrase = currentContent.join(' ').trim();
     }
-
-    console.log('🔍 Parser (CARD) - phrase:', phrase, 'what:', what);
   }
 
   return { phrase, what };
@@ -124,7 +110,6 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
 
     if (fetchError) {
-      console.error('Error fetching cheat code:', fetchError);
       return NextResponse.json({ success: false, error: fetchError.message }, { status: 500 });
     }
 
@@ -137,27 +122,8 @@ export async function POST(request: NextRequest) {
 
     // Parse the content
     const content = cheatCode.content || '';
-    console.log('📄 Content length:', content.length);
-    console.log('📄 First 500 chars:', content.substring(0, 500));
-    console.log('📄 Contains CARD:', content.includes('CARD:'));
-    console.log('📄 Full content:', content); // Debug: log full content
 
     const { phrase, what } = parseCheatCodeContent(content);
-
-    console.log('✅ Final extracted - phrase:', phrase, 'what:', what);
-
-    // TEMPORARY DEBUG: Return raw content for inspection
-    if (!phrase && !what) {
-      return NextResponse.json({
-        success: true,
-        debug: true,
-        rawContent: content,
-        cheatCode: {
-          phrase,
-          what,
-        },
-      });
-    }
 
     return NextResponse.json({
       success: true,
@@ -167,7 +133,6 @@ export async function POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error('Error fetching cheat code:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
       { status: 500 }

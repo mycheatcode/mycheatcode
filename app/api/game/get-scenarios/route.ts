@@ -44,8 +44,6 @@ export async function POST(request: NextRequest) {
     if (!hasScenarios) {
       // If auto_generate is true, trigger scenario generation
       if (auto_generate) {
-        console.log('🎮 Auto-generating scenarios for cheat code:', cheat_code_id);
-
         // Fetch cheat code data needed for generation
         const { data: cheatCodeData, error: fetchError } = await supabase
           .from('cheat_codes')
@@ -55,7 +53,6 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (fetchError || !cheatCodeData) {
-          console.error('❌ Failed to fetch cheat code data:', fetchError);
           return NextResponse.json({
             success: true,
             has_scenarios: false,
@@ -92,8 +89,6 @@ export async function POST(request: NextRequest) {
         };
 
         const sections = parseContent(content);
-
-        console.log('🎮 Starting scenario generation for:', cheat_code_id);
 
         // Start generation in background (use Promise without await)
         const generatePromise = (async () => {
@@ -154,12 +149,9 @@ Return: {"scenarios": [...]}`;
 
             if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
               await saveGameScenarios(user.id, cheat_code_id, scenarios, supabase);
-              console.log('✅ Scenarios generated and saved:', scenarios.length);
-            } else {
-              console.error('❌ Invalid scenario count:', scenarios.length);
             }
           } catch (err) {
-            console.error('❌ Background generation failed:', err);
+            // Error handled silently
           }
         })();
 
@@ -204,7 +196,6 @@ Return: {"scenarios": [...]}`;
       scenarios,
     });
   } catch (error) {
-    console.error('Error fetching scenarios:', error);
     return NextResponse.json(
       { success: false, error: 'Internal server error' },
       { status: 500 }

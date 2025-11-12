@@ -70,7 +70,6 @@ export default function ChatHistory() {
       const { data: { user }, error: authError } = await supabase.auth.getUser();
 
       if (authError) {
-        console.error('Auth error:', authError);
         return;
       }
 
@@ -88,8 +87,6 @@ export default function ChatHistory() {
         .order('created_at', { ascending: false});
 
       if (error) {
-        console.error('Error fetching chats:', error.message || error);
-        console.error('Full error object:', JSON.stringify(error, null, 2));
         return;
       }
 
@@ -247,8 +244,6 @@ export default function ChatHistory() {
             chat.id === chatToDelete ? { ...chat, archived: true } : chat
           )
         );
-      } else {
-        console.error('Error archiving chat:', error);
       }
     }
     setShowDeleteConfirm(false);
@@ -280,8 +275,6 @@ export default function ChatHistory() {
       if (chat) {
         handleChatClick(chat);
       }
-    } else {
-      console.error('Error unarchiving chat:', error);
     }
   };
 

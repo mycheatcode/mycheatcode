@@ -117,7 +117,7 @@ export default function ChatPage() {
             setUserName(userData.full_name);
           }
         } catch (err) {
-          console.error('Error fetching user name:', err);
+          // Error fetching user name handled silently
         }
       } else {
         // Redirect to login if not authenticated
@@ -141,7 +141,7 @@ export default function ChatPage() {
           .eq('chat_id', currentChatId);
 
         if (error) {
-          console.error('Error loading saved cheat codes:', error);
+          // Error loading saved cheat codes handled silently
           return;
         }
 
@@ -165,7 +165,7 @@ export default function ChatPage() {
           });
         }
       } catch (err) {
-        console.error('Error loading saved cheat codes:', err);
+        // Error loading saved cheat codes handled silently
       }
     };
 
@@ -188,7 +188,7 @@ export default function ChatPage() {
         });
         setFavoritedCodes(favMap);
       } catch (err) {
-        console.error('Error loading favorites:', err);
+        // Error loading favorites handled silently
       }
     };
 
@@ -521,7 +521,7 @@ export default function ChatPage() {
           const topic = JSON.parse(storedTopic);
           setSelectedTopic(topic);
         } catch (error) {
-          console.error('Error parsing selectedTopic:', error);
+          // Error parsing selectedTopic handled silently
         }
       } else {
       }
@@ -559,15 +559,7 @@ export default function ChatPage() {
                 ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
 
-              // Debug: Log if this message has a game button
-              if (m.gameButtonCodeId) {
-                console.log('📦 Restored message with game button:', {
-                  messageId: msg.id,
-                  codeId: m.gameButtonCodeId,
-                  codeTitle: m.gameButtonCodeTitle,
-                  messagePreview: msg.text.substring(0, 50)
-                });
-              }
+              // Message restoration handled
 
               messageIds.current.add(msg.id);
               return msg;
@@ -626,15 +618,7 @@ export default function ChatPage() {
                 ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
               };
 
-              // Debug: Log if this message has a game button
-              if (m.gameButtonCodeId) {
-                console.log('📦 Restored from DB with game button:', {
-                  messageId: msg.id,
-                  codeId: m.gameButtonCodeId,
-                  codeTitle: m.gameButtonCodeTitle,
-                  messagePreview: msg.text.substring(0, 50)
-                });
-              }
+              // Message restoration from DB handled
 
               return msg;
             });
@@ -650,7 +634,7 @@ export default function ChatPage() {
             return;
           }
         } catch (err) {
-          console.error('Error loading active chat:', err);
+          // Error loading active chat handled silently
         }
       }
 
@@ -926,7 +910,7 @@ export default function ChatPage() {
 
     // Silently handle errors - don't show to user
     if (error) {
-      console.error('Error saving chat (non-critical):', error);
+      // Error saving chat (non-critical) handled silently
       return;
     }
 
@@ -980,7 +964,7 @@ export default function ChatPage() {
         .limit(1);
 
       if (checkError) {
-        console.error('Error checking for duplicate cheat codes:', checkError);
+        // Error checking for duplicate cheat codes handled silently
       } else if (existingCodes && existingCodes.length > 0) {
         // Cheat code already exists
         setSavedCheatCodes(prev => new Set(prev).add(messageId));
@@ -993,7 +977,7 @@ export default function ChatPage() {
 
       if (error || !cheatCodeId) {
         alert('Failed to save cheat code. Please try again.');
-        console.error('Error saving cheat code:', error);
+        // Error saving cheat code handled
       } else {
         // Mark as saved
         setSavedCheatCodes(prev => new Set(prev).add(messageId));
@@ -1023,7 +1007,7 @@ export default function ChatPage() {
         }, 2000);
       }
     } catch (err) {
-      console.error('Unexpected error saving cheat code:', err);
+      // Unexpected error saving cheat code handled
       alert('An unexpected error occurred');
     } finally {
       setSavingCheatCode(null);
@@ -1073,16 +1057,6 @@ export default function ChatPage() {
 
       const data = await res.json();
 
-      // Debug: ALWAYS log what we received
-      console.error('====================================');
-      console.error('🤖 COACH RESPONSE RECEIVED');
-      console.error('Length:', data.reply?.length || 0);
-      console.error('First 300 chars:', data.reply?.substring(0, 300) || 'NO REPLY');
-      console.error('Contains basketball emoji?', data.reply?.includes('🏀') || false);
-      console.error('Contains **What:**?', data.reply?.includes('**What:**') || false);
-      console.error('Starts with?', data.reply?.substring(0, 20) || 'EMPTY');
-      console.error('====================================');
-
       const coachMsg: Message = {
         id: uid(),
         text: data.reply || "Let\\'s keep going. What part of that moment feels hardest?",
@@ -1100,7 +1074,7 @@ export default function ChatPage() {
       // Save chat to database after receiving response (non-blocking)
       const updatedMessages = [...messages, userMsg, coachMsg];
       saveChatToDb(updatedMessages).catch(err => {
-        console.error('Error saving chat:', err);
+        // Error saving chat handled silently
       });
 
       // Log activity for progress tracking (non-blocking)
@@ -1109,7 +1083,7 @@ export default function ChatPage() {
           message_count: updatedMessages.length,
           chat_id: currentChatId,
         }).catch(err => {
-          console.error('Error logging activity:', err);
+          // Error logging activity handled silently
         });
 
         // Check if chat qualifies for meaningful chat momentum (non-blocking)
@@ -1119,11 +1093,10 @@ export default function ChatPage() {
             .then(async (momentumGained) => {
               if (momentumGained > 0) {
                 // Momentum awarded silently (no notification)
-                console.log('Meaningful chat momentum awarded:', momentumGained);
               }
             })
             .catch(err => {
-              console.error('Error awarding meaningful chat momentum:', err);
+              // Error awarding meaningful chat momentum handled silently
             });
         }
       }
@@ -1222,17 +1195,13 @@ export default function ChatPage() {
   };
 
   const handleCloseCheatCodeModal = async () => {
-    console.log('🚪 handleCloseCheatCodeModal called');
-
     if (!selectedCheatCode) {
-      console.log('⚠️ No selectedCheatCode found');
+      // No selectedCheatCode found
       return;
     }
 
     const codeTitle = selectedCheatCode.title;
     const messageId = selectedCheatCode.messageId;
-
-    console.log('📋 Code details:', { codeTitle, messageId });
 
     // Use chat ID + code title as key since message IDs change on refresh
     const codeKey = `${currentChatId}-${codeTitle}`;
@@ -1248,32 +1217,23 @@ export default function ChatPage() {
             alreadyViewed = true;
           }
         } catch (e) {
-          console.error('Error checking localStorage:', e);
+          // Error checking localStorage handled silently
         }
       }
     }
 
     const isFirstView = !alreadyViewed;
 
-    console.log('👁️ First view check:', {
-      codeKey,
-      isFirstView,
-      alreadyViewed,
-      currentChatId,
-      viewedCodesState: Array.from(viewedCodes),
-      localStorageCheck: alreadyViewed
-    });
-
     // Close the modal first
     setSelectedCheatCode(null);
     resetCards();
 
     if (isFirstView) {
-      console.log('✅ First view confirmed - triggering follow-up');
+      // First view confirmed - triggering follow-up
 
       // Check if follow-up already in progress for this code
       if (followUpInProgressRef.current.has(codeKey)) {
-        console.log('⚠️ Follow-up already in progress for this code, skipping');
+        // Follow-up already in progress for this code, skipping
         return;
       }
 
@@ -1286,13 +1246,12 @@ export default function ChatPage() {
 
       if (typeof window !== 'undefined') {
         localStorage.setItem('viewedCheatCodes', JSON.stringify(Array.from(updatedSet)));
-        console.log('💾 Saved to localStorage:', Array.from(updatedSet));
+        // Saved to localStorage
       }
 
       // Trigger follow-up after ensuring scenarios are ready
       // This function will be called after scenario generation completes
       const sendFollowUpMessage = async (cheatCodeIdForButton: string | undefined) => {
-        console.log('⏰ Starting follow-up request with scenarios ready');
         setIsTyping(true);
 
         try {
@@ -1307,9 +1266,6 @@ export default function ChatPage() {
             content: `[SYSTEM: User just viewed the "${codeTitle}" code for the first time. Ask them what they thought of it in a natural, conversational way that fits the current conversation.]`
           });
 
-          console.log('🌐 Calling API for follow-up...');
-          console.log('📤 Message count:', conversationMessages.length);
-
           const response = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -1319,13 +1275,9 @@ export default function ChatPage() {
             })
           });
 
-          console.log('📡 API response status:', response.status);
-
           const data = await response.json();
-          console.log('📦 API response data:', data);
 
           const coachResponse = data.reply || data.coach_response || '';
-          console.log('💬 Coach response length:', coachResponse.length);
 
           const coachMsg: Message = {
             id: uid(),
@@ -1338,20 +1290,18 @@ export default function ChatPage() {
           };
 
           appendMessage(coachMsg);
-          console.log('✅ Follow-up message added to chat', cheatCodeIdForButton ? 'with game button' : 'without game button', { cheatCodeId: cheatCodeIdForButton, codeTitle });
 
           // Save to database
           const updatedMessages = [...messages, coachMsg];
           saveChatToDb(updatedMessages).catch(err => {
-            console.error('Error saving follow-up chat:', err);
+            // Error saving follow-up chat handled silently
           });
         } catch (error) {
-          console.error('❌ Failed to send follow-up:', error);
+          // Failed to send follow-up handled silently
         } finally {
           setIsTyping(false);
           // Clear the in-progress flag after completion
           followUpInProgressRef.current.delete(codeKey);
-          console.log('🏁 Follow-up request complete, cleared in-progress flag');
         }
       };
 
@@ -1364,17 +1314,16 @@ export default function ChatPage() {
 
       // If code not saved yet, save it first
       if (!savedCheatCodeId && cheatCodeData && userId) {
-        console.log('💾 Auto-saving cheat code for game button...');
         try {
           const { cheatCodeId, error } = await saveCheatCode(userId, cheatCodeData, currentChatId || undefined);
           if (!error && cheatCodeId) {
             savedCheatCodeId = cheatCodeId;
             setCheatCodeIds(prev => new Map(prev).set(messageId, cheatCodeId));
             setSavedCheatCodes(prev => new Set(prev).add(messageId));
-            console.log('✅ Auto-saved cheat code with ID:', cheatCodeId);
+            // Auto-saved cheat code
           }
         } catch (err) {
-          console.error('Error auto-saving cheat code:', err);
+          // Error auto-saving cheat code handled silently
         }
       }
 
@@ -1384,7 +1333,6 @@ export default function ChatPage() {
 
       // Generate scenarios in background (don't block the follow-up message)
       if (savedCheatCodeId && cheatCodeData) {
-        console.log('🔍 Checking if scenarios already exist...');
         (async () => {
           try {
             // First check if scenarios exist
@@ -1396,9 +1344,9 @@ export default function ChatPage() {
             const checkData = await checkResponse.json();
 
             if (checkData.success && checkData.has_scenarios) {
-              console.log('✅ Scenarios already exist - READY FOR GAME!');
+              // Scenarios already exist - ready for game
             } else {
-              console.log('🎮 No scenarios found - generating in background...');
+              // No scenarios found - generating in background
               // Generate 3 scenarios first (minimum needed to play the game)
               // Then generate 7 more in background for variety
               const initialScenariosResponse = await fetch('/api/game/generate-scenarios', {
@@ -1412,7 +1360,7 @@ export default function ChatPage() {
               });
               const initialScenariosData = await initialScenariosResponse.json();
               if (initialScenariosData.success) {
-                console.log('✅ Generated 3 initial scenarios - game ready!');
+                // Generated 3 initial scenarios - game ready
 
                 // Generate 7 more scenarios in background for variety
                 fetch('/api/game/generate-scenarios', {
@@ -1424,17 +1372,19 @@ export default function ChatPage() {
                     initial: false
                   })
                 }).then(() => {
-                  console.log('✅ Generated 7 additional scenarios - total 10 available');
-                }).catch(err => console.error('Error generating additional scenarios:', err));
+                  // Generated 7 additional scenarios - total 10 available
+                }).catch(err => {
+                  // Error generating additional scenarios handled silently
+                });
               }
             }
           } catch (err) {
-            console.error('Error checking/generating scenarios:', err);
+            // Error checking/generating scenarios handled silently
           }
         })();
       }
     } else {
-      console.log('⏭️ Code already viewed before - skipping follow-up');
+      // Code already viewed before - skipping follow-up
     }
   };
 
@@ -1449,7 +1399,7 @@ export default function ChatPage() {
     if (codeId) {
       const { error } = await toggleFavoriteCheatCode(userId, codeId, newStatus);
       if (error) {
-        console.error('Error toggling favorite:', error);
+        // Error toggling favorite handled silently
         return;
       }
     }
@@ -1466,8 +1416,6 @@ export default function ChatPage() {
   };
 
   const handleGameComplete = async (result: GameSessionResult) => {
-    console.log('Game completed:', result);
-
     // Momentum awarded silently (no notification)
 
     // Results will stay visible until user clicks Done or Play Again
@@ -1534,17 +1482,17 @@ export default function ChatPage() {
               // Save chat to database
               const updatedMessages = [...messages, coachMsg];
               saveChatToDb(updatedMessages).catch(err => {
-                console.error('Error saving chat:', err);
+                // Error saving chat handled silently
               });
             } catch (error) {
-              console.error('Error sending game follow-up:', error);
+              // Error sending game follow-up handled silently
             } finally {
               setIsTyping(false);
               pendingCoachReply.current = false;
             }
           }
         } catch (error) {
-          console.error('Error fetching game result:', error);
+          // Error fetching game result handled silently
         }
       }
     }, 500);
