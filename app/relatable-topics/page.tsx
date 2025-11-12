@@ -596,13 +596,10 @@ export default function RelatableTopics() {
       {/* Main Content */}
       <div className="flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8">
         {/* Header */}
-        <div className="mb-8">
+        <div className="mb-6">
           <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Relatable Topics</div>
           <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
-
-        {/* Divider */}
-        <div className="border-t mb-6" style={{ borderColor: 'var(--card-border)' }}></div>
 
         {/* Search Bar */}
         <div className="mb-6">

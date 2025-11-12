@@ -605,13 +605,10 @@ export default function ChatHistory() {
         {/* Main Content */}
         <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
           {/* Header */}
-          <div className="mb-8">
+          <div className="mb-6">
             <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Chat History</div>
             <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your conversations and cheat code journey</div>
           </div>
-
-          {/* Divider */}
-          <div className="border-t mb-6" style={{ borderColor: 'var(--card-border)' }}></div>
 
           {/* Search Bar */}
           <div className="mb-6">
