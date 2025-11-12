@@ -137,7 +137,7 @@ export default function Home() {
 
       {/* Sidebar Navigation */}
       <div className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ backgroundColor: '#000000' }}>
-        <div className="pt-24 px-6">
+        <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
         </div>
         <nav className="flex-1 px-4">

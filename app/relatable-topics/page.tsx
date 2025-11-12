@@ -16,6 +16,7 @@ export default function RelatableTopics() {
   const [activeCategory, setActiveCategory] = useState('All');
   const [displayCount, setDisplayCount] = useState(10);
   const [usedTopicIds, setUsedTopicIds] = useState<Set<number>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
   const router = useRouter();
   const supabase = createClient();
 
@@ -463,8 +464,18 @@ export default function RelatableTopics() {
       ? topics
       : topics.filter(topic => topic.category === activeCategory);
 
-    // For "All" category, only show the specified display count
-    if (activeCategory === 'All') {
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filteredTopics = filteredTopics.filter(topic =>
+        topic.quote.toLowerCase().includes(query) ||
+        topic.context.toLowerCase().includes(query) ||
+        topic.category.toLowerCase().includes(query)
+      );
+    }
+
+    // For "All" category, only show the specified display count (unless searching)
+    if (activeCategory === 'All' && !searchQuery.trim()) {
       return filteredTopics.slice(0, displayCount);
     }
 
@@ -516,7 +527,7 @@ export default function RelatableTopics() {
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ backgroundColor: '#000000' }}
       >
-        <div className="pt-24 px-6">
+        <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
         </div>
         <nav className="flex-1 px-4">
@@ -590,6 +601,41 @@ export default function RelatableTopics() {
           <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Real thoughts from real players. Pick what hits home, and create a cheat code.</div>
         </div>
 
+        {/* Divider */}
+        <div className="border-t mb-6" style={{ borderColor: 'var(--card-border)' }}></div>
+
+        {/* Search Bar */}
+        <div className="mb-6">
+          <div className="relative">
+            <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="m21 21-4.35-4.35"/>
+              </svg>
+            </div>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search topics..."
+              className="w-full border rounded-xl pl-10 pr-10 py-3 text-sm focus:outline-none transition-all"
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+            />
+            {searchQuery && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors"
+                style={{ color: '#808080' }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
         {/* Categories Filter */}
         <div className="flex gap-2 lg:gap-3 mb-8 overflow-x-auto scrollbar-hide">
           {categories.map((category) => (
@@ -613,7 +659,19 @@ export default function RelatableTopics() {
 
         {/* Topics List */}
         <div className="space-y-4 lg:space-y-6">
-          {getFilteredTopics().map((topic) => (
+          {getFilteredTopics().length === 0 ? (
+            <div className="text-center py-16 lg:py-20">
+              <div className="text-5xl lg:text-6xl mb-4">🔍</div>
+              <div className="text-xl lg:text-2xl font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                No topics found
+              </div>
+              <div className="text-sm lg:text-base" style={{ color: 'var(--text-secondary)' }}>
+                {searchQuery ? 'Try adjusting your search or select a different category' : 'Try selecting a different category'}
+              </div>
+            </div>
+          ) : (
+            <>
+              {getFilteredTopics().map((topic) => (
             <div key={topic.id} className="relative">
               <div
                 onClick={() => handleTopicSelect(topic)}
@@ -655,6 +713,8 @@ export default function RelatableTopics() {
               </div>
             </div>
           ))}
+            </>
+          )}
 
           {/* Load More Button */}
           {hasMoreTopics() && (
