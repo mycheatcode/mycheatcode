@@ -8,11 +8,6 @@ import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
 
-// Force dark mode immediately
-if (typeof window !== 'undefined') {
-  document.documentElement.classList.add('dark');
-}
-
 interface UserProfile {
   full_name: string;
   email: string;

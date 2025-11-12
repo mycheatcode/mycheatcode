@@ -9,11 +9,6 @@ import { getUserProgress } from '@/lib/progress';
 import ProgressCircles from '@/components/ProgressCircles';
 import FeedbackButton from '@/components/FeedbackButton';
 
-// Force dark mode immediately
-if (typeof window !== 'undefined') {
-  document.documentElement.classList.add('dark');
-}
-
 interface CheatCode {
   id: string;
   title: string;
@@ -38,6 +33,11 @@ export default function MyCodesRedesignPage() {
   const [todaysFocus, setTodaysFocus] = useState<CheatCode | null>(null);
   const router = useRouter();
   const supabase = createClient();
+
+  useEffect(() => {
+    // Always use dark mode
+    document.documentElement.classList.add('dark');
+  }, []);
 
   // Load user data
   useEffect(() => {

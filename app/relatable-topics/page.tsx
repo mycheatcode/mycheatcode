@@ -6,11 +6,6 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import FeedbackButton from '@/components/FeedbackButton';
 
-// Force dark mode immediately
-if (typeof window !== 'undefined') {
-  document.documentElement.classList.add('dark');
-}
-
 export default function RelatableTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');

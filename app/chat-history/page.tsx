@@ -8,11 +8,6 @@ import { createClient } from '@/lib/supabase/client';
 import { unarchiveChat } from '@/lib/chat';
 import FeedbackButton from '@/components/FeedbackButton';
 
-// Force dark mode immediately
-if (typeof window !== 'undefined') {
-  document.documentElement.classList.add('dark');
-}
-
 interface Message {
   id: number;
   text: string;
