@@ -606,28 +606,43 @@ export default function ChatHistory() {
         <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <div className="flex items-center justify-end gap-4 mb-6">
-              {/* Search Bar */}
-              <div className="relative w-80">
-                <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="11" cy="11" r="8"/>
-                    <path d="m21 21-4.35-4.35"/>
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search conversations..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full border rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none transition-all"
-                  style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
-                />
-              </div>
-            </div>
+            <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Chat History</div>
+            <div className="text-base lg:text-lg leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Your conversations and cheat code journey</div>
+          </div>
 
-            <div className="text-4xl font-bold mb-4" style={{ color: '#ffffff' }}>Chat History</div>
-            <div className="text-lg leading-relaxed" style={{ color: '#808080' }}>Your conversations and cheat code journey</div>
+          {/* Divider */}
+          <div className="border-t mb-6" style={{ borderColor: 'var(--card-border)' }}></div>
+
+          {/* Search Bar */}
+          <div className="mb-6">
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 transform -translate-y-1/2" style={{ color: '#808080' }}>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"/>
+                  <path d="m21 21-4.35-4.35"/>
+                </svg>
+              </div>
+              <input
+                type="text"
+                placeholder="Search conversations..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full border rounded-xl pl-10 pr-10 py-3 text-sm focus:outline-none transition-all"
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-white/10 transition-colors"
+                  style={{ color: '#808080' }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Filters */}
