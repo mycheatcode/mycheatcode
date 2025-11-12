@@ -8,6 +8,20 @@ const supabase = createClient(
 
 export async function DELETE(request: NextRequest) {
   try {
+    // Require admin authentication
+    const adminSecret = process.env.ADMIN_SECRET;
+    if (!adminSecret) {
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${adminSecret}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email');
 

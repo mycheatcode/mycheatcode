@@ -10,7 +10,10 @@ export function generateConfirmationToken(email: string): string {
   };
 
   const data = Buffer.from(JSON.stringify(payload)).toString('base64');
-  const secret = process.env.WAITLIST_SIGN_SECRET || 'default-secret-change-in-production';
+  const secret = process.env.WAITLIST_SIGN_SECRET;
+  if (!secret) {
+    throw new Error('WAITLIST_SIGN_SECRET environment variable is not set');
+  }
   const signature = createHmac('sha256', secret).update(data).digest('hex');
 
   return `${data}.${signature}`;
@@ -24,7 +27,10 @@ export function verifyConfirmationToken(token: string): { valid: boolean; email?
       return { valid: false };
     }
 
-    const secret = process.env.WAITLIST_SIGN_SECRET || 'default-secret-change-in-production';
+    const secret = process.env.WAITLIST_SIGN_SECRET;
+    if (!secret) {
+      throw new Error('WAITLIST_SIGN_SECRET environment variable is not set');
+    }
     const expectedSignature = createHmac('sha256', secret).update(data).digest('hex');
 
     // Use timing-safe comparison

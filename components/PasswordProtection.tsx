@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
-const DEV_PASSWORD = 'mycheatcode2025';
+// Password is stored in environment variable for security
+// Set NEXT_PUBLIC_DEV_PASSWORD in your environment
+const DEV_PASSWORD = process.env.NEXT_PUBLIC_DEV_PASSWORD;
 
 const PROTECTED_ROUTES = [
   '/',
@@ -58,6 +60,14 @@ export default function PasswordProtection({ children }: { children: React.React
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // If no DEV_PASSWORD is set in environment, skip password protection
+    if (!DEV_PASSWORD) {
+      sessionStorage.setItem('dev_authenticated', 'true');
+      setIsAuthenticated(true);
+      return;
+    }
+
     if (password === DEV_PASSWORD) {
       sessionStorage.setItem('dev_authenticated', 'true');
       setIsAuthenticated(true);

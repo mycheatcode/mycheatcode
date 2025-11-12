@@ -8,6 +8,20 @@ const supabase = createClient(
 
 export async function GET(request: NextRequest) {
   try {
+    // Require admin authentication
+    const adminSecret = process.env.ADMIN_SECRET;
+    if (!adminSecret) {
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+
+    const authHeader = request.headers.get('authorization');
+    if (authHeader !== `Bearer ${adminSecret}`) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     // Fetch all signups, ordered by most recent first
     const { data: signups, error: fetchError } = await supabase
       .from('waitlist_signups')
