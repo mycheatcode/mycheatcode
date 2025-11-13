@@ -87,7 +87,7 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col justify-center p-6">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-white mb-2">Sign In</h1>
-            <p className="text-zinc-400 text-sm">Access your confidence coach</p>
+            <p className="text-zinc-400 text-sm">Get back to building unstoppable confidence</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -191,7 +191,7 @@ export default function LoginPage() {
           <div className="max-w-md mx-auto w-full">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-white mb-2">Sign In</h2>
-              <p className="text-zinc-400">Access your confidence coach</p>
+              <p className="text-zinc-400">Get back to building unstoppable confidence</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
