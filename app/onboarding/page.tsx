@@ -46,8 +46,8 @@ const SPECIFIC_SCENARIOS = [
     category: 'Pre-Game'
   },
   {
-    value: 'stupid_mistake',
-    label: "You made a stupid mistake and can't stop replaying it",
+    value: 'mistake_replaying',
+    label: "You made a mistake and can't stop replaying it",
     category: 'Post-Game'
   },
   {
@@ -304,9 +304,9 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans flex flex-col">
+    <div className="h-screen bg-black text-white font-sans flex flex-col overflow-hidden">
       {/* Progress Bar */}
-      <div className="w-full bg-zinc-900 h-1">
+      <div className="w-full bg-zinc-900 h-1 flex-shrink-0">
         <div
           className="h-full transition-all duration-300 ease-out"
           style={{
@@ -317,7 +317,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Header with Back Arrow */}
-      <div className="p-6 max-w-2xl mx-auto w-full">
+      <div className="p-4 md:p-6 max-w-2xl mx-auto w-full flex-shrink-0">
         <div className="flex items-center justify-between">
           {step > 1 ? (
             <button
@@ -339,7 +339,7 @@ export default function OnboardingPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col p-6 pt-8 max-w-2xl mx-auto w-full">
+      <div className="flex-1 flex flex-col p-4 md:p-6 max-w-2xl mx-auto w-full overflow-y-auto">
 
         {/* Error Message */}
         {error && (
@@ -425,7 +425,7 @@ export default function OnboardingPage() {
                   Pick the moment that hits hardest for you
                 </h1>
                 <p className="text-center text-zinc-400">
-                  Which scenario do you struggle with most?
+                  Which scenario would affect you the most?
                 </p>
               </div>
               <div className="space-y-3 max-h-[500px] overflow-y-auto">
