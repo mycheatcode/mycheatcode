@@ -177,18 +177,19 @@ export default function LoginPage() {
       <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
-          <div className="text-center">
-            {/* Green Circle Logo */}
-            <div className="mx-auto mb-8 w-40 h-40 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
-              <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-                <circle cx="60" cy="60" r="55" stroke="black" strokeWidth="3"/>
-              </svg>
-            </div>
-            <h1 className="text-4xl font-bold tracking-wide mb-3" style={{ color: '#00ff41' }}>
+          <div className="text-center max-w-md">
+            <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
               MYCHEATCODE.AI
             </h1>
-            <p className="text-zinc-400 text-lg">
-              AI Basketball Confidence Coach
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
+              Build on court confidence
+            </p>
+            <h2 className="text-4xl font-bold text-white mb-8 leading-tight">
+              The First AI Basketball<br/>
+              Confidence Coach
+            </h2>
+            <p className="text-zinc-400 text-base leading-relaxed">
+              Master the mental game of basketball and unlock your full potential on the court.
             </p>
           </div>
         </div>
