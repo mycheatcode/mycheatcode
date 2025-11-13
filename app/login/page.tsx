@@ -87,7 +87,7 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col justify-center p-6">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-white mb-2">Sign In</h1>
-            <p className="text-zinc-400 text-sm">Continue building your confidence</p>
+            <p className="text-zinc-400 text-sm">Access your confidence coach</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -177,19 +177,11 @@ export default function LoginPage() {
       <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
-          <div className="text-center max-w-md">
-            <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
-              MYCHEATCODE.AI
-            </h1>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
-              Build on court confidence
-            </p>
-            <h2 className="text-4xl font-bold text-white mb-8 leading-tight">
-              The First AI Basketball<br/>
-              Confidence Coach
-            </h2>
-            <p className="text-zinc-400 text-base leading-relaxed">
-              Master the mental game of basketball and unlock your full potential on the court.
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-4" style={{ color: '#00ff41' }}>mycheatcode.ai</h1>
+            <p className="text-zinc-400 text-lg leading-relaxed">
+              Your AI basketball confidence coach.<br/>
+              Build custom cheat codes for peak performance.
             </p>
           </div>
         </div>
@@ -199,7 +191,7 @@ export default function LoginPage() {
           <div className="max-w-md mx-auto w-full">
             <div className="mb-8">
               <h2 className="text-3xl font-bold text-white mb-2">Sign In</h2>
-              <p className="text-zinc-400">Continue building your confidence</p>
+              <p className="text-zinc-400">Access your confidence coach</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
