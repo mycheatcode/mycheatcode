@@ -94,8 +94,8 @@ export default function LoginPage() {
         {/* Login Form */}
         <div className="flex-1 flex flex-col justify-center p-6">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-zinc-400 text-sm">Sign in to continue building your confidence</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Sign In</h1>
+            <p className="text-zinc-400 text-sm">Continue building your confidence</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -185,19 +185,16 @@ export default function LoginPage() {
       <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
-          <div className="text-center max-w-md">
-            <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
-              MYCHEATCODE.AI
+          <div className="text-center">
+            {/* Green Circle Logo */}
+            <div className="mx-auto mb-8 w-32 h-32 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
+              <span className="text-black text-5xl font-black">C</span>
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4">
+              MyCheatCode.ai
             </h1>
-            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
-              Build on court confidence
-            </p>
-            <h2 className="text-4xl font-bold text-white mb-8 leading-tight">
-              The First AI Basketball<br/>
-              Confidence Coach
-            </h2>
-            <p className="text-zinc-400 text-base leading-relaxed">
-              Master the mental game of basketball and unlock your full potential on the court.
+            <p className="text-zinc-400 text-lg">
+              Your AI Basketball Confidence Coach
             </p>
           </div>
         </div>
@@ -206,14 +203,8 @@ export default function LoginPage() {
         <div className="w-1/2 bg-black flex flex-col justify-center p-12">
           <div className="max-w-md mx-auto w-full">
             <div className="mb-8">
-              <Link href="/" className="inline-flex items-center text-zinc-400 hover:text-white transition-colors mb-6">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-2">
-                  <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                </svg>
-                Back to Home
-              </Link>
-              <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-              <p className="text-zinc-400">Sign in to continue building your confidence</p>
+              <h2 className="text-3xl font-bold text-white mb-2">Sign In</h2>
+              <p className="text-zinc-400">Continue building your confidence</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
