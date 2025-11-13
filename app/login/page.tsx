@@ -78,16 +78,8 @@ export default function LoginPage() {
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="w-8 h-8 flex items-center justify-center text-white cursor-pointer transition-transform active:scale-90">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-              </svg>
-            </Link>
-            <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
-              MYCHEATCODE.AI
-            </div>
-            <div className="w-8 h-8"></div>
+          <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
+            MYCHEATCODE.AI
           </div>
         </div>
 
@@ -187,14 +179,16 @@ export default function LoginPage() {
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
           <div className="text-center">
             {/* Green Circle Logo */}
-            <div className="mx-auto mb-8 w-32 h-32 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
-              <span className="text-black text-5xl font-black">C</span>
+            <div className="mx-auto mb-8 w-40 h-40 rounded-full flex items-center justify-center" style={{ backgroundColor: '#00ff41' }}>
+              <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+                <circle cx="60" cy="60" r="55" stroke="black" strokeWidth="3"/>
+              </svg>
             </div>
-            <h1 className="text-3xl font-bold text-white mb-4">
-              MyCheatCode.ai
+            <h1 className="text-4xl font-bold tracking-wide mb-3" style={{ color: '#00ff41' }}>
+              MYCHEATCODE.AI
             </h1>
             <p className="text-zinc-400 text-lg">
-              Your AI Basketball Confidence Coach
+              AI Basketball Confidence Coach
             </p>
           </div>
         </div>
