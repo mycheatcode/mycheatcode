@@ -190,8 +190,7 @@ export default function LoginPage() {
         <div className="w-1/2 bg-black flex flex-col justify-center p-12">
           <div className="max-w-md mx-auto w-full">
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2">Sign In</h2>
-              <p className="text-zinc-400">Your AI basketball confidence coach. Build custom cheat codes for peak performance.</p>
+              <h2 className="text-3xl font-bold text-white mb-2">Welcome</h2>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
