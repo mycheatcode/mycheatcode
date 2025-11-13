@@ -84,7 +84,9 @@ export default function LoginPage() {
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </Link>
-            <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
+            <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
+              MYCHEATCODE.AI
+            </div>
             <div className="w-8 h-8"></div>
           </div>
         </div>
@@ -93,7 +95,7 @@ export default function LoginPage() {
         <div className="flex-1 flex flex-col justify-center p-6">
           <div className="mb-8 text-center">
             <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-zinc-400 text-sm">Sign in to continue your mental performance journey</p>
+            <p className="text-zinc-400 text-sm">Sign in to continue building your confidence</p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
@@ -183,11 +185,19 @@ export default function LoginPage() {
       <div className="hidden lg:flex min-h-screen">
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold text-white mb-4">mycheatcode.ai</h1>
-            <p className="text-zinc-400 text-lg leading-relaxed">
-              Your personal mental performance coach.<br/>
-              Build custom cheat codes for peak performance.
+          <div className="text-center max-w-md">
+            <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
+              MYCHEATCODE.AI
+            </h1>
+            <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
+              Build on court confidence
+            </p>
+            <h2 className="text-4xl font-bold text-white mb-8 leading-tight">
+              The First AI Basketball<br/>
+              Confidence Coach
+            </h2>
+            <p className="text-zinc-400 text-base leading-relaxed">
+              Master the mental game of basketball and unlock your full potential on the court.
             </p>
           </div>
         </div>
@@ -203,7 +213,7 @@ export default function LoginPage() {
                 Back to Home
               </Link>
               <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-              <p className="text-zinc-400">Sign in to continue your mental performance journey</p>
+              <p className="text-zinc-400">Sign in to continue building your confidence</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-6">
