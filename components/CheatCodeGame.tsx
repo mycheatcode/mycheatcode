@@ -108,7 +108,9 @@ export default function CheatCodeGame({
       const remainingTime = Math.max(0, minLoadTime - elapsedTime);
 
       setTimeout(() => {
-        setScenarios(ONBOARDING_GAME_SCENARIOS[onboardingScenarioId]);
+        // Use only the first 3 scenarios for onboarding practice games
+        const allScenarios = ONBOARDING_GAME_SCENARIOS[onboardingScenarioId];
+        setScenarios(allScenarios.slice(0, 3));
         setLoading(false);
       }, remainingTime);
       return;
@@ -319,6 +321,28 @@ export default function CheatCodeGame({
 
   const submitGameSession = async () => {
     try {
+      // If this is an onboarding game, create a mock result instead of submitting to API
+      if (onboardingScenarioId) {
+        console.log('Onboarding game complete - creating mock result');
+        const mockResult: GameSessionResult = {
+          session_id: 'onboarding-session',
+          score: score,
+          total_questions: scenarios.length,
+          momentum_awarded: 0, // No momentum during onboarding
+          is_first_play: true,
+          previous_momentum: 0,
+          new_momentum: 0,
+        };
+
+        setResult(mockResult);
+        setGameComplete(true);
+        if (onComplete) {
+          onComplete(mockResult);
+        }
+        return;
+      }
+
+      // Otherwise, submit to API for regular games
       const response = await fetch('/api/game/submit-session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
