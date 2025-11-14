@@ -10,43 +10,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   airball_laugh: [
     {
       id: 'airball_1',
-      scenario: "You just airballed a wide-open three in front of the home crowd. What's your immediate thought?",
+      cheat_code_id: 'airball_laugh',
+      user_id: 'onboarding',
+      situation: "You just airballed a wide-open three in front of the home crowd.",
+      current_thought: "That was embarrassing, everyone saw that",
       options: [
-        { id: 'a', text: "That was embarrassing, everyone saw that", isCorrect: false, feedback: "Dwelling on embarrassment keeps you stuck. Next play mentality means immediate reset." },
-        { id: 'b', text: "Next play", isCorrect: true, feedback: "Perfect! You're not dwelling—you're moving forward instantly." },
-        { id: 'c', text: "I should probably pass more now", isCorrect: false, feedback: "Don't change your game because of one miss. Stay aggressive with next play mentality." },
-        { id: 'd', text: "Coach is going to sub me out", isCorrect: false, feedback: "That's future-thinking anxiety. Stay present: next play." }
-      ]
+        { text: "Next play", type: 'optimal', feedback: "Perfect! You're not dwelling—you're moving forward instantly." },
+        { text: "I should probably pass more now", type: 'negative', feedback: "Don't change your game because of one miss. Stay aggressive with next play mentality." },
+        { text: "Coach is going to sub me out", type: 'negative', feedback: "That's future-thinking anxiety. Stay present: next play." },
+        { text: "Shake it off and focus on defense", type: 'helpful', feedback: "Good reset, but the optimal response is even simpler: just 'next play.'" }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'airball_2',
-      scenario: "After a turnover, you hear someone in the stands laugh. How do you respond mentally?",
+      cheat_code_id: 'airball_laugh',
+      user_id: 'onboarding',
+      situation: "After a turnover, you hear someone in the stands laugh.",
+      current_thought: "Everyone's judging me right now",
       options: [
-        { id: 'a', text: "Shake it off and get back on defense", isCorrect: true, feedback: "Exactly! Physical reset helps trigger the mental reset. Next play." },
-        { id: 'b', text: "Try to make up for it immediately", isCorrect: false, feedback: "Forcing plays to 'make up' for mistakes creates more mistakes. Just play the next play." },
-        { id: 'c', text: "Wonder what they're thinking about me", isCorrect: false, feedback: "External opinions don't help your game. Focus on the next play." },
-        { id: 'd', text: "Get frustrated and play harder", isCorrect: false, feedback: "Emotion without control isn't helpful. Stay composed: next play." }
-      ]
+        { text: "Shake it off and get back on defense", type: 'optimal', feedback: "Exactly! Physical reset helps trigger the mental reset. Next play." },
+        { text: "Try to make up for it immediately", type: 'negative', feedback: "Forcing plays to 'make up' for mistakes creates more mistakes. Just play the next play." },
+        { text: "Wonder what they're thinking about me", type: 'negative', feedback: "External opinions don't help your game. Focus on the next play." },
+        { text: "Take a deep breath and refocus", type: 'helpful', feedback: "Breathing helps, but immediate action (getting back on D) is even better." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     },
     {
       id: 'airball_3',
-      scenario: "You miss a crucial free throw late in the game. What do you tell yourself?",
+      cheat_code_id: 'airball_laugh',
+      user_id: 'onboarding',
+      situation: "You miss a crucial free throw late in the game.",
+      current_thought: "I always choke under pressure",
       options: [
-        { id: 'a', text: "I always choke under pressure", isCorrect: false, feedback: "That's a identity statement that becomes self-fulfilling. Use next play mentality." },
-        { id: 'b', text: "Get back and play defense", isCorrect: true, feedback: "Perfect! The free throw is done. Next play is defense." },
-        { id: 'c', text: "I need to make the next one", isCorrect: false, feedback: "That's pressure-building. Just focus on the immediate next play, which is defense." },
-        { id: 'd', text: "This game is over", isCorrect: false, feedback: "Game's not over until it's over. Next play mentality keeps you in it." }
-      ]
+        { text: "Get back and play defense", type: 'optimal', feedback: "Perfect! The free throw is done. Next play is defense." },
+        { text: "I need to make the next one", type: 'negative', feedback: "That's pressure-building. Just focus on the immediate next play, which is defense." },
+        { text: "This game is over", type: 'negative', feedback: "Game's not over until it's over. Next play mentality keeps you in it." },
+        { text: "Stay aggressive, I'll get another chance", type: 'helpful', feedback: "Good mindset, but the immediate next play is defense. Lock in there first." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'airball_4',
-      scenario: "After getting blocked hard, what's your first thought?",
+      cheat_code_id: 'airball_laugh',
+      user_id: 'onboarding',
+      situation: "You just got blocked hard on a drive to the basket.",
+      current_thought: "That's on video forever, everyone saw me get embarrassed",
       options: [
-        { id: 'a', text: "That's on video forever", isCorrect: false, feedback: "You're thinking about the past. Next play mentality means immediate forward focus." },
-        { id: 'b', text: "Next opportunity to attack", isCorrect: true, feedback: "Yes! You're already thinking about your next chance. That's next play mentality." },
-        { id: 'c', text: "I shouldn't drive on them again", isCorrect: false, feedback: "Don't let one play change your aggressiveness. Next play." },
-        { id: 'd', text: "Everyone saw that", isCorrect: false, feedback: "External focus keeps you stuck. Get back to next play mentality." }
-      ]
+        { text: "Next opportunity to attack", type: 'optimal', feedback: "Yes! You're already thinking about your next chance. That's next play mentality." },
+        { text: "I shouldn't drive on them again", type: 'negative', feedback: "Don't let one play change your aggressiveness. Next play." },
+        { text: "Everyone saw that", type: 'negative', feedback: "External focus keeps you stuck. Get back to next play mentality." },
+        { text: "Learn from it and move on", type: 'helpful', feedback: "Learning is good, but 'next opportunity to attack' shows true next play aggression." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -54,43 +74,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   coach_yells: [
     {
       id: 'coach_1',
-      scenario: "Coach yells 'What are you doing?!' after a mistake. What do you focus on?",
+      cheat_code_id: 'coach_yells',
+      user_id: 'onboarding',
+      situation: "Coach yells 'What are you doing?!' after a mistake.",
+      current_thought: "They're so mad at me, I messed up again",
       options: [
-        { id: 'a', text: "The emotion in their voice", isCorrect: false, feedback: "The emotion is noise. Filter for the instruction underneath." },
-        { id: 'b', text: "What specific action needs to change", isCorrect: true, feedback: "Perfect! You're filtering for the useful instruction. Take what helps, leave the rest." },
-        { id: 'c', text: "Whether they're mad at me personally", isCorrect: false, feedback: "That's personalizing coaching. Filter for what helps your game." },
-        { id: 'd', text: "How loud they're being", isCorrect: false, feedback: "Volume doesn't equal value. Filter for the actual instruction." }
-      ]
+        { text: "What specific action needs to change", type: 'optimal', feedback: "Perfect! You're filtering for the useful instruction. Take what helps, leave the rest." },
+        { text: "The emotion in their voice", type: 'negative', feedback: "The emotion is noise. Filter for the instruction underneath." },
+        { text: "Whether they're mad at me personally", type: 'negative', feedback: "That's personalizing coaching. Filter for what helps your game." },
+        { text: "Try to stay calm and composed", type: 'helpful', feedback: "Staying calm is good, but actively filtering for the instruction is even better." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     },
     {
       id: 'coach_2',
-      scenario: "Coach criticizes your effort in front of the team. What's your response?",
+      cheat_code_id: 'coach_yells',
+      user_id: 'onboarding',
+      situation: "Coach criticizes your effort in front of the team.",
+      current_thought: "This is so embarrassing, everyone's watching me get called out",
       options: [
-        { id: 'a', text: "Feel embarrassed and defensive", isCorrect: false, feedback: "Emotions block the filter. Look for what you can actually use." },
-        { id: 'b', text: "Extract the valid point about effort level", isCorrect: true, feedback: "Exactly! You're filtering out the delivery, keeping the useful feedback." },
-        { id: 'c', text: "Think about how unfair that was", isCorrect: false, feedback: "Fairness thinking blocks learning. Filter for what helps." },
-        { id: 'd', text: "Worry about what teammates think", isCorrect: false, feedback: "That's social anxiety, not useful feedback. Filter for what improves your game." }
-      ]
+        { text: "Extract the valid point about effort level", type: 'optimal', feedback: "Exactly! You're filtering out the delivery, keeping the useful feedback." },
+        { text: "Feel embarrassed and defensive", type: 'negative', feedback: "Emotions block the filter. Look for what you can actually use." },
+        { text: "Think about how unfair that was", type: 'negative', feedback: "Fairness thinking blocks learning. Filter for what helps." },
+        { text: "Acknowledge and move on", type: 'helpful', feedback: "Moving on is good, but extracting the valid point shows true filtering." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     },
     {
       id: 'coach_3',
-      scenario: "Coach says 'You're playing scared!' What do you take from that?",
+      cheat_code_id: 'coach_yells',
+      user_id: 'onboarding',
+      situation: "Coach says 'You're playing scared!' in a harsh tone.",
+      current_thought: "They think I'm weak and not tough enough",
       options: [
-        { id: 'a', text: "They think I'm not tough enough", isCorrect: false, feedback: "You're interpreting character judgment. Filter for the behavioral instruction." },
-        { id: 'b', text: "I need to be more aggressive", isCorrect: true, feedback: "Yes! You filtered harsh language for clear, actionable direction." },
-        { id: 'c', text: "I should feel bad about myself", isCorrect: false, feedback: "Feeling bad doesn't help. Filter for what actually helps your game." },
-        { id: 'd', text: "They don't believe in me", isCorrect: false, feedback: "That's assumption-making. Filter for the actual coaching point." }
-      ]
+        { text: "I need to be more aggressive", type: 'optimal', feedback: "Yes! You filtered harsh language for clear, actionable direction." },
+        { text: "They think I'm not tough enough", type: 'negative', feedback: "You're interpreting character judgment. Filter for the behavioral instruction." },
+        { text: "I should feel bad about myself", type: 'negative', feedback: "Feeling bad doesn't help. Filter for what actually helps your game." },
+        { text: "Don't take it personally", type: 'helpful', feedback: "Not taking it personally is good, but extracting 'be more aggressive' is the full filter." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     },
     {
       id: 'coach_4',
-      scenario: "Coach snaps 'Move your feet!' in a harsh tone. What's the useful part?",
+      cheat_code_id: 'coach_yells',
+      user_id: 'onboarding',
+      situation: "Coach snaps 'Move your feet!' while you're already hustling.",
+      current_thought: "I am moving my feet, they're just frustrated with me",
       options: [
-        { id: 'a', text: "They're frustrated with me", isCorrect: false, feedback: "That's emotional interpretation. Filter for the technical instruction." },
-        { id: 'b', text: "My footwork needs adjustment", isCorrect: true, feedback: "Perfect! You extracted the useful technical feedback, left the emotional charge." },
-        { id: 'c', text: "I'm not playing well enough", isCorrect: false, feedback: "Too vague. Filter for the specific actionable instruction." },
-        { id: 'd', text: "The tone of their voice", isCorrect: false, feedback: "Tone is noise. Filter for the instruction that helps your game." }
-      ]
+        { text: "My footwork needs adjustment", type: 'optimal', feedback: "Perfect! You extracted the useful technical feedback, left the emotional charge." },
+        { text: "They're frustrated with me", type: 'negative', feedback: "That's emotional interpretation. Filter for the technical instruction." },
+        { text: "I'm not playing well enough", type: 'negative', feedback: "Too vague. Filter for the specific actionable instruction." },
+        { text: "Stay focused on my technique", type: 'helpful', feedback: "Good mindset, but 'footwork needs adjustment' is the specific filtered instruction." }
+      ],
+      scenario_type: 'external',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -98,43 +138,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   miss_spiral: [
     {
       id: 'miss_1',
-      scenario: "You're 5/7 from three, then miss your next shot. What's your mindset?",
+      cheat_code_id: 'miss_spiral',
+      user_id: 'onboarding',
+      situation: "You're 5/7 from three, then miss your next shot.",
+      current_thought: "I'm cooling off, maybe I should pass more",
       options: [
-        { id: 'a', text: "I'm cooling off, better pass more", isCorrect: false, feedback: "One miss doesn't mean you're cold. Shooters shoot." },
-        { id: 'b', text: "Shooters shoot - stay aggressive", isCorrect: true, feedback: "Exactly! You're not letting one miss change your identity as a scorer." },
-        { id: 'c', text: "Don't want to mess up my percentage", isCorrect: false, feedback: "Stats thinking kills aggression. Shooters shoot." },
-        { id: 'd', text: "Maybe I should drive instead", isCorrect: false, feedback: "Don't abandon what's working. Keep your shooter's mentality." }
-      ]
+        { text: "Shooters shoot - stay aggressive", type: 'optimal', feedback: "Exactly! You're not letting one miss change your identity as a scorer." },
+        { text: "I'm cooling off, better pass more", type: 'negative', feedback: "One miss doesn't mean you're cold. Shooters shoot." },
+        { text: "Don't want to mess up my percentage", type: 'negative', feedback: "Stats thinking kills aggression. Shooters shoot." },
+        { text: "Take the next good look", type: 'helpful', feedback: "Taking good looks is fine, but 'shooters shoot' mentality keeps you fully aggressive." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'miss_2',
-      scenario: "After hitting 3 straight shots, you miss an open look. What now?",
+      cheat_code_id: 'miss_spiral',
+      user_id: 'onboarding',
+      situation: "After hitting 3 straight shots, you miss an open look.",
+      current_thought: "That broke my rhythm, I was feeling it and now it's gone",
       options: [
-        { id: 'a', text: "Get ready for my next shot", isCorrect: true, feedback: "Perfect! Short memory. You're staying in your shooter's mentality." },
-        { id: 'b', text: "Hope I get another chance soon", isCorrect: false, feedback: "Don't 'hope' for chances—demand the ball. Shooters shoot." },
-        { id: 'c', text: "That broke my rhythm", isCorrect: false, feedback: "Don't let one miss break anything. Shooters shoot through misses." },
-        { id: 'd', text: "Be more selective with shot selection", isCorrect: false, feedback: "Overthinking kills shooters. Trust your shot." }
-      ]
+        { text: "Get ready for my next shot", type: 'optimal', feedback: "Perfect! Short memory. You're staying in your shooter's mentality." },
+        { text: "Hope I get another chance soon", type: 'negative', feedback: "Don't 'hope' for chances—demand the ball. Shooters shoot." },
+        { text: "That broke my rhythm", type: 'negative', feedback: "Don't let one miss break anything. Shooters shoot through misses." },
+        { text: "Stay confident in my shot", type: 'helpful', feedback: "Confidence is good, but 'get ready for my next shot' shows active shooter mentality." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'miss_3',
-      scenario: "You miss two in a row after being hot. Your thought?",
+      cheat_code_id: 'miss_spiral',
+      user_id: 'onboarding',
+      situation: "You miss two in a row after being hot.",
+      current_thought: "I lost my touch, maybe I'm forcing it",
       options: [
-        { id: 'a', text: "Shooters shoot - next one's going in", isCorrect: true, feedback: "Yes! Shooter's amnesia. Bad misses don't predict future misses." },
-        { id: 'b', text: "I lost my touch", isCorrect: false, feedback: "Two misses doesn't mean lost touch. Shooters shoot." },
-        { id: 'c', text: "Let someone else shoot for a bit", isCorrect: false, feedback: "Don't defer when you're a shooter. Stay aggressive." },
-        { id: 'd', text: "I'm forcing it", isCorrect: false, feedback: "Don't overthink. Shooters shoot with confidence." }
-      ]
+        { text: "Shooters shoot - next one's going in", type: 'optimal', feedback: "Yes! Shooter's amnesia. Bad misses don't predict future misses." },
+        { text: "I lost my touch", type: 'negative', feedback: "Two misses doesn't mean lost touch. Shooters shoot." },
+        { text: "Let someone else shoot for a bit", type: 'negative', feedback: "Don't defer when you're a shooter. Stay aggressive." },
+        { text: "Trust my mechanics", type: 'helpful', feedback: "Trusting mechanics is good, but 'next one's going in' is pure shooter confidence." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'miss_4',
-      scenario: "After a miss, you're open again immediately. What do you do?",
+      cheat_code_id: 'miss_spiral',
+      user_id: 'onboarding',
+      situation: "After a miss, you're open again immediately.",
+      current_thought: "Should I shoot again or look to pass?",
       options: [
-        { id: 'a', text: "Shoot it without hesitation", isCorrect: true, feedback: "Perfect! No hesitation. That's shooter's mentality." },
-        { id: 'b', text: "Pump fake and drive instead", isCorrect: false, feedback: "Don't lose confidence in your shot. Shooters shoot." },
-        { id: 'c', text: "Look to pass first", isCorrect: false, feedback: "Open shot for a shooter means shoot. Don't overthink." },
-        { id: 'd', text: "Make sure it's a good shot", isCorrect: false, feedback: "Open shots for shooters ARE good shots. Shoot it." }
-      ]
+        { text: "Shoot it without hesitation", type: 'optimal', feedback: "Perfect! No hesitation. That's shooter's mentality." },
+        { text: "Pump fake and drive instead", type: 'negative', feedback: "Don't lose confidence in your shot. Shooters shoot." },
+        { text: "Look to pass first", type: 'negative', feedback: "Open shot for a shooter means shoot. Don't overthink." },
+        { text: "Make sure it's a good look", type: 'helpful', feedback: "Open looks ARE good looks for shooters. 'Shoot it' shows true confidence." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -142,43 +202,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   pressure_counting: [
     {
       id: 'pressure_1',
-      scenario: "Tie game, 10 seconds left, coach calls your number. Your thought?",
+      cheat_code_id: 'pressure_counting',
+      user_id: 'onboarding',
+      situation: "Tie game, 10 seconds left, coach calls your number for the final shot.",
+      current_thought: "What if I miss? Everyone will blame me",
       options: [
-        { id: 'a', text: "What if I miss?", isCorrect: false, feedback: "That's outcome fear. This is what you've trained for." },
-        { id: 'b', text: "This is what I've trained for", isCorrect: true, feedback: "Perfect! You're reframing pressure as opportunity. This is your moment." },
-        { id: 'c', text: "I hope I don't let everyone down", isCorrect: false, feedback: "External pressure thinking. Focus on your training." },
-        { id: 'd', text: "This is too much pressure", isCorrect: false, feedback: "Pressure is privilege. This is what you've trained for." }
-      ]
+        { text: "This is what I've trained for", type: 'optimal', feedback: "Perfect! You're reframing pressure as opportunity. This is your moment." },
+        { text: "What if I miss?", type: 'negative', feedback: "That's outcome fear. This is what you've trained for." },
+        { text: "I hope I don't let everyone down", type: 'negative', feedback: "External pressure thinking. Focus on your training." },
+        { text: "Trust my preparation", type: 'helpful', feedback: "Trusting preparation is good, but 'this is what I've trained for' is the full reframe." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'pressure_2',
-      scenario: "Playoff game, crowd is loud, all eyes on you. How do you feel?",
+      cheat_code_id: 'pressure_counting',
+      user_id: 'onboarding',
+      situation: "Playoff game, crowd is loud, all eyes on you as you step to the line.",
+      current_thought: "This pressure is overwhelming, everyone's watching",
       options: [
-        { id: 'a', text: "Privileged to be in this moment", isCorrect: true, feedback: "Yes! You're viewing pressure as privilege. This is what you've trained for." },
-        { id: 'b', text: "Nervous about the stakes", isCorrect: false, feedback: "Nerves are energy for what you've trained for. Reframe it." },
-        { id: 'c', text: "Worried about the outcome", isCorrect: false, feedback: "Outcome thinking creates anxiety. Focus on what you've trained for." },
-        { id: 'd', text: "Overwhelmed by the moment", isCorrect: false, feedback: "The moment is what you've trained for. It's your privilege." }
-      ]
+        { text: "Privileged to be in this moment", type: 'optimal', feedback: "Yes! You're viewing pressure as privilege. This is what you've trained for." },
+        { text: "Nervous about the stakes", type: 'negative', feedback: "Nerves are energy for what you've trained for. Reframe it." },
+        { text: "Worried about the outcome", type: 'negative', feedback: "Outcome thinking creates anxiety. Focus on what you've trained for." },
+        { text: "Focus on my routine", type: 'helpful', feedback: "Routine is good, but 'privileged to be here' is the mindset shift." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'pressure_3',
-      scenario: "Big shot coming up. What reminder helps most?",
+      cheat_code_id: 'pressure_counting',
+      user_id: 'onboarding',
+      situation: "Big shot coming up and you feel the pressure mounting.",
+      current_thought: "Don't think about it too much, just get it over with",
       options: [
-        { id: 'a', text: "Remember a practice rep of this exact shot", isCorrect: true, feedback: "Perfect! Connecting to your training builds confidence. This is what you've trained for." },
-        { id: 'b', text: "Don't think about it too much", isCorrect: false, feedback: "Better to think about your training. This is what you've trained for." },
-        { id: 'c', text: "Just get it over with", isCorrect: false, feedback: "That's avoidance. Embrace what you've trained for." },
-        { id: 'd', text: "Try to stay calm", isCorrect: false, feedback: "Don't fight the energy—channel it into what you've trained for." }
-      ]
+        { text: "Remember a practice rep of this exact shot", type: 'optimal', feedback: "Perfect! Connecting to your training builds confidence. This is what you've trained for." },
+        { text: "Don't think about it too much", type: 'negative', feedback: "Better to think about your training. This is what you've trained for." },
+        { text: "Just get it over with", type: 'negative', feedback: "That's avoidance. Embrace what you've trained for." },
+        { text: "Stay calm and breathe", type: 'helpful', feedback: "Breathing helps, but connecting to specific training reps is even more powerful." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'pressure_4',
-      scenario: "Free throws to win the game. What's your self-talk?",
+      cheat_code_id: 'pressure_counting',
+      user_id: 'onboarding',
+      situation: "Free throws to win the game with 2 seconds left.",
+      current_thought: "Everyone's watching, don't miss",
       options: [
-        { id: 'a', text: "I've made thousands of these in practice", isCorrect: true, feedback: "Exactly! Connecting to training builds confidence. This is what you've trained for." },
-        { id: 'b', text: "Don't miss", isCorrect: false, feedback: "Negative command doesn't help. Think about what you've trained for." },
-        { id: 'c', text: "Everyone's watching", isCorrect: false, feedback: "External focus creates pressure. Focus on what you've trained for." },
-        { id: 'd', text: "Just make these", isCorrect: false, feedback: "Too general. Connect to specific training. This is what you've trained for." }
-      ]
+        { text: "I've made thousands of these in practice", type: 'optimal', feedback: "Exactly! Connecting to training builds confidence. This is what you've trained for." },
+        { text: "Don't miss", type: 'negative', feedback: "Negative command doesn't help. Think about what you've trained for." },
+        { text: "Everyone's watching", type: 'negative', feedback: "External focus creates pressure. Focus on what you've trained for." },
+        { text: "Execute my routine", type: 'helpful', feedback: "Routine is good, but referencing specific training reps is more grounding." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -186,43 +266,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   better_opponent: [
     {
       id: 'opponent_1',
-      scenario: "Matched against a player who's clearly better. Your mindset?",
+      cheat_code_id: 'better_opponent',
+      user_id: 'onboarding',
+      situation: "You're matched against a player who's clearly more skilled than you.",
+      current_thought: "Just try not to embarrass myself out here",
       options: [
-        { id: 'a', text: "Just try not to embarrass myself", isCorrect: false, feedback: "Playing not to lose creates hesitation. Play free, play fearless." },
-        { id: 'b', text: "Nobody expects me to win—attack!", isCorrect: true, feedback: "Perfect! You're using underdog freedom. Play free, play fearless." },
-        { id: 'c', text: "Hope they have an off game", isCorrect: false, feedback: "That's passive thinking. You have nothing to lose—play fearless." },
-        { id: 'd', text: "Try to limit the damage", isCorrect: false, feedback: "Defensive thinking holds you back. Play free, play fearless." }
-      ]
+        { text: "Nobody expects me to win—attack!", type: 'optimal', feedback: "Perfect! You're using underdog freedom. Play free, play fearless." },
+        { text: "Just try not to embarrass myself", type: 'negative', feedback: "Playing not to lose creates hesitation. Play free, play fearless." },
+        { text: "Hope they have an off game", type: 'negative', feedback: "That's passive thinking. You have nothing to lose—play fearless." },
+        { text: "Give it my best effort", type: 'helpful', feedback: "Best effort is good, but 'nobody expects me to win' unlocks true freedom." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'opponent_2',
-      scenario: "Playing up a level against better competition. What's the advantage?",
+      cheat_code_id: 'better_opponent',
+      user_id: 'onboarding',
+      situation: "Playing up a level against significantly better competition.",
+      current_thought: "I'm outmatched, there's no advantage here",
       options: [
-        { id: 'a', text: "They expect me to lose anyway", isCorrect: true, feedback: "Exactly! Low expectations = total freedom. Play free, play fearless." },
-        { id: 'b', text: "I might learn something", isCorrect: false, feedback: "Learning is good, but the real advantage is freedom. Play fearless." },
-        { id: 'c', text: "There isn't one, they're just better", isCorrect: false, feedback: "Underdog status IS the advantage. You have nothing to lose." },
-        { id: 'd', text: "I can surprise them", isCorrect: false, feedback: "Don't play to surprise—play free because you have nothing to lose." }
-      ]
+        { text: "They expect me to lose anyway", type: 'optimal', feedback: "Exactly! Low expectations = total freedom. Play free, play fearless." },
+        { text: "I might learn something", type: 'helpful', feedback: "Learning is good, but the real advantage is freedom. Play fearless." },
+        { text: "There isn't one, they're just better", type: 'negative', feedback: "Underdog status IS the advantage. You have nothing to lose." },
+        { text: "Maybe I can surprise them", type: 'helpful', feedback: "Good mindset, but 'they expect me to lose' is the freeing truth." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'opponent_3',
-      scenario: "Down 15 points against a better team. Your approach?",
+      cheat_code_id: 'better_opponent',
+      user_id: 'onboarding',
+      situation: "Down 15 points against a better team with 8 minutes left.",
+      current_thought: "This is basically over, just don't get blown out",
       options: [
-        { id: 'a', text: "Play with complete freedom—nothing to lose", isCorrect: true, feedback: "Yes! When you're supposed to lose, you're free to play fearlessly." },
-        { id: 'b', text: "Accept the loss and play careful", isCorrect: false, feedback: "Never accept loss. Use the freedom of nothing to lose." },
-        { id: 'c', text: "Get frustrated at the deficit", isCorrect: false, feedback: "Frustration doesn't help. Use your underdog freedom." },
-        { id: 'd', text: "Try different things randomly", isCorrect: false, feedback: "Not random—play your game with total fearlessness." }
-      ]
+        { text: "Play with complete freedom—nothing to lose", type: 'optimal', feedback: "Yes! When you're supposed to lose, you're free to play fearlessly." },
+        { text: "Accept the loss and play careful", type: 'negative', feedback: "Never accept loss. Use the freedom of nothing to lose." },
+        { text: "Get frustrated at the deficit", type: 'negative', feedback: "Frustration doesn't help. Use your underdog freedom." },
+        { text: "Keep fighting", type: 'helpful', feedback: "Fighting spirit is good, but 'complete freedom' is the unlock." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'opponent_4',
-      scenario: "Facing the league's best defender. What's your edge?",
+      cheat_code_id: 'better_opponent',
+      user_id: 'onboarding',
+      situation: "Facing the league's best defender one-on-one.",
+      current_thought: "They're going to lock me up, I should avoid them",
       options: [
-        { id: 'a', text: "Zero pressure—I'm supposed to lose", isCorrect: true, feedback: "Perfect! All the pressure is on them. Play free, play fearless." },
-        { id: 'b', text: "Try to avoid them", isCorrect: false, feedback: "Don't avoid the challenge. You have nothing to lose—attack!" },
-        { id: 'c', text: "Hope for a bad matchup", isCorrect: false, feedback: "Take the matchup fearlessly. Nothing to lose means everything to gain." },
-        { id: 'd', text: "Play conservative to not look bad", isCorrect: false, feedback: "Conservative play wastes your underdog freedom. Play fearless." }
-      ]
+        { text: "Zero pressure—I'm supposed to lose", type: 'optimal', feedback: "Perfect! All the pressure is on them. Play free, play fearless." },
+        { text: "Try to avoid them", type: 'negative', feedback: "Don't avoid the challenge. You have nothing to lose—attack!" },
+        { text: "Hope for a bad matchup", type: 'negative', feedback: "Take the matchup fearlessly. Nothing to lose means everything to gain." },
+        { text: "Play smart and pick my spots", type: 'helpful', feedback: "Playing smart is fine, but 'zero pressure' unlocks true aggression." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -230,43 +330,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   mistake_replaying: [
     {
       id: 'mistake_1',
-      scenario: "You made a bad pass that led to a turnover. Quick response?",
+      cheat_code_id: 'mistake_replaying',
+      user_id: 'onboarding',
+      situation: "You made a bad pass that led to a fast-break turnover.",
+      current_thought: "I need to replay that and understand what I did wrong",
       options: [
-        { id: 'a', text: "Replay it in my head to understand", isCorrect: false, feedback: "Replaying is dwelling. Extract the lesson: Noted, next." },
-        { id: 'b', text: "Note: check defender position, then move on", isCorrect: true, feedback: "Perfect! You got the lesson (check defender) and released it. Noted, next." },
-        { id: 'c', text: "Analyze every detail of the play", isCorrect: false, feedback: "Over-analysis is dwelling. One lesson: Noted, next." },
-        { id: 'd', text: "Just forget about it completely", isCorrect: false, feedback: "Don't forget—learn first. Then release. Noted, next." }
-      ]
+        { text: "Note: check defender position, then move on", type: 'optimal', feedback: "Perfect! You got the lesson (check defender) and released it. Noted, next." },
+        { text: "Replay it in my head to understand", type: 'negative', feedback: "Replaying is dwelling. Extract the lesson: Noted, next." },
+        { text: "Analyze every detail of the play", type: 'negative', feedback: "Over-analysis is dwelling. One lesson: Noted, next." },
+        { text: "Learn from it", type: 'helpful', feedback: "Learning is right, but 'noted + specific lesson + move on' is the complete process." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'mistake_2',
-      scenario: "Missed a rotation on defense. What's your process?",
+      cheat_code_id: 'mistake_replaying',
+      user_id: 'onboarding',
+      situation: "Missed a defensive rotation and gave up an easy basket.",
+      current_thought: "I should have seen that coming, what was I thinking?",
       options: [
-        { id: 'a', text: "Quick lesson: Stay connected to my man. Next play.", isCorrect: true, feedback: "Exactly! Fast extraction: Noted (stay connected), then next." },
-        { id: 'b', text: "Worry about what coach thinks", isCorrect: false, feedback: "That's not learning. Extract the lesson: Noted, next." },
-        { id: 'c', text: "Keep thinking about it all quarter", isCorrect: false, feedback: "That's dwelling, not learning. Noted, next." },
-        { id: 'd', text: "Hope it doesn't happen again", isCorrect: false, feedback: "Hope isn't learning. Note the lesson, then move on." }
-      ]
+        { text: "Quick lesson: Stay connected to my man. Next play.", type: 'optimal', feedback: "Exactly! Fast extraction: Noted (stay connected), then next." },
+        { text: "Worry about what coach thinks", type: 'negative', feedback: "That's not learning. Extract the lesson: Noted, next." },
+        { text: "Keep thinking about it all quarter", type: 'negative', feedback: "That's dwelling, not learning. Noted, next." },
+        { text: "Don't make that mistake again", type: 'helpful', feedback: "Right intention, but the specific lesson 'stay connected' is better than generic 'don't.'" }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'mistake_3',
-      scenario: "Took a bad shot. What's the one-lesson takeaway?",
+      cheat_code_id: 'mistake_replaying',
+      user_id: 'onboarding',
+      situation: "Took a contested three early in the shot clock.",
+      current_thought: "That was so stupid, what was I thinking taking that shot?",
       options: [
-        { id: 'a', text: "Noted: Better shot selection. Next.", isCorrect: true, feedback: "Perfect! One lesson extracted (shot selection), then released. Noted, next." },
-        { id: 'b', text: "That was so stupid, what was I thinking", isCorrect: false, feedback: "That's shame, not learning. Extract lesson: Noted, next." },
-        { id: 'c', text: "Replay the whole possession mentally", isCorrect: false, feedback: "Too much replay. One lesson, then next play." },
-        { id: 'd', text: "Don't shoot for a while", isCorrect: false, feedback: "Don't change your game. Learn: Noted, next." }
-      ]
+        { text: "Noted: Better shot selection. Next.", type: 'optimal', feedback: "Perfect! One lesson extracted (shot selection), then released. Noted, next." },
+        { text: "That was so stupid, what was I thinking", type: 'negative', feedback: "That's shame, not learning. Extract lesson: Noted, next." },
+        { text: "Replay the whole possession mentally", type: 'negative', feedback: "Too much replay. One lesson, then next play." },
+        { text: "Be smarter next time", type: 'helpful', feedback: "Right idea, but 'shot selection' is more specific than 'be smarter.'" }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'mistake_4',
-      scenario: "Blew an easy layup. Fast lesson extraction?",
+      cheat_code_id: 'mistake_replaying',
+      user_id: 'onboarding',
+      situation: "Blew an easy layup by looking away too early.",
+      current_thought: "I always miss those easy ones, I need to figure out why",
       options: [
-        { id: 'a', text: "Noted: Keep eyes on rim. Next.", isCorrect: true, feedback: "Yes! Quick extraction (eyes on rim), immediate release. Noted, next." },
-        { id: 'b', text: "I always miss those", isCorrect: false, feedback: "That's identity damage, not learning. Noted, next." },
-        { id: 'c', text: "Keep replaying it to see what happened", isCorrect: false, feedback: "Replaying is dwelling. Extract once: Noted, next." },
-        { id: 'd', text: "Feel bad about missing an easy one", isCorrect: false, feedback: "Feeling bad isn't learning. Note the lesson, move forward." }
-      ]
+        { text: "Noted: Keep eyes on rim. Next.", type: 'optimal', feedback: "Yes! Quick extraction (eyes on rim), immediate release. Noted, next." },
+        { text: "I always miss those", type: 'negative', feedback: "That's identity damage, not learning. Noted, next." },
+        { text: "Keep replaying it to see what happened", type: 'negative', feedback: "Replaying is dwelling. Extract once: Noted, next." },
+        { text: "Focus better on finishes", type: 'helpful', feedback: "Good direction, but 'eyes on rim' is the specific extraction." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -274,43 +394,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   overthinking: [
     {
       id: 'overthink_1',
-      scenario: "You're analyzing every decision before making it. What's the fix?",
+      cheat_code_id: 'overthinking',
+      user_id: 'onboarding',
+      situation: "You're analyzing every decision before making it and playing slowly.",
+      current_thought: "I need to think this through more carefully",
       options: [
-        { id: 'a', text: "Just make the next play on instinct", isCorrect: true, feedback: "Exactly! Stop thinking, start playing. Trust your training." },
-        { id: 'b', text: "Think it through more carefully", isCorrect: false, feedback: "More thinking makes it worse. Stop thinking, start playing." },
-        { id: 'c', text: "Try to slow down my thoughts", isCorrect: false, feedback: "Don't manage thoughts—bypass them. Stop thinking, start playing." },
-        { id: 'd', text: "Focus on playing smarter", isCorrect: false, feedback: "'Smarter' is more thinking. Stop thinking, start playing." }
-      ]
+        { text: "Just make the next play on instinct", type: 'optimal', feedback: "Exactly! Stop thinking, start playing. Trust your training." },
+        { text: "Think it through more carefully", type: 'negative', feedback: "More thinking makes it worse. Stop thinking, start playing." },
+        { text: "Try to slow down my thoughts", type: 'negative', feedback: "Don't manage thoughts—bypass them. Stop thinking, start playing." },
+        { text: "Trust my gut", type: 'helpful', feedback: "Trusting gut is good, but 'make the next play on instinct' is immediate action." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'overthink_2',
-      scenario: "Feeling slow because you're processing too much. Solution?",
+      cheat_code_id: 'overthinking',
+      user_id: 'onboarding',
+      situation: "Feeling slow because you're processing too much information.",
+      current_thought: "I need to think faster to keep up",
       options: [
-        { id: 'a', text: "Stop thinking, start playing", isCorrect: true, feedback: "Perfect! Your body knows what to do. Let it play." },
-        { id: 'b', text: "Try to think faster", isCorrect: false, feedback: "Conscious thinking is always too slow. Stop thinking, start playing." },
-        { id: 'c', text: "Focus harder on the details", isCorrect: false, feedback: "Details are for practice. In games: Stop thinking, start playing." },
-        { id: 'd', text: "Make a mental checklist", isCorrect: false, feedback: "Checklists are thinking. Stop thinking, start playing." }
-      ]
+        { text: "Stop thinking, start playing", type: 'optimal', feedback: "Perfect! Your body knows what to do. Let it play." },
+        { text: "Try to think faster", type: 'negative', feedback: "Conscious thinking is always too slow. Stop thinking, start playing." },
+        { text: "Focus harder on the details", type: 'negative', feedback: "Details are for practice. In games: Stop thinking, start playing." },
+        { text: "Simplify my approach", type: 'helpful', feedback: "Simplifying helps, but 'stop thinking, start playing' is the full unlock." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'overthink_3',
-      scenario: "Second-guessing every move. What unlocks you?",
+      cheat_code_id: 'overthinking',
+      user_id: 'onboarding',
+      situation: "Second-guessing every move you make on the court.",
+      current_thought: "Should I shoot or pass? Drive or pull up? I can't decide",
       options: [
-        { id: 'a', text: "Trust my instincts completely", isCorrect: true, feedback: "Yes! Your instincts are trained. Stop thinking, start playing." },
-        { id: 'b', text: "Analyze why I'm second-guessing", isCorrect: false, feedback: "That's more analysis. Stop thinking, start playing." },
-        { id: 'c', text: "Be more decisive with my thinking", isCorrect: false, feedback: "It's the thinking that's the problem. Stop thinking, start playing." },
-        { id: 'd', text: "Plan my next three moves", isCorrect: false, feedback: "Planning is overthinking. Stop thinking, start playing." }
-      ]
+        { text: "Trust my instincts completely", type: 'optimal', feedback: "Yes! Your instincts are trained. Stop thinking, start playing." },
+        { text: "Analyze why I'm second-guessing", type: 'negative', feedback: "That's more analysis. Stop thinking, start playing." },
+        { text: "Be more decisive with my thinking", type: 'negative', feedback: "It's the thinking that's the problem. Stop thinking, start playing." },
+        { text: "React naturally", type: 'helpful', feedback: "Natural reaction is right, but 'trust instincts' is more active." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'overthink_4',
-      scenario: "Caught between multiple options, paralyzed. What breaks it?",
+      cheat_code_id: 'overthinking',
+      user_id: 'onboarding',
+      situation: "Caught between multiple options, paralyzed by indecision.",
+      current_thought: "I need to weigh all the options and make the perfect choice",
       options: [
-        { id: 'a', text: "Pick one and go—no more thinking", isCorrect: true, feedback: "Perfect! Decision + action. Stop thinking, start playing." },
-        { id: 'b', text: "Weigh the pros and cons", isCorrect: false, feedback: "That's analysis paralysis. Stop thinking, start playing." },
-        { id: 'c', text: "Think about what coach would want", isCorrect: false, feedback: "Still thinking. Just play. Stop thinking, start playing." },
-        { id: 'd', text: "Try to make the perfect choice", isCorrect: false, feedback: "Perfect doesn't exist in real-time. Stop thinking, start playing." }
-      ]
+        { text: "Pick one and go—no more thinking", type: 'optimal', feedback: "Perfect! Decision + action. Stop thinking, start playing." },
+        { text: "Weigh the pros and cons", type: 'negative', feedback: "That's analysis paralysis. Stop thinking, start playing." },
+        { text: "Think about what coach would want", type: 'negative', feedback: "Still thinking. Just play. Stop thinking, start playing." },
+        { text: "Go with my first instinct", type: 'helpful', feedback: "First instinct is good, but 'pick one and go' emphasizes the action." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ],
 
@@ -318,43 +458,63 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
   faking_confidence: [
     {
       id: 'fake_1',
-      scenario: "Don't feel confident but need to play like it. What do you do?",
+      cheat_code_id: 'faking_confidence',
+      user_id: 'onboarding',
+      situation: "Don't feel confident but need to play like you are.",
+      current_thought: "I need to wait until I actually feel confident first",
       options: [
-        { id: 'a', text: "Wait until I feel confident first", isCorrect: false, feedback: "Feelings follow action. Act confident, play confident now." },
-        { id: 'b', text: "Stand tall and move with purpose now", isCorrect: true, feedback: "Perfect! Body language creates the feeling. Act confident, play confident." },
-        { id: 'c', text: "Try to think myself into confidence", isCorrect: false, feedback: "Thinking rarely creates confidence. Body language does. Act it." },
-        { id: 'd', text: "Admit I'm not confident", isCorrect: false, feedback: "Don't wait for the feeling. Act confident, play confident." }
-      ]
+        { text: "Stand tall and move with purpose now", type: 'optimal', feedback: "Perfect! Body language creates the feeling. Act confident, play confident." },
+        { text: "Wait until I feel confident first", type: 'negative', feedback: "Feelings follow action. Act confident, play confident now." },
+        { text: "Try to think myself into confidence", type: 'negative', feedback: "Thinking rarely creates confidence. Body language does. Act it." },
+        { text: "Fake it for now", type: 'helpful', feedback: "Right idea, but 'stand tall and move with purpose' is the specific action." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'fake_2',
-      scenario: "Everyone seems confident except you. Your move?",
+      cheat_code_id: 'faking_confidence',
+      user_id: 'onboarding',
+      situation: "Everyone around you seems confident except you.",
+      current_thought: "I wish I felt as confident as they look",
       options: [
-        { id: 'a', text: "Match their body language immediately", isCorrect: true, feedback: "Yes! Act confident externally, the feeling follows. Act confident, play confident." },
-        { id: 'b', text: "Wait until I feel like them", isCorrect: false, feedback: "You'll be waiting forever. Act first. Act confident, play confident." },
-        { id: 'c', text: "Fake it and feel guilty about it", isCorrect: false, feedback: "No guilt needed—this is how confidence builds. Act confident, play confident." },
-        { id: 'd', text: "Try to hide my lack of confidence", isCorrect: false, feedback: "Don't hide—actively project. Act confident, play confident." }
-      ]
+        { text: "Match their body language immediately", type: 'optimal', feedback: "Yes! Act confident externally, the feeling follows. Act confident, play confident." },
+        { text: "Wait until I feel like them", type: 'negative', feedback: "You'll be waiting forever. Act first. Act confident, play confident." },
+        { text: "Fake it and feel guilty about it", type: 'negative', feedback: "No guilt needed—this is how confidence builds. Act confident, play confident." },
+        { text: "Carry myself better", type: 'helpful', feedback: "Right direction, but 'match their body language' is more specific." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'fake_3',
-      scenario: "Worried you're 'just faking' confidence. Reality check?",
+      cheat_code_id: 'faking_confidence',
+      user_id: 'onboarding',
+      situation: "Worried you're 'just faking' confidence and it's not real.",
+      current_thought: "This isn't real confidence, I should wait for the genuine thing",
       options: [
-        { id: 'a', text: "Everyone builds confidence through action", isCorrect: true, feedback: "Exactly! Confidence IS a practice. Act confident, play confident." },
-        { id: 'b', text: "Real confidence comes naturally", isCorrect: false, feedback: "No—confidence is practiced. Act confident, play confident." },
-        { id: 'c', text: "I should wait for genuine confidence", isCorrect: false, feedback: "Action creates genuine confidence. Act confident, play confident." },
-        { id: 'd', text: "Faking it is dishonest", isCorrect: false, feedback: "It's not fake—it's practice. Act confident, play confident." }
-      ]
+        { text: "Everyone builds confidence through action", type: 'optimal', feedback: "Exactly! Confidence IS a practice. Act confident, play confident." },
+        { text: "Real confidence comes naturally", type: 'negative', feedback: "No—confidence is practiced. Act confident, play confident." },
+        { text: "I should wait for genuine confidence", type: 'negative', feedback: "Action creates genuine confidence. Act confident, play confident." },
+        { text: "Keep practicing it", type: 'helpful', feedback: "Practice is right, but 'everyone builds through action' normalizes the process." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     },
     {
       id: 'fake_4',
-      scenario: "Need to look confident before a big moment. What's the cue?",
+      cheat_code_id: 'faking_confidence',
+      user_id: 'onboarding',
+      situation: "Need to look confident before a big moment.",
+      current_thought: "I hope confidence kicks in naturally when I need it",
       options: [
-        { id: 'a', text: "Shoulders back, eye contact, purposeful walk", isCorrect: true, feedback: "Perfect! Physical confidence cues create mental confidence. Act confident, play confident." },
-        { id: 'b', text: "Try to feel confident inside first", isCorrect: false, feedback: "Inside follows outside. Body first. Act confident, play confident." },
-        { id: 'c', text: "Think positive thoughts", isCorrect: false, feedback: "Thoughts are slower than body language. Act confident, play confident." },
-        { id: 'd', text: "Hope confidence kicks in naturally", isCorrect: false, feedback: "Don't hope—act. Act confident, play confident." }
-      ]
+        { text: "Shoulders back, eye contact, purposeful walk", type: 'optimal', feedback: "Perfect! Physical confidence cues create mental confidence. Act confident, play confident." },
+        { text: "Try to feel confident inside first", type: 'negative', feedback: "Inside follows outside. Body first. Act confident, play confident." },
+        { text: "Think positive thoughts", type: 'negative', feedback: "Thoughts are slower than body language. Act confident, play confident." },
+        { text: "Project confidence", type: 'helpful', feedback: "Right idea, but the specific cues (shoulders, eyes, walk) are actionable." }
+      ],
+      scenario_type: 'internal',
+      created_at: new Date().toISOString()
     }
   ]
 };
