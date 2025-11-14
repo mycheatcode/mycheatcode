@@ -42,6 +42,9 @@ export default function Home() {
         // Use the rounded-down progress for display
         setProgressPercentage(progress.progress);
 
+        // ALWAYS set animatedProgress to current progress initially
+        setAnimatedProgress(progress.progress);
+
         // Check if coming from onboarding
         const isOnboardingComplete = searchParams.get('onboarding') === 'complete';
         const tutorialsCompleted = typeof window !== 'undefined'
@@ -94,13 +97,7 @@ export default function Home() {
                   }
                 }, duration / steps);
               }, 500);
-            } else {
-              // No gain, just show current progress
-              setAnimatedProgress(progress.progress);
             }
-          } else {
-            // First visit, just show current progress
-            setAnimatedProgress(progress.progress);
           }
           // Store current progress for next visit
           localStorage.setItem('lastHomePageProgress', progress.progress.toString());
@@ -115,7 +112,7 @@ export default function Home() {
       if (animationInterval) clearInterval(animationInterval);
       if (endAnimationTimeout) clearTimeout(endAnimationTimeout);
     };
-  }, [supabase]);
+  }, [supabase, searchParams, router]);
 
   useEffect(() => {
     // Always use dark mode
