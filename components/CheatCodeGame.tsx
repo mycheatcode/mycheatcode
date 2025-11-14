@@ -2,11 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import type { GameScenario, GameSessionResult } from '@/lib/types/game';
+import { ONBOARDING_GAME_SCENARIOS } from '@/lib/onboarding-game-scenarios';
 
 interface CheatCodeGameProps {
   cheatCodeId: string;
   cheatCodeTitle: string;
   isFirstPlay?: boolean;
+  onboardingScenarioId?: string; // If provided, use premade scenarios instead of fetching
   onComplete?: (result: GameSessionResult) => void;
   onClose?: () => void;
 }
@@ -36,6 +38,7 @@ export default function CheatCodeGame({
   cheatCodeId,
   cheatCodeTitle,
   isFirstPlay = false,
+  onboardingScenarioId,
   onComplete,
   onClose,
 }: CheatCodeGameProps) {
@@ -95,6 +98,23 @@ export default function CheatCodeGame({
 
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
+    // If we have an onboarding scenario ID, use premade scenarios
+    if (onboardingScenarioId && ONBOARDING_GAME_SCENARIOS[onboardingScenarioId]) {
+      console.log('Using premade onboarding scenarios for:', onboardingScenarioId);
+      const minLoadTime = 2000; // Minimum 2 seconds for onboarding
+      const startTime = Date.now();
+
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadTime - elapsedTime);
+
+      setTimeout(() => {
+        setScenarios(ONBOARDING_GAME_SCENARIOS[onboardingScenarioId]);
+        setLoading(false);
+      }, remainingTime);
+      return;
+    }
+
+    // Otherwise, fetch scenarios from API
     let retryCount = 0;
     const maxRetries = 25; // Increased retries for safety
     const retryDelay = 1500; // Faster retry - 1.5 seconds between retries
@@ -149,7 +169,7 @@ export default function CheatCodeGame({
 
     // Start fetching immediately - no initial delay
     fetchScenarios();
-  }, [cheatCodeId]);
+  }, [cheatCodeId, onboardingScenarioId]);
 
   // Fetch cheat code data for intro screen
   useEffect(() => {

@@ -555,6 +555,7 @@ export default function OnboardingPage() {
                     initialMessage={coachMessage}
                     userAnswer={ZONE_STATES.find(z => z.value === zoneState)?.label || zoneState}
                     scenarioCategory={SPECIFIC_SCENARIOS.find(s => s.value === specificScenario)?.category || 'In-Game'}
+                    scenarioId={specificScenario}
                     onComplete={handleChatComplete}
                     onBack={() => setStep(6)}
                   />

@@ -10,6 +10,7 @@ interface OnboardingChatWrapperProps {
   initialMessage: string;
   userAnswer: string; // The answer they gave in step 6 (zone state)
   scenarioCategory: string; // The category of the scenario (In-Game, Pre-Game, etc)
+  scenarioId: string; // The ID of the scenario (e.g., 'airball_laugh', 'coach_yells')
   onComplete: () => void;
   onBack?: () => void; // Function to go back to previous step
 }
@@ -19,6 +20,7 @@ export default function OnboardingChatWrapper({
   initialMessage,
   userAnswer,
   scenarioCategory,
+  scenarioId,
   onComplete,
   onBack
 }: OnboardingChatWrapperProps) {
@@ -248,21 +250,10 @@ export default function OnboardingChatWrapper({
                         <button
                           ref={getRepsButtonRef}
                           onClick={() => {
-                            console.log('Get Reps button clicked!', { parsedCode: !!parsedCode, savedCodeId });
-                            if (parsedCode && savedCodeId) {
+                            console.log('Get Reps button clicked!', { parsedCode: !!parsedCode });
+                            if (parsedCode) {
                               setShowGameModal(true);
                               setShowTutorial3(false);
-                            } else if (parsedCode) {
-                              // Code exists but not saved yet - wait and retry
-                              console.log('Code not saved yet, retrying in 500ms...');
-                              setTimeout(() => {
-                                if (savedCodeId) {
-                                  setShowGameModal(true);
-                                  setShowTutorial3(false);
-                                } else {
-                                  alert('Please wait for your code to finish saving...');
-                                }
-                              }, 500);
                             }
                           }}
                           className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
@@ -414,6 +405,7 @@ export default function OnboardingChatWrapper({
           cheatCodeId={savedCodeId || 'temp-onboarding-code'}
           cheatCodeTitle={parsedCode.title}
           isFirstPlay={true}
+          onboardingScenarioId={scenarioId}
           onClose={() => {
             setShowGameModal(false);
             // Complete onboarding after game is closed
