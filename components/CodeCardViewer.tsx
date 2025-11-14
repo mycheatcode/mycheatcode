@@ -435,12 +435,16 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
                     "{card.content}"
                   </p>
 
-                  {showSaveButton && onSave && (
+                  {showSaveButton && onSave && currentCard === allCards.length - 1 && (
                     <div className="space-y-3 lg:space-y-4">
                       <button
                         onClick={onSave}
                         className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
-                        style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                        style={{
+                          backgroundColor: '#00FF41',
+                          color: '#000000',
+                          boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
+                        }}
                       >
                         {saveButtonText}
                       </button>

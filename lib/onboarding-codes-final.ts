@@ -30,7 +30,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "next play" in your head',
       'Immediately look for your next defensive assignment or offensive opportunity'
     ],
-    why: 'Your brain wants to protect you from embarrassment by making you hyper-focus on the mistake. But dwelling on it actually makes you play worse. By forcing your attention to the next play, you break that mental loop and give yourself permission to move forward. The physical reset (breath + shoulder shake) interrupts the stress response in your body.'
+    why: 'Dwelling on mistakes makes you play worse. This breaks the mental loop and lets you move forward.'
   },
 
   // 2. Coach yells at you / Can't shake it off
@@ -46,7 +46,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Take what helps, leave the rest" in your head',
       'Apply the useful feedback, forget the emotional charge'
     ],
-    why: 'Not all coaches communicate perfectly. Some are intense, some yell, some say things they don\'t mean when frustrated. If you absorb everything emotionally, you\'ll be destroyed. If you reject everything defensively, you won\'t improve. This teaches you to be a smart filter - take the gold, leave the garbage.'
+    why: 'Not all coaches communicate perfectly. This teaches you to be a smart filter - take the gold, leave the garbage.'
   },
 
   // 3. Playing great, miss one shot and spiral
@@ -62,7 +62,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Shooters shoot" in your head with conviction',
       'Be ready for your next shooting opportunity and stay aggressive'
     ],
-    why: 'Great scorers have short memories and strong identities. They define themselves as "shooters" - people who shoot even when they miss. When you start second-guessing yourself after one miss, you stop being aggressive, which actually makes you cold. This code keeps your identity intact so your play style doesn\'t change.'
+    why: 'Great scorers have short memories. This keeps your identity as a shooter intact so you stay aggressive.'
   },
 
   // 4. Teammates counting on you / Feel the pressure
@@ -78,7 +78,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "This is what I\'ve trained for" in your head',
       'Remember a time in a previous practice or game when you executed this same play'
     ],
-    why: 'Pressure is just your body getting ready to perform. The physical feeling (elevated heart rate, heightened focus) is the same whether you\'re excited or anxious - the difference is how you interpret it. When you view pressure as a privilege (they trust you) and reminder of your preparation (you\'ve done this 1000 times), your nervous system works FOR you instead of against you.'
+    why: 'Pressure is just your body getting ready to perform. When you view it as a privilege and reminder of your prep, your nervous system works for you.'
   },
 
   // 5. Matched up against someone way better
@@ -94,7 +94,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Play free, play fearless" in your head',
       'Attack without hesitation - you have nothing to lose'
     ],
-    why: 'When you\'re supposed to lose, there\'s no pressure. But often we create pressure anyway ("don\'t get embarrassed"). This code uses underdog status as freedom - nobody expects anything, so you can play with zero fear. That\'s when upsets happen. You\'re loose, they\'re tight. You\'re free, they\'re feeling pressure. That\'s your advantage.'
+    why: 'Underdog status is freedom. Nobody expects anything, so you can play with zero fear - and that\'s when upsets happen.'
   },
 
   // 6. Made a mistake / Can't stop replaying it
@@ -110,7 +110,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Noted, next" in your head',
       'Apply that one thing on your next opportunity'
     ],
-    why: 'There\'s a difference between learning from mistakes and dwelling on them. Learning is quick extraction: what happened, what to do different. Dwelling is endless replay with no action. This code gets the value from the mistake (the lesson) while releasing the emotional weight. You keep the knowledge, lose the shame.'
+    why: 'Learning is quick extraction. Dwelling is endless replay. This gets the lesson while releasing the shame.'
   },
 
   // 7. In your head overthinking / Not just playing
@@ -126,7 +126,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Stop thinking, start playing" in your head',
       'Make your next move on pure instinct - no analysis'
     ],
-    why: 'Overthinking kills performance because your conscious brain is too slow. Your skills are stored in unconscious motor memory - they don\'t need supervision. When you shift from "thinking about playing" to "just playing," you access speed and flow that thinking blocks. This code is permission to trust your training and play free.'
+    why: 'Your conscious brain is too slow. Your skills are stored in muscle memory - they don\'t need supervision. Trust your training.'
   },
 
   // 8. Everyone seems confident / You're faking it
@@ -142,7 +142,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Act confident, play confident" in your head',
       'Keep acting confident even when you don\'t feel it yet'
     ],
-    why: 'Confidence isn\'t a feeling you wait for - it\'s a behavior you practice. Research shows that acting confident actually creates confident feelings (not the other way around). Your brain takes cues from your body. When you stand tall, speak clearly, move decisively - your brain thinks "oh, we must be confident" and starts producing those feelings. It\'s not fake, it\'s training.'
+    why: 'Confidence is a behavior you practice, not a feeling you wait for. Your brain takes cues from your body - act confident and you\'ll feel it.'
   }
 };
 

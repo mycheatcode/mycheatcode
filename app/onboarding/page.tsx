@@ -169,6 +169,11 @@ export default function OnboardingPage() {
     }
   };
 
+  // Scroll to top whenever step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step]);
+
   // Generate first cheat code when entering step 7
   useEffect(() => {
     if (step === 7 && !generatedCode && !generatingCode) {

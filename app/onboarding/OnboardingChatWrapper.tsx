@@ -69,8 +69,10 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial1 && viewCodeButtonRef.current) {
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
-      // Position tutorial above the button (window height - button top + some margin)
-      setTutorial1Position(window.innerHeight - rect.top + 20);
+      // Position tutorial above the button - calculate distance from bottom of viewport to top of button
+      // Add extra space to ensure tutorial is visible above button
+      const spaceAboveButton = window.innerHeight - rect.top;
+      setTutorial1Position(spaceAboveButton - 20);
     }
   }, [showTutorial1, messages, completedAnimations]);
 
@@ -245,9 +247,21 @@ export default function OnboardingChatWrapper({
                         <button
                           ref={getRepsButtonRef}
                           onClick={() => {
-                            if (parsedCode) {
+                            console.log('Get Reps button clicked!', { parsedCode: !!parsedCode, savedCodeId });
+                            if (parsedCode && savedCodeId) {
                               setShowGameModal(true);
                               setShowTutorial3(false);
+                            } else if (parsedCode) {
+                              // Code exists but not saved yet - wait and retry
+                              console.log('Code not saved yet, retrying in 500ms...');
+                              setTimeout(() => {
+                                if (savedCodeId) {
+                                  setShowGameModal(true);
+                                  setShowTutorial3(false);
+                                } else {
+                                  alert('Please wait for your code to finish saving...');
+                                }
+                              }, 500);
                             }
                           }}
                           className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
