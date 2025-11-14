@@ -11,6 +11,7 @@ interface OnboardingChatWrapperProps {
   userAnswer: string; // The answer they gave in step 6 (zone state)
   scenarioCategory: string; // The category of the scenario (In-Game, Pre-Game, etc)
   onComplete: () => void;
+  onBack?: () => void; // Function to go back to previous step
 }
 
 export default function OnboardingChatWrapper({
@@ -18,7 +19,8 @@ export default function OnboardingChatWrapper({
   initialMessage,
   userAnswer,
   scenarioCategory,
-  onComplete
+  onComplete,
+  onBack
 }: OnboardingChatWrapperProps) {
   const [messages, setMessages] = useState<Array<{ id: string; text: string; sender: 'user' | 'coach'; timestamp: Date }>>([]);
   const [viewingCode, setViewingCode] = useState<ParsedCheatCode | null>(null);
@@ -165,11 +167,10 @@ export default function OnboardingChatWrapper({
       <div className="px-6 py-5 flex-shrink-0" style={{ backgroundColor: '#000000' }}>
         <div className="flex items-center justify-center relative">
           <button
-            onClick={showGetRepsButton ? onComplete : undefined}
+            onClick={onBack}
             className="absolute left-0 p-2 rounded-lg transition-colors"
             style={{ color: 'var(--accent-color)' }}
             type="button"
-            disabled={!showGetRepsButton}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
@@ -408,9 +409,9 @@ export default function OnboardingChatWrapper({
       )}
 
       {/* Game Modal */}
-      {showGameModal && savedCodeId && parsedCode && (
+      {showGameModal && parsedCode && (
         <CheatCodeGame
-          cheatCodeId={savedCodeId}
+          cheatCodeId={savedCodeId || 'temp-onboarding-code'}
           cheatCodeTitle={parsedCode.title}
           isFirstPlay={true}
           onClose={() => {

@@ -556,6 +556,7 @@ export default function OnboardingPage() {
                     userAnswer={ZONE_STATES.find(z => z.value === zoneState)?.label || zoneState}
                     scenarioCategory={SPECIFIC_SCENARIOS.find(s => s.value === specificScenario)?.category || 'In-Game'}
                     onComplete={handleChatComplete}
+                    onBack={() => setStep(6)}
                   />
                 </div>
               ) : null}
