@@ -2,13 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ProgressCircles from '@/components/ProgressCircles';
 import { createClient } from '@/lib/supabase/client';
 import { getUserProgress, type ProgressData } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import Footer from '@/components/Footer';
 import FeedbackButton from '@/components/FeedbackButton';
+import OnboardingTutorials from '@/components/OnboardingTutorials';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -20,8 +21,10 @@ export default function Home() {
   const [momentumGain, setMomentumGain] = useState(0);
   const [animatedProgress, setAnimatedProgress] = useState(0);
   const [previousProgressValue, setPreviousProgressValue] = useState(0);
+  const [showOnboardingTutorials, setShowOnboardingTutorials] = useState(false);
   const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = createClient();
 
   // Get current user and load progress
@@ -39,16 +42,24 @@ export default function Home() {
         // Use the rounded-down progress for display
         setProgressPercentage(progress.progress);
 
+        // Check if coming from onboarding
+        const isOnboardingComplete = searchParams.get('onboarding') === 'complete';
+        const tutorialsCompleted = typeof window !== 'undefined'
+          ? localStorage.getItem('onboardingTutorialsCompleted') === 'true'
+          : false;
+
         // Check if momentum increased since last home page visit
         if (typeof window !== 'undefined') {
           const lastHomeProgress = localStorage.getItem('lastHomePageProgress');
           if (lastHomeProgress) {
             const previousProgress = parseFloat(lastHomeProgress);
-            if (progress.progress > previousProgress) {
-              const gain = progress.progress - previousProgress;
+            if (progress.progress > previousProgress || isOnboardingComplete) {
+              // For onboarding, animate from 0 to current progress for maximum dopamine
+              const startProgress = isOnboardingComplete ? 0 : previousProgress;
+              const gain = progress.progress - startProgress;
               setMomentumGain(gain);
-              setPreviousProgressValue(previousProgress);
-              setAnimatedProgress(previousProgress);
+              setPreviousProgressValue(startProgress);
+              setAnimatedProgress(startProgress);
 
               // Start number scroll animation after a small delay
               animationTimeout = setTimeout(() => {
@@ -72,6 +83,13 @@ export default function Home() {
                     endAnimationTimeout = setTimeout(() => {
                       setShowProgressAnimation(false);
                       setMomentumGain(0);
+
+                      // Show tutorials if completing onboarding for the first time
+                      if (isOnboardingComplete && !tutorialsCompleted) {
+                        setShowOnboardingTutorials(true);
+                        // Clean up URL
+                        router.replace('/', { scroll: false });
+                      }
                     }, 800);
                   }
                 }, duration / steps);
@@ -312,6 +330,13 @@ export default function Home() {
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      {/* Onboarding Tutorials */}
+      {showOnboardingTutorials && (
+        <OnboardingTutorials
+          onComplete={() => setShowOnboardingTutorials(false)}
+        />
+      )}
 
     </div>
   );
