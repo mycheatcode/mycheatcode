@@ -922,19 +922,22 @@ export default function ChatPage() {
             if (topic.isFirstCode) {
               setIsFirstCodeChat(true);
 
-              // Natural, tailored topic starters with empathy
+              // First message always starts with the coach introduction
+              const coachIntro = `${greeting} I'm hyped to be your 24/7 confidence coach.`;
+
+              // Natural, tailored topic starters with empathy (these follow the intro)
               const topicStarters: Record<string, string> = {
-                'pre_game_nerves': `${greeting} I know pre-game nerves can be rough - that anxious feeling before a big game is real. Tell me what's usually running through your head when you're about to play?`,
-                'missed_shots': `${greeting} Missing shots and then spiraling mentally - I know how frustrating that cycle is. When you miss a shot, what happens next in your head?`,
-                'pressure_moments': `${greeting} Pressure moments can mess with you if you don't have a way to handle them. Think about the last time you felt it - what was going through your mind?`,
-                'comparing_teammates': `${greeting} Comparing yourself to your teammates is one of those things that can really eat at your confidence. When does that comparison feeling hit you the most?`,
-                'coach_criticism': `${greeting} Getting called out by your coach can sting, especially when you're already hard on yourself. When your coach gives you feedback, what's your first reaction?`,
-                'negative_self_talk': `${greeting} That negative voice in your head during games - I know it can get loud. What's the most common thing you're telling yourself when things aren't going well?`,
-                'inconsistent_performance': `${greeting} Inconsistency is one of the most frustrating things in basketball - not knowing which version of you is gonna show up. On your good days vs off days, what feels different?`,
-                'playing_up_competition': `${greeting} Playing against someone you think is better than you - that can mess with your whole mindset before you even start. When you're facing someone like that, what's the first thing you notice about yourself?`
+                'pre_game_nerves': `${coachIntro} I know pre-game nerves can be rough - that anxious feeling before a big game is real. Tell me what's usually running through your head when you're about to play?`,
+                'missed_shots': `${coachIntro} Missing shots and then spiraling mentally - I know how frustrating that cycle is. When you miss a shot, what happens next in your head?`,
+                'pressure_moments': `${coachIntro} Pressure moments can mess with you if you don't have a way to handle them. Think about the last time you felt it - what was going through your mind?`,
+                'comparing_teammates': `${coachIntro} Comparing yourself to your teammates is one of those things that can really eat at your confidence. When does that comparison feeling hit you the most?`,
+                'coach_criticism': `${coachIntro} Getting called out by your coach can sting, especially when you're already hard on yourself. When your coach gives you feedback, what's your first reaction?`,
+                'negative_self_talk': `${coachIntro} That negative voice in your head during games - I know it can get loud. What's the most common thing you're telling yourself when things aren't going well?`,
+                'inconsistent_performance': `${coachIntro} Inconsistency is one of the most frustrating things in basketball - not knowing which version of you is gonna show up. On your good days vs off days, what feels different?`,
+                'playing_up_competition': `${coachIntro} Playing against someone you think is better than you - that can mess with your whole mindset before you even start. When you're facing someone like that, what's the first thing you notice about yourself?`
               };
 
-              welcomeText = topicStarters[topic.id as string] || `${greeting} I'm excited to help you work through this. What's been on your mind about your game?`;
+              welcomeText = topicStarters[topic.id as string] || `${coachIntro} I'm excited to help you work through this. What's been on your mind about your game?`;
             } else {
               // Use empathetic responses that reference the actual topic
               // Try to match known topic IDs first
@@ -2370,15 +2373,11 @@ export default function ChatPage() {
           <div
             className="fixed left-1/2 z-[70] w-72"
             style={{
-              bottom: '200px',
+              bottom: '90px',
               transform: 'translateX(-50%)',
               animation: 'bounce-subtle 2s ease-in-out infinite'
             }}
           >
-            {/* Arrow pointing UP to button above */}
-            <div className="flex justify-center mb-1">
-              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderBottom: '12px solid #00ff41' }} />
-            </div>
             <div className="bg-zinc-900 border-2 rounded-xl p-4 shadow-2xl" style={{ borderColor: '#00ff41' }}>
               <div className="flex items-start gap-3">
                 <div className="text-2xl">👆</div>
@@ -2387,6 +2386,10 @@ export default function ChatPage() {
                   <p className="text-xs text-zinc-300">Tap the button above to view your personalized cheat code.</p>
                 </div>
               </div>
+            </div>
+            {/* Arrow pointing UP to button above */}
+            <div className="flex justify-center mt-1">
+              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderTop: '12px solid #00ff41' }} />
             </div>
           </div>
         </>
