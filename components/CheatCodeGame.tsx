@@ -584,35 +584,47 @@ export default function CheatCodeGame({
           </div>
 
           <div className="space-y-3">
-            <button
-              onClick={() => {
-                // Reset game state to play again
-                setCurrentScenarioIndex(0);
-                setSelectedOption(null);
-                setShowFeedback(false);
-                setScore(0);
-                setTimeLeft(24);
-                setGameComplete(false);
-                setUserAnswers([]);
-                setResult(null);
-                setShowIntro(true);
-                setShowScenario(true);
-                setScenarioTimeLeft(10);
-              }}
-              className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                backgroundColor: '#00ff41',
-                color: '#000000',
-                boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
-              }}
-            >
-              Play Again
-            </button>
+            {/* Only show Play Again for non-onboarding games */}
+            {!onboardingScenarioId && (
+              <button
+                onClick={() => {
+                  // Reset game state to play again
+                  setCurrentScenarioIndex(0);
+                  setSelectedOption(null);
+                  setShowFeedback(false);
+                  setScore(0);
+                  setTimeLeft(24);
+                  setGameComplete(false);
+                  setUserAnswers([]);
+                  setResult(null);
+                  setShowIntro(true);
+                  setShowScenario(true);
+                  setScenarioTimeLeft(10);
+                }}
+                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  backgroundColor: '#00ff41',
+                  color: '#000000',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                }}
+              >
+                Play Again
+              </button>
+            )}
 
             {onClose && (
               <button
                 onClick={onClose}
-                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] bg-white/10 hover:bg-white/20"
+                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={
+                  onboardingScenarioId
+                    ? {
+                        backgroundColor: '#00ff41',
+                        color: '#000000',
+                        boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                      }
+                    : { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
+                }
               >
                 Done
               </button>

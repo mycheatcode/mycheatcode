@@ -279,8 +279,8 @@ export default function OnboardingPage() {
         }
       }
 
-      // Success! Redirect to home page
-      router.push('/');
+      // Success! Redirect to home page with tutorial flag
+      router.push('/?onboarding=complete');
     } catch (err) {
       console.error('Submit error:', err);
       setError('An unexpected error occurred');
