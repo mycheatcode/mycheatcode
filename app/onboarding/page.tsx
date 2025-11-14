@@ -440,7 +440,7 @@ export default function OnboardingPage() {
                   Which scenario would affect you the most?
                 </p>
               </div>
-              <div className="space-y-3 max-h-[500px] overflow-y-auto">
+              <div className="space-y-3">
                 {SPECIFIC_SCENARIOS.map((scenario) => (
                   <button
                     key={scenario.value}
