@@ -28,6 +28,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to parse code' }, { status: 400 });
     }
 
+    // Extract the phrase from the cards array
+    const phraseCard = parsedCode.cards.find(card => card.type === 'phrase');
+    const phrase = phraseCard?.content || parsedCode.category; // Fallback to category if no phrase found
+
     // Ensure user exists in our database
     await ensureUserExists(user.id, user.user_metadata?.handle || user.email || 'anonymous');
 
@@ -48,7 +52,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         section: section,
         name: parsedCode.title,
-        one_line: parsedCode.phrase,
+        one_line: phrase,
         category: parsedCode.category,
         description: parsedCode.description || '',
         active: true,
