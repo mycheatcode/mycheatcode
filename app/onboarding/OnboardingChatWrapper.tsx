@@ -69,10 +69,10 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial1 && viewCodeButtonRef.current) {
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
-      // Position tutorial above the button - calculate distance from bottom of viewport to top of button
-      // Add extra space to ensure tutorial is visible above button
-      const spaceAboveButton = window.innerHeight - rect.top;
-      setTutorial1Position(spaceAboveButton - 20);
+      // Position tutorial above the button
+      // Calculate from bottom of viewport to bottom of button, then add spacing
+      const distanceFromBottom = window.innerHeight - rect.bottom;
+      setTutorial1Position(distanceFromBottom + rect.height + 20);
     }
   }, [showTutorial1, messages, completedAnimations]);
 

@@ -184,6 +184,8 @@ export default function OnboardingPage() {
 
   const generateFirstCode = async () => {
     setGeneratingCode(true);
+    // Scroll to top when loading starts
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     try {
       const scenario = SPECIFIC_SCENARIOS.find(s => s.value === specificScenario);
       const zone = ZONE_STATES.find(z => z.value === zoneState);
@@ -526,8 +528,18 @@ export default function OnboardingPage() {
             <div className="space-y-8">
               {generatingCode ? (
                 // Loading state
-                <div className="text-center space-y-6 py-12">
-                  <div className="w-16 h-16 mx-auto border-4 border-zinc-700 border-t-green-500 rounded-full animate-spin"></div>
+                <div className="text-center space-y-8 py-12">
+                  {/* Pulsing Green Circle - matches game loading visual */}
+                  <div className="flex justify-center">
+                    <div
+                      className="w-24 h-24 rounded-full"
+                      style={{
+                        backgroundColor: '#00ff41',
+                        animation: 'pulse 2s ease-in-out infinite',
+                        boxShadow: '0 0 40px rgba(0, 255, 65, 0.6)'
+                      }}
+                    />
+                  </div>
                   <div>
                     <h2 className="text-2xl font-bold mb-2">Creating your first cheat code...</h2>
                     <p className="text-zinc-400">
