@@ -431,7 +431,7 @@ export default function OnboardingPage() {
 
           {/* Step 4: Pick Specific Scenario */}
           {step === 4 && (
-            <div className="space-y-6">
+            <div className="space-y-6 pb-6">
               <div>
                 <h1 className="text-3xl md:text-4xl font-bold text-center mb-3">
                   Pick the moment that hits hardest for you
@@ -569,7 +569,7 @@ export default function OnboardingPage() {
 
         {/* Continue Button - Hidden on step 7 when chat is active */}
         {!(step === 7 && showChat) && (
-          <div className="w-full mt-12">
+          <div className="w-full mt-8 mb-8">
             <button
               onClick={handleNext}
               disabled={loading}
