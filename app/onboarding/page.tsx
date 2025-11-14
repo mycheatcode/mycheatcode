@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
+import OnboardingChatWrapper from './OnboardingChatWrapper';
 
 const AGE_OPTIONS = [
   { value: '13-15', label: '13-15' },
@@ -88,11 +89,14 @@ export default function OnboardingPage() {
   const [generatedCode, setGeneratedCode] = useState<{title: string; description: string} | null>(null);
   const [generatingCode, setGeneratingCode] = useState(false);
   const [practiceChoice, setPracticeChoice] = useState<string | null>(null);
+  const [coachMessage, setCoachMessage] = useState('');
+  const [initialChatMessage, setInitialChatMessage] = useState<string>('');
+  const [showChat, setShowChat] = useState(false);
 
   const router = useRouter();
   const supabase = createClient();
 
-  const totalSteps = 9;
+  const totalSteps = 7;
 
   // Check authentication on mount
   useEffect(() => {
@@ -140,22 +144,22 @@ export default function OnboardingPage() {
       setError('Please select what being in the zone feels like for you');
       return;
     }
-    if (step === 7 && !generatedCode) {
-      setError('Please wait for your cheat code to be generated');
-      return;
-    }
-    if (step === 8 && !practiceChoice) {
-      setError('Please select how you would respond');
-      return;
-    }
 
     setError('');
 
     if (step < totalSteps) {
       setStep(step + 1);
     } else {
-      handleSubmit();
+      // Step 7 is the last step, no need to call handleSubmit here
+      // The OnboardingChatWrapper handles completion
     }
+  };
+
+  const handleChatComplete = () => {
+    // Called when user clicks "Get Reps In" button - start practice game
+    // For now, we'll redirect to home and save the code
+    // TODO: In the future, this should open the practice game directly
+    handleSubmit();
   };
 
   const handleBack = () => {
@@ -179,7 +183,7 @@ export default function OnboardingPage() {
       const scenario = SPECIFIC_SCENARIOS.find(s => s.value === specificScenario);
       const zone = ZONE_STATES.find(z => z.value === zoneState);
 
-      // Use OpenAI to generate a personalized cheat code based on their onboarding data
+      // Use the new personalization system
       const response = await fetch('/api/generate-onboarding-code', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -188,9 +192,10 @@ export default function OnboardingPage() {
           age,
           level,
           confidenceLevel,
-          scenario: scenario?.label || '',
-          scenarioCategory: scenario?.category || '',
-          zoneState: zone?.label || ''
+          scenario: specificScenario, // Send the value (key)
+          scenarioLabel: scenario?.label || '', // Send the human-readable label
+          zoneState: zoneState, // Send the value (key)
+          zoneStateLabel: zone?.label || '' // Send the human-readable label
         })
       });
 
@@ -199,10 +204,10 @@ export default function OnboardingPage() {
       }
 
       const data = await response.json();
-      setGeneratedCode({
-        title: data.title,
-        description: data.description
-      });
+
+      // Store the coach message and move to step 7 (chat view)
+      setCoachMessage(data.message);
+      setStep(7);
     } catch (err) {
       console.error('Error generating code:', err);
       setError('Failed to generate your cheat code. Please try again.');
@@ -511,7 +516,7 @@ export default function OnboardingPage() {
             </div>
           )}
 
-          {/* Step 7: Your First Cheat Code (Generate) */}
+          {/* Step 7: Your First Cheat Code (Chat Experience) */}
           {step === 7 && (
             <div className="space-y-8">
               {generatingCode ? (
@@ -525,318 +530,36 @@ export default function OnboardingPage() {
                     </p>
                   </div>
                 </div>
-              ) : generatedCode ? (
-                // Code reveal
-                <div className="space-y-6">
-                  <div className="text-center space-y-2">
-                    <h1 className="text-3xl md:text-4xl font-bold">
-                      {name}, here's your first cheat code
-                    </h1>
-                    <p className="text-zinc-400">
-                      This is personalized for you based on what you shared
-                    </p>
-                  </div>
-
-                  {/* Cheat Code Card */}
-                  <div className="relative border-2 rounded-2xl p-8 bg-gradient-to-br from-zinc-900 to-black" style={{ borderColor: '#00ff41' }}>
-                    {/* Glowing effect */}
-                    <div className="absolute inset-0 rounded-2xl opacity-20" style={{
-                      background: 'radial-gradient(circle at top, #00ff41, transparent 70%)'
-                    }}></div>
-
-                    <div className="relative z-10 space-y-4">
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#00ff41' }}></div>
-                        <span className="text-xs uppercase tracking-wide" style={{ color: '#00ff41' }}>Your Cheat Code</span>
-                      </div>
-
-                      <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
-                        "{generatedCode.title}"
-                      </h2>
-
-                      <p className="text-zinc-300 leading-relaxed text-lg">
-                        {generatedCode.description}
-                      </p>
-
-                      <div className="pt-4 border-t border-zinc-800">
-                        <p className="text-zinc-500 text-sm">
-                          Next, we'll practice using this code in a real scenario
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* How it works */}
-                  <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6">
-                    <h3 className="font-semibold mb-3 text-white">How cheat codes work:</h3>
-                    <div className="space-y-2 text-sm text-zinc-400">
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold text-black mt-0.5" style={{ backgroundColor: '#00ff41' }}>1</div>
-                        <p><span className="text-white">Practice:</span> Use your codes in real situations</p>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold text-black mt-0.5" style={{ backgroundColor: '#00ff41' }}>2</div>
-                        <p><span className="text-white">Track:</span> Log each time you use them</p>
-                      </div>
-                      <div className="flex items-start gap-3">
-                        <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold text-black mt-0.5" style={{ backgroundColor: '#00ff41' }}>3</div>
-                        <p><span className="text-white">Grow:</span> Watch your confidence improve</p>
-                      </div>
-                    </div>
-                  </div>
+              ) : coachMessage ? (
+                // Chat interface with personalized code
+                <div className="fixed inset-0 z-50 bg-black">
+                  <OnboardingChatWrapper
+                    name={name}
+                    initialMessage={coachMessage}
+                    userAnswer={ZONE_STATES.find(z => z.value === zoneState)?.label || zoneState}
+                    scenarioCategory={SPECIFIC_SCENARIOS.find(s => s.value === specificScenario)?.category || 'In-Game'}
+                    onComplete={handleChatComplete}
+                  />
                 </div>
               ) : null}
             </div>
           )}
 
-          {/* Step 8: Practice Scenario */}
-          {step === 8 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-3">
-                <h1 className="text-3xl md:text-4xl font-bold">
-                  Let's practice using it
-                </h1>
-                <p className="text-zinc-400">
-                  Here's a quick scenario. How would you use your cheat code?
-                </p>
-              </div>
-
-              {/* Scenario Card */}
-              <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 space-y-4">
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-sm" style={{ color: '#00ff41' }}>
-                    🏀
-                  </div>
-                  <span className="text-sm font-medium text-zinc-400">Game Scenario</span>
-                </div>
-
-                <p className="text-white text-lg leading-relaxed">
-                  You're in the second quarter. You've missed your first three shots and can feel yourself starting to doubt. Your teammates are looking to you to knock down the next one. You get the ball again.
-                </p>
-
-                <div className="pt-4 border-t border-zinc-800">
-                  <p className="text-sm text-zinc-500">
-                    <span style={{ color: '#00ff41' }}>Your cheat code:</span> "{generatedCode?.title}"
-                  </p>
-                </div>
-              </div>
-
-              {/* Choice Buttons */}
-              <div className="space-y-3">
-                <p className="text-zinc-400 text-sm font-medium mb-4">What do you do?</p>
-
-                <button
-                  onClick={() => setPracticeChoice('use_code')}
-                  className={`w-full p-5 rounded-xl text-left transition-all border-2 ${
-                    practiceChoice === 'use_code'
-                      ? 'border-green-500 bg-green-500/10'
-                      : 'border-zinc-700 bg-zinc-900 hover:bg-zinc-800'
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="font-semibold text-white mb-1">
-                        Use your cheat code "{generatedCode?.title}"
-                      </div>
-                      <div className="text-sm text-zinc-400">
-                        Take a breath, recall the code, and trust your shot
-                      </div>
-                    </div>
-                    {practiceChoice === 'use_code' && (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" className="flex-shrink-0 ml-2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                    )}
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => setPracticeChoice('overthink')}
-                  className={`w-full p-5 rounded-xl text-left transition-all border-2 ${
-                    practiceChoice === 'overthink'
-                      ? 'border-green-500 bg-green-500/10'
-                      : 'border-zinc-700 bg-zinc-900 hover:bg-zinc-800'
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="font-semibold text-white mb-1">
-                        Think about your misses
-                      </div>
-                      <div className="text-sm text-zinc-400">
-                        Let the doubt spiral and hesitate on the shot
-                      </div>
-                    </div>
-                    {practiceChoice === 'overthink' && (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" className="flex-shrink-0 ml-2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                    )}
-                  </div>
-                </button>
-
-                <button
-                  onClick={() => setPracticeChoice('pass')}
-                  className={`w-full p-5 rounded-xl text-left transition-all border-2 ${
-                    practiceChoice === 'pass'
-                      ? 'border-green-500 bg-green-500/10'
-                      : 'border-zinc-700 bg-zinc-900 hover:bg-zinc-800'
-                  }`}
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="font-semibold text-white mb-1">
-                        Pass to a teammate
-                      </div>
-                      <div className="text-sm text-zinc-400">
-                        Avoid the pressure and let someone else take it
-                      </div>
-                    </div>
-                    {practiceChoice === 'pass' && (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" className="flex-shrink-0 ml-2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                    )}
-                  </div>
-                </button>
-              </div>
-
-              {/* Feedback after selection */}
-              {practiceChoice && (
-                <div className="bg-zinc-900/50 border-l-4 rounded-r-xl p-5" style={{ borderColor: practiceChoice === 'use_code' ? '#00ff41' : '#f59e0b' }}>
-                  {practiceChoice === 'use_code' ? (
-                    <div>
-                      <div className="font-semibold mb-2" style={{ color: '#00ff41' }}>Perfect! 🎯</div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">
-                        This is exactly how cheat codes work. In moments of doubt, you use your mental tool to reset your mindset and trust your training. The more you practice using it, the stronger it becomes.
-                      </p>
-                    </div>
-                  ) : (
-                    <div>
-                      <div className="font-semibold text-orange-400 mb-2">Good awareness</div>
-                      <p className="text-zinc-300 text-sm leading-relaxed">
-                        You identified the situation. Next time, try using your cheat code "{generatedCode?.title}" to break that pattern. That's what this tool is for - to help you reset in moments like these.
-                      </p>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 9: Pricing */}
-          {step === 9 && (
-            <div className="space-y-8">
-              <div className="text-center space-y-3">
-                <h1 className="text-3xl md:text-4xl font-bold">
-                  You just created your first cheat code!
-                </h1>
-                <p className="text-zinc-400">
-                  Here's what else you unlock with MyCheatCode...
-                </p>
-              </div>
-
-              {/* Pricing Comparison */}
-              <div className="space-y-4">
-                {/* Sports Psychologist */}
-                <div className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 space-y-4">
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-semibold text-white text-lg mb-1">Sports Psychologist</h3>
-                      <p className="text-zinc-500 text-sm">Traditional 1-on-1 sessions</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-white">$150-300</div>
-                      <div className="text-zinc-500 text-sm">per session</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Weekly appointments</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Limited availability</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-zinc-400">
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Not available 24/7</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* MyCheatCode - Highlighted */}
-                <div className="relative border-2 rounded-xl p-6 overflow-hidden" style={{ borderColor: '#00ff41' }}>
-                  <div className="absolute top-0 right-0 px-3 py-1 text-xs font-bold text-black" style={{ backgroundColor: '#00ff41' }}>
-                    BEST VALUE
-                  </div>
-                  <div className="flex items-start justify-between mb-3 mt-4">
-                    <div>
-                      <h3 className="font-semibold text-lg mb-1" style={{ color: '#00ff41' }}>MyCheatCode</h3>
-                      <p className="text-zinc-400 text-sm">AI-powered confidence coaching</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-2xl font-bold" style={{ color: '#00ff41' }}>$29</div>
-                      <div className="text-zinc-500 text-sm">per month</div>
-                    </div>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div className="flex items-center gap-2" style={{ color: '#00ff41' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Available 24/7</span>
-                    </div>
-                    <div className="flex items-center gap-2" style={{ color: '#00ff41' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Unlimited coaching sessions</span>
-                    </div>
-                    <div className="flex items-center gap-2" style={{ color: '#00ff41' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Personalized cheat codes</span>
-                    </div>
-                    <div className="flex items-center gap-2" style={{ color: '#00ff41' }}>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-                      </svg>
-                      <span>Practice scenarios & tracking</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Bottom CTA */}
-              <div className="text-center pt-4">
-                <p className="text-zinc-400 text-sm">
-                  Start with a 7-day free trial. Cancel anytime.
-                </p>
-              </div>
-            </div>
-          )}
 
         </div>
 
-        {/* Continue Button */}
-        <div className="w-full mt-12">
-          <button
-            onClick={handleNext}
-            disabled={loading}
-            className="w-full py-4 rounded-xl font-semibold bg-white text-black hover:bg-gray-100 transition-colors disabled:opacity-50"
-          >
-            {loading ? 'Saving...' : step === 9 ? "Start Free Trial" : step === totalSteps ? "Start Coaching" : 'Continue'}
-          </button>
-        </div>
+        {/* Continue Button - Hidden on step 7 when chat is active */}
+        {!(step === 7 && showChat) && (
+          <div className="w-full mt-12">
+            <button
+              onClick={handleNext}
+              disabled={loading}
+              className="w-full py-4 rounded-xl font-semibold bg-white text-black hover:bg-gray-100 transition-colors disabled:opacity-50"
+            >
+              {loading ? 'Saving...' : 'Continue'}
+            </button>
+          </div>
+        )}
       </div>
 
       <style jsx>{`

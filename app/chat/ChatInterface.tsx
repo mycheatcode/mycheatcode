@@ -10,6 +10,9 @@ import CodeCardViewer, { parseCheatCode, ParsedCheatCode } from '../../component
 interface ChatInterfaceProps {
   section: SectionType;
   onBack: () => void;
+  initialMessage?: string;
+  hideHeader?: boolean;
+  onMessageSent?: () => void;
 }
 
 // Helper function to detect if message contains a cheat code
@@ -49,7 +52,7 @@ function detectCheatCode(text: string): { hasCode: boolean; codeBlock?: string; 
   return { hasCode: false };
 }
 
-export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
+export default function ChatInterface({ section, onBack, initialMessage, hideHeader = false, onMessageSent }: ChatInterfaceProps) {
   const [chatState, setChatState] = useState<ChatState>({
     messages: [],
     session_id: null,
@@ -84,7 +87,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
       setTimeout(() => {
         const initialCoachMessage: ChatMessage = {
           id: `coach-initial-${Date.now()}`,
-          text: "What's up! I'm your mental performance coach. What do you want to talk about?",
+          text: initialMessage || "What's up! I'm your mental performance coach. What do you want to talk about?",
           sender: 'coach',
           timestamp: new Date()
         };
@@ -98,7 +101,7 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
         setIsTyping(false);
       }, 1000);
     }
-  }, [chatState.messages.length, hasShownInitialMessage]);
+  }, [chatState.messages.length, hasShownInitialMessage, initialMessage]);
 
   const getInitialCoachMessage = (section: SectionType): string => {
     return "What's up! I'm your mental performance coach. What do you want to talk about?";
@@ -134,6 +137,11 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
 
     setInputText('');
     setIsTyping(true);
+
+    // Call onMessageSent callback if provided
+    if (onMessageSent) {
+      onMessageSent();
+    }
 
     try {
       // Send to API
@@ -324,30 +332,32 @@ export default function ChatInterface({ section, onBack }: ChatInterfaceProps) {
   return (
     <div className="bg-black min-h-screen text-white font-sans flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b border-zinc-800">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={onBack}
-            className="text-zinc-400 hover:text-white transition-colors"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          <div>
-            <h1 className="text-lg font-semibold">Coach</h1>
-            <p className="text-sm text-zinc-400">{getSectionDisplayName(section)}</p>
+      {!hideHeader && (
+        <div className="flex items-center justify-between p-4 border-b border-zinc-800">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={onBack}
+              className="text-zinc-400 hover:text-white transition-colors"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div>
+              <h1 className="text-lg font-semibold">Coach</h1>
+              <p className="text-sm text-zinc-400">{getSectionDisplayName(section)}</p>
+            </div>
           </div>
-        </div>
 
-        {/* Debug info (can be removed in production) */}
-        {chatState.conversation_state && (
-          <div className="text-xs text-zinc-500">
-            Q: {chatState.conversation_state.question_count} |
-            {chatState.conversation_state.can_offer_code ? ' Ready' : ' Building'}
-          </div>
-        )}
-      </div>
+          {/* Debug info (can be removed in production) */}
+          {chatState.conversation_state && (
+            <div className="text-xs text-zinc-500">
+              Q: {chatState.conversation_state.question_count} |
+              {chatState.conversation_state.can_offer_code ? ' Ready' : ' Building'}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">

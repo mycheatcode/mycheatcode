@@ -264,9 +264,10 @@ interface CodeCardViewerProps {
   parsedCode: ParsedCheatCode;
   onSave?: () => void;
   showSaveButton?: boolean;
+  saveButtonText?: string;
 }
 
-export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = true }: CodeCardViewerProps) {
+export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = true, saveButtonText = 'Save to My Codes' }: CodeCardViewerProps) {
   const [currentCard, setCurrentCard] = useState(0);
 
   // Build full cards array including title card
@@ -441,7 +442,7 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
                         className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
                         style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
                       >
-                        Save to My Codes
+                        {saveButtonText}
                       </button>
                     </div>
                   )}
