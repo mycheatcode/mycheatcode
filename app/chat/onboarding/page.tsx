@@ -1024,7 +1024,8 @@ export default function ChatPage() {
 
     // Meta: primary issue + number of turns + first code flag
     const primaryIssue = typeof window !== 'undefined' ? localStorage.getItem('primary_issue') : null;
-    const isFirstCode = (selectedTopic as any)?.isFirstCode || false;
+    // Use the isFirstCodeChat state which is set when the topic has isFirstCode: true
+    const isFirstCode = (selectedTopic as any)?.isFirstCode || isFirstCodeChat || false;
 
     return {
       messages: history,
