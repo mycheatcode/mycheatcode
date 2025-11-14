@@ -818,71 +818,78 @@ export default function CheatCodeGame({
 
       {/* Feedback Modal */}
       {showFeedback && (
-        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm flex items-center justify-center p-6 z-[250] animate-fadeIn">
-          <div className="max-w-xl w-full space-y-8 animate-slideUp">
-            {isTimeout ? (
-              <>
-                {/* Timeout indicator */}
-                <div className="text-center">
-                  <div className="text-6xl mb-4">⏱️</div>
-                  <h3 className="text-2xl font-bold">Time's Up!</h3>
-                </div>
+        <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[250] animate-fadeIn flex flex-col">
+          {/* Scrollable content area */}
+          <div className="flex-1 overflow-y-auto p-6 pb-2">
+            <div className="max-w-xl w-full mx-auto space-y-6 animate-slideUp">
+              {isTimeout ? (
+                <>
+                  {/* Timeout indicator */}
+                  <div className="text-center">
+                    <div className="text-5xl mb-3">⏱️</div>
+                    <h3 className="text-xl font-bold">Time's Up!</h3>
+                  </div>
 
-                {/* Timeout message */}
-                <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-8">
-                  <p className="text-lg leading-relaxed text-gray-300">
-                    No worries! Check out the optimal reframe highlighted below - this is how you want to think in the moment. You're building the skill! 💪
-                  </p>
-                </div>
+                  {/* Timeout message */}
+                  <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6">
+                    <p className="text-base leading-relaxed text-gray-300">
+                      No worries! Check out the optimal reframe - this is how you want to think in the moment. You're building the skill! 💪
+                    </p>
+                  </div>
 
-                {/* Show the optimal answer highlighted */}
-                {selectedOption !== null && (
-                  <div className="bg-[#0a0a0a] border border-[#00ff41]/30 rounded-2xl p-6">
-                    <div className="flex items-start gap-3">
-                      <div className="text-2xl">✅</div>
-                      <div className="flex-1">
-                        <div className="text-base font-medium text-white mb-2">Optimal Reframe:</div>
-                        <div className="text-lg text-gray-300">{shuffledOptions[selectedOption].text}</div>
+                  {/* Show the optimal answer highlighted */}
+                  {selectedOption !== null && (
+                    <div className="bg-[#0a0a0a] border border-[#00ff41]/30 rounded-2xl p-5">
+                      <div className="flex items-start gap-3">
+                        <div className="text-xl">✅</div>
+                        <div className="flex-1">
+                          <div className="text-sm font-medium text-white mb-1.5">Optimal Reframe:</div>
+                          <div className="text-base text-gray-300">{shuffledOptions[selectedOption].text}</div>
+                        </div>
                       </div>
                     </div>
+                  )}
+                </>
+              ) : selectedFeedback ? (
+                <>
+                  {/* Indicator */}
+                  <div className="text-center">
+                    <div className="text-5xl mb-3">
+                      {selectedFeedback.type === 'optimal' ? '✅' : selectedFeedback.type === 'helpful' ? '💡' : '❌'}
+                    </div>
+                    <h3 className="text-xl font-bold">
+                      {selectedFeedback.type === 'optimal'
+                        ? 'Great Choice!'
+                        : selectedFeedback.type === 'helpful'
+                        ? 'Good Thinking'
+                        : 'Not Quite'}
+                    </h3>
                   </div>
-                )}
-              </>
-            ) : selectedFeedback ? (
-              <>
-                {/* Indicator */}
-                <div className="text-center">
-                  <div className="text-6xl mb-4">
-                    {selectedFeedback.type === 'optimal' ? '✅' : selectedFeedback.type === 'helpful' ? '💡' : '❌'}
+
+                  {/* Feedback */}
+                  <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-6">
+                    <p className="text-base leading-relaxed text-gray-300">{selectedFeedback.feedback}</p>
                   </div>
-                  <h3 className="text-2xl font-bold">
-                    {selectedFeedback.type === 'optimal'
-                      ? 'Great Choice!'
-                      : selectedFeedback.type === 'helpful'
-                      ? 'Good Thinking'
-                      : 'Not Quite'}
-                  </h3>
-                </div>
+                </>
+              ) : null}
+            </div>
+          </div>
 
-                {/* Feedback */}
-                <div className="bg-[#0a0a0a] border border-[#1a1a1a] rounded-2xl p-8">
-                  <p className="text-lg leading-relaxed text-gray-300">{selectedFeedback.feedback}</p>
-                </div>
-              </>
-            ) : null}
-
-            {/* Continue Button */}
-            <button
-              onClick={handleNext}
-              className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
-              style={{
-                backgroundColor: '#00ff41',
-                color: '#000000',
-                boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
-              }}
-            >
-              {currentScenarioIndex < scenarios.length - 1 ? 'Continue →' : 'See Results'}
-            </button>
+          {/* Fixed Continue Button at bottom */}
+          <div className="flex-shrink-0 p-6 pt-4 border-t border-white/10">
+            <div className="max-w-xl w-full mx-auto">
+              <button
+                onClick={handleNext}
+                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  backgroundColor: '#00ff41',
+                  color: '#000000',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                }}
+              >
+                {currentScenarioIndex < scenarios.length - 1 ? 'Continue →' : 'See Results'}
+              </button>
+            </div>
           </div>
         </div>
       )}
