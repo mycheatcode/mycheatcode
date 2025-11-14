@@ -4182,6 +4182,20 @@ export async function POST(req: Request) {
       }
     }
 
+    // 2.5) Special instruction for first code from onboarding
+    if (isFirstCode) {
+      messages.push({
+        role: 'system',
+        content: `IMPORTANT: This is the player's very first interaction with their coach after completing onboarding. Your FIRST MESSAGE must follow this exact format:
+
+"What's up [player's name]! I'm hyped to be your 24/7 confidence coach. [Continue naturally with the rest of your message addressing their specific situation]"
+
+Example: "What's up Hunter! I'm hyped to be your 24/7 confidence coach. I totally get it—replaying that mistake can be a real confidence killer. I've put together your first personalized cheat code to help you shake it off and get back in your zone. Check it out below!"
+
+This introduction should ONLY be used for this very first message. All subsequent messages should use your normal conversational style.`,
+      });
+    }
+
     // 3) Conversation memory - load past chats to spot patterns and build relationship
     if (userId) {
       try {
