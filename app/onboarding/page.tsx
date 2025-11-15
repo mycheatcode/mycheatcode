@@ -261,7 +261,12 @@ export default function OnboardingPage() {
       }
 
       // Award onboarding completion momentum (25% bonus)
-      await awardOnboardingCompletionMomentum(user.id);
+      try {
+        const bonusAwarded = await awardOnboardingCompletionMomentum(user.id);
+        console.log('✅ Onboarding momentum bonus awarded:', bonusAwarded);
+      } catch (err) {
+        console.error('❌ Failed to award onboarding momentum:', err);
+      }
 
       // Save the generated cheat code to the database
       if (generatedCode) {

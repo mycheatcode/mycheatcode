@@ -149,12 +149,20 @@ async function recordMomentumGain(
 ) {
   const supabase = createClient();
 
-  await supabase.from('momentum_gains').insert({
+  const { data, error } = await supabase.from('momentum_gains').insert({
     user_id: userId,
     gain_amount: gainAmount,
     source,
     metadata,
   });
+
+  if (error) {
+    console.error('❌ Error recording momentum gain:', error);
+    throw error;
+  }
+
+  console.log('📊 Momentum gain recorded:', { userId, gainAmount, source, data });
+  return data;
 }
 
 /**
@@ -588,14 +596,23 @@ export async function awardGameCompletionMomentum(
  * This gives users a significant boost to start at 50% instead of 25%
  */
 export async function awardOnboardingCompletionMomentum(userId: string): Promise<number> {
-  // Check if onboarding bonus already awarded
-  const alreadyAwarded = await hasReceivedFirstTimeBonus(userId, 'onboarding_completion');
-  if (alreadyAwarded) {
-    return 0;
+  try {
+    // Check if onboarding bonus already awarded
+    const alreadyAwarded = await hasReceivedFirstTimeBonus(userId, 'onboarding_completion');
+    if (alreadyAwarded) {
+      console.log('⚠️ Onboarding bonus already awarded for user:', userId);
+      return 0;
+    }
+
+    console.log('🎯 Awarding onboarding completion bonus:', ONBOARDING_COMPLETION_BONUS);
+
+    // Award onboarding completion bonus
+    await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion', {});
+
+    console.log('✅ Successfully recorded onboarding momentum gain');
+    return ONBOARDING_COMPLETION_BONUS;
+  } catch (error) {
+    console.error('❌ Error in awardOnboardingCompletionMomentum:', error);
+    throw error;
   }
-
-  // Award onboarding completion bonus
-  await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion', {});
-
-  return ONBOARDING_COMPLETION_BONUS;
 }
