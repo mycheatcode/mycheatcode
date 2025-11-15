@@ -1057,8 +1057,8 @@ export default function MyCodesRedesignPage() {
               )}
             </div>
 
-            {/* Empty State */}
-            {activeCodes.length === 0 && !loading && (
+            {/* Empty State / Continue Building */}
+            {(activeCodes.length === 0 || activeCodes.length === 1) && !loading && (
               <div className="flex-1 flex items-center justify-center p-8">
                 <div className="text-center max-w-sm">
                   <div className="mb-4">
@@ -1066,16 +1066,20 @@ export default function MyCodesRedesignPage() {
                       <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Ready to Build Confidence?</h3>
+                  <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>
+                    {activeCodes.length === 0 ? 'Ready to Build Confidence?' : 'Continue Building Your Confidence'}
+                  </h3>
                   <p className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                    Create your first cheat code by chatting with your coach. Each code is a personalized mental tool to help you perform under pressure.
+                    {activeCodes.length === 0
+                      ? 'Create your first cheat code by chatting with your coach. Each code is a personalized mental tool to help you perform under pressure.'
+                      : 'Create your next cheat code by chatting with your coach. Each code is a personalized mental tool to help you perform under pressure.'}
                   </p>
                   <button
                     onClick={() => router.push('/chat')}
                     className="px-8 py-3.5 rounded-xl font-bold transition-all active:scale-95"
                     style={{ backgroundColor: '#00ff41', color: '#000000' }}
                   >
-                    Start Your First Chat
+                    {activeCodes.length === 0 ? 'Start Your First Chat' : 'Create Your Next Code'}
                   </button>
                 </div>
               </div>
