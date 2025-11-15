@@ -368,6 +368,17 @@ export default function CheatCodeGame({
       }
     } catch (err) {
       console.error('Failed to submit game session:', err);
+      // Create a fallback result so user can still see their score
+      const fallbackResult: GameSessionResult = {
+        session_id: 'error-session',
+        score: score,
+        total_questions: scenarios.length,
+        momentum_awarded: 0,
+        is_first_play: false,
+        previous_momentum: 0,
+        new_momentum: 0,
+      };
+      setResult(fallbackResult);
       setGameComplete(true);
     }
   };
