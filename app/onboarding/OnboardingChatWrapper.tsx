@@ -73,10 +73,10 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial1 && viewCodeButtonRef.current) {
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
-      // Position tutorial above the button
-      // Calculate from bottom of viewport to bottom of button, then add spacing
-      const distanceFromBottom = window.innerHeight - rect.bottom;
-      setTutorial1Position(distanceFromBottom + rect.height + 20);
+      // Position tutorial below the button
+      // Calculate from bottom of viewport to top of button, then subtract spacing
+      const distanceFromBottom = window.innerHeight - rect.top;
+      setTutorial1Position(distanceFromBottom - 20);
     }
   }, [showTutorial1, messages, completedAnimations]);
 
@@ -309,18 +309,18 @@ export default function OnboardingChatWrapper({
             className="fixed left-1/2 -translate-x-1/2 z-50 w-72 animate-bounce-subtle"
             style={{ bottom: `${tutorial1Position}px` }}
           >
-            {/* Arrow pointing down */}
-            <div className="flex justify-center mb-1">
-              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderBottom: '12px solid #00ff41' }} />
-            </div>
             <div className="bg-zinc-900 border-2 rounded-xl p-4 shadow-2xl" style={{ borderColor: '#00ff41' }}>
               <div className="flex items-start gap-3">
-                <div className="text-2xl">👆</div>
+                <div className="text-2xl">☝️</div>
                 <div>
                   <h3 className="font-bold text-sm mb-1">Your first code is ready!</h3>
                   <p className="text-xs text-zinc-300">Tap the button above to view your personalized cheat code.</p>
                 </div>
               </div>
+            </div>
+            {/* Arrow pointing up */}
+            <div className="flex justify-center mt-1">
+              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderTop: '12px solid #00ff41' }} />
             </div>
           </div>
         </>
