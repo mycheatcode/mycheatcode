@@ -69,8 +69,18 @@ export async function POST(request: NextRequest) {
 
     let momentumAwarded = 0;
 
-    // Award momentum if eligible (first 2 plays)
-    if (canEarn) {
+    // Check if user has completed onboarding
+    const { data: userData } = await supabase
+      .from('users')
+      .select('onboarding_completed')
+      .eq('id', user.id)
+      .single();
+
+    const hasCompletedOnboarding = userData?.onboarding_completed || false;
+
+    // Award momentum if eligible (first 2 plays) AND user has completed onboarding
+    // Practice game during onboarding does not award momentum
+    if (canEarn && hasCompletedOnboarding) {
       momentumAwarded = await awardGameCompletionMomentum(
         user.id,
         cheat_code_id,
