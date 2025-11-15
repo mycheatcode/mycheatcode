@@ -54,51 +54,54 @@ export default function Home() {
         // Check if momentum increased since last home page visit
         if (typeof window !== 'undefined') {
           const lastHomeProgress = localStorage.getItem('lastHomePageProgress');
-          if (lastHomeProgress) {
-            const previousProgress = parseFloat(lastHomeProgress);
-            if (progress.progress > previousProgress || isOnboardingComplete) {
-              // For onboarding, animate from 0 to current progress for maximum dopamine
-              const startProgress = isOnboardingComplete ? 0 : previousProgress;
-              const gain = progress.progress - startProgress;
-              setMomentumGain(gain);
-              setPreviousProgressValue(startProgress);
-              setAnimatedProgress(startProgress);
+          const previousProgress = lastHomeProgress ? parseFloat(lastHomeProgress) : 0;
 
-              // Start number scroll animation after a small delay
-              animationTimeout = setTimeout(() => {
-                setShowProgressAnimation(true);
+          // Show animation if completing onboarding OR if progress increased since last visit
+          const shouldAnimate = isOnboardingComplete || (lastHomeProgress && progress.progress > previousProgress);
 
-                // Animate number counting up
-                const duration = 1500; // 1.5 seconds
-                const steps = 30;
-                const increment = gain / steps;
-                let currentStep = 0;
+          if (shouldAnimate) {
+            // For onboarding, animate from 0 to current progress for maximum dopamine
+            const startProgress = isOnboardingComplete ? 0 : previousProgress;
+            const gain = progress.progress - startProgress;
+            setMomentumGain(gain);
+            setPreviousProgressValue(startProgress);
+            setAnimatedProgress(startProgress);
 
-                animationInterval = setInterval(() => {
-                  currentStep++;
-                  if (currentStep <= steps) {
-                    setAnimatedProgress(previousProgress + (increment * currentStep));
-                  } else {
-                    setAnimatedProgress(progress.progress);
-                    if (animationInterval) clearInterval(animationInterval);
+            // Start number scroll animation after a small delay
+            animationTimeout = setTimeout(() => {
+              setShowProgressAnimation(true);
 
-                    // Hold at new value for a moment, then end animation
-                    endAnimationTimeout = setTimeout(() => {
-                      setShowProgressAnimation(false);
-                      setMomentumGain(0);
+              // Animate number counting up
+              const duration = 1500; // 1.5 seconds
+              const steps = 30;
+              const increment = gain / steps;
+              let currentStep = 0;
 
-                      // Show tutorials if completing onboarding for the first time
-                      if (isOnboardingComplete && !tutorialsCompleted) {
-                        setShowOnboardingTutorials(true);
-                        // Clean up URL
-                        router.replace('/', { scroll: false });
-                      }
-                    }, 800);
-                  }
-                }, duration / steps);
-              }, 500);
-            }
+              animationInterval = setInterval(() => {
+                currentStep++;
+                if (currentStep <= steps) {
+                  setAnimatedProgress(startProgress + (increment * currentStep));
+                } else {
+                  setAnimatedProgress(progress.progress);
+                  if (animationInterval) clearInterval(animationInterval);
+
+                  // Hold at new value for a moment, then end animation
+                  endAnimationTimeout = setTimeout(() => {
+                    setShowProgressAnimation(false);
+                    setMomentumGain(0);
+
+                    // Show tutorials if completing onboarding for the first time
+                    if (isOnboardingComplete && !tutorialsCompleted) {
+                      setShowOnboardingTutorials(true);
+                      // Clean up URL
+                      router.replace('/', { scroll: false });
+                    }
+                  }, 800);
+                }
+              }, duration / steps);
+            }, 500);
           }
+
           // Store current progress for next visit
           localStorage.setItem('lastHomePageProgress', progress.progress.toString());
         }
