@@ -32,6 +32,10 @@ export async function saveCheatCode(
 
     const content = contentParts.join('\n\n');
 
+    // Filter out invalid chat_id values (like "temp-onboarding-code")
+    // Only use chatId if it's a valid UUID or null
+    const isValidUUID = chatId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(chatId);
+
     const { data, error } = await supabase
       .from('cheat_codes')
       .insert({
@@ -39,7 +43,7 @@ export async function saveCheatCode(
         title: cheatCodeData.title,
         category: cheatCodeData.category,
         content: content,
-        chat_id: chatId || null,
+        chat_id: isValidUUID ? chatId : null,
       })
       .select('id')
       .single();
