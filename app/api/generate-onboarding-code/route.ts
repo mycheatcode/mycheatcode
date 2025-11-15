@@ -17,7 +17,12 @@ export async function POST(request: NextRequest) {
       zoneStateLabel
     });
 
-    return NextResponse.json({ message });
+    // Add coach introduction for first message
+    const greeting = `What's up ${name}!`;
+    const coachIntro = `${greeting} I'm hyped to be your 24/7 confidence coach.`;
+    const fullMessage = `${coachIntro} ${message}`;
+
+    return NextResponse.json({ message: fullMessage });
 
   } catch (error) {
     console.error('Error generating onboarding code:', error);
