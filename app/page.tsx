@@ -85,7 +85,7 @@ export default function Home() {
                   setAnimatedProgress(progress.progress);
                   if (animationInterval) clearInterval(animationInterval);
 
-                  // Hold at new value for a moment, then end animation
+                  // Hold at new value longer to let user appreciate the boost
                   endAnimationTimeout = setTimeout(() => {
                     setShowProgressAnimation(false);
                     setMomentumGain(0);
@@ -96,7 +96,7 @@ export default function Home() {
                       // Clean up URL
                       router.replace('/', { scroll: false });
                     }
-                  }, 800);
+                  }, 2000); // Increased from 800ms to 2000ms (2 seconds)
                 }
               }, duration / steps);
             }, 500);

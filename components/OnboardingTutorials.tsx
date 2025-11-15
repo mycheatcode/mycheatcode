@@ -15,7 +15,7 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
     const timer = setTimeout(() => {
       setShowOverlay(true);
       setCurrentStep(1);
-    }, 2500); // Wait 2.5 seconds for momentum animation
+    }, 4000); // Wait 4 seconds for momentum animation (1.5s animation + 2s hold + 0.5s buffer)
 
     return () => clearTimeout(timer);
   }, []);
