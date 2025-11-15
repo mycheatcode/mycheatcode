@@ -273,8 +273,8 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     // Calculate decay
     const decay = calculateDecay(lastActivity);
 
-    // Calculate base progress (just the sum of all gains, since users earn their baseline through onboarding)
-    const baseProgress = totalGain;
+    // Calculate base progress (users start at 25% baseline, then add any gains)
+    const baseProgress = BASELINE_CONFIDENCE + totalGain;
 
     // Apply decay (but never below baseline)
     const progressRaw = Math.max(BASELINE_CONFIDENCE, Math.min(100, baseProgress - decay));

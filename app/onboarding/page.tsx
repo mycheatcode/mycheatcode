@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import OnboardingChatWrapper from './OnboardingChatWrapper';
-import { awardOnboardingCompletionMomentum } from '@/lib/progress';
 
 const AGE_OPTIONS = [
   { value: '13-15', label: '13-15' },
@@ -258,14 +257,6 @@ export default function OnboardingPage() {
         setError('Failed to save your information. Please try again.');
         setLoading(false);
         return;
-      }
-
-      // Award onboarding completion momentum (25% bonus)
-      try {
-        const bonusAwarded = await awardOnboardingCompletionMomentum(user.id);
-        console.log('✅ Onboarding momentum bonus awarded:', bonusAwarded);
-      } catch (err) {
-        console.error('❌ Failed to award onboarding momentum:', err);
       }
 
       // Save the generated cheat code to the database
