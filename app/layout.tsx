@@ -18,18 +18,18 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "AI Confidence Coach - Join Waitlist",
-  description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
+  title: "AI Confidence Coach for Basketball Players",
+  description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.",
   viewport: "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no",
   icons: {
     icon: '/icon.svg',
     apple: '/apple-touch-icon.png',
   },
   openGraph: {
-    title: "AI Confidence Coach - Join Waitlist",
-    description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
+    title: "AI Confidence Coach for Basketball Players",
+    description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.",
     url: "https://www.mycheatcode.ai",
-    siteName: "AI Confidence Coach - Join Waitlist",
+    siteName: "MyCheatCode AI - Basketball Confidence Coach",
     type: "website",
     images: [
       {
@@ -42,8 +42,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Confidence Coach - Join Waitlist",
-    description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court. Join the waitlist for early access.",
+    title: "AI Confidence Coach for Basketball Players",
+    description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.",
     images: ['https://www.mycheatcode.ai/og-image.png'],
   },
 };
