@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { ensureUserExists } from '../../../lib/memory-layer';
 import { parseCheatCode } from '../../../components/CodeCardViewer';
 
 export async function POST(request: NextRequest) {
   try {
-    const supabase = createRouteHandlerClient({ cookies });
+    const supabase = await createClient();
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -24,7 +23,10 @@ export async function POST(request: NextRequest) {
     // Parse the code to get structured data
     const parsedCode = parseCheatCode(codeMessage);
 
+    console.log('📝 Parsed code result:', parsedCode);
+
     if (!parsedCode) {
+      console.error('❌ Failed to parse code');
       return NextResponse.json({ error: 'Failed to parse code' }, { status: 400 });
     }
 
@@ -45,25 +47,34 @@ export async function POST(request: NextRequest) {
     };
     const section = sectionMap[scenarioCategory] || 'in_game';
 
-    // Insert the code into the database with full structure
-    const { data: code, error: insertError} = await supabase
+    console.log('💾 Attempting to save code with data:', {
+      user_id: user.id,
+      title: parsedCode.title,
+      category: parsedCode.category,
+      content: parsedCode.description || '',
+      chat_id: null
+    });
+
+    // Insert the code into the database (matching the schema used by saveCheatCode)
+    const { data: code, error: insertError } = await supabase
       .from('cheat_codes')
       .insert({
         user_id: user.id,
         title: parsedCode.title,
         category: parsedCode.category,
         content: parsedCode.description || '',
-        is_active: true,
-        times_used: 0,
-        is_favorite: false
+        chat_id: null
       })
       .select()
       .single();
 
     if (insertError) {
-      console.error('Error inserting code:', insertError);
-      return NextResponse.json({ error: 'Failed to save code' }, { status: 500 });
+      console.error('❌ Error inserting code:', insertError);
+      console.error('❌ Error details:', JSON.stringify(insertError, null, 2));
+      return NextResponse.json({ error: 'Failed to save code', details: insertError.message }, { status: 500 });
     }
+
+    console.log('✅ Code saved successfully:', code.id);
 
     return NextResponse.json({
       success: true,
