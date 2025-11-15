@@ -61,19 +61,19 @@ export async function generateCoachIntro(userData: UserData): Promise<string> {
   // Simple prompt - just generate a warm, personal intro
   const prompt = `You are a basketball confidence coach greeting a new player. Write a warm, authentic 2-3 sentence intro that:
 
-1. Addresses them by name: ${userData.name}
-2. Acknowledges their specific struggle: "${userData.scenarioLabel}"
-3. Transitions to saying you've created their first personalized cheat code to help with exactly that
+1. Acknowledges their specific struggle: "${userData.scenarioLabel}"
+2. Transitions to saying you've created their first personalized cheat code to help with exactly that
 
 Tone guidelines:
 - Casual and authentic (like a real coach, not corporate)
+- DO NOT use the player's name - this will be added separately
 - NO formal greetings like "Hello" or "Hi" - jump right in
 - Empathetic but confident - you understand the struggle AND you have the solution
 - Age-appropriate for ${userData.age} year olds at ${userData.level} level
 - Keep it concise - 2-3 sentences max
 
 Example structure:
-"[Name], I totally get it—[their struggle] can really mess with your confidence. I've got something that's gonna help you push through those moments and get back to [hint at their zone state]. Check out your first code below."
+"I totally get it—[their struggle] can really mess with your confidence. I've got something that's gonna help you push through those moments and get back to [hint at their zone state]. Check out your first code below."
 
 Write ONLY the intro text, nothing else.`;
 
