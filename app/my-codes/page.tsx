@@ -963,13 +963,21 @@ export default function MyCodesRedesignPage() {
                       }
                     }}
                     disabled={activeCodes.length < 2}
-                    className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100"
+                    className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100 relative"
                     style={{
                       backgroundColor: 'rgba(0, 255, 65, 0.15)',
                       borderColor: 'rgba(0, 255, 65, 0.3)',
                       color: 'var(--accent-color)'
                     }}
                   >
+                    {activeCodes.length < 2 && (
+                      <div className="absolute top-3 right-3">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                      </div>
+                    )}
                     <div className="text-sm font-bold mb-1">Quick Game</div>
                     <div className="text-xs opacity-80">{activeCodes.length < 2 ? 'Need 2+ codes to unlock' : 'Random code practice'}</div>
                   </button>
@@ -1299,13 +1307,21 @@ export default function MyCodesRedesignPage() {
                   }
                 }}
                 disabled={activeCodes.length < 2}
-                className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100"
+                className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100 relative"
                 style={{
                   backgroundColor: 'rgba(0, 255, 65, 0.15)',
                   borderColor: 'rgba(0, 255, 65, 0.3)',
                   color: 'var(--accent-color)'
                 }}
               >
+                {activeCodes.length < 2 && (
+                  <div className="absolute top-3 right-3">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                      <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                  </div>
+                )}
                 <div className="text-sm font-bold mb-1">Quick Game</div>
                 <div className="text-xs opacity-80">{activeCodes.length < 2 ? 'Need 2+ codes to unlock' : 'Random code practice'}</div>
               </button>
