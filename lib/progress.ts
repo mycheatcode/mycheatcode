@@ -144,7 +144,7 @@ async function getDailyGain(userId: string): Promise<number> {
 async function recordMomentumGain(
   userId: string,
   gainAmount: number,
-  source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion' | 'game' | 'first_game',
+  source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion' | 'game' | 'first_game' | 'onboarding_completion',
   metadata?: any
 ) {
   const supabase = createClient();
@@ -595,7 +595,7 @@ export async function awardOnboardingCompletionMomentum(userId: string): Promise
   }
 
   // Award onboarding completion bonus
-  await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion' as any, {});
+  await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion', {});
 
   return ONBOARDING_COMPLETION_BONUS;
 }

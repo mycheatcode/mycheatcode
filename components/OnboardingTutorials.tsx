@@ -53,14 +53,11 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
               boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <div className="flex items-start gap-3 mb-4">
-              <div className="text-2xl flex-shrink-0">🔥</div>
-              <div>
-                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Your Momentum</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  This shows your progress. Every time you practice a cheat code, your momentum grows. Keep it up!
-                </p>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Your Momentum</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                This shows your progress. Every time you practice a cheat code, your momentum grows. Keep it up!
+              </p>
             </div>
             <button
               onClick={handleNext}
@@ -87,14 +84,11 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
               boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <div className="flex items-start gap-3 mb-4">
-              <div className="text-2xl flex-shrink-0">💬</div>
-              <div>
-                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Start a New Chat</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  Share what's on your mind here, and I'll help you create a personalized cheat code to overcome it.
-                </p>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Start a New Chat</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                Share what's on your mind here, and I'll help you create a personalized cheat code to overcome it.
+              </p>
             </div>
             <button
               onClick={handleNext}
@@ -128,14 +122,11 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
               boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <div className="flex items-start gap-3 mb-4">
-              <div className="text-2xl flex-shrink-0">🏀</div>
-              <div>
-                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Browse Topics</h3>
-                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  Not sure what to talk about? Check out relatable topics other players are working through.
-                </p>
-              </div>
+            <div className="mb-4">
+              <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Browse Topics</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                Not sure what to talk about? Check out relatable topics other players are working through.
+              </p>
             </div>
             <button
               onClick={handleNext}

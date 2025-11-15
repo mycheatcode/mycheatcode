@@ -27,12 +27,12 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       return;
     }
 
-    // If progress increased, animate the growth
-    if (progress > previousProgress && previousProgress > 0) {
+    // If progress increased, animate the growth (including from 0 for first-time users)
+    if (progress > previousProgress) {
       setIsAnimating(true);
       const startProgress = previousProgress;
       const endProgress = progress;
-      const duration = 3000; // 3 seconds animation for more noticeable effect
+      const duration = 1500; // 1.5 seconds to match the main page animation
       const startTime = Date.now();
       let animationFrameId: number;
 
