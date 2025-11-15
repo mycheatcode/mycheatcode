@@ -413,8 +413,8 @@ export default function OnboardingChatWrapper({
           isFirstPlay={true}
           onboardingScenarioId={scenarioId}
           onClose={() => {
-            setShowGameModal(false);
-            // Complete onboarding after game is closed
+            // Don't close the modal or show chat - go directly to completion
+            // This prevents the flash of chat between game and home page
             onComplete();
           }}
         />
