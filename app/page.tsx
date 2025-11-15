@@ -51,6 +51,12 @@ export default function Home() {
           ? localStorage.getItem('onboardingTutorialsCompleted') === 'true'
           : false;
 
+        console.log('🎓 Tutorial Check:', {
+          isOnboardingComplete,
+          tutorialsCompleted,
+          searchParams: searchParams.toString()
+        });
+
         // Check if momentum increased since last home page visit
         if (typeof window !== 'undefined') {
           const lastHomeProgress = localStorage.getItem('lastHomePageProgress');
@@ -80,9 +86,12 @@ export default function Home() {
               animationInterval = setInterval(() => {
                 currentStep++;
                 if (currentStep <= steps) {
-                  setAnimatedProgress(startProgress + (increment * currentStep));
+                  const newProgress = startProgress + (increment * currentStep);
+                  setAnimatedProgress(newProgress);
+                  setProgressPercentage(newProgress); // Also update the circle
                 } else {
                   setAnimatedProgress(progress.progress);
+                  setProgressPercentage(progress.progress); // Update circle to final value
                   if (animationInterval) clearInterval(animationInterval);
 
                   // Hold at new value longer to let user appreciate the boost
@@ -90,8 +99,15 @@ export default function Home() {
                     setShowProgressAnimation(false);
                     setMomentumGain(0);
 
+                    console.log('🎯 After animation end:', {
+                      isOnboardingComplete,
+                      tutorialsCompleted,
+                      willShowTutorials: isOnboardingComplete && !tutorialsCompleted
+                    });
+
                     // Show tutorials if completing onboarding for the first time
                     if (isOnboardingComplete && !tutorialsCompleted) {
+                      console.log('✅ Setting showOnboardingTutorials to TRUE');
                       setShowOnboardingTutorials(true);
                       // Clean up URL
                       router.replace('/', { scroll: false });
@@ -272,7 +288,7 @@ export default function Home() {
                   fontSize: 'clamp(0.875rem, 3.5vw, 1.25rem)',
                 }}
               >
-                +{Math.floor(momentumGain)}% Keep it up! 🔥
+                +{Math.floor(momentumGain)}% {previousProgressValue === 0 ? 'First boost! 🔥' : 'Keep it up! 🔥'}
               </p>
             )}
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
