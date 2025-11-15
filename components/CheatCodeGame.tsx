@@ -59,7 +59,6 @@ export default function CheatCodeGame({
     { text: "Your thoughts shape your reality on the court", author: null },
     { text: "Confidence is built one rep at a time", author: null },
     { text: "Mental reps count just as much as physical ones", author: null },
-    { text: "I've missed more than 9,000 shots in my career. I've failed over and over. And that is why I succeed.", author: "Michael Jordan" },
     { text: "Champions aren't born in the gym, they're made in the mind", author: null },
     { text: "Your next shot is always your best shot", author: null },
     { text: "Hard work beats talent when talent doesn't work hard.", author: "Kevin Durant" },
@@ -67,10 +66,8 @@ export default function CheatCodeGame({
     { text: "Everything negative - pressure, challenges - is all an opportunity for me to rise.", author: "Kobe Bryant" },
     { text: "Pressure is a privilege", author: null },
     { text: "The mind is the limit", author: null },
-    { text: "I can accept failure, everyone fails at something. But I can't accept not trying.", author: "Michael Jordan" },
     { text: "Believe in your training", author: null },
     { text: "The only difference between a good shot and a bad shot is if it goes in or not.", author: "Charles Barkley" },
-    { text: "Mental toughness is to physical as four is to one.", author: "Bobby Knight" },
   ];
 
   const [result, setResult] = useState<GameSessionResult | null>(null);
@@ -175,6 +172,12 @@ export default function CheatCodeGame({
 
   // Fetch cheat code data for intro screen
   useEffect(() => {
+    // Skip fetching during onboarding - we use premade scenarios and don't need the DB data
+    if (onboardingScenarioId) {
+      console.log('⏭️ Skipping cheat code fetch for onboarding scenario:', onboardingScenarioId);
+      return;
+    }
+
     async function fetchCheatCodeData() {
       try {
         console.log('🎯 Fetching cheat code data for:', cheatCodeId);
@@ -206,7 +209,7 @@ export default function CheatCodeGame({
       }
     }
     fetchCheatCodeData();
-  }, [cheatCodeId]);
+  }, [cheatCodeId, onboardingScenarioId]);
 
   // Handle browser back button to prevent navigation away from app
   useEffect(() => {

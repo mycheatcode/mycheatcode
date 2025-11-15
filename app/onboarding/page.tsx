@@ -527,24 +527,26 @@ export default function OnboardingPage() {
           {step === 7 && (
             <div className="space-y-8">
               {generatingCode ? (
-                // Loading state
-                <div className="text-center space-y-8 py-12">
-                  {/* Pulsing Green Circle - matches game loading visual */}
-                  <div className="flex justify-center">
-                    <div
-                      className="w-24 h-24 rounded-full"
-                      style={{
-                        backgroundColor: '#00ff41',
-                        animation: 'pulse 2s ease-in-out infinite',
-                        boxShadow: '0 0 40px rgba(0, 255, 65, 0.6)'
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold mb-2">Creating your first cheat code...</h2>
-                    <p className="text-zinc-400">
-                      Based on everything you've shared, I'm crafting a personalized mental tool just for you.
-                    </p>
+                // Loading state - centered
+                <div className="flex items-center justify-center min-h-[60vh]">
+                  <div className="text-center space-y-8">
+                    {/* Pulsing Green Circle - matches game loading visual */}
+                    <div className="flex justify-center">
+                      <div
+                        className="w-24 h-24 rounded-full"
+                        style={{
+                          backgroundColor: '#00ff41',
+                          animation: 'pulse 2s ease-in-out infinite',
+                          boxShadow: '0 0 40px rgba(0, 255, 65, 0.6)'
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold mb-2">Creating your first cheat code...</h2>
+                      <p className="text-zinc-400">
+                        Based on everything you've shared, I'm crafting a personalized mental tool just for you.
+                      </p>
+                    </div>
                   </div>
                 </div>
               ) : coachMessage ? (
@@ -567,8 +569,8 @@ export default function OnboardingPage() {
 
         </div>
 
-        {/* Continue Button - Hidden on step 7 when chat is active */}
-        {!(step === 7 && showChat) && (
+        {/* Continue Button - Hidden on step 7 */}
+        {step !== 7 && (
           <div className="w-full mt-8 mb-8">
             <button
               onClick={handleNext}

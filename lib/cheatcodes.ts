@@ -34,7 +34,9 @@ export async function saveCheatCode(
 
     // Filter out invalid chat_id values (like "temp-onboarding-code")
     // Only use chatId if it's a valid UUID or null
+    console.log('💾 saveCheatCode called with chatId:', chatId);
     const isValidUUID = chatId && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(chatId);
+    console.log('💾 Is valid UUID?', isValidUUID, '| Will use:', isValidUUID ? chatId : null);
 
     const { data, error } = await supabase
       .from('cheat_codes')
