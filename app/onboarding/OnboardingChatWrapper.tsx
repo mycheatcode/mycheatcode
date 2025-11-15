@@ -27,6 +27,7 @@ export default function OnboardingChatWrapper({
   const [messages, setMessages] = useState<Array<{ id: string; text: string; sender: 'user' | 'coach'; timestamp: Date }>>([]);
   const [viewingCode, setViewingCode] = useState<ParsedCheatCode | null>(null);
   const [hasViewedCode, setHasViewedCode] = useState(false);
+  const [hasShownFollowUp, setHasShownFollowUp] = useState(false); // Track if follow-up message was sent
   const [showTutorial1, setShowTutorial1] = useState(false); // "Tap to view your code"
   const [showTutorial2, setShowTutorial2] = useState(false); // "Flip through cards"
   const [showTutorial3, setShowTutorial3] = useState(false); // "Get reps button"
@@ -132,25 +133,30 @@ export default function OnboardingChatWrapper({
       console.error('Error saving code:', error);
     }
 
-    // Add follow-up message after brief delay
-    setTimeout(() => {
-      const followUpMsg = {
-        id: 'coach-followup',
-        text: "Awesome! I saved that code for you. Now let's practice using it—I'm going to give you a quick scenario, and you can test it out. Ready?",
-        sender: 'coach' as const,
-        timestamp: new Date()
-      };
-      setMessages(prev => [...prev, followUpMsg]);
+    // Only add follow-up message if it hasn't been shown yet
+    if (!hasShownFollowUp) {
+      setHasShownFollowUp(true);
 
-      // Show "Get reps" button after follow-up message finishes typing
+      // Add follow-up message after brief delay
       setTimeout(() => {
-        setShowGetRepsButton(true);
-        // Show tutorial 3 pointing to the button
+        const followUpMsg = {
+          id: 'coach-followup',
+          text: "Awesome! I saved that code for you. Now let's practice using it—I'm going to give you a quick scenario, and you can test it out. Ready?",
+          sender: 'coach' as const,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, followUpMsg]);
+
+        // Show "Get reps" button after follow-up message finishes typing
         setTimeout(() => {
-          setShowTutorial3(true);
-        }, 500);
-      }, 3000);
-    }, 500);
+          setShowGetRepsButton(true);
+          // Show tutorial 3 pointing to the button
+          setTimeout(() => {
+            setShowTutorial3(true);
+          }, 500);
+        }, 3000);
+      }, 500);
+    }
   };
 
   const handleSaveCode = () => {
