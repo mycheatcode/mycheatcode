@@ -40,15 +40,37 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch the scenarios to calculate score
+    console.log('🎮 Fetching scenarios:', { scenario_ids, user_id: user.id });
     const { data: scenarios, error: scenariosError } = await supabase
       .from('game_scenarios')
       .select('*')
       .in('id', scenario_ids)
       .eq('user_id', user.id);
 
+    console.log('🎮 Scenarios query result:', {
+      found: scenarios?.length,
+      error: scenariosError?.message,
+      scenariosError
+    });
+
     if (scenariosError || !scenarios || scenarios.length !== 3) {
+      console.error('❌ Invalid scenarios:', {
+        scenariosError,
+        foundCount: scenarios?.length,
+        expectedCount: 3,
+        scenario_ids,
+        user_id: user.id
+      });
       return NextResponse.json(
-        { success: false, error: 'Invalid scenarios' },
+        {
+          success: false,
+          error: 'Invalid scenarios',
+          details: {
+            found: scenarios?.length || 0,
+            expected: 3,
+            dbError: scenariosError?.message
+          }
+        },
         { status: 400 }
       );
     }
