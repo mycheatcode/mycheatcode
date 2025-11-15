@@ -68,7 +68,33 @@ export default function OnboardingChatWrapper({
     setTimeout(() => {
       setShowTutorial1(true);
     }, 1500);
-  }, [userAnswer, introText]); // Include dependencies
+
+    // Auto-save the code to database immediately when component mounts
+    const saveCode = async () => {
+      try {
+        const response = await fetch('/api/save-onboarding-code', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            codeMessage: initialMessage,
+            scenarioCategory
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setSavedCodeId(data.code_id);
+          console.log('✅ Code saved on mount:', data.code_id);
+        } else {
+          console.error('❌ Failed to save code on mount');
+        }
+      } catch (error) {
+        console.error('❌ Error saving code on mount:', error);
+      }
+    };
+
+    saveCode();
+  }, [userAnswer, introText, initialMessage, scenarioCategory]); // Include dependencies
 
   // Calculate tutorial 1 position when it shows
   useEffect(() => {
@@ -111,27 +137,7 @@ export default function OnboardingChatWrapper({
     setHasViewedCode(true);
     setShowTutorial2(false);
 
-    // Auto-save the code to database
-    try {
-      const response = await fetch('/api/save-onboarding-code', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          codeMessage: initialMessage,
-          scenarioCategory
-        })
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setSavedCodeId(data.code_id);
-        console.log('Code saved successfully:', data.code_id);
-      } else {
-        console.error('Failed to save code');
-      }
-    } catch (error) {
-      console.error('Error saving code:', error);
-    }
+    // Note: Code is already saved on component mount, no need to save again here
 
     // Only add follow-up message if it hasn't been shown yet
     if (!hasShownFollowUp) {
