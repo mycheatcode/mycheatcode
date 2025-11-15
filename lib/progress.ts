@@ -4,12 +4,13 @@ import { createClient } from './supabase/client';
  * NEW MOMENTUM SYSTEM
  *
  * FIRST-TIME BONUSES (one-time only):
+ * - Onboarding completion: +25%
  * - First meaningful chat (5+ USER messages, avg 20+ chars): +2%
  * - First code created: +5%
  * - First code completion: +3%
  *
  * CODE CREATION GAINS (based on CURRENT momentum):
- * - Momentum 25-39%: +4% per code
+ * - Momentum 0-39%: +4% per code
  * - Momentum 40-59%: +2.5% per code
  * - Momentum 60-79%: +2% per code
  * - Momentum 80-99%: +2% per code
@@ -31,20 +32,20 @@ import { createClient } from './supabase/client';
  * DECAY:
  * - 72-hour grace period
  * - After 72hrs: -3% every 3 days of inactivity
- * - Stops at 25% baseline
+ * - Stops at 0% (no baseline)
  *
  * DISPLAY:
  * - Track decimals internally
  * - Display whole numbers only (rounded down)
  */
 
-const BASELINE_CONFIDENCE = 25;
+const BASELINE_CONFIDENCE = 0;
 
 // First-time bonus amounts
 const FIRST_CHAT_BONUS = 2;
 const FIRST_CODE_BONUS = 5;
 const FIRST_COMPLETION_BONUS = 3;
-const ONBOARDING_COMPLETION_BONUS = 25; // Baseline + onboarding = 50% total
+const ONBOARDING_COMPLETION_BONUS = 25; // Start at 0%, go to 25% after onboarding
 
 // Code creation gains by momentum tier
 function getCodeCreationGain(currentMomentum: number): number {
@@ -266,8 +267,8 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     // Calculate base progress
     const baseProgress = BASELINE_CONFIDENCE + totalGain;
 
-    // Apply decay (but never below baseline)
-    const progressRaw = Math.max(BASELINE_CONFIDENCE, Math.min(100, baseProgress - decay));
+    // Apply decay (but never below 0)
+    const progressRaw = Math.max(0, Math.min(100, baseProgress - decay));
     const progress = Math.floor(progressRaw); // Display rounded down
 
     // Calculate time until next decay
@@ -306,12 +307,12 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
   } catch (err) {
     console.error('Unexpected error calculating progress:', err);
     return {
-      progress: BASELINE_CONFIDENCE,
-      progressRaw: BASELINE_CONFIDENCE,
+      progress: 0,
+      progressRaw: 0,
       chatCount: 0,
       codeCount: 0,
       completionCount: 0,
-      baseProgress: BASELINE_CONFIDENCE,
+      baseProgress: 0,
       decay: 0,
       lastActivity: null,
       hoursUntilNextDecay: 0,
