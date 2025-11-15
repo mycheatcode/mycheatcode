@@ -4,13 +4,13 @@ import { createClient } from './supabase/client';
  * NEW MOMENTUM SYSTEM
  *
  * FIRST-TIME BONUSES (one-time only):
- * - Onboarding completion: +25%
+ * - Onboarding completion: +25% (gets user to baseline)
  * - First meaningful chat (5+ USER messages, avg 20+ chars): +2%
  * - First code created: +5%
  * - First code completion: +3%
  *
  * CODE CREATION GAINS (based on CURRENT momentum):
- * - Momentum 0-39%: +4% per code
+ * - Momentum 25-39%: +4% per code
  * - Momentum 40-59%: +2.5% per code
  * - Momentum 60-79%: +2% per code
  * - Momentum 80-99%: +2% per code
@@ -32,20 +32,21 @@ import { createClient } from './supabase/client';
  * DECAY:
  * - 72-hour grace period
  * - After 72hrs: -3% every 3 days of inactivity
- * - Stops at 0% (no baseline)
+ * - Stops at 25% baseline (users feel they earned this through onboarding)
  *
  * DISPLAY:
  * - Track decimals internally
  * - Display whole numbers only (rounded down)
+ * - Users start at 0% on signup, reach 25% baseline through onboarding
  */
 
-const BASELINE_CONFIDENCE = 0;
+const BASELINE_CONFIDENCE = 25;
 
 // First-time bonus amounts
 const FIRST_CHAT_BONUS = 2;
 const FIRST_CODE_BONUS = 5;
 const FIRST_COMPLETION_BONUS = 3;
-const ONBOARDING_COMPLETION_BONUS = 25; // Start at 0%, go to 25% after onboarding
+const ONBOARDING_COMPLETION_BONUS = 25; // Users start at 0%, earn their way to 25% baseline through onboarding
 
 // Code creation gains by momentum tier
 function getCodeCreationGain(currentMomentum: number): number {
@@ -267,8 +268,8 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     // Calculate base progress
     const baseProgress = BASELINE_CONFIDENCE + totalGain;
 
-    // Apply decay (but never below 0)
-    const progressRaw = Math.max(0, Math.min(100, baseProgress - decay));
+    // Apply decay (but never below baseline)
+    const progressRaw = Math.max(BASELINE_CONFIDENCE, Math.min(100, baseProgress - decay));
     const progress = Math.floor(progressRaw); // Display rounded down
 
     // Calculate time until next decay
@@ -307,12 +308,12 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
   } catch (err) {
     console.error('Unexpected error calculating progress:', err);
     return {
-      progress: 0,
-      progressRaw: 0,
+      progress: BASELINE_CONFIDENCE,
+      progressRaw: BASELINE_CONFIDENCE,
       chatCount: 0,
       codeCount: 0,
       completionCount: 0,
-      baseProgress: 0,
+      baseProgress: BASELINE_CONFIDENCE,
       decay: 0,
       lastActivity: null,
       hoursUntilNextDecay: 0,
