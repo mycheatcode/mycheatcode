@@ -74,7 +74,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to save code', details: insertError.message }, { status: 500 });
     }
 
-    console.log('✅ Code saved successfully:', code.id);
+    console.log('✅ Code saved successfully to database!');
+    console.log('✅ Code ID:', code.id);
+    console.log('✅ Code title:', code.title);
+    console.log('✅ User ID:', user.id);
 
     return NextResponse.json({
       success: true,
