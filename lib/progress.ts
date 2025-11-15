@@ -251,12 +251,18 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
     const completionCount = completions?.length || 0;
 
     // Get streak data from users table
-    const { data: userData } = await supabase
+    const { data: userData, error: streakError } = await supabase
       .from('users')
-      .select('streak_days_7')
+      .select('*')
       .eq('id', userId)
       .single();
-    const streak = userData?.streak_days_7 || 0;
+
+    // Try multiple possible column names for streak
+    const streak = userData?.streak_days_7 || userData?.streak_days || userData?.current_streak || 0;
+
+    if (streakError) {
+      console.warn('Could not fetch streak data:', streakError);
+    }
 
     // Get last activity timestamp
     const { data: activities } = await supabase
