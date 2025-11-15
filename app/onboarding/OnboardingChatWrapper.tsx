@@ -69,40 +69,8 @@ export default function OnboardingChatWrapper({
       setShowTutorial1(true);
     }, 1500);
 
-    // Auto-save the code to database immediately when component mounts
-    const saveCode = async () => {
-      console.log('🚀 ATTEMPTING TO SAVE CODE TO DATABASE...');
-      console.log('📝 Code message length:', initialMessage?.length);
-      console.log('📁 Scenario category:', scenarioCategory);
-
-      try {
-        const response = await fetch('/api/save-onboarding-code', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            codeMessage: initialMessage,
-            scenarioCategory
-          })
-        });
-
-        console.log('📡 Response status:', response.status);
-
-        if (response.ok) {
-          const data = await response.json();
-          setSavedCodeId(data.code_id);
-          console.log('✅ Code saved on mount - ID:', data.code_id);
-        } else {
-          const errorText = await response.text();
-          console.error('❌ Failed to save code on mount - Status:', response.status);
-          console.error('❌ Error response:', errorText);
-        }
-      } catch (error) {
-        console.error('❌ Error saving code on mount:', error);
-      }
-    };
-
-    console.log('⏰ Scheduling code save...');
-    saveCode();
+    // Note: Code will be saved when user clicks "Get Reps In" button
+    // This ensures the save happens at the right time in the flow
   }, [userAnswer, introText, initialMessage, scenarioCategory]); // Include dependencies
 
   // Calculate tutorial 1 position when it shows
@@ -270,8 +238,35 @@ export default function OnboardingChatWrapper({
                       <div className="flex justify-center w-full px-2 mt-4">
                         <button
                           ref={getRepsButtonRef}
-                          onClick={() => {
-                            console.log('Get Reps button clicked!', { parsedCode: !!parsedCode });
+                          onClick={async () => {
+                            console.log('🎮 Get Reps button clicked! Saving code now...');
+
+                            // Save the code NOW before opening the game
+                            try {
+                              console.log('💾 Saving onboarding code before practice game...');
+                              const response = await fetch('/api/save-onboarding-code', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                  codeMessage: initialMessage,
+                                  scenarioCategory
+                                })
+                              });
+
+                              console.log('📡 Save response:', response.status);
+
+                              if (response.ok) {
+                                const data = await response.json();
+                                setSavedCodeId(data.code_id);
+                                console.log('✅ Code saved successfully! ID:', data.code_id);
+                              } else {
+                                const errorText = await response.text();
+                                console.error('❌ Failed to save code:', response.status, errorText);
+                              }
+                            } catch (error) {
+                              console.error('❌ Error saving code:', error);
+                            }
+
                             if (parsedCode) {
                               setShowGameModal(true);
                               setShowTutorial3(false);
