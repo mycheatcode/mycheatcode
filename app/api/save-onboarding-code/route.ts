@@ -46,17 +46,16 @@ export async function POST(request: NextRequest) {
     const section = sectionMap[scenarioCategory] || 'in_game';
 
     // Insert the code into the database with full structure
-    const { data: code, error: insertError } = await supabase
+    const { data: code, error: insertError} = await supabase
       .from('cheat_codes')
       .insert({
         user_id: user.id,
-        section: section,
-        name: parsedCode.title,
-        one_line: phrase,
+        title: parsedCode.title,
         category: parsedCode.category,
-        description: parsedCode.description || '',
-        active: true,
-        from_onboarding: true
+        content: parsedCode.description || '',
+        is_active: true,
+        times_used: 0,
+        is_favorite: false
       })
       .select()
       .single();
@@ -69,7 +68,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       code_id: code.id,
-      code_title: code.name
+      code_title: code.title
     });
 
   } catch (error) {
