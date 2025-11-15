@@ -271,10 +271,10 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "You're matched against a player who's clearly more skilled than you.",
       current_thought: "Just try not to embarrass myself out here",
       options: [
-        { text: "Nobody expects me to win—attack!", type: 'optimal', feedback: "Perfect! You're using underdog freedom. Play free, play fearless." },
-        { text: "Just try not to embarrass myself", type: 'negative', feedback: "Playing not to lose creates hesitation. Play free, play fearless." },
-        { text: "Hope they have an off game", type: 'negative', feedback: "That's passive thinking. You have nothing to lose—play fearless." },
-        { text: "Give it my best effort", type: 'helpful', feedback: "Best effort is good, but 'nobody expects me to win' unlocks true freedom." }
+        { text: "Nobody expects me to win—attack!", type: 'optimal', feedback: "Perfect! When there's zero expectation, you're completely free to be aggressive. This is your moment to play with no fear." },
+        { text: "Just try not to embarrass myself", type: 'negative', feedback: "Flip that mindset! When you're the underdog, you have nothing to lose. That freedom is powerful—use it to attack." },
+        { text: "Hope they have an off game", type: 'negative', feedback: "Don't wait for them to fail—take control! You have zero pressure here, so play fearlessly and make something happen." },
+        { text: "Give it my best effort", type: 'helpful', feedback: "Love the effort mindset! Now add this: since nobody expects you to win, you can play completely free. That's your superpower." }
       ],
       scenario_type: 'internal',
       created_at: new Date().toISOString()
@@ -286,10 +286,10 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Playing up a level against significantly better competition.",
       current_thought: "I'm outmatched, there's no advantage here",
       options: [
-        { text: "They expect me to lose anyway", type: 'optimal', feedback: "Exactly! Low expectations = total freedom. Play free, play fearless." },
-        { text: "I might learn something", type: 'helpful', feedback: "Learning is good, but the real advantage is freedom. Play fearless." },
-        { text: "There isn't one, they're just better", type: 'negative', feedback: "Underdog status IS the advantage. You have nothing to lose." },
-        { text: "Maybe I can surprise them", type: 'helpful', feedback: "Good mindset, but 'they expect me to lose' is the freeing truth." }
+        { text: "They expect me to lose anyway", type: 'optimal', feedback: "Exactly! When nobody expects you to win, you're completely free. Attack without hesitation—you have nothing to lose." },
+        { text: "I might learn something", type: 'helpful', feedback: "Learning is valuable, and here's the bonus: underdog freedom lets you play fearlessly while you learn." },
+        { text: "There isn't one, they're just better", type: 'negative', feedback: "Here's your advantage: zero pressure. They're expected to win, you're free to shock people." },
+        { text: "Maybe I can surprise them", type: 'helpful', feedback: "Love this mindset! And remember: since nobody expects you to win, you can play with complete freedom." }
       ],
       scenario_type: 'internal',
       created_at: new Date().toISOString()
