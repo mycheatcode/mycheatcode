@@ -155,10 +155,62 @@ export default function OnboardingPage() {
     }
   };
 
-  const handleChatComplete = () => {
-    // Called when user clicks "Get Reps In" button - start practice game
-    // For now, we'll redirect to home and save the code
-    // TODO: In the future, this should open the practice game directly
+  const handleChatComplete = async () => {
+    // Called when user clicks "Done" after practice game
+    console.log('🎯 handleChatComplete called - saving code before completion');
+
+    try {
+      // Save the code to database before completing onboarding
+      const scenarioCategory = SPECIFIC_SCENARIOS.find(s => s.value === specificScenario)?.category || 'In-Game';
+
+      console.log('💾 Saving code with:', {
+        messageLength: coachMessage.length,
+        category: scenarioCategory
+      });
+
+      const response = await fetch('/api/save-onboarding-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          codeMessage: coachMessage,
+          scenarioCategory
+        })
+      });
+
+      console.log('📡 Save response status:', response.status);
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('✅ Code saved successfully before completion - ID:', data.code_id);
+      } else {
+        const errorText = await response.text();
+        console.error('❌ Failed to save code:', response.status, errorText);
+      }
+    } catch (error) {
+      console.error('❌ Error saving code in handleChatComplete:', error);
+    }
+
+    // Award onboarding completion momentum
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session?.user) {
+        console.log('🎯 Awarding onboarding completion momentum');
+        const response = await fetch('/api/award-onboarding-momentum', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        if (response.ok) {
+          console.log('✅ Onboarding momentum awarded');
+        } else {
+          console.error('❌ Failed to award onboarding momentum');
+        }
+      }
+    } catch (error) {
+      console.error('❌ Error awarding momentum:', error);
+    }
+
+    // Now complete onboarding and redirect
     handleSubmit();
   };
 
