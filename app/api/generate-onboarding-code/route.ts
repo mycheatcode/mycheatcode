@@ -1,5 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getPersonalizedCodeMessage } from '@/lib/personalize-code';
+import { createClient } from '@/lib/supabase/server';
+import { parseCheatCode } from '@/lib/parseCheatCode';
+
+const SCENARIO_CATEGORIES: Record<string, string> = {
+  'airball_laugh': 'In-Game',
+  'coach_yells': 'Off Court',
+  'miss_spiral': 'In-Game',
+  'pressure_counting': 'In-Game',
+  'better_opponent': 'Pre-Game',
+  'mistake_replaying': 'Post-Game',
+  'overthinking': 'In-Game',
+  'faking_confidence': 'Locker Room'
+};
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,6 +34,47 @@ export async function POST(request: NextRequest) {
     const greeting = `What's up ${name}!`;
     const coachIntro = `${greeting} I'm hyped to be your 24/7 confidence coach.`;
     const fullMessage = `${coachIntro} ${message}`;
+
+    // SAVE THE CODE TO DATABASE IMMEDIATELY
+    console.log('💾 Saving onboarding code to database immediately after generation');
+
+    const supabase = await createClient();
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    if (!authError && user) {
+      try {
+        const parsedCode = parseCheatCode(message);
+
+        if (parsedCode) {
+          const scenarioCategory = SCENARIO_CATEGORIES[scenario] || 'In-Game';
+
+          const { data: code, error: insertError } = await supabase
+            .from('cheat_codes')
+            .insert({
+              user_id: user.id,
+              title: parsedCode.title,
+              category: parsedCode.category,
+              content: parsedCode.description || '',
+              chat_id: null,
+              is_active: true
+            })
+            .select()
+            .single();
+
+          if (insertError) {
+            console.error('❌ Error saving onboarding code:', insertError);
+          } else {
+            console.log('✅ Onboarding code saved successfully! ID:', code.id);
+          }
+        } else {
+          console.error('❌ Failed to parse onboarding code');
+        }
+      } catch (saveError) {
+        console.error('❌ Error in code save process:', saveError);
+      }
+    } else {
+      console.error('❌ No authenticated user found when trying to save code');
+    }
 
     return NextResponse.json({ message: fullMessage });
 
