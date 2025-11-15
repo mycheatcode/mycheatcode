@@ -65,12 +65,18 @@ export default function MyCodesRedesignPage() {
     const loadData = async () => {
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
+        console.log('❌ No user found');
         setLoading(false);
         return;
       }
 
+      console.log('👤 Loading codes for user:', user.id);
+
       // Load cheat codes
       const { cheatCodes: dbCodes } = await getUserCheatCodes(user.id);
+      console.log('📊 Raw codes from database:', dbCodes);
+      console.log('📊 Number of codes:', dbCodes?.length || 0);
+
       if (dbCodes) {
         const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
           const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
@@ -91,7 +97,11 @@ export default function MyCodesRedesignPage() {
             topicId: code.chat_id || undefined
           };
         });
+        console.log('🔄 Transformed codes:', transformedCodes);
+        console.log('🔄 Active codes:', transformedCodes.filter(c => !c.archived));
         setCheatCodes(transformedCodes);
+      } else {
+        console.log('⚠️ No codes returned from getUserCheatCodes');
       }
 
       // Load user progress

@@ -72,20 +72,28 @@ export async function getUserCheatCodes(userId: string): Promise<{
   const supabase = createClient();
 
   try {
+    console.log('🔍 getUserCheatCodes: Fetching codes for user:', userId);
+
     const { data, error } = await supabase
       .from('cheat_codes')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false });
 
+    console.log('🔍 getUserCheatCodes: Query result:', {
+      dataCount: data?.length,
+      error: error?.message,
+      data: data
+    });
+
     if (error) {
-      console.error('Error fetching cheat codes:', error);
+      console.error('❌ Error fetching cheat codes:', error);
       return { error: error.message };
     }
 
     return { cheatCodes: data };
   } catch (err) {
-    console.error('Unexpected error fetching cheat codes:', err);
+    console.error('❌ Unexpected error fetching cheat codes:', err);
     return { error: 'Unexpected error' };
   }
 }
