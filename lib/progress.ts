@@ -44,6 +44,7 @@ const BASELINE_CONFIDENCE = 25;
 const FIRST_CHAT_BONUS = 2;
 const FIRST_CODE_BONUS = 5;
 const FIRST_COMPLETION_BONUS = 3;
+const ONBOARDING_COMPLETION_BONUS = 25; // Baseline + onboarding = 50% total
 
 // Code creation gains by momentum tier
 function getCodeCreationGain(currentMomentum: number): number {
@@ -578,4 +579,21 @@ export async function awardGameCompletionMomentum(
   }
 
   return gainAmount;
+}
+
+/**
+ * Award momentum for completing onboarding
+ * This gives users a significant boost to start at 50% instead of 25%
+ */
+export async function awardOnboardingCompletionMomentum(userId: string): Promise<number> {
+  // Check if onboarding bonus already awarded
+  const alreadyAwarded = await hasReceivedFirstTimeBonus(userId, 'onboarding_completion');
+  if (alreadyAwarded) {
+    return 0;
+  }
+
+  // Award onboarding completion bonus
+  await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion' as any, {});
+
+  return ONBOARDING_COMPLETION_BONUS;
 }

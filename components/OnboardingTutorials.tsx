@@ -45,17 +45,23 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 1: Momentum Visual */}
       {currentStep === 1 && (
-        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] max-w-sm px-6">
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
-            className="bg-white text-black rounded-2xl p-6 shadow-2xl animate-fadeIn"
+            className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
-              boxShadow: '0 0 40px rgba(0, 255, 65, 0.3)',
+              borderColor: '#00ff41',
+              boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <h3 className="text-xl font-bold mb-3">Your Momentum 🔥</h3>
-            <p className="text-base leading-relaxed mb-4">
-              This shows your progress. Every time you practice a cheat code, your momentum grows. Keep it up!
-            </p>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="text-2xl flex-shrink-0">🔥</div>
+              <div>
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Your Momentum</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  This shows your progress. Every time you practice a cheat code, your momentum grows. Keep it up!
+                </p>
+              </div>
+            </div>
             <button
               onClick={handleNext}
               className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -68,28 +74,28 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
               Got it!
             </button>
           </div>
-          {/* Arrow pointing up to momentum visual */}
-          <div className="absolute -top-6 left-1/2 -translate-x-1/2">
-            <div
-              className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-b-[12px] border-b-white"
-            />
-          </div>
         </div>
       )}
 
       {/* Tutorial Step 2: Text Input */}
       {currentStep === 2 && (
-        <div className="fixed bottom-[140px] left-1/2 -translate-x-1/2 z-[101] max-w-sm px-6">
+        <div className="fixed bottom-[140px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
-            className="bg-white text-black rounded-2xl p-6 shadow-2xl animate-fadeIn"
+            className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
-              boxShadow: '0 0 40px rgba(0, 255, 65, 0.3)',
+              borderColor: '#00ff41',
+              boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <h3 className="text-xl font-bold mb-3">Start a New Chat 💬</h3>
-            <p className="text-base leading-relaxed mb-4">
-              Share what's on your mind here, and I'll help you create a personalized cheat code to overcome it.
-            </p>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="text-2xl flex-shrink-0">💬</div>
+              <div>
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Start a New Chat</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  Share what's on your mind here, and I'll help you create a personalized cheat code to overcome it.
+                </p>
+              </div>
+            </div>
             <button
               onClick={handleNext}
               className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -103,9 +109,10 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
             </button>
           </div>
           {/* Arrow pointing down to text input */}
-          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
             <div
-              className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white"
+              className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
+              style={{ borderTop: '10px solid #00ff41' }}
             />
           </div>
         </div>
@@ -113,17 +120,23 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 3: Relatable Topics Button */}
       {currentStep === 3 && (
-        <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 z-[101] max-w-sm px-6">
+        <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
-            className="bg-white text-black rounded-2xl p-6 shadow-2xl animate-fadeIn"
+            className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
-              boxShadow: '0 0 40px rgba(0, 255, 65, 0.3)',
+              borderColor: '#00ff41',
+              boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
             }}
           >
-            <h3 className="text-xl font-bold mb-3">Browse Topics 🏀</h3>
-            <p className="text-base leading-relaxed mb-4">
-              Not sure what to talk about? Check out relatable topics other players are working through.
-            </p>
+            <div className="flex items-start gap-3 mb-4">
+              <div className="text-2xl flex-shrink-0">🏀</div>
+              <div>
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Browse Topics</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  Not sure what to talk about? Check out relatable topics other players are working through.
+                </p>
+              </div>
+            </div>
             <button
               onClick={handleNext}
               className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
@@ -137,9 +150,10 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
             </button>
           </div>
           {/* Arrow pointing down to relatable topics button */}
-          <div className="absolute -bottom-6 left-1/2 -translate-x-1/2">
+          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
             <div
-              className="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[12px] border-t-white"
+              className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
+              style={{ borderTop: '10px solid #00ff41' }}
             />
           </div>
         </div>

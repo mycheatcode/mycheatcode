@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import OnboardingChatWrapper from './OnboardingChatWrapper';
+import { awardOnboardingCompletionMomentum } from '@/lib/progress';
 
 const AGE_OPTIONS = [
   { value: '13-15', label: '13-15' },
@@ -258,6 +259,9 @@ export default function OnboardingPage() {
         setLoading(false);
         return;
       }
+
+      // Award onboarding completion momentum (25% bonus)
+      await awardOnboardingCompletionMomentum(user.id);
 
       // Save the generated cheat code to the database
       if (generatedCode) {

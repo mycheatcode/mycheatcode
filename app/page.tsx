@@ -288,7 +288,7 @@ export default function Home() {
                   fontSize: 'clamp(0.875rem, 3.5vw, 1.25rem)',
                 }}
               >
-                +{Math.floor(momentumGain)}% {previousProgressValue === 0 ? 'First boost! 🔥' : 'Keep it up! 🔥'}
+                +{Math.floor(momentumGain)}% {previousProgressValue === 0 ? "You're on fire! 🔥" : 'Keep it up! 🔥'}
               </p>
             )}
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
