@@ -63,7 +63,8 @@ export async function POST(request: NextRequest) {
         title: parsedCode.title,
         category: parsedCode.category,
         content: parsedCode.description || '',
-        chat_id: null
+        chat_id: null,
+        is_active: true  // Ensure the code is active and not archived
       })
       .select()
       .single();
