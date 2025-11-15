@@ -71,6 +71,10 @@ export default function OnboardingChatWrapper({
 
     // Auto-save the code to database immediately when component mounts
     const saveCode = async () => {
+      console.log('🚀 ATTEMPTING TO SAVE CODE TO DATABASE...');
+      console.log('📝 Code message length:', initialMessage?.length);
+      console.log('📁 Scenario category:', scenarioCategory);
+
       try {
         const response = await fetch('/api/save-onboarding-code', {
           method: 'POST',
@@ -81,18 +85,23 @@ export default function OnboardingChatWrapper({
           })
         });
 
+        console.log('📡 Response status:', response.status);
+
         if (response.ok) {
           const data = await response.json();
           setSavedCodeId(data.code_id);
-          console.log('✅ Code saved on mount:', data.code_id);
+          console.log('✅ Code saved on mount - ID:', data.code_id);
         } else {
-          console.error('❌ Failed to save code on mount');
+          const errorText = await response.text();
+          console.error('❌ Failed to save code on mount - Status:', response.status);
+          console.error('❌ Error response:', errorText);
         }
       } catch (error) {
         console.error('❌ Error saving code on mount:', error);
       }
     };
 
+    console.log('⏰ Scheduling code save...');
     saveCode();
   }, [userAnswer, introText, initialMessage, scenarioCategory]); // Include dependencies
 
