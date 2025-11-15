@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { ensureUserExists } from '../../../lib/memory-layer';
-import { parseCheatCode } from '../../../components/CodeCardViewer';
+import { parseCheatCode } from '../../../lib/parseCheatCode';
 
 export async function POST(request: NextRequest) {
   try {
