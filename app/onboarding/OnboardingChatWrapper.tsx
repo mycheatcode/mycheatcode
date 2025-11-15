@@ -74,9 +74,9 @@ export default function OnboardingChatWrapper({
     if (showTutorial1 && viewCodeButtonRef.current) {
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button
-      // Calculate from bottom of viewport to bottom of button, then subtract spacing to go lower
-      const distanceFromBottom = window.innerHeight - rect.bottom;
-      setTutorial1Position(distanceFromBottom - 100); // Subtract to position it lower (below the button)
+      // Calculate from bottom of viewport to top of button, add spacing
+      const distanceFromBottom = window.innerHeight - rect.top;
+      setTutorial1Position(distanceFromBottom + 20); // Add to position it below the button
     }
   }, [showTutorial1, messages, completedAnimations]);
 
