@@ -4115,6 +4115,11 @@ export async function POST(req: Request) {
     const isFirstCode = meta?.isFirstCode || false;
     const lastUser = [...clientMessages].reverse().find(m => m.role === 'user')?.content ?? '';
 
+    // DEBUG: Log received meta and isFirstCode flag
+    console.log('[API DEBUG] Received meta:', meta);
+    console.log('[API DEBUG] isFirstCode flag:', isFirstCode);
+    console.log('[API DEBUG] Number of client messages:', clientMessages.length);
+
     // Check if this is a code follow-up system message
     const isCodeFollowUp = lastUser.startsWith('[SYSTEM: User just viewed the');
     const codeFollowUpMatch = lastUser.match(/\[SYSTEM: User just viewed the "(.+?)" code for the first time\./);
@@ -4184,6 +4189,7 @@ export async function POST(req: Request) {
 
     // 2.5) Special instruction for first code from onboarding
     if (isFirstCode) {
+      console.log('[API DEBUG] ✅ isFirstCode is TRUE - Adding special system instruction for coach intro');
       messages.push({
         role: 'system',
         content: `IMPORTANT: This is the player's very first interaction with their coach after completing onboarding. Your FIRST MESSAGE must follow this exact format:
@@ -4194,6 +4200,9 @@ Example: "What's up Hunter! I'm hyped to be your 24/7 confidence coach. I totall
 
 This introduction should ONLY be used for this very first message. All subsequent messages should use your normal conversational style.`,
       });
+      console.log('[API DEBUG] System message added. Total messages in array:', messages.length);
+    } else {
+      console.log('[API DEBUG] ❌ isFirstCode is FALSE - NOT adding coach intro instruction');
     }
 
     // 3) Conversation memory - load past chats to spot patterns and build relationship

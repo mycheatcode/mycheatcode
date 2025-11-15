@@ -1189,6 +1189,12 @@ export default function ChatPage() {
 
     try {
       const payload = buildChatPayload([...messages, userMsg]);
+
+      // DEBUG: Log the isFirstCode flag being sent
+      console.log('[FRONTEND DEBUG] Sending payload with meta:', payload.meta);
+      console.log('[FRONTEND DEBUG] isFirstCode flag:', payload.meta?.isFirstCode);
+      console.log('[FRONTEND DEBUG] isFirstCodeChat state:', isFirstCodeChat);
+
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
