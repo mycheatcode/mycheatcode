@@ -962,7 +962,7 @@ export default function MyCodesRedesignPage() {
                         setShowGameModal(true);
                       }
                     }}
-                    disabled={activeCodes.length === 0}
+                    disabled={activeCodes.length < 2}
                     className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100"
                     style={{
                       backgroundColor: 'rgba(0, 255, 65, 0.15)',
@@ -971,7 +971,7 @@ export default function MyCodesRedesignPage() {
                     }}
                   >
                     <div className="text-sm font-bold mb-1">Quick Game</div>
-                    <div className="text-xs opacity-80">Random code practice</div>
+                    <div className="text-xs opacity-80">{activeCodes.length < 2 ? 'Need 2+ codes to unlock' : 'Random code practice'}</div>
                   </button>
                   <button
                     onClick={() => {
@@ -1298,7 +1298,7 @@ export default function MyCodesRedesignPage() {
                     setShowGameModal(true);
                   }
                 }}
-                disabled={activeCodes.length === 0}
+                disabled={activeCodes.length < 2}
                 className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50 disabled:active:scale-100"
                 style={{
                   backgroundColor: 'rgba(0, 255, 65, 0.15)',
@@ -1307,7 +1307,7 @@ export default function MyCodesRedesignPage() {
                 }}
               >
                 <div className="text-sm font-bold mb-1">Quick Game</div>
-                <div className="text-xs opacity-80">Random code practice</div>
+                <div className="text-xs opacity-80">{activeCodes.length < 2 ? 'Need 2+ codes to unlock' : 'Random code practice'}</div>
               </button>
               <button
                 onClick={() => {
