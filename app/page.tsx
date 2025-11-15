@@ -99,10 +99,20 @@ export default function Home() {
                     setShowProgressAnimation(false);
                     setMomentumGain(0);
 
+                    // Ensure progress stays at the correct value after animation
+                    setProgressPercentage(progress.progress);
+                    setAnimatedProgress(progress.progress);
+
+                    // Update localStorage to persist the new progress
+                    if (typeof window !== 'undefined') {
+                      localStorage.setItem('lastMomentumProgress', progress.progress.toString());
+                    }
+
                     console.log('🎯 After animation end:', {
                       isOnboardingComplete,
                       tutorialsCompleted,
-                      willShowTutorials: isOnboardingComplete && !tutorialsCompleted
+                      willShowTutorials: isOnboardingComplete && !tutorialsCompleted,
+                      finalProgress: progress.progress
                     });
 
                     // Show tutorials if completing onboarding for the first time
