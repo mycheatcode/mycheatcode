@@ -819,8 +819,8 @@ export default function CheatCodeGame({
       {/* Feedback Modal */}
       {showFeedback && (
         <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[250] animate-fadeIn flex flex-col">
-          {/* Scrollable content area */}
-          <div className="flex-1 overflow-y-auto p-6 pb-2">
+          {/* Scrollable content area - centered vertically */}
+          <div className="flex-1 overflow-y-auto p-6 pb-2 flex items-center">
             <div className="max-w-xl w-full mx-auto space-y-6 animate-slideUp">
               {isTimeout ? (
                 <>

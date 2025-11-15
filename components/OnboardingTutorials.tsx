@@ -45,7 +45,7 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 1: Momentum Visual */}
       {currentStep === 1 && (
-        <div className="fixed top-[180px] left-1/2 -translate-x-1/2 z-[101] max-w-sm px-6">
+        <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[101] max-w-sm px-6">
           <div
             className="bg-white text-black rounded-2xl p-6 shadow-2xl animate-fadeIn"
             style={{

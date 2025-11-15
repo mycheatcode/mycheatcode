@@ -264,6 +264,17 @@ export default function Home() {
             >
               {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
             </div>
+            {showProgressAnimation && momentumGain > 0 && (
+              <p
+                className="font-semibold mb-2 animate-fadeIn"
+                style={{
+                  color: '#00ff41',
+                  fontSize: 'clamp(0.875rem, 3.5vw, 1.25rem)',
+                }}
+              >
+                +{Math.floor(momentumGain)}% Keep it up! 🔥
+              </p>
+            )}
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
               Elite players stay above 85%
             </p>
