@@ -119,6 +119,16 @@ export default function CheatCodeGame({
     const retryDelay = 1500; // Faster retry - 1.5 seconds between retries
     const minLoadTime = 4000; // Minimum 4 seconds (1 quote display)
     const startTime = Date.now();
+    const absoluteTimeout = 60000; // 60 second hard timeout
+    let timeoutId: NodeJS.Timeout | null = null;
+
+    // Set absolute timeout to prevent infinite loops
+    const hardTimeoutId = setTimeout(() => {
+      console.error('⏰ Hard timeout reached after 60 seconds');
+      setError('Game loading timeout. Please try again.');
+      setLoading(false);
+      if (timeoutId) clearTimeout(timeoutId);
+    }, absoluteTimeout);
 
     async function fetchScenarios() {
       try {
@@ -130,6 +140,10 @@ export default function CheatCodeGame({
             auto_generate: retryCount === 0, // Auto-generate on first attempt
           }),
         });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
 
         const data = await response.json();
 
@@ -143,14 +157,18 @@ export default function CheatCodeGame({
           if (retryCount < maxRetries) {
             retryCount++;
             console.log(`Scenarios not ready, retrying in ${retryDelay}ms (attempt ${retryCount}/${maxRetries})...`);
-            setTimeout(fetchScenarios, retryDelay);
+            timeoutId = setTimeout(fetchScenarios, retryDelay);
             return;
           }
 
+          clearTimeout(hardTimeoutId);
           setError('Scenarios are still being generated. Please try again in a few moments.');
           setLoading(false);
           return;
         }
+
+        // Success! Clear the hard timeout
+        clearTimeout(hardTimeoutId);
 
         // Ensure minimum loading time for at least 1 quote
         const elapsedTime = Date.now() - startTime;
@@ -161,7 +179,9 @@ export default function CheatCodeGame({
           setLoading(false);
         }, remainingTime);
       } catch (err) {
-        setError('Failed to load game');
+        console.error('❌ Error fetching scenarios:', err);
+        clearTimeout(hardTimeoutId);
+        setError('Failed to load game. Please check your connection and try again.');
         setLoading(false);
       }
     }
