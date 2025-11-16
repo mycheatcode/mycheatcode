@@ -47,11 +47,36 @@ export async function POST(request: NextRequest) {
     };
     const section = sectionMap[scenarioCategory] || 'in_game';
 
+    // Reconstruct the CARD format from parsed code to save in database
+    let cardFormatContent = `TITLE: ${parsedCode.title}\n`;
+    cardFormatContent += `CATEGORY: ${parsedCode.category}\n`;
+    if (parsedCode.description) {
+      cardFormatContent += `DESCRIPTION: ${parsedCode.description}\n`;
+    }
+    cardFormatContent += '\n';
+
+    // Add all cards
+    parsedCode.cards.forEach(card => {
+      if (card.type === 'what') {
+        cardFormatContent += `CARD: What\n${card.content}\n\n`;
+      } else if (card.type === 'when') {
+        cardFormatContent += `CARD: When\n${card.content}\n\n`;
+      } else if (card.type === 'how') {
+        cardFormatContent += `CARD: How - Step ${card.stepNumber}\n${card.content}\n\n`;
+      } else if (card.type === 'why') {
+        cardFormatContent += `CARD: Why\n${card.content}\n\n`;
+      } else if (card.type === 'remember') {
+        cardFormatContent += `CARD: Remember\n${card.content}\n\n`;
+      } else if (card.type === 'phrase') {
+        cardFormatContent += `CARD: Cheat Code Phrase\n${card.content}\n\n`;
+      }
+    });
+
     console.log('💾 Attempting to save code with data:', {
       user_id: user.id,
       title: parsedCode.title,
       category: parsedCode.category,
-      content: parsedCode.description || '',
+      content: cardFormatContent.trim(),
       chat_id: null
     });
 
@@ -62,7 +87,7 @@ export async function POST(request: NextRequest) {
         user_id: user.id,
         title: parsedCode.title,
         category: parsedCode.category,
-        content: parsedCode.description || '',
+        content: cardFormatContent.trim(),
         chat_id: null,
         is_active: true  // Ensure the code is active and not archived
       })
