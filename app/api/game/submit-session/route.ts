@@ -40,12 +40,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Fetch the scenarios to calculate score
+    // NOTE: Scenarios can be either user-specific OR premade (user_id IS NULL)
     console.log('🎮 Fetching scenarios:', { scenario_ids, user_id: user.id });
     const { data: scenarios, error: scenariosError } = await supabase
       .from('game_scenarios')
       .select('*')
-      .in('id', scenario_ids)
-      .eq('user_id', user.id);
+      .in('id', scenario_ids);
+      // Removed .eq('user_id', user.id) to allow premade scenarios with NULL user_id
 
     console.log('🎮 Scenarios query result:', {
       found: scenarios?.length,
@@ -72,6 +73,16 @@ export async function POST(request: NextRequest) {
           }
         },
         { status: 400 }
+      );
+    }
+
+    // Security check: Verify scenarios belong to user OR are premade (NULL user_id)
+    const invalidScenarios = scenarios.filter(s => s.user_id !== null && s.user_id !== user.id);
+    if (invalidScenarios.length > 0) {
+      console.error('❌ Scenarios belong to different user:', { invalidScenarios });
+      return NextResponse.json(
+        { success: false, error: 'Unauthorized scenarios' },
+        { status: 403 }
       );
     }
 
