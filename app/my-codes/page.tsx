@@ -340,14 +340,12 @@ export default function MyCodesRedesignPage() {
     setShowGameModal(false);
     setGameCheatCodeId(null);
     setGameCheatCodeTitle('');
+    // Also close the code card modal if it was open
+    setSelectedCode(null);
   };
 
   // Handle game completion
   const handleGameComplete = (result: GameSessionResult) => {
-    // Close the game modal and code card modal (if open) immediately
-    setShowGameModal(false);
-    setSelectedCode(null);
-
     // Add the completed code to today's completed set
     if (gameCheatCodeId) {
       setCompletedToday(prev => {
@@ -847,8 +845,19 @@ export default function MyCodesRedesignPage() {
                   </div>
                 </div>
                 {userProgress && (
-                  <div className="flex flex-col items-center gap-1">
-                    <div className="w-[120px] aspect-square overflow-visible">
+                  <div className="flex flex-col items-center gap-1 relative">
+                    {/* Animated glow background */}
+                    {showMomentumAnimation && (
+                      <div
+                        className="absolute inset-0 rounded-full animate-pulse"
+                        style={{
+                          background: 'radial-gradient(circle, rgba(0,255,65,0.2) 0%, transparent 70%)',
+                          filter: 'blur(20px)',
+                          zIndex: 0
+                        }}
+                      />
+                    )}
+                    <div className="w-[120px] aspect-square overflow-visible relative z-10">
                       <ProgressCircles
                         theme="dark"
                         progress={showMomentumAnimation ? animatedMomentum : userProgress.progress}
@@ -856,10 +865,11 @@ export default function MyCodesRedesignPage() {
                       />
                     </div>
                     <div
-                      className={`text-2xl font-bold transition-all duration-300 ${showMomentumAnimation ? 'number-pulse-green' : ''}`}
+                      className={`text-2xl font-bold transition-all duration-300 relative z-10 ${showMomentumAnimation ? 'number-pulse-green' : ''}`}
                       style={{
                         color: showMomentumAnimation ? '#00ff41' : 'var(--text-primary)',
-                        transform: showMomentumAnimation ? 'scale(1.15)' : 'scale(1)',
+                        transform: showMomentumAnimation ? 'scale(1.2)' : 'scale(1)',
+                        textShadow: showMomentumAnimation ? '0 0 20px rgba(0,255,65,0.8), 0 0 40px rgba(0,255,65,0.4)' : 'none',
                       }}
                       ref={(el) => {
                         if (el && showMomentumAnimation) {
@@ -875,13 +885,17 @@ export default function MyCodesRedesignPage() {
                     </div>
                     {showMomentumAnimation && momentumGain > 0 && (
                       <p
-                        className="font-semibold text-sm animate-fadeIn"
-                        style={{ color: '#00ff41' }}
+                        className="font-bold text-lg animate-fadeIn relative z-10"
+                        style={{
+                          color: '#00ff41',
+                          textShadow: '0 0 10px rgba(0,255,65,0.6)',
+                          animation: 'fadeIn 0.3s ease-in, floatUp 1.5s ease-out'
+                        }}
                       >
                         +{Math.floor(momentumGain)}% 🔥
                       </p>
                     )}
-                    <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                    <div className="text-xs font-semibold tracking-wider relative z-10" style={{ color: 'var(--text-tertiary)' }}>
                       MOMENTUM
                     </div>
                   </div>

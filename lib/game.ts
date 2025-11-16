@@ -209,6 +209,16 @@ export async function saveGameSession(
       return { error: error.message };
     }
 
+    // Update the cheat code's times_used counter
+    const { error: updateError } = await supabase.rpc('increment_code_usage', {
+      code_id: cheatCodeId
+    });
+
+    if (updateError) {
+      console.error('Error incrementing times_used:', updateError);
+      // Don't fail the whole operation if this update fails
+    }
+
     return { sessionId: data.id };
   } catch (err) {
     console.error('Unexpected error saving game session:', err);
