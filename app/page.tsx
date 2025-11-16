@@ -66,12 +66,16 @@ export default function Home() {
           const shouldAnimate = isOnboardingComplete || (lastHomeProgress && progress.progress > previousProgress);
 
           if (shouldAnimate) {
-            // For onboarding, animate from 0 to current progress for maximum dopamine
-            const startProgress = isOnboardingComplete ? 0 : previousProgress;
-            const gain = progress.progress - startProgress;
+            // For onboarding, don't animate from 0 to avoid flash - just show final value
+            // For subsequent visits, animate from previous progress
+            const startProgress = isOnboardingComplete ? progress.progress : previousProgress;
+            const gain = progress.progress - (isOnboardingComplete ? 0 : previousProgress);
             setMomentumGain(gain);
-            setPreviousProgressValue(startProgress);
-            setAnimatedProgress(startProgress);
+            setPreviousProgressValue(isOnboardingComplete ? 0 : previousProgress);
+            // Don't set animated progress to 0 on initial load - keep it at current value
+            if (!isOnboardingComplete) {
+              setAnimatedProgress(startProgress);
+            }
 
             // Start number scroll animation after a small delay
             animationTimeout = setTimeout(() => {
@@ -88,7 +92,10 @@ export default function Home() {
                 if (currentStep <= steps) {
                   const newProgress = startProgress + (increment * currentStep);
                   setAnimatedProgress(newProgress);
-                  setProgressPercentage(newProgress); // Also update the circle
+                  // Only update circle percentage if not coming from onboarding (to avoid 0% flash)
+                  if (!isOnboardingComplete) {
+                    setProgressPercentage(newProgress);
+                  }
                 } else {
                   setAnimatedProgress(progress.progress);
                   setProgressPercentage(progress.progress); // Update circle to final value
