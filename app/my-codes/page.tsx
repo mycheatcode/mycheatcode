@@ -363,7 +363,21 @@ export default function MyCodesRedesignPage() {
     }
 
     // Trigger momentum animation if momentum was awarded
+    console.log('🎯 handleGameComplete - Game result:', {
+      momentum_awarded: result.momentum_awarded,
+      previous_momentum: result.previous_momentum,
+      new_momentum: result.new_momentum,
+      score: result.score,
+      is_first_play: result.is_first_play
+    });
+
     if (result.momentum_awarded > 0) {
+      console.log('✅ Starting momentum animation!', {
+        gain: result.momentum_awarded,
+        from: result.previous_momentum,
+        to: result.new_momentum
+      });
+
       setMomentumGain(result.momentum_awarded);
       setAnimatedMomentum(result.previous_momentum);
       setShowMomentumAnimation(true);
@@ -379,17 +393,22 @@ export default function MyCodesRedesignPage() {
         if (currentStep <= steps) {
           const newMomentum = result.previous_momentum + (increment * currentStep);
           setAnimatedMomentum(newMomentum);
+          console.log(`📊 Animation step ${currentStep}/${steps}: ${newMomentum.toFixed(1)}%`);
         } else {
           setAnimatedMomentum(result.new_momentum);
           clearInterval(interval);
+          console.log('🎉 Animation complete! Final value:', result.new_momentum);
 
           // End animation after showing final value
           setTimeout(() => {
             setShowMomentumAnimation(false);
             setMomentumGain(0);
+            console.log('🏁 Animation ended, reverting to normal display');
           }, 2000);
         }
       }, duration / steps);
+    } else {
+      console.log('⚠️ No momentum awarded, skipping animation');
     }
 
     // Reload cheat codes to get updated stats
@@ -837,6 +856,15 @@ export default function MyCodesRedesignPage() {
                       style={{
                         color: showMomentumAnimation ? '#00ff41' : 'var(--text-primary)',
                         transform: showMomentumAnimation ? 'scale(1.15)' : 'scale(1)',
+                      }}
+                      ref={(el) => {
+                        if (el && showMomentumAnimation) {
+                          console.log('📱 Desktop momentum visual animating:', {
+                            animatedMomentum,
+                            showMomentumAnimation,
+                            momentumGain
+                          });
+                        }
                       }}
                     >
                       {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
