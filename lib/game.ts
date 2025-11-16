@@ -62,6 +62,7 @@ export async function saveGameScenarios(
 
 /**
  * Get all scenarios for a cheat code
+ * Fetches scenarios that belong to the user OR are premade (user_id IS NULL)
  */
 export async function getGameScenarios(
   userId: string,
@@ -74,8 +75,8 @@ export async function getGameScenarios(
     const { data, error } = await supabase
       .from('game_scenarios')
       .select('*')
-      .eq('user_id', userId)
       .eq('cheat_code_id', cheatCodeId)
+      .or(`user_id.eq.${userId},user_id.is.null`)
       .order('created_at', { ascending: true });
 
     if (error) {
@@ -116,6 +117,7 @@ export async function getRandomScenarios(
 
 /**
  * Check if scenarios exist for a cheat code
+ * Checks for cheat codes that belong to the user OR are premade (user_id IS NULL)
  */
 export async function hasGameScenarios(
   userId: string,
@@ -129,7 +131,7 @@ export async function hasGameScenarios(
       .from('cheat_codes')
       .select('has_game_scenarios')
       .eq('id', cheatCodeId)
-      .eq('user_id', userId)
+      .or(`user_id.eq.${userId},user_id.is.null`)
       .maybeSingle();
 
     if (error) {
