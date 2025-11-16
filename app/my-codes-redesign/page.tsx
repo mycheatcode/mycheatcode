@@ -73,7 +73,7 @@ export default function MyCodesRedesignPage() {
       }
 
       // Load user progress
-      const progress = await getUserProgress(user.id);
+      const progress = await getUserProgress(supabase, user.id);
       setUserProgress(progress);
 
       setLoading(false);

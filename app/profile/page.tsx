@@ -77,7 +77,7 @@ export default function Profile() {
         const { cheatCodes: codes, error: codesError } = await getUserCheatCodes(user.id);
 
         // Fetch user's momentum/progress
-        const progressData = await getUserProgress(user.id);
+        const progressData = await getUserProgress(supabase, user.id);
 
         if (codesError) {
           console.error('Error fetching cheat codes:', codesError);

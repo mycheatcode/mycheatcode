@@ -37,7 +37,7 @@ export default function Home() {
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
         setUserId(user.id);
-        const progress = await getUserProgress(user.id);
+        const progress = await getUserProgress(supabase, user.id);
         setProgressData(progress);
         // Use the rounded-down progress for display
         setProgressPercentage(progress.progress);

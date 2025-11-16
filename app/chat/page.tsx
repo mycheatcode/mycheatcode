@@ -1047,7 +1047,7 @@ export default function ChatPage() {
         });
 
         // Award momentum using new system
-        const gainAmount = await awardCodeCreationMomentum(userId, cheatCodeId);
+        const gainAmount = await awardCodeCreationMomentum(supabase, userId, cheatCodeId);
 
         // Store momentum gain for display in success animation
         setMomentumGain(gainAmount);
@@ -1144,7 +1144,7 @@ export default function ChatPage() {
         // Check if chat qualifies for meaningful chat momentum (non-blocking)
         // Only check if we have a current chat ID
         if (currentChatId) {
-          awardMeaningfulChatMomentum(userId, currentChatId)
+          awardMeaningfulChatMomentum(supabase, userId, currentChatId)
             .then(async (momentumGained) => {
               if (momentumGained > 0) {
                 // Momentum awarded silently (no notification)

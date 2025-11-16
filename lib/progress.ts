@@ -1,4 +1,4 @@
-import { createClient } from './supabase/server';
+import type { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * NEW MOMENTUM SYSTEM
@@ -100,9 +100,7 @@ export interface ProgressData {
 /**
  * Get user's signup date to determine if daily cap applies
  */
-async function getUserSignupDate(userId: string): Promise<Date | null> {
-  const supabase = createClient();
-
+async function getUserSignupDate(supabase: SupabaseClient, userId: string): Promise<Date | null> {
   // Try to get from users table
   const { data: userData, error } = await supabase
     .from('users')
@@ -122,8 +120,7 @@ async function getUserSignupDate(userId: string): Promise<Date | null> {
 /**
  * Get daily gain tracking from activity log
  */
-async function getDailyGain(userId: string): Promise<number> {
-  const supabase = createClient();
+async function getDailyGain(supabase: SupabaseClient, userId: string): Promise<number> {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -142,12 +139,12 @@ async function getDailyGain(userId: string): Promise<number> {
  * Record momentum gain in database
  */
 async function recordMomentumGain(
+  supabase: SupabaseClient,
   userId: string,
   gainAmount: number,
   source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion' | 'game' | 'first_game' | 'onboarding_completion',
   metadata?: any
 ) {
-  const supabase = createClient();
 
   const { data, error } = await supabase.from('momentum_gains').insert({
     user_id: userId,
@@ -168,9 +165,7 @@ async function recordMomentumGain(
 /**
  * Check if user has received a specific first-time bonus
  */
-async function hasReceivedFirstTimeBonus(userId: string, source: string): Promise<boolean> {
-  const supabase = createClient();
-
+async function hasReceivedFirstTimeBonus(supabase: SupabaseClient, userId: string, source: string): Promise<boolean> {
   const { data, error } = await supabase
     .from('momentum_gains')
     .select('id')
@@ -185,8 +180,7 @@ async function hasReceivedFirstTimeBonus(userId: string, source: string): Promis
 /**
  * Get meaningful chats today (5+ messages, no code created)
  */
-async function getMeaningfulChatsToday(userId: string): Promise<number> {
-  const supabase = createClient();
+async function getMeaningfulChatsToday(supabase: SupabaseClient, userId: string): Promise<number> {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -204,8 +198,7 @@ async function getMeaningfulChatsToday(userId: string): Promise<number> {
 /**
  * Calculate user's momentum/progress percentage
  */
-export async function getUserProgress(userId: string): Promise<ProgressData> {
-  const supabase = createClient();
+export async function getUserProgress(supabase: SupabaseClient, userId: string): Promise<ProgressData> {
 
   try {
     // Get all momentum gains to calculate total
@@ -293,10 +286,10 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
       : 72 - ((hoursSinceActivity - 72) % 72);
 
     // Get daily gain
-    const dailyGainToday = await getDailyGain(userId);
+    const dailyGainToday = await getDailyGain(supabase, userId);
 
     // Check if daily cap reached
-    const signupDate = await getUserSignupDate(userId);
+    const signupDate = await getUserSignupDate(supabase, userId);
     const daysSinceSignup = signupDate
       ? Math.floor((Date.now() - signupDate.getTime()) / (1000 * 60 * 60 * 24))
       : 999;
@@ -343,14 +336,12 @@ export async function getUserProgress(userId: string): Promise<ProgressData> {
 /**
  * Award momentum for creating a code
  */
-export async function awardCodeCreationMomentum(userId: string, codeId: string): Promise<number> {
-  const supabase = createClient();
-
+export async function awardCodeCreationMomentum(supabase: SupabaseClient, userId: string, codeId: string): Promise<number> {
   // Check if this is first code
-  const isFirstCode = !(await hasReceivedFirstTimeBonus(userId, 'first_code'));
+  const isFirstCode = !(await hasReceivedFirstTimeBonus(supabase, userId, 'first_code'));
 
   // Get current progress to determine tier
-  const currentProgress = await getUserProgress(userId);
+  const currentProgress = await getUserProgress(supabase, userId);
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
@@ -362,7 +353,7 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
   // Award first code bonus
   if (isFirstCode) {
     gainAmount += FIRST_CODE_BONUS;
-    await recordMomentumGain(userId, FIRST_CODE_BONUS, 'first_code', { code_id: codeId });
+    await recordMomentumGain(supabase, userId, FIRST_CODE_BONUS, 'first_code', { code_id: codeId });
   }
 
   // Award tier-based code creation gain
@@ -373,7 +364,7 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
     ? 0
     : DAILY_CAP_AFTER_DAY_3 - currentProgress.dailyGainToday;
 
-  const signupDate = await getUserSignupDate(userId);
+  const signupDate = await getUserSignupDate(supabase, userId);
   const daysSinceSignup = signupDate
     ? Math.floor((Date.now() - signupDate.getTime()) / (1000 * 60 * 60 * 24))
     : 999;
@@ -385,7 +376,7 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
 
   if (actualTierGain > 0) {
     gainAmount += actualTierGain;
-    await recordMomentumGain(userId, actualTierGain, 'code_creation', { code_id: codeId });
+    await recordMomentumGain(supabase, userId, actualTierGain, 'code_creation', { code_id: codeId });
   }
 
 
@@ -399,8 +390,7 @@ export async function awardCodeCreationMomentum(userId: string, codeId: string):
  * - Average user message length >= 20 characters
  * - No cheat code was created in this chat
  */
-async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean> {
-  const supabase = createClient();
+async function isMeaningfulChat(supabase: SupabaseClient, userId: string, chatId: string): Promise<boolean> {
 
   // Get all messages from this chat
   const { data: chat, error } = await supabase
@@ -453,18 +443,18 @@ async function isMeaningfulChat(userId: string, chatId: string): Promise<boolean
 /**
  * Award momentum for meaningful chat (5+ user messages, avg 20+ chars, no code created)
  */
-export async function awardMeaningfulChatMomentum(userId: string, chatId: string): Promise<number> {
+export async function awardMeaningfulChatMomentum(supabase: SupabaseClient, userId: string, chatId: string): Promise<number> {
   // Check if chat qualifies as meaningful
-  const isMeaningful = await isMeaningfulChat(userId, chatId);
+  const isMeaningful = await isMeaningfulChat(supabase, userId, chatId);
   if (!isMeaningful) {
     return 0;
   }
 
   // Check if this is first meaningful chat
-  const isFirstChat = !(await hasReceivedFirstTimeBonus(userId, 'first_chat'));
+  const isFirstChat = !(await hasReceivedFirstTimeBonus(supabase, userId, 'first_chat'));
 
   // Get current progress
-  const currentProgress = await getUserProgress(userId);
+  const currentProgress = await getUserProgress(supabase, userId);
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
@@ -472,7 +462,7 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
   }
 
   // Check max chats per day
-  const chatsToday = await getMeaningfulChatsToday(userId);
+  const chatsToday = await getMeaningfulChatsToday(supabase, userId);
   if (!isFirstChat && chatsToday >= MAX_CHATS_PER_DAY) {
     return 0;
   }
@@ -482,13 +472,13 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
   // Award first chat bonus
   if (isFirstChat) {
     gainAmount += FIRST_CHAT_BONUS;
-    await recordMomentumGain(userId, FIRST_CHAT_BONUS, 'first_chat', { chat_id: chatId });
+    await recordMomentumGain(supabase, userId, FIRST_CHAT_BONUS, 'first_chat', { chat_id: chatId });
   }
 
   // Award regular chat gain (if under daily limit)
   if (chatsToday < MAX_CHATS_PER_DAY) {
     gainAmount += MEANINGFUL_CHAT_GAIN;
-    await recordMomentumGain(userId, MEANINGFUL_CHAT_GAIN, 'chat', { chat_id: chatId });
+    await recordMomentumGain(supabase, userId, MEANINGFUL_CHAT_GAIN, 'chat', { chat_id: chatId });
   }
 
 
@@ -498,9 +488,7 @@ export async function awardMeaningfulChatMomentum(userId: string, chatId: string
 /**
  * Award momentum for completing a code
  */
-export async function awardCodeCompletionMomentum(userId: string, codeId: string): Promise<number> {
-  const supabase = createClient();
-
+export async function awardCodeCompletionMomentum(supabase: SupabaseClient, userId: string, codeId: string): Promise<number> {
   // Check if this code was completed in last 24 hours
   const oneDayAgo = new Date();
   oneDayAgo.setHours(oneDayAgo.getHours() - 24);
@@ -519,10 +507,10 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
   }
 
   // Check if this is first completion
-  const isFirstCompletion = !(await hasReceivedFirstTimeBonus(userId, 'first_completion'));
+  const isFirstCompletion = !(await hasReceivedFirstTimeBonus(supabase, userId, 'first_completion'));
 
   // Get current progress
-  const currentProgress = await getUserProgress(userId);
+  const currentProgress = await getUserProgress(supabase, userId);
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
@@ -534,12 +522,12 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
   // Award first completion bonus
   if (isFirstCompletion) {
     gainAmount += FIRST_COMPLETION_BONUS;
-    await recordMomentumGain(userId, FIRST_COMPLETION_BONUS, 'first_completion', { code_id: codeId });
+    await recordMomentumGain(supabase, userId, FIRST_COMPLETION_BONUS, 'first_completion', { code_id: codeId });
   }
 
   // Award regular completion gain
   gainAmount += CODE_COMPLETION_GAIN;
-  await recordMomentumGain(userId, CODE_COMPLETION_GAIN, 'completion', { code_id: codeId });
+  await recordMomentumGain(supabase, userId, CODE_COMPLETION_GAIN, 'completion', { code_id: codeId });
 
 
   return gainAmount;
@@ -551,13 +539,14 @@ export async function awardCodeCompletionMomentum(userId: string, codeId: string
  * First play bonus: +5% additional if played immediately after code creation
  */
 export async function awardGameCompletionMomentum(
+  supabase: SupabaseClient,
   userId: string,
   codeId: string,
   score: number,
   isFirstPlay: boolean
 ): Promise<number> {
   // Get current progress
-  const currentProgress = await getUserProgress(userId);
+  const currentProgress = await getUserProgress(supabase, userId);
 
   // Check daily cap
   if (currentProgress.dailyCapReached) {
@@ -578,7 +567,7 @@ export async function awardGameCompletionMomentum(
 
   // Award score-based gain
   if (gainAmount > 0) {
-    await recordMomentumGain(userId, gainAmount, 'game', {
+    await recordMomentumGain(supabase, userId, gainAmount, 'game', {
       code_id: codeId,
       score,
       is_first_play: isFirstPlay,
@@ -589,7 +578,7 @@ export async function awardGameCompletionMomentum(
   if (isFirstPlay) {
     const bonusGain = 5;
     gainAmount += bonusGain;
-    await recordMomentumGain(userId, bonusGain, 'first_game', {
+    await recordMomentumGain(supabase, userId, bonusGain, 'first_game', {
       code_id: codeId,
     });
   }
@@ -601,10 +590,10 @@ export async function awardGameCompletionMomentum(
  * Award momentum for completing onboarding
  * This gives users a significant boost to start at 50% instead of 25%
  */
-export async function awardOnboardingCompletionMomentum(userId: string): Promise<number> {
+export async function awardOnboardingCompletionMomentum(supabase: SupabaseClient, userId: string): Promise<number> {
   try {
     // Check if onboarding bonus already awarded
-    const alreadyAwarded = await hasReceivedFirstTimeBonus(userId, 'onboarding_completion');
+    const alreadyAwarded = await hasReceivedFirstTimeBonus(supabase, userId, 'onboarding_completion');
     if (alreadyAwarded) {
       console.log('⚠️ Onboarding bonus already awarded for user:', userId);
       return 0;
@@ -613,7 +602,7 @@ export async function awardOnboardingCompletionMomentum(userId: string): Promise
     console.log('🎯 Awarding onboarding completion bonus:', ONBOARDING_COMPLETION_BONUS);
 
     // Award onboarding completion bonus
-    await recordMomentumGain(userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion', {});
+    await recordMomentumGain(supabase, userId, ONBOARDING_COMPLETION_BONUS, 'onboarding_completion', {});
 
     console.log('✅ Successfully recorded onboarding momentum gain');
     return ONBOARDING_COMPLETION_BONUS;

@@ -97,7 +97,7 @@ export async function POST(request: NextRequest) {
     );
 
     // Get previous momentum for display
-    const previousProgress = await getUserProgress(user.id);
+    const previousProgress = await getUserProgress(supabase, user.id);
     const previousMomentum = previousProgress.progressRaw;
 
     let momentumAwarded = 0;
@@ -116,6 +116,7 @@ export async function POST(request: NextRequest) {
     // 2. User has completed onboarding (practice game during onboarding doesn't count)
     if (canEarn && hasCompletedOnboarding) {
       momentumAwarded = await awardGameCompletionMomentum(
+        supabase,
         user.id,
         cheat_code_id,
         score,
@@ -143,7 +144,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Get new momentum
-    const newProgress = await getUserProgress(user.id);
+    const newProgress = await getUserProgress(supabase, user.id);
     const newMomentum = newProgress.progressRaw;
 
     const result: GameSessionResult = {
