@@ -81,7 +81,8 @@ export async function POST(request: NextRequest) {
               category: parsedCode.category,
               content: cardFormatContent.trim(),
               chat_id: null,
-              is_active: true
+              is_active: true,
+              onboarding_scenario_id: scenario  // Save the scenario ID for premade game scenarios
             })
             .select()
             .single();
