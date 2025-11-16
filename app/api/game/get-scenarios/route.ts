@@ -90,30 +90,29 @@ export async function POST(request: NextRequest) {
 
         const sections = parseContent(content);
 
-        // Start generation in background (use Promise without await)
-        const generatePromise = (async () => {
-          try {
-            // Fetch user profile for context
-            const { data: userProfile } = await supabase
-              .from('users')
-              .select('skill_level, age_bracket')
-              .eq('id', user.id)
-              .maybeSingle();
+        // Generate scenarios and WAIT for completion (first request only)
+        try {
+          // Fetch user profile for context
+          const { data: userProfile } = await supabase
+            .from('users')
+            .select('skill_level, age_bracket')
+            .eq('id', user.id)
+            .maybeSingle();
 
-            const skillLevel = userProfile?.skill_level || 'recreational';
-            const ageBracket = userProfile?.age_bracket || 'adult';
+          const skillLevel = userProfile?.skill_level || 'recreational';
+          const ageBracket = userProfile?.age_bracket || 'adult';
 
-            const codeData = {
-              title: cheatCodeData.title,
-              category: cheatCodeData.category,
-              what: sections.what || '',
-              when: sections.when || '',
-              how: sections.how || '',
-              why: sections.why || '',
-              phrase: sections['your cheat code phrase'] || '',
-            };
+          const codeData = {
+            title: cheatCodeData.title,
+            category: cheatCodeData.category,
+            what: sections.what || '',
+            when: sections.when || '',
+            how: sections.how || '',
+            why: sections.why || '',
+            phrase: sections['your cheat code phrase'] || '',
+          };
 
-            const prompt = `Create 10 basketball mental game scenarios for "${codeData.title}" (${codeData.category}).
+          const prompt = `Create 10 basketball mental game scenarios for "${codeData.title}" (${codeData.category}).
 
 Context: ${codeData.what || codeData.when || codeData.phrase || 'Mental reframing'}
 
@@ -132,43 +131,49 @@ Each scenario JSON:
 
 Return: {"scenarios": [...]}`;
 
-            const completion = await openai.chat.completions.create({
-              model: 'gpt-4o-mini',
-              max_tokens: 8000,
-              temperature: 0.8,
-              response_format: { type: 'json_object' },
-              messages: [
-                { role: 'system', content: 'You are a basketball confidence coach. Respond with valid JSON only.' },
-                { role: 'user', content: prompt },
-              ],
+          const completion = await openai.chat.completions.create({
+            model: 'gpt-4o-mini',
+            max_tokens: 8000,
+            temperature: 0.8,
+            response_format: { type: 'json_object' },
+            messages: [
+              { role: 'system', content: 'You are a basketball confidence coach. Respond with valid JSON only.' },
+              { role: 'user', content: prompt },
+            ],
+          });
+
+          const responseText = completion.choices[0].message.content || '';
+          const parsed = JSON.parse(responseText);
+          const scenarios = parsed.scenarios || parsed;
+
+          if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
+            // For premade cheat codes (user_id IS NULL), save scenarios with NULL user_id
+            // so they're shared across all users. Otherwise save with specific user_id.
+            const scenarioUserId = cheatCodeData.user_id || null;
+            await saveGameScenarios(scenarioUserId, cheat_code_id, scenarios, supabase);
+
+            // Return 3 random scenarios immediately after successful generation
+            const shuffled = [...scenarios].sort(() => Math.random() - 0.5);
+            return NextResponse.json({
+              success: true,
+              has_scenarios: true,
+              scenarios: shuffled.slice(0, 3),
             });
-
-            const responseText = completion.choices[0].message.content || '';
-            const parsed = JSON.parse(responseText);
-            const scenarios = parsed.scenarios || parsed;
-
-            if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
-              // For premade cheat codes (user_id IS NULL), save scenarios with NULL user_id
-              // so they're shared across all users. Otherwise save with specific user_id.
-              const scenarioUserId = cheatCodeData.user_id || null;
-              await saveGameScenarios(scenarioUserId, cheat_code_id, scenarios, supabase);
-            }
-          } catch (err) {
-            // Error handled silently
           }
-        })();
-
-        // Don't await the promise - let it run in background
-        // But keep reference so it doesn't get garbage collected
-        if (typeof globalThis !== 'undefined') {
-          (globalThis as any).__pendingGenerations = (globalThis as any).__pendingGenerations || [];
-          (globalThis as any).__pendingGenerations.push(generatePromise);
+        } catch (err) {
+          console.error('Error generating scenarios:', err);
+          return NextResponse.json({
+            success: true,
+            has_scenarios: false,
+            generating: false,
+            scenarios: [],
+          });
         }
 
         return NextResponse.json({
           success: true,
           has_scenarios: false,
-          generating: true,
+          generating: false,
           scenarios: [],
         });
       }
