@@ -62,6 +62,8 @@ export default function MyCodesRedesignPage() {
   const [momentumGain, setMomentumGain] = useState(0);
   const [animatedMomentum, setAnimatedMomentum] = useState(0);
   const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
+  const [showCenterAnimation, setShowCenterAnimation] = useState(false);
+  const [centerAnimationPhase, setCenterAnimationPhase] = useState<'enter' | 'shrink' | 'move'>('enter');
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -300,30 +302,49 @@ export default function MyCodesRedesignPage() {
 
         setMomentumGain(pendingGameResult.momentum_awarded);
         setAnimatedMomentum(pendingGameResult.previous_momentum);
-        setShowMomentumAnimation(true);
 
-        // Animate momentum counting up
-        const duration = 1500;
-        const steps = 30;
-        const increment = pendingGameResult.momentum_awarded / steps;
-        let currentStep = 0;
+        // Start with center animation
+        setShowCenterAnimation(true);
+        setCenterAnimationPhase('enter');
 
-        const interval = setInterval(() => {
-          currentStep++;
-          if (currentStep <= steps) {
-            const newMomentum = pendingGameResult.previous_momentum + (increment * currentStep);
-            setAnimatedMomentum(newMomentum);
-          } else {
-            setAnimatedMomentum(pendingGameResult.new_momentum);
-            clearInterval(interval);
+        // Phase 1: Show center animation (1 second)
+        setTimeout(() => {
+          setCenterAnimationPhase('shrink');
+        }, 1000);
 
-            // End animation after showing final value
-            setTimeout(() => {
-              setShowMomentumAnimation(false);
-              setMomentumGain(0);
-            }, 2000);
-          }
-        }, duration / steps);
+        // Phase 2: Shrink and start moving (0.8 seconds)
+        setTimeout(() => {
+          setCenterAnimationPhase('move');
+          setShowMomentumAnimation(true);
+        }, 1800);
+
+        // Phase 3: Hide center animation and start counting up
+        setTimeout(() => {
+          setShowCenterAnimation(false);
+
+          // Animate momentum counting up
+          const duration = 1500;
+          const steps = 30;
+          const increment = pendingGameResult.momentum_awarded / steps;
+          let currentStep = 0;
+
+          const interval = setInterval(() => {
+            currentStep++;
+            if (currentStep <= steps) {
+              const newMomentum = pendingGameResult.previous_momentum + (increment * currentStep);
+              setAnimatedMomentum(newMomentum);
+            } else {
+              setAnimatedMomentum(pendingGameResult.new_momentum);
+              clearInterval(interval);
+
+              // End animation after showing final value
+              setTimeout(() => {
+                setShowMomentumAnimation(false);
+                setMomentumGain(0);
+              }, 2000);
+            }
+          }, duration / steps);
+        }, 2600);
 
         // Clear pending result
         setPendingGameResult(null);
@@ -1844,8 +1865,114 @@ export default function MyCodesRedesignPage() {
         />
       )}
 
+      {/* Center-Screen Momentum Animation */}
+      {showCenterAnimation && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
+          style={{
+            backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.7)' : 'transparent',
+            transition: 'background-color 0.8s ease-out'
+          }}
+        >
+          <div
+            className="relative flex flex-col items-center justify-center"
+            style={{
+              transform: centerAnimationPhase === 'enter'
+                ? 'scale(1)'
+                : centerAnimationPhase === 'shrink'
+                  ? 'scale(0.4)'
+                  : 'scale(0.2) translate(0, -50vh)',
+              opacity: centerAnimationPhase === 'move' ? 0 : 1,
+              transition: centerAnimationPhase === 'enter'
+                ? 'none'
+                : centerAnimationPhase === 'shrink'
+                  ? 'transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                  : 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+            }}
+          >
+            {/* Explosive Background Glow */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                background: 'radial-gradient(circle, rgba(0,255,65,0.4) 0%, rgba(0,255,65,0.2) 40%, transparent 70%)',
+                filter: 'blur(40px)',
+                transform: 'scale(2)',
+                animation: 'pulse 1s ease-in-out infinite'
+              }}
+            />
+
+            {/* Main Content */}
+            <div className="relative z-10 flex flex-col items-center">
+              {/* Momentum Gained Text */}
+              <div
+                className="text-sm uppercase font-bold tracking-[0.3em] mb-4"
+                style={{
+                  color: '#00ff41',
+                  textShadow: '0 0 20px rgba(0,255,65,0.8)'
+                }}
+              >
+                MOMENTUM GAINED
+              </div>
+
+              {/* Large Momentum Number */}
+              <div
+                className="text-8xl font-black mb-2"
+                style={{
+                  color: '#00ff41',
+                  textShadow: '0 0 40px rgba(0,255,65,1), 0 0 80px rgba(0,255,65,0.5), 0 0 120px rgba(0,255,65,0.3)',
+                  fontFamily: 'system-ui, -apple-system, sans-serif'
+                }}
+              >
+                +{Math.floor(momentumGain)}%
+              </div>
+
+              {/* Particle Effects */}
+              {[...Array(8)].map((_, i) => (
+                <div
+                  key={i}
+                  className="absolute w-3 h-3 rounded-full"
+                  style={{
+                    background: '#00ff41',
+                    boxShadow: '0 0 10px rgba(0,255,65,0.8)',
+                    top: '50%',
+                    left: '50%',
+                    animation: `particle-burst-${i} 1.5s ease-out infinite`,
+                    animationDelay: `${i * 0.1}s`
+                  }}
+                />
+              ))}
+
+              {/* Fire Emoji */}
+              <div className="text-6xl mt-2" style={{ filter: 'drop-shadow(0 0 10px rgba(255,100,0,0.5))' }}>
+                🔥
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      <style jsx>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.8; transform: scale(2); }
+          50% { opacity: 1; transform: scale(2.2); }
+        }
+
+        ${[...Array(8)].map((_, i) => {
+          const angle = (i * 45) * Math.PI / 180;
+          const distance = 100;
+          const x = Math.cos(angle) * distance;
+          const y = Math.sin(angle) * distance;
+          return `
+            @keyframes particle-burst-${i} {
+              0% { transform: translate(0, 0) scale(1); opacity: 1; }
+              100% { transform: translate(${x}px, ${y}px) scale(0); opacity: 0; }
+            }
+          `;
+        }).join('\n')}
+      `}</style>
     </div>
   );
 }
