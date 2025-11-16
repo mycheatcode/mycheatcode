@@ -66,16 +66,14 @@ export default function Home() {
           const shouldAnimate = isOnboardingComplete || (lastHomeProgress && progress.progress > previousProgress);
 
           if (shouldAnimate) {
-            // For onboarding, don't animate from 0 to avoid flash - just show final value
+            // For onboarding, START from 0 and animate to current progress
             // For subsequent visits, animate from previous progress
-            const startProgress = isOnboardingComplete ? progress.progress : previousProgress;
-            const gain = progress.progress - (isOnboardingComplete ? 0 : previousProgress);
+            const startProgress = isOnboardingComplete ? 0 : previousProgress;
+            const gain = progress.progress - startProgress;
             setMomentumGain(gain);
-            setPreviousProgressValue(isOnboardingComplete ? 0 : previousProgress);
-            // Don't set animated progress to 0 on initial load - keep it at current value
-            if (!isOnboardingComplete) {
-              setAnimatedProgress(startProgress);
-            }
+            setPreviousProgressValue(startProgress);
+            // Set animated progress to start value to begin animation
+            setAnimatedProgress(startProgress);
 
             // Start number scroll animation after a small delay
             animationTimeout = setTimeout(() => {
@@ -92,10 +90,8 @@ export default function Home() {
                 if (currentStep <= steps) {
                   const newProgress = startProgress + (increment * currentStep);
                   setAnimatedProgress(newProgress);
-                  // Only update circle percentage if not coming from onboarding (to avoid 0% flash)
-                  if (!isOnboardingComplete) {
-                    setProgressPercentage(newProgress);
-                  }
+                  // Update circle percentage during animation
+                  setProgressPercentage(newProgress);
                 } else {
                   setAnimatedProgress(progress.progress);
                   setProgressPercentage(progress.progress); // Update circle to final value

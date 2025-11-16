@@ -58,6 +58,9 @@ export default function MyCodesRedesignPage() {
   const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
   const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
   const [gameOnboardingScenarioId, setGameOnboardingScenarioId] = useState<string | undefined>(undefined);
+  const [showMomentumAnimation, setShowMomentumAnimation] = useState(false);
+  const [momentumGain, setMomentumGain] = useState(0);
+  const [animatedMomentum, setAnimatedMomentum] = useState(0);
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -357,6 +360,36 @@ export default function MyCodesRedesignPage() {
 
         return newSet;
       });
+    }
+
+    // Trigger momentum animation if momentum was awarded
+    if (result.momentum_awarded > 0) {
+      setMomentumGain(result.momentum_awarded);
+      setAnimatedMomentum(result.previous_momentum);
+      setShowMomentumAnimation(true);
+
+      // Animate momentum counting up
+      const duration = 1500;
+      const steps = 30;
+      const increment = result.momentum_awarded / steps;
+      let currentStep = 0;
+
+      const interval = setInterval(() => {
+        currentStep++;
+        if (currentStep <= steps) {
+          const newMomentum = result.previous_momentum + (increment * currentStep);
+          setAnimatedMomentum(newMomentum);
+        } else {
+          setAnimatedMomentum(result.new_momentum);
+          clearInterval(interval);
+
+          // End animation after showing final value
+          setTimeout(() => {
+            setShowMomentumAnimation(false);
+            setMomentumGain(0);
+          }, 2000);
+        }
+      }, duration / steps);
     }
 
     // Reload cheat codes to get updated stats
@@ -795,13 +828,27 @@ export default function MyCodesRedesignPage() {
                     <div className="w-[120px] aspect-square overflow-visible">
                       <ProgressCircles
                         theme="dark"
-                        progress={userProgress.progress}
+                        progress={showMomentumAnimation ? animatedMomentum : userProgress.progress}
                         onProgressUpdate={() => {}}
                       />
                     </div>
-                    <div className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                      {userProgress.progress}%
+                    <div
+                      className={`text-2xl font-bold transition-all duration-300 ${showMomentumAnimation ? 'number-pulse-green' : ''}`}
+                      style={{
+                        color: showMomentumAnimation ? '#00ff41' : 'var(--text-primary)',
+                        transform: showMomentumAnimation ? 'scale(1.15)' : 'scale(1)',
+                      }}
+                    >
+                      {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
                     </div>
+                    {showMomentumAnimation && momentumGain > 0 && (
+                      <p
+                        className="font-semibold text-sm animate-fadeIn"
+                        style={{ color: '#00ff41' }}
+                      >
+                        +{Math.floor(momentumGain)}% 🔥
+                      </p>
+                    )}
                     <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                       MOMENTUM
                     </div>
@@ -905,6 +952,7 @@ export default function MyCodesRedesignPage() {
                                 onClick={() => {
                                   setGameCheatCodeId(code.id);
                                   setGameCheatCodeTitle(code.title);
+                                  setGameOnboardingScenarioId(code.onboardingScenarioId);
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
@@ -1141,13 +1189,27 @@ export default function MyCodesRedesignPage() {
                   <div className="w-[100px] aspect-square overflow-visible">
                     <ProgressCircles
                       theme="dark"
-                      progress={userProgress.progress}
+                      progress={showMomentumAnimation ? animatedMomentum : userProgress.progress}
                       onProgressUpdate={() => {}}
                     />
                   </div>
-                  <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                    {userProgress.progress}%
+                  <div
+                    className={`text-xl font-bold transition-all duration-300 ${showMomentumAnimation ? 'number-pulse-green' : ''}`}
+                    style={{
+                      color: showMomentumAnimation ? '#00ff41' : 'var(--text-primary)',
+                      transform: showMomentumAnimation ? 'scale(1.15)' : 'scale(1)',
+                    }}
+                  >
+                    {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
                   </div>
+                  {showMomentumAnimation && momentumGain > 0 && (
+                    <p
+                      className="font-semibold text-xs animate-fadeIn"
+                      style={{ color: '#00ff41' }}
+                    >
+                      +{Math.floor(momentumGain)}% 🔥
+                    </p>
+                  )}
                   <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                     MOMENTUM
                   </div>
@@ -1249,6 +1311,7 @@ export default function MyCodesRedesignPage() {
                             onClick={() => {
                               setGameCheatCodeId(code.id);
                               setGameCheatCodeTitle(code.title);
+                              setGameOnboardingScenarioId(code.onboardingScenarioId);
                               setShowGameModal(true);
                             }}
                             className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
