@@ -1010,7 +1010,7 @@ export default function MyCodesRedesignPage() {
                                 onClick={() => {
                                   setGameCheatCodeId(code.id);
                                   setGameCheatCodeTitle(code.title);
-                                  setGameOnboardingScenarioId(code.onboardingScenarioId);
+                                  setGameOnboardingScenarioId(undefined); // Don't use onboarding scenarios for regular practice games
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
@@ -1369,7 +1369,7 @@ export default function MyCodesRedesignPage() {
                             onClick={() => {
                               setGameCheatCodeId(code.id);
                               setGameCheatCodeTitle(code.title);
-                              setGameOnboardingScenarioId(code.onboardingScenarioId);
+                              setGameOnboardingScenarioId(undefined); // Don't use onboarding scenarios for regular practice games
                               setShowGameModal(true);
                             }}
                             className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
