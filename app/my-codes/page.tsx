@@ -344,6 +344,10 @@ export default function MyCodesRedesignPage() {
 
   // Handle game completion
   const handleGameComplete = (result: GameSessionResult) => {
+    // Close the game modal and code card modal (if open) immediately
+    setShowGameModal(false);
+    setSelectedCode(null);
+
     // Add the completed code to today's completed set
     if (gameCheatCodeId) {
       setCompletedToday(prev => {
