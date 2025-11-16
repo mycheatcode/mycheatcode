@@ -286,15 +286,13 @@ export default function MyCodesRedesignPage() {
     }
   }, [searchParams, cheatCodes, router]);
 
-  // Trigger momentum animation when game completes (modal or inline)
+  // Trigger momentum animation when modal closes with a pending result
   useEffect(() => {
-    // Trigger animation when:
-    // 1. Modal closes with pending result (!showGameModal && pendingGameResult)
-    // 2. Inline game completes (pendingGameResult exists, showGameModal is already false)
-    if (pendingGameResult && pendingGameResult.momentum_awarded > 0) {
-      // Small delay to ensure we're back on the My Codes page
+    // Only trigger animation when modal is closed AND we have a pending result with momentum
+    if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0) {
+      // Delay to ensure modal close animation completes and user sees My Codes page
       const timer = setTimeout(() => {
-        console.log('✅ Game completed, starting momentum animation!', {
+        console.log('✅ Modal closed, starting momentum animation!', {
           gain: pendingGameResult.momentum_awarded,
           from: pendingGameResult.previous_momentum,
           to: pendingGameResult.new_momentum
@@ -329,11 +327,11 @@ export default function MyCodesRedesignPage() {
 
         // Clear pending result
         setPendingGameResult(null);
-      }, 300); // Short delay to ensure smooth transition
+      }, 500); // Longer delay to ensure modal is fully closed
 
       return () => clearTimeout(timer);
     }
-  }, [pendingGameResult]);
+  }, [showGameModal, pendingGameResult]);
 
   // Check if selected code was used today
   useEffect(() => {
