@@ -291,7 +291,7 @@ export default function Home() {
                 transform: showProgressAnimation ? 'scale(1.15)' : 'scale(1)',
               }}
             >
-              {Math.floor(showProgressAnimation ? animatedProgress : progressPercentage)}%
+              {Math.floor(animatedProgress)}%
             </div>
             {showProgressAnimation && momentumGain > 0 && (
               <p
