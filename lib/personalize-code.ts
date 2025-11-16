@@ -118,7 +118,7 @@ ${code.how.map((step, i) => `${i + 1}. ${step}`).join('\n')}
 
 **Why:** ${code.why}
 
-**Key Phrase:** "${code.phrase}"`;
+**Cheat Code Phrase:** "${code.phrase}"`;
 }
 
 /**
