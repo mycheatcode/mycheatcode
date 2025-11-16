@@ -27,6 +27,7 @@ interface CheatCode {
   created_at?: string;
   summary?: string;
   topicId?: string;
+  onboardingScenarioId?: string;
 }
 
 interface UserProgress {
@@ -56,6 +57,7 @@ export default function MyCodesRedesignPage() {
   const [showGameModal, setShowGameModal] = useState(false);
   const [gameCheatCodeId, setGameCheatCodeId] = useState<string | null>(null);
   const [gameCheatCodeTitle, setGameCheatCodeTitle] = useState<string>('');
+  const [gameOnboardingScenarioId, setGameOnboardingScenarioId] = useState<string | undefined>(undefined);
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -73,9 +75,14 @@ export default function MyCodesRedesignPage() {
       console.log('👤 Loading codes for user:', user.id);
 
       // Load cheat codes
-      const { cheatCodes: dbCodes } = await getUserCheatCodes(user.id);
+      const { cheatCodes: dbCodes, error: codesError } = await getUserCheatCodes(user.id);
+      console.log('📊 getUserCheatCodes response:', { dbCodes, codesError });
       console.log('📊 Raw codes from database:', dbCodes);
       console.log('📊 Number of codes:', dbCodes?.length || 0);
+
+      if (codesError) {
+        console.error('❌ Error fetching codes:', codesError);
+      }
 
       if (dbCodes) {
         const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
@@ -94,7 +101,8 @@ export default function MyCodesRedesignPage() {
             archived: code.is_active === false,
             created_at: code.created_at,
             summary: code.content || '',
-            topicId: code.chat_id || undefined
+            topicId: code.chat_id || undefined,
+            onboardingScenarioId: code.onboarding_scenario_id || undefined
           };
         });
         console.log('🔄 Transformed codes:', transformedCodes);
@@ -266,6 +274,7 @@ export default function MyCodesRedesignPage() {
       if (code) {
         setGameCheatCodeId(code.id);
         setGameCheatCodeTitle(code.title);
+        setGameOnboardingScenarioId(code.onboardingScenarioId);
         setShowGameModal(true);
         // Clear the URL parameter
         router.replace('/my-codes', { scroll: false });
@@ -373,7 +382,8 @@ export default function MyCodesRedesignPage() {
             archived: code.is_active === false,
             created_at: code.created_at,
             summary: code.content || '',
-            topicId: code.chat_id || undefined
+            topicId: code.chat_id || undefined,
+            onboardingScenarioId: code.onboarding_scenario_id || undefined
           };
         });
         setCheatCodes(transformedCodes);
@@ -1709,6 +1719,7 @@ export default function MyCodesRedesignPage() {
         <CheatCodeGame
           cheatCodeId={gameCheatCodeId}
           cheatCodeTitle={gameCheatCodeTitle}
+          onboardingScenarioId={gameOnboardingScenarioId}
           onComplete={handleGameComplete}
           onClose={handleCloseGameModal}
         />
