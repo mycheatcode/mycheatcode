@@ -61,6 +61,7 @@ export default function MyCodesRedesignPage() {
   const [showMomentumAnimation, setShowMomentumAnimation] = useState(false);
   const [momentumGain, setMomentumGain] = useState(0);
   const [animatedMomentum, setAnimatedMomentum] = useState(0);
+  const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -285,6 +286,47 @@ export default function MyCodesRedesignPage() {
     }
   }, [searchParams, cheatCodes, router]);
 
+  // Trigger momentum animation when returning from game modal
+  useEffect(() => {
+    if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0) {
+      console.log('✅ Modal closed, starting momentum animation!', {
+        gain: pendingGameResult.momentum_awarded,
+        from: pendingGameResult.previous_momentum,
+        to: pendingGameResult.new_momentum
+      });
+
+      setMomentumGain(pendingGameResult.momentum_awarded);
+      setAnimatedMomentum(pendingGameResult.previous_momentum);
+      setShowMomentumAnimation(true);
+
+      // Animate momentum counting up
+      const duration = 1500;
+      const steps = 30;
+      const increment = pendingGameResult.momentum_awarded / steps;
+      let currentStep = 0;
+
+      const interval = setInterval(() => {
+        currentStep++;
+        if (currentStep <= steps) {
+          const newMomentum = pendingGameResult.previous_momentum + (increment * currentStep);
+          setAnimatedMomentum(newMomentum);
+        } else {
+          setAnimatedMomentum(pendingGameResult.new_momentum);
+          clearInterval(interval);
+
+          // End animation after showing final value
+          setTimeout(() => {
+            setShowMomentumAnimation(false);
+            setMomentumGain(0);
+          }, 2000);
+        }
+      }, duration / steps);
+
+      // Clear pending result
+      setPendingGameResult(null);
+    }
+  }, [showGameModal, pendingGameResult]);
+
   // Check if selected code was used today
   useEffect(() => {
     const checkUsage = async () => {
@@ -364,8 +406,8 @@ export default function MyCodesRedesignPage() {
       });
     }
 
-    // Trigger momentum animation if momentum was awarded
-    console.log('🎯 handleGameComplete - Game result:', {
+    // Save the result to trigger animation after modal closes
+    console.log('🎯 handleGameComplete - Saving pending game result:', {
       momentum_awarded: result.momentum_awarded,
       previous_momentum: result.previous_momentum,
       new_momentum: result.new_momentum,
@@ -373,45 +415,7 @@ export default function MyCodesRedesignPage() {
       is_first_play: result.is_first_play
     });
 
-    if (result.momentum_awarded > 0) {
-      console.log('✅ Starting momentum animation!', {
-        gain: result.momentum_awarded,
-        from: result.previous_momentum,
-        to: result.new_momentum
-      });
-
-      setMomentumGain(result.momentum_awarded);
-      setAnimatedMomentum(result.previous_momentum);
-      setShowMomentumAnimation(true);
-
-      // Animate momentum counting up
-      const duration = 1500;
-      const steps = 30;
-      const increment = result.momentum_awarded / steps;
-      let currentStep = 0;
-
-      const interval = setInterval(() => {
-        currentStep++;
-        if (currentStep <= steps) {
-          const newMomentum = result.previous_momentum + (increment * currentStep);
-          setAnimatedMomentum(newMomentum);
-          console.log(`📊 Animation step ${currentStep}/${steps}: ${newMomentum.toFixed(1)}%`);
-        } else {
-          setAnimatedMomentum(result.new_momentum);
-          clearInterval(interval);
-          console.log('🎉 Animation complete! Final value:', result.new_momentum);
-
-          // End animation after showing final value
-          setTimeout(() => {
-            setShowMomentumAnimation(false);
-            setMomentumGain(0);
-            console.log('🏁 Animation ended, reverting to normal display');
-          }, 2000);
-        }
-      }, duration / steps);
-    } else {
-      console.log('⚠️ No momentum awarded, skipping animation');
-    }
+    setPendingGameResult(result);
 
     // Reload cheat codes to get updated stats
     const loadData = async () => {
