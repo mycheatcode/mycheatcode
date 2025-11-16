@@ -286,46 +286,54 @@ export default function MyCodesRedesignPage() {
     }
   }, [searchParams, cheatCodes, router]);
 
-  // Trigger momentum animation when returning from game modal
+  // Trigger momentum animation when game completes (modal or inline)
   useEffect(() => {
-    if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0) {
-      console.log('✅ Modal closed, starting momentum animation!', {
-        gain: pendingGameResult.momentum_awarded,
-        from: pendingGameResult.previous_momentum,
-        to: pendingGameResult.new_momentum
-      });
+    // Trigger animation when:
+    // 1. Modal closes with pending result (!showGameModal && pendingGameResult)
+    // 2. Inline game completes (pendingGameResult exists, showGameModal is already false)
+    if (pendingGameResult && pendingGameResult.momentum_awarded > 0) {
+      // Small delay to ensure we're back on the My Codes page
+      const timer = setTimeout(() => {
+        console.log('✅ Game completed, starting momentum animation!', {
+          gain: pendingGameResult.momentum_awarded,
+          from: pendingGameResult.previous_momentum,
+          to: pendingGameResult.new_momentum
+        });
 
-      setMomentumGain(pendingGameResult.momentum_awarded);
-      setAnimatedMomentum(pendingGameResult.previous_momentum);
-      setShowMomentumAnimation(true);
+        setMomentumGain(pendingGameResult.momentum_awarded);
+        setAnimatedMomentum(pendingGameResult.previous_momentum);
+        setShowMomentumAnimation(true);
 
-      // Animate momentum counting up
-      const duration = 1500;
-      const steps = 30;
-      const increment = pendingGameResult.momentum_awarded / steps;
-      let currentStep = 0;
+        // Animate momentum counting up
+        const duration = 1500;
+        const steps = 30;
+        const increment = pendingGameResult.momentum_awarded / steps;
+        let currentStep = 0;
 
-      const interval = setInterval(() => {
-        currentStep++;
-        if (currentStep <= steps) {
-          const newMomentum = pendingGameResult.previous_momentum + (increment * currentStep);
-          setAnimatedMomentum(newMomentum);
-        } else {
-          setAnimatedMomentum(pendingGameResult.new_momentum);
-          clearInterval(interval);
+        const interval = setInterval(() => {
+          currentStep++;
+          if (currentStep <= steps) {
+            const newMomentum = pendingGameResult.previous_momentum + (increment * currentStep);
+            setAnimatedMomentum(newMomentum);
+          } else {
+            setAnimatedMomentum(pendingGameResult.new_momentum);
+            clearInterval(interval);
 
-          // End animation after showing final value
-          setTimeout(() => {
-            setShowMomentumAnimation(false);
-            setMomentumGain(0);
-          }, 2000);
-        }
-      }, duration / steps);
+            // End animation after showing final value
+            setTimeout(() => {
+              setShowMomentumAnimation(false);
+              setMomentumGain(0);
+            }, 2000);
+          }
+        }, duration / steps);
 
-      // Clear pending result
-      setPendingGameResult(null);
+        // Clear pending result
+        setPendingGameResult(null);
+      }, 300); // Short delay to ensure smooth transition
+
+      return () => clearTimeout(timer);
     }
-  }, [showGameModal, pendingGameResult]);
+  }, [pendingGameResult]);
 
   // Check if selected code was used today
   useEffect(() => {
