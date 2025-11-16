@@ -44,12 +44,12 @@ export async function POST(request: NextRequest) {
     if (!hasScenarios) {
       // If auto_generate is true, trigger scenario generation
       if (auto_generate) {
-        // Fetch cheat code data needed for generation
+        // Fetch cheat code data needed for generation (user-specific OR premade)
         const { data: cheatCodeData, error: fetchError } = await supabase
           .from('cheat_codes')
           .select('*')
           .eq('id', cheat_code_id)
-          .eq('user_id', user.id)
+          .or(`user_id.eq.${user.id},user_id.is.null`)
           .single();
 
         if (fetchError || !cheatCodeData) {
@@ -148,7 +148,10 @@ Return: {"scenarios": [...]}`;
             const scenarios = parsed.scenarios || parsed;
 
             if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
-              await saveGameScenarios(user.id, cheat_code_id, scenarios, supabase);
+              // For premade cheat codes (user_id IS NULL), save scenarios with NULL user_id
+              // so they're shared across all users. Otherwise save with specific user_id.
+              const scenarioUserId = cheatCodeData.user_id || null;
+              await saveGameScenarios(scenarioUserId, cheat_code_id, scenarios, supabase);
             }
           } catch (err) {
             // Error handled silently

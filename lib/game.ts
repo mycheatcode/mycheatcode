@@ -4,9 +4,10 @@ import type { GameScenario, GameSession, GameOption } from './types/game';
 
 /**
  * Save generated scenarios to database
+ * For premade cheat codes, pass NULL as userId to save scenarios shared across all users
  */
 export async function saveGameScenarios(
-  userId: string,
+  userId: string | null,
   cheatCodeId: string,
   scenarios: Array<{
     situation: string;
@@ -39,14 +40,19 @@ export async function saveGameScenarios(
     }
 
     // Update cheat code to mark scenarios as generated
-    const { error: updateError } = await supabase
+    // Use OR filter to update both user-specific and premade cheat codes
+    const query = supabase
       .from('cheat_codes')
       .update({
         has_game_scenarios: true,
         game_scenarios_generated_at: new Date().toISOString(),
       })
-      .eq('id', cheatCodeId)
-      .eq('user_id', userId);
+      .eq('id', cheatCodeId);
+
+    // Only filter by user_id if it's not null
+    const { error: updateError } = userId
+      ? await query.eq('user_id', userId)
+      : await query.is('user_id', null);
 
     if (updateError) {
       console.error('Error updating cheat code:', updateError);
