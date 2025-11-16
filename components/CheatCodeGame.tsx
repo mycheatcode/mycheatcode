@@ -890,7 +890,7 @@ export default function CheatCodeGame({
           </div>
 
           {/* Fixed Continue Button at bottom */}
-          <div className="flex-shrink-0 p-6 pt-4 border-t border-white/10">
+          <div className="flex-shrink-0 p-6 pt-4">
             <div className="max-w-xl w-full mx-auto">
               <button
                 onClick={handleNext}
