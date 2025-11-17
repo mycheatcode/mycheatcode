@@ -138,7 +138,7 @@ export default function CheatCodeGame({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             cheat_code_id: cheatCodeId,
-            auto_generate: retryCount === 0, // Auto-generate on first attempt
+            auto_generate: true, // Always allow auto-generation
           }),
         });
 

@@ -1022,7 +1022,7 @@ export default function MyCodesRedesignPage() {
                                   setGameCheatCodeId(code.id);
                                   setGameCheatCodeTitle(code.title);
                                   // For premade codes with onboarding scenarios, pass the scenario ID
-                                  setGameOnboardingScenarioId(code.onboarding_scenario_id || undefined);
+                                  setGameOnboardingScenarioId(undefined);
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
