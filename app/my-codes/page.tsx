@@ -307,16 +307,16 @@ export default function MyCodesRedesignPage() {
         setShowCenterAnimation(true);
         setCenterAnimationPhase('enter');
 
-        // Phase 1: Show center animation (0.6 seconds)
+        // Phase 1: Show center animation longer for reading (1.5 seconds)
         setTimeout(() => {
           setCenterAnimationPhase('shrink');
-        }, 600);
+        }, 1500);
 
-        // Phase 2: Shrink and start moving (0.5 seconds)
+        // Phase 2: Shrink and start moving (0.6 seconds)
         setTimeout(() => {
           setCenterAnimationPhase('move');
           setShowMomentumAnimation(true);
-        }, 1100);
+        }, 2100);
 
         // Phase 3: Hide center animation and start counting up
         setTimeout(() => {
@@ -1845,17 +1845,17 @@ export default function MyCodesRedesignPage() {
         />
       )}
 
-      {/* Center-Screen Momentum Animation - Subtle Version */}
+      {/* Center-Screen Momentum Animation - Enhanced with messaging */}
       {showCenterAnimation && (
         <div
           className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
           style={{
-            backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.4)' : 'transparent',
+            backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.5)' : 'transparent',
             transition: 'background-color 0.5s ease-out'
           }}
         >
           <div
-            className="relative flex flex-col items-center justify-center"
+            className="relative flex flex-col items-center justify-center gap-6 px-8"
             style={{
               transform: centerAnimationPhase === 'enter'
                 ? 'scale(1)'
@@ -1866,32 +1866,55 @@ export default function MyCodesRedesignPage() {
               transition: centerAnimationPhase === 'enter'
                 ? 'none'
                 : centerAnimationPhase === 'shrink'
-                  ? 'transform 0.5s ease-out'
-                  : 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)'
+                  ? 'transform 0.6s ease-out'
+                  : 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            {/* Subtle Background Glow */}
+            {/* Background Glow */}
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: 'radial-gradient(circle, rgba(0,255,65,0.2) 0%, rgba(0,255,65,0.1) 40%, transparent 70%)',
-                filter: 'blur(30px)',
-                transform: 'scale(1.5)'
+                background: 'radial-gradient(circle, rgba(0,255,65,0.25) 0%, rgba(0,255,65,0.15) 40%, transparent 70%)',
+                filter: 'blur(40px)',
+                transform: 'scale(2)'
               }}
             />
 
             {/* Main Content */}
-            <div className="relative z-10 flex flex-col items-center">
-              {/* Momentum Number */}
+            <div className="relative z-10 flex flex-col items-center gap-4 text-center max-w-md">
+              {/* "MOMENTUM GAINED" Label */}
               <div
-                className="text-5xl font-bold"
+                className="text-sm font-semibold tracking-widest uppercase"
                 style={{
                   color: '#00ff41',
-                  textShadow: '0 0 20px rgba(0,255,65,0.6)',
+                  textShadow: '0 0 10px rgba(0,255,65,0.4)',
+                  letterSpacing: '0.2em'
+                }}
+              >
+                Momentum Gained
+              </div>
+
+              {/* Momentum Number - Larger */}
+              <div
+                className="text-7xl font-bold"
+                style={{
+                  color: '#00ff41',
+                  textShadow: '0 0 30px rgba(0,255,65,0.6)',
                   fontFamily: 'system-ui, -apple-system, sans-serif'
                 }}
               >
                 +{Math.floor(momentumGain)}%
+              </div>
+
+              {/* Encouraging Message */}
+              <div
+                className="text-lg font-medium"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                }}
+              >
+                Keep practicing! 🔥
               </div>
             </div>
           </div>
