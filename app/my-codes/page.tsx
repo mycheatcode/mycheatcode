@@ -914,18 +914,6 @@ export default function MyCodesRedesignPage() {
                     >
                       {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
                     </div>
-                    {showMomentumAnimation && momentumGain > 0 && (
-                      <p
-                        className="font-bold text-lg animate-fadeIn relative z-10"
-                        style={{
-                          color: '#00ff41',
-                          textShadow: '0 0 10px rgba(0,255,65,0.6)',
-                          animation: 'fadeIn 0.3s ease-in, floatUp 1.5s ease-out'
-                        }}
-                      >
-                        +{Math.floor(momentumGain)}% 🔥
-                      </p>
-                    )}
                     <div className="text-xs font-semibold tracking-wider relative z-10" style={{ color: 'var(--text-tertiary)' }}>
                       MOMENTUM
                     </div>
@@ -1279,14 +1267,6 @@ export default function MyCodesRedesignPage() {
                   >
                     {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
                   </div>
-                  {showMomentumAnimation && momentumGain > 0 && (
-                    <p
-                      className="font-semibold text-xs animate-fadeIn"
-                      style={{ color: '#00ff41' }}
-                    >
-                      +{Math.floor(momentumGain)}% 🔥
-                    </p>
-                  )}
                   <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
                     MOMENTUM
                   </div>
