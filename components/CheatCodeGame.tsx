@@ -55,6 +55,7 @@ export default function CheatCodeGame({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [userAnswers, setUserAnswers] = useState<number[]>([]);
+  const [submitting, setSubmitting] = useState(false);
   const MOTIVATIONAL_QUOTES = [
     { text: "Your thoughts shape your reality on the court", author: null },
     { text: "Confidence is built one rep at a time", author: null },
@@ -343,6 +344,7 @@ export default function CheatCodeGame({
   };
 
   const submitGameSession = async () => {
+    setSubmitting(true);
     try {
       // If this is an onboarding game, create a mock result instead of submitting to API
       if (onboardingScenarioId) {
@@ -429,6 +431,8 @@ export default function CheatCodeGame({
       };
       setResult(fallbackResult);
       setGameComplete(true);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -943,16 +947,41 @@ export default function CheatCodeGame({
             <div className="max-w-xl w-full mx-auto">
               <button
                 onClick={handleNext}
-                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                disabled={submitting}
+                className="w-full py-4 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed"
                 style={{
                   backgroundColor: '#00ff41',
                   color: '#000000',
                   boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                  opacity: submitting ? 0.7 : 1,
                 }}
               >
-                {currentScenarioIndex < scenarios.length - 1 ? 'Continue →' : 'See Results'}
+                {submitting ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-5 h-5 rounded-full border-2 border-black border-t-transparent animate-spin" />
+                    Loading Results...
+                  </div>
+                ) : (
+                  currentScenarioIndex < scenarios.length - 1 ? 'Continue →' : 'See Results'
+                )}
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading Overlay - Pulsing Green Circle */}
+      {submitting && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[300]">
+          <div className="text-center space-y-6">
+            <div
+              className="w-24 h-24 rounded-full mx-auto animate-pulse-glow"
+              style={{
+                backgroundColor: '#00ff41',
+                boxShadow: '0 0 60px rgba(0, 255, 65, 0.6), 0 0 120px rgba(0, 255, 65, 0.4)',
+              }}
+            />
+            <p className="text-lg text-gray-300 font-medium">Loading Results...</p>
           </div>
         </div>
       )}
@@ -976,11 +1005,24 @@ export default function CheatCodeGame({
             transform: translateY(0);
           }
         }
+        @keyframes pulseGlow {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.1);
+            opacity: 0.8;
+          }
+        }
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
         }
         .animate-slideUp {
           animation: slideUp 0.4s ease-out;
+        }
+        .animate-pulse-glow {
+          animation: pulseGlow 1.5s ease-in-out infinite;
         }
       `}</style>
     </>
