@@ -972,7 +972,7 @@ export default function CheatCodeGame({
 
       {/* Loading Overlay - Pulsing Green Circle */}
       {submitting && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-[300]">
+        <div className="fixed inset-0 bg-black flex items-center justify-center z-[300]">
           <div className="text-center space-y-6">
             <div
               className="w-24 h-24 rounded-full mx-auto animate-pulse-glow"

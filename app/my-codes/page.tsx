@@ -1854,7 +1854,7 @@ export default function MyCodesRedesignPage() {
         <div
           className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
           style={{
-            backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.5)' : 'transparent',
+            backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.85)' : 'transparent',
             transition: 'background-color 0.5s ease-out'
           }}
         >

@@ -632,7 +632,7 @@ export async function awardGameCompletionMomentum(
   } else if (score === 2) {
     gainAmount += 1; // Good score
   } else if (score === 1) {
-    gainAmount += 0.5; // Okay score
+    gainAmount += 1; // Okay score - changed from 0.5 to 1 for better UX
   }
   // score === 0 gets nothing
 
