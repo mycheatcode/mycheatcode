@@ -67,8 +67,8 @@ export async function POST(request: NextRequest) {
     const { data: scenarios, error: scenariosError } = await supabase
       .from('game_scenarios')
       .select('*')
-      .in('id', scenario_ids);
-      // Removed .eq('user_id', user.id) to allow premade scenarios with NULL user_id
+      .in('id', scenario_ids)
+      .or(`user_id.eq.${user.id},user_id.is.null`);
 
     console.log('🎮 Scenarios query result:', {
       found: scenarios?.length,
