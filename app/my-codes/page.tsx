@@ -38,6 +38,7 @@ interface UserProgress {
 
 export default function MyCodesRedesignPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
@@ -79,6 +80,7 @@ export default function MyCodesRedesignPage() {
       }
 
       console.log('👤 Loading codes for user:', user.id);
+      setUserId(user.id);
 
       // Load cheat codes
       const { cheatCodes: dbCodes, error: codesError } = await getUserCheatCodes(user.id);
@@ -130,10 +132,11 @@ export default function MyCodesRedesignPage() {
 
   // Load completed today from localStorage
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !userId) return;
 
     const today = new Date().toDateString();
-    const storedData = localStorage.getItem('todaysFocusCompleted');
+    const storageKey = `todaysFocusCompleted_${userId}`;
+    const storedData = localStorage.getItem(storageKey);
 
     if (storedData) {
       try {
@@ -142,14 +145,14 @@ export default function MyCodesRedesignPage() {
           setCompletedToday(new Set(completed));
         } else {
           // New day, clear completed
-          localStorage.removeItem('todaysFocusCompleted');
+          localStorage.removeItem(storageKey);
         }
       } catch (e) {
         // Invalid data, clear it
-        localStorage.removeItem('todaysFocusCompleted');
+        localStorage.removeItem(storageKey);
       }
     }
-  }, []);
+  }, [userId]);
 
   // Set today's focus (smart selection based on user's codes with daily rotation - now selects 3 codes)
   useEffect(() => {
@@ -420,10 +423,11 @@ export default function MyCodesRedesignPage() {
       setCompletedToday(prev => {
         const newSet = new Set([...prev, gameCheatCodeId]);
 
-        // Save to localStorage
-        if (typeof window !== 'undefined') {
+        // Save to localStorage with user ID
+        if (typeof window !== 'undefined' && userId) {
           const today = new Date().toDateString();
-          localStorage.setItem('todaysFocusCompleted', JSON.stringify({
+          const storageKey = `todaysFocusCompleted_${userId}`;
+          localStorage.setItem(storageKey, JSON.stringify({
             date: today,
             completed: Array.from(newSet)
           }));
