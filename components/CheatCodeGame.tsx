@@ -657,7 +657,7 @@ export default function CheatCodeGame({
                     <>Great work! You've earned your daily momentum cap. Keep practicing to maintain your skills, and come back tomorrow for more gains!</>
                   )}
                   {result.no_momentum_reason === 'daily_code_limit' && (
-                    <>You've practiced this code twice today! Try a different code or come back tomorrow for more momentum.</>
+                    <>You've practiced this code 3 times today! Try a different code or come back tomorrow for more momentum.</>
                   )}
                 </div>
               </div>

@@ -135,7 +135,7 @@ export async function POST(request: NextRequest) {
     const hasCompletedOnboarding = userData?.onboarding_completed || false;
 
     // Award momentum only if:
-    // 1. User is eligible (first 2 plays per day per code)
+    // 1. User is eligible (first 3 plays per day per code)
     // 2. User has completed onboarding (practice game during onboarding doesn't count)
     if (canEarn && hasCompletedOnboarding) {
       momentumAwarded = await awardGameCompletionMomentum(
@@ -151,7 +151,7 @@ export async function POST(request: NextRequest) {
         noMomentumReason = 'daily_cap';
       }
     } else if (!canEarn && hasCompletedOnboarding) {
-      // Hit the per-code daily limit (2 plays per day)
+      // Hit the per-code daily limit (3 plays per day)
       noMomentumReason = 'daily_code_limit';
     }
 

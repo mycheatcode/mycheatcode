@@ -264,7 +264,7 @@ export async function getGameSessionCount(
 }
 
 /**
- * Check if user has already earned momentum from this game today (max 2 times per day)
+ * Check if user has already earned momentum from this game today (max 3 times per day)
  * Resets daily to encourage consistent practice
  */
 export async function canEarnMomentum(
@@ -295,7 +295,7 @@ export async function canEarnMomentum(
     }
 
     const playsWithMomentum = data?.length || 0;
-    const canEarn = playsWithMomentum < 2; // Can earn momentum for first 2 plays PER DAY
+    const canEarn = playsWithMomentum < 3; // Can earn momentum for first 3 plays PER DAY
 
     return { canEarn, playsWithMomentum };
   } catch (err) {
