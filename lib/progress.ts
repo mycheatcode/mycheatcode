@@ -159,6 +159,10 @@ async function recordMomentumGain(
   }
 
   console.log('📊 Momentum gain recorded:', { userId, gainAmount, source, data });
+
+  // Update streak whenever momentum is gained (any activity counts as "active day")
+  await updateStreak(supabase, userId);
+
   return data;
 }
 
@@ -193,6 +197,73 @@ async function getMeaningfulChatsToday(supabase: SupabaseClient, userId: string)
 
   if (error) return 0;
   return data?.length || 0;
+}
+
+/**
+ * Update user's streak based on activity
+ * Called whenever user earns momentum (any activity that counts as "active day")
+ */
+export async function updateStreak(supabase: SupabaseClient, userId: string): Promise<void> {
+  try {
+    // Get user's current streak data
+    const { data: userData, error: fetchError } = await supabase
+      .from('users')
+      .select('current_streak, last_activity_date, longest_streak')
+      .eq('id', userId)
+      .single();
+
+    if (fetchError || !userData) {
+      console.error('Error fetching user streak data:', fetchError);
+      return;
+    }
+
+    const today = new Date().toISOString().split('T')[0]; // Get YYYY-MM-DD in UTC
+    const lastActivityDate = userData.last_activity_date;
+    const currentStreak = userData.current_streak || 0;
+    const longestStreak = userData.longest_streak || 0;
+
+    let newStreak = currentStreak;
+
+    if (!lastActivityDate) {
+      // First time user is active - start streak at 1
+      newStreak = 1;
+    } else if (lastActivityDate === today) {
+      // Already had activity today - no change to streak
+      return;
+    } else {
+      // Calculate days since last activity
+      const lastDate = new Date(lastActivityDate + 'T00:00:00Z');
+      const todayDate = new Date(today + 'T00:00:00Z');
+      const daysSince = Math.floor((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+
+      if (daysSince === 1) {
+        // Consecutive day - increment streak
+        newStreak = currentStreak + 1;
+      } else {
+        // Missed a day - reset streak to 1
+        newStreak = 1;
+      }
+    }
+
+    // Update longest streak if current is higher
+    const newLongestStreak = Math.max(longestStreak, newStreak);
+
+    // Update the database
+    const { error: updateError } = await supabase
+      .from('users')
+      .update({
+        current_streak: newStreak,
+        last_activity_date: today,
+        longest_streak: newLongestStreak,
+      })
+      .eq('id', userId);
+
+    if (updateError) {
+      console.error('Error updating user streak:', updateError);
+    }
+  } catch (err) {
+    console.error('Unexpected error updating streak:', err);
+  }
 }
 
 /**
