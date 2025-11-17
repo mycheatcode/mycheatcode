@@ -1874,13 +1874,13 @@ export default function MyCodesRedesignPage() {
                   : 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
             }}
           >
-            {/* Background Glow */}
+            {/* Background Glow - Subtle */}
             <div
               className="absolute inset-0 rounded-full"
               style={{
-                background: 'radial-gradient(circle, rgba(0,255,65,0.25) 0%, rgba(0,255,65,0.15) 40%, transparent 70%)',
-                filter: 'blur(40px)',
-                transform: 'scale(2)'
+                background: 'radial-gradient(circle, rgba(0,255,65,0.12) 0%, rgba(0,255,65,0.06) 40%, transparent 70%)',
+                filter: 'blur(30px)',
+                transform: 'scale(1.5)'
               }}
             />
 
@@ -1891,7 +1891,7 @@ export default function MyCodesRedesignPage() {
                 className="text-sm font-semibold tracking-widest uppercase"
                 style={{
                   color: '#00ff41',
-                  textShadow: '0 0 10px rgba(0,255,65,0.4)',
+                  textShadow: '0 0 8px rgba(0,255,65,0.2)',
                   letterSpacing: '0.2em'
                 }}
               >
@@ -1903,7 +1903,7 @@ export default function MyCodesRedesignPage() {
                 className="text-7xl font-bold"
                 style={{
                   color: '#00ff41',
-                  textShadow: '0 0 30px rgba(0,255,65,0.6)',
+                  textShadow: '0 0 20px rgba(0,255,65,0.3)',
                   fontFamily: 'system-ui, -apple-system, sans-serif'
                 }}
               >
