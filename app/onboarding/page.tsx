@@ -331,7 +331,12 @@ export default function OnboardingPage() {
         }
       }
 
-      // Success! Redirect to home page with tutorial flag
+      // Success! Set flag to reload codes when my-codes page loads
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('needsCodeReload', 'true');
+      }
+
+      // Redirect to home page with tutorial flag
       router.push('/?onboarding=complete');
     } catch (err) {
       console.error('Submit error:', err);

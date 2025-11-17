@@ -131,6 +131,20 @@ export default function MyCodesRedesignPage() {
     loadData();
   }, [loadData]);
 
+  // Reload codes if coming from onboarding (flag set during onboarding completion)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const needsReload = localStorage.getItem('needsCodeReload');
+    if (needsReload === 'true') {
+      console.log('🔄 Detected onboarding completion flag, reloading codes...');
+      // Clear the flag immediately to prevent multiple reloads
+      localStorage.removeItem('needsCodeReload');
+      // Reload data to fetch the newly created onboarding code
+      loadData();
+    }
+  }, [loadData]);
+
   // Load completed today from localStorage
   useEffect(() => {
     if (typeof window === 'undefined' || !userId) return;
