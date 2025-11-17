@@ -1021,7 +1021,8 @@ export default function MyCodesRedesignPage() {
                                 onClick={() => {
                                   setGameCheatCodeId(code.id);
                                   setGameCheatCodeTitle(code.title);
-                                  setGameOnboardingScenarioId(undefined); // Don't use onboarding scenarios for regular practice games
+                                  // For premade codes with onboarding scenarios, pass the scenario ID
+                                  setGameOnboardingScenarioId(code.onboarding_scenario_id || undefined);
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
