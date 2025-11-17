@@ -365,6 +365,19 @@ export default function CheatCodeGame({
         return;
       }
 
+      // Ensure we have the final answer recorded before submitting
+      const finalAnswers = [...userAnswers];
+
+      // Debug logging
+      console.log('📤 Submitting game session:', {
+        cheat_code_id: cheatCodeId,
+        scenario_ids: scenarios.map(s => s.id),
+        user_answers: finalAnswers,
+        scenarios_length: scenarios.length,
+        answers_length: finalAnswers.length,
+        is_first_play: isFirstPlay,
+      });
+
       // Otherwise, submit to API for regular games
       const response = await fetch('/api/game/submit-session', {
         method: 'POST',
@@ -372,12 +385,14 @@ export default function CheatCodeGame({
         body: JSON.stringify({
           cheat_code_id: cheatCodeId,
           scenario_ids: scenarios.map(s => s.id),
-          user_answers: userAnswers,
+          user_answers: finalAnswers,
           is_first_play: isFirstPlay,
         }),
       });
 
       const data = await response.json();
+
+      console.log('📥 API response:', data);
 
       if (data.success) {
         setResult(data.result);
@@ -385,9 +400,23 @@ export default function CheatCodeGame({
         if (onComplete) {
           onComplete(data.result);
         }
+      } else {
+        console.error('❌ API returned error:', data);
+        // Create a fallback result so user can still see their score
+        const fallbackResult: GameSessionResult = {
+          session_id: 'error-session',
+          score: score,
+          total_questions: scenarios.length,
+          momentum_awarded: 0,
+          is_first_play: false,
+          previous_momentum: 0,
+          new_momentum: 0,
+        };
+        setResult(fallbackResult);
+        setGameComplete(true);
       }
     } catch (err) {
-      console.error('Failed to submit game session:', err);
+      console.error('❌ Failed to submit game session:', err);
       // Create a fallback result so user can still see their score
       const fallbackResult: GameSessionResult = {
         session_id: 'error-session',

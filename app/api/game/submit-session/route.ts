@@ -25,7 +25,17 @@ export async function POST(request: NextRequest) {
     const body: SubmitGameSessionRequest = await request.json();
     const { cheat_code_id, scenario_ids, user_answers, is_first_play } = body;
 
+    console.log('📥 Received game session submission:', {
+      cheat_code_id,
+      scenario_ids,
+      user_answers,
+      is_first_play,
+      scenario_ids_length: scenario_ids?.length,
+      user_answers_length: user_answers?.length,
+    });
+
     if (!cheat_code_id || !scenario_ids || !user_answers) {
+      console.error('❌ Missing required fields:', { cheat_code_id, has_scenario_ids: !!scenario_ids, has_user_answers: !!user_answers });
       return NextResponse.json(
         { success: false, error: 'Missing required fields' },
         { status: 400 }
@@ -33,8 +43,20 @@ export async function POST(request: NextRequest) {
     }
 
     if (scenario_ids.length !== 3 || user_answers.length !== 3) {
+      console.error('❌ Invalid array lengths:', {
+        scenario_ids_length: scenario_ids.length,
+        user_answers_length: user_answers.length,
+        expected: 3,
+      });
       return NextResponse.json(
-        { success: false, error: 'Must have exactly 3 scenarios and answers' },
+        {
+          success: false,
+          error: 'Must have exactly 3 scenarios and answers',
+          details: {
+            scenario_ids_length: scenario_ids.length,
+            user_answers_length: user_answers.length,
+          }
+        },
         { status: 400 }
       );
     }
