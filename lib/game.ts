@@ -264,7 +264,8 @@ export async function getGameSessionCount(
 }
 
 /**
- * Check if user has already earned momentum from this game (max 2 times)
+ * Check if user has already earned momentum from this game today (max 2 times per day)
+ * Resets daily to encourage consistent practice
  */
 export async function canEarnMomentum(
   userId: string,
@@ -274,12 +275,19 @@ export async function canEarnMomentum(
   const supabase = supabaseClient || createClient();
 
   try {
+    // Get start of today in UTC
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+    const todayStart = today.toISOString();
+
+    // Check plays with momentum awarded TODAY only
     const { data, error } = await supabase
       .from('game_sessions')
       .select('momentum_awarded')
       .eq('user_id', userId)
       .eq('cheat_code_id', cheatCodeId)
-      .gt('momentum_awarded', 0);
+      .gt('momentum_awarded', 0)
+      .gte('completed_at', todayStart); // Only count plays from today
 
     if (error) {
       console.error('Error checking momentum eligibility:', error);
@@ -287,7 +295,7 @@ export async function canEarnMomentum(
     }
 
     const playsWithMomentum = data?.length || 0;
-    const canEarn = playsWithMomentum < 2; // Can earn momentum for first 2 plays
+    const canEarn = playsWithMomentum < 2; // Can earn momentum for first 2 plays PER DAY
 
     return { canEarn, playsWithMomentum };
   } catch (err) {
