@@ -648,6 +648,20 @@ export default function CheatCodeGame({
                 )}
               </div>
             )}
+
+            {result.momentum_awarded === 0 && result.no_momentum_reason && (
+              <div className="pt-4 border-t border-[#1a1a1a]">
+                <div className="text-sm text-gray-500 mb-2">Momentum</div>
+                <div className="text-base text-gray-300 leading-relaxed">
+                  {result.no_momentum_reason === 'daily_cap' && (
+                    <>Great work! You've earned your daily momentum cap. Keep practicing to maintain your skills, and come back tomorrow for more gains!</>
+                  )}
+                  {result.no_momentum_reason === 'daily_code_limit' && (
+                    <>You've practiced this code twice today! Try a different code or come back tomorrow for more momentum.</>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-3">

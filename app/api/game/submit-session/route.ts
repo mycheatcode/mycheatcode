@@ -123,6 +123,7 @@ export async function POST(request: NextRequest) {
     const previousMomentum = previousProgress.progressRaw;
 
     let momentumAwarded = 0;
+    let noMomentumReason: 'daily_cap' | 'daily_code_limit' | null = null;
 
     // Check if user has completed onboarding
     const { data: userData } = await supabase
@@ -134,7 +135,7 @@ export async function POST(request: NextRequest) {
     const hasCompletedOnboarding = userData?.onboarding_completed || false;
 
     // Award momentum only if:
-    // 1. User is eligible (first 2 plays)
+    // 1. User is eligible (first 2 plays per day per code)
     // 2. User has completed onboarding (practice game during onboarding doesn't count)
     if (canEarn && hasCompletedOnboarding) {
       momentumAwarded = await awardGameCompletionMomentum(
@@ -144,6 +145,14 @@ export async function POST(request: NextRequest) {
         score,
         is_first_play
       );
+
+      // Check if no momentum was awarded due to daily cap
+      if (momentumAwarded === 0 && previousProgress.dailyCapReached) {
+        noMomentumReason = 'daily_cap';
+      }
+    } else if (!canEarn && hasCompletedOnboarding) {
+      // Hit the per-code daily limit (2 plays per day)
+      noMomentumReason = 'daily_code_limit';
     }
 
     // Save session
@@ -177,6 +186,7 @@ export async function POST(request: NextRequest) {
       is_first_play: is_first_play || false,
       previous_momentum: previousMomentum,
       new_momentum: newMomentum,
+      no_momentum_reason: noMomentumReason,
     };
 
     return NextResponse.json({

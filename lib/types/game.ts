@@ -42,6 +42,7 @@ export interface GameSessionResult {
   is_first_play: boolean;
   previous_momentum: number;
   new_momentum: number;
+  no_momentum_reason?: 'daily_cap' | 'code_limit' | 'daily_code_limit' | null;
 }
 
 // Request/Response types for API
