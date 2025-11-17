@@ -555,13 +555,13 @@ export async function awardGameCompletionMomentum(
 
   let gainAmount = 0;
 
-  // Score-based momentum
+  // Score-based momentum (reduced for more meaningful progression)
   if (score === 3) {
-    gainAmount += 5; // Perfect score
+    gainAmount += 2; // Perfect score
   } else if (score === 2) {
-    gainAmount += 3; // Good score
+    gainAmount += 1; // Good score
   } else if (score === 1) {
-    gainAmount += 1; // Okay score
+    gainAmount += 0.5; // Okay score
   }
   // score === 0 gets nothing
 
@@ -574,9 +574,9 @@ export async function awardGameCompletionMomentum(
     });
   }
 
-  // First play bonus (if played right after code creation)
+  // First play bonus (if played right after code creation) - reduced
   if (isFirstPlay) {
-    const bonusGain = 5;
+    const bonusGain = 1;
     gainAmount += bonusGain;
     await recordMomentumGain(supabase, userId, bonusGain, 'first_game', {
       code_id: codeId,
