@@ -126,21 +126,29 @@ export default function MyCodesRedesignPage() {
     setLoading(false);
   }, [supabase]);
 
-  // Load user data on mount
+  // Load user data on mount, with special handling for post-onboarding
   useEffect(() => {
-    loadData();
-  }, [loadData]);
-
-  // Reload codes if coming from onboarding (flag set during onboarding completion)
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+      loadData();
+      return;
+    }
 
     const needsReload = localStorage.getItem('needsCodeReload');
     if (needsReload === 'true') {
-      console.log('🔄 Detected onboarding completion flag, reloading codes...');
+      console.log('🔄 Detected onboarding completion, waiting for DB propagation before loading codes...');
       // Clear the flag immediately to prevent multiple reloads
       localStorage.removeItem('needsCodeReload');
-      // Reload data to fetch the newly created onboarding code
+
+      // Add delay to ensure database has propagated the new code
+      // This is critical for the first practice game attempt to work
+      const timeoutId = setTimeout(() => {
+        console.log('🔄 Loading codes after onboarding delay...');
+        loadData();
+      }, 1000); // 1 second delay for DB propagation
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      // Normal load without delay
       loadData();
     }
   }, [loadData]);
