@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -69,66 +69,67 @@ export default function MyCodesRedesignPage() {
   const searchParams = useSearchParams();
   const supabase = createClient();
 
-  // Load user data
-  useEffect(() => {
-    const loadData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        console.log('❌ No user found');
-        setLoading(false);
-        return;
-      }
-
-      console.log('👤 Loading codes for user:', user.id);
-      setUserId(user.id);
-
-      // Load cheat codes
-      const { cheatCodes: dbCodes, error: codesError } = await getUserCheatCodes(user.id);
-      console.log('📊 getUserCheatCodes response:', { dbCodes, codesError });
-      console.log('📊 Raw codes from database:', dbCodes);
-      console.log('📊 Number of codes:', dbCodes?.length || 0);
-
-      if (codesError) {
-        console.error('❌ Error fetching codes:', codesError);
-      }
-
-      if (dbCodes) {
-        const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
-          const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
-          const now = new Date();
-          const diffMs = now.getTime() - lastUsed.getTime();
-          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-          return {
-            id: code.id,
-            title: code.title,
-            category: code.category,
-            timesUsed: code.times_used || 0,
-            lastUsedDaysAgo: code.last_used_at ? diffDays : null,
-            isFavorite: code.is_favorite || false,
-            archived: code.is_active === false,
-            created_at: code.created_at,
-            summary: code.content || '',
-            topicId: code.chat_id || undefined,
-            onboardingScenarioId: code.onboarding_scenario_id || undefined
-          };
-        });
-        console.log('🔄 Transformed codes:', transformedCodes);
-        console.log('🔄 Active codes:', transformedCodes.filter(c => !c.archived));
-        setCheatCodes(transformedCodes);
-      } else {
-        console.log('⚠️ No codes returned from getUserCheatCodes');
-      }
-
-      // Load user progress
-      const progress = await getUserProgress(supabase, user.id);
-      setUserProgress(progress);
-
+  // Load data function (can be called on mount or to refresh)
+  const loadData = useCallback(async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      console.log('❌ No user found');
       setLoading(false);
-    };
+      return;
+    }
 
-    loadData();
+    console.log('👤 Loading codes for user:', user.id);
+    setUserId(user.id);
+
+    // Load cheat codes
+    const { cheatCodes: dbCodes, error: codesError } = await getUserCheatCodes(user.id);
+    console.log('📊 getUserCheatCodes response:', { dbCodes, codesError });
+    console.log('📊 Raw codes from database:', dbCodes);
+    console.log('📊 Number of codes:', dbCodes?.length || 0);
+
+    if (codesError) {
+      console.error('❌ Error fetching codes:', codesError);
+    }
+
+    if (dbCodes) {
+      const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
+        const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
+        const now = new Date();
+        const diffMs = now.getTime() - lastUsed.getTime();
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+        return {
+          id: code.id,
+          title: code.title,
+          category: code.category,
+          timesUsed: code.times_used || 0,
+          lastUsedDaysAgo: code.last_used_at ? diffDays : null,
+          isFavorite: code.is_favorite || false,
+          archived: code.is_active === false,
+          created_at: code.created_at,
+          summary: code.content || '',
+          topicId: code.chat_id || undefined,
+          onboardingScenarioId: code.onboarding_scenario_id || undefined
+        };
+      });
+      console.log('🔄 Transformed codes:', transformedCodes);
+      console.log('🔄 Active codes:', transformedCodes.filter(c => !c.archived));
+      setCheatCodes(transformedCodes);
+    } else {
+      console.log('⚠️ No codes returned from getUserCheatCodes');
+    }
+
+    // Load user progress
+    const progress = await getUserProgress(supabase, user.id);
+    setUserProgress(progress);
+
+    setLoading(false);
   }, [supabase]);
+
+  // Load user data on mount
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   // Load completed today from localStorage
   useEffect(() => {
@@ -448,41 +449,7 @@ export default function MyCodesRedesignPage() {
 
     setPendingGameResult(result);
 
-    // Reload cheat codes to get updated stats
-    const loadData = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
-
-      const { cheatCodes: dbCodes } = await getUserCheatCodes(user.id);
-      if (dbCodes) {
-        const transformedCodes: CheatCode[] = dbCodes.map((code: any) => {
-          const lastUsed = code.last_used_at ? new Date(code.last_used_at) : new Date(code.created_at);
-          const now = new Date();
-          const diffMs = now.getTime() - lastUsed.getTime();
-          const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-          return {
-            id: code.id,
-            title: code.title,
-            category: code.category,
-            timesUsed: code.times_used || 0,
-            lastUsedDaysAgo: code.last_used_at ? diffDays : null,
-            isFavorite: code.is_favorite || false,
-            archived: code.is_active === false,
-            created_at: code.created_at,
-            summary: code.content || '',
-            topicId: code.chat_id || undefined,
-            onboardingScenarioId: code.onboarding_scenario_id || undefined
-          };
-        });
-        setCheatCodes(transformedCodes);
-      }
-
-      // Also reload user progress
-      const progress = await getUserProgress(supabase, user.id);
-      setUserProgress(progress);
-    };
-
+    // Reload codes to ensure Today's Focus shows updated data
     loadData();
   };
 
