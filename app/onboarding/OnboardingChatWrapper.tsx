@@ -264,17 +264,21 @@ export default function OnboardingChatWrapper({
                                   const data = await response.json();
                                   setSavedCodeId(data.code_id);
                                   console.log('✅ Code saved successfully! ID:', data.code_id);
+
+                                  // Only open game modal after successful save
+                                  if (parsedCode) {
+                                    setShowGameModal(true);
+                                    setShowTutorial3(false);
+                                  }
                                 } else {
                                   const errorText = await response.text();
                                   console.error('❌ Failed to save code:', response.status, errorText);
+                                  // Show error to user
+                                  alert('Failed to save code. Please try again.');
                                 }
                               } catch (error) {
                                 console.error('❌ Error saving code:', error);
-                              }
-
-                              if (parsedCode) {
-                                setShowGameModal(true);
-                                setShowTutorial3(false);
+                                alert('Failed to save code. Please try again.');
                               }
                             }}
                             className="w-full rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
