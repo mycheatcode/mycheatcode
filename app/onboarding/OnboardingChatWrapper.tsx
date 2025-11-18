@@ -154,8 +154,8 @@ export default function OnboardingChatWrapper({
 
   return (
     <div className="min-h-screen font-sans flex flex-col" style={{ backgroundColor: '#000000', color: 'var(--text-primary)' }}>
-      {/* Header - EXACT copy from production chat */}
-      <div className="px-6 py-5 flex-shrink-0" style={{ backgroundColor: '#000000' }}>
+      {/* Header */}
+      <div className="px-6 lg:px-8 py-5 flex-shrink-0" style={{ backgroundColor: '#000000' }}>
         <div className="flex items-center justify-center relative">
           <button
             onClick={onBack}
@@ -171,17 +171,17 @@ export default function OnboardingChatWrapper({
         </div>
       </div>
 
-      {/* Messages - EXACT copy from production chat */}
+      {/* Messages */}
       <div className="flex-1 overflow-y-auto">
-        <div className="px-4 py-6 pb-8">
-          <div className="space-y-6">
+        <div className="max-w-4xl mx-auto w-full px-4 lg:px-8 py-6 pb-8">
+          <div className="space-y-6 lg:space-y-8">
             {messages.map((message) => (
               <div key={message.id} className="group">
                 {/* User message */}
                 {message.sender === 'user' && (
                   <div className="flex justify-end">
-                    <div className="max-w-[80%]">
-                      <div className="px-4 py-2.5 rounded-2xl rounded-br-md" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'var(--text-primary)' }}>
+                    <div className="max-w-[80%] lg:max-w-[70%]">
+                      <div className="px-4 lg:px-5 py-2.5 lg:py-3 rounded-2xl rounded-br-md" style={{ backgroundColor: 'rgba(255, 255, 255, 0.1)', color: 'var(--text-primary)' }}>
                         <div className="text-[15px] leading-[1.5]">{message.text}</div>
                       </div>
                       <div className="text-[11px] mt-1.5 px-1 text-right" style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
@@ -195,7 +195,7 @@ export default function OnboardingChatWrapper({
                 {message.sender === 'coach' && (
                   <div className="w-full">
                     <div className="flex justify-start">
-                      <div className="max-w-[85%]">
+                      <div className="max-w-[85%] lg:max-w-[80%]">
                         {message.id === 'coach-code' ? (
                           <div className="text-[15px] leading-[1.6]" style={{ color: 'rgba(255, 255, 255, 0.9)' }}>
                             {message.text}
@@ -294,8 +294,8 @@ export default function OnboardingChatWrapper({
       </div>
 
       {/* Input */}
-      <div className="p-4 border-t flex-shrink-0" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
-        <div className="relative">
+      <div className="p-4 lg:p-8 border-t flex-shrink-0" style={{ borderColor: 'var(--card-border)', backgroundColor: '#000000' }}>
+        <div className="max-w-4xl mx-auto relative">
           <textarea
             placeholder="Share what's on your mind..."
             disabled={true}
