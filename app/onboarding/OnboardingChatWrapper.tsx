@@ -243,14 +243,34 @@ export default function OnboardingChatWrapper({
                         <div className="max-w-4xl mx-auto px-4 lg:px-8">
                           <button
                             ref={getRepsButtonRef}
-                            onClick={() => {
-                              console.log('🎮 Get Reps button clicked! Opening game directly...');
+                            onClick={async () => {
+                              console.log('🎮 Get Reps button clicked!');
+                              setShowTutorial3(false);
 
-                              // Open game directly without saving first
-                              // We'll save the code after the game completes successfully
-                              if (parsedCode) {
-                                setShowGameModal(true);
-                                setShowTutorial3(false);
+                              // Save code before opening game
+                              try {
+                                const response = await fetch('/api/save-onboarding-code', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                    codeMessage: initialMessage,
+                                    scenarioCategory,
+                                    scenarioId
+                                  })
+                                });
+
+                                if (response.ok) {
+                                  const data = await response.json();
+                                  setSavedCodeId(data.code_id);
+                                  console.log('✅ Code saved! Opening game...');
+                                  setShowGameModal(true);
+                                } else {
+                                  console.error('❌ Save failed, opening game anyway');
+                                  setShowGameModal(true); // Open anyway
+                                }
+                              } catch (error) {
+                                console.error('❌ Error:', error);
+                                setShowGameModal(true); // Open anyway
                               }
                             }}
                             className="w-full rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
@@ -441,34 +461,7 @@ export default function OnboardingChatWrapper({
           cheatCodeTitle={parsedCode.title}
           isFirstPlay={true}
           onboardingScenarioId={scenarioId}
-          onClose={async () => {
-            console.log('🎮 Game closed, saving code now...');
-
-            // Save the code after the game is complete
-            try {
-              const response = await fetch('/api/save-onboarding-code', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  codeMessage: initialMessage,
-                  scenarioCategory,
-                  scenarioId
-                })
-              });
-
-              if (response.ok) {
-                const data = await response.json();
-                console.log('✅ Code saved after game! ID:', data.code_id);
-              } else {
-                console.error('❌ Failed to save code after game:', response.status);
-                // Continue anyway - user can still proceed
-              }
-            } catch (error) {
-              console.error('❌ Error saving code after game:', error);
-              // Continue anyway
-            }
-
-            // Complete onboarding regardless of save success
+          onClose={() => {
             onComplete();
           }}
         />

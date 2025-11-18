@@ -82,20 +82,16 @@ export async function POST(request: NextRequest) {
       chat_id: null
     });
 
-    // Insert the code into the database (matching the schema used by saveCheatCode)
+    // Insert the code into the database - simplified approach
     const insertData: any = {
       user_id: user.id,
       title: parsedCode.title,
       category: parsedCode.category,
       content: cardFormatContent.trim(),
-      is_active: true  // Ensure the code is active and not archived
+      is_active: true,
+      onboarding_scenario_id: scenarioId || null,
+      has_game_scenarios: scenarioId ? true : false
     };
-
-    // Add onboarding_scenario_id if provided (don't include chat_id for onboarding codes)
-    if (scenarioId) {
-      insertData.onboarding_scenario_id = scenarioId;
-      insertData.has_game_scenarios = true; // Mark that it has scenarios
-    }
 
     console.log('💾 Insert data:', insertData);
 
