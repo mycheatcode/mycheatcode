@@ -90,7 +90,7 @@ export default function OnboardingChatWrapper({
       const rect = getRepsButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button with different spacing for desktop vs mobile
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 160 : 100; // More spacing on mobile for better positioning
+      const spacing = isMobile ? 200 : 100; // Much more spacing on mobile to prevent overlap
       setTutorial3Position(rect.bottom + spacing);
     }
   }, [showTutorial3, messages, showGetRepsButton]);
@@ -249,6 +249,12 @@ export default function OnboardingChatWrapper({
                               // Save the code NOW before opening the game
                               try {
                                 console.log('💾 Saving onboarding code before practice game...');
+                                console.log('📦 Request payload:', {
+                                  codeMessage: initialMessage.substring(0, 100) + '...',
+                                  scenarioCategory,
+                                  scenarioId
+                                });
+
                                 const response = await fetch('/api/save-onboarding-code', {
                                   method: 'POST',
                                   headers: { 'Content-Type': 'application/json' },
@@ -259,7 +265,8 @@ export default function OnboardingChatWrapper({
                                   })
                                 });
 
-                                console.log('📡 Save response:', response.status);
+                                console.log('📡 Save response status:', response.status);
+                                console.log('📡 Save response ok:', response.ok);
 
                                 if (response.ok) {
                                   const data = await response.json();
@@ -273,14 +280,22 @@ export default function OnboardingChatWrapper({
                                   }
                                 } else {
                                   let errorMessage = 'Failed to save code. Please try again.';
+                                  let errorData = null;
                                   try {
-                                    const errorData = await response.json();
+                                    errorData = await response.json();
+                                    console.error('❌ Error response data:', errorData);
                                     errorMessage = errorData.error || errorData.details || errorMessage;
-                                  } catch {
-                                    // If JSON parsing fails, use default message
+                                    if (errorData.code) {
+                                      console.error('❌ Error code:', errorData.code);
+                                    }
+                                    if (errorData.hint) {
+                                      console.error('❌ Error hint:', errorData.hint);
+                                    }
+                                  } catch (e) {
+                                    console.error('❌ Could not parse error response:', e);
                                   }
                                   console.error('❌ Failed to save code:', response.status, errorMessage);
-                                  alert(errorMessage);
+                                  alert(errorMessage + (errorData?.hint ? '\n\nHint: ' + errorData.hint : ''));
                                 }
                               } catch (error) {
                                 console.error('❌ Error saving code:', error);
