@@ -98,7 +98,22 @@ export default function CheatCodeGame({
   useEffect(() => {
     console.log('🎮 CheatCodeGame mounted with:', { cheatCodeId, onboardingScenarioId });
 
-    // Always fetch from API, even for onboarding codes (they now have scenarios in DB)
+    // If we have an onboarding scenario ID and temp code ID, use hardcoded scenarios
+    if (onboardingScenarioId && cheatCodeId === 'temp-onboarding-code') {
+      console.log('🎯 Using hardcoded onboarding scenarios for:', onboardingScenarioId);
+      const onboardingScenarios = ONBOARDING_GAME_SCENARIOS[onboardingScenarioId];
+
+      if (onboardingScenarios && onboardingScenarios.length > 0) {
+        setScenarios(onboardingScenarios);
+        setLoading(false);
+        return;
+      } else {
+        console.error('❌ No onboarding scenarios found for:', onboardingScenarioId);
+        setError('Failed to load game scenarios');
+        setLoading(false);
+        return;
+      }
+    }
 
     // Otherwise, fetch scenarios from API
     let retryCount = 0;
