@@ -77,10 +77,10 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial1 && viewCodeButtonRef.current) {
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
-      // Position tutorial below the button
-      // Calculate from bottom of viewport to top of button, add spacing
-      const distanceFromBottom = window.innerHeight - rect.top;
-      setTutorial1Position(distanceFromBottom + 100); // Add more spacing to position it lower on mobile
+      // Position tutorial below the button with different spacing for desktop vs mobile
+      const isMobile = window.innerWidth < 1024; // lg breakpoint
+      const spacing = isMobile ? 20 : 32; // Less spacing on mobile, more on desktop
+      setTutorial1Position(rect.bottom + spacing);
     }
   }, [showTutorial1, messages, completedAnimations]);
 
@@ -88,8 +88,10 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial3 && getRepsButtonRef.current) {
       const rect = getRepsButtonRef.current.getBoundingClientRect();
-      // Add more spacing to avoid covering button during bounce animation
-      setTutorial3Position(rect.bottom + 32);
+      // Position tutorial below the button with different spacing for desktop vs mobile
+      const isMobile = window.innerWidth < 1024; // lg breakpoint
+      const spacing = isMobile ? 20 : 32; // Less spacing on mobile, more on desktop
+      setTutorial3Position(rect.bottom + spacing);
     }
   }, [showTutorial3, messages, showGetRepsButton]);
 
@@ -220,11 +222,11 @@ export default function OnboardingChatWrapper({
 
                     {/* View Cheat Code button */}
                     {message.id === 'coach-code' && parsedCode && (
-                      <div className="flex justify-center w-full px-2 mt-4">
+                      <div className="flex justify-start w-full mt-4">
                         <button
                           ref={viewCodeButtonRef}
                           onClick={handleViewCode}
-                          className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                          className="w-full max-w-[85%] lg:max-w-[80%] rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
                           style={{ backgroundColor: '#ffffff', color: '#000000' }}
                           id="view-code-button"
                         >
@@ -235,7 +237,7 @@ export default function OnboardingChatWrapper({
 
                     {/* Get Reps button */}
                     {message.id === 'coach-followup' && showGetRepsButton && (
-                      <div className="flex justify-center w-full px-2 mt-4">
+                      <div className="flex justify-start w-full mt-4">
                         <button
                           ref={getRepsButtonRef}
                           onClick={async () => {
@@ -272,7 +274,7 @@ export default function OnboardingChatWrapper({
                               setShowTutorial3(false);
                             }
                           }}
-                          className="w-full max-w-md rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                          className="w-full max-w-[85%] lg:max-w-[80%] rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
                           style={{
                             backgroundColor: '#00FF41',
                             color: '#000000',
@@ -323,8 +325,15 @@ export default function OnboardingChatWrapper({
           <div className="fixed inset-0 bg-black/80 z-40" onClick={() => setShowTutorial1(false)} />
           <div
             className="fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm animate-fadeIn"
-            style={{ bottom: `${tutorial1Position}px` }}
+            style={{ top: `${tutorial1Position}px` }}
           >
+            {/* Arrow pointing up */}
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <div
+                className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
+                style={{ borderBottom: '10px solid #00ff41' }}
+              />
+            </div>
             <div
               className="bg-zinc-900 rounded-2xl p-5 shadow-2xl border-2"
               style={{
@@ -349,13 +358,6 @@ export default function OnboardingChatWrapper({
               >
                 Got it!
               </button>
-            </div>
-            {/* Arrow pointing up */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
-              <div
-                className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
-                style={{ borderTop: '10px solid #00ff41' }}
-              />
             </div>
           </div>
         </>

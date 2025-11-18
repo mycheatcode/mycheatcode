@@ -145,6 +145,21 @@ async function recordMomentumGain(
   source: 'first_chat' | 'first_code' | 'first_completion' | 'code_creation' | 'chat' | 'completion' | 'game' | 'first_game' | 'onboarding_completion',
   metadata?: any
 ) {
+  // Verify auth session before inserting
+  const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+  if (authError || !user || user.id !== userId) {
+    const errorMsg = `Auth verification failed: ${authError?.message || 'User mismatch'}`;
+    console.error('❌ Error recording momentum gain - auth issue:', {
+      authError,
+      hasUser: !!user,
+      requestedUserId: userId,
+      actualUserId: user?.id,
+    });
+    throw new Error(errorMsg);
+  }
+
+  console.log('✅ Auth verified for momentum gain:', { userId, source, gainAmount });
 
   const { data, error } = await supabase.from('momentum_gains').insert({
     user_id: userId,
@@ -154,7 +169,15 @@ async function recordMomentumGain(
   });
 
   if (error) {
-    console.error('❌ Error recording momentum gain:', error);
+    console.error('❌ Error recording momentum gain:', {
+      error,
+      userId,
+      gainAmount,
+      source,
+      errorCode: error.code,
+      errorMessage: error.message,
+      errorDetails: error.details,
+    });
     throw error;
   }
 
