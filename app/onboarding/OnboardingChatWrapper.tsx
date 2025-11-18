@@ -36,6 +36,7 @@ export default function OnboardingChatWrapper({
   const [showGameModal, setShowGameModal] = useState(false);
   const [tutorial1Position, setTutorial1Position] = useState<number | null>(null);
   const [tutorial3Position, setTutorial3Position] = useState<number | null>(null);
+  const [tutorial3IsAbove, setTutorial3IsAbove] = useState(false); // Track if overlay is above button
   const [savedCodeId, setSavedCodeId] = useState<string | null>(null);
   const viewCodeButtonRef = useRef<HTMLButtonElement>(null);
   const getRepsButtonRef = useRef<HTMLButtonElement>(null);
@@ -95,9 +96,11 @@ export default function OnboardingChatWrapper({
         // On mobile, position above the button (estimate overlay height ~200px + spacing)
         const overlayHeight = 250; // Approximate height of the overlay
         setTutorial3Position(rect.top - overlayHeight);
+        setTutorial3IsAbove(true); // Arrow should point down
       } else {
         // On desktop, position below the button
         setTutorial3Position(rect.bottom + 100);
+        setTutorial3IsAbove(false); // Arrow should point up
       }
     }
   }, [showTutorial3, messages, showGetRepsButton]);
@@ -412,11 +415,11 @@ export default function OnboardingChatWrapper({
             className="fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm animate-fadeIn"
             style={{ top: `${tutorial3Position}px` }}
           >
-            {/* Arrow pointing up */}
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+            {/* Arrow - points down when above button (mobile), up when below button (desktop) */}
+            <div className={tutorial3IsAbove ? "absolute -bottom-4 left-1/2 -translate-x-1/2" : "absolute -top-4 left-1/2 -translate-x-1/2"}>
               <div
                 className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
-                style={{ borderBottom: '10px solid #00ff41' }}
+                style={tutorial3IsAbove ? { borderTop: '10px solid #00ff41' } : { borderBottom: '10px solid #00ff41' }}
               />
             </div>
             <div
