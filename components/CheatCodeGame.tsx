@@ -758,17 +758,17 @@ export default function CheatCodeGame({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black text-white flex flex-col p-4 z-[200]">
+      <div className="fixed inset-0 bg-black text-white flex flex-col p-4 lg:p-8 z-[200]">
         {/* Question Counter Header - Compact */}
-        <div className="max-w-2xl w-full mx-auto pt-2 pb-1">
-          <div className="text-center text-xs text-gray-500">
+        <div className="max-w-2xl w-full mx-auto pt-2 lg:pt-4 pb-1 lg:pb-2">
+          <div className="text-center text-xs lg:text-sm text-gray-500">
             Question {currentScenarioIndex + 1} of {scenarios.length}
           </div>
         </div>
 
-        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col overflow-hidden">
+        <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col overflow-hidden justify-center">
           {/* Top Section - Scenario (compact) */}
-          <div className="flex-shrink-0 space-y-3 py-3">
+          <div className="flex-shrink-0 space-y-3 lg:space-y-6 py-3 lg:py-6">
             {/* Shot Clock Timer - Smaller */}
             <div className="flex justify-center">
               <div className="relative">
@@ -799,10 +799,10 @@ export default function CheatCodeGame({
             </div>
 
             {/* Scenario - More Compact */}
-            <div className="text-center space-y-2">
-              <h2 className="text-base leading-snug px-3">{currentScenario.situation}</h2>
+            <div className="text-center space-y-2 lg:space-y-4">
+              <h2 className="text-base lg:text-lg leading-snug px-3">{currentScenario.situation}</h2>
 
-              <p className="text-sm italic text-red-400/90 px-3">
+              <p className="text-sm lg:text-base italic text-red-400/90 px-3">
                 "{currentScenario.current_thought}"
               </p>
             </div>
@@ -812,12 +812,12 @@ export default function CheatCodeGame({
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Prompt */}
             {!showFeedback && (
-              <p className="text-center text-sm text-gray-400 mb-3 flex-shrink-0">{currentPrompt}</p>
+              <p className="text-center text-sm lg:text-base text-gray-400 mb-3 lg:mb-6 flex-shrink-0">{currentPrompt}</p>
             )}
 
             {/* Scrollable Options Container */}
-            <div className="flex-1 overflow-y-auto pb-4" style={{ maxHeight: 'calc(100vh - 320px)' }}>
-              <div className="space-y-3">
+            <div className="flex-1 overflow-y-auto pb-4 lg:pb-8" style={{ maxHeight: 'calc(100vh - 320px)' }}>
+              <div className="space-y-3 lg:space-y-4">
                 {shuffledOptions.map((option, index) => {
                 const isSelected = selectedOption === index;
                 const isOptimal = option.type === 'optimal';
@@ -829,7 +829,7 @@ export default function CheatCodeGame({
                     key={index}
                     onClick={() => handleOptionSelect(index)}
                     disabled={showFeedback}
-                    className={`w-full p-4 rounded-xl text-left transition-all ${
+                    className={`w-full p-4 lg:p-5 rounded-xl text-left transition-all ${
                       showFeedback
                         ? showAsCorrect
                           ? 'border-2'
@@ -849,10 +849,10 @@ export default function CheatCodeGame({
                     }
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-gray-500 font-mono text-sm">
+                      <span className="text-gray-500 font-mono text-sm lg:text-base">
                         {String.fromCharCode(65 + index)}
                       </span>
-                      <span className={showFeedback && !isOptimal && !isSelected ? 'text-gray-600' : ''}>
+                      <span className={`text-sm lg:text-base ${showFeedback && !isOptimal && !isSelected ? 'text-gray-600' : ''}`}>
                         {option.text}
                       </span>
                     </div>
@@ -863,7 +863,7 @@ export default function CheatCodeGame({
             </div>
 
             {/* Progress - fixed at bottom of options section */}
-            <div className="flex justify-center gap-2 pt-4 flex-shrink-0">
+            <div className="flex justify-center gap-2 pt-4 lg:pt-6 flex-shrink-0">
               {scenarios.map((_, index) => (
                 <div
                   key={index}
