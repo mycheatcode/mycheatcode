@@ -988,10 +988,11 @@ export default function CheatCodeGame({
         <div className="fixed inset-0 bg-black flex items-center justify-center z-[300]">
           <div className="text-center space-y-6">
             <div
-              className="w-24 h-24 rounded-full mx-auto animate-pulse-glow"
+              className="w-24 h-24 rounded-full mx-auto"
               style={{
                 backgroundColor: '#00ff41',
-                boxShadow: '0 0 60px rgba(0, 255, 65, 0.6), 0 0 120px rgba(0, 255, 65, 0.4)',
+                animation: 'pulse 2s ease-in-out infinite',
+                boxShadow: '0 0 40px rgba(0, 255, 65, 0.6)',
               }}
             />
             <p className="text-lg text-gray-300 font-medium">Loading Results...</p>
@@ -1018,24 +1019,11 @@ export default function CheatCodeGame({
             transform: translateY(0);
           }
         }
-        @keyframes pulseGlow {
-          0%, 100% {
-            transform: scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: scale(1.1);
-            opacity: 0.8;
-          }
-        }
         .animate-fadeIn {
           animation: fadeIn 0.3s ease-out;
         }
         .animate-slideUp {
           animation: slideUp 0.4s ease-out;
-        }
-        .animate-pulse-glow {
-          animation: pulseGlow 1.5s ease-in-out infinite;
         }
       `}</style>
     </>
