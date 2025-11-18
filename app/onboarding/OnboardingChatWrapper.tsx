@@ -90,7 +90,7 @@ export default function OnboardingChatWrapper({
       const rect = getRepsButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button with different spacing for desktop vs mobile
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 120 : 100; // More spacing on mobile for better positioning
+      const spacing = isMobile ? 160 : 100; // More spacing on mobile for better positioning
       setTutorial3Position(rect.bottom + spacing);
     }
   }, [showTutorial3, messages, showGetRepsButton]);
