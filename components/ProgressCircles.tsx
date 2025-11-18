@@ -118,9 +118,9 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       const goalRadius = baseSize * 0.34;      // 34% of container (fixed outer circle)
 
       // Calculate inner circle radius based on animated progress percentage
-      // Linear radius growth gives the best visual perception of progress
+      // Use power of 0.7 for balanced visual growth (between linear and sqrt)
       const progressRatio = animatedProgress / 100;
-      const progressRadius = goalRadius * progressRatio;
+      const progressRadius = goalRadius * Math.pow(progressRatio, 0.7);
 
       const segments = 100;
 
