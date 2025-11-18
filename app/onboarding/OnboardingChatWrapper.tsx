@@ -79,7 +79,7 @@ export default function OnboardingChatWrapper({
       const rect = viewCodeButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button with different spacing for desktop vs mobile
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 20 : 32; // Less spacing on mobile, more on desktop
+      const spacing = isMobile ? 80 : 100; // More spacing to position below button
       setTutorial1Position(rect.bottom + spacing);
     }
   }, [showTutorial1, messages, completedAnimations]);
@@ -90,7 +90,7 @@ export default function OnboardingChatWrapper({
       const rect = getRepsButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button with different spacing for desktop vs mobile
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 20 : 32; // Less spacing on mobile, more on desktop
+      const spacing = isMobile ? 80 : 100; // More spacing to position below button
       setTutorial3Position(rect.bottom + spacing);
     }
   }, [showTutorial3, messages, showGetRepsButton]);
@@ -222,7 +222,7 @@ export default function OnboardingChatWrapper({
 
                     {/* View Cheat Code button */}
                     {message.id === 'coach-code' && parsedCode && (
-                      <div className="flex justify-start w-full mt-4">
+                      <div className="flex justify-center w-full mt-4">
                         <button
                           ref={viewCodeButtonRef}
                           onClick={handleViewCode}
@@ -237,7 +237,7 @@ export default function OnboardingChatWrapper({
 
                     {/* Get Reps button */}
                     {message.id === 'coach-followup' && showGetRepsButton && (
-                      <div className="flex justify-start w-full mt-4">
+                      <div className="flex justify-center w-full mt-4">
                         <button
                           ref={getRepsButtonRef}
                           onClick={async () => {
