@@ -198,6 +198,11 @@ export function useMomentumProgressToast() {
   const [toastData, setToastData] = useState<MomentumProgressData | null>(null);
 
   const showMomentumProgress = (data: MomentumProgressData) => {
+    // Don't show notification if already at 100% momentum
+    if (data.previousMomentum >= 100) {
+      return;
+    }
+
     // Check if milestone was reached
     const milestones = [25, 40, 50, 75, 100];
     const reachedMilestone = milestones.find(
