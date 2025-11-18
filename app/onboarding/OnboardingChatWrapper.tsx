@@ -271,14 +271,19 @@ export default function OnboardingChatWrapper({
                                     setShowTutorial3(false);
                                   }
                                 } else {
-                                  const errorText = await response.text();
-                                  console.error('❌ Failed to save code:', response.status, errorText);
-                                  // Show error to user
-                                  alert('Failed to save code. Please try again.');
+                                  let errorMessage = 'Failed to save code. Please try again.';
+                                  try {
+                                    const errorData = await response.json();
+                                    errorMessage = errorData.error || errorData.details || errorMessage;
+                                  } catch {
+                                    // If JSON parsing fails, use default message
+                                  }
+                                  console.error('❌ Failed to save code:', response.status, errorMessage);
+                                  alert(errorMessage);
                                 }
                               } catch (error) {
                                 console.error('❌ Error saving code:', error);
-                                alert('Failed to save code. Please try again.');
+                                alert('Network error. Please check your connection and try again.');
                               }
                             }}
                             className="w-full rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
