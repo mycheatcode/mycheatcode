@@ -254,7 +254,8 @@ export default function OnboardingChatWrapper({
                                   headers: { 'Content-Type': 'application/json' },
                                   body: JSON.stringify({
                                     codeMessage: initialMessage,
-                                    scenarioCategory
+                                    scenarioCategory,
+                                    scenarioId
                                   })
                                 });
 

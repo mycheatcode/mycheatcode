@@ -14,11 +14,13 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
-    const { codeMessage, scenarioCategory } = await request.json();
+    const { codeMessage, scenarioCategory, scenarioId } = await request.json();
 
     if (!codeMessage) {
       return NextResponse.json({ error: 'Code message is required' }, { status: 400 });
     }
+
+    console.log('📦 Request data:', { scenarioCategory, scenarioId });
 
     // Parse the code to get structured data
     const parsedCode = parseCheatCode(codeMessage);
@@ -81,16 +83,26 @@ export async function POST(request: NextRequest) {
     });
 
     // Insert the code into the database (matching the schema used by saveCheatCode)
+    const insertData: any = {
+      user_id: user.id,
+      title: parsedCode.title,
+      category: parsedCode.category,
+      content: cardFormatContent.trim(),
+      chat_id: null,
+      is_active: true  // Ensure the code is active and not archived
+    };
+
+    // Add onboarding_scenario_id if provided
+    if (scenarioId) {
+      insertData.onboarding_scenario_id = scenarioId;
+      insertData.has_game_scenarios = true; // Mark that it has scenarios
+    }
+
+    console.log('💾 Insert data:', insertData);
+
     const { data: code, error: insertError } = await supabase
       .from('cheat_codes')
-      .insert({
-        user_id: user.id,
-        title: parsedCode.title,
-        category: parsedCode.category,
-        content: cardFormatContent.trim(),
-        chat_id: null,
-        is_active: true  // Ensure the code is active and not archived
-      })
+      .insert(insertData)
       .select()
       .single();
 
