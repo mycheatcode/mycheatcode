@@ -222,68 +222,72 @@ export default function OnboardingChatWrapper({
 
                     {/* View Cheat Code button */}
                     {message.id === 'coach-code' && parsedCode && (
-                      <div className="flex justify-center w-full mt-4">
-                        <button
-                          ref={viewCodeButtonRef}
-                          onClick={handleViewCode}
-                          className="w-full max-w-[85%] lg:max-w-[80%] rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
-                          style={{ backgroundColor: '#ffffff', color: '#000000' }}
-                          id="view-code-button"
-                        >
-                          View Cheat Code
-                        </button>
+                      <div className="w-full mt-4">
+                        <div className="max-w-4xl mx-auto px-4 lg:px-8">
+                          <button
+                            ref={viewCodeButtonRef}
+                            onClick={handleViewCode}
+                            className="w-full rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                            style={{ backgroundColor: '#ffffff', color: '#000000' }}
+                            id="view-code-button"
+                          >
+                            View Cheat Code
+                          </button>
+                        </div>
                       </div>
                     )}
 
                     {/* Get Reps button */}
                     {message.id === 'coach-followup' && showGetRepsButton && (
-                      <div className="flex justify-center w-full mt-4">
-                        <button
-                          ref={getRepsButtonRef}
-                          onClick={async () => {
-                            console.log('🎮 Get Reps button clicked! Saving code now...');
+                      <div className="w-full mt-4">
+                        <div className="max-w-4xl mx-auto px-4 lg:px-8">
+                          <button
+                            ref={getRepsButtonRef}
+                            onClick={async () => {
+                              console.log('🎮 Get Reps button clicked! Saving code now...');
 
-                            // Save the code NOW before opening the game
-                            try {
-                              console.log('💾 Saving onboarding code before practice game...');
-                              const response = await fetch('/api/save-onboarding-code', {
-                                method: 'POST',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({
-                                  codeMessage: initialMessage,
-                                  scenarioCategory
-                                })
-                              });
+                              // Save the code NOW before opening the game
+                              try {
+                                console.log('💾 Saving onboarding code before practice game...');
+                                const response = await fetch('/api/save-onboarding-code', {
+                                  method: 'POST',
+                                  headers: { 'Content-Type': 'application/json' },
+                                  body: JSON.stringify({
+                                    codeMessage: initialMessage,
+                                    scenarioCategory
+                                  })
+                                });
 
-                              console.log('📡 Save response:', response.status);
+                                console.log('📡 Save response:', response.status);
 
-                              if (response.ok) {
-                                const data = await response.json();
-                                setSavedCodeId(data.code_id);
-                                console.log('✅ Code saved successfully! ID:', data.code_id);
-                              } else {
-                                const errorText = await response.text();
-                                console.error('❌ Failed to save code:', response.status, errorText);
+                                if (response.ok) {
+                                  const data = await response.json();
+                                  setSavedCodeId(data.code_id);
+                                  console.log('✅ Code saved successfully! ID:', data.code_id);
+                                } else {
+                                  const errorText = await response.text();
+                                  console.error('❌ Failed to save code:', response.status, errorText);
+                                }
+                              } catch (error) {
+                                console.error('❌ Error saving code:', error);
                               }
-                            } catch (error) {
-                              console.error('❌ Error saving code:', error);
-                            }
 
-                            if (parsedCode) {
-                              setShowGameModal(true);
-                              setShowTutorial3(false);
-                            }
-                          }}
-                          className="w-full max-w-[85%] lg:max-w-[80%] rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
-                          style={{
-                            backgroundColor: '#00FF41',
-                            color: '#000000',
-                            boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
-                          }}
-                          id="get-reps-button"
-                        >
-                          Get Reps In
-                        </button>
+                              if (parsedCode) {
+                                setShowGameModal(true);
+                                setShowTutorial3(false);
+                              }
+                            }}
+                            className="w-full rounded-xl px-6 py-2.5 transition-all active:scale-[0.98] font-semibold text-sm"
+                            style={{
+                              backgroundColor: '#00FF41',
+                              color: '#000000',
+                              boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
+                            }}
+                            id="get-reps-button"
+                          >
+                            Get Reps In
+                          </button>
+                        </div>
                       </div>
                     )}
                   </div>
