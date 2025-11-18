@@ -316,8 +316,8 @@ export default function MyCodesRedesignPage() {
 
   // Trigger momentum animation when modal closes with a pending result
   useEffect(() => {
-    // Only trigger animation when modal is closed AND we have a pending result with momentum
-    if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0) {
+    // Only trigger animation when modal is closed AND we have a pending result with momentum AND not already at 100%
+    if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0 && pendingGameResult.previous_momentum < 100) {
       // Reload user progress immediately when modal closes to update the momentum display
       const reloadProgress = async () => {
         const { data: { user } } = await supabase.auth.getUser();
