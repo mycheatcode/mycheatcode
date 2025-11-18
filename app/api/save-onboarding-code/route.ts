@@ -88,11 +88,10 @@ export async function POST(request: NextRequest) {
       title: parsedCode.title,
       category: parsedCode.category,
       content: cardFormatContent.trim(),
-      chat_id: null,
       is_active: true  // Ensure the code is active and not archived
     };
 
-    // Add onboarding_scenario_id if provided
+    // Add onboarding_scenario_id if provided (don't include chat_id for onboarding codes)
     if (scenarioId) {
       insertData.onboarding_scenario_id = scenarioId;
       insertData.has_game_scenarios = true; // Mark that it has scenarios
@@ -109,7 +108,14 @@ export async function POST(request: NextRequest) {
     if (insertError) {
       console.error('❌ Error inserting code:', insertError);
       console.error('❌ Error details:', JSON.stringify(insertError, null, 2));
-      return NextResponse.json({ error: 'Failed to save code', details: insertError.message }, { status: 500 });
+      console.error('❌ Error code:', insertError.code);
+      console.error('❌ Error hint:', insertError.hint);
+      return NextResponse.json({
+        error: 'Failed to save code',
+        details: insertError.message,
+        code: insertError.code,
+        hint: insertError.hint
+      }, { status: 500 });
     }
 
     console.log('✅ Code saved successfully to database!');
