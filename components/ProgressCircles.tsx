@@ -79,6 +79,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
 
     let time = 0;
     let animationFrameId: number;
+    let lastFrameTime = performance.now();
 
     const resizeCanvas = () => {
       canvas.width = canvas.offsetWidth * 2;
@@ -104,8 +105,10 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
 
     const currentTheme = themes[theme];
 
-    const animate = () => {
-      time += 0.01;
+    const animate = (currentTime: number) => {
+      const deltaTime = (currentTime - lastFrameTime) / 1000; // Convert to seconds
+      lastFrameTime = currentTime;
+      time += deltaTime * 0.6; // Scale down for slower animation
       const w = canvas.width / 2;
       const h = canvas.height / 2;
       const centerX = w / 2;
@@ -183,7 +186,7 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    animationFrameId = requestAnimationFrame(animate);
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
@@ -195,7 +198,11 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
     <canvas
       ref={canvasRef}
       className="w-full h-full"
-      style={{ background: 'transparent' }}
+      style={{
+        background: 'transparent',
+        willChange: 'transform',
+        transform: 'translateZ(0)',
+      }}
     />
   );
 };

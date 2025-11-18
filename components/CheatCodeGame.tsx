@@ -787,10 +787,10 @@ export default function CheatCodeGame({
           <div className="flex-shrink-0 space-y-4 lg:space-y-6 py-4 lg:py-6">
             {/* Shot Clock Timer */}
             <div className="flex justify-center">
-              <div className="relative">
-                <svg width="80" height="80" className="transform -rotate-90 lg:w-[70px] lg:h-[70px]">
+              <div className="relative w-20 h-20 lg:w-[70px] lg:h-[70px]">
+                <svg viewBox="0 0 80 80" className="w-full h-full transform -rotate-90">
                   {/* Background circle */}
-                  <circle cx="40" cy="40" r="36" fill="none" stroke="#1a1a1a" strokeWidth="5" className="lg:cx-35 lg:cy-35 lg:r-32" />
+                  <circle cx="40" cy="40" r="36" fill="none" stroke="#1a1a1a" strokeWidth="5" />
                   {/* Progress circle */}
                   <circle
                     cx="40"
@@ -802,7 +802,6 @@ export default function CheatCodeGame({
                     strokeLinecap="round"
                     strokeDasharray={`${2 * Math.PI * 36}`}
                     strokeDashoffset={`${2 * Math.PI * 36 * (1 - timeLeft / 24)}`}
-                    className="lg:cx-35 lg:cy-35 lg:r-32"
                     style={{
                       transition: 'stroke-dashoffset 1s linear',
                       filter: timeLeft > 12 ? 'drop-shadow(0 0 6px rgba(0, 255, 65, 0.6))' : 'none',

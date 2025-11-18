@@ -76,7 +76,7 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 2: Text Input */}
       {currentStep === 2 && (
-        <div className="fixed bottom-[140px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
+        <div className="fixed bottom-[140px] lg:bottom-[180px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
             className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
@@ -114,7 +114,7 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 3: My Codes Button */}
       {currentStep === 3 && (
-        <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
+        <div className="fixed bottom-[70px] lg:bottom-[110px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
             className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
@@ -152,7 +152,7 @@ export default function OnboardingTutorials({ onComplete }: OnboardingTutorialsP
 
       {/* Tutorial Step 4: Explore Topics Button */}
       {currentStep === 4 && (
-        <div className="fixed bottom-[70px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
+        <div className="fixed bottom-[70px] lg:bottom-[110px] left-1/2 -translate-x-1/2 z-[101] w-[calc(100%-2rem)] max-w-sm">
           <div
             className="bg-zinc-900 rounded-2xl p-5 shadow-2xl animate-fadeIn border-2"
             style={{
