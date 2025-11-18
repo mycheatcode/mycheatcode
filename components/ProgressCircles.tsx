@@ -118,9 +118,10 @@ const ProgressCircles = ({ theme = 'dark', onProgressUpdate, progress = 0 }: Pro
       const goalRadius = baseSize * 0.34;      // 34% of container (fixed outer circle)
 
       // Calculate inner circle radius based on animated progress percentage
-      // Use LINEAR radius growth so visual matches percentage more accurately
+      // Use SQUARE ROOT so visual AREA matches percentage (since area = π * r²)
+      // This ensures 25% progress shows 25% of the visual area, not 6.25%
       const progressRatio = animatedProgress / 100;
-      const progressRadius = goalRadius * progressRatio;
+      const progressRadius = goalRadius * Math.sqrt(progressRatio);
 
       const segments = 100;
 

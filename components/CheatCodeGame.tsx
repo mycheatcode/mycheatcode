@@ -705,7 +705,7 @@ export default function CheatCodeGame({
                     : { backgroundColor: 'rgba(255, 255, 255, 0.1)' }
                 }
               >
-                Done
+                Continue
               </button>
             )}
           </div>
@@ -784,24 +784,25 @@ export default function CheatCodeGame({
 
         <div className="max-w-2xl w-full mx-auto flex-1 flex flex-col overflow-hidden justify-center">
           {/* Top Section - Scenario (compact) */}
-          <div className="flex-shrink-0 space-y-3 lg:space-y-6 py-3 lg:py-6">
-            {/* Shot Clock Timer - Smaller */}
+          <div className="flex-shrink-0 space-y-4 lg:space-y-6 py-4 lg:py-6">
+            {/* Shot Clock Timer */}
             <div className="flex justify-center">
               <div className="relative">
-                <svg width="70" height="70" className="transform -rotate-90">
+                <svg width="80" height="80" className="transform -rotate-90 lg:w-[70px] lg:h-[70px]">
                   {/* Background circle */}
-                  <circle cx="35" cy="35" r="32" fill="none" stroke="#1a1a1a" strokeWidth="5" />
+                  <circle cx="40" cy="40" r="36" fill="none" stroke="#1a1a1a" strokeWidth="5" className="lg:cx-35 lg:cy-35 lg:r-32" />
                   {/* Progress circle */}
                   <circle
-                    cx="35"
-                    cy="35"
-                    r="32"
+                    cx="40"
+                    cy="40"
+                    r="36"
                     fill="none"
                     stroke={timeLeft > 12 ? '#00ff41' : timeLeft > 6 ? '#f59e0b' : '#ef4444'}
                     strokeWidth="5"
                     strokeLinecap="round"
-                    strokeDasharray={`${2 * Math.PI * 32}`}
-                    strokeDashoffset={`${2 * Math.PI * 32 * (1 - timeLeft / 24)}`}
+                    strokeDasharray={`${2 * Math.PI * 36}`}
+                    strokeDashoffset={`${2 * Math.PI * 36 * (1 - timeLeft / 24)}`}
+                    className="lg:cx-35 lg:cy-35 lg:r-32"
                     style={{
                       transition: 'stroke-dashoffset 1s linear',
                       filter: timeLeft > 12 ? 'drop-shadow(0 0 6px rgba(0, 255, 65, 0.6))' : 'none',
@@ -809,16 +810,16 @@ export default function CheatCodeGame({
                   />
                 </svg>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-2xl font-bold">{timeLeft}</span>
+                  <span className="text-3xl lg:text-2xl font-bold">{timeLeft}</span>
                 </div>
               </div>
             </div>
 
-            {/* Scenario - More Compact */}
-            <div className="text-center space-y-2 lg:space-y-4">
-              <h2 className="text-base lg:text-lg leading-snug px-3">{currentScenario.situation}</h2>
+            {/* Scenario */}
+            <div className="text-center space-y-3 lg:space-y-4">
+              <h2 className="text-lg lg:text-lg leading-snug px-3">{currentScenario.situation}</h2>
 
-              <p className="text-sm lg:text-base italic text-red-400/90 px-3">
+              <p className="text-base lg:text-base italic text-red-400/90 px-3">
                 "{currentScenario.current_thought}"
               </p>
             </div>
@@ -828,12 +829,12 @@ export default function CheatCodeGame({
           <div className="flex-1 flex flex-col overflow-hidden">
             {/* Prompt */}
             {!showFeedback && (
-              <p className="text-center text-sm lg:text-base text-gray-400 mb-3 lg:mb-6 flex-shrink-0">{currentPrompt}</p>
+              <p className="text-center text-base lg:text-base text-gray-400 mb-4 lg:mb-6 flex-shrink-0">{currentPrompt}</p>
             )}
 
             {/* Scrollable Options Container */}
             <div className="flex-1 overflow-y-auto pb-4 lg:pb-8" style={{ maxHeight: 'calc(100vh - 320px)' }}>
-              <div className="space-y-3 lg:space-y-4">
+              <div className="space-y-4 lg:space-y-4">
                 {shuffledOptions.map((option, index) => {
                 const isSelected = selectedOption === index;
                 const isOptimal = option.type === 'optimal';
@@ -845,7 +846,7 @@ export default function CheatCodeGame({
                     key={index}
                     onClick={() => handleOptionSelect(index)}
                     disabled={showFeedback}
-                    className={`w-full p-4 lg:p-5 rounded-xl text-left transition-all ${
+                    className={`w-full p-5 lg:p-5 rounded-xl text-left transition-all ${
                       showFeedback
                         ? showAsCorrect
                           ? 'border-2'
@@ -864,11 +865,11 @@ export default function CheatCodeGame({
                         : undefined
                     }
                   >
-                    <div className="flex items-center gap-3">
-                      <span className="text-gray-500 font-mono text-sm lg:text-base">
+                    <div className="flex items-center gap-4">
+                      <span className="text-gray-500 font-mono text-base lg:text-base flex-shrink-0">
                         {String.fromCharCode(65 + index)}
                       </span>
-                      <span className={`text-sm lg:text-base ${showFeedback && !isOptimal && !isSelected ? 'text-gray-600' : ''}`}>
+                      <span className={`text-base lg:text-base leading-relaxed ${showFeedback && !isOptimal && !isSelected ? 'text-gray-600' : ''}`}>
                         {option.text}
                       </span>
                     </div>
