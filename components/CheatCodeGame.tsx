@@ -633,7 +633,7 @@ export default function CheatCodeGame({
               {result.score === 0 && "Keep practicing - you'll get it!"}
             </div>
 
-            {result.momentum_awarded > 0 && (
+            {result.momentum_awarded > 0 && result.new_momentum < 100 && (
               <div className="pt-4 border-t border-[#1a1a1a]">
                 <div className="text-sm text-gray-500 mb-2">Momentum Gained</div>
                 <div className="text-3xl font-bold" style={{ color: '#00ff41' }}>
