@@ -345,20 +345,35 @@ export default function Home() {
           </div>
         </form>
 
-        {/* View Relatable Topics Button */}
-        <Link href="/relatable-topics" className="w-full">
-          <button
-            className="w-full px-5 py-4 rounded-2xl font-medium transition-colors text-center"
-            style={{
-              fontSize: 'clamp(0.875rem, 3vw, 1rem)',
-              background: 'var(--card-bg)',
-              border: '1px solid var(--card-border)',
-              color: 'var(--card-title)'
-            }}
-          >
-            View Relatable Topics
-          </button>
-        </Link>
+        {/* Side-by-side action buttons */}
+        <div className="w-full flex gap-3">
+          <Link href="/my-codes" className="flex-1">
+            <button
+              className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
+              style={{
+                fontSize: 'clamp(0.875rem, 3vw, 1rem)',
+                background: 'var(--card-bg)',
+                border: '1px solid var(--card-border)',
+                color: 'var(--card-title)'
+              }}
+            >
+              My Codes
+            </button>
+          </Link>
+          <Link href="/relatable-topics" className="flex-1">
+            <button
+              className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
+              style={{
+                fontSize: 'clamp(0.875rem, 3vw, 1rem)',
+                background: 'var(--card-bg)',
+                border: '1px solid var(--card-border)',
+                color: 'var(--card-title)'
+              }}
+            >
+              Explore Topics
+            </button>
+          </Link>
+        </div>
         </div>
       </div>
 
