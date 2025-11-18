@@ -320,23 +320,42 @@ export default function OnboardingChatWrapper({
       {/* Tutorial 1: Contextual pointer to "View Code" button */}
       {showTutorial1 && !viewingCode && tutorial1Position !== null && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40" onClick={() => setShowTutorial1(false)} />
+          <div className="fixed inset-0 bg-black/80 z-40" onClick={() => setShowTutorial1(false)} />
           <div
-            className="fixed left-1/2 -translate-x-1/2 z-50 w-72 animate-bounce-subtle"
+            className="fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm animate-fadeIn"
             style={{ bottom: `${tutorial1Position}px` }}
           >
-            <div className="bg-zinc-900 border-2 rounded-xl p-4 shadow-2xl" style={{ borderColor: '#00ff41' }}>
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">☝️</div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1">Your first code is ready!</h3>
-                  <p className="text-xs text-zinc-300">Tap the button above to view your personalized cheat code.</p>
-                </div>
+            <div
+              className="bg-zinc-900 rounded-2xl p-5 shadow-2xl border-2"
+              style={{
+                borderColor: '#00ff41',
+                boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
+              }}
+            >
+              <div className="mb-4">
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Your first code is ready!</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  Tap the button above to view your personalized cheat code.
+                </p>
               </div>
+              <button
+                onClick={() => setShowTutorial1(false)}
+                className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  backgroundColor: '#00ff41',
+                  color: '#000000',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                }}
+              >
+                Got it!
+              </button>
             </div>
             {/* Arrow pointing up */}
-            <div className="flex justify-center mt-1">
-              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderTop: '12px solid #00ff41' }} />
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2">
+              <div
+                className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
+                style={{ borderTop: '10px solid #00ff41' }}
+              />
             </div>
           </div>
         </>
@@ -345,20 +364,29 @@ export default function OnboardingChatWrapper({
       {/* Tutorial 2: Contextual pointer in card viewer */}
       {showTutorial2 && viewingCode && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-[140] pointer-events-none" />
-          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[150] w-72">
-            <div className="bg-zinc-900 border-2 rounded-xl p-4 shadow-2xl" style={{ borderColor: '#00ff41' }}>
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">👆</div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1">Flip through the cards</h3>
-                  <p className="text-xs text-zinc-300">Swipe left/right to see all parts of your code. Tap the X when done.</p>
-                </div>
+          <div className="fixed inset-0 bg-black/80 z-[140] pointer-events-none" />
+          <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[150] w-[calc(100%-2rem)] max-w-sm">
+            <div
+              className="bg-zinc-900 rounded-2xl p-5 shadow-2xl border-2 animate-fadeIn"
+              style={{
+                borderColor: '#00ff41',
+                boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
+              }}
+            >
+              <div className="mb-4">
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Flip through the cards</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  Swipe left/right to see all parts of your code. Tap the X when done.
+                </p>
               </div>
               <button
                 onClick={() => setShowTutorial2(false)}
-                className="w-full mt-3 py-2 rounded-lg text-xs font-semibold"
-                style={{ backgroundColor: '#00ff41', color: '#000' }}
+                className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  backgroundColor: '#00ff41',
+                  color: '#000000',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                }}
               >
                 Got it!
               </button>
@@ -370,23 +398,42 @@ export default function OnboardingChatWrapper({
       {/* Tutorial 3: Contextual pointer to "Get reps" button */}
       {showTutorial3 && showGetRepsButton && !viewingCode && tutorial3Position !== null && (
         <>
-          <div className="fixed inset-0 bg-black/60 z-40" onClick={() => setShowTutorial3(false)} />
+          <div className="fixed inset-0 bg-black/80 z-40" onClick={() => setShowTutorial3(false)} />
           <div
-            className="fixed left-1/2 -translate-x-1/2 z-50 w-72 animate-bounce-subtle"
+            className="fixed left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-sm animate-fadeIn"
             style={{ top: `${tutorial3Position}px` }}
           >
             {/* Arrow pointing up */}
-            <div className="flex justify-center mb-1">
-              <div className="w-0 h-0 border-l-8 border-l-transparent border-r-8 border-r-transparent" style={{ borderBottom: '12px solid #00ff41' }} />
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+              <div
+                className="w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent"
+                style={{ borderBottom: '10px solid #00ff41' }}
+              />
             </div>
-            <div className="bg-zinc-900 border-2 rounded-xl p-4 shadow-2xl" style={{ borderColor: '#00ff41' }}>
-              <div className="flex items-start gap-3">
-                <div className="text-2xl">👆</div>
-                <div>
-                  <h3 className="font-bold text-sm mb-1">Practice makes permanent!</h3>
-                  <p className="text-xs text-zinc-300">Tap "Get reps in" above to finish onboarding and start using your codes.</p>
-                </div>
+            <div
+              className="bg-zinc-900 rounded-2xl p-5 shadow-2xl border-2"
+              style={{
+                borderColor: '#00ff41',
+                boxShadow: '0 0 30px rgba(0, 255, 65, 0.2)',
+              }}
+            >
+              <div className="mb-4">
+                <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Practice makes permanent!</h3>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+                  Tap "Get reps in" above to finish onboarding and start using your codes.
+                </p>
               </div>
+              <button
+                onClick={() => setShowTutorial3(false)}
+                className="w-full py-3 rounded-xl font-semibold transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{
+                  backgroundColor: '#00ff41',
+                  color: '#000000',
+                  boxShadow: '0 0 20px rgba(0, 255, 65, 0.3)',
+                }}
+              >
+                Got it!
+              </button>
             </div>
           </div>
         </>
@@ -431,16 +478,18 @@ export default function OnboardingChatWrapper({
       )}
 
       <style jsx>{`
-        @keyframes bounce-subtle {
-          0%, 100% {
-            transform: translateY(0);
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
           }
-          50% {
-            transform: translateY(-10px);
+          to {
+            opacity: 1;
+            transform: scale(1);
           }
         }
-        .animate-bounce-subtle {
-          animation: bounce-subtle 2s ease-in-out infinite;
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
         }
       `}</style>
     </div>
