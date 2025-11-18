@@ -88,10 +88,17 @@ export default function OnboardingChatWrapper({
   useEffect(() => {
     if (showTutorial3 && getRepsButtonRef.current) {
       const rect = getRepsButtonRef.current.getBoundingClientRect();
-      // Position tutorial below the button with different spacing for desktop vs mobile
+      // Position tutorial ABOVE the button on mobile (below on desktop)
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 250 : 100; // Extra spacing on mobile to ensure it's always below button
-      setTutorial3Position(rect.bottom + spacing);
+
+      if (isMobile) {
+        // On mobile, position above the button (estimate overlay height ~200px + spacing)
+        const overlayHeight = 250; // Approximate height of the overlay
+        setTutorial3Position(rect.top - overlayHeight);
+      } else {
+        // On desktop, position below the button
+        setTutorial3Position(rect.bottom + 100);
+      }
     }
   }, [showTutorial3, messages, showGetRepsButton]);
 
