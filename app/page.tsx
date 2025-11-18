@@ -276,7 +276,7 @@ export default function Home() {
           <div className="w-[min(420px,68vw)] aspect-square -my-6 relative overflow-visible">
             <ProgressCircles
               theme="dark"
-              progress={progressPercentage}
+              progress={progressData?.progress ?? 0}
               onProgressUpdate={setProgressPercentage}
             />
           </div>
@@ -305,7 +305,7 @@ export default function Home() {
               </p>
             )}
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
-              {progressPercentage < 50
+              {animatedProgress < 50
                 ? "You're building your foundation"
                 : "Elite players stay above 85%"}
             </p>
