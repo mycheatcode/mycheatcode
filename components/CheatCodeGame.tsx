@@ -104,8 +104,8 @@ export default function CheatCodeGame({
       const onboardingScenarios = ONBOARDING_GAME_SCENARIOS[onboardingScenarioId];
 
       if (onboardingScenarios && onboardingScenarios.length > 0) {
-        // Only use first 3 scenarios for onboarding (quick taste)
-        setScenarios(onboardingScenarios.slice(0, 3));
+        // Only use first 2 scenarios for onboarding (quick taste)
+        setScenarios(onboardingScenarios.slice(0, 2));
         setLoading(false);
         return;
       } else {
