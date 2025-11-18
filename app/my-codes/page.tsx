@@ -318,6 +318,17 @@ export default function MyCodesRedesignPage() {
   useEffect(() => {
     // Only trigger animation when modal is closed AND we have a pending result with momentum
     if (!showGameModal && pendingGameResult && pendingGameResult.momentum_awarded > 0) {
+      // Reload user progress immediately when modal closes to update the momentum display
+      const reloadProgress = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const progress = await getUserProgress(supabase, user.id);
+          setUserProgress(progress);
+          console.log('✅ Reloaded user progress after game completion:', progress);
+        }
+      };
+      reloadProgress();
+
       // Delay to ensure modal close animation completes and user sees My Codes page
       const timer = setTimeout(() => {
         console.log('✅ Modal closed, starting momentum animation!', {
@@ -471,7 +482,8 @@ export default function MyCodesRedesignPage() {
 
     setPendingGameResult(result);
 
-    // Reload codes to ensure Today's Focus shows updated data
+    // Reload codes to ensure Today's Focus shows updated completion status
+    // (User progress will be reloaded when modal closes - see useEffect above)
     loadData();
   };
 
@@ -1008,10 +1020,15 @@ export default function MyCodesRedesignPage() {
                             <div className="flex gap-3 mb-4">
                               <button
                                 onClick={() => {
+                                  console.log('🎯 Opening game for code:', {
+                                    id: code.id,
+                                    title: code.title,
+                                    onboardingScenarioId: code.onboardingScenarioId
+                                  });
                                   setGameCheatCodeId(code.id);
                                   setGameCheatCodeTitle(code.title);
                                   // For premade codes with onboarding scenarios, pass the scenario ID
-                                  setGameOnboardingScenarioId(undefined);
+                                  setGameOnboardingScenarioId(code.onboardingScenarioId);
                                   setShowGameModal(true);
                                 }}
                                 className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
@@ -1360,9 +1377,14 @@ export default function MyCodesRedesignPage() {
                         <div className="flex gap-3 mb-4">
                           <button
                             onClick={() => {
+                              console.log('🎯 Opening game for code:', {
+                                id: code.id,
+                                title: code.title,
+                                onboardingScenarioId: code.onboardingScenarioId
+                              });
                               setGameCheatCodeId(code.id);
                               setGameCheatCodeTitle(code.title);
-                              setGameOnboardingScenarioId(undefined); // Don't use onboarding scenarios for regular practice games
+                              setGameOnboardingScenarioId(code.onboardingScenarioId); // Use onboarding scenarios if available
                               setShowGameModal(true);
                             }}
                             className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"

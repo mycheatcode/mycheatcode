@@ -44,6 +44,8 @@ export async function POST(request: NextRequest) {
     if (!hasScenarios) {
       // If auto_generate is true, trigger scenario generation
       if (auto_generate) {
+        console.log('🎮 No scenarios found, attempting to generate for cheat_code_id:', cheat_code_id);
+
         // Fetch cheat code data needed for generation (user-specific OR premade)
         const { data: cheatCodeData, error: fetchError } = await supabase
           .from('cheat_codes')
@@ -52,14 +54,23 @@ export async function POST(request: NextRequest) {
           .or(`user_id.eq.${user.id},user_id.is.null`)
           .single();
 
-        if (fetchError || !cheatCodeData) {
+        if (fetchError) {
+          console.error('❌ Error fetching cheat code data:', fetchError);
           return NextResponse.json({
-            success: true,
-            has_scenarios: false,
-            generating: false,
-            scenarios: [],
-          });
+            success: false,
+            error: `Failed to fetch cheat code: ${fetchError.message}`,
+          }, { status: 500 });
         }
+
+        if (!cheatCodeData) {
+          console.error('❌ No cheat code found with id:', cheat_code_id);
+          return NextResponse.json({
+            success: false,
+            error: 'Cheat code not found',
+          }, { status: 404 });
+        }
+
+        console.log('✅ Found cheat code:', cheatCodeData.title);
 
         // Parse the content to get cheat code components
         const content = cheatCodeData.content || '';
@@ -116,21 +127,26 @@ export async function POST(request: NextRequest) {
 
 Context: ${codeData.what || codeData.when || codeData.phrase || 'Mental reframing'}
 
-Each scenario JSON:
+Each scenario must include 4 response options with ACTUAL text responses (not placeholder text like "Option 1").
+
+Return JSON format:
 {
-  "situation": "Brief basketball scenario",
-  "current_thought": "Negative thought",
+  "situation": "Brief basketball scenario description",
+  "current_thought": "The negative thought the player is experiencing",
   "scenario_type": "internal" or "external",
   "options": [
-    {"text": "Option 1", "type": "negative", "feedback": "Brief explanation"},
-    {"text": "Option 2", "type": "negative", "feedback": "Brief explanation"},
-    {"text": "Option 3", "type": "helpful", "feedback": "Brief explanation"},
-    {"text": "Option 4", "type": "optimal", "feedback": "Brief explanation"}
+    {"text": "First actual response option text here", "type": "negative", "feedback": "Why this response is unhelpful"},
+    {"text": "Second actual response option text here", "type": "negative", "feedback": "Why this response is unhelpful"},
+    {"text": "Third actual response option text here", "type": "helpful", "feedback": "Why this response is somewhat helpful"},
+    {"text": "Fourth actual response option text here (best response)", "type": "optimal", "feedback": "Why this response is most effective"}
   ]
 }
 
+IMPORTANT: The "text" field must contain the actual words the player would think or say, NOT placeholder text.
+
 Return: {"scenarios": [...]}`;
 
+          console.log('🤖 Calling OpenAI to generate scenarios...');
           const completion = await openai.chat.completions.create({
             model: 'gpt-4o-mini',
             max_tokens: 8000,
@@ -142,15 +158,29 @@ Return: {"scenarios": [...]}`;
             ],
           });
 
+          console.log('✅ OpenAI response received');
           const responseText = completion.choices[0].message.content || '';
           const parsed = JSON.parse(responseText);
           const scenarios = parsed.scenarios || parsed;
 
+          console.log('📊 Generated scenarios count:', scenarios.length);
+
           if (Array.isArray(scenarios) && scenarios.length >= 8 && scenarios.length <= 12) {
+            console.log('💾 Saving scenarios to database...');
             // For premade cheat codes (user_id IS NULL), save scenarios with NULL user_id
             // so they're shared across all users. Otherwise save with specific user_id.
             const scenarioUserId = cheatCodeData.user_id || null;
-            await saveGameScenarios(scenarioUserId, cheat_code_id, scenarios, supabase);
+            const saveResult = await saveGameScenarios(scenarioUserId, cheat_code_id, scenarios, supabase);
+
+            if (saveResult.error) {
+              console.error('❌ Error saving scenarios:', saveResult.error);
+              return NextResponse.json({
+                success: false,
+                error: `Failed to save scenarios: ${saveResult.error}`,
+              }, { status: 500 });
+            }
+
+            console.log('✅ Scenarios saved successfully');
 
             // Return 3 random scenarios immediately after successful generation
             const shuffled = [...scenarios].sort(() => Math.random() - 0.5);
@@ -161,13 +191,11 @@ Return: {"scenarios": [...]}`;
             });
           }
         } catch (err) {
-          console.error('Error generating scenarios:', err);
+          console.error('❌ Error generating scenarios:', err);
           return NextResponse.json({
-            success: true,
-            has_scenarios: false,
-            generating: false,
-            scenarios: [],
-          });
+            success: false,
+            error: `Scenario generation failed: ${err instanceof Error ? err.message : 'Unknown error'}`,
+          }, { status: 500 });
         }
 
         return NextResponse.json({
@@ -204,8 +232,9 @@ Return: {"scenarios": [...]}`;
       scenarios,
     });
   } catch (error) {
+    console.error('❌ Unhandled error in get-scenarios API:', error);
     return NextResponse.json(
-      { success: false, error: 'Internal server error' },
+      { success: false, error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

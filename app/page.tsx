@@ -305,7 +305,9 @@ export default function Home() {
               </p>
             )}
             <p style={{ color: 'var(--text-secondary)', fontSize: 'clamp(0.75rem, 3vw, 1.125rem)' }}>
-              Elite players stay above 85%
+              {progressPercentage < 50
+                ? "You're building your foundation"
+                : "Elite players stay above 85%"}
             </p>
           </div>
         </div>

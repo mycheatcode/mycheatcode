@@ -96,23 +96,9 @@ export default function CheatCodeGame({
 
   // Fetch scenarios on mount with retry logic
   useEffect(() => {
-    // If we have an onboarding scenario ID, use premade scenarios
-    if (onboardingScenarioId && ONBOARDING_GAME_SCENARIOS[onboardingScenarioId]) {
-      console.log('Using premade onboarding scenarios for:', onboardingScenarioId);
-      const minLoadTime = 2000; // Minimum 2 seconds for onboarding
-      const startTime = Date.now();
+    console.log('🎮 CheatCodeGame mounted with:', { cheatCodeId, onboardingScenarioId });
 
-      const elapsedTime = Date.now() - startTime;
-      const remainingTime = Math.max(0, minLoadTime - elapsedTime);
-
-      setTimeout(() => {
-        // Use only the first 3 scenarios for onboarding practice games
-        const allScenarios = ONBOARDING_GAME_SCENARIOS[onboardingScenarioId];
-        setScenarios(allScenarios.slice(0, 3));
-        setLoading(false);
-      }, remainingTime);
-      return;
-    }
+    // Always fetch from API, even for onboarding codes (they now have scenarios in DB)
 
     // Otherwise, fetch scenarios from API
     let retryCount = 0;
@@ -135,20 +121,37 @@ export default function CheatCodeGame({
       try {
         const response = await fetch('/api/game/get-scenarios', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          },
+          cache: 'no-store',
           body: JSON.stringify({
             cheat_code_id: cheatCodeId,
             auto_generate: true, // Always allow auto-generation
           }),
         });
 
-        if (!response.ok) {
-          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-        }
-
         const data = await response.json();
 
-        if (!data.success || !data.has_scenarios) {
+        if (!response.ok) {
+          console.error('❌ API returned error status:', response.status, data);
+          clearTimeout(hardTimeoutId);
+          setError(data.error || data.details || `HTTP ${response.status}: ${response.statusText}`);
+          setLoading(false);
+          return;
+        }
+
+        if (!data.success) {
+          // API returned an error
+          console.error('❌ API error:', data.error, data.details);
+          clearTimeout(hardTimeoutId);
+          setError(data.error || 'Failed to load game. Please try again.');
+          setLoading(false);
+          return;
+        }
+
+        if (!data.has_scenarios) {
           // If generation was triggered, give it more time
           if (data.generating && retryCount === 0) {
             console.log(`🎮 Scenarios are being generated, will retry in ${retryDelay}ms...`);
@@ -346,27 +349,6 @@ export default function CheatCodeGame({
   const submitGameSession = async () => {
     setSubmitting(true);
     try {
-      // If this is an onboarding game, create a mock result instead of submitting to API
-      if (onboardingScenarioId) {
-        console.log('Onboarding game complete - creating mock result');
-        const mockResult: GameSessionResult = {
-          session_id: 'onboarding-session',
-          score: score,
-          total_questions: scenarios.length,
-          momentum_awarded: 0, // No momentum during onboarding
-          is_first_play: true,
-          previous_momentum: 0,
-          new_momentum: 0,
-        };
-
-        setResult(mockResult);
-        setGameComplete(true);
-        if (onComplete) {
-          onComplete(mockResult);
-        }
-        return;
-      }
-
       // Ensure we have the final answer recorded before submitting
       const finalAnswers = [...userAnswers];
 
