@@ -90,7 +90,7 @@ export default function OnboardingChatWrapper({
       const rect = getRepsButtonRef.current.getBoundingClientRect();
       // Position tutorial below the button with different spacing for desktop vs mobile
       const isMobile = window.innerWidth < 1024; // lg breakpoint
-      const spacing = isMobile ? 80 : 100; // More spacing to position below button
+      const spacing = isMobile ? 120 : 100; // More spacing on mobile for better positioning
       setTutorial3Position(rect.bottom + spacing);
     }
   }, [showTutorial3, messages, showGetRepsButton]);
@@ -382,7 +382,7 @@ export default function OnboardingChatWrapper({
               <div className="mb-4">
                 <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Flip through the cards</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  Swipe left/right to see all parts of your code. Tap the X when done.
+                  Tap the arrows to see all parts of your code, then tap "Close" when done.
                 </p>
               </div>
               <button
@@ -426,7 +426,7 @@ export default function OnboardingChatWrapper({
               <div className="mb-4">
                 <h3 className="text-lg font-bold mb-2" style={{ color: '#ffffff' }}>Practice makes permanent!</h3>
                 <p className="text-sm leading-relaxed" style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
-                  Tap "Get reps in" above to finish onboarding and start using your codes.
+                  Tap "Get reps in" to practice this code in a quick scenario, then you'll finish onboarding.
                 </p>
               </div>
               <button
@@ -448,17 +448,7 @@ export default function OnboardingChatWrapper({
       {/* Fullscreen Code Viewer Modal */}
       {viewingCode && (
         <div className="fixed inset-0 bg-black z-[100] flex items-center justify-center p-4">
-          {/* Close Button */}
-          <button
-            onClick={handleCodeClose}
-            className="absolute top-4 right-4 lg:top-6 lg:right-6 p-2 lg:p-3 transition-colors z-[120] rounded-full border bg-zinc-900 border-zinc-700 text-zinc-400 hover:text-white"
-          >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-            </svg>
-          </button>
-
-          {/* Code Card Viewer */}
+          {/* Code Card Viewer - No X button during onboarding, users must click through cards and use Close button */}
           <CodeCardViewer
             parsedCode={viewingCode}
             onSave={handleSaveCode}
