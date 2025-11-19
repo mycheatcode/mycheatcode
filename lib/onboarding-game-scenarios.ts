@@ -173,7 +173,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "You miss two in a row after being hot.",
       current_thought: "I lost my touch, maybe I'm forcing it",
       options: [
-        { text: "Shooters shoot - next one's going in", type: 'optimal', feedback: "Yes! Shooter's amnesia. Bad misses don't predict future misses." },
+        { text: "Next one's going in, shooters shoot", type: 'optimal', feedback: "Yes! Shooter's amnesia. Bad misses don't predict future misses." },
         { text: "I lost my touch", type: 'negative', feedback: "Two misses doesn't mean lost touch. Shooters shoot." },
         { text: "Let someone else shoot for a bit", type: 'negative', feedback: "Don't defer when you're a shooter. Stay aggressive." },
         { text: "Trust my mechanics", type: 'helpful', feedback: "Trusting mechanics is good, but 'next one's going in' is pure shooter confidence." }
@@ -271,7 +271,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "You're matched against a player who's clearly more skilled than you.",
       current_thought: "Just try not to embarrass myself out here",
       options: [
-        { text: "I have nothing to lose—play free!", type: 'optimal', feedback: "Perfect! When there's zero expectation, you're completely free to be aggressive. This is your moment to play with no fear." },
+        { text: "Nothing to lose, play free", type: 'optimal', feedback: "Perfect! When there's zero expectation, you're completely free to be aggressive. This is your moment to play with no fear." },
         { text: "Give it my best effort", type: 'helpful', feedback: "Love the effort mindset! Now add this: since there's no pressure on you, play completely free. That's your superpower." },
         { text: "Try to keep it close", type: 'negative', feedback: "Why just keep it close? You have zero pressure here—use that freedom to attack and make something happen!" },
         { text: "Stay confident and compete", type: 'helpful', feedback: "Great mindset! And remember: as the underdog, you're free from expectations. Use that freedom to play fearlessly." }
@@ -286,7 +286,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Playing up a level against significantly better competition.",
       current_thought: "I'm outmatched, there's no advantage here",
       options: [
-        { text: "I have complete freedom—no pressure!", type: 'optimal', feedback: "Exactly! When nobody expects you to win, you're completely free. Attack without hesitation—you have nothing to lose." },
+        { text: "Complete freedom, no pressure", type: 'optimal', feedback: "Exactly! When nobody expects you to win, you're completely free. Attack without hesitation—you have nothing to lose." },
         { text: "I might learn something valuable", type: 'helpful', feedback: "Learning is valuable, and here's the bonus: as the underdog, you can play fearlessly while you learn." },
         { text: "Maybe I can surprise them", type: 'helpful', feedback: "Love this mindset! And remember: with zero expectations on you, you can play with complete freedom." },
         { text: "Focus on competing hard", type: 'helpful', feedback: "Great attitude! Now add this: you have zero pressure here. Use that freedom to take risks and attack." }
@@ -301,7 +301,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Down 15 points against a better team with 8 minutes left.",
       current_thought: "This is basically over, just don't get blown out",
       options: [
-        { text: "Play with complete freedom—nothing to lose", type: 'optimal', feedback: "Yes! When you're supposed to lose, you're free to play fearlessly." },
+        { text: "Total freedom here, nothing to lose", type: 'optimal', feedback: "Yes! When you're supposed to lose, you're free to play fearlessly." },
         { text: "Accept the loss and play careful", type: 'negative', feedback: "Never accept loss. Use the freedom of nothing to lose." },
         { text: "Get frustrated at the deficit", type: 'negative', feedback: "Frustration doesn't help. Use your underdog freedom." },
         { text: "Keep fighting", type: 'helpful', feedback: "Fighting spirit is good, but 'complete freedom' is the unlock." }
@@ -316,7 +316,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Facing the league's best defender one-on-one.",
       current_thought: "They're going to lock me up, I should avoid them",
       options: [
-        { text: "Zero pressure—I'm supposed to lose", type: 'optimal', feedback: "Perfect! All the pressure is on them. Play free, play fearless." },
+        { text: "I'm supposed to lose, so zero pressure", type: 'optimal', feedback: "Perfect! All the pressure is on them. Play free, play fearless." },
         { text: "Try to avoid them", type: 'negative', feedback: "Don't avoid the challenge. You have nothing to lose—attack!" },
         { text: "Hope for a bad matchup", type: 'negative', feedback: "Take the matchup fearlessly. Nothing to lose means everything to gain." },
         { text: "Play smart and pick my spots", type: 'helpful', feedback: "Playing smart is fine, but 'zero pressure' unlocks true aggression." }
@@ -335,7 +335,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "You made a bad pass that led to a fast-break turnover.",
       current_thought: "I need to replay that and understand what I did wrong",
       options: [
-        { text: "Note: check defender position, then move on", type: 'optimal', feedback: "Perfect! You got the lesson (check defender) and released it. Noted, next." },
+        { text: "Check defender position first, then move on", type: 'optimal', feedback: "Perfect! You got the lesson (check defender) and released it. Noted, next." },
         { text: "Replay it in my head to understand", type: 'negative', feedback: "Replaying is dwelling. Extract the lesson: Noted, next." },
         { text: "Analyze every detail of the play", type: 'negative', feedback: "Over-analysis is dwelling. One lesson: Noted, next." },
         { text: "Learn from it", type: 'helpful', feedback: "Learning is right, but 'noted + specific lesson + move on' is the complete process." }
@@ -350,7 +350,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Missed a defensive rotation and gave up an easy basket.",
       current_thought: "I should have seen that coming, what was I thinking?",
       options: [
-        { text: "Quick lesson: Stay connected to my man. Next play.", type: 'optimal', feedback: "Exactly! Fast extraction: Noted (stay connected), then next." },
+        { text: "Stay connected to my man, got it", type: 'optimal', feedback: "Exactly! Fast extraction: Noted (stay connected), then next." },
         { text: "Worry about what coach thinks", type: 'negative', feedback: "That's not learning. Extract the lesson: Noted, next." },
         { text: "Keep thinking about it all quarter", type: 'negative', feedback: "That's dwelling, not learning. Noted, next." },
         { text: "Don't make that mistake again", type: 'helpful', feedback: "Right intention, but the specific lesson 'stay connected' is better than generic 'don't.'" }
@@ -365,7 +365,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Took a contested three early in the shot clock.",
       current_thought: "That was so stupid, what was I thinking taking that shot?",
       options: [
-        { text: "Noted: Better shot selection. Next.", type: 'optimal', feedback: "Perfect! One lesson extracted (shot selection), then released. Noted, next." },
+        { text: "Better shot selection next time", type: 'optimal', feedback: "Perfect! One lesson extracted (shot selection), then released. Noted, next." },
         { text: "That was so stupid, what was I thinking", type: 'negative', feedback: "That's shame, not learning. Extract lesson: Noted, next." },
         { text: "Replay the whole possession mentally", type: 'negative', feedback: "Too much replay. One lesson, then next play." },
         { text: "Be smarter next time", type: 'helpful', feedback: "Right idea, but 'shot selection' is more specific than 'be smarter.'" }
@@ -380,7 +380,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       situation: "Blew an easy layup by looking away too early.",
       current_thought: "I always miss those easy ones, I need to figure out why",
       options: [
-        { text: "Noted: Keep eyes on rim. Next.", type: 'optimal', feedback: "Yes! Quick extraction (eyes on rim), immediate release. Noted, next." },
+        { text: "Eyes on rim until it drops", type: 'optimal', feedback: "Yes! Quick extraction (eyes on rim), immediate release. Noted, next." },
         { text: "I always miss those", type: 'negative', feedback: "That's identity damage, not learning. Noted, next." },
         { text: "Keep replaying it to see what happened", type: 'negative', feedback: "Replaying is dwelling. Extract once: Noted, next." },
         { text: "Focus better on finishes", type: 'helpful', feedback: "Good direction, but 'eyes on rim' is the specific extraction." }
