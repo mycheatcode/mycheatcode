@@ -9,7 +9,7 @@ interface BypassCodeModalProps {
 }
 
 // Secret bypass code - change this to whatever you want
-const BYPASS_CODE = 'TESTMODE2024';
+const BYPASS_CODE = '2025';
 
 export default function BypassCodeModal({ isOpen, onClose }: BypassCodeModalProps) {
   const [code, setCode] = useState('');
