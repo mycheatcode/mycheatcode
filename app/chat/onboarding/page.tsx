@@ -10,6 +10,7 @@ import { saveCheatCode, type CheatCodeData, toggleFavoriteCheatCode, getUserChea
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
 import CheatCodeGame from '@/components/CheatCodeGame';
+import PaywallModal from '@/components/PaywallModal';
 import type { GameSessionResult } from '@/lib/types/game';
 import { DbChat, DbMessage, DbCheatCode } from '@/lib/types';
 
@@ -127,6 +128,7 @@ export default function ChatPage() {
   const [showTutorial2, setShowTutorial2] = useState(false); // Card viewer tutorial
   const [showTutorial3, setShowTutorial3] = useState(false); // "Get reps" button tutorial
   const [isOnboardingMode, setIsOnboardingMode] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false); // Paywall modal after onboarding
   const onboardingLoadedRef = useRef(false); // Track if we've loaded onboarding data
   const router = useRouter();
   const supabase = createClient();
@@ -1579,9 +1581,10 @@ export default function ChatPage() {
     setShowGameModal(false);
     setGameCheatCodeId(null);
 
-    // After game modal closes in onboarding, redirect to home
+    // After game modal closes in onboarding, show paywall
     if (isOnboardingMode) {
-      router.push('/');
+      // Show paywall modal automatically after onboarding
+      setShowPaywall(true);
       return;
     }
 
@@ -2447,6 +2450,17 @@ export default function ChatPage() {
           }
         }
       `}} />
+
+      {/* Paywall Modal - appears after onboarding */}
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => {
+          setShowPaywall(false);
+          // Redirect to home after paywall is seen
+          router.push('/');
+        }}
+        trigger="auto"
+      />
     </div>
   );
 }

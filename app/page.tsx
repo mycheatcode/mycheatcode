@@ -10,6 +10,8 @@ import MomentumProgressToast, { useMomentumProgressToast } from '@/components/Mo
 import Footer from '@/components/Footer';
 import FeedbackButton from '@/components/FeedbackButton';
 import OnboardingTutorials from '@/components/OnboardingTutorials';
+import PaywallModal from '@/components/PaywallModal';
+import { useSubscription } from '@/hooks/useSubscription';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,7 +25,9 @@ export default function Home() {
   const [previousProgressValue, setPreviousProgressValue] = useState(0);
   const [showOnboardingTutorials, setShowOnboardingTutorials] = useState(false);
   const [showMyCodesBadge, setShowMyCodesBadge] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
   const { toastData, showMomentumProgress, dismissToast} = useMomentumProgressToast();
+  const { canAccessFeature, isLoading: subscriptionLoading } = useSubscription();
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -194,9 +198,24 @@ export default function Home() {
     setShowMyCodesBadge(!hasVisitedToday && !todaysFocusCompleted);
   }, [userId]);
 
+  // Check subscription and navigate or show paywall
+  const handleNavigateWithPaywallCheck = (path: string) => {
+    if (canAccessFeature) {
+      router.push(path);
+    } else {
+      setShowPaywall(true);
+    }
+  };
+
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
+
+    // Check subscription before allowing new chat
+    if (!canAccessFeature) {
+      setShowPaywall(true);
+      return;
+    }
 
     // Store the message to be auto-sent in chat
     localStorage.setItem('autoSendMessage', message);
@@ -238,24 +257,27 @@ export default function Home() {
               </svg>
               <span>Home</span>
             </Link>
-            <Link href="/my-codes" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+            <button onClick={() => handleNavigateWithPaywallCheck('/my-codes')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
               <span>My Codes</span>
-            </Link>
-            <Link href="/relatable-topics" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+              {!canAccessFeature && <span className="ml-auto text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'rgba(0, 255, 65, 0.2)', color: 'var(--accent-color)' }}>PRO</span>}
+            </button>
+            <button onClick={() => handleNavigateWithPaywallCheck('/relatable-topics')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
               <span>Relatable Topics</span>
-            </Link>
-            <Link href="/chat-history" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
+              {!canAccessFeature && <span className="ml-auto text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'rgba(0, 255, 65, 0.2)', color: 'var(--accent-color)' }}>PRO</span>}
+            </button>
+            <button onClick={() => handleNavigateWithPaywallCheck('/chat-history')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
               </svg>
               <span>Chat History</span>
-            </Link>
+              {!canAccessFeature && <span className="ml-auto text-xs px-2 py-0.5 rounded" style={{ backgroundColor: 'rgba(0, 255, 65, 0.2)', color: 'var(--accent-color)' }}>PRO</span>}
+            </button>
             <Link href="/profile" className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
@@ -390,11 +412,12 @@ export default function Home() {
 
         {/* Side-by-side action buttons */}
         <div className="w-full flex gap-3">
-          <Link href="/my-codes" className="flex-1 relative">
+          <div className="flex-1 relative">
             {showMyCodesBadge && (
               <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full z-10" style={{ backgroundColor: '#00ff41', boxShadow: '0 0 8px rgba(0, 255, 65, 0.6)' }} />
             )}
             <button
+              onClick={() => handleNavigateWithPaywallCheck('/my-codes')}
               className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
               style={{
                 fontSize: 'clamp(0.875rem, 3vw, 1rem)',
@@ -403,11 +426,12 @@ export default function Home() {
                 color: 'var(--card-title)'
               }}
             >
-              My Codes
+              My Codes {!canAccessFeature && <span className="text-xs" style={{ color: 'var(--accent-color)' }}>🔒</span>}
             </button>
-          </Link>
-          <Link href="/relatable-topics" className="flex-1">
+          </div>
+          <div className="flex-1">
             <button
+              onClick={() => handleNavigateWithPaywallCheck('/relatable-topics')}
               className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
               style={{
                 fontSize: 'clamp(0.875rem, 3vw, 1rem)',
@@ -416,9 +440,9 @@ export default function Home() {
                 color: 'var(--card-title)'
               }}
             >
-              Explore Topics
+              Explore Topics {!canAccessFeature && <span className="text-xs" style={{ color: 'var(--accent-color)' }}>🔒</span>}
             </button>
-          </Link>
+          </div>
         </div>
         </div>
       </div>
@@ -440,6 +464,13 @@ export default function Home() {
           onComplete={() => setShowOnboardingTutorials(false)}
         />
       )}
+
+      {/* Paywall Modal */}
+      <PaywallModal
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        trigger="feature_locked"
+      />
 
     </div>
   );
