@@ -168,24 +168,37 @@ export default function MyCodesRedesignPage() {
     const storageKey = `todaysFocusCompleted_${userId}`;
     const storedData = localStorage.getItem(storageKey);
 
+    console.log('📦 Loading completedToday from localStorage:', { userId, storedData });
+
     if (storedData) {
       try {
         const { date, completed } = JSON.parse(storedData);
         if (date === today) {
+          console.log('✅ Restoring completedToday from localStorage:', completed);
           setCompletedToday(new Set(completed));
         } else {
+          console.log('🗑️ Clearing old completedToday data (different day)');
           // New day, clear completed
           localStorage.removeItem(storageKey);
         }
       } catch (e) {
+        console.error('❌ Error parsing completedToday from localStorage:', e);
         // Invalid data, clear it
         localStorage.removeItem(storageKey);
       }
+    } else {
+      console.log('ℹ️ No completedToday data in localStorage');
     }
   }, [userId]);
 
   // Set today's focus (smart selection based on user's codes with daily rotation - now selects 3 codes)
   useEffect(() => {
+    console.log('🎯 Today\'s Focus selection effect triggered', {
+      cheatCodesCount: cheatCodes.length,
+      completedToday: Array.from(completedToday),
+      currentTodaysFocus: todaysFocusCodes.map(c => ({ id: c.id, title: c.title }))
+    });
+
     if (cheatCodes.length === 0) return;
 
     const activeCodes = cheatCodes.filter(c => !c.archived);
@@ -287,6 +300,12 @@ export default function MyCodesRedesignPage() {
       if (aCompleted && !bCompleted) return 1;
       return 0; // Keep original order within completed/incomplete groups
     });
+
+    console.log('🎯 Setting Today\'s Focus codes:', sortedSelection.map(c => ({
+      id: c.id,
+      title: c.title,
+      completed: completedToday.has(c.id)
+    })));
 
     setTodaysFocusCodes(sortedSelection);
     // Reset to first card when selection changes
@@ -456,6 +475,8 @@ export default function MyCodesRedesignPage() {
 
   // Handle game completion
   const handleGameComplete = (result: GameSessionResult) => {
+    console.log('🎯 handleGameComplete called for code:', gameCheatCodeId);
+
     // Add the completed code to today's completed set
     if (gameCheatCodeId) {
       setCompletedToday(prev => {
@@ -465,12 +486,15 @@ export default function MyCodesRedesignPage() {
         if (typeof window !== 'undefined' && userId) {
           const today = new Date().toDateString();
           const storageKey = `todaysFocusCompleted_${userId}`;
-          localStorage.setItem(storageKey, JSON.stringify({
+          const savedData = {
             date: today,
             completed: Array.from(newSet)
-          }));
+          };
+          localStorage.setItem(storageKey, JSON.stringify(savedData));
+          console.log('✅ Saved completion to localStorage:', savedData);
         }
 
+        console.log('✅ Updated completedToday state:', Array.from(newSet));
         return newSet;
       });
     }
@@ -486,9 +510,8 @@ export default function MyCodesRedesignPage() {
 
     setPendingGameResult(result);
 
-    // Reload codes to ensure Today's Focus shows updated completion status
-    // (User progress will be reloaded when modal closes - see useEffect above)
-    loadData();
+    // Don't reload codes here - it can cause race conditions with completedToday state
+    // User progress will be reloaded when modal closes (see useEffect above)
   };
 
   // Handle opening chat
