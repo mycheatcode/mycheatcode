@@ -68,15 +68,19 @@ export default function Home() {
           progressValue: progress.progress
         });
 
-        // If completing onboarding for first time, show tutorial after momentum animation
-        if (isOnboardingComplete && !tutorialsCompleted) {
-          console.log('🎓 Onboarding complete detected! Scheduling tutorial after momentum animation...');
-          // Wait for momentum animation to complete: 500ms delay + 1500ms counting + 1000ms hold = 3 seconds
+        // If URL has onboarding=complete, show tutorial (even if flag is set - fresh from onboarding)
+        if (isOnboardingComplete) {
+          console.log('🎓 Onboarding complete URL parameter detected!');
+          // Clear the flag to ensure tutorial shows
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem('onboardingTutorialsCompleted');
+          }
+          // Show tutorial after a brief delay to let page render
           setTimeout(() => {
-            console.log('✅ Showing tutorials now (3 second delay after landing)');
+            console.log('✅ Showing home page tutorials NOW');
             setShowOnboardingTutorials(true);
             router.replace('/', { scroll: false });
-          }, 3000);
+          }, 1500); // 1.5 second delay - just enough to let momentum start
         }
 
         // Check if momentum increased since last home page visit
