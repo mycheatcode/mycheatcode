@@ -337,6 +337,7 @@ export default function OnboardingPage() {
       }
 
       // Redirect to home page with tutorial flag
+      console.log('🚀 Onboarding complete! Redirecting to home with tutorial flag...');
       router.push('/?onboarding=complete');
     } catch (err) {
       console.error('Submit error:', err);

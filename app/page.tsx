@@ -51,10 +51,11 @@ export default function Home() {
           ? localStorage.getItem('onboardingTutorialsCompleted') === 'true'
           : false;
 
-        console.log('🎓 Tutorial Check:', {
+        console.log('🎓 Tutorial Check (page load):', {
           isOnboardingComplete,
           tutorialsCompleted,
-          searchParams: searchParams.toString()
+          searchParams: searchParams.toString(),
+          progressValue: progress.progress
         });
 
         // Check if momentum increased since last home page visit
@@ -64,6 +65,14 @@ export default function Home() {
 
           // Show animation if completing onboarding OR if progress increased since last visit
           const shouldAnimate = isOnboardingComplete || (lastHomeProgress && progress.progress > previousProgress);
+
+          console.log('🎬 Animation Check:', {
+            shouldAnimate,
+            isOnboardingComplete,
+            lastHomeProgress,
+            currentProgress: progress.progress,
+            previousProgress
+          });
 
           if (shouldAnimate) {
             // For onboarding, START from 0 and animate to current progress
@@ -115,7 +124,8 @@ export default function Home() {
                       isOnboardingComplete,
                       tutorialsCompleted,
                       willShowTutorials: isOnboardingComplete && !tutorialsCompleted,
-                      finalProgress: progress.progress
+                      finalProgress: progress.progress,
+                      localStorageValue: localStorage.getItem('onboardingTutorialsCompleted')
                     });
 
                     // Show tutorials if completing onboarding for the first time
@@ -124,6 +134,11 @@ export default function Home() {
                       setShowOnboardingTutorials(true);
                       // Clean up URL
                       router.replace('/', { scroll: false });
+                    } else {
+                      console.log('❌ NOT showing tutorials because:', {
+                        isOnboardingComplete,
+                        tutorialsCompleted
+                      });
                     }
                   }, 2000); // Increased from 800ms to 2000ms (2 seconds)
                 }
