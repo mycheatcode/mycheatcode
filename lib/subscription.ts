@@ -36,7 +36,7 @@ export async function checkSubscriptionStatus(
     // Fetch subscription status from users table
     const { data: userData, error } = await supabase
       .from('users')
-      .select('is_subscribed, subscription_status, paywall_seen')
+      .select('is_subscribed, subscription_status, paywall_seen, bypass_subscription')
       .eq('id', targetUserId)
       .single();
 
@@ -53,9 +53,10 @@ export async function checkSubscriptionStatus(
     const isSubscribed = userData.is_subscribed || false;
     const status = userData.subscription_status || 'free';
     const hasSeenPaywall = userData.paywall_seen || false;
+    const bypassSubscription = userData.bypass_subscription || false;
 
-    // User can access features if they have an active subscription or trial
-    const canAccessFeature = isSubscribed || status === 'trialing' || status === 'active';
+    // User can access features if they have an active subscription, trial, or bypass enabled
+    const canAccessFeature = isSubscribed || status === 'trialing' || status === 'active' || bypassSubscription;
 
     return {
       isSubscribed,
@@ -87,7 +88,7 @@ export async function shouldShowPaywallAfterOnboarding(
 
     const { data: userData } = await supabase
       .from('users')
-      .select('onboarding_completed, paywall_seen, is_subscribed, subscription_status')
+      .select('onboarding_completed, paywall_seen, is_subscribed, subscription_status, bypass_subscription')
       .eq('id', user.id)
       .single();
 
@@ -97,12 +98,14 @@ export async function shouldShowPaywallAfterOnboarding(
     // 1. Onboarding is completed
     // 2. User hasn't seen paywall yet
     // 3. User is not subscribed
+    // 4. User doesn't have bypass enabled
     return (
       userData.onboarding_completed &&
       !userData.paywall_seen &&
       !userData.is_subscribed &&
       userData.subscription_status !== 'trialing' &&
-      userData.subscription_status !== 'active'
+      userData.subscription_status !== 'active' &&
+      !userData.bypass_subscription
     );
   } catch (error) {
     console.error('Error checking if should show paywall:', error);
