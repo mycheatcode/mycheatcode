@@ -68,24 +68,15 @@ export default function Home() {
           progressValue: progress.progress
         });
 
-        // If completing onboarding for first time, schedule tutorial to show
-        // We'll show it after momentum animation OR after 4.5 seconds (whichever comes first)
+        // If completing onboarding for first time, show tutorial after momentum animation
         if (isOnboardingComplete && !tutorialsCompleted) {
-          console.log('🎓 Onboarding complete detected! Will show tutorials after animation completes');
-          // Backup timeout in case animation doesn't trigger
-          // Expected timing: 500ms delay + 1500ms animation + 1000ms hold + 500ms wait = 3500ms
-          // Backup at 4500ms gives animation time to complete first
+          console.log('🎓 Onboarding complete detected! Scheduling tutorial after momentum animation...');
+          // Wait for momentum animation to complete: 500ms delay + 1500ms counting + 1000ms hold = 3 seconds
           setTimeout(() => {
-            console.log('🎓 Backup timeout fired (4.5s), checking if tutorials already showing...');
-            console.log('🎓 Current showOnboardingTutorials state:', showOnboardingTutorials);
-            if (!showOnboardingTutorials) {
-              console.log('✅ Animation callback did not trigger, showing tutorials via backup timeout');
-              setShowOnboardingTutorials(true);
-              router.replace('/', { scroll: false });
-            } else {
-              console.log('⏭️ Tutorials already showing from animation callback, backup not needed');
-            }
-          }, 4500); // 4.5 second backup
+            console.log('✅ Showing tutorials now (3 second delay after landing)');
+            setShowOnboardingTutorials(true);
+            router.replace('/', { scroll: false });
+          }, 3000);
         }
 
         // Check if momentum increased since last home page visit
@@ -150,30 +141,10 @@ export default function Home() {
                       localStorage.setItem('lastMomentumProgress', progress.progress.toString());
                     }
 
-                    console.log('🎯 Animation completed, checking tutorial conditions:', {
-                      isOnboardingComplete,
-                      tutorialsCompleted,
-                      willShowTutorials: isOnboardingComplete && !tutorialsCompleted,
-                      finalProgress: progress.progress,
-                      localStorageValue: localStorage.getItem('onboardingTutorialsCompleted')
+                    console.log('🎯 Animation completed:', {
+                      finalProgress: progress.progress
                     });
-
-                    // Show tutorials if completing onboarding for the first time
-                    // Wait 500ms after animation to let momentum settle visually
-                    if (isOnboardingComplete && !tutorialsCompleted) {
-                      setTimeout(() => {
-                        console.log('✅ Setting showOnboardingTutorials to TRUE (from animation callback)');
-                        setShowOnboardingTutorials(true);
-                        // Clean up URL
-                        router.replace('/', { scroll: false });
-                      }, 500);
-                    } else {
-                      console.log('❌ NOT showing tutorials because:', {
-                        isOnboardingComplete,
-                        tutorialsCompleted
-                      });
-                    }
-                  }, 1000); // Reduced from 2000ms to 1000ms
+                  }, 1000);
                 }
               }, duration / steps);
             }, 500);
