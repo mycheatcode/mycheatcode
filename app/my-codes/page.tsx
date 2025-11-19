@@ -474,29 +474,62 @@ export default function MyCodesRedesignPage() {
   };
 
   // Handle game completion
-  const handleGameComplete = (result: GameSessionResult) => {
-    console.log('🎯 handleGameComplete called for code:', gameCheatCodeId);
+  const handleGameComplete = async (result: GameSessionResult) => {
+    console.log('🎯 handleGameComplete called', {
+      gameCheatCodeId,
+      userId,
+      hasUserId: !!userId,
+      result
+    });
+
+    // Critical: Ensure we have userId before processing completion
+    let currentUserId = userId;
+
+    if (!currentUserId) {
+      console.error('❌ handleGameComplete called without userId! Fetching from Supabase...');
+      console.error('This indicates a timing issue - game completed before page fully initialized');
+
+      // Try to get userId directly from Supabase
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        currentUserId = user.id;
+        console.log('✅ Got userId from Supabase:', currentUserId);
+        // Update state for future use
+        setUserId(currentUserId);
+      } else {
+        console.error('❌ No user found in Supabase! Cannot save completion.');
+        // Still set pending result for momentum animation
+        setPendingGameResult(result);
+        return;
+      }
+    }
 
     // Add the completed code to today's completed set
     if (gameCheatCodeId) {
+      console.log(`🎯 Processing completion for code: ${gameCheatCodeId} with userId: ${currentUserId}`);
+
       setCompletedToday(prev => {
         const newSet = new Set([...prev, gameCheatCodeId]);
 
         // Save to localStorage with user ID
-        if (typeof window !== 'undefined' && userId) {
+        if (typeof window !== 'undefined') {
           const today = new Date().toDateString();
-          const storageKey = `todaysFocusCompleted_${userId}`;
+          const storageKey = `todaysFocusCompleted_${currentUserId}`;
           const savedData = {
             date: today,
             completed: Array.from(newSet)
           };
           localStorage.setItem(storageKey, JSON.stringify(savedData));
           console.log('✅ Saved completion to localStorage:', savedData);
+        } else {
+          console.warn('⚠️ Window undefined, cannot save to localStorage');
         }
 
         console.log('✅ Updated completedToday state:', Array.from(newSet));
         return newSet;
       });
+    } else {
+      console.warn('⚠️ No gameCheatCodeId, cannot mark as completed');
     }
 
     // Save the result to trigger animation after modal closes
