@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client';
 import { getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
+import BypassCodeModal from '@/components/BypassCodeModal';
 import { DbCheatCode } from '@/lib/types';
 
 interface UserProfile {
@@ -36,6 +37,7 @@ export default function Profile() {
   const [isExporting, setIsExporting] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [toastType, setToastType] = useState<'success' | 'error'>('success');
+  const [showBypassModal, setShowBypassModal] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
@@ -404,6 +406,13 @@ export default function Profile() {
                 <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>Account</h3>
                 <div className="space-y-3">
                   <button
+                    onClick={() => setShowBypassModal(true)}
+                    className="w-full text-left p-3 rounded-lg transition-colors"
+                    style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}
+                  >
+                    Beta Access
+                  </button>
+                  <button
                     onClick={handleExportData}
                     disabled={isExporting}
                     className="w-full text-left p-3 rounded-lg transition-colors"
@@ -602,10 +611,17 @@ export default function Profile() {
               {/* Account Actions */}
               <div className="rounded-xl p-8 border md:col-span-2" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
                 <h3 className="text-xl font-semibold mb-6" style={{ color: 'var(--text-primary)' }}>Account</h3>
-                <div className="space-y-3">
+                <div className="flex flex-wrap gap-3">
+                  <button
+                    onClick={() => setShowBypassModal(true)}
+                    className="px-6 py-4 rounded-lg transition-colors text-lg"
+                    style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}
+                  >
+                    Beta Access
+                  </button>
                   <button
                     onClick={handleSignOut}
-                    className="w-full md:w-auto text-left px-6 py-4 rounded-lg transition-colors text-lg"
+                    className="px-6 py-4 rounded-lg transition-colors text-lg"
                     style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)', color: 'var(--text-primary)' }}
                   >
                     Sign Out
@@ -632,6 +648,12 @@ export default function Profile() {
           {toastMessage}
         </div>
       )}
+
+      {/* Bypass Code Modal */}
+      <BypassCodeModal
+        isOpen={showBypassModal}
+        onClose={() => setShowBypassModal(false)}
+      />
     </div>
   );
 }

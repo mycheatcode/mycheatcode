@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ProgressCircles from '@/components/ProgressCircles';
@@ -11,7 +11,6 @@ import Footer from '@/components/Footer';
 import FeedbackButton from '@/components/FeedbackButton';
 import OnboardingTutorials from '@/components/OnboardingTutorials';
 import PaywallModal from '@/components/PaywallModal';
-import BypassCodeModal from '@/components/BypassCodeModal';
 import { useSubscription } from '@/hooks/useSubscription';
 
 export default function Home() {
@@ -27,14 +26,11 @@ export default function Home() {
   const [showOnboardingTutorials, setShowOnboardingTutorials] = useState(false);
   const [showMyCodesBadge, setShowMyCodesBadge] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
-  const [showBypassModal, setShowBypassModal] = useState(false);
   const { toastData, showMomentumProgress, dismissToast} = useMomentumProgressToast();
   const { canAccessFeature, isLoading: subscriptionLoading } = useSubscription();
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
-  const logoClickCount = useRef(0);
-  const logoClickTimeout = useRef<NodeJS.Timeout | null>(null);
 
   // Always scroll to top when landing on home page (especially important on mobile)
   useEffect(() => {
@@ -226,28 +222,6 @@ export default function Home() {
     router.push('/chat');
   };
 
-  // Hidden bypass trigger - click logo 5 times quickly
-  const handleLogoClick = () => {
-    logoClickCount.current += 1;
-
-    // Clear existing timeout
-    if (logoClickTimeout.current) {
-      clearTimeout(logoClickTimeout.current);
-    }
-
-    // If user clicked 5 times, show bypass modal
-    if (logoClickCount.current >= 5) {
-      setShowBypassModal(true);
-      logoClickCount.current = 0;
-      return;
-    }
-
-    // Reset click count after 2 seconds of no clicks
-    logoClickTimeout.current = setTimeout(() => {
-      logoClickCount.current = 0;
-    }, 2000);
-  };
-
   return (
     <div className="h-screen font-sans relative overflow-hidden flex flex-col" style={{ color: 'var(--text-primary)', backgroundColor: '#000000' }}>
 
@@ -265,13 +239,7 @@ export default function Home() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div
-            onClick={handleLogoClick}
-            className="text-lg lg:text-xl font-semibold tracking-wide cursor-pointer select-none"
-            style={{ color: '#00ff41' }}
-          >
-            MYCHEATCODE.AI
-          </div>
+          <div className="text-lg lg:text-xl font-semibold tracking-wide" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
         </div>
         <div className="w-8"></div>
       </div>
@@ -499,12 +467,6 @@ export default function Home() {
         isOpen={showPaywall}
         onClose={() => setShowPaywall(false)}
         trigger="feature_locked"
-      />
-
-      {/* Bypass Code Modal */}
-      <BypassCodeModal
-        isOpen={showBypassModal}
-        onClose={() => setShowBypassModal(false)}
       />
 
     </div>
