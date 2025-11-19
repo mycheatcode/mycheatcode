@@ -28,6 +28,11 @@ export default function Home() {
   const searchParams = useSearchParams();
   const supabase = createClient();
 
+  // Always scroll to top when landing on home page (especially important on mobile)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   // Get current user and load progress
   useEffect(() => {
     let animationTimeout: NodeJS.Timeout | null = null;
