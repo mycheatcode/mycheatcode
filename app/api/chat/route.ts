@@ -4327,12 +4327,12 @@ If you DON'T reference relevant past conversations when they exist, the player w
                 if (code.content) {
                   const content = code.content;
 
-                  // Extract What
-                  const whatMatch = content.match(/\*\*What\*\*:?\s*(.+?)(?=\n\n|\*\*When\*\*|$)/s);
+                  // Extract What (use [\s\S] instead of . with /s flag for ES5 compatibility)
+                  const whatMatch = content.match(/\*\*What\*\*:?\s*([\s\S]+?)(?=\n\n|\*\*When\*\*|$)/);
                   if (whatMatch) parts.push(`   What: ${whatMatch[1].trim().substring(0, 150)}`);
 
                   // Extract When (trigger)
-                  const whenMatch = content.match(/\*\*When\*\*:?\s*(.+?)(?=\n\n|\*\*How\*\*|$)/s);
+                  const whenMatch = content.match(/\*\*When\*\*:?\s*([\s\S]+?)(?=\n\n|\*\*How\*\*|$)/);
                   if (whenMatch) parts.push(`   When to use: ${whenMatch[1].trim().substring(0, 150)}`);
 
                   // Extract Cheat Code Phrase (most important!)
