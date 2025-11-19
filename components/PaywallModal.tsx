@@ -38,13 +38,12 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)' }}>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)' }}>
       <div
         className="relative w-full sm:max-w-md rounded-3xl shadow-2xl overflow-y-auto"
         style={{
           background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
-          maxHeight: '88vh',
-          border: '2px solid rgba(0, 255, 65, 0.2)'
+          maxHeight: '85vh'
         }}
       >
         {/* Close Button */}
