@@ -277,16 +277,8 @@ export default function MyCodesRedesignPage() {
     const shuffled = seededShuffle(pool, dailySeed);
     const finalSelection = shuffled.slice(0, Math.min(3, shuffled.length));
 
-    setTodaysFocusCodes(finalSelection);
-  }, [cheatCodes, todaysFocusCodes, completedToday]);
-
-  // Reorder carousel to put incomplete codes first when completion state changes
-  // Also trigger when todaysFocusCodes first loads (to handle localStorage completions)
-  useEffect(() => {
-    if (todaysFocusCodes.length === 0) return;
-
-    // Create a sorted copy with incomplete codes first
-    const reordered = [...todaysFocusCodes].sort((a, b) => {
+    // Sort to put incomplete codes first
+    const sortedSelection = finalSelection.sort((a, b) => {
       const aCompleted = completedToday.has(a.id);
       const bCompleted = completedToday.has(b.id);
 
@@ -296,13 +288,10 @@ export default function MyCodesRedesignPage() {
       return 0; // Keep original order within completed/incomplete groups
     });
 
-    // Check if current first code is different from what should be first
-    if (todaysFocusCodes[0]?.id !== reordered[0]?.id) {
-      console.log('🔄 Reordering Today\'s Focus codes - incomplete first');
-      setTodaysFocusCodes(reordered);
-      setCurrentFocusIndex(0);
-    }
-  }, [completedToday, todaysFocusCodes.map(c => c.id).join(',')]);
+    setTodaysFocusCodes(sortedSelection);
+    // Reset to first card when selection changes
+    setCurrentFocusIndex(0);
+  }, [cheatCodes, completedToday]);
 
   // Handle URL query parameters (?code= and ?practice=)
   useEffect(() => {
