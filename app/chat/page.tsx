@@ -28,6 +28,7 @@ interface ParsedCheatCode {
   subtitle?: string;
   practice?: string;
   messageText?: string;
+  existingCodeId?: string; // If this is an existing code being re-presented
 }
 
 interface CheatCodeCard {
@@ -395,6 +396,10 @@ export default function ChatPage() {
   const parseCheatCode = (text: string): ParsedCheatCode => {
     const cheatCode: Partial<ParsedCheatCode> = {};
 
+    // Check for EXISTING_CODE_ID marker (extract before parsing)
+    const existingCodeMatch = text.match(/\[EXISTING_CODE_ID:\s*([^\]]+)\]/);
+    const existingCodeId = existingCodeMatch ? existingCodeMatch[1].trim() : undefined;
+
     // Helper function to clean asterisks and extra spaces from text
     const cleanText = (str: string): string => {
       return str.replace(/\*+/g, '').trim();
@@ -485,7 +490,8 @@ export default function ChatPage() {
       trigger: cheatCode.trigger,
       firstAction: cheatCode.firstAction,
       ifThen: cheatCode.ifThen,
-      reps: cheatCode.reps
+      reps: cheatCode.reps,
+      existingCodeId // Add the existing code ID if present
     };
   };
 
@@ -1278,10 +1284,17 @@ export default function ChatPage() {
     }
 
     const isFirstView = !alreadyViewed;
+    const isExistingCode = !!selectedCheatCode.existingCodeId;
 
     // Close the modal first
     setSelectedCheatCode(null);
     resetCards();
+
+    // Skip follow-up for existing codes being re-presented
+    if (isExistingCode) {
+      // This is an existing code, skipping follow-up
+      return;
+    }
 
     if (isFirstView) {
       // First view confirmed - triggering follow-up
@@ -2166,20 +2179,23 @@ export default function ChatPage() {
                               <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
                                 "{(card as any).content}"
                               </p>
-                              <button
-                                onClick={async () => {
-                                  await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText || '');
-                                }}
-                                disabled={savedCheatCodes.has(selectedCheatCode.messageId) || savingCheatCode === selectedCheatCode.messageId}
-                                className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
-                                style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
-                              >
-                                {savedCheatCodes.has(selectedCheatCode.messageId)
-                                  ? '✓ Saved to My Codes'
-                                  : savingCheatCode === selectedCheatCode.messageId
-                                    ? 'Saving...'
-                                    : 'Add to My Codes'}
-                              </button>
+                              {/* Only show save button if this is NOT an existing code being re-presented */}
+                              {!selectedCheatCode.existingCodeId && (
+                                <button
+                                  onClick={async () => {
+                                    await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText || '');
+                                  }}
+                                  disabled={savedCheatCodes.has(selectedCheatCode.messageId) || savingCheatCode === selectedCheatCode.messageId}
+                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
+                                  style={{ backgroundColor: 'var(--button-bg)', color: 'var(--button-text)' }}
+                                >
+                                  {savedCheatCodes.has(selectedCheatCode.messageId)
+                                    ? '✓ Saved to My Codes'
+                                    : savingCheatCode === selectedCheatCode.messageId
+                                      ? 'Saving...'
+                                      : 'Add to My Codes'}
+                                </button>
+                              )}
                             </div>
                           </div>
                         )}
