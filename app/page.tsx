@@ -69,17 +69,23 @@ export default function Home() {
         });
 
         // If completing onboarding for first time, schedule tutorial to show
-        // We'll show it after momentum animation OR after 3 seconds (whichever comes first)
+        // We'll show it after momentum animation OR after 4.5 seconds (whichever comes first)
         if (isOnboardingComplete && !tutorialsCompleted) {
-          console.log('🎓 Will show tutorials after animation');
+          console.log('🎓 Onboarding complete detected! Will show tutorials after animation completes');
           // Backup timeout in case animation doesn't trigger
+          // Expected timing: 500ms delay + 1500ms animation + 1000ms hold + 500ms wait = 3500ms
+          // Backup at 4500ms gives animation time to complete first
           setTimeout(() => {
+            console.log('🎓 Backup timeout fired (4.5s), checking if tutorials already showing...');
+            console.log('🎓 Current showOnboardingTutorials state:', showOnboardingTutorials);
             if (!showOnboardingTutorials) {
-              console.log('🎓 Showing tutorials via backup timeout');
+              console.log('✅ Animation callback did not trigger, showing tutorials via backup timeout');
               setShowOnboardingTutorials(true);
               router.replace('/', { scroll: false });
+            } else {
+              console.log('⏭️ Tutorials already showing from animation callback, backup not needed');
             }
-          }, 5000); // 5 second backup
+          }, 4500); // 4.5 second backup
         }
 
         // Check if momentum increased since last home page visit
@@ -130,7 +136,7 @@ export default function Home() {
                   setProgressPercentage(progress.progress); // Update circle to final value
                   if (animationInterval) clearInterval(animationInterval);
 
-                  // Hold at new value longer to let user appreciate the boost
+                  // Hold at new value briefly to let user see the boost
                   endAnimationTimeout = setTimeout(() => {
                     setShowProgressAnimation(false);
                     setMomentumGain(0);
@@ -144,7 +150,7 @@ export default function Home() {
                       localStorage.setItem('lastMomentumProgress', progress.progress.toString());
                     }
 
-                    console.log('🎯 After animation end:', {
+                    console.log('🎯 Animation completed, checking tutorial conditions:', {
                       isOnboardingComplete,
                       tutorialsCompleted,
                       willShowTutorials: isOnboardingComplete && !tutorialsCompleted,
@@ -153,18 +159,21 @@ export default function Home() {
                     });
 
                     // Show tutorials if completing onboarding for the first time
+                    // Wait 500ms after animation to let momentum settle visually
                     if (isOnboardingComplete && !tutorialsCompleted) {
-                      console.log('✅ Setting showOnboardingTutorials to TRUE');
-                      setShowOnboardingTutorials(true);
-                      // Clean up URL
-                      router.replace('/', { scroll: false });
+                      setTimeout(() => {
+                        console.log('✅ Setting showOnboardingTutorials to TRUE (from animation callback)');
+                        setShowOnboardingTutorials(true);
+                        // Clean up URL
+                        router.replace('/', { scroll: false });
+                      }, 500);
                     } else {
                       console.log('❌ NOT showing tutorials because:', {
                         isOnboardingComplete,
                         tutorialsCompleted
                       });
                     }
-                  }, 2000); // Increased from 800ms to 2000ms (2 seconds)
+                  }, 1000); // Reduced from 2000ms to 1000ms
                 }
               }, duration / steps);
             }, 500);

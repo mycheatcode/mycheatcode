@@ -70,10 +70,11 @@ export default function BypassCodeModal({ isOpen, onClose }: BypassCodeModalProp
       // Success!
       setSuccess(true);
       setTimeout(() => {
+        console.log('🔄 Reloading page to refresh subscription status...');
         onClose();
         // Refresh the page to update subscription status
         window.location.reload();
-      }, 1500);
+      }, 2500); // Increased from 1500ms to 2500ms to ensure DB commit
 
     } catch (err) {
       console.error('❌ Unexpected error:', err);

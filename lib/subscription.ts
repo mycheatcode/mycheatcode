@@ -58,6 +58,14 @@ export async function checkSubscriptionStatus(
     // User can access features if they have an active subscription, trial, or bypass enabled
     const canAccessFeature = isSubscribed || status === 'trialing' || status === 'active' || bypassSubscription;
 
+    console.log('🔍 Subscription Status Check:', {
+      userId: targetUserId,
+      isSubscribed,
+      status,
+      bypassSubscription,
+      canAccessFeature
+    });
+
     return {
       isSubscribed,
       status: status as SubscriptionStatus['status'],
