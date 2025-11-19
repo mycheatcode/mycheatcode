@@ -696,13 +696,13 @@ export default function RelatableTopics() {
                 <div className="text-xs uppercase tracking-wide mb-3 lg:mb-4" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   {topic.category}
                 </div>
-                <div className="text-sm mb-3 lg:mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
-                  {topic.context}
-                </div>
-                {/* Keep the green dot for visual polish - social proof text hidden until we have real users */}
-                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
-                  <div className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
-                  {/* <span>{topic.stats}</span> */}
+                {/* Description with inline green dot - social proof text hidden until we have real users */}
+                <div className="flex items-start gap-2 text-sm" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
+                  <div className="w-1 h-1 rounded-full mt-2 flex-shrink-0" style={{ backgroundColor: 'var(--accent-color)' }}></div>
+                  <div className="leading-relaxed">
+                    {topic.context}
+                    {/* <span className="ml-2" style={{ color: 'var(--text-tertiary)' }}>{topic.stats}</span> */}
+                  </div>
                 </div>
               </div>
             </div>
