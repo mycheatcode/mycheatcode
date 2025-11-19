@@ -1585,8 +1585,11 @@ export default function ChatPage() {
 
     // After game modal closes in onboarding, show home tutorial THEN paywall
     if (isOnboardingMode) {
+      console.log('🎓 Onboarding mode detected, showing home tutorial');
       // Show home navigation tutorial first
-      setShowHomeTutorial(true);
+      setTimeout(() => {
+        setShowHomeTutorial(true);
+      }, 500); // Small delay to ensure game modal is fully closed
       return;
     }
 

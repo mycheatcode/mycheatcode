@@ -43,7 +43,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         className="relative w-full sm:max-w-md sm:rounded-3xl shadow-2xl overflow-y-auto"
         style={{
           background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
-          maxHeight: '95vh',
+          maxHeight: '92vh',
           borderTopLeftRadius: '24px',
           borderTopRightRadius: '24px',
         }}
@@ -61,17 +61,17 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-8 px-5 pb-4">
-          <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
+        <div className="text-center pt-6 px-5 pb-3">
+          <h1 className="text-2xl sm:text-4xl font-bold mb-2 leading-tight" style={{ color: '#ffffff' }}>
             Play With<br />Unshakeable Confidence
           </h1>
-          <p className="text-base sm:text-lg" style={{ color: '#999' }}>
+          <p className="text-sm sm:text-lg" style={{ color: '#999' }}>
             Stop second-guessing. Start dominating.<br />Your personal mental coach, available 24/7.
           </p>
         </div>
 
         {/* Benefits - Outcome Focused */}
-        <div className="px-5 pb-5 space-y-3">
+        <div className="px-5 pb-4 space-y-2.5">
           <div className="flex items-start gap-3">
             <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -122,7 +122,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* Pricing Plans */}
-        <div className="px-5 pb-5">
+        <div className="px-5 pb-4">
           {/* Annual Plan (Recommended) */}
           <div
             className="relative rounded-2xl p-4 mb-3 cursor-pointer transition-all border-2"
@@ -180,7 +180,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* CTA Button */}
-        <div className="px-5 pb-5">
+        <div className="px-5 pb-4">
           <button
             onClick={handleSubscribe}
             disabled={isLoading}
@@ -217,7 +217,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* Value Comparison - Compressed */}
-        <div className="px-5 pb-6">
+        <div className="px-5 pb-5">
           <div className="rounded-xl p-3.5" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
             <div className="flex items-center justify-between text-sm">
               <div className="text-center flex-1">
@@ -227,7 +227,9 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
               <div className="text-xs px-3" style={{ color: '#666' }}>vs</div>
               <div className="text-center flex-1">
                 <div className="text-xs mb-1" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="font-bold" style={{ color: '#00ff41' }}>$2.50/month</div>
+                <div className="font-bold" style={{ color: '#00ff41' }}>
+                  {selectedPlan === 'annual' ? '$2.50/month' : '$4.99/month'}
+                </div>
               </div>
             </div>
           </div>
