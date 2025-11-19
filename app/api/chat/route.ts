@@ -4297,6 +4297,94 @@ If you DON'T reference relevant past conversations when they exist, the player w
       }
     }
 
+    // 3.5) User's Saved Cheat Codes - so coach can reference existing codes
+    if (userId) {
+      try {
+        const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+        const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+        if (supabaseUrl && supabaseKey) {
+          // Fetch user's active (non-archived) cheat codes
+          const codesRes = await fetch(
+            `${supabaseUrl}/rest/v1/cheat_codes?user_id=eq.${userId}&is_active=eq.true&order=created_at.desc`,
+            {
+              headers: {
+                'apikey': supabaseKey,
+                'Authorization': `Bearer ${supabaseKey}`,
+              },
+            }
+          );
+
+          if (codesRes.ok) {
+            const codes = await codesRes.json();
+            if (codes && codes.length > 0) {
+              // Format codes for coach reference
+              const codesList = codes.map((code: any, index: number) => {
+                const parts = [];
+                parts.push(`${index + 1}. **${code.title}** (Category: ${code.category || 'General'})`);
+
+                // Extract key information from content
+                if (code.content) {
+                  const content = code.content;
+
+                  // Extract What
+                  const whatMatch = content.match(/\*\*What\*\*:?\s*(.+?)(?=\n\n|\*\*When\*\*|$)/s);
+                  if (whatMatch) parts.push(`   What: ${whatMatch[1].trim().substring(0, 150)}`);
+
+                  // Extract When (trigger)
+                  const whenMatch = content.match(/\*\*When\*\*:?\s*(.+?)(?=\n\n|\*\*How\*\*|$)/s);
+                  if (whenMatch) parts.push(`   When to use: ${whenMatch[1].trim().substring(0, 150)}`);
+
+                  // Extract Cheat Code Phrase (most important!)
+                  const phraseMatch = content.match(/\*\*Cheat Code Phrase\*\*:?\s*"([^"]+)"/);
+                  if (phraseMatch) parts.push(`   **Phrase: "${phraseMatch[1]}"**`);
+                }
+
+                return parts.join('\n');
+              }).join('\n\n');
+
+              messages.push({
+                role: 'system',
+                content: `================================================================================
+USER'S SAVED CHEAT CODES (CRITICAL - REFERENCE WHEN RELEVANT)
+================================================================================
+
+This player already has ${codes.length} saved cheat code${codes.length > 1 ? 's' : ''}:
+
+${codesList}
+
+**WHEN TO REFERENCE EXISTING CODES:**
+
+1. **When they ask which code to practice** - Don't say "we haven't made one yet!" Tell them which existing code fits their situation.
+   ✅ Example: "For tomorrow's game, I'd practice your 'Attack Mode' code - the one that helps you flip from hesitation to aggression when driving. That phrase 'use my strength' is gonna be key."
+
+2. **When their current struggle relates to an existing code** - Connect the dots for them.
+   ✅ Example: "Yo, this sounds like what we built your 'Next Play Mentality' code for. Have you been using that 'move on' phrase when you make mistakes?"
+
+3. **When they want to make a NEW code for something they already have** - Suggest using the existing one first.
+   ✅ Example: "Actually, your 'Shooter's Confidence' code already addresses this exact situation. Try using that for a few sessions before we build something new."
+
+4. **When checking in** - Reference codes they created recently.
+   ✅ Example: "How's that 'Pressure Privilege' code working for you? Getting any reps with 'I'm built for this'?"
+
+**WHEN TO CREATE A NEW CODE:**
+
+- The struggle is genuinely different from existing codes
+- They've tried an existing code but need something more specific
+- Their game/situation has evolved and old codes don't fit anymore
+
+**THE RULE:**
+Always be aware of what codes they have. If they ask for help with something they already have a code for, point them to it first. Make them feel like you remember the tools you've built together.`,
+              });
+            }
+          }
+        }
+      } catch (err) {
+        // Silently fail - continue without codes memory
+        console.error('Error fetching user cheat codes for coach context:', err);
+      }
+    }
+
     // 4) Light memory/context
     if (meta?.primaryIssue) {
       messages.push({
