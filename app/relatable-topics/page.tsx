@@ -699,11 +699,11 @@ export default function RelatableTopics() {
                 <div className="text-sm mb-3 lg:mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   {topic.context}
                 </div>
-                {/* Social proof hidden until we have real users - keeping data structure for future use */}
-                {/* <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
+                {/* Keep the green dot for visual polish - social proof text hidden until we have real users */}
+                <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--text-tertiary)', opacity: usedTopicIds.has(topic.id) ? 0.5 : 1 }}>
                   <div className="w-1 h-1 rounded-full" style={{ backgroundColor: 'var(--accent-color)' }}></div>
-                  <span>{topic.stats}</span>
-                </div> */}
+                  {/* <span>{topic.stats}</span> */}
+                </div>
               </div>
             </div>
           ))}
