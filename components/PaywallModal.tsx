@@ -59,45 +59,98 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-10 px-5 pb-4">
+        <div className="text-center pt-10 px-6 pb-5">
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
-            Your 24/7 Mental<br />Performance Coach
+            Unlock Your<br />Mental Edge
           </h1>
-          <p className="text-base sm:text-lg mb-4" style={{ color: '#999' }}>
-            Get the same mental training as elite athletes<br />at a fraction of the cost
+          <p className="text-base sm:text-lg mb-5" style={{ color: '#999' }}>
+            The same mental training elite athletes use,<br />now accessible to everyone
           </p>
         </div>
 
-        {/* Value Comparison - Emphasized */}
-        <div className="px-5 pb-5">
+        {/* What You Get */}
+        <div className="px-6 pb-6">
+          <div className="space-y-3">
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>24/7 AI Mental Performance Coach</div>
+                <div className="text-sm" style={{ color: '#888' }}>Get instant support whenever you need it, not just during office hours</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Personalized Mental Training</div>
+                <div className="text-sm" style={{ color: '#888' }}>Custom strategies for confidence, focus, and peak performance</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Pre-Game Activation & Recovery</div>
+                <div className="text-sm" style={{ color: '#888' }}>Get in the zone before competition and recover mentally after</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Unlimited Access</div>
+                <div className="text-sm" style={{ color: '#888' }}>No session limits - train your mind as much as you want</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Price Comparison - More Dramatic */}
+        <div className="px-6 pb-6">
           <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.08)', border: '2px solid rgba(0, 255, 65, 0.3)' }}>
             <div className="text-center mb-4">
-              <div className="text-xs font-bold tracking-wider mb-2" style={{ color: '#00ff41' }}>VALUE COMPARISON</div>
+              <div className="text-xs font-bold tracking-wider" style={{ color: '#00ff41' }}>SAME QUALITY, FRACTION OF THE COST</div>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div className="flex-1 text-center">
                 <div className="text-xs mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
-                <div className="font-bold text-2xl mb-1" style={{ color: '#ffffff' }}>$150</div>
-                <div className="text-xs" style={{ color: '#666' }}>per session</div>
-                <div className="text-xs mt-2" style={{ color: '#666' }}>• Limited availability<br />• Expensive per hour<br />• Hard to schedule</div>
+                <div className="font-bold text-3xl mb-1" style={{ color: '#ffffff' }}>$150</div>
+                <div className="text-xs" style={{ color: '#666' }}>per hour</div>
               </div>
-              <div className="px-4">
-                <div className="text-xl font-bold" style={{ color: '#00ff41' }}>VS</div>
+              <div className="px-2">
+                <div className="text-2xl font-bold" style={{ color: '#00ff41' }}>→</div>
               </div>
               <div className="flex-1 text-center">
                 <div className="text-xs mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="font-bold text-2xl mb-1" style={{ color: '#00ff41' }}>
-                  {selectedPlan === 'annual' ? '$2.50' : '$4.99'}
+                <div className="font-bold text-3xl mb-1" style={{ color: '#00ff41' }}>
+                  ${selectedPlan === 'annual' ? '5.83' : '7.99'}
                 </div>
                 <div className="text-xs" style={{ color: '#00ff41' }}>per month</div>
-                <div className="text-xs mt-2" style={{ color: '#00ff41' }}>• Available 24/7<br />• Unlimited access<br />• Instant support</div>
+              </div>
+            </div>
+            <div className="text-center mt-4 pt-4" style={{ borderTop: '1px solid rgba(0, 255, 65, 0.2)' }}>
+              <div className="text-sm font-semibold" style={{ color: '#00ff41' }}>
+                That's {selectedPlan === 'annual' ? '96%' : '95%'} less expensive
               </div>
             </div>
           </div>
         </div>
 
         {/* Pricing Plans */}
-        <div className="px-5 pb-4">
+        <div className="px-6 pb-5">
           {/* Annual Plan (Recommended) */}
           <div
             className="relative rounded-2xl p-4 mb-3 cursor-pointer transition-all border-2"
@@ -109,16 +162,16 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
           >
             {/* Best Value Badge */}
             <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: '#00ff41', color: '#000' }}>
-              BEST VALUE • SAVE 50%
+              BEST VALUE • SAVE 27%
             </div>
 
             <div className="flex items-center justify-between mt-1">
               <div className="flex-1">
                 <div className="font-bold text-lg sm:text-xl mb-0.5" style={{ color: '#ffffff' }}>Annual Plan</div>
                 <div className="text-sm" style={{ color: '#888' }}>
-                  <span className="line-through">$59.88</span> <span className="font-bold" style={{ color: '#00ff41' }}>$29.99/year</span>
+                  <span className="line-through">$95.88</span> <span className="font-bold" style={{ color: '#00ff41' }}>$69.99/year</span>
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: '#666' }}>Just $2.50/month • 7-day free trial</div>
+                <div className="text-xs mt-0.5" style={{ color: '#666' }}>Just $5.83/month • 7-day free trial</div>
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${selectedPlan === 'annual' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
                 {selectedPlan === 'annual' && (
@@ -141,9 +194,9 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
               <div className="flex-1">
                 <div className="font-bold text-lg sm:text-xl mb-0.5" style={{ color: '#ffffff' }}>Monthly Plan</div>
                 <div className="text-sm" style={{ color: '#888' }}>
-                  <span className="font-bold">$4.99/month</span>
+                  <span className="font-bold">$7.99/month</span>
                 </div>
-                <div className="text-xs mt-0.5" style={{ color: '#666' }}>7-day free trial</div>
+                <div className="text-xs mt-0.5" style={{ color: '#666' }}>Cancel anytime</div>
               </div>
               <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${selectedPlan === 'monthly' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
                 {selectedPlan === 'monthly' && (
