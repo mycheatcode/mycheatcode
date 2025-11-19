@@ -282,28 +282,32 @@ export default function MyCodesRedesignPage() {
 
   // Reorder carousel to put incomplete codes first when completion state changes
   useEffect(() => {
-    if (todaysFocusCodes.length === 0) return;
+    setTodaysFocusCodes(prevCodes => {
+      if (prevCodes.length === 0) return prevCodes;
 
-    // Create a sorted copy with incomplete codes first
-    const reordered = [...todaysFocusCodes].sort((a, b) => {
-      const aCompleted = completedToday.has(a.id);
-      const bCompleted = completedToday.has(b.id);
+      // Create a sorted copy with incomplete codes first
+      const reordered = [...prevCodes].sort((a, b) => {
+        const aCompleted = completedToday.has(a.id);
+        const bCompleted = completedToday.has(b.id);
 
-      // Incomplete codes come first
-      if (!aCompleted && bCompleted) return -1;
-      if (aCompleted && !bCompleted) return 1;
-      return 0; // Keep original order within completed/incomplete groups
+        // Incomplete codes come first
+        if (!aCompleted && bCompleted) return -1;
+        if (aCompleted && !bCompleted) return 1;
+        return 0; // Keep original order within completed/incomplete groups
+      });
+
+      // Only update if order actually changed
+      const orderChanged = reordered.some((code, idx) => code.id !== prevCodes[idx].id);
+      if (orderChanged) {
+        console.log('🔄 Reordering Today\'s Focus codes - moving completed to back');
+        // Reset to first card (which will be incomplete if any exist)
+        setCurrentFocusIndex(0);
+        return reordered;
+      }
+
+      return prevCodes;
     });
-
-    // Only update if order actually changed
-    const orderChanged = reordered.some((code, idx) => code.id !== todaysFocusCodes[idx].id);
-    if (orderChanged) {
-      console.log('🔄 Reordering Today\'s Focus codes - moving completed to back');
-      setTodaysFocusCodes(reordered);
-      // Reset to first card (which will be incomplete if any exist)
-      setCurrentFocusIndex(0);
-    }
-  }, [completedToday, todaysFocusCodes]);
+  }, [completedToday]);
 
   // Handle URL query parameters (?code= and ?practice=)
   useEffect(() => {
