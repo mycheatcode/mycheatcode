@@ -70,6 +70,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     let scenarios: GameScenario[] | null = null;
+    let isUsingHardcodedScenarios = false;
 
     // If cheat code has an onboarding_scenario_id, use hardcoded scenarios
     if (cheatCode?.onboarding_scenario_id) {
@@ -85,6 +86,7 @@ export async function POST(request: NextRequest) {
           user_id: user.id,
           created_at: new Date().toISOString()
         })) as GameScenario[];
+        isUsingHardcodedScenarios = true;
         console.log('✅ Loaded hardcoded scenarios for submission:', scenarios.length);
       } else {
         console.error('❌ No hardcoded scenarios found for:', cheatCode.onboarding_scenario_id);
@@ -200,10 +202,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Save session
+    // For hardcoded scenarios, pass empty array since those IDs don't exist in DB
+    const scenarioIdsToSave = isUsingHardcodedScenarios ? [] : scenario_ids;
+    console.log('💾 Saving game session with scenario_ids:', { isUsingHardcodedScenarios, scenarioIdsToSave });
+
     const { sessionId, error: saveError } = await saveGameSession(
       user.id,
       cheat_code_id,
-      scenario_ids,
+      scenarioIdsToSave,
       user_answers,
       score,
       momentumAwarded,
@@ -212,8 +218,9 @@ export async function POST(request: NextRequest) {
     );
 
     if (saveError || !sessionId) {
+      console.error('❌ Failed to save session:', saveError);
       return NextResponse.json(
-        { success: false, error: 'Failed to save session' },
+        { success: false, error: 'Failed to save session', details: saveError },
         { status: 500 }
       );
     }
