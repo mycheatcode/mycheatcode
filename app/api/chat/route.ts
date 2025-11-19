@@ -4318,12 +4318,12 @@ If you DON'T reference relevant past conversations when they exist, the player w
           if (codesRes.ok) {
             const codes = await codesRes.json();
             if (codes && codes.length > 0) {
-              // Format codes for coach reference
+              // Format codes for coach reference - include FULL content so coach can present them
               const codesList = codes.map((code: any, index: number) => {
                 const parts = [];
-                parts.push(`${index + 1}. **${code.title}** (Category: ${code.category || 'General'})`);
+                parts.push(`${index + 1}. **${code.title}** (ID: ${code.id}, Category: ${code.category || 'General'})`);
 
-                // Extract key information from content
+                // Extract key information for quick reference
                 if (code.content) {
                   const content = code.content;
 
@@ -4331,17 +4331,16 @@ If you DON'T reference relevant past conversations when they exist, the player w
                   const whatMatch = content.match(/\*\*What\*\*:?\s*([\s\S]+?)(?=\n\n|\*\*When\*\*|$)/);
                   if (whatMatch) parts.push(`   What: ${whatMatch[1].trim().substring(0, 150)}`);
 
-                  // Extract When (trigger)
-                  const whenMatch = content.match(/\*\*When\*\*:?\s*([\s\S]+?)(?=\n\n|\*\*How\*\*|$)/);
-                  if (whenMatch) parts.push(`   When to use: ${whenMatch[1].trim().substring(0, 150)}`);
-
                   // Extract Cheat Code Phrase (most important!)
                   const phraseMatch = content.match(/\*\*Cheat Code Phrase\*\*:?\s*"([^"]+)"/);
                   if (phraseMatch) parts.push(`   **Phrase: "${phraseMatch[1]}"**`);
+
+                  // Store full content for presenting
+                  parts.push(`\n   FULL CONTENT FOR PRESENTING:\n   ${content}`);
                 }
 
                 return parts.join('\n');
-              }).join('\n\n');
+              }).join('\n\n---\n\n');
 
               messages.push({
                 role: 'system',
@@ -4353,19 +4352,51 @@ This player already has ${codes.length} saved cheat code${codes.length > 1 ? 's'
 
 ${codesList}
 
-**WHEN TO REFERENCE EXISTING CODES:**
+**HOW TO PRESENT EXISTING CODES:**
 
-1. **When they ask which code to practice** - Don't say "we haven't made one yet!" Tell them which existing code fits their situation.
-   ✅ Example: "For tomorrow's game, I'd practice your 'Attack Mode' code - the one that helps you flip from hesitation to aggression when driving. That phrase 'use my strength' is gonna be key."
+When the user asks to see a code, practice a code, or wants to review a code they already have, you can PRESENT THE FULL CODE with the button by using this format:
 
-2. **When their current struggle relates to an existing code** - Connect the dots for them.
-   ✅ Example: "Yo, this sounds like what we built your 'Next Play Mentality' code for. Have you been using that 'move on' phrase when you make mistakes?"
+1. Write a 1-2 sentence intro explaining which code you're showing them and why
+2. Copy the FULL CONTENT from above EXACTLY as it appears (including the **What:**, **When:**, **How:**, **Why:**, **Remember:**, **Cheat Code Phrase:** sections)
+3. Format it as: **🏀 [Code Title]** followed by all the sections
+4. Add a 1 sentence outro
 
-3. **When they want to make a NEW code for something they already have** - Suggest using the existing one first.
-   ✅ Example: "Actually, your 'Shooter's Confidence' code already addresses this exact situation. Try using that for a few sessions before we build something new."
+**CRITICAL:** When presenting an existing code, you MUST include this marker at the very end (after all content):
+[EXISTING_CODE_ID: {code_id_here}]
 
-4. **When checking in** - Reference codes they created recently.
-   ✅ Example: "How's that 'Pressure Privilege' code working for you? Getting any reps with 'I'm built for this'?"
+This tells the system not to save it as a new code.
+
+**Example of presenting an existing code:**
+
+"For today's game, let me pull up your Let It Fly code. This is perfect for what you're working on.
+
+**🏀 Let It Fly**
+**What:** [full what section]
+**When:** [full when section]
+**How:**
+1. [step 1]
+2. [step 2]
+3. [step 3]
+**Why:** [full why section]
+**Remember:** [full remember section]
+**Cheat Code Phrase:** "[exact phrase]"
+
+[EXISTING_CODE_ID: abc-123-def-456]
+
+Give this a few reps before your game and let me know how it feels!"
+
+**WHEN TO PRESENT VS JUST MENTION:**
+
+- **Present the full code** (with 🏀 format) when:
+  - They ask "which code should I practice?"
+  - They ask to see/review a specific code
+  - They want a refresher on a code
+  - You think showing them the full code would be helpful
+
+- **Just mention it** (no 🏀 format) when:
+  - Casually checking in ("How's that code working?")
+  - Briefly referencing it in conversation
+  - Connecting current struggle to an existing code
 
 **WHEN TO CREATE A NEW CODE:**
 
@@ -4374,7 +4405,7 @@ ${codesList}
 - Their game/situation has evolved and old codes don't fit anymore
 
 **THE RULE:**
-Always be aware of what codes they have. If they ask for help with something they already have a code for, point them to it first. Make them feel like you remember the tools you've built together.`,
+Always be aware of what codes they have. If they ask for help with something they already have a code for, PRESENT that code first (with the full 🏀 format). Make them feel like you remember the tools you've built together.`,
               });
             }
           }

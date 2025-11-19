@@ -12,6 +12,7 @@ export interface ParsedCheatCode {
     stepNumber?: number;
     totalSteps?: number;
   }>;
+  existingCodeId?: string; // If this is an existing code being re-presented
 }
 
 // Convert markdown format to CARD format
@@ -134,6 +135,13 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
     console.log('First 200 chars:', codeBlock.substring(0, 200));
     console.log('Total length:', codeBlock.length);
 
+    // Check for EXISTING_CODE_ID marker (before conversion)
+    const existingCodeMatch = codeBlock.match(/\[EXISTING_CODE_ID:\s*([^\]]+)\]/);
+    const existingCodeId = existingCodeMatch ? existingCodeMatch[1].trim() : undefined;
+    if (existingCodeId) {
+      console.log('🔍 Detected EXISTING CODE ID:', existingCodeId);
+    }
+
     // Check if this is markdown format (contains **🏀)
     const isMarkdown = codeBlock.includes('**🏀');
 
@@ -253,7 +261,7 @@ export function parseCheatCode(codeBlock: string): ParsedCheatCode | null {
     }
 
     console.log('✅ PARSE SUCCESSFUL!');
-    return { title, category, description, cards };
+    return { title, category, description, cards, existingCodeId };
   } catch (error) {
     console.error('❌ PARSE ERROR:', error);
     return null;
@@ -269,6 +277,9 @@ interface CodeCardViewerProps {
 
 export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = true, saveButtonText = 'Save to My Codes' }: CodeCardViewerProps) {
   const [currentCard, setCurrentCard] = useState(0);
+
+  // Don't show save button if this is an existing code being re-presented
+  const shouldShowSaveButton = showSaveButton && !parsedCode.existingCodeId;
 
   // Build full cards array including title card
   const allCards = [
@@ -435,7 +446,7 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
                     "{card.content}"
                   </p>
 
-                  {showSaveButton && onSave && currentCard === allCards.length - 1 && (
+                  {shouldShowSaveButton && onSave && currentCard === allCards.length - 1 && (
                     <div className="space-y-3 lg:space-y-4">
                       <button
                         onClick={onSave}
