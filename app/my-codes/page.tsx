@@ -1960,14 +1960,17 @@ export default function MyCodesRedesignPage() {
       <style jsx>{`
         @keyframes practicePulse {
           0%, 100% {
-            box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4);
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 20px rgba(0, 255, 65, 0.3);
+            transform: scale(1);
           }
           50% {
-            box-shadow: 0 0 0 8px rgba(0, 255, 65, 0);
+            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0), 0 0 30px rgba(0, 255, 65, 0.5);
+            transform: scale(1.02);
           }
         }
         :global(.practice-pulse) {
           animation: practicePulse 2s ease-in-out infinite;
+          position: relative;
         }
       `}</style>
     </div>
