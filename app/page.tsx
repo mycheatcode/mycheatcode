@@ -22,7 +22,8 @@ export default function Home() {
   const [animatedProgress, setAnimatedProgress] = useState(0);
   const [previousProgressValue, setPreviousProgressValue] = useState(0);
   const [showOnboardingTutorials, setShowOnboardingTutorials] = useState(false);
-  const { toastData, showMomentumProgress, dismissToast } = useMomentumProgressToast();
+  const [showMyCodesBadge, setShowMyCodesBadge] = useState(false);
+  const { toastData, showMomentumProgress, dismissToast} = useMomentumProgressToast();
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
@@ -165,6 +166,28 @@ export default function Home() {
     // Always use dark mode
     document.documentElement.classList.add('dark');
   }, []);
+
+  // Check if we should show the My Codes badge
+  useEffect(() => {
+    if (!userId || typeof window === 'undefined') return;
+
+    const today = new Date().toDateString();
+    const visitKey = `myCodesVisited_${userId}`;
+    const completedKey = `todaysFocusCompleted_${userId}`;
+
+    // Check if user visited My Codes today
+    const visitData = localStorage.getItem(visitKey);
+    const hasVisitedToday = visitData ? JSON.parse(visitData).date === today : false;
+
+    // Check if Today's Focus is completed
+    const completedData = localStorage.getItem(completedKey);
+    const todaysFocusCompleted = completedData ?
+      JSON.parse(completedData).date === today && JSON.parse(completedData).completed.length > 0 :
+      false;
+
+    // Show badge if NOT visited today AND NOT completed
+    setShowMyCodesBadge(!hasVisitedToday && !todaysFocusCompleted);
+  }, [userId]);
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
@@ -362,7 +385,10 @@ export default function Home() {
 
         {/* Side-by-side action buttons */}
         <div className="w-full flex gap-3">
-          <Link href="/my-codes" className="flex-1">
+          <Link href="/my-codes" className="flex-1 relative">
+            {showMyCodesBadge && (
+              <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full z-10" style={{ backgroundColor: '#00ff41', boxShadow: '0 0 8px rgba(0, 255, 65, 0.6)' }} />
+            )}
             <button
               className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
               style={{

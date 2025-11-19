@@ -81,6 +81,13 @@ export default function MyCodesRedesignPage() {
     console.log('👤 Loading codes for user:', user.id);
     setUserId(user.id);
 
+    // Mark that user visited My Codes page today
+    if (typeof window !== 'undefined') {
+      const today = new Date().toDateString();
+      const visitKey = `myCodesVisited_${user.id}`;
+      localStorage.setItem(visitKey, JSON.stringify({ date: today }));
+    }
+
     // Load cheat codes
     const { cheatCodes: dbCodes, error: codesError } = await getUserCheatCodes(user.id);
     console.log('📊 getUserCheatCodes response:', { dbCodes, codesError });
@@ -1031,7 +1038,7 @@ export default function MyCodesRedesignPage() {
                                   setGameOnboardingScenarioId(code.onboardingScenarioId);
                                   setShowGameModal(true);
                                 }}
-                                className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                                className={`flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 ${!completedToday.has(code.id) ? 'practice-pulse' : ''}`}
                                 style={{
                                   backgroundColor: completedToday.has(code.id) ? 'rgba(0, 255, 65, 0.15)' : '#00ff41',
                                   color: completedToday.has(code.id) ? '#00ff41' : '#000000'
@@ -1939,6 +1946,21 @@ export default function MyCodesRedesignPage() {
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      {/* Pulse Animation Styles */}
+      <style jsx>{`
+        @keyframes practicePulse {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(0, 255, 65, 0.4);
+          }
+          50% {
+            box-shadow: 0 0 0 8px rgba(0, 255, 65, 0);
+          }
+        }
+        :global(.practice-pulse) {
+          animation: practicePulse 2s ease-in-out infinite;
+        }
+      `}</style>
     </div>
   );
 }
