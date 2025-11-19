@@ -7,6 +7,7 @@ import {
 } from '@/lib/game';
 import { awardGameCompletionMomentum, getUserProgress } from '@/lib/progress';
 import type { SubmitGameSessionRequest, GameSessionResult, GameScenario } from '@/lib/types/game';
+import { ONBOARDING_GAME_SCENARIOS } from '@/lib/onboarding-game-scenarios';
 
 export async function POST(request: NextRequest) {
   try {
@@ -61,50 +62,93 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch the scenarios to calculate score
-    // NOTE: Scenarios can be either user-specific OR premade (user_id IS NULL)
-    console.log('🎮 Fetching scenarios:', { scenario_ids, user_id: user.id });
-    const { data: scenarios, error: scenariosError } = await supabase
-      .from('game_scenarios')
-      .select('*')
-      .in('id', scenario_ids)
-      .or(`user_id.eq.${user.id},user_id.is.null`);
+    // Check if this is an onboarding code with hardcoded scenarios
+    const { data: cheatCode } = await supabase
+      .from('cheat_codes')
+      .select('onboarding_scenario_id')
+      .eq('id', cheat_code_id)
+      .single();
 
-    console.log('🎮 Scenarios query result:', {
-      found: scenarios?.length,
-      error: scenariosError?.message,
-      scenariosError
-    });
+    let scenarios: GameScenario[] | null = null;
 
-    if (scenariosError || !scenarios || scenarios.length !== 3) {
-      console.error('❌ Invalid scenarios:', {
-        scenariosError,
-        foundCount: scenarios?.length,
-        expectedCount: 3,
-        scenario_ids,
-        user_id: user.id
+    // If cheat code has an onboarding_scenario_id, use hardcoded scenarios
+    if (cheatCode?.onboarding_scenario_id) {
+      console.log('🎯 Using hardcoded onboarding scenarios for submission:', cheatCode.onboarding_scenario_id);
+      const hardcodedScenarios = ONBOARDING_GAME_SCENARIOS[cheatCode.onboarding_scenario_id];
+
+      if (hardcodedScenarios && hardcodedScenarios.length >= 3) {
+        // Filter to only the scenarios that were actually used (based on scenario_ids)
+        scenarios = hardcodedScenarios.slice(0, 3).map(s => ({
+          ...s,
+          id: s.id as string,
+          cheat_code_id: cheat_code_id,
+          user_id: user.id,
+          created_at: new Date().toISOString()
+        })) as GameScenario[];
+        console.log('✅ Loaded hardcoded scenarios for submission:', scenarios.length);
+      } else {
+        console.error('❌ No hardcoded scenarios found for:', cheatCode.onboarding_scenario_id);
+        return NextResponse.json(
+          { success: false, error: 'Invalid onboarding scenarios' },
+          { status: 400 }
+        );
+      }
+    } else {
+      // Fetch the scenarios from database to calculate score
+      // NOTE: Scenarios can be either user-specific OR premade (user_id IS NULL)
+      console.log('🎮 Fetching scenarios from database:', { scenario_ids, user_id: user.id });
+      const { data: dbScenarios, error: scenariosError } = await supabase
+        .from('game_scenarios')
+        .select('*')
+        .in('id', scenario_ids)
+        .or(`user_id.eq.${user.id},user_id.is.null`);
+
+      console.log('🎮 Scenarios query result:', {
+        found: dbScenarios?.length,
+        error: scenariosError?.message,
+        scenariosError
       });
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid scenarios',
-          details: {
-            found: scenarios?.length || 0,
-            expected: 3,
-            dbError: scenariosError?.message
-          }
-        },
-        { status: 400 }
-      );
+
+      if (scenariosError || !dbScenarios || dbScenarios.length !== 3) {
+        console.error('❌ Invalid scenarios:', {
+          scenariosError,
+          foundCount: dbScenarios?.length,
+          expectedCount: 3,
+          scenario_ids,
+          user_id: user.id
+        });
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Invalid scenarios',
+            details: {
+              found: dbScenarios?.length || 0,
+              expected: 3,
+              dbError: scenariosError?.message
+            }
+          },
+          { status: 400 }
+        );
+      }
+
+      // Security check: Verify scenarios belong to user OR are premade (NULL user_id)
+      const invalidScenarios = dbScenarios.filter(s => s.user_id !== null && s.user_id !== user.id);
+      if (invalidScenarios.length > 0) {
+        console.error('❌ Scenarios belong to different user:', { invalidScenarios });
+        return NextResponse.json(
+          { success: false, error: 'Unauthorized scenarios' },
+          { status: 403 }
+        );
+      }
+
+      scenarios = dbScenarios as GameScenario[];
     }
 
-    // Security check: Verify scenarios belong to user OR are premade (NULL user_id)
-    const invalidScenarios = scenarios.filter(s => s.user_id !== null && s.user_id !== user.id);
-    if (invalidScenarios.length > 0) {
-      console.error('❌ Scenarios belong to different user:', { invalidScenarios });
+    if (!scenarios || scenarios.length !== 3) {
+      console.error('❌ No scenarios available for score calculation');
       return NextResponse.json(
-        { success: false, error: 'Unauthorized scenarios' },
-        { status: 403 }
+        { success: false, error: 'No scenarios available' },
+        { status: 500 }
       );
     }
 
