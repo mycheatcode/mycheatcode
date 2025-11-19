@@ -396,9 +396,14 @@ export default function ChatPage() {
   const parseCheatCode = (text: string): ParsedCheatCode => {
     const cheatCode: Partial<ParsedCheatCode> = {};
 
-    // Check for EXISTING_CODE_ID marker (extract before parsing)
+    // Check for EXISTING_CODE_ID marker (extract and REMOVE from text)
     const existingCodeMatch = text.match(/\[EXISTING_CODE_ID:\s*([^\]]+)\]/);
     const existingCodeId = existingCodeMatch ? existingCodeMatch[1].trim() : undefined;
+
+    // Strip the marker from the text so it doesn't appear in the UI
+    if (existingCodeMatch) {
+      text = text.replace(/\[EXISTING_CODE_ID:\s*[^\]]+\]/g, '').trim();
+    }
 
     // Helper function to clean asterisks and extra spaces from text
     const cleanText = (str: string): string => {
