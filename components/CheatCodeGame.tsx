@@ -98,14 +98,19 @@ export default function CheatCodeGame({
   useEffect(() => {
     console.log('🎮 CheatCodeGame mounted with:', { cheatCodeId, onboardingScenarioId });
 
-    // If we have an onboarding scenario ID and temp code ID, use hardcoded scenarios
-    if (onboardingScenarioId && cheatCodeId === 'temp-onboarding-code') {
+    // If we have an onboarding scenario ID, use hardcoded scenarios (works for both onboarding and saved codes)
+    if (onboardingScenarioId) {
       console.log('🎯 Using hardcoded onboarding scenarios for:', onboardingScenarioId);
       const onboardingScenarios = ONBOARDING_GAME_SCENARIOS[onboardingScenarioId];
 
       if (onboardingScenarios && onboardingScenarios.length > 0) {
-        // Only use first 2 scenarios for onboarding (quick taste)
-        setScenarios(onboardingScenarios.slice(0, 2));
+        // Use different number of scenarios based on context
+        const scenariosToUse = cheatCodeId === 'temp-onboarding-code'
+          ? onboardingScenarios.slice(0, 2)  // Quick taste during onboarding (2 scenarios)
+          : onboardingScenarios.slice(0, 3); // Full game for saved codes (3 scenarios - API requirement)
+
+        console.log(`✅ Loaded ${scenariosToUse.length} hardcoded scenarios for ${cheatCodeId === 'temp-onboarding-code' ? 'onboarding' : 'saved code'}`);
+        setScenarios(scenariosToUse);
         setLoading(false);
         return;
       } else {
