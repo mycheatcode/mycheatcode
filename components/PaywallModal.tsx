@@ -38,17 +38,20 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)' }}>
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)' }}>
       <div
-        className="relative w-full max-w-md rounded-3xl shadow-2xl max-h-[95vh] overflow-y-auto"
+        className="relative w-full sm:max-w-md sm:rounded-3xl shadow-2xl overflow-y-auto"
         style={{
           background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
+          maxHeight: '95vh',
+          borderTopLeftRadius: '24px',
+          borderTopRightRadius: '24px',
         }}
       >
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-5 right-5 p-2 rounded-full transition-all hover:bg-white/10 z-10"
+          className="absolute top-4 right-4 p-2 rounded-full transition-all hover:bg-white/10 z-10"
           style={{ color: '#888' }}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -58,82 +61,71 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-10 px-6 pb-6">
-          {/* Social Proof Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="9" cy="7" r="4"></circle>
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-            </svg>
-            <span className="text-sm font-semibold" style={{ color: '#00ff41' }}>Join 10,000+ Players</span>
-          </div>
-
-          <h1 className="text-4xl font-bold mb-4 leading-tight" style={{ color: '#ffffff' }}>
+        <div className="text-center pt-8 px-5 pb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
             Play With<br />Unshakeable Confidence
           </h1>
-          <p className="text-lg mb-6" style={{ color: '#999' }}>
+          <p className="text-base sm:text-lg" style={{ color: '#999' }}>
             Stop second-guessing. Start dominating.<br />Your personal mental coach, available 24/7.
           </p>
         </div>
 
         {/* Benefits - Outcome Focused */}
-        <div className="px-6 pb-6 space-y-4">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <div className="px-5 pb-5 space-y-3">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
             <div className="flex-1">
-              <div className="font-bold text-lg mb-1" style={{ color: '#ffffff' }}>Instant Mental Resets</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Get back in your zone after mistakes in seconds, not quarters</div>
+              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Instant Mental Resets</div>
+              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Get back in your zone after mistakes in seconds</div>
             </div>
           </div>
 
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
             <div className="flex-1">
-              <div className="font-bold text-lg mb-1" style={{ color: '#ffffff' }}>Perform Under Pressure</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Master clutch moments with personalized mental game tools</div>
+              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Perform Under Pressure</div>
+              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Master clutch moments with personalized tools</div>
             </div>
           </div>
 
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
             <div className="flex-1">
-              <div className="font-bold text-lg mb-1" style={{ color: '#ffffff' }}>Build Lasting Confidence</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Track your progress and watch your mental toughness grow</div>
+              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Build Lasting Confidence</div>
+              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Track your progress and mental toughness</div>
             </div>
           </div>
 
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <div className="flex items-start gap-3">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
             <div className="flex-1">
-              <div className="font-bold text-lg mb-1" style={{ color: '#ffffff' }}>Unlimited Access</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Chat with your coach anytime, create unlimited codes, practice daily</div>
+              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Unlimited Access</div>
+              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Chat anytime, create unlimited codes, practice daily</div>
             </div>
           </div>
         </div>
 
         {/* Pricing Plans */}
-        <div className="px-6 pb-6">
+        <div className="px-5 pb-5">
           {/* Annual Plan (Recommended) */}
           <div
-            className="relative rounded-2xl p-5 mb-3 cursor-pointer transition-all border-2"
+            className="relative rounded-2xl p-4 mb-3 cursor-pointer transition-all border-2"
             style={{
               backgroundColor: selectedPlan === 'annual' ? 'rgba(0, 255, 65, 0.08)' : 'rgba(255, 255, 255, 0.03)',
               borderColor: selectedPlan === 'annual' ? '#00ff41' : 'rgba(255, 255, 255, 0.1)',
@@ -141,19 +133,19 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
             onClick={() => setSelectedPlan('annual')}
           >
             {/* Best Value Badge */}
-            <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: '#00ff41', color: '#000' }}>
+            <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold" style={{ backgroundColor: '#00ff41', color: '#000' }}>
               BEST VALUE • SAVE 50%
             </div>
 
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center justify-between mt-1">
               <div className="flex-1">
-                <div className="font-bold text-xl mb-1" style={{ color: '#ffffff' }}>Annual Plan</div>
+                <div className="font-bold text-lg sm:text-xl mb-0.5" style={{ color: '#ffffff' }}>Annual Plan</div>
                 <div className="text-sm" style={{ color: '#888' }}>
                   <span className="line-through">$59.88</span> <span className="font-bold" style={{ color: '#00ff41' }}>$29.99/year</span>
                 </div>
-                <div className="text-xs mt-1" style={{ color: '#666' }}>Just $2.50/month • 7-day free trial</div>
+                <div className="text-xs mt-0.5" style={{ color: '#666' }}>Just $2.50/month • 7-day free trial</div>
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedPlan === 'annual' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${selectedPlan === 'annual' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
                 {selectedPlan === 'annual' && (
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#00ff41' }}></div>
                 )}
@@ -163,7 +155,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
 
           {/* Monthly Plan */}
           <div
-            className="rounded-2xl p-5 cursor-pointer transition-all border-2"
+            className="rounded-2xl p-4 cursor-pointer transition-all border-2"
             style={{
               backgroundColor: selectedPlan === 'monthly' ? 'rgba(0, 255, 65, 0.08)' : 'rgba(255, 255, 255, 0.03)',
               borderColor: selectedPlan === 'monthly' ? '#00ff41' : 'rgba(255, 255, 255, 0.1)',
@@ -172,13 +164,13 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
-                <div className="font-bold text-xl mb-1" style={{ color: '#ffffff' }}>Monthly Plan</div>
+                <div className="font-bold text-lg sm:text-xl mb-0.5" style={{ color: '#ffffff' }}>Monthly Plan</div>
                 <div className="text-sm" style={{ color: '#888' }}>
                   <span className="font-bold">$4.99/month</span>
                 </div>
-                <div className="text-xs mt-1" style={{ color: '#666' }}>7-day free trial</div>
+                <div className="text-xs mt-0.5" style={{ color: '#666' }}>7-day free trial</div>
               </div>
-              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${selectedPlan === 'monthly' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
+              <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all flex-shrink-0 ${selectedPlan === 'monthly' ? 'border-[#00ff41]' : 'border-gray-600'}`}>
                 {selectedPlan === 'monthly' && (
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: '#00ff41' }}></div>
                 )}
@@ -188,11 +180,11 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* CTA Button */}
-        <div className="px-6 pb-6">
+        <div className="px-5 pb-5">
           <button
             onClick={handleSubscribe}
             disabled={isLoading}
-            className="w-full py-5 rounded-2xl font-bold text-lg transition-all active:scale-98 mb-4"
+            className="w-full py-4 sm:py-5 rounded-2xl font-bold text-base sm:text-lg transition-all active:scale-98 mb-3"
             style={{
               background: 'linear-gradient(135deg, #00ff41 0%, #00cc33 100%)',
               color: '#000000',
@@ -225,8 +217,8 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* Value Comparison - Compressed */}
-        <div className="px-6 pb-8">
-          <div className="rounded-xl p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+        <div className="px-5 pb-6">
+          <div className="rounded-xl p-3.5" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
             <div className="flex items-center justify-between text-sm">
               <div className="text-center flex-1">
                 <div className="text-xs mb-1" style={{ color: '#888' }}>Sports Psychologist</div>

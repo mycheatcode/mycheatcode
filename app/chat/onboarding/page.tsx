@@ -11,6 +11,7 @@ import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum
 import FeedbackButton from '@/components/FeedbackButton';
 import CheatCodeGame from '@/components/CheatCodeGame';
 import PaywallModal from '@/components/PaywallModal';
+import HomeTutorial from '@/components/HomeTutorial';
 import type { GameSessionResult } from '@/lib/types/game';
 import { DbChat, DbMessage, DbCheatCode } from '@/lib/types';
 
@@ -129,6 +130,7 @@ export default function ChatPage() {
   const [showTutorial3, setShowTutorial3] = useState(false); // "Get reps" button tutorial
   const [isOnboardingMode, setIsOnboardingMode] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false); // Paywall modal after onboarding
+  const [showHomeTutorial, setShowHomeTutorial] = useState(false); // Home tutorial before paywall
   const onboardingLoadedRef = useRef(false); // Track if we've loaded onboarding data
   const router = useRouter();
   const supabase = createClient();
@@ -1581,10 +1583,10 @@ export default function ChatPage() {
     setShowGameModal(false);
     setGameCheatCodeId(null);
 
-    // After game modal closes in onboarding, show paywall
+    // After game modal closes in onboarding, show home tutorial THEN paywall
     if (isOnboardingMode) {
-      // Show paywall modal automatically after onboarding
-      setShowPaywall(true);
+      // Show home navigation tutorial first
+      setShowHomeTutorial(true);
       return;
     }
 
@@ -2451,7 +2453,18 @@ export default function ChatPage() {
         }
       `}} />
 
-      {/* Paywall Modal - appears after onboarding */}
+      {/* Home Tutorial - appears after game, before paywall */}
+      {showHomeTutorial && (
+        <HomeTutorial
+          onComplete={() => {
+            setShowHomeTutorial(false);
+            // Now show paywall after tutorial
+            setShowPaywall(true);
+          }}
+        />
+      )}
+
+      {/* Paywall Modal - appears after home tutorial */}
       <PaywallModal
         isOpen={showPaywall}
         onClose={() => {
