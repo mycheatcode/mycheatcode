@@ -196,13 +196,10 @@ export default function Home() {
     setShowMyCodesBadge(!hasVisitedToday && !todaysFocusCompleted);
   }, [userId]);
 
-  // Check subscription and navigate or show paywall
-  const handleNavigateWithPaywallCheck = (path: string) => {
-    if (canAccessFeature) {
-      router.push(path);
-    } else {
-      setShowPaywall(true);
-    }
+  // Direct navigation - allow browsing, paywall triggers on feature interaction
+  const handleNavigate = (path: string) => {
+    setMenuOpen(false); // Close menu on navigation
+    router.push(path);
   };
 
   const handleSendMessage = (e: React.FormEvent) => {
@@ -255,19 +252,19 @@ export default function Home() {
               </svg>
               <span>Home</span>
             </Link>
-            <button onClick={() => handleNavigateWithPaywallCheck('/my-codes')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+            <button onClick={() => handleNavigate('/my-codes')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M13 10V3L4 14h7v7l9-11h-7z"/>
               </svg>
               <span>My Codes</span>
             </button>
-            <button onClick={() => handleNavigateWithPaywallCheck('/relatable-topics')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+            <button onClick={() => handleNavigate('/relatable-topics')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
               </svg>
               <span>Relatable Topics</span>
             </button>
-            <button onClick={() => handleNavigateWithPaywallCheck('/chat-history')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+            <button onClick={() => handleNavigate('/chat-history')} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
               </svg>
@@ -412,7 +409,7 @@ export default function Home() {
               <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full z-10" style={{ backgroundColor: '#00ff41', boxShadow: '0 0 8px rgba(0, 255, 65, 0.6)' }} />
             )}
             <button
-              onClick={() => handleNavigateWithPaywallCheck('/my-codes')}
+              onClick={() => handleNavigate('/my-codes')}
               className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
               style={{
                 fontSize: 'clamp(0.875rem, 3vw, 1rem)',
@@ -426,7 +423,7 @@ export default function Home() {
           </div>
           <div className="flex-1">
             <button
-              onClick={() => handleNavigateWithPaywallCheck('/relatable-topics')}
+              onClick={() => handleNavigate('/relatable-topics')}
               className="w-full px-4 py-4 rounded-2xl font-medium transition-colors text-center"
               style={{
                 fontSize: 'clamp(0.875rem, 3vw, 1rem)',
