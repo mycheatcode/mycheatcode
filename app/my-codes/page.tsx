@@ -281,33 +281,28 @@ export default function MyCodesRedesignPage() {
   }, [cheatCodes, todaysFocusCodes, completedToday]);
 
   // Reorder carousel to put incomplete codes first when completion state changes
+  // Also trigger when todaysFocusCodes first loads (to handle localStorage completions)
   useEffect(() => {
-    setTodaysFocusCodes(prevCodes => {
-      if (prevCodes.length === 0) return prevCodes;
+    if (todaysFocusCodes.length === 0) return;
 
-      // Create a sorted copy with incomplete codes first
-      const reordered = [...prevCodes].sort((a, b) => {
-        const aCompleted = completedToday.has(a.id);
-        const bCompleted = completedToday.has(b.id);
+    // Create a sorted copy with incomplete codes first
+    const reordered = [...todaysFocusCodes].sort((a, b) => {
+      const aCompleted = completedToday.has(a.id);
+      const bCompleted = completedToday.has(b.id);
 
-        // Incomplete codes come first
-        if (!aCompleted && bCompleted) return -1;
-        if (aCompleted && !bCompleted) return 1;
-        return 0; // Keep original order within completed/incomplete groups
-      });
-
-      // Only update if order actually changed
-      const orderChanged = reordered.some((code, idx) => code.id !== prevCodes[idx].id);
-      if (orderChanged) {
-        console.log('🔄 Reordering Today\'s Focus codes - moving completed to back');
-        // Reset to first card (which will be incomplete if any exist)
-        setCurrentFocusIndex(0);
-        return reordered;
-      }
-
-      return prevCodes;
+      // Incomplete codes come first
+      if (!aCompleted && bCompleted) return -1;
+      if (aCompleted && !bCompleted) return 1;
+      return 0; // Keep original order within completed/incomplete groups
     });
-  }, [completedToday]);
+
+    // Check if current first code is different from what should be first
+    if (todaysFocusCodes[0]?.id !== reordered[0]?.id) {
+      console.log('🔄 Reordering Today\'s Focus codes - incomplete first');
+      setTodaysFocusCodes(reordered);
+      setCurrentFocusIndex(0);
+    }
+  }, [completedToday, todaysFocusCodes.map(c => c.id).join(',')]);
 
   // Handle URL query parameters (?code= and ?practice=)
   useEffect(() => {
@@ -1963,18 +1958,18 @@ export default function MyCodesRedesignPage() {
       {/* Pulse Animation Styles */}
       <style jsx>{`
         @keyframes practicePulse {
-          0%, 100% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7), 0 0 20px rgba(0, 255, 65, 0.3);
-            transform: scale(1);
+          0% {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
           }
           50% {
-            box-shadow: 0 0 0 10px rgba(255, 255, 255, 0), 0 0 30px rgba(0, 255, 65, 0.5);
-            transform: scale(1.02);
+            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+          }
+          100% {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
           }
         }
         :global(.practice-pulse) {
-          animation: practicePulse 2s ease-in-out infinite;
-          position: relative;
+          animation: practicePulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
       `}</style>
     </div>
