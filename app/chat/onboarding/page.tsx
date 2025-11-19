@@ -2472,8 +2472,8 @@ export default function ChatPage() {
         isOpen={showPaywall}
         onClose={() => {
           setShowPaywall(false);
-          // Redirect to home after paywall is seen
-          router.push('/');
+          // Redirect to home after paywall is seen, with onboarding=complete flag for tutorial
+          router.push('/?onboarding=complete');
         }}
         trigger="auto"
       />

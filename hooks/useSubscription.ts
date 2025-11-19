@@ -14,12 +14,15 @@ export function useSubscription() {
     canAccessFeature: false
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
   const supabase = createClient();
 
   useEffect(() => {
     const fetchSubscriptionStatus = async () => {
+      console.log('🔄 useSubscription: Fetching subscription status...');
       setIsLoading(true);
       const status = await checkSubscriptionStatus(supabase);
+      console.log('🔄 useSubscription: Status fetched:', status);
       setSubscriptionStatus(status);
       setIsLoading(false);
     };
@@ -63,10 +66,11 @@ export function useSubscription() {
         }
       });
     };
-  }, [supabase]);
+  }, [supabase, refetchTrigger]);
 
   return {
     ...subscriptionStatus,
-    isLoading
+    isLoading,
+    refetch: () => setRefetchTrigger(prev => prev + 1)
   };
 }

@@ -61,62 +61,39 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-10 px-5 pb-3">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-2 leading-tight" style={{ color: '#ffffff' }}>
-            Play With<br />Unshakeable Confidence
+        <div className="text-center pt-10 px-5 pb-4">
+          <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
+            Your 24/7 Mental<br />Performance Coach
           </h1>
-          <p className="text-sm sm:text-lg" style={{ color: '#999' }}>
-            Stop second-guessing. Start dominating.<br />Your personal mental coach, available 24/7.
+          <p className="text-base sm:text-lg mb-4" style={{ color: '#999' }}>
+            Get the same mental training as elite athletes<br />at a fraction of the cost
           </p>
         </div>
 
-        {/* Benefits - Outcome Focused */}
-        <div className="px-5 pb-4 space-y-2.5">
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
+        {/* Value Comparison - Emphasized */}
+        <div className="px-5 pb-5">
+          <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.08)', border: '2px solid rgba(0, 255, 65, 0.3)' }}>
+            <div className="text-center mb-4">
+              <div className="text-xs font-bold tracking-wider mb-2" style={{ color: '#00ff41' }}>VALUE COMPARISON</div>
             </div>
-            <div className="flex-1">
-              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Instant Mental Resets</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Get back in your zone after mistakes in seconds</div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Perform Under Pressure</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Master clutch moments with personalized tools</div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Build Lasting Confidence</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Track your progress and mental toughness</div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(0, 255, 65, 0.2) 0%, rgba(0, 255, 65, 0.05) 100%)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <div className="flex-1">
-              <div className="font-bold text-base sm:text-lg mb-0.5" style={{ color: '#ffffff' }}>Unlimited Access</div>
-              <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Chat anytime, create unlimited codes, practice daily</div>
+            <div className="flex items-center justify-between">
+              <div className="flex-1 text-center">
+                <div className="text-xs mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
+                <div className="font-bold text-2xl mb-1" style={{ color: '#ffffff' }}>$150</div>
+                <div className="text-xs" style={{ color: '#666' }}>per session</div>
+                <div className="text-xs mt-2" style={{ color: '#666' }}>• Limited availability<br />• Expensive per hour<br />• Hard to schedule</div>
+              </div>
+              <div className="px-4">
+                <div className="text-xl font-bold" style={{ color: '#00ff41' }}>VS</div>
+              </div>
+              <div className="flex-1 text-center">
+                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
+                <div className="font-bold text-2xl mb-1" style={{ color: '#00ff41' }}>
+                  {selectedPlan === 'annual' ? '$2.50' : '$4.99'}
+                </div>
+                <div className="text-xs" style={{ color: '#00ff41' }}>per month</div>
+                <div className="text-xs mt-2" style={{ color: '#00ff41' }}>• Available 24/7<br />• Unlimited access<br />• Instant support</div>
+              </div>
             </div>
           </div>
         </div>
@@ -216,24 +193,6 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
           </div>
         </div>
 
-        {/* Value Comparison - Compressed */}
-        <div className="px-5 pb-5">
-          <div className="rounded-xl p-3.5" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-            <div className="flex items-center justify-between text-sm">
-              <div className="text-center flex-1">
-                <div className="text-xs mb-1" style={{ color: '#888' }}>Sports Psychologist</div>
-                <div className="font-bold" style={{ color: '#ffffff' }}>$150/session</div>
-              </div>
-              <div className="text-xs px-3" style={{ color: '#666' }}>vs</div>
-              <div className="text-center flex-1">
-                <div className="text-xs mb-1" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="font-bold" style={{ color: '#00ff41' }}>
-                  {selectedPlan === 'annual' ? '$2.50/month' : '$4.99/month'}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
