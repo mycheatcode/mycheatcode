@@ -2179,8 +2179,28 @@ export default function ChatPage() {
                               <p className="text-2xl lg:text-4xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
                                 "{(card as any).content}"
                               </p>
-                              {/* Only show save button if this is NOT an existing code being re-presented */}
-                              {!selectedCheatCode.existingCodeId && (
+
+                              {/* Show different buttons based on whether this is a new or existing code */}
+                              {selectedCheatCode.existingCodeId ? (
+                                // Existing code - show practice button
+                                <button
+                                  onClick={() => {
+                                    // Close modal and open game
+                                    setSelectedCheatCode(null);
+                                    resetCards();
+                                    handleStartGame(selectedCheatCode.existingCodeId!, selectedCheatCode.title, false);
+                                  }}
+                                  className="w-full py-4 lg:py-5 rounded-xl font-semibold text-base lg:text-lg transition-all active:scale-95"
+                                  style={{
+                                    backgroundColor: '#00FF41',
+                                    color: '#000000',
+                                    boxShadow: '0 0 15px rgba(0, 255, 65, 0.3)'
+                                  }}
+                                >
+                                  Get Reps In
+                                </button>
+                              ) : (
+                                // New code - show save button
                                 <button
                                   onClick={async () => {
                                     await handleSaveCheatCode(selectedCheatCode.messageId, selectedCheatCode.messageText || '');
