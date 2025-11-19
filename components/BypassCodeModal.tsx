@@ -25,21 +25,32 @@ export default function BypassCodeModal({ isOpen, onClose }: BypassCodeModalProp
     setError('');
     setIsLoading(true);
 
+    console.log('🔐 Bypass code submitted:', code.trim());
+    console.log('🔐 Expected code:', BYPASS_CODE);
+    console.log('🔐 Match:', code.trim() === BYPASS_CODE);
+
     try {
       // Check if code is correct
-      if (code.trim().toUpperCase() !== BYPASS_CODE) {
+      if (code.trim() !== BYPASS_CODE) {
+        console.log('❌ Invalid code entered');
         setError('Invalid bypass code');
         setIsLoading(false);
         return;
       }
 
+      console.log('✅ Code is correct, getting user...');
+
       // Get current user
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
+        console.log('❌ No user logged in');
         setError('You must be logged in');
         setIsLoading(false);
         return;
       }
+
+      console.log('✅ User found:', user.id);
+      console.log('🔄 Attempting to update bypass_subscription...');
 
       // Enable bypass subscription
       const { error: updateError } = await supabase
@@ -48,11 +59,13 @@ export default function BypassCodeModal({ isOpen, onClose }: BypassCodeModalProp
         .eq('id', user.id);
 
       if (updateError) {
-        console.error('Error enabling bypass:', updateError);
-        setError('Failed to enable bypass. Please try again.');
+        console.error('❌ Error enabling bypass:', updateError);
+        setError(`Failed to enable bypass: ${updateError.message}`);
         setIsLoading(false);
         return;
       }
+
+      console.log('✅ Bypass enabled successfully!');
 
       // Success!
       setSuccess(true);
@@ -63,7 +76,7 @@ export default function BypassCodeModal({ isOpen, onClose }: BypassCodeModalProp
       }, 1500);
 
     } catch (err) {
-      console.error('Unexpected error:', err);
+      console.error('❌ Unexpected error:', err);
       setError('An unexpected error occurred');
       setIsLoading(false);
     }

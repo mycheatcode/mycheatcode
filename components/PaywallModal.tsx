@@ -43,7 +43,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         className="relative w-full sm:max-w-md sm:rounded-3xl shadow-2xl overflow-y-auto"
         style={{
           background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
-          maxHeight: '92vh',
+          maxHeight: '88vh',
           borderTopLeftRadius: '24px',
           borderTopRightRadius: '24px',
         }}
@@ -61,7 +61,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-6 px-5 pb-3">
+        <div className="text-center pt-4 px-5 pb-3">
           <h1 className="text-2xl sm:text-4xl font-bold mb-2 leading-tight" style={{ color: '#ffffff' }}>
             Play With<br />Unshakeable Confidence
           </h1>

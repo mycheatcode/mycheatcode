@@ -68,6 +68,20 @@ export default function Home() {
           progressValue: progress.progress
         });
 
+        // If completing onboarding for first time, schedule tutorial to show
+        // We'll show it after momentum animation OR after 3 seconds (whichever comes first)
+        if (isOnboardingComplete && !tutorialsCompleted) {
+          console.log('🎓 Will show tutorials after animation');
+          // Backup timeout in case animation doesn't trigger
+          setTimeout(() => {
+            if (!showOnboardingTutorials) {
+              console.log('🎓 Showing tutorials via backup timeout');
+              setShowOnboardingTutorials(true);
+              router.replace('/', { scroll: false });
+            }
+          }, 5000); // 5 second backup
+        }
+
         // Check if momentum increased since last home page visit
         if (typeof window !== 'undefined') {
           const lastHomeProgress = localStorage.getItem('lastHomePageProgress');
