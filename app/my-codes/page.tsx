@@ -191,6 +191,13 @@ export default function MyCodesRedesignPage() {
     const activeCodes = cheatCodes.filter(c => !c.archived);
     if (activeCodes.length === 0) return;
 
+    // Check if all current Today's Focus codes are completed
+    // If so, keep them and don't select new codes (user has completed today's focus!)
+    if (todaysFocusCodes.length > 0 && todaysFocusCodes.every(code => completedToday.has(code.id))) {
+      console.log('✅ All Today\'s Focus codes completed! Keeping current selection.');
+      return;
+    }
+
     // Get today's date as a seed for consistent daily selection
     const today = new Date();
     const dailySeed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
@@ -271,12 +278,13 @@ export default function MyCodesRedesignPage() {
     const finalSelection = shuffled.slice(0, Math.min(3, shuffled.length));
 
     setTodaysFocusCodes(finalSelection);
-  }, [cheatCodes]);
+  }, [cheatCodes, todaysFocusCodes, completedToday]);
 
   // Reorder carousel to put incomplete codes first when completion state changes
   useEffect(() => {
     if (todaysFocusCodes.length === 0) return;
 
+    // Create a sorted copy with incomplete codes first
     const reordered = [...todaysFocusCodes].sort((a, b) => {
       const aCompleted = completedToday.has(a.id);
       const bCompleted = completedToday.has(b.id);
@@ -290,11 +298,12 @@ export default function MyCodesRedesignPage() {
     // Only update if order actually changed
     const orderChanged = reordered.some((code, idx) => code.id !== todaysFocusCodes[idx].id);
     if (orderChanged) {
+      console.log('🔄 Reordering Today\'s Focus codes - moving completed to back');
       setTodaysFocusCodes(reordered);
       // Reset to first card (which will be incomplete if any exist)
       setCurrentFocusIndex(0);
     }
-  }, [completedToday]);
+  }, [completedToday, todaysFocusCodes]);
 
   // Handle URL query parameters (?code= and ?practice=)
   useEffect(() => {
@@ -1394,7 +1403,7 @@ export default function MyCodesRedesignPage() {
                               setGameOnboardingScenarioId(code.onboardingScenarioId); // Use onboarding scenarios if available
                               setShowGameModal(true);
                             }}
-                            className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                            className={`flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 ${!completedToday.has(code.id) ? 'practice-pulse' : ''}`}
                             style={{
                               backgroundColor: completedToday.has(code.id) ? 'rgba(0, 255, 65, 0.15)' : '#00ff41',
                               color: completedToday.has(code.id) ? '#00ff41' : '#000000'
