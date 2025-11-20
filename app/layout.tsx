@@ -4,6 +4,7 @@ import "./globals.css";
 import PageTransition from "@/components/PageTransition";
 import NotificationToast from "@/components/NotificationToast";
 import PasswordProtection from "@/components/PasswordProtection";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -59,9 +60,11 @@ export default function RootLayout({
         className={`${inter.variable} ${dmSans.variable} antialiased`}
       >
         <PasswordProtection>
-          <PageTransition>
-            {children}
-          </PageTransition>
+          <AnalyticsProvider>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </AnalyticsProvider>
         </PasswordProtection>
         <NotificationToast />
       </body>

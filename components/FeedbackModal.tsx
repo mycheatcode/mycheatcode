@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
+import { Analytics } from '@/lib/analytics';
 
 interface FeedbackModalProps {
   isOpen: boolean;
@@ -129,6 +130,9 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         });
 
       if (insertError) throw insertError;
+
+      // Track feedback submission
+      Analytics.trackFeedbackSubmitted(type, hasRatings, !!screenshot);
 
       setSubmitted(true);
       setTimeout(() => {
