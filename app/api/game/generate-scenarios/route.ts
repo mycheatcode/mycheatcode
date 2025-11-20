@@ -71,6 +71,16 @@ Generate exactly ${scenarioCount} practice scenarios that are DIRECTLY RELATED t
 🚨 CRITICAL - CONTEXTUAL APPROPRIATENESS:
 You MUST tailor scenarios to match the player's level and age. Use the player context above to determine appropriate scenarios.
 
+🚨 CRITICAL - LANGUAGE TONE (MUST FOLLOW):
+Use supportive, encouraging language that builds confidence. AVOID harsh or extreme scenarios:
+- ❌ NEVER use "laugh/laughing at you" → ✅ USE "react/notice/respond"
+- ❌ NEVER use "way better than you" → ✅ USE "more experienced/higher level"
+- ❌ AVOID extreme embarrassment language → ✅ USE gentler alternatives like "noticed/focused on"
+- ❌ NEVER scenarios about coaches laughing → ✅ USE constructive coaching moments
+- Keep situations realistic but not harsh or demoralizing
+- Frame challenges as opportunities for growth, not sources of shame
+- Use language that acknowledges difficulty without being overwhelming
+
 🚨 CRITICAL: Create TWO TYPES of scenarios in a RANDOM MIX:
 
 **TYPE 1: INTERNAL REFRAME (60% of scenarios)**

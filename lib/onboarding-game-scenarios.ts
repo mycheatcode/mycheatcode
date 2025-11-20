@@ -13,7 +13,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       cheat_code_id: 'airball_laugh',
       user_id: 'onboarding',
       situation: "You just airballed a wide-open three in front of the home crowd.",
-      current_thought: "That was embarrassing, everyone saw that",
+      current_thought: "Everyone noticed that miss",
       options: [
         { text: "Next play", type: 'optimal', feedback: "Perfect! You're not dwelling—you're moving forward instantly." },
         { text: "I should probably pass more now", type: 'negative', feedback: "Don't change your game because of one miss. Stay aggressive with next play mentality." },
@@ -27,8 +27,8 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       id: 'airball_2',
       cheat_code_id: 'airball_laugh',
       user_id: 'onboarding',
-      situation: "After a turnover, you hear someone in the stands laugh.",
-      current_thought: "Everyone's judging me right now",
+      situation: "After a turnover, you notice some reaction from the crowd.",
+      current_thought: "Everyone's focused on that mistake",
       options: [
         { text: "Shake it off and get back on defense", type: 'optimal', feedback: "Exactly! Physical reset helps trigger the mental reset. Next play." },
         { text: "Try to make up for it immediately", type: 'negative', feedback: "Forcing plays to 'make up' for mistakes creates more mistakes. Just play the next play." },
@@ -58,7 +58,7 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       cheat_code_id: 'airball_laugh',
       user_id: 'onboarding',
       situation: "You just got blocked hard on a drive to the basket.",
-      current_thought: "That's on video forever, everyone saw me get embarrassed",
+      current_thought: "That's on video forever, everyone saw that",
       options: [
         { text: "Next opportunity to attack", type: 'optimal', feedback: "Yes! You're already thinking about your next chance. That's next play mentality." },
         { text: "I shouldn't drive on them again", type: 'negative', feedback: "Don't let one play change your aggressiveness. Next play." },
@@ -91,11 +91,11 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       id: 'coach_2',
       cheat_code_id: 'coach_yells',
       user_id: 'onboarding',
-      situation: "Coach criticizes your effort in front of the team.",
-      current_thought: "This is so embarrassing, everyone's watching me get called out",
+      situation: "Coach calls you out about effort in front of the team.",
+      current_thought: "Everyone's focused on this moment right now",
       options: [
         { text: "Extract the valid point about effort level", type: 'optimal', feedback: "Exactly! You're filtering out the delivery, keeping the useful feedback." },
-        { text: "Feel embarrassed and defensive", type: 'negative', feedback: "Emotions block the filter. Look for what you can actually use." },
+        { text: "Feel defensive and shut down", type: 'negative', feedback: "Strong emotions block the filter. Look for what you can actually use." },
         { text: "Think about how unfair that was", type: 'negative', feedback: "Fairness thinking blocks learning. Filter for what helps." },
         { text: "Acknowledge and move on", type: 'helpful', feedback: "Moving on is good, but extracting the valid point shows true filtering." }
       ],
@@ -268,8 +268,8 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       id: 'opponent_1',
       cheat_code_id: 'better_opponent',
       user_id: 'onboarding',
-      situation: "You're matched against a player who's clearly more skilled than you.",
-      current_thought: "Just try not to embarrass myself out here",
+      situation: "You're matched against a more experienced player.",
+      current_thought: "Just try to hold my own out here",
       options: [
         { text: "Nothing to lose, play free", type: 'optimal', feedback: "Perfect! When there's zero expectation, you're completely free to be aggressive. This is your moment to play with no fear." },
         { text: "Give it my best effort", type: 'helpful', feedback: "Love the effort mindset! Now add this: since there's no pressure on you, play completely free. That's your superpower." },
