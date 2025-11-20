@@ -59,51 +59,67 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </button>
 
         {/* Hero Section */}
-        <div className="text-center pt-10 px-6 pb-4">
+        <div className="text-center pt-10 px-6 pb-6">
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
             Unlock Your<br />Confidence
           </h1>
-          <p className="text-base mb-5" style={{ color: '#999' }}>
-            Train your mind like elite athletes do — without the $150/hour price tag.
+          <p className="text-base sm:text-lg" style={{ color: '#999' }}>
+            The same mental training elite athletes use,<br />now accessible to everyone
           </p>
         </div>
 
         {/* What You Get */}
-        <div className="px-6 pb-5">
-          <div className="space-y-3">
+        <div className="px-6 pb-6">
+          <div className="space-y-4">
             <div className="flex items-start gap-3">
-              <div className="text-xl flex-shrink-0">🧠</div>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>24/7 Mental Performance Coach</div>
-                <div className="text-sm" style={{ color: '#888' }}>Always ready when pressure hits — before a game, after a loss, or anytime in between.</div>
+                <div className="font-semibold mb-1" style={{ color: '#ffffff' }}>24/7 AI Mental Performance Coach</div>
+                <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Get instant support whenever you need it, not just during office hours</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="text-xl flex-shrink-0">💯</div>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Custom Confidence Plans</div>
-                <div className="text-sm" style={{ color: '#888' }}>Personalized cheat codes for focus, composure, bounce back, and belief.</div>
+                <div className="font-semibold mb-1" style={{ color: '#ffffff' }}>Personalized Mental Training</div>
+                <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Custom strategies for confidence, focus, and peak performance</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="text-xl flex-shrink-0">🔥</div>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Pre-Game Hype + Post-Game Recovery</div>
-                <div className="text-sm" style={{ color: '#888' }}>Get in the zone. Shake off mistakes. Mentally reset fast.</div>
+                <div className="font-semibold mb-1" style={{ color: '#ffffff' }}>Pre-Game Activation & Recovery</div>
+                <div className="text-sm leading-relaxed" style={{ color: '#888' }}>Get in the zone before competition and recover mentally after</div>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="text-xl flex-shrink-0">∞</div>
+              <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)' }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </div>
               <div>
-                <div className="font-semibold mb-0.5" style={{ color: '#ffffff' }}>Unlimited Access</div>
-                <div className="text-sm" style={{ color: '#888' }}>No sessions. No limits. Just pure mental reps whenever you need them.</div>
+                <div className="font-semibold mb-1" style={{ color: '#ffffff' }}>Unlimited Access</div>
+                <div className="text-sm leading-relaxed" style={{ color: '#888' }}>No session limits - train your mind as much as you want</div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Comparison Table */}
-        <div className="px-6 pb-5">
+        <div className="px-6 pb-6">
           <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.08)', border: '2px solid rgba(0, 255, 65, 0.3)' }}>
             <div className="text-center mb-4">
               <div className="text-xs font-bold tracking-wider" style={{ color: '#00ff41' }}>SAME BENEFITS — 96% LESS COST</div>
@@ -114,54 +130,54 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
               {/* Cost Row */}
               <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className="text-sm font-medium" style={{ color: '#888' }}>Cost</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-sm" style={{ color: '#ffffff' }}>$150/hr</div>
-                  <div className="text-sm font-bold" style={{ color: '#00ff41' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/mo</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-sm text-right" style={{ color: '#ffffff', width: '70px' }}>$150/hr</div>
+                  <div className="text-sm font-bold text-right" style={{ color: '#00ff41', width: '70px' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/mo</div>
                 </div>
               </div>
 
               {/* 24/7 Access Row */}
               <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className="text-sm font-medium" style={{ color: '#888' }}>24/7 Access</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-lg">❌</div>
-                  <div className="text-lg">✅</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center" style={{ width: '70px' }}>❌</div>
+                  <div className="text-center" style={{ width: '70px' }}>✅</div>
                 </div>
               </div>
 
               {/* On-Demand Help Row */}
               <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className="text-sm font-medium" style={{ color: '#888' }}>On-Demand Help</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-lg">❌</div>
-                  <div className="text-lg">✅</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center" style={{ width: '70px' }}>❌</div>
+                  <div className="text-center" style={{ width: '70px' }}>✅</div>
                 </div>
               </div>
 
               {/* Built for Athletes Row */}
               <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className="text-sm font-medium" style={{ color: '#888' }}>Built for Athletes</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-lg">✅</div>
-                  <div className="text-lg">✅</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center" style={{ width: '70px' }}>✅</div>
+                  <div className="text-center" style={{ width: '70px' }}>✅</div>
                 </div>
               </div>
 
               {/* No Scheduling Row */}
               <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
                 <div className="text-sm font-medium" style={{ color: '#888' }}>No Scheduling Needed</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-lg">❌</div>
-                  <div className="text-lg">✅</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center" style={{ width: '70px' }}>❌</div>
+                  <div className="text-center" style={{ width: '70px' }}>✅</div>
                 </div>
               </div>
 
               {/* Free Trial Row */}
               <div className="flex items-center justify-between">
                 <div className="text-sm font-medium" style={{ color: '#888' }}>Free Trial</div>
-                <div className="flex items-center gap-4">
-                  <div className="text-lg">❌</div>
-                  <div className="text-sm font-bold" style={{ color: '#00ff41' }}>✅ 7 days</div>
+                <div className="flex items-center gap-6">
+                  <div className="text-center" style={{ width: '70px' }}>❌</div>
+                  <div className="text-sm font-bold text-center" style={{ color: '#00ff41', width: '70px' }}>7 days</div>
                 </div>
               </div>
             </div>
