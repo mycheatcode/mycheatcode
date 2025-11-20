@@ -206,7 +206,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
           </div>
         </div>
 
-        {/* Comparison Section */}
+        {/* Comparison Section - Shows selected plan only */}
         <div className="px-6 pb-6">
           <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.06)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
             <div className="flex items-center justify-between text-center gap-3">
@@ -219,8 +219,12 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <div className="text-lg font-semibold" style={{ color: '#888' }}>vs</div>
               </div>
               <div className="flex-1">
-                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="text-xl font-bold leading-tight" style={{ color: '#00ff41' }}>${selectedPlan === 'annual' ? '0.19' : '0.27'}</div>
+                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>
+                  {selectedPlan === 'annual' ? 'Yearly Plan' : 'Monthly Plan'}
+                </div>
+                <div className="text-xl font-bold leading-tight" style={{ color: '#00ff41' }}>
+                  ${selectedPlan === 'annual' ? '0.19' : '0.27'}
+                </div>
                 <div className="text-xs mt-1" style={{ color: '#00ff41' }}>/day</div>
               </div>
             </div>
