@@ -106,7 +106,7 @@ function ConfirmContent() {
 
             {/* Contact */}
             <div className="text-sm text-gray-600">
-              <p>Questions? Email us at <a href="mailto:team@mycheatcode" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode</a></p>
+              <p>Questions? Email us at <a href="mailto:team@mycheatcode.ai" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode.ai</a></p>
             </div>
           </div>
         </main>
@@ -159,7 +159,7 @@ function ConfirmContent() {
 
           {/* Contact */}
           <div className="text-sm text-gray-600">
-            <p>Need help? Email us at <a href="mailto:team@mycheatcode" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode</a></p>
+            <p>Need help? Email us at <a href="mailto:team@mycheatcode.ai" style={{ color: '#00b248' }} className="hover:underline">team@mycheatcode.ai</a></p>
           </div>
         </div>
       </main>

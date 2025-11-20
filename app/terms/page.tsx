@@ -211,8 +211,8 @@ export default function TermsOfService() {
               If you have questions about these Terms, please contact us:
             </p>
             <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:team@mycheatcode" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode</a></p>
-              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Website: <a href="https://mycheatcode" className="underline" style={{ color: 'var(--accent-color)' }}>mycheatcode</a></p>
+              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:team@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode.ai</a></p>
+              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Website: <a href="https://mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>mycheatcode</a></p>
             </div>
           </section>
         </div>

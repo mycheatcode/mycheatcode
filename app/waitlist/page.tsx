@@ -677,7 +677,7 @@ export default function WaitlistV2Page() {
               <Link href="#" className="text-sm transition-colors" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Privacy</Link>
               <Link href="#" className="text-sm transition-colors" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Terms</Link>
               <a
-                href="mailto:team@mycheatcode"
+                href="mailto:team@mycheatcode.ai"
                 className="text-sm transition-colors"
                 style={{ color: '#00ff41' }}
               >

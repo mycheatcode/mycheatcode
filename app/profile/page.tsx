@@ -225,7 +225,7 @@ export default function Profile() {
       router.push('/signup');
     } catch (err) {
       // Error deleting account handled silently
-      showToast('Failed to delete account. Please contact support at team@mycheatcode', 'error');
+      showToast('Failed to delete account. Please contact support at team@mycheatcode.ai', 'error');
       setIsDeleting(false);
       setShowDeleteConfirm(false);
     }
