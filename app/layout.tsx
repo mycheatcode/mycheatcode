@@ -3,7 +3,6 @@ import { Inter, DM_Sans } from "next/font/google";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
 import NotificationToast from "@/components/NotificationToast";
-import PasswordProtection from "@/components/PasswordProtection";
 import AnalyticsProvider from "@/components/AnalyticsProvider";
 
 const inter = Inter({
@@ -59,13 +58,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${dmSans.variable} antialiased`}
       >
-        <PasswordProtection>
-          <AnalyticsProvider>
-            <PageTransition>
-              {children}
-            </PageTransition>
-          </AnalyticsProvider>
-        </PasswordProtection>
+        <AnalyticsProvider>
+          <PageTransition>
+            {children}
+          </PageTransition>
+        </AnalyticsProvider>
         <NotificationToast />
       </body>
     </html>
