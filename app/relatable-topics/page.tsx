@@ -598,7 +598,8 @@ export default function RelatableTopics() {
       </div>
 
       {/* Main Content */}
-      <div className={`flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8 transition-all duration-300 ${menuOpen ? 'lg:ml-80' : 'lg:ml-0'}`}>
+      <div className={`flex-1 transition-all duration-300 ${menuOpen ? 'lg:pl-80' : ''}`}>
+        <div className="flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8">
         {/* Header */}
         <div className="mb-6">
           <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Relatable Topics</div>
@@ -745,6 +746,7 @@ export default function RelatableTopics() {
             <div className="text-xl lg:text-2xl font-bold mb-2 lg:mb-3" style={{ color: 'var(--text-primary)' }}>Something else on your mind?</div>
             <div className="text-sm lg:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Start a custom chat about whatever's real for you right now</div>
           </div>
+        </div>
         </div>
       </div>
 

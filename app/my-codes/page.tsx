@@ -930,7 +930,8 @@ export default function MyCodesRedesignPage() {
       {/* Desktop Layout */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Main Content with max-w-4xl wrapper */}
-        <div className={`flex-1 pt-8 px-8 pb-8 max-w-4xl mx-auto transition-all duration-300 ${menuOpen ? 'lg:ml-80' : 'lg:ml-0'}`}>
+        <div className={`flex-1 transition-all duration-300 ${menuOpen ? 'lg:pl-80' : ''}`}>
+          <div className="pt-8 px-8 pb-8 max-w-4xl mx-auto">
           <div className="flex flex-col h-full">
             {/* Header */}
             <div className="mb-8">
@@ -1656,6 +1657,7 @@ export default function MyCodesRedesignPage() {
               </div>
             </div>
           )}
+          </div>
         </div>
       </div>
 
