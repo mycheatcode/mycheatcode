@@ -15,14 +15,22 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState('');
 
+  // Rating states (1-10)
+  const [overallRating, setOverallRating] = useState<number | null>(null);
+  const [coachQuality, setCoachQuality] = useState<number | null>(null);
+  const [easeOfUse, setEaseOfUse] = useState<number | null>(null);
+  const [featureValue, setFeatureValue] = useState<number | null>(null);
+
   const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (!message.trim()) {
-      setError('Please enter your feedback');
+    // At least ratings OR message required
+    const hasRatings = overallRating || coachQuality || easeOfUse || featureValue;
+    if (!message.trim() && !hasRatings) {
+      setError('Please provide either ratings or written feedback');
       return;
     }
 
@@ -44,9 +52,13 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         .insert({
           user_id: user.id,
           type,
-          message: message.trim(),
+          message: message.trim() || null,
           page_url: window.location.href,
           user_email: user.email,
+          rating_overall: overallRating,
+          rating_coach_quality: coachQuality,
+          rating_ease_of_use: easeOfUse,
+          rating_feature_value: featureValue,
         });
 
       if (insertError) throw insertError;
@@ -57,6 +69,10 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         setSubmitted(false);
         setMessage('');
         setType('bug');
+        setOverallRating(null);
+        setCoachQuality(null);
+        setEaseOfUse(null);
+        setFeatureValue(null);
       }, 2000);
     } catch (err) {
       console.error('Error submitting feedback:', err);
@@ -152,9 +168,116 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                 </div>
               </div>
 
+              {/* Rating System */}
+              <div className="space-y-4 py-2">
+                <div className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
+                  Quick Ratings (Optional - rate 1-10)
+                </div>
+
+                {/* Overall Experience */}
+                <div>
+                  <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Overall Experience
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setOverallRating(num)}
+                        className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
+                          overallRating === num
+                            ? 'bg-[var(--accent-color)] text-black'
+                            : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
+                        }`}
+                        style={{ color: overallRating === num ? '#000' : 'var(--text-secondary)' }}
+                        disabled={loading}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Coach Quality */}
+                <div>
+                  <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Coach Quality
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setCoachQuality(num)}
+                        className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
+                          coachQuality === num
+                            ? 'bg-[var(--accent-color)] text-black'
+                            : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
+                        }`}
+                        style={{ color: coachQuality === num ? '#000' : 'var(--text-secondary)' }}
+                        disabled={loading}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Ease of Use */}
+                <div>
+                  <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Ease of Use
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setEaseOfUse(num)}
+                        className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
+                          easeOfUse === num
+                            ? 'bg-[var(--accent-color)] text-black'
+                            : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
+                        }`}
+                        style={{ color: easeOfUse === num ? '#000' : 'var(--text-secondary)' }}
+                        disabled={loading}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Feature Value */}
+                <div>
+                  <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Feature Value
+                  </label>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
+                      <button
+                        key={num}
+                        type="button"
+                        onClick={() => setFeatureValue(num)}
+                        className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
+                          featureValue === num
+                            ? 'bg-[var(--accent-color)] text-black'
+                            : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
+                        }`}
+                        style={{ color: featureValue === num ? '#000' : 'var(--text-secondary)' }}
+                        disabled={loading}
+                      >
+                        {num}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
               <div>
                 <label htmlFor="feedback-message" className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                  Your Feedback
+                  Your Feedback (Optional)
                 </label>
                 <textarea
                   id="feedback-message"

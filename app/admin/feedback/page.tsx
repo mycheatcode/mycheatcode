@@ -9,10 +9,14 @@ interface FeedbackItem {
   id: string;
   user_id: string;
   type: 'bug' | 'feature' | 'improvement' | 'other';
-  message: string;
+  message: string | null;
   page_url: string;
   user_email: string;
   created_at: string;
+  rating_overall: number | null;
+  rating_coach_quality: number | null;
+  rating_ease_of_use: number | null;
+  rating_feature_value: number | null;
 }
 
 export default function AdminFeedbackPage() {
@@ -39,10 +43,10 @@ export default function AdminFeedbackPage() {
       }
 
       // Check if user email is in admin list
-      // You can add your email here or use environment variable
       const adminEmails = [
         'hunter@mycheatcode.ai',
-        // Add more admin emails as needed
+        'mycheatcode.ai@gmail.com',
+        'hunter.simson12@gmail.com',
       ];
 
       if (!adminEmails.includes(user.email || '')) {
@@ -195,12 +199,45 @@ export default function AdminFeedbackPage() {
                   </div>
                 </div>
 
+                {/* Ratings */}
+                {(item.rating_overall || item.rating_coach_quality || item.rating_ease_of_use || item.rating_feature_value) && (
+                  <div className="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {item.rating_overall && (
+                      <div className="bg-zinc-800 rounded-lg p-3">
+                        <div className="text-xs text-zinc-400 mb-1">Overall Experience</div>
+                        <div className="text-2xl font-bold text-white">{item.rating_overall}/10</div>
+                      </div>
+                    )}
+                    {item.rating_coach_quality && (
+                      <div className="bg-zinc-800 rounded-lg p-3">
+                        <div className="text-xs text-zinc-400 mb-1">Coach Quality</div>
+                        <div className="text-2xl font-bold text-white">{item.rating_coach_quality}/10</div>
+                      </div>
+                    )}
+                    {item.rating_ease_of_use && (
+                      <div className="bg-zinc-800 rounded-lg p-3">
+                        <div className="text-xs text-zinc-400 mb-1">Ease of Use</div>
+                        <div className="text-2xl font-bold text-white">{item.rating_ease_of_use}/10</div>
+                      </div>
+                    )}
+                    {item.rating_feature_value && (
+                      <div className="bg-zinc-800 rounded-lg p-3">
+                        <div className="text-xs text-zinc-400 mb-1">Feature Value</div>
+                        <div className="text-2xl font-bold text-white">{item.rating_feature_value}/10</div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
                 {/* Message */}
-                <div className="mb-4">
-                  <p className="text-white leading-relaxed whitespace-pre-wrap">
-                    {item.message}
-                  </p>
-                </div>
+                {item.message && (
+                  <div className="mb-4">
+                    <div className="text-xs text-zinc-400 mb-2 font-semibold">Written Feedback:</div>
+                    <p className="text-white leading-relaxed whitespace-pre-wrap">
+                      {item.message}
+                    </p>
+                  </div>
+                )}
 
                 {/* Meta Info */}
                 <div className="flex flex-wrap gap-4 text-xs text-zinc-500">

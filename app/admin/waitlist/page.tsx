@@ -51,7 +51,8 @@ export default function WaitlistAdminPage() {
       // Check if user email is in admin list
       const adminEmails = [
         'hunter@mycheatcode.ai',
-        // Add more admin emails as needed
+        'mycheatcode.ai@gmail.com',
+        'hunter.simson12@gmail.com',
       ];
 
       if (!adminEmails.includes(user.email || '')) {
