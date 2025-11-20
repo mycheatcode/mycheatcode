@@ -23,7 +23,7 @@ const LEVEL_OPTIONS = [
 const SPECIFIC_SCENARIOS = [
   {
     value: 'airball_laugh',
-    label: 'You airball in front of everyone and hear reactions from the other team',
+    label: 'You airball and hear reactions from the other team',
     category: 'In-Game'
   },
   {
