@@ -116,7 +116,7 @@ export default function AdminAnalyticsPage() {
       }, {} as Record<string, number>);
 
       const topEvents = Object.entries(eventCounts)
-        .map(([event_name, count]) => ({ event_name, count }))
+        .map(([event_name, count]) => ({ event_name, count: count as number }))
         .sort((a, b) => b.count - a.count)
         .slice(0, 10);
 
@@ -127,7 +127,7 @@ export default function AdminAnalyticsPage() {
       }, {} as Record<string, number>);
 
       const eventsByCategory = Object.entries(categoryCounts)
-        .map(([category, count]) => ({ category, count }))
+        .map(([category, count]) => ({ category, count: count as number }))
         .sort((a, b) => b.count - a.count);
 
       // Daily engagement (last 7 days)
