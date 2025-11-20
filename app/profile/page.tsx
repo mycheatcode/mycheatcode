@@ -562,7 +562,7 @@ export default function Profile() {
         )}
 
         {/* Main Content */}
-        <div className="flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto">
+        <div className={`flex-1 pt-20 px-8 pb-8 max-w-4xl mx-auto transition-all duration-300 ${menuOpen ? 'lg:ml-80' : 'lg:ml-0'}`}>
           <div className="text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Profile</div>
           <div className="text-lg leading-relaxed mb-8" style={{ color: 'var(--text-secondary)' }}>Track your progress and stats</div>
 

@@ -598,7 +598,7 @@ export default function RelatableTopics() {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8">
+      <div className={`flex flex-col min-h-screen px-4 pt-20 pb-8 max-w-4xl mx-auto lg:px-8 transition-all duration-300 ${menuOpen ? 'lg:ml-80' : 'lg:ml-0'}`}>
         {/* Header */}
         <div className="mb-6">
           <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Relatable Topics</div>
