@@ -61,7 +61,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         {/* Hero Section */}
         <div className="text-center pt-10 px-6 pb-5">
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
-            Unlock Your<br />Mental Edge
+            Unlock Your<br />Confidence
           </h1>
           <p className="text-base sm:text-lg mb-5" style={{ color: '#999' }}>
             The same mental training elite athletes use,<br />now accessible to everyone
