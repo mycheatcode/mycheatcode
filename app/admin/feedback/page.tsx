@@ -17,6 +17,7 @@ interface FeedbackItem {
   rating_coach_quality: number | null;
   rating_ease_of_use: number | null;
   rating_feature_value: number | null;
+  screenshot_url: string | null;
 }
 
 export default function AdminFeedbackPage() {
