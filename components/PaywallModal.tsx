@@ -82,7 +82,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
             <div className="mb-4">
               <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>Monthly</div>
               <div className="font-bold text-4xl mb-1" style={{ color: '#ffffff' }}>$7.99 <span className="text-lg font-normal" style={{ color: '#888' }}>/month</span></div>
-              <div className="text-sm" style={{ color: '#888' }}>7 days free, then $7.99/mo</div>
+              <div className="text-sm" style={{ color: '#888' }}>3 days free, then $7.99/mo</div>
             </div>
 
             <button
@@ -146,7 +146,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
             <div className="mb-4">
               <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>Yearly</div>
               <div className="font-bold text-4xl mb-1" style={{ color: '#ffffff' }}>$69.99 <span className="text-lg font-normal" style={{ color: '#888' }}>/year</span></div>
-              <div className="text-sm" style={{ color: '#888' }}>7 days free, then $69.99 per year ($5.83/mo)</div>
+              <div className="text-sm" style={{ color: '#888' }}>3 days free, then $69.99 per year ($5.83/mo)</div>
             </div>
 
             <button
