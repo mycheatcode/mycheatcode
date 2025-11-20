@@ -208,24 +208,22 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
 
         {/* Comparison Section - Shows selected plan only */}
         <div className="px-6 pb-6">
-          <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.06)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
-            <div className="flex items-center justify-between text-center gap-3">
+          <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}>
+            <div className="flex items-center justify-between text-center">
               <div className="flex-1">
-                <div className="text-xs mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
-                <div className="text-xl font-bold leading-tight" style={{ color: '#ffffff' }}>$150</div>
-                <div className="text-xs mt-1" style={{ color: '#666' }}>/session</div>
+                <div className="text-sm mb-3" style={{ color: '#999' }}>Sports Psychologist</div>
+                <div className="text-3xl font-bold" style={{ color: '#ffffff' }}>
+                  $150<span className="text-lg font-normal" style={{ color: '#888' }}>/hour</span>
+                </div>
               </div>
-              <div className="px-2">
-                <div className="text-lg font-semibold" style={{ color: '#888' }}>vs</div>
+              <div className="px-6">
+                <div className="text-xl font-semibold" style={{ color: '#666' }}>vs</div>
               </div>
               <div className="flex-1">
-                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>
-                  {selectedPlan === 'annual' ? 'Yearly Plan' : 'Monthly Plan'}
+                <div className="text-sm mb-3" style={{ color: '#00ff41' }}>MyCheatCode</div>
+                <div className="text-3xl font-bold" style={{ color: '#00ff41' }}>
+                  ${selectedPlan === 'annual' ? '0.19' : '0.27'}<span className="text-lg font-normal">/day</span>
                 </div>
-                <div className="text-xl font-bold leading-tight" style={{ color: '#00ff41' }}>
-                  ${selectedPlan === 'annual' ? '0.19' : '0.27'}
-                </div>
-                <div className="text-xs mt-1" style={{ color: '#00ff41' }}>/day</div>
               </div>
             </div>
           </div>
