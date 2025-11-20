@@ -124,12 +124,6 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Perform under pressure</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
                 <span>Real in-game scenarios</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
@@ -207,12 +201,6 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
                 <span>Track your progress</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                <span>Perform under pressure</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
