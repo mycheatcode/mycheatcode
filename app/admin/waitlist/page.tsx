@@ -53,6 +53,8 @@ export default function WaitlistAdminPage() {
         'hunter@mycheatcode.ai',
         'mycheatcode.ai@gmail.com',
         'hunter.simson12@gmail.com',
+        'huntersimson11@gmail.com',
+        'hunter@courtcandystore.com',
       ];
 
       if (!adminEmails.includes(user.email || '')) {

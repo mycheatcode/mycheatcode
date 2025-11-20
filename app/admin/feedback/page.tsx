@@ -47,6 +47,8 @@ export default function AdminFeedbackPage() {
         'hunter@mycheatcode.ai',
         'mycheatcode.ai@gmail.com',
         'hunter.simson12@gmail.com',
+        'huntersimson11@gmail.com',
+        'hunter@courtcandystore.com',
       ];
 
       if (!adminEmails.includes(user.email || '')) {
@@ -204,25 +206,25 @@ export default function AdminFeedbackPage() {
                   <div className="mb-4 grid grid-cols-2 md:grid-cols-4 gap-4">
                     {item.rating_overall && (
                       <div className="bg-zinc-800 rounded-lg p-3">
-                        <div className="text-xs text-zinc-400 mb-1">Overall Experience</div>
+                        <div className="text-xs text-zinc-400 mb-1">Coach Experience</div>
                         <div className="text-2xl font-bold text-white">{item.rating_overall}/10</div>
                       </div>
                     )}
                     {item.rating_coach_quality && (
                       <div className="bg-zinc-800 rounded-lg p-3">
-                        <div className="text-xs text-zinc-400 mb-1">Coach Quality</div>
+                        <div className="text-xs text-zinc-400 mb-1">Cheat Code Advice</div>
                         <div className="text-2xl font-bold text-white">{item.rating_coach_quality}/10</div>
                       </div>
                     )}
                     {item.rating_ease_of_use && (
                       <div className="bg-zinc-800 rounded-lg p-3">
-                        <div className="text-xs text-zinc-400 mb-1">Ease of Use</div>
+                        <div className="text-xs text-zinc-400 mb-1">Practice Game Scenarios</div>
                         <div className="text-2xl font-bold text-white">{item.rating_ease_of_use}/10</div>
                       </div>
                     )}
                     {item.rating_feature_value && (
                       <div className="bg-zinc-800 rounded-lg p-3">
-                        <div className="text-xs text-zinc-400 mb-1">Feature Value</div>
+                        <div className="text-xs text-zinc-400 mb-1">Relatable Topic Variety</div>
                         <div className="text-2xl font-bold text-white">{item.rating_feature_value}/10</div>
                       </div>
                     )}
@@ -236,6 +238,27 @@ export default function AdminFeedbackPage() {
                     <p className="text-white leading-relaxed whitespace-pre-wrap">
                       {item.message}
                     </p>
+                  </div>
+                )}
+
+                {/* Screenshot */}
+                {item.screenshot_url && (
+                  <div className="mb-4">
+                    <div className="text-xs text-zinc-400 mb-2 font-semibold">Screenshot:</div>
+                    <a
+                      href={item.screenshot_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <img
+                        src={item.screenshot_url}
+                        alt="User submitted screenshot"
+                        className="max-w-full h-auto rounded-lg border border-zinc-700 hover:border-zinc-600 transition-colors cursor-pointer"
+                        style={{ maxHeight: '400px', objectFit: 'contain' }}
+                      />
+                    </a>
+                    <p className="text-xs text-zinc-500 mt-1">Click to view full size</p>
                   </div>
                 )}
 

@@ -16,21 +16,57 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [error, setError] = useState('');
 
   // Rating states (1-10)
-  const [overallRating, setOverallRating] = useState<number | null>(null);
-  const [coachQuality, setCoachQuality] = useState<number | null>(null);
-  const [easeOfUse, setEaseOfUse] = useState<number | null>(null);
-  const [featureValue, setFeatureValue] = useState<number | null>(null);
+  const [coachExperience, setCoachExperience] = useState<number | null>(null);
+  const [cheatCodeAdvice, setCheatCodeAdvice] = useState<number | null>(null);
+  const [practiceGames, setPracticeGames] = useState<number | null>(null);
+  const [topicVariety, setTopicVariety] = useState<number | null>(null);
+
+  // Screenshot upload
+  const [screenshot, setScreenshot] = useState<File | null>(null);
+  const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
+  const [uploadingScreenshot, setUploadingScreenshot] = useState(false);
 
   const supabase = createClient();
+
+  const handleScreenshotChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check file type
+    if (!file.type.startsWith('image/')) {
+      setError('Please upload an image file (PNG, JPG, JPEG)');
+      return;
+    }
+
+    // Check file size (5MB limit)
+    if (file.size > 5 * 1024 * 1024) {
+      setError('Image must be less than 5MB');
+      return;
+    }
+
+    setScreenshot(file);
+
+    // Create preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setScreenshotPreview(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const removeScreenshot = () => {
+    setScreenshot(null);
+    setScreenshotPreview(null);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    // At least ratings OR message required
-    const hasRatings = overallRating || coachQuality || easeOfUse || featureValue;
-    if (!message.trim() && !hasRatings) {
-      setError('Please provide either ratings or written feedback');
+    // At least ratings OR message OR screenshot required
+    const hasRatings = coachExperience || cheatCodeAdvice || practiceGames || topicVariety;
+    if (!message.trim() && !hasRatings && !screenshot) {
+      setError('Please provide ratings, feedback, or a screenshot');
       return;
     }
 
@@ -46,6 +82,36 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         return;
       }
 
+      let screenshotUrl: string | null = null;
+
+      // Upload screenshot if provided
+      if (screenshot) {
+        setUploadingScreenshot(true);
+        const fileExt = screenshot.name.split('.').pop();
+        const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+        const filePath = `${fileName}`;
+
+        const { error: uploadError, data: uploadData } = await supabase.storage
+          .from('feedback-screenshots')
+          .upload(filePath, screenshot, {
+            cacheControl: '3600',
+            upsert: false
+          });
+
+        if (uploadError) {
+          console.error('Upload error:', uploadError);
+          throw new Error('Failed to upload screenshot');
+        }
+
+        // Get public URL
+        const { data: { publicUrl } } = supabase.storage
+          .from('feedback-screenshots')
+          .getPublicUrl(filePath);
+
+        screenshotUrl = publicUrl;
+        setUploadingScreenshot(false);
+      }
+
       // Insert feedback
       const { error: insertError } = await supabase
         .from('feedback')
@@ -55,10 +121,11 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
           message: message.trim() || null,
           page_url: window.location.href,
           user_email: user.email,
-          rating_overall: overallRating,
-          rating_coach_quality: coachQuality,
-          rating_ease_of_use: easeOfUse,
-          rating_feature_value: featureValue,
+          rating_overall: coachExperience,
+          rating_coach_quality: cheatCodeAdvice,
+          rating_ease_of_use: practiceGames,
+          rating_feature_value: topicVariety,
+          screenshot_url: screenshotUrl,
         });
 
       if (insertError) throw insertError;
@@ -69,16 +136,19 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         setSubmitted(false);
         setMessage('');
         setType('bug');
-        setOverallRating(null);
-        setCoachQuality(null);
-        setEaseOfUse(null);
-        setFeatureValue(null);
+        setCoachExperience(null);
+        setCheatCodeAdvice(null);
+        setPracticeGames(null);
+        setTopicVariety(null);
+        setScreenshot(null);
+        setScreenshotPreview(null);
       }, 2000);
     } catch (err) {
       console.error('Error submitting feedback:', err);
       setError('Failed to submit feedback. Please try again.');
     } finally {
       setLoading(false);
+      setUploadingScreenshot(false);
     }
   };
 
@@ -171,26 +241,26 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               {/* Rating System */}
               <div className="space-y-4 py-2">
                 <div className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>
-                  Quick Ratings (Optional - rate 1-10)
+                  Rate Key Features (Optional - 1-10)
                 </div>
 
-                {/* Overall Experience */}
+                {/* Coach Experience */}
                 <div>
                   <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Overall Experience
+                    Coach Experience
                   </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                       <button
                         key={num}
                         type="button"
-                        onClick={() => setOverallRating(num)}
+                        onClick={() => setCoachExperience(num)}
                         className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
-                          overallRating === num
+                          coachExperience === num
                             ? 'bg-[var(--accent-color)] text-black'
                             : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
                         }`}
-                        style={{ color: overallRating === num ? '#000' : 'var(--text-secondary)' }}
+                        style={{ color: coachExperience === num ? '#000' : 'var(--text-secondary)' }}
                         disabled={loading}
                       >
                         {num}
@@ -199,23 +269,23 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   </div>
                 </div>
 
-                {/* Coach Quality */}
+                {/* Cheat Code Advice */}
                 <div>
                   <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Coach Quality
+                    Cheat Code Advice
                   </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                       <button
                         key={num}
                         type="button"
-                        onClick={() => setCoachQuality(num)}
+                        onClick={() => setCheatCodeAdvice(num)}
                         className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
-                          coachQuality === num
+                          cheatCodeAdvice === num
                             ? 'bg-[var(--accent-color)] text-black'
                             : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
                         }`}
-                        style={{ color: coachQuality === num ? '#000' : 'var(--text-secondary)' }}
+                        style={{ color: cheatCodeAdvice === num ? '#000' : 'var(--text-secondary)' }}
                         disabled={loading}
                       >
                         {num}
@@ -224,23 +294,23 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   </div>
                 </div>
 
-                {/* Ease of Use */}
+                {/* Practice Game Scenarios */}
                 <div>
                   <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Ease of Use
+                    Practice Game Scenarios
                   </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                       <button
                         key={num}
                         type="button"
-                        onClick={() => setEaseOfUse(num)}
+                        onClick={() => setPracticeGames(num)}
                         className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
-                          easeOfUse === num
+                          practiceGames === num
                             ? 'bg-[var(--accent-color)] text-black'
                             : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
                         }`}
-                        style={{ color: easeOfUse === num ? '#000' : 'var(--text-secondary)' }}
+                        style={{ color: practiceGames === num ? '#000' : 'var(--text-secondary)' }}
                         disabled={loading}
                       >
                         {num}
@@ -249,23 +319,23 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   </div>
                 </div>
 
-                {/* Feature Value */}
+                {/* Relatable Topic Variety */}
                 <div>
                   <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Feature Value
+                    Relatable Topic Variety
                   </label>
                   <div className="flex gap-2">
                     {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((num) => (
                       <button
                         key={num}
                         type="button"
-                        onClick={() => setFeatureValue(num)}
+                        onClick={() => setTopicVariety(num)}
                         className={`w-8 h-8 rounded-lg text-xs font-medium transition-all ${
-                          featureValue === num
+                          topicVariety === num
                             ? 'bg-[var(--accent-color)] text-black'
                             : 'bg-[var(--bg-primary)] border border-[var(--card-border)] hover:border-[var(--accent-color)]'
                         }`}
-                        style={{ color: featureValue === num ? '#000' : 'var(--text-secondary)' }}
+                        style={{ color: topicVariety === num ? '#000' : 'var(--text-secondary)' }}
                         disabled={loading}
                       >
                         {num}
@@ -294,6 +364,67 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                   placeholder="Tell us what's on your mind..."
                   disabled={loading}
                 />
+              </div>
+
+              {/* Screenshot Upload */}
+              <div>
+                <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                  Attach Screenshot (Optional)
+                </label>
+
+                {!screenshotPreview ? (
+                  <div className="relative">
+                    <input
+                      type="file"
+                      id="screenshot-upload"
+                      accept="image/*"
+                      onChange={handleScreenshotChange}
+                      disabled={loading}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="screenshot-upload"
+                      className="flex flex-col items-center justify-center w-full h-32 rounded-xl border-2 border-dashed cursor-pointer transition-all hover:border-[var(--accent-color)]"
+                      style={{
+                        borderColor: 'var(--card-border)',
+                        backgroundColor: 'var(--bg-primary)',
+                      }}
+                    >
+                      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--text-secondary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                        <polyline points="21 15 16 10 5 21"></polyline>
+                      </svg>
+                      <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>
+                        Click to upload image
+                      </p>
+                      <p className="text-xs" style={{ color: 'var(--text-secondary)', opacity: 0.7 }}>
+                        PNG, JPG up to 5MB
+                      </p>
+                    </label>
+                  </div>
+                ) : (
+                  <div className="relative rounded-xl overflow-hidden" style={{ border: '1px solid var(--card-border)' }}>
+                    <img
+                      src={screenshotPreview}
+                      alt="Screenshot preview"
+                      className="w-full h-48 object-contain"
+                      style={{ backgroundColor: 'var(--bg-primary)' }}
+                    />
+                    <button
+                      type="button"
+                      onClick={removeScreenshot}
+                      disabled={loading}
+                      className="absolute top-2 right-2 p-2 rounded-lg bg-red-500 hover:bg-red-600 transition-colors"
+                      title="Remove screenshot"
+                    >
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                      </svg>
+                    </button>
+                  </div>
+                )}
               </div>
 
               <div className="flex gap-3">
