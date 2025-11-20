@@ -30,7 +30,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "next play" in your head',
       'Immediately look for your next defensive assignment or offensive opportunity'
     ],
-    why: 'Dwelling on mistakes makes you play worse. This breaks the mental loop and lets you move forward.'
+    why: 'Dwelling on mistakes keeps you stuck. This breaks the mental loop and lets you move forward.'
   },
 
   // 2. Coach yells at you / Can't shake it off
