@@ -63,7 +63,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
     const confirmationUrl = `${process.env.NEXT_PUBLIC_SITE_URL}/waitlist/confirm?token=${confirmationToken}`;
 
     const { data, error } = await resend.emails.send({
-      from: 'MyCheatCode <team@mycheatcode.ai>',
+      from: 'MyCheatCode <team@mycheatcode>',
       to: [email],
       subject: 'Confirm your spot on the MyCheatCode waitlist',
       html: `
@@ -134,7 +134,7 @@ export async function sendConfirmationEmail(email: string): Promise<{ success: b
             <!-- Footer -->
             <div style="text-align: center; color: #6b7280; font-size: 14px;">
               <p style="margin: 0 0 10px 0;">
-                Contact: <a href="mailto:team@mycheatcode.ai" style="color: #00b248; text-decoration: none;">team@mycheatcode.ai</a>
+                Contact: <a href="mailto:team@mycheatcode" style="color: #00b248; text-decoration: none;">team@mycheatcode</a>
               </p>
               <p style="margin: 0; font-size: 12px;">
                 <a href="${process.env.NEXT_PUBLIC_SITE_URL}/waitlist/unsubscribe?email=${encodeURIComponent(email)}" style="color: #6b7280; text-decoration: underline;">

@@ -30,13 +30,13 @@ export default function ShareCard({ data, onShare, onDismiss, className = '' }: 
 
     // Generate share text based on card type
     const shareTexts = {
-      green_hold: `${data.title} in ${data.subtitle} 💚 Locked in with mycheatcode.ai`,
-      full_radar: `${data.title} 🎯 Locked In. No Days Off. Built with mycheatcode.ai`,
-      milestone: `${data.title} - ${data.subtitle} Built with mycheatcode.ai`,
-      radar_snapshot: `${data.title} 🎯 Section Snapshot Built with mycheatcode.ai`
+      green_hold: `${data.title} in ${data.subtitle} 💚 Locked in with mycheatcode`,
+      full_radar: `${data.title} 🎯 Locked In. No Days Off. Built with mycheatcode`,
+      milestone: `${data.title} - ${data.subtitle} Built with mycheatcode`,
+      radar_snapshot: `${data.title} 🎯 Section Snapshot Built with mycheatcode`
     };
 
-    const text = shareTexts[data.type] || `${data.title} - Built with mycheatcode.ai`;
+    const text = shareTexts[data.type] || `${data.title} - Built with mycheatcode`;
 
     // Share based on platform
     switch (platform) {
@@ -80,7 +80,7 @@ export default function ShareCard({ data, onShare, onDismiss, className = '' }: 
 
           {/* Brand Mark in Top Left */}
           <div className="absolute top-4 left-4 text-zinc-500 text-xs uppercase tracking-wide font-medium">
-            mycheatcode.ai
+            mycheatcode
           </div>
 
           {/* Content */}

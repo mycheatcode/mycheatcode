@@ -94,7 +94,7 @@ export default function SignupPage() {
         {/* Header */}
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
           <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
-            MYCHEATCODE.AI
+            MYCHEATCODE
           </div>
         </div>
 
@@ -227,7 +227,7 @@ export default function SignupPage() {
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
           <div className="text-center max-w-md">
             <h1 className="text-4xl font-bold tracking-wide mb-8" style={{ color: '#00ff41' }}>
-              MYCHEATCODE.AI
+              MYCHEATCODE
             </h1>
             <p className="text-zinc-500 text-xs uppercase tracking-widest mb-6">
               Build on court confidence

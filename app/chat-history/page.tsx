@@ -320,7 +320,7 @@ export default function ChatHistory() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
         <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
@@ -391,7 +391,7 @@ export default function ChatHistory() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
 
         <div className="flex-1">
@@ -569,7 +569,7 @@ export default function ChatHistory() {
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
+            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE</div>
           </div>
           <div className="pt-6 px-6">
             <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
@@ -645,7 +645,7 @@ export default function ChatHistory() {
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
+            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE</div>
           </div>
 
           <div className="flex-1 px-8 pb-8 max-w-4xl mx-auto w-full">

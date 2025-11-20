@@ -84,7 +84,7 @@ export default function LoginPage() {
         {/* Header */}
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
           <div className="text-lg font-semibold tracking-wide" style={{ color: '#00ff41' }}>
-            MYCHEATCODE.AI
+            MYCHEATCODE
           </div>
         </div>
 
@@ -183,7 +183,7 @@ export default function LoginPage() {
         {/* Left Side - Branding */}
         <div className="w-1/2 bg-zinc-900 flex flex-col justify-center items-center p-12">
           <div className="text-center">
-            <h1 className="text-4xl font-bold mb-4" style={{ color: '#00ff41' }}>mycheatcode.ai</h1>
+            <h1 className="text-4xl font-bold mb-4" style={{ color: '#00ff41' }}>mycheatcode</h1>
             <p className="text-zinc-400 text-lg leading-relaxed">
               Your AI basketball confidence coach.<br/>
               Build custom cheat codes for peak performance.

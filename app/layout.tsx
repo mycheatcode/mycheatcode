@@ -28,12 +28,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AI Confidence Coach for Basketball Players",
     description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.",
-    url: "https://www.mycheatcode.ai",
+    url: "https://www.mycheatcode",
     siteName: "MyCheatCode AI - Basketball Confidence Coach",
     type: "website",
     images: [
       {
-        url: 'https://www.mycheatcode.ai/og-image.png',
+        url: 'https://www.mycheatcode/og-image.png',
         width: 1200,
         height: 630,
         alt: 'MyCheatCode AI',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "AI Confidence Coach for Basketball Players",
     description: "The first A.I. Mental Performance Coach designed to help you master the mental game of basketball and unlock your full potential on the court.",
-    images: ['https://www.mycheatcode.ai/og-image.png'],
+    images: ['https://www.mycheatcode/og-image.png'],
   },
 };
 

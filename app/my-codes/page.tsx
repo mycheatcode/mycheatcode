@@ -847,7 +847,7 @@ export default function MyCodesRedesignPage() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
         <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
@@ -925,7 +925,7 @@ export default function MyCodesRedesignPage() {
                 <line x1="3" y1="18" x2="21" y2="18"></line>
               </svg>
             </button>
-            <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+            <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
           </div>
 
           <div className="flex-1 px-8 pb-8 max-w-4xl mx-auto w-full">
@@ -1322,7 +1322,7 @@ export default function MyCodesRedesignPage() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
 
         <div className="flex-1 flex flex-col">
@@ -1876,7 +1876,7 @@ export default function MyCodesRedesignPage() {
                 {/* Footer with Branding and Usage Stats */}
                 <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
                   <div className="flex items-center justify-between text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-                    <span>MYCHEATCODE.AI</span>
+                    <span>MYCHEATCODE</span>
                     <span className="flex items-center gap-2">
                       {selectedCode.timesUsed !== undefined && selectedCode.timesUsed > 0 ? (
                         <>

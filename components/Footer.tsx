@@ -20,7 +20,7 @@ export default function Footer() {
         </Link>
       </div>
       <div className="mt-4 text-[10px]" style={{ color: 'var(--text-tertiary)' }}>
-        © {new Date().getFullYear()} MyCheatCode.AI
+        © {new Date().getFullYear()} MyCheatCode
       </div>
     </div>
   );

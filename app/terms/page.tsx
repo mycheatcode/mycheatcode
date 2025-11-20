@@ -31,7 +31,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>1. Agreement to Terms</h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              By accessing or using MyCheatCode.AI ("the Platform," "we," "our," or "us"), you agree to be bound by these Terms of Service.
+              By accessing or using MyCheatCode ("the Platform," "we," "our," or "us"), you agree to be bound by these Terms of Service.
               If you do not agree to these terms, please do not use our Platform.
             </p>
           </section>
@@ -39,7 +39,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>2. Description of Service</h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              MyCheatCode.AI is an AI-powered basketball confidence coaching platform that helps athletes develop mental performance techniques ("Cheat Codes")
+              MyCheatCode is an AI-powered basketball confidence coaching platform that helps athletes develop mental performance techniques ("Cheat Codes")
               through interactive conversations with an AI coach. The Platform includes chat functionality, progress tracking, and personalized mental training tools.
             </p>
           </section>
@@ -95,7 +95,7 @@ export default function TermsOfService() {
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>6. Intellectual Property</h2>
             <h3 className="text-xl font-semibold mb-3 mt-6" style={{ color: 'var(--text-primary)' }}>6.1 Our Rights</h3>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              The Platform, including all content, features, functionality, software, and AI models, are owned by MyCheatCode.AI and protected by copyright,
+              The Platform, including all content, features, functionality, software, and AI models, are owned by MyCheatCode and protected by copyright,
               trademark, and other intellectual property laws. You may not copy, modify, distribute, or reverse engineer any part of our Platform.
             </p>
 
@@ -155,7 +155,7 @@ export default function TermsOfService() {
 
             <h3 className="text-xl font-semibold mb-3 mt-6" style={{ color: 'var(--text-primary)' }}>10.2 Limitation of Liability</h3>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              To the maximum extent permitted by law, MyCheatCode.AI shall not be liable for any indirect, incidental, special, consequential, or punitive damages,
+              To the maximum extent permitted by law, MyCheatCode shall not be liable for any indirect, incidental, special, consequential, or punitive damages,
               or any loss of profits or revenues, whether direct or indirect. Our total liability shall not exceed the amount you paid us in the past 12 months.
             </p>
           </section>
@@ -163,7 +163,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>11. Indemnification</h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              You agree to indemnify and hold harmless MyCheatCode.AI, its officers, directors, employees, and agents from any claims, damages, losses,
+              You agree to indemnify and hold harmless MyCheatCode, its officers, directors, employees, and agents from any claims, damages, losses,
               or expenses arising from your use of the Platform, violation of these Terms, or violation of any rights of another.
             </p>
           </section>
@@ -201,7 +201,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>16. Entire Agreement</h2>
             <p style={{ color: 'var(--text-secondary)', lineHeight: '1.7' }}>
-              These Terms, together with our Privacy Policy, constitute the entire agreement between you and MyCheatCode.AI regarding the Platform.
+              These Terms, together with our Privacy Policy, constitute the entire agreement between you and MyCheatCode regarding the Platform.
             </p>
           </section>
 
@@ -211,8 +211,8 @@ export default function TermsOfService() {
               If you have questions about these Terms, please contact us:
             </p>
             <div className="mt-4 p-4 rounded-lg" style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}>
-              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:team@mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode.ai</a></p>
-              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Website: <a href="https://mycheatcode.ai" className="underline" style={{ color: 'var(--accent-color)' }}>mycheatcode.ai</a></p>
+              <p style={{ color: 'var(--text-secondary)' }}>Email: <a href="mailto:team@mycheatcode" className="underline" style={{ color: 'var(--accent-color)' }}>team@mycheatcode</a></p>
+              <p className="mt-2" style={{ color: 'var(--text-secondary)' }}>Website: <a href="https://mycheatcode" className="underline" style={{ color: 'var(--accent-color)' }}>mycheatcode</a></p>
             </div>
           </section>
         </div>

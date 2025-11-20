@@ -97,7 +97,7 @@ export default function WaitlistV2Page() {
       <header className="sticky top-0 z-50 bg-white shadow-sm">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl md:text-2xl font-bold" style={{ color: '#00b248' }}>MYCHEATCODE.AI</h2>
+            <h2 className="text-xl md:text-2xl font-bold" style={{ color: '#00b248' }}>MYCHEATCODE</h2>
             <button
               onClick={() => {
                 const form = document.getElementById('waitlist-form');
@@ -490,7 +490,7 @@ export default function WaitlistV2Page() {
           <div className="space-y-4">
             {[
               {
-                question: "Is MyCheatCode.AI free?",
+                question: "Is MyCheatCode free?",
                 answer: "We're currently in beta and building our waitlist. Pricing details will be shared with waitlist members first."
               },
               {
@@ -499,15 +499,15 @@ export default function WaitlistV2Page() {
               },
               {
                 question: "What makes this different from regular coaching?",
-                answer: "MyCheatCode.AI is available 24/7, provides instant feedback, and creates custom mental strategies you can save and use anytime. It's like having a confidence coach in your pocket."
+                answer: "MyCheatCode is available 24/7, provides instant feedback, and creates custom mental strategies you can save and use anytime. It's like having a confidence coach in your pocket."
               },
               {
                 question: "Do I need basketball experience to use this?",
-                answer: "No! Whether you're just starting out or playing at an elite level, MyCheatCode.AI adapts to your experience and helps you build confidence for your specific situations."
+                answer: "No! Whether you're just starting out or playing at an elite level, MyCheatCode adapts to your experience and helps you build confidence for your specific situations."
               },
               {
                 question: "Is this therapy or counseling?",
-                answer: "No. MyCheatCode.AI is a mental performance coaching tool focused on building confidence and mental toughness. We are not therapists, and this is not a replacement for professional mental health services. Think of it like having a knowledgeable older player who helps you work through the mental side of basketball."
+                answer: "No. MyCheatCode is a mental performance coaching tool focused on building confidence and mental toughness. We are not therapists, and this is not a replacement for professional mental health services. Think of it like having a knowledgeable older player who helps you work through the mental side of basketball."
               },
               {
                 question: "Who is this for?",
@@ -519,7 +519,7 @@ export default function WaitlistV2Page() {
               },
               {
                 question: "What if I'm dealing with something serious?",
-                answer: "If you're experiencing a mental health crisis, thoughts of self-harm, or other serious concerns, please reach out to a qualified professional immediately. You can contact the 988 Suicide & Crisis Lifeline (call or text 988) or the Crisis Text Line (text HOME to 741741). MyCheatCode.AI is designed for performance coaching, not crisis intervention."
+                answer: "If you're experiencing a mental health crisis, thoughts of self-harm, or other serious concerns, please reach out to a qualified professional immediately. You can contact the 988 Suicide & Crisis Lifeline (call or text 988) or the Crisis Text Line (text HOME to 741741). MyCheatCode is designed for performance coaching, not crisis intervention."
               }
             ].map((faq, index) => (
               <details key={index} className="group border-b border-gray-200">
@@ -557,7 +557,7 @@ export default function WaitlistV2Page() {
           {/* Disclaimer */}
           <div className="pt-8">
             <p className="text-xs text-gray-400 leading-relaxed max-w-3xl mx-auto">
-              MyCheatCode.AI provides mental performance coaching and is not a substitute for professional mental health services. Users must be 13+. <Link href="#" className="underline hover:text-gray-500">Terms</Link> | <Link href="#" className="underline hover:text-gray-500">Privacy</Link> | <Link href="#" className="underline hover:text-gray-500">Crisis Resources</Link>
+              MyCheatCode provides mental performance coaching and is not a substitute for professional mental health services. Users must be 13+. <Link href="#" className="underline hover:text-gray-500">Terms</Link> | <Link href="#" className="underline hover:text-gray-500">Privacy</Link> | <Link href="#" className="underline hover:text-gray-500">Crisis Resources</Link>
             </p>
           </div>
         </div>
@@ -677,11 +677,11 @@ export default function WaitlistV2Page() {
               <Link href="#" className="text-sm transition-colors" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Privacy</Link>
               <Link href="#" className="text-sm transition-colors" style={{ color: 'rgba(255, 255, 255, 0.7)' }}>Terms</Link>
               <a
-                href="mailto:team@mycheatcode.ai"
+                href="mailto:team@mycheatcode"
                 className="text-sm transition-colors"
                 style={{ color: '#00ff41' }}
               >
-                team@mycheatcode.ai
+                team@mycheatcode
               </a>
             </div>
           </div>

@@ -474,7 +474,7 @@ export default function CodeCardViewer({ parsedCode, onSave, showSaveButton = tr
           {/* Footer with Branding */}
           <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
             <div className="flex items-center justify-between text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-              <span>MYCHEATCODE.AI</span>
+              <span>MYCHEATCODE</span>
               <span>Card {currentCard + 1} of {allCards.length}</span>
             </div>
           </div>

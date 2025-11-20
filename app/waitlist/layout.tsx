@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Basketball Confidence Coach - Join Waitlist",
     description: "Master the mental game of basketball and unlock your full potential on the court.",
-    url: "https://www.mycheatcode.ai/waitlist",
+    url: "https://www.mycheatcode/waitlist",
     siteName: "Basketball Confidence Coach - Join Waitlist",
     type: "website",
     images: [
       {
-        url: 'https://www.mycheatcode.ai/og-image.png',
+        url: 'https://www.mycheatcode/og-image.png',
         width: 1200,
         height: 630,
         alt: 'MyCheatCode AI',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Basketball Confidence Coach - Join Waitlist",
     description: "Master the mental game of basketball and unlock your full potential on the court.",
-    images: ['https://www.mycheatcode.ai/og-image.png'],
+    images: ['https://www.mycheatcode/og-image.png'],
   },
 };
 

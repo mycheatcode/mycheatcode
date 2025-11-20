@@ -27,7 +27,7 @@ interface ShareCardProps {
 ```
 
 **Visual Elements**:
-- Brand mark: "mycheatcode.ai" positioned in top-left corner
+- Brand mark: "mycheatcode" positioned in top-left corner
 - Radar visualization: 288x288px (w-72 h-72) with real data
 - Performance level titles: "Activated", "Rising", "Elevated", "Limitless"
 - Overall statistics: Average percentage and key features (streaks/green sections)
@@ -77,28 +77,28 @@ export interface ShareCardData {
 - **Subtitle**: "My Status"
 - **Visual**: Complete radar with all section data
 - **Stats Display**: Overall average percentage + longest streak OR green sections count
-- **Share Text**: `"[Title] 🎯 Locked In. No Days Off. Built with mycheatcode.ai"`
+- **Share Text**: `"[Title] 🎯 Locked In. No Days Off. Built with mycheatcode"`
 
 #### B. Green Hold (`green_hold`)
 - **Purpose**: Celebrate sustained green performance in specific section
 - **Title**: "[X] Days Green"
 - **Subtitle**: Section name
 - **Visual**: Radar + center highlight showing days count
-- **Share Text**: `"[Title] in [Subtitle] 💚 Locked in with mycheatcode.ai"`
+- **Share Text**: `"[Title] in [Subtitle] 💚 Locked in with mycheatcode"`
 
 #### C. Full Radar (`full_radar`)
 - **Purpose**: Celebrate achieving all sections green
 - **Title**: "Full Radar Unlocked"
 - **Subtitle**: "All Sections Green"
 - **Visual**: Perfect green radar (all sections at 100%)
-- **Share Text**: `"[Title] 🎯 Locked In. No Days Off. Built with mycheatcode.ai"`
+- **Share Text**: `"[Title] 🎯 Locked In. No Days Off. Built with mycheatcode"`
 
 #### D. Milestone (`milestone`)
 - **Purpose**: Celebrate specific section achievements
 - **Title**: Custom achievement title
 - **Subtitle**: Achievement description
 - **Visual**: Radar + section-specific highlight
-- **Share Text**: `"[Title] - [Subtitle] Built with mycheatcode.ai"`
+- **Share Text**: `"[Title] - [Subtitle] Built with mycheatcode"`
 
 ### 4. Performance Level System
 
@@ -202,10 +202,10 @@ export function useShareCard() {
 ### 9. Share Text Templates
 
 **Template Patterns**:
-- Green Hold: `"[Days] Days Green in [Section] 💚 Locked in with mycheatcode.ai"`
-- Full Radar: `"Full Radar Unlocked 🎯 Locked In. No Days Off. Built with mycheatcode.ai"`
-- Milestone: `"[Title] - [Subtitle] Built with mycheatcode.ai"`
-- Radar Snapshot: `"[Performance Level] 🎯 Locked In. No Days Off. Built with mycheatcode.ai"`
+- Green Hold: `"[Days] Days Green in [Section] 💚 Locked in with mycheatcode"`
+- Full Radar: `"Full Radar Unlocked 🎯 Locked In. No Days Off. Built with mycheatcode"`
+- Milestone: `"[Title] - [Subtitle] Built with mycheatcode"`
+- Radar Snapshot: `"[Performance Level] 🎯 Locked In. No Days Off. Built with mycheatcode"`
 
 ### 10. Technical Implementation Notes
 

@@ -19,7 +19,7 @@ export default function WelcomePage() {
       <div className="lg:hidden bg-black min-h-screen relative flex flex-col">
         {/* Header */}
         <div className="p-4 text-center border-b border-zinc-800 flex-shrink-0">
-          <div className="text-white text-lg font-semibold">mycheatcode.ai</div>
+          <div className="text-white text-lg font-semibold">mycheatcode</div>
         </div>
 
         {/* Welcome Content */}
@@ -179,7 +179,7 @@ export default function WelcomePage() {
         <div className="w-1/2 bg-black flex flex-col justify-center p-12">
           <div className="max-w-md mx-auto w-full">
             <div className="text-center mb-8">
-              <div className="text-white text-2xl font-bold mb-2">mycheatcode.ai</div>
+              <div className="text-white text-2xl font-bold mb-2">mycheatcode</div>
               <h2 className="text-3xl font-bold text-white mb-4">Ready to Level Up?</h2>
               <p className="text-zinc-400">Join thousands of players building their mental game</p>
             </div>

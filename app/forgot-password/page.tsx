@@ -39,7 +39,7 @@ export default function ForgotPassword() {
     <div className="min-h-screen flex items-center justify-center p-4" style={{ backgroundColor: '#000000' }}>
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold mb-2" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</h1>
+          <h1 className="text-3xl font-bold mb-2" style={{ color: '#00ff41' }}>MYCHEATCODE</h1>
           <p className="text-lg" style={{ color: 'var(--text-secondary)' }}>Reset Your Password</p>
         </div>
 

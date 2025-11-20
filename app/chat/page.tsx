@@ -1797,7 +1797,7 @@ export default function ChatPage() {
                   </svg>
                 </button>
               )}
-              <div className="text-xl app-label" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+              <div className="text-xl app-label" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
             </div>
             <div className="text-lg font-semibold absolute left-1/2 transform -translate-x-1/2" style={{ color: 'var(--text-primary)' }}>Live Chat</div>
             <div className="w-[180px]"></div>
@@ -2241,7 +2241,7 @@ export default function ChatPage() {
                 {/* Footer with Branding */}
                 <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
                   <div className="text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-                    MYCHEATCODE.AI
+                    MYCHEATCODE
                   </div>
                 </div>
               </div>

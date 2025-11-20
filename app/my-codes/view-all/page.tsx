@@ -625,7 +625,7 @@ export default function ViewAllCodesPage() {
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
           </button>
-          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
         <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
@@ -694,7 +694,7 @@ export default function ViewAllCodesPage() {
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
 
         {/* Search */}
@@ -819,7 +819,7 @@ export default function ViewAllCodesPage() {
                 <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
               </svg>
             </button>
-            <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+            <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
           </div>
 
           <div className="flex-1 px-8 pb-8 max-w-4xl mx-auto w-full">
@@ -1141,7 +1141,7 @@ export default function ViewAllCodesPage() {
                 {/* Footer with Branding and Usage Stats */}
                 <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
                   <div className="flex items-center justify-between text-[9px] lg:text-[10px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
-                    <span>MYCHEATCODE.AI</span>
+                    <span>MYCHEATCODE</span>
                     <span className="flex items-center gap-2">
                       {selectedCode.timesUsed !== undefined && selectedCode.timesUsed > 0 ? (
                         <>
