@@ -6,15 +6,23 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  * FIRST-TIME BONUSES (one-time only):
  * - Onboarding completion: +25% (gets user to baseline)
  * - First meaningful chat (5+ USER messages, avg 20+ chars): +2%
- * - First code created: +5%
- * - First code completion: +3%
+ * - First code created: +3%
+ * - First code completion: +2%
  *
  * CODE CREATION GAINS (based on CURRENT momentum):
- * - Momentum 25-39%: +4% per code
- * - Momentum 40-59%: +2.5% per code
- * - Momentum 60-79%: +2% per code
- * - Momentum 80-99%: +2% per code
- * - Momentum 100%: +1% per code
+ * - Momentum 0-39%: +2% per code
+ * - Momentum 40-59%: +1.5% per code
+ * - Momentum 60-79%: +1% per code
+ * - Momentum 80-99%: +1% per code
+ * - Momentum 100%: +0.5% per code
+ *
+ * GAME COMPLETION GAINS:
+ * - 3/3 score: +1.5%
+ * - 2/3 score: +1%
+ * - 1/3 score: +0.5%
+ * - 0/3 score: 0%
+ * - First play bonus (right after creating code): +0.5%
+ * - Max 3 games per day count towards momentum
  *
  * MEANINGFUL CHATS:
  * - Requirements: 5+ USER messages (AI doesn't count), avg 20+ chars, no code created
@@ -44,17 +52,17 @@ const BASELINE_CONFIDENCE = 25;
 
 // First-time bonus amounts
 const FIRST_CHAT_BONUS = 2;
-const FIRST_CODE_BONUS = 5;
-const FIRST_COMPLETION_BONUS = 3;
+const FIRST_CODE_BONUS = 3; // Reduced from 5 to 3
+const FIRST_COMPLETION_BONUS = 2; // Reduced from 3 to 2
 const ONBOARDING_COMPLETION_BONUS = 25; // Users start at 0%, earn their way to 25% baseline through onboarding
 
-// Code creation gains by momentum tier
+// Code creation gains by momentum tier (reduced for better balance)
 function getCodeCreationGain(currentMomentum: number): number {
-  if (currentMomentum < 40) return 4;
-  if (currentMomentum < 60) return 2.5;
-  if (currentMomentum < 80) return 2;
-  if (currentMomentum < 100) return 2;
-  return 1; // At 100%
+  if (currentMomentum < 40) return 2; // Reduced from 4 to 2
+  if (currentMomentum < 60) return 1.5; // Reduced from 2.5 to 1.5
+  if (currentMomentum < 80) return 1; // Reduced from 2 to 1
+  if (currentMomentum < 100) return 1; // Reduced from 2 to 1
+  return 0.5; // Reduced from 1 to 0.5
 }
 
 // Meaningful chat gain
@@ -629,8 +637,8 @@ export async function awardCodeCompletionMomentum(supabase: SupabaseClient, user
 
 /**
  * Award momentum for completing a game
- * Score-based: 3/3 = +5%, 2/3 = +3%, 1/3 = +1%, 0/3 = 0%
- * First play bonus: +5% additional if played immediately after code creation
+ * Score-based: 3/3 = +1.5%, 2/3 = +1%, 1/3 = +0.5%, 0/3 = 0%
+ * First play bonus: +0.5% additional if played immediately after code creation
  */
 export async function awardGameCompletionMomentum(
   supabase: SupabaseClient,
@@ -649,13 +657,13 @@ export async function awardGameCompletionMomentum(
 
   let gainAmount = 0;
 
-  // Score-based momentum (reduced for more meaningful progression)
+  // Score-based momentum (reduced for better balance)
   if (score === 3) {
-    gainAmount += 2; // Perfect score
+    gainAmount += 1.5; // Perfect score - reduced from 2 to 1.5
   } else if (score === 2) {
     gainAmount += 1; // Good score
   } else if (score === 1) {
-    gainAmount += 1; // Okay score - changed from 0.5 to 1 for better UX
+    gainAmount += 0.5; // Okay score - reduced from 1 to 0.5
   }
   // score === 0 gets nothing
 
@@ -670,7 +678,7 @@ export async function awardGameCompletionMomentum(
 
   // First play bonus (if played right after code creation) - reduced
   if (isFirstPlay) {
-    const bonusGain = 1;
+    const bonusGain = 0.5; // Reduced from 1 to 0.5
     gainAmount += bonusGain;
     await recordMomentumGain(supabase, userId, bonusGain, 'first_game', {
       code_id: codeId,
