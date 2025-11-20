@@ -23,8 +23,8 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
     title: 'Bounce Back Protocol',
     phrase: 'Next play mentality',
     category: 'Next play, keep it moving',
-    what: 'This helps you recover instantly from embarrassing mistakes and get your head back in the game without dwelling on what just happened.',
-    when: 'Use this the moment after any mistake that makes you feel exposed or embarrassed - whether it\'s an airball, turnover, or any play that makes you want to hide.',
+    what: 'This helps you recover instantly from tough moments and get your head back in the game without dwelling on what just happened.',
+    when: 'Use this the moment after any mistake that makes you feel exposed - whether it\'s an airball, turnover, or any play that everyone noticed.',
     how: [
       'Take one deep breath and physically shake out your shoulders',
       'Say "next play" in your head',
@@ -39,14 +39,14 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
     title: 'Filter System',
     phrase: 'Take what helps, leave the rest',
     category: 'Take what helps, leave the rest',
-    what: 'This is a mental filtering technique to extract useful coaching from harsh delivery, so you get better without getting beaten down emotionally.',
+    what: 'This is a mental filtering technique to extract useful coaching from harsh delivery, so you get better while protecting your confidence.',
     when: 'Use this when coach\'s words are mixing valid points with emotional intensity, and you need to sort through what\'s actually helpful.',
     how: [
       'Ask yourself "What\'s the actual instruction here?" (ignore the tone)',
       'Say "Take what helps, leave the rest" in your head',
       'Apply the useful feedback, forget the emotional charge'
     ],
-    why: 'Not all coaches communicate perfectly. This teaches you to be a smart filter - take the gold, leave the garbage.'
+    why: 'Not all coaches communicate perfectly. This teaches you to be a smart filter - take what helps, leave what doesn\'t.'
   },
 
   // 3. Playing great, miss one shot and spiral
@@ -55,7 +55,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
     title: 'Keep Shooting',
     phrase: 'Shooters shoot',
     category: 'Shooters shoot',
-    what: 'This reinforces your identity as a scorer and keeps you aggressive after a miss, preventing the tentative mindset that ruins hot streaks.',
+    what: 'This reinforces your identity as a scorer and keeps you aggressive after a miss, preventing the tentative mindset that slows you down.',
     when: 'Use this when you miss and feel the urge to pass up your next shot because you\'re worried about going cold.',
     how: [
       'Acknowledge the miss but don\'t analyze it',
@@ -88,7 +88,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
     phrase: 'Play free, play fearless',
     category: 'Play free, play fearless',
     what: 'This removes outcome pressure by accepting you\'re the underdog, which paradoxically frees you to play your best and sometimes shock people.',
-    when: 'Use this when you\'re matched up against someone everyone expects to dominate you, and you feel the pressure to not look bad.',
+    when: 'Use this when you\'re matched up against someone everyone expects to dominate you, and you feel that pressure.',
     how: [
       'Accept that expectations are low (nobody expects you to win)',
       'Say "Play free, play fearless" in your head',
@@ -110,7 +110,7 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
       'Say "Noted, next" in your head',
       'Apply that one thing on your next opportunity'
     ],
-    why: 'Learning is quick extraction. Dwelling is endless replay. This gets the lesson while releasing the shame.'
+    why: 'Learning is quick extraction. Dwelling is endless replay. This gets the lesson while letting go of the moment.'
   },
 
   // 7. In your head overthinking / Not just playing
