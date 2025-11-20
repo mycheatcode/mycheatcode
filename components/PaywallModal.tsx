@@ -243,22 +243,22 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* Comparison Section - Shows selected plan only */}
-        <div className="px-6 pb-6">
-          <div className="rounded-2xl p-6" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}>
+        <div className="px-6 pb-4">
+          <div className="rounded-2xl p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 0.03)' }}>
             <div className="flex items-center justify-between text-center">
               <div className="flex-1">
-                <div className="text-sm mb-3" style={{ color: '#999' }}>Sports Psychologist</div>
-                <div className="text-3xl font-bold" style={{ color: '#ffffff' }}>
-                  $150<span className="text-lg font-normal" style={{ color: '#888' }}>/hour</span>
+                <div className="text-xs mb-2" style={{ color: '#999' }}>Sports Psychologist</div>
+                <div className="text-2xl font-bold" style={{ color: '#ffffff' }}>
+                  $150<span className="text-sm font-normal" style={{ color: '#888' }}>/hour</span>
                 </div>
               </div>
-              <div className="px-6">
-                <div className="text-xl font-semibold" style={{ color: '#666' }}>vs</div>
+              <div className="px-4">
+                <div className="text-lg font-semibold" style={{ color: '#666' }}>vs</div>
               </div>
               <div className="flex-1">
-                <div className="text-sm mb-3" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="text-3xl font-bold" style={{ color: '#00ff41' }}>
-                  ${selectedPlan === 'annual' ? '0.19' : '0.27'}<span className="text-lg font-normal">/day</span>
+                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
+                <div className="text-2xl font-bold" style={{ color: '#00ff41' }}>
+                  ${selectedPlan === 'annual' ? '0.19' : '0.27'}<span className="text-sm font-normal">/day</span>
                 </div>
               </div>
             </div>
