@@ -9,12 +9,14 @@ import { getUserProgress, type ProgressData } from '@/lib/progress';
 import MomentumProgressToast, { useMomentumProgressToast } from '@/components/MomentumProgressToast';
 import Footer from '@/components/Footer';
 import FeedbackButton from '@/components/FeedbackButton';
+import FeedbackModal from '@/components/FeedbackModal';
 import OnboardingTutorials from '@/components/OnboardingTutorials';
 import PaywallModal from '@/components/PaywallModal';
 import { useSubscription } from '@/hooks/useSubscription';
 
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
@@ -282,6 +284,12 @@ export default function Home() {
               </svg>
               <span>Profile</span>
             </Link>
+            <button onClick={() => setFeedbackModalOpen(true)} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+              </svg>
+              <span>Got Feedback?</span>
+            </button>
           </div>
         </nav>
         <Footer />
@@ -469,6 +477,9 @@ export default function Home() {
         onClose={() => setShowPaywall(false)}
         trigger="feature_locked"
       />
+
+      {/* Feedback Modal */}
+      <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
 
     </div>
   );

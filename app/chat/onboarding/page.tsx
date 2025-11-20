@@ -9,6 +9,7 @@ import { saveChat, logActivity, type ChatMessage as DBChatMessage } from '@/lib/
 import { saveCheatCode, type CheatCodeData, toggleFavoriteCheatCode, getUserCheatCodes } from '@/lib/cheatcodes';
 import { getUserProgress, awardCodeCreationMomentum, awardMeaningfulChatMomentum } from '@/lib/progress';
 import FeedbackButton from '@/components/FeedbackButton';
+import FeedbackModal from '@/components/FeedbackModal';
 import CheatCodeGame from '@/components/CheatCodeGame';
 import PaywallModal from '@/components/PaywallModal';
 import HomeTutorial from '@/components/HomeTutorial';
@@ -85,6 +86,7 @@ function extractPrimaryIssue(text: string): string | null {
 
 export default function ChatPage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -1967,6 +1969,12 @@ export default function ChatPage() {
                 </svg>
                 <span>Profile</span>
               </Link>
+              <button onClick={() => setFeedbackModalOpen(true)} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+                </svg>
+                <span>Got Feedback?</span>
+              </button>
             </div>
           </nav>
         </div>
@@ -2477,6 +2485,9 @@ export default function ChatPage() {
         }}
         trigger="auto"
       />
+
+      {/* Feedback Modal */}
+      <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
     </div>
   );
 }

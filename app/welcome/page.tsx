@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import FeedbackModal from '@/components/FeedbackModal';
 
 export default function WelcomePage() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
 
   const handleSignupClick = () => {
     // Store where the user came from for proper back navigation
@@ -204,6 +206,9 @@ export default function WelcomePage() {
           </div>
         </div>
       </div>
+
+      {/* Feedback Modal */}
+      <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
     </div>
   );
 }

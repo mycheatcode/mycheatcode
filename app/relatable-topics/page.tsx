@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import FeedbackButton from '@/components/FeedbackButton';
+import FeedbackModal from '@/components/FeedbackModal';
 import { DbChat } from '@/lib/types';
 
 export default function RelatableTopics() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [displayCount, setDisplayCount] = useState(10);
   const [usedTopicIds, setUsedTopicIds] = useState<Set<number>>(new Set());
@@ -558,6 +560,12 @@ export default function RelatableTopics() {
               </svg>
               <span>Profile</span>
             </Link>
+            <button onClick={() => setFeedbackModalOpen(true)} className="flex items-center gap-4 px-4 py-3.5 rounded-xl font-medium cursor-pointer transition-all hover:bg-white/5 w-full text-left" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z"/>
+              </svg>
+              <span>Got Feedback?</span>
+            </button>
           </div>
         </nav>
       </div>
@@ -742,6 +750,9 @@ export default function RelatableTopics() {
 
       {/* Floating Feedback Button */}
       <FeedbackButton />
+
+      {/* Feedback Modal */}
+      <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
     </div>
   );
 }
