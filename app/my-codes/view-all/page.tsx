@@ -609,41 +609,24 @@ export default function ViewAllCodesPage() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
-      {/* Desktop Header with Back Button */}
-      <div className="hidden lg:block absolute top-0 left-0 right-0 p-4 z-20">
-        <div className="flex items-center gap-4">
+      {/* Sidebar Navigation */}
+      <div
+        className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        style={{ backgroundColor: '#000000' }}
+      >
+        {/* Header inside sidebar */}
+        <div className="p-4 flex items-center gap-4">
           <button
             onClick={() => router.push('/my-codes')}
-            className="p-2 rounded-lg transition-colors"
+            className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90"
             style={{ color: 'var(--accent-color)' }}
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
             </svg>
           </button>
-          <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          <div className="text-lg lg:text-xl font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
         </div>
-      </div>
-
-      {/* Mobile Header with Back Button */}
-      <div className="lg:hidden absolute top-0 left-0 right-0 px-4 py-4 flex items-center gap-4 z-20">
-        <button
-          onClick={() => router.push('/my-codes')}
-          className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90"
-          style={{ color: 'var(--accent-color)' }}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-          </svg>
-        </button>
-        <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
-      </div>
-
-      {/* Sidebar Navigation */}
-      <div
-        className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
-        style={{ backgroundColor: '#000000' }}
-      >
         <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
         </div>
@@ -699,7 +682,21 @@ export default function ViewAllCodesPage() {
       )}
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col pt-16">
+      <div className="lg:hidden min-h-screen relative flex flex-col">
+        {/* Header - Always visible */}
+        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+          <button
+            onClick={() => router.push('/my-codes')}
+            className="w-8 h-8 flex items-center justify-center cursor-pointer transition-transform active:scale-90"
+            style={{ color: 'var(--accent-color)' }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+            </svg>
+          </button>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+        </div>
+
         {/* Search */}
         <div className="p-4 pb-4">
           <div className="relative">
@@ -810,8 +807,22 @@ export default function ViewAllCodesPage() {
       {/* Desktop Layout */}
       <div className="hidden lg:flex min-h-screen relative">
         {/* Main Content */}
-        <div className={`flex-1 transition-all duration-300 ${menuOpen ? 'lg:pl-80' : ''}`}>
-          <div className="pt-20 px-8 pb-8 max-w-4xl mx-auto">
+        <div className="flex-1 flex flex-col">
+          {/* Header - Always visible */}
+          <div className="p-4 flex items-center gap-4 flex-shrink-0">
+            <button
+              onClick={() => router.push('/my-codes')}
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: 'var(--accent-color)' }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+              </svg>
+            </button>
+            <div className="text-xl" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+          </div>
+
+          <div className="flex-1 px-8 pb-8 max-w-4xl mx-auto w-full">
           {/* Search Bar */}
           <div className="mb-8">
             <div className="relative">

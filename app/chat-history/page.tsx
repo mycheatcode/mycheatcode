@@ -302,27 +302,26 @@ export default function ChatHistory() {
 
   return (
     <div className="min-h-screen font-sans" style={{ backgroundColor: '#000000', color: '#ffffff' }}>
-      {/* Mobile & Desktop Header with Menu */}
-      <div className="lg:hidden absolute top-0 left-0 right-0 px-4 py-4 flex items-center gap-4 z-20">
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="p-2 rounded-lg transition-colors"
-          style={{ color: 'var(--accent-color)' }}
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
-        <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
-      </div>
-
       {/* Sidebar Navigation */}
       <div
         className={`lg:hidden fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
         style={{ backgroundColor: '#000000' }}
       >
+        {/* Header inside sidebar */}
+        <div className="p-4 flex items-center gap-4">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--accent-color)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+        </div>
         <div className="pt-6 px-6">
           <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
         </div>
@@ -378,7 +377,24 @@ export default function ChatHistory() {
       )}
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative pb-[68px] overflow-y-auto pt-16">
+      <div className="lg:hidden min-h-screen relative pb-[68px] overflow-y-auto flex flex-col">
+        {/* Header - Always visible */}
+        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--accent-color)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE.AI</div>
+        </div>
+
+        <div className="flex-1">
         {/* Header */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
           {/* Page Title */}
@@ -533,28 +549,28 @@ export default function ChatHistory() {
             </div>
           </div>
         )}
+        </div>
       </div>
 
       {/* Desktop Layout */}
       <div className="hidden lg:flex min-h-screen relative">
-        {/* Header with Menu Button */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex items-center gap-4 z-20">
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: '#00ff41' }}
-          >
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <line x1="3" y1="12" x2="21" y2="12"></line>
-              <line x1="3" y1="18" x2="21" y2="18"></line>
-            </svg>
-          </button>
-          <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
-        </div>
-
         {/* Sidebar Navigation */}
-        <div className={`absolute top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-10 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ backgroundColor: '#000000' }}>
+        <div className={`absolute top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`} style={{ backgroundColor: '#000000' }}>
+          {/* Header inside sidebar */}
+          <div className="p-4 flex items-center gap-4">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: '#00ff41' }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
+          </div>
           <div className="pt-6 px-6">
             <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
           </div>
@@ -608,15 +624,31 @@ export default function ChatHistory() {
         {/* Overlay when menu is open */}
         {menuOpen && (
           <div
-            className="absolute inset-0 z-5"
+            className="absolute inset-0 z-20"
             style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
             onClick={() => setMenuOpen(false)}
           ></div>
         )}
 
         {/* Main Content */}
-        <div className={`flex-1 transition-all duration-300 ${menuOpen ? 'lg:pl-80' : ''}`}>
-          <div className="pt-20 px-8 pb-8 max-w-4xl mx-auto">
+        <div className="flex-1 flex flex-col">
+          {/* Header - Always visible */}
+          <div className="p-4 flex items-center gap-4 flex-shrink-0">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="p-2 rounded-lg transition-colors"
+              style={{ color: '#00ff41' }}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+            <div className="text-xl app-label" style={{ color: '#00ff41' }}>MYCHEATCODE.AI</div>
+          </div>
+
+          <div className="flex-1 px-8 pb-8 max-w-4xl mx-auto w-full">
           {/* Header */}
           <div className="mb-6">
             <div className="text-3xl lg:text-4xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>Chat History</div>
@@ -745,7 +777,6 @@ export default function ChatHistory() {
               ))
             )}
           </div>
-
           </div>
         </div>
 
