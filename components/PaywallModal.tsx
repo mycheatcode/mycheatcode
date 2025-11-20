@@ -170,6 +170,12 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
+                <span>All in monthly, plus...</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
                 <span>24/7 AI confidence coach</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
@@ -203,46 +209,17 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         {/* Comparison Section */}
         <div className="px-6 pb-6">
           <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.06)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
-            <div className="text-center mb-4">
-              <div className="text-xs font-bold tracking-wider mb-1" style={{ color: '#00ff41' }}>SAME BENEFITS — 96% LESS COST</div>
-              <div className="text-xs" style={{ color: '#888' }}>Compare to traditional sports psychologist</div>
-            </div>
-
-            <div className="space-y-3">
-              {/* Cost Row */}
-              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div className="text-sm" style={{ color: '#888' }}>Cost</div>
-                <div className="flex items-center gap-8">
-                  <div className="text-sm text-right" style={{ color: '#ffffff', minWidth: '60px' }}>$150/hr</div>
-                  <div className="text-sm font-bold text-right" style={{ color: '#00ff41', minWidth: '60px' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/mo</div>
-                </div>
+            <div className="flex items-center justify-between text-center">
+              <div className="flex-1">
+                <div className="text-sm mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
+                <div className="text-2xl font-bold" style={{ color: '#ffffff' }}>$150/session</div>
               </div>
-
-              {/* 24/7 Access Row */}
-              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div className="text-sm" style={{ color: '#888' }}>24/7 Availability</div>
-                <div className="flex items-center gap-8">
-                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
-                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
-                </div>
+              <div className="px-4">
+                <div className="text-xl font-semibold" style={{ color: '#888' }}>vs</div>
               </div>
-
-              {/* Instant Access Row */}
-              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
-                <div className="text-sm" style={{ color: '#888' }}>Instant Support</div>
-                <div className="flex items-center gap-8">
-                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
-                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
-                </div>
-              </div>
-
-              {/* No Scheduling Row */}
-              <div className="flex items-center justify-between">
-                <div className="text-sm" style={{ color: '#888' }}>No Scheduling</div>
-                <div className="flex items-center gap-8">
-                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
-                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
-                </div>
+              <div className="flex-1">
+                <div className="text-sm mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
+                <div className="text-2xl font-bold" style={{ color: '#00ff41' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/month</div>
               </div>
             </div>
           </div>
