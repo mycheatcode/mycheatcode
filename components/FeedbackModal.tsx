@@ -132,7 +132,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
       if (insertError) throw insertError;
 
       // Track feedback submission
-      Analytics.trackFeedbackSubmitted(type, hasRatings, !!screenshot);
+      Analytics.trackFeedbackSubmitted(type, !!hasRatings, !!screenshot);
 
       setSubmitted(true);
       setTimeout(() => {
