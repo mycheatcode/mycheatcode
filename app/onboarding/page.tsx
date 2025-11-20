@@ -23,7 +23,7 @@ const LEVEL_OPTIONS = [
 const SPECIFIC_SCENARIOS = [
   {
     value: 'airball_laugh',
-    label: 'You airball in front of everyone and notice the reaction',
+    label: 'You airball in front of everyone and hear reactions from the other team',
     category: 'In-Game'
   },
   {
@@ -43,7 +43,7 @@ const SPECIFIC_SCENARIOS = [
   },
   {
     value: 'better_opponent',
-    label: "You're matched up against a more experienced player",
+    label: "You're matched up against a higher level player",
     category: 'Pre-Game'
   },
   {
