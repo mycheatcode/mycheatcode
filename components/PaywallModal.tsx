@@ -106,25 +106,43 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>24/7 AI confidence coach</span>
+                <span>24/7 coach access</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Personalized cheat codes</span>
+                <span>Personalized strategies</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Pre-game & post-game support</span>
+                <span>Track your progress</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Unlimited access</span>
+                <span>Perform under pressure</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Real in-game scenarios</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Built for athletes</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Compete with confidence</span>
               </div>
             </div>
           </div>
@@ -176,25 +194,43 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>24/7 AI confidence coach</span>
+                <span>24/7 coach access</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Personalized cheat codes</span>
+                <span>Personalized strategies</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Pre-game & post-game support</span>
+                <span>Track your progress</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>Unlimited access</span>
+                <span>Perform under pressure</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Real in-game scenarios</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Built for athletes</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Compete with confidence</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#00ff41' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
