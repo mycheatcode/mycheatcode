@@ -209,17 +209,19 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         {/* Comparison Section */}
         <div className="px-6 pb-6">
           <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.06)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
-            <div className="flex items-center justify-between text-center">
+            <div className="flex items-center justify-between text-center gap-3">
               <div className="flex-1">
-                <div className="text-sm mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
-                <div className="text-2xl font-bold" style={{ color: '#ffffff' }}>$150/session</div>
+                <div className="text-xs mb-2" style={{ color: '#888' }}>Sports Psychologist</div>
+                <div className="text-xl font-bold leading-tight" style={{ color: '#ffffff' }}>$150</div>
+                <div className="text-xs mt-1" style={{ color: '#666' }}>/session</div>
               </div>
-              <div className="px-4">
-                <div className="text-xl font-semibold" style={{ color: '#888' }}>vs</div>
+              <div className="px-2">
+                <div className="text-lg font-semibold" style={{ color: '#888' }}>vs</div>
               </div>
               <div className="flex-1">
-                <div className="text-sm mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
-                <div className="text-2xl font-bold" style={{ color: '#00ff41' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/month</div>
+                <div className="text-xs mb-2" style={{ color: '#00ff41' }}>MyCheatCode</div>
+                <div className="text-xl font-bold leading-tight" style={{ color: '#00ff41' }}>${selectedPlan === 'annual' ? '0.19' : '0.27'}</div>
+                <div className="text-xs mt-1" style={{ color: '#00ff41' }}>/day</div>
               </div>
             </div>
           </div>
