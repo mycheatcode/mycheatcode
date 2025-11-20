@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 interface FeedbackItem {
   id: string;
@@ -18,12 +19,46 @@ export default function AdminFeedbackPage() {
   const [feedback, setFeedback] = useState<FeedbackItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('all');
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
 
   const supabase = createClient();
+  const router = useRouter();
 
   useEffect(() => {
-    loadFeedback();
+    checkAuthorization();
   }, []);
+
+  const checkAuthorization = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
+      // Check if user email is in admin list
+      // You can add your email here or use environment variable
+      const adminEmails = [
+        'hunter@mycheatcode.ai',
+        // Add more admin emails as needed
+      ];
+
+      if (!adminEmails.includes(user.email || '')) {
+        router.push('/');
+        return;
+      }
+
+      setIsAuthorized(true);
+      loadFeedback();
+    } catch (err) {
+      console.error('Auth check error:', err);
+      router.push('/');
+    } finally {
+      setCheckingAuth(false);
+    }
+  };
 
   const loadFeedback = async () => {
     setLoading(true);
@@ -66,6 +101,23 @@ export default function AdminFeedbackPage() {
       default: return '💬';
     }
   };
+
+  // Show loading while checking authorization
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-xl mb-2">Checking authorization...</div>
+          <div className="text-zinc-500">Please wait</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authorized (redirect will happen)
+  if (!isAuthorized) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-black text-white p-6">

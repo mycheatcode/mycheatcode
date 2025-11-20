@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { createClient } from '@/lib/supabase/client';
+import { useRouter } from 'next/navigation';
 
 interface Signup {
   id: string;
@@ -26,11 +28,53 @@ export default function WaitlistAdminPage() {
   const [resendingId, setResendingId] = useState<string | null>(null);
   const [resendMessage, setResendMessage] = useState<{id: string; message: string} | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  const supabase = createClient();
+  const router = useRouter();
+
+  // Check authorization first
+  useEffect(() => {
+    checkAuthorization();
+  }, []);
+
+  const checkAuthorization = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.push('/login');
+        return;
+      }
+
+      // Check if user email is in admin list
+      const adminEmails = [
+        'hunter@mycheatcode.ai',
+        // Add more admin emails as needed
+      ];
+
+      if (!adminEmails.includes(user.email || '')) {
+        router.push('/');
+        return;
+      }
+
+      setIsAuthorized(true);
+      fetchSignups();
+    } catch (err) {
+      console.error('Auth check error:', err);
+      router.push('/');
+    } finally {
+      setCheckingAuth(false);
+    }
+  };
 
   // Load all signups
   useEffect(() => {
-    fetchSignups();
-  }, []);
+    if (isAuthorized) {
+      fetchSignups();
+    }
+  }, [isAuthorized]);
 
   // Filter signups based on search and status
   useEffect(() => {
@@ -139,6 +183,23 @@ export default function WaitlistAdminPage() {
     confirmed: signups.filter(s => s.status === 'confirmed').length,
     pending: signups.filter(s => s.status === 'pending').length,
   };
+
+  // Show loading while checking authorization
+  if (checkingAuth) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-xl mb-2 text-black">Checking authorization...</div>
+          <div className="text-gray-500">Please wait</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render if not authorized (redirect will happen)
+  if (!isAuthorized) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 p-8">
