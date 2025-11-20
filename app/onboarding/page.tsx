@@ -23,12 +23,12 @@ const LEVEL_OPTIONS = [
 const SPECIFIC_SCENARIOS = [
   {
     value: 'airball_laugh',
-    label: 'You airball in front of everyone and hear someone laugh',
+    label: 'You airball in front of everyone and notice the reaction',
     category: 'In-Game'
   },
   {
     value: 'coach_yells',
-    label: "Coach yells at you and you can't shake it off",
+    label: "Coach calls you out and you can't shake it off",
     category: 'Off Court'
   },
   {
@@ -43,7 +43,7 @@ const SPECIFIC_SCENARIOS = [
   },
   {
     value: 'better_opponent',
-    label: "You're matched up against someone way better than you",
+    label: "You're matched up against a more experienced player",
     category: 'Pre-Game'
   },
   {
