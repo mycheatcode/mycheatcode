@@ -40,7 +40,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" style={{ backgroundColor: 'rgba(0, 0, 0, 0.92)' }}>
       <div
-        className="relative w-full sm:max-w-md rounded-3xl shadow-2xl overflow-y-auto"
+        className="relative w-full sm:max-w-md md:max-w-3xl lg:max-w-4xl rounded-3xl shadow-2xl overflow-y-auto"
         style={{
           background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
           maxHeight: '85vh'
@@ -69,10 +69,10 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         </div>
 
         {/* Pricing Plans */}
-        <div className="px-6 pb-6 space-y-4">
+        <div className="px-6 pb-6 flex flex-col md:flex-row gap-4">
           {/* Monthly Plan */}
           <div
-            className="rounded-2xl p-5 cursor-pointer transition-all border-2"
+            className="rounded-2xl p-5 cursor-pointer transition-all border-2 md:flex-1"
             style={{
               backgroundColor: selectedPlan === 'monthly' ? 'rgba(0, 255, 65, 0.08)' : 'rgba(255, 255, 255, 0.03)',
               borderColor: selectedPlan === 'monthly' ? '#00ff41' : 'rgba(255, 255, 255, 0.1)',
@@ -143,7 +143,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
 
           {/* Annual Plan */}
           <div
-            className="relative rounded-2xl p-5 cursor-pointer transition-all border-2"
+            className="relative rounded-2xl p-5 cursor-pointer transition-all border-2 md:flex-1"
             style={{
               backgroundColor: selectedPlan === 'annual' ? 'rgba(0, 255, 65, 0.08)' : 'rgba(255, 255, 255, 0.03)',
               borderColor: selectedPlan === 'annual' ? '#00ff41' : 'rgba(255, 255, 255, 0.1)',
