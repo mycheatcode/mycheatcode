@@ -61,10 +61,10 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
         {/* Hero Section */}
         <div className="text-center pt-10 px-6 pb-8">
           <h1 className="text-3xl sm:text-4xl font-bold mb-3 leading-tight" style={{ color: '#ffffff' }}>
-            unlock mycheatcode
+            Unlock MyCheatCode
           </h1>
           <p className="text-base" style={{ color: '#999' }}>
-            unlimited access. cancel anytime.
+            Unlimited access. Cancel anytime.
           </p>
         </div>
 
@@ -80,7 +80,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
             onClick={() => setSelectedPlan('monthly')}
           >
             <div className="mb-4">
-              <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>monthly</div>
+              <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>Monthly</div>
               <div className="font-bold text-4xl mb-1" style={{ color: '#ffffff' }}>$7.99 <span className="text-lg font-normal" style={{ color: '#888' }}>/month</span></div>
               <div className="text-sm" style={{ color: '#888' }}>7 days free, then $7.99/mo</div>
             </div>
@@ -98,7 +98,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 border: selectedPlan === 'monthly' ? 'none' : '1px solid rgba(255, 255, 255, 0.2)'
               }}
             >
-              {isLoading ? 'Loading...' : 'start free trial'}
+              {isLoading ? 'Loading...' : 'Start Free Trial'}
             </button>
 
             <div className="space-y-2">
@@ -106,25 +106,25 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>24/7 mental performance coach</span>
+                <span>24/7 AI confidence coach</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>personalized cheat codes</span>
+                <span>Personalized cheat codes</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>pre-game & post-game support</span>
+                <span>Pre-game & post-game support</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>unlimited access</span>
+                <span>Unlimited access</span>
               </div>
             </div>
           </div>
@@ -144,7 +144,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
             </div>
 
             <div className="mb-4">
-              <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>yearly</div>
+              <div className="font-bold text-sm mb-2" style={{ color: '#ffffff' }}>Yearly</div>
               <div className="font-bold text-4xl mb-1" style={{ color: '#ffffff' }}>$69.99 <span className="text-lg font-normal" style={{ color: '#888' }}>/year</span></div>
               <div className="text-sm" style={{ color: '#888' }}>7 days free, then $69.99 per year ($5.83/mo)</div>
             </div>
@@ -162,7 +162,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 border: selectedPlan === 'annual' ? 'none' : '1px solid rgba(255, 255, 255, 0.2)'
               }}
             >
-              {isLoading ? 'Loading...' : 'start free trial'}
+              {isLoading ? 'Loading...' : 'Start Free Trial'}
             </button>
 
             <div className="space-y-2">
@@ -170,13 +170,79 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>everything in monthly</span>
+                <span>24/7 AI confidence coach</span>
               </div>
               <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <polyline points="20 6 9 17 4 12"></polyline>
                 </svg>
-                <span>save $25.89 per year</span>
+                <span>Personalized cheat codes</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Pre-game & post-game support</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#888' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span>Unlimited access</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm" style={{ color: '#00ff41' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00ff41" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+                <span className="font-semibold">Save $25.89 per year</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Comparison Section */}
+        <div className="px-6 pb-6">
+          <div className="rounded-2xl p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.06)', border: '1px solid rgba(0, 255, 65, 0.2)' }}>
+            <div className="text-center mb-4">
+              <div className="text-xs font-bold tracking-wider mb-1" style={{ color: '#00ff41' }}>SAME BENEFITS — 96% LESS COST</div>
+              <div className="text-xs" style={{ color: '#888' }}>Compare to traditional sports psychologist</div>
+            </div>
+
+            <div className="space-y-3">
+              {/* Cost Row */}
+              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <div className="text-sm" style={{ color: '#888' }}>Cost</div>
+                <div className="flex items-center gap-8">
+                  <div className="text-sm text-right" style={{ color: '#ffffff', minWidth: '60px' }}>$150/hr</div>
+                  <div className="text-sm font-bold text-right" style={{ color: '#00ff41', minWidth: '60px' }}>${selectedPlan === 'annual' ? '5.83' : '7.99'}/mo</div>
+                </div>
+              </div>
+
+              {/* 24/7 Access Row */}
+              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <div className="text-sm" style={{ color: '#888' }}>24/7 Availability</div>
+                <div className="flex items-center gap-8">
+                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
+                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
+                </div>
+              </div>
+
+              {/* Instant Access Row */}
+              <div className="flex items-center justify-between pb-3" style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                <div className="text-sm" style={{ color: '#888' }}>Instant Support</div>
+                <div className="flex items-center gap-8">
+                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
+                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
+                </div>
+              </div>
+
+              {/* No Scheduling Row */}
+              <div className="flex items-center justify-between">
+                <div className="text-sm" style={{ color: '#888' }}>No Scheduling</div>
+                <div className="flex items-center gap-8">
+                  <div className="text-center" style={{ minWidth: '60px' }}>❌</div>
+                  <div className="text-center" style={{ minWidth: '60px' }}>✅</div>
+                </div>
               </div>
             </div>
           </div>
