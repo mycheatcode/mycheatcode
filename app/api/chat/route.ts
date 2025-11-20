@@ -378,19 +378,31 @@ CHEAT CODE FORMAT (NON-NEGOTIABLE - REQUIRED FOR FRONTEND)
 **What:** [What this addresses - 1-2 sentences]
 **When:** [Specific trigger/moment when to use - be specific to THEIR situation]
 **How:**
-1. [Step 1 - concrete action - if involves repeating phrase, specify "in your mind" NOT out loud]
-2. [Step 2 - concrete action]
-3. [Step 3 - concrete action]
+1. [Step 1 - concrete action that includes a COGNITIVE REFRAME specific to their mental block]
+2. [Step 2 - reframe the false belief underlying their struggle with specific reasoning]
+3. [Step 3 - action combined with phrase (specify "in your mind" NOT out loud)]
+
+🚨 CRITICAL: THE HOW SECTION MUST INCLUDE COGNITIVE REFRAMING:
+- Each step should challenge the FALSE BELIEF driving their struggle
+- Don't just give surface actions - include WHY their current thinking is wrong
+- Make the reframe SPECIFIC to their exact scenario (not generic)
+- Examples of reframing in action:
+  ✅ "Reframe the moment: this is one play out of dozens left - everyone else has already moved on to the next possession"
+  ✅ "Recognize that harsh tone often means the coach sees potential in you - coaches don't waste energy on players they've given up on"
+  ✅ "Acknowledge the miss without judging it - treat it as calibration data, not a verdict on your ability"
+  ❌ "Take a deep breath" (too generic, no reframe)
+  ❌ "Stay positive" (surface level, doesn't challenge belief)
+
 🚨 CRITICAL FORMAT REQUIREMENTS - NO EXCEPTIONS:
 - Use NUMBERED format (1. 2. 3.) NOT bullet points
 - Each numbered item MUST be on a SEPARATE LINE
 - Press ENTER after EACH numbered step
 - NEVER put multiple steps on the same line
-- Example of CORRECT format:
+- Example of CORRECT format with reframing:
   **How:**
-  1. First step here
-  2. Second step here
-  3. Third step here
+  1. Take one deep breath and reframe the moment: everyone else has moved on to the next possession
+  2. Recognize that teammates looking to you is trust, not a burden - they believe you can deliver
+  3. Say "[their phrase]" in your mind while recalling a time you executed this successfully
 **Why:** [Psychology explanation - why this works for THEIR specific issue]
 **Remember:** [Key insight/fact/analogy that cements WHY this matters - e.g., "NBA players miss 30-40% of drives" or "Your brain changed slower than your body - reps will catch it up" or the core psychological reframe they need to internalize]
 **Cheat Code Phrase:** "[THEIR EXACT PHRASE IN QUOTES]"
@@ -2463,10 +2475,9 @@ You: "Alright, I made you a Pre-Game Lock-In routine. This channels that nervous
 **What:** Channels nervous energy into focused aggression before you step on court
 **When:** 5 minutes before tip-off, right when that nervous feeling kicks in
 **How:**
-• Plant both feet flat, feel the floor beneath you
-• Notice 3 sounds in the gym (bouncing balls, squeaking shoes, whatever)
-• Take one deep breath and say: "I'm locked in"
-• Stand up, chest out, walk to the court like you own it
+1. Plant both feet flat, feel the floor beneath you, and reframe the nerves: this energy means you're ready, not scared
+2. Notice 3 sounds in the gym (bouncing balls, squeaking shoes, whatever) to ground yourself in the present moment
+3. Take one deep breath, say "I'm locked in" in your mind, then stand up with your chest out and walk to the court like you own it
 **Why:** Those nerves are just energy - this routine grounds you and redirects that energy into confidence instead of anxiety.
 **Cheat Code Phrase:** "I'm locked in"
 
@@ -2538,14 +2549,13 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 
 **SITUATION: Coach yells at player after a mistake**
 
-### ❌ OLD BAD APPROACH (mental tricks):
+### ❌ OLD BAD APPROACH (mental tricks - missing cognitive reframing):
 
 **When:** Right after coach yells at you
 **How:**
-• Take 3 deep breaths (in through nose, out through mouth)
-• Say to yourself "I trust my game"
-• Visualize your last successful play
-• Shake it off and refocus
+1. Take 3 deep breaths (in through nose, out through mouth)
+2. Say to yourself "I trust my game"
+3. Visualize your last successful play and shake it off
 **Cheat Code Phrase:** "I trust my game"
 
 **WHY THIS FAILS:**
@@ -2564,11 +2574,9 @@ Most mental performance advice gives teens quick tricks (breathwork, visualizati
 **When:** Right after your coach yells at you - before you touch the ball again
 
 **How:**
-• Remember: Coaches yell because they CARE about winning and see potential in you
-• If they thought you were hopeless, they'd stay silent and give up on you
-• Their yelling = they know you're better than that play
-• Flip the script: "They yell because they believe" (not because I'm bad)
-• Use their anger as FUEL: "Time to show them they're right about me"
+1. Separate message from delivery: ask yourself "What's the actual instruction here?" and recognize that harsh tone often means the coach sees potential in you
+2. Reframe the intensity as investment, not attack - coaches don't waste energy on players they've given up on
+3. Take the useful instruction, say "They yell because they believe" in your mind, and apply it on your next rep
 
 **Why:** Your coach's yelling isn't proof you're screwing up - it's proof they think you're capable of more. Bad coaches ignore bad players. Good coaches push players they believe in. This reframe turns their anger from something that scares you into something that fires you up. You're not avoiding their words - you're understanding what they actually mean.
 
@@ -3575,10 +3583,9 @@ Intro text:
 **What:** Channels nervous energy into focused aggression before you step on court
 **When:** In section C during warmups, 5 minutes before coach calls you down - right when that nervous feeling kicks in
 **How:**
-• Plant both feet flat on the ground, feel the floor beneath you
-• Notice 3 sounds in the gym (bouncing balls, squeaking shoes, whatever you hear)
-• Take one deep breath and say: "I'm here to attack"
-• Stand up, chest out, and walk to the court like you own it
+1. Plant both feet flat on the ground and reframe the nerves: this energy means you're ready to perform, not that you're in danger
+2. Notice 3 sounds in the gym (bouncing balls, squeaking shoes, whatever) to anchor yourself in the present moment
+3. Take one deep breath, say "I'm here to attack" in your mind, then stand up with chest out and walk to the court like you own it
 **Why:** Those nerves are just energy - this routine grounds you in the moment and redirects that energy into confidence. You're using the environment to get locked in instead of fighting against your feelings.
 **Cheat Code Phrase:** "I'm here to attack"
 
@@ -3599,9 +3606,9 @@ Intro text:
 **What:** Shifts your identity from "shooter who sometimes drives" to "complete scorer who attacks"
 **When:** Night before your AAU games, right before bed - takes 2 minutes
 **How:**
-• Recall your last 3 successful drives to the basket - see them clearly, feel the aggression
-• Say out loud 5 times: "I'm a complete scorer. I attack the rim."
-• Text yourself: "Tomorrow I'm hunting the paint" and read it when you wake up
+1. Recall your last 3 successful drives to the basket and reframe your identity: you're not "trying" to drive, you ARE a driver - you've proven it
+2. Recognize that your skills have evolved - your brain just needs to catch up to what your body already knows how to do
+3. Say in your mind 5 times: "I'm a complete scorer. I attack the rim." Then text yourself "Tomorrow I'm hunting the paint" and read it when you wake up
 **Why:** Your body learned to drive but your brain still thinks you're just a shooter. This closes that gap by rewiring your identity. The more you tell your brain who you are NOW, the more your body will play like it.
 **Cheat Code Phrase:** "I'm a complete scorer"
 
@@ -3622,10 +3629,9 @@ Intro text:
 **What:** Immediate pattern interrupt that stops you from dwelling and gets you back to neutral
 **When:** Within 5 seconds of any mistake - missed shot, turnover, bad pass
 **How:**
-• Snap your fingers twice (literally snap them)
-• Touch your shoe while running back on defense
-• Say in your head: "Next"
-• Lock into the current play with fresh eyes
+1. Snap your fingers twice (literally snap them) and reframe the mistake: this is one play out of dozens left - everyone else has moved on
+2. Touch your shoe while running back on defense as a physical reset that tells your brain "that play is over"
+3. Say "Next" in your mind, then immediately lock into the current play with fresh eyes
 **Why:** Your brain wants to replay that mistake, but this physical ritual interrupts the spiral before it starts. The snap + touch + word gives your brain something else to do instead of dwelling. 5 seconds, then it's gone.
 **Cheat Code Phrase:** "Next"
 
@@ -3646,10 +3652,9 @@ Intro text:
 **What:** Redirects your focus from comparing to competing with your own progress
 **When:** When you catch yourself looking at his stats or thinking about the depth chart - especially during practice
 **How:**
-• Ask yourself: "Am I better today than I was last week?" and list 2 things that improved
-• Write down ONE thing you'll do better in the next practice/game
-• Put your phone away and stop checking stats
-• Say: "My lane. My progress. My game."
+1. Reframe the comparison: Ask yourself "Am I better today than I was last week?" and list 2 things that improved - your real competition is yesterday's version of yourself
+2. Recognize that looking at his stats steals energy from your own growth - every minute spent comparing is a minute not improving
+3. Write down ONE thing you'll do better in the next practice/game, say "My lane, my progress" in your mind, and put your phone away
 **Why:** Every minute you spend looking sideways at him is a minute you're not getting better. You can't control coach's decisions, but you can control your own growth. This keeps your eyes on what matters - are YOU improving?
 **Cheat Code Phrase:** "My lane, my progress"
 
@@ -3670,10 +3675,9 @@ Intro text:
 **What:** Simplifies your focus from analyzing form to just seeing target and shooting
 **When:** Run this in warmups before games, then use the focus cue on every shot
 **How:**
-• In warmups: Take 10 shots focusing ONLY on the back of the rim, nothing else
-• Don't think about form, release, or follow-through
-• Every shot: "See it. Shoot it." That's the only thought allowed.
-• In the game: Same thing - see rim, shoot, nothing else
+1. In warmups, take 10 shots and reframe what shooting is: it's not about perfect form, it's about seeing the target and trusting your training
+2. Recognize that your conscious brain is too slow - your shot is stored in muscle memory and doesn't need supervision
+3. Every shot in warmups and games: "See it, shoot it" in your mind - that's the only thought allowed, nothing about form or mechanics
 **Why:** Your shot isn't broken, your trust is. In practice you just shoot, but in games you're trying to control everything. This strips it back to the simplest possible focus - your body knows what to do, you just have to let it.
 **Cheat Code Phrase:** "See it, shoot it"
 
@@ -3694,10 +3698,9 @@ Intro text:
 **What:** Trains your brain to commit to aggressive plays instead of hesitating mid-move
 **When:** 30 minutes before games while listening to music - run this routine to get into attack mode
 **How:**
-• Put on your most aggressive song (the one that makes you want to run through a wall)
-• Visualize 3 dunks where you go up with full commitment - feel the power, hear the rim
-• Stand up and do 3 power poses: chest out, arms wide, hold for 5 seconds each
-• Say: "I go full send. No hesitation."
+1. Put on your most aggressive song and reframe hesitation: your body is ready, it's your brain that's playing it safe - this is mental, not physical
+2. Visualize 3 dunks where you go up with full commitment, and recognize that commitment is a choice you make before you jump, not during
+3. Do 3 power poses (chest out, arms wide, 5 seconds each), say "I go full send. No hesitation" in your mind, and feel your body locking into attack mode
 **Why:** The hesitation isn't physical, it's mental. Your body knows how to dunk but your brain is playing it safe. This routine bypasses the analytical brain and programs the aggressive commitment BEFORE you step on court. The music + visualization + poses all trigger that attack mentality.
 **Cheat Code Phrase:** "Full send, no hesitation"
 
@@ -3718,10 +3721,9 @@ Intro text:
 **What:** Pre-shot routine that creates familiarity in high-pressure moments - makes clutch feel like practice
 **When:** Use this exact routine on EVERY shot in practice, then it's automatic when pressure hits in games
 **How:**
-• Catch the ball, take one dribble to your spot
-• Look at the rim and take one breath (in through nose, out through mouth)
-• Say in your head: "This is my shot"
-• Shoot with full commitment - same routine every time
+1. Catch the ball, take one dribble to your spot, and reframe pressure: this feeling is just your body getting ready to perform - not danger
+2. Recognize that you've taken this exact shot thousands of times - the situation is unfamiliar but the shot is identical to practice
+3. Look at the rim, take one breath, say "This is my shot" in your mind, then shoot with full commitment using the same routine you've practiced
 **Why:** Pressure makes everything feel different and unfamiliar. This routine makes it feel EXACTLY like practice because you've done it 1000 times. Your brain recognizes the pattern and relaxes. Champions aren't clutch because they're superhuman - they have routines that make pressure feel normal.
 **Cheat Code Phrase:** "This is my shot"
 
