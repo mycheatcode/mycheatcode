@@ -237,7 +237,7 @@ export default function PaywallModal({ isOpen, onClose, trigger = 'auto' }: Payw
               <div className="flex-1">
                 <div className="text-xs mb-2" style={{ color: '#999' }}>Sports Psychologist</div>
                 <div className="text-2xl font-bold" style={{ color: '#ffffff' }}>
-                  $150<span className="text-sm font-normal" style={{ color: '#888' }}>/hour</span>
+                  $150+<span className="text-sm font-normal" style={{ color: '#888' }}>/hour</span>
                 </div>
               </div>
               <div className="px-4">
