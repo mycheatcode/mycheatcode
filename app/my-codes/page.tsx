@@ -829,6 +829,10 @@ function MyCodesRedesignPageContent() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+      {/* TEST BANNER - REMOVE AFTER DEBUG */}
+      <div style={{ backgroundColor: 'lime', color: 'black', padding: '20px', fontSize: '24px', fontWeight: 'bold', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
+        MOBILE TEST - If you see this, React is rendering!
+      </div>
       {/* Responsive CSS embedded */}
       <style>{`
         .show-on-mobile { display: flex !important; flex-direction: column; }
