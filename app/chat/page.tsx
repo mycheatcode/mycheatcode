@@ -974,6 +974,10 @@ export default function ChatPage() {
       ...(m.gameButtonCodeTitle && { gameButtonCodeTitle: m.gameButtonCodeTitle }),
     }));
 
+    // DEBUG: Log what we're saving
+    console.log('💾 Saving chat - selectedTopic:', selectedTopic);
+    console.log('💾 currentChatId:', currentChatId);
+
     const { chatId, error } = await saveChat(userId, dbMessages, currentChatId || undefined, selectedTopic);
 
     // Silently handle errors - don't show to user

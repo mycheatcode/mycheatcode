@@ -38,11 +38,15 @@ export default function RelatableTopics() {
       if (chats) {
         // Extract topic IDs from chats
         const topicIds = new Set<number>();
+        console.log('🔍 Loading used topics from chats:', chats.length, 'chats');
         chats.forEach((chat: DbChat) => {
+          console.log('📊 Chat selected_topic:', chat.selected_topic);
           if (chat.selected_topic && 'id' in chat.selected_topic && typeof chat.selected_topic.id === 'number') {
+            console.log('✅ Adding topic ID:', chat.selected_topic.id);
             topicIds.add(chat.selected_topic.id);
           }
         });
+        console.log('✨ Final used topic IDs:', Array.from(topicIds));
         setUsedTopicIds(topicIds);
       }
     };
