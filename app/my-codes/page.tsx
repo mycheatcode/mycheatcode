@@ -1308,7 +1308,6 @@ function MyCodesRedesignPageContent() {
               </div>
             </div>
           )}
-          </div>
         </div>
       </div>
 
