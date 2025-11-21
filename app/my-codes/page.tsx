@@ -38,7 +38,12 @@ interface UserProgress {
 }
 
 function MyCodesRedesignPageContent() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 1024;
+    }
+    return true; // Default to mobile for SSR
+  });
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
