@@ -928,6 +928,11 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
+      {/* YELLOW DEBUG - RIGHT BEFORE DESKTOP */}
+      <div style={{ backgroundColor: 'yellow', color: 'black', padding: '20px', fontSize: '20px', position: 'fixed', top: '200px', left: 0, right: 0, zIndex: 99997 }}>
+        YELLOW - BEFORE DESKTOP LAYOUT
+      </div>
+
       {/* Desktop Layout - COMPLETELY REMOVED FOR DEBUG */}
       <div style={{ display: 'none' }}>
         {/* Main Content */}
