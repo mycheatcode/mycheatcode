@@ -909,7 +909,14 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="min-h-screen relative" style={{ display: 'none' }}>
+        <style jsx>{`
+          @media (min-width: 1024px) {
+            .desktop-layout { display: flex !important; }
+            .mobile-layout { display: none !important; }
+          }
+        `}</style>
+        <div className="desktop-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1307,8 +1314,11 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
+        </div>
+      </div>
+
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <div className="mobile-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
