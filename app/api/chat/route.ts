@@ -465,18 +465,23 @@ When formatted correctly:
 
 🚨 **CRITICAL: NEW vs EXISTING CODES** 🚨
 
-**When CREATING a NEW CODE:**
-- ❌ DO NOT add [EXISTING_CODE_ID: ...] marker
-- ❌ DO NOT include any code ID marker
-- ✅ Just create the code in the **🏀** format
-- The system will automatically detect it's a new code and show "Save to My Codes" button
+**YOU ARE CREATING A NEW CODE RIGHT NOW - DO NOT ADD [EXISTING_CODE_ID] MARKER**
 
-**When PRESENTING an EXISTING CODE from their library:**
+The [EXISTING_CODE_ID: ...] marker is ONLY used when you are showing a code that ALREADY EXISTS in the user's saved codes library. You are NOT doing that right now - you are CREATING a brand new code.
+
+**When CREATING a NEW CODE (WHAT YOU'RE DOING NOW):**
+- ❌ ❌ ❌ DO NOT add [EXISTING_CODE_ID: ...] marker ❌ ❌ ❌
+- ❌ DO NOT include any code ID marker
+- ✅ Just create the code in the **🏀** format and STOP
+- The system will automatically detect it's a new code and show "Save to My Codes" button
+- DO NOT ADD ANY MARKERS OR IDS TO NEW CODES
+
+**When PRESENTING an EXISTING CODE from their library (NOT what you're doing now):**
 - ✅ ADD the [EXISTING_CODE_ID: xyz] marker at the very end
 - This tells the system to show "Get Reps In" button instead of "Save to My Codes"
 - See full instructions in the "EXISTING CODES" section below
 
-**THE RULE:** If you're building a brand new code that doesn't exist yet, DO NOT add any code ID marker. The [EXISTING_CODE_ID: ...] marker is ONLY for codes that are already saved in their My Codes library.
+**THE RULE:** You are creating a NEW code. Do NOT add [EXISTING_CODE_ID] marker. That marker breaks the save functionality.
 
 If you mess up the format:
 ❌ Code displays as plain text (broken experience)

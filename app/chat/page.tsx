@@ -1550,6 +1550,14 @@ export default function ChatPage() {
 
           if (sessions && sessions.length > 0) {
             const result = sessions[0];
+
+            // CRITICAL: Only send follow-up if user actually answered questions
+            // If total_questions is 0, they quit immediately without playing
+            if (result.total_questions === 0) {
+              console.log('⏭️ User quit game without answering - skipping follow-up');
+              return;
+            }
+
             const systemContext = `[SYSTEM CONTEXT - The user just completed a practice game. Their score: ${result.score}/${result.total_questions} correct. ${result.is_first_play ? 'This was their first time playing this code.' : 'They\'ve practiced this code before.'} Momentum gained: +${result.momentum_awarded.toFixed(1)}%. Reference their score and ask an appropriate follow-up question about how the practice felt or if they want to talk through any of the scenarios.]`;
 
             // Send system context directly to API without displaying it to user
