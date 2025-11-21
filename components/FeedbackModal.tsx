@@ -160,20 +160,19 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 p-4 overflow-y-auto"
       style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
       onClick={onClose}
     >
-      <div
-        className="w-full max-w-md rounded-2xl p-6 my-8"
-        style={{
-          backgroundColor: 'var(--card-bg)',
-          border: '1px solid var(--card-border)',
-          maxHeight: 'calc(100vh - 4rem)',
-          overflowY: 'auto',
-        }}
-        onClick={(e) => e.stopPropagation()}
-      >
+      <div className="min-h-full flex items-center justify-center py-4">
+        <div
+          className="w-full max-w-md rounded-2xl p-6"
+          style={{
+            backgroundColor: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
         {submitted ? (
           <div className="text-center py-8">
             <div className="mb-4 flex justify-center">
@@ -462,6 +461,7 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
             </form>
           </>
         )}
+        </div>
       </div>
     </div>
   );
