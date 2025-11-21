@@ -924,10 +924,10 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
-      {/* Mobile Layout */}
-      <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
+      {/* Main Layout - Centered on desktop */}
+      <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }} className="lg:items-center">
         {/* Header - Always visible */}
-        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
+        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }} className="w-full lg:max-w-2xl">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', background: 'transparent', border: 'none' }}
@@ -941,7 +941,7 @@ function MyCodesRedesignPageContent() {
           <div style={{ fontSize: '18px', fontWeight: '600', color: '#00ff41' }}>MYCHEATCODE</div>
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }} className="w-full lg:max-w-2xl">
           {/* Header */}
           <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
             <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
