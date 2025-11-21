@@ -1316,7 +1316,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col" style={{ backgroundColor: '#000000' }}>
+      <div className="min-h-screen relative flex flex-col" style={{ backgroundColor: '#000000', display: 'flex !important' }}>
         {/* DEBUG BANNER */}
         <div style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px', fontSize: '12px' }}>
           DEBUG: Loading={loading ? 'true' : 'false'} | Codes={cheatCodes.length} | UserId={userId ? 'set' : 'null'}
