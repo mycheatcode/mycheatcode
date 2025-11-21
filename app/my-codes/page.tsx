@@ -829,6 +829,15 @@ function MyCodesRedesignPageContent() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+      {/* Responsive CSS embedded */}
+      <style>{`
+        .show-on-mobile { display: flex !important; flex-direction: column; }
+        .show-on-desktop { display: none !important; }
+        @media (min-width: 1024px) {
+          .show-on-mobile { display: none !important; }
+          .show-on-desktop { display: flex !important; }
+        }
+      `}</style>
       {/* Sidebar Navigation */}
       <div
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
