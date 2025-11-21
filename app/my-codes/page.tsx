@@ -1307,8 +1307,8 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
-      {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col" style={{ backgroundColor: 'red' }}>
+      {/* Mobile Layout - Force visible on mobile */}
+      <div className="min-h-screen relative flex flex-col" style={{ backgroundColor: 'red', display: 'flex' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0" style={{ backgroundColor: 'blue' }}>
           <button
