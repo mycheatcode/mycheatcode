@@ -1338,22 +1338,22 @@ function MyCodesRedesignPageContent() {
           <div className="text-lg font-semibold" style={{ color: '#00ff41' }}>MYCHEATCODE</div>
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col" style={{ backgroundColor: '#1a1a1a' }}>
           {/* Header */}
-          <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
+          <div className="p-4 border-b" style={{ borderColor: '#333', backgroundColor: '#2a2a2a' }}>
             <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
               <div className="flex flex-col justify-end" style={{ minHeight: '135px' }}>
                 {userProgress && userProgress.streak !== undefined && (
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', width: 'fit-content' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: '#333', borderColor: '#444', width: 'fit-content' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff41">
                       <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
                     </svg>
-                    <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{userProgress.streak} DAY STREAK</span>
+                    <span className="text-xs font-semibold" style={{ color: '#fff' }}>{userProgress.streak} DAY STREAK</span>
                   </div>
                 )}
                 <div>
-                  <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
-                  <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Create, save and practice your personalized cheat codes</div>
+                  <div className="text-3xl font-bold" style={{ color: '#fff' }}>My Cheat Codes</div>
+                  <div className="text-sm mt-1" style={{ color: '#999' }}>Create, save and practice your personalized cheat codes</div>
                 </div>
               </div>
               {userProgress && (
