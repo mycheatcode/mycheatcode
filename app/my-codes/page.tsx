@@ -908,15 +908,19 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
+      <style dangerouslySetInnerHTML={{__html: `
+        @media (min-width: 1024px) {
+          .desktop-layout { display: flex !important; }
+          .mobile-layout { display: none !important; }
+        }
+        @media (max-width: 1023px) {
+          .desktop-layout { display: none !important; }
+          .mobile-layout { display: flex !important; }
+        }
+      `}} />
+
       {/* Desktop Layout */}
-      <div className="min-h-screen relative" style={{ display: 'none' }}>
-        <style jsx>{`
-          @media (min-width: 1024px) {
-            .desktop-layout { display: flex !important; }
-            .mobile-layout { display: none !important; }
-          }
-        `}</style>
-        <div className="desktop-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative' }}>
+      <div className="desktop-layout" style={{ display: 'none', minHeight: '100vh', position: 'relative' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1311,7 +1315,6 @@ function MyCodesRedesignPageContent() {
               </div>
             )}
           </div>
-        </div>
         </div>
       </div>
 
