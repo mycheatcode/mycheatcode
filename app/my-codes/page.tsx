@@ -1332,6 +1332,9 @@ function MyCodesRedesignPageContent() {
 
       {/* Mobile Layout */}
       <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none', backgroundColor: 'red' }}>
+        <div style={{ backgroundColor: 'cyan', padding: '30px', color: 'black', fontSize: '24px' }}>
+          MOBILE LAYOUT CONTAINER - If you see this cyan box, mobile layout is rendering
+        </div>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
