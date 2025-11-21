@@ -845,6 +845,10 @@ function MyCodesRedesignPageContent() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+      {/* TOP LEVEL DEBUG - MUST BE VISIBLE */}
+      <div style={{ backgroundColor: 'blue', color: 'yellow', padding: '30px', fontSize: '28px', fontWeight: 'bold', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 99999 }}>
+        TOP LEVEL DEBUG - COMPONENT IS RENDERING
+      </div>
       {/* Sidebar Navigation */}
       <div
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
