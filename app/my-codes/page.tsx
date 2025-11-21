@@ -1308,7 +1308,11 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <style>{`
+        @media (min-width: 1024px) { .mobile-layout { display: none !important; } }
+        @media (max-width: 1023px) { .mobile-layout { display: flex !important; } }
+      `}</style>
+      <div className="mobile-layout min-h-screen relative flex-col">
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
