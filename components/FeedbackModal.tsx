@@ -68,6 +68,12 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
     e.preventDefault();
     setError('');
 
+    // Pricing feedback is now mandatory
+    if (!willingToPay) {
+      setError('Please answer the pricing question');
+      return;
+    }
+
     // At least ratings OR message OR screenshot required
     const hasRatings = coachExperience || cheatCodeAdvice || practiceGames || topicVariety;
     if (!message.trim() && !hasRatings && !screenshot) {
@@ -361,11 +367,11 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
               {/* Pricing Feedback */}
               <div className="space-y-3 py-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
                 <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  💰 Pricing Feedback (Optional)
+                  💰 Pricing Feedback <span style={{ color: '#00ff41' }}>*</span>
                 </div>
                 <div>
                   <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    Would you pay $7.99/month for this app?
+                    Would you pay $7.99/month for this app? <span style={{ color: '#00ff41' }}>*</span>
                   </label>
                   <div className="grid grid-cols-3 gap-2">
                     {[
