@@ -934,9 +934,18 @@ function MyCodesRedesignPageContent() {
               {userProgress && (
                 <div className="flex flex-col items-center gap-1">
                   <div className="w-[100px] aspect-square overflow-visible">
-                    <ProgressCircles theme="dark" progress={userProgress.progress} onProgressUpdate={() => {}} />
+                    <ProgressCircles theme="dark" progress={showMomentumAnimation ? animatedMomentum : userProgress.progress} onProgressUpdate={() => {}} />
                   </div>
-                  <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{userProgress.progress}%</div>
+                  <div
+                    className="text-xl font-bold"
+                    style={{
+                      color: showMomentumAnimation ? '#00ff41' : 'var(--text-primary)',
+                      textShadow: showMomentumAnimation ? '0 0 10px rgba(0, 255, 65, 0.6)' : 'none',
+                      transition: 'color 0.3s ease, text-shadow 0.3s ease'
+                    }}
+                  >
+                    {showMomentumAnimation ? Math.floor(animatedMomentum) : userProgress.progress}%
+                  </div>
                   <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>MOMENTUM</div>
                 </div>
               )}
