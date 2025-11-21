@@ -854,15 +854,7 @@ function MyCodesRedesignPageContent() {
           className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
           style={{ backgroundColor: '#000000' }}
         >
-          <div className="pt-6 px-6 flex items-center justify-between">
-            <button onClick={() => setMenuOpen(false)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-          <div className="pt-2 px-6">
+          <div className="pt-6 px-6">
             <div className="text-xs font-bold tracking-widest mb-6" style={{ color: 'var(--accent-color)' }}>NAVIGATION</div>
           </div>
           <nav className="flex-1 px-4">
