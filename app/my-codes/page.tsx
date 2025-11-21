@@ -736,6 +736,14 @@ function MyCodesRedesignPageContent() {
       } else if (currentCard.toLowerCase().includes('phrase') && currentContent.length > 0) {
         phrase = currentContent.join(' ').trim();
       }
+
+      // Fallback: If no phrase was found in CARD format, try to extract from raw content
+      if (!phrase && summary) {
+        const phraseMatch = summary.match(/CARD:\s*(?:Cheat Code )?Phrase\s*\n([^\n]+)/i);
+        if (phraseMatch) {
+          phrase = phraseMatch[1].trim();
+        }
+      }
     } else {
       // Parse markdown format (legacy)
       const sections = summary.split('\n\n');
@@ -1295,10 +1303,6 @@ function MyCodesRedesignPageContent() {
                             <h1 className="text-3xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
                               {card.title}
                             </h1>
-                            <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
-                            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-                              {card.category}
-                            </p>
                           </div>
                         );
                       }
@@ -1345,9 +1349,57 @@ function MyCodesRedesignPageContent() {
                             <div className="text-[10px] uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
                               {card.heading}
                             </div>
-                            <p className="text-2xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
-                              "{card.content}"
-                            </p>
+                            <div className="space-y-6">
+                              <p className="text-2xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
+                                "{card.content}"
+                              </p>
+
+                              <div className="space-y-3">
+                                <button
+                                  onClick={() => {
+                                    setGameCheatCodeId(selectedCode.id);
+                                    setGameCheatCodeTitle(selectedCode.title);
+                                    setGameOnboardingScenarioId(selectedCode.onboardingScenarioId);
+                                    setShowGameModal(true);
+                                    handleCloseModal();
+                                  }}
+                                  className="w-full py-4 rounded-xl font-semibold text-base transition-all active:scale-95"
+                                  style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                                >
+                                  Practice
+                                </button>
+
+                                <button
+                                  onClick={() => {
+                                    if (selectedCode.topicId) {
+                                      router.push(`/chat?topic=${selectedCode.topicId}`);
+                                    } else {
+                                      router.push('/chat');
+                                    }
+                                    handleCloseModal();
+                                  }}
+                                  className="w-full border py-3 rounded-xl font-medium text-sm transition-colors"
+                                  style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-primary)' }}
+                                >
+                                  Open Chat
+                                </button>
+
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleArchiveStatus(selectedCode.id);
+                                  }}
+                                  className="w-full py-2 text-xs transition-opacity hover:opacity-70"
+                                  style={{
+                                    color: 'var(--text-tertiary)',
+                                    background: 'none',
+                                    border: 'none'
+                                  }}
+                                >
+                                  {selectedCode.archived ? 'Reactivate Code' : 'Archive Code'}
+                                </button>
+                              </div>
+                            </div>
                           </div>
                         );
                       }
