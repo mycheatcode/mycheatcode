@@ -917,7 +917,7 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="hidden lg:flex min-h-screen relative" style={{ display: 'none' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
