@@ -67,9 +67,18 @@ function MyCodesRedesignPageContent() {
   const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
   const [showCenterAnimation, setShowCenterAnimation] = useState(false);
   const [centerAnimationPhase, setCenterAnimationPhase] = useState<'enter' | 'shrink' | 'move'>('enter');
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Load data function (can be called on mount or to refresh)
   const loadData = useCallback(async () => {
@@ -906,19 +915,8 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Responsive Layout CSS */}
-      <style>{`
-        @media (min-width: 1024px) {
-          .desktop-layout { display: flex !important; }
-          .mobile-layout { display: none !important; }
-        }
-        @media (max-width: 1023px) {
-          .desktop-layout { display: none !important; }
-          .mobile-layout { display: flex !important; }
-        }
-      `}</style>
-
       {/* Desktop Layout */}
-      <div className="desktop-layout min-h-screen relative">
+      <div className="min-h-screen relative flex" style={{ display: isMobile === false ? 'flex' : 'none' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1317,7 +1315,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="mobile-layout min-h-screen relative flex flex-col">
+      <div className="min-h-screen relative flex flex-col" style={{ display: isMobile === true ? 'flex' : 'none' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
