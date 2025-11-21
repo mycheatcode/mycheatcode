@@ -1308,9 +1308,9 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <div className="lg:hidden min-h-screen relative flex flex-col" style={{ backgroundColor: 'red' }}>
         {/* Header - Always visible */}
-        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+        <div className="p-4 flex items-center gap-4 flex-shrink-0" style={{ backgroundColor: 'blue' }}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 rounded-lg transition-colors"
