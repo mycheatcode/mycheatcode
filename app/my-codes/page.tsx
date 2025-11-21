@@ -67,9 +67,20 @@ function MyCodesRedesignPageContent() {
   const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
   const [showCenterAnimation, setShowCenterAnimation] = useState(false);
   const [centerAnimationPhase, setCenterAnimationPhase] = useState<'enter' | 'shrink' | 'move'>('enter');
+  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
+
+  // Detect viewport on mount
+  useEffect(() => {
+    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Load data function (can be called on mount or to refresh)
   const loadData = useCallback(async () => {
@@ -908,20 +919,8 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
-      {/* CSS to fix responsive layouts */}
-      <style>{`
-        @media (max-width: 1023px) {
-          .desktop-layout-fix { display: none !important; }
-          .mobile-layout-fix { display: flex !important; }
-        }
-        @media (min-width: 1024px) {
-          .desktop-layout-fix { display: flex !important; }
-          .mobile-layout-fix { display: none !important; }
-        }
-      `}</style>
-
-      {/* Desktop Layout */}
-      <div className="desktop-layout-fix min-h-screen relative">
+      {/* Desktop Layout - Only render on desktop */}
+      <div className="min-h-screen relative flex" style={{ display: mounted && !isMobile ? 'flex' : 'none' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1319,8 +1318,8 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
-      {/* Mobile Layout */}
-      <div className="mobile-layout-fix min-h-screen relative flex-col">
+      {/* Mobile Layout - Only render on mobile */}
+      <div className="min-h-screen relative flex flex-col" style={{ display: mounted && isMobile ? 'flex' : 'none' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
