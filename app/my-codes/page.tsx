@@ -1360,10 +1360,36 @@ function MyCodesRedesignPageContent() {
         </div>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1a1a1a', padding: '20px' }}>
-          {/* Header */}
-          <div className="p-4 border-b" style={{ borderColor: '#333', backgroundColor: '#2a2a2a' }}>
-            <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
-              <div className="flex flex-col justify-end" style={{ minHeight: '135px' }}>
+          {/* TEST CONTENT */}
+          <div style={{ backgroundColor: '#ff00ff', padding: '20px', marginBottom: '20px', color: '#fff' }}>
+            <h1 style={{ fontSize: '24px', marginBottom: '10px' }}>MY CHEAT CODES TEST</h1>
+            <p>Active Codes: {activeCodes.length}</p>
+            <p>Recent Codes: {recentlyCreated.length}</p>
+          </div>
+
+          {/* Recent Codes List */}
+          <div style={{ backgroundColor: '#2a2a2a', padding: '20px', borderRadius: '12px' }}>
+            <h2 style={{ color: '#00ff41', fontSize: '20px', marginBottom: '16px' }}>Your Codes</h2>
+            {recentlyCreated.map((code) => (
+              <div key={code.id} style={{
+                backgroundColor: '#333',
+                padding: '16px',
+                marginBottom: '12px',
+                borderRadius: '8px',
+                color: '#fff'
+              }}>
+                <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{code.title}</h3>
+                <p style={{ fontSize: '12px', color: '#999' }}>
+                  Last: {formatLastSession(code.lastUsedDaysAgo)} | Used {code.timesUsed || 0}x
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* OLD Header */}
+          <div style={{ padding: '16px', borderBottom: '1px solid #333', backgroundColor: '#2a2a2a', marginTop: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', overflow: 'visible' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: '135px' }}>
                 {userProgress && userProgress.streak !== undefined && (
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: '#333', borderColor: '#444', width: 'fit-content' }}>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff41">
