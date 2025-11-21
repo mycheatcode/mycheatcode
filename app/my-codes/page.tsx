@@ -67,9 +67,18 @@ function MyCodesRedesignPageContent() {
   const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
   const [showCenterAnimation, setShowCenterAnimation] = useState(false);
   const [centerAnimationPhase, setCenterAnimationPhase] = useState<'enter' | 'shrink' | 'move'>('enter');
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
+
+  // Detect viewport on client side
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // Load data function (can be called on mount or to refresh)
   const loadData = useCallback(async () => {
@@ -829,11 +838,6 @@ function MyCodesRedesignPageContent() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
-      {/* TEST BANNER - REMOVE AFTER DEBUG */}
-      <div style={{ backgroundColor: 'lime', color: 'black', padding: '20px', fontSize: '24px', fontWeight: 'bold', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
-        MOBILE TEST - If you see this, React is rendering!
-      </div>
-      {/* Responsive CSS embedded */}
       <style>{`
         .show-on-mobile { display: flex !important; flex-direction: column; }
         .show-on-desktop { display: none !important; }
@@ -922,7 +926,7 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout */}
-      <div className="show-on-desktop min-h-screen relative">
+      <div className="min-h-screen relative" style={{ display: isMobile ? 'none' : 'flex' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1321,7 +1325,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="show-on-mobile min-h-screen relative flex-col">
+      <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
