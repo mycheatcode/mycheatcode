@@ -1319,13 +1319,12 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="mobile-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column' }}>
+      <div className="mobile-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
         {/* Header - Always visible */}
-        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: 'var(--accent-color)' }}
+            style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', background: 'transparent', border: 'none' }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1333,10 +1332,10 @@ function MyCodesRedesignPageContent() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
+          <div style={{ fontSize: '18px', fontWeight: '600', color: '#00ff41' }}>MYCHEATCODE</div>
         </div>
 
-        <div className="flex-1 flex flex-col">
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           {/* Header */}
           <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
             <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
