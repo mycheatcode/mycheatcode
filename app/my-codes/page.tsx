@@ -44,6 +44,14 @@ function MyCodesRedesignPageContent() {
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Debug: Log loading state changes
+  useEffect(() => {
+    console.log('🔍 MOBILE DEBUG - Loading state:', loading);
+    console.log('🔍 MOBILE DEBUG - Cheat codes count:', cheatCodes.length);
+    console.log('🔍 MOBILE DEBUG - User ID:', userId);
+    console.log('🔍 MOBILE DEBUG - User progress:', userProgress);
+  }, [loading, cheatCodes, userId, userProgress]);
   const [todaysFocusCodes, setTodaysFocusCodes] = useState<CheatCode[]>([]);
   const [currentFocusIndex, setCurrentFocusIndex] = useState(0);
   const [completedToday, setCompletedToday] = useState<Set<string>>(new Set());
@@ -1308,13 +1316,18 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col" style={{ backgroundColor: 'var(--bg-primary)' }}>
+      <div className="lg:hidden min-h-screen relative flex flex-col" style={{ backgroundColor: '#000000' }}>
+        {/* DEBUG BANNER */}
+        <div style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px', fontSize: '12px' }}>
+          DEBUG: Loading={loading ? 'true' : 'false'} | Codes={cheatCodes.length} | UserId={userId ? 'set' : 'null'}
+        </div>
+
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 rounded-lg transition-colors"
-            style={{ color: 'var(--accent-color)' }}
+            style={{ color: '#00ff41' }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1322,7 +1335,7 @@ function MyCodesRedesignPageContent() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
+          <div className="text-lg font-semibold" style={{ color: '#00ff41' }}>MYCHEATCODE</div>
         </div>
 
         <div className="flex-1 flex flex-col">
