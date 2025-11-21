@@ -1154,33 +1154,6 @@ function MyCodesRedesignPageContent() {
           />
         )}
 
-        {/* Code Detail Modal */}
-        {selectedCode && (
-          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
-            <button onClick={handleCloseModal} className="absolute top-4 right-4 p-2 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
-            </button>
-            <div className="w-full max-w-lg rounded-2xl p-6 min-h-[400px] flex flex-col border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
-              <h2 className="text-2xl font-bold mb-4 text-center" style={{ color: 'var(--text-primary)' }}>{selectedCode.title}</h2>
-              <p className="text-sm text-center mb-6" style={{ color: 'var(--text-secondary)' }}>{selectedCode.summary || selectedCode.category}</p>
-              <div className="flex gap-3 mt-auto">
-                <button
-                  onClick={() => {
-                    setGameCheatCodeId(selectedCode.id);
-                    setGameCheatCodeTitle(selectedCode.title);
-                    setGameOnboardingScenarioId(selectedCode.onboardingScenarioId);
-                    setShowGameModal(true);
-                    handleCloseModal();
-                  }}
-                  className="flex-1 py-3 rounded-xl font-bold text-sm"
-                  style={{ backgroundColor: '#00ff41', color: '#000000' }}
-                >
-                  Practice Now
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Center-Screen Momentum Animation */}
         {showCenterAnimation && (

@@ -69,7 +69,16 @@ export async function POST(request: NextRequest) {
 Generate exactly ${scenarioCount} practice scenarios that are DIRECTLY RELATED to this specific cheat code and the mental block it addresses.
 
 🚨 CRITICAL - CONTEXTUAL APPROPRIATENESS:
-You MUST tailor scenarios to match the player's level and age. Use the player context above to determine appropriate scenarios.
+You MUST tailor scenarios AND answer options to match the player's level and age. Use the player context above to determine appropriate scenarios and answers.
+
+🚨 CRITICAL - AGE-APPROPRIATE ANSWER OPTIONS:
+- **Youth players (13-17)**: Can use phrases like "I'm learning", "I'm still developing", "I'm working on it"
+- **Adult players (18+, recreational, men's league)**: NEVER use youth phrases. Use mature, experience-based language like:
+  - ✅ "Focus on execution" (not "I'm learning")
+  - ✅ "Trust my training" (not "I'm still developing")
+  - ✅ "Attack the opportunity" (not "I'm trying my best")
+  - ✅ "Next play" (not "I'll get better")
+- **High school/college/pro players**: Use performance-focused language without developmental framing
 
 🚨 CRITICAL - LANGUAGE TONE (MUST FOLLOW):
 Use supportive, encouraging language that builds confidence. AVOID harsh or extreme scenarios:
@@ -154,6 +163,9 @@ Each scenario format:
 - Each external scenario should feel like a different angle/context of the SAME underlying fear/belief
 - Always provide 4 options: 2 negative, 1 helpful, 1 optimal
 - Randomize the order of the 4 options in each scenario
+- **CRITICAL**: ALL 4 answer options MUST be age-appropriate per the guidelines above
+  * For adult recreational/men's league players: NO "I'm learning" or developmental language in ANY options
+  * Use experience-based, action-focused language appropriate for their age and level
 - Optimal answers for internal = mental shift phrase alignment
 - Optimal answers for external = challenging false belief about others' perceptions IN THEIR SPECIFIC CONTEXT
 
