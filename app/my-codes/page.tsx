@@ -1325,7 +1325,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none' }}>
+      <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none', backgroundColor: 'red' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
