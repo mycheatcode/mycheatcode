@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -37,7 +37,7 @@ interface UserProgress {
   streak?: number;
 }
 
-export default function MyCodesRedesignPage() {
+function MyCodesRedesignPageContent() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -2044,5 +2044,14 @@ export default function MyCodesRedesignPage() {
 
       <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
     </div>
+  );
+}
+
+// Wrap in Suspense for useSearchParams
+export default function MyCodesRedesignPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <MyCodesRedesignPageContent />
+    </Suspense>
   );
 }
