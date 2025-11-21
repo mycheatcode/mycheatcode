@@ -38,6 +38,7 @@ interface UserProgress {
 }
 
 function MyCodesRedesignPageContent() {
+  const [isMobile, setIsMobile] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
@@ -161,6 +162,16 @@ function MyCodesRedesignPageContent() {
       loadData();
     }
   }, [loadData]);
+
+  // Detect mobile viewport using JavaScript
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Load completed today from localStorage
   useEffect(() => {
@@ -908,19 +919,8 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
-      <style dangerouslySetInnerHTML={{__html: `
-        @media (min-width: 1024px) {
-          .desktop-layout { display: flex !important; }
-          .mobile-layout { display: none !important; }
-        }
-        @media (max-width: 1023px) {
-          .desktop-layout { display: none !important; }
-          .mobile-layout { display: flex !important; }
-        }
-      `}} />
-
-      {/* Desktop Layout */}
-      <div className="desktop-layout" style={{ display: 'none', minHeight: '100vh', position: 'relative' }}>
+      {/* Desktop Layout - JS controlled */}
+      <div style={{ display: isMobile ? 'none' : 'flex', minHeight: '100vh', position: 'relative' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1318,8 +1318,8 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
-      {/* Mobile Layout */}
-      <div className="mobile-layout" style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
+      {/* Mobile Layout - JS controlled */}
+      <div style={{ display: isMobile ? 'flex' : 'none', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
         {/* Header - Always visible */}
         <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
           <button
