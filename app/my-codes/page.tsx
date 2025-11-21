@@ -908,8 +908,20 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
+      {/* Responsive Layout CSS */}
+      <style>{`
+        @media (min-width: 1024px) {
+          .desktop-layout { display: flex !important; }
+          .mobile-layout { display: none !important; }
+        }
+        @media (max-width: 1023px) {
+          .desktop-layout { display: none !important; }
+          .mobile-layout { display: flex !important; }
+        }
+      `}</style>
+
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="desktop-layout min-h-screen relative">
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1308,11 +1320,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <style>{`
-        @media (min-width: 1024px) { .mobile-layout { display: none !important; } }
-        @media (max-width: 1023px) { .mobile-layout { display: flex !important; } }
-      `}</style>
-      <div className="mobile-layout min-h-screen relative flex-col">
+      <div className="mobile-layout min-h-screen relative flex-col" style={{ display: 'none', flexDirection: 'column' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
