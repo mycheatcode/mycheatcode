@@ -836,6 +836,24 @@ function MyCodesRedesignPageContent() {
     return timeB - timeA;
   }).slice(0, 5);
 
+  // Mobile-specific simple render for debugging
+  if (isMobile) {
+    return (
+      <div style={{ backgroundColor: '#000', color: '#00ff41', padding: '20px', minHeight: '100vh' }}>
+        <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>My Cheat Codes (Mobile)</h1>
+        <p>isMobile: {String(isMobile)}</p>
+        <p>Codes loaded: {cheatCodes.length}</p>
+        <p>Active codes: {activeCodes.length}</p>
+        {activeCodes.map(code => (
+          <div key={code.id} style={{ padding: '10px', margin: '10px 0', border: '1px solid #00ff41', borderRadius: '8px' }}>
+            <strong>{code.title}</strong>
+            <p style={{ fontSize: '14px', opacity: 0.7 }}>{code.category}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Responsive CSS embedded */}
