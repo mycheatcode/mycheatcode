@@ -909,7 +909,7 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="show-on-desktop min-h-screen relative">
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1308,7 +1308,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="lg:hidden min-h-screen relative flex flex-col">
+      <div className="show-on-mobile min-h-screen relative flex-col">
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
