@@ -845,10 +845,6 @@ function MyCodesRedesignPageContent() {
 
   return (
     <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
-      {/* TOP LEVEL DEBUG - MUST BE VISIBLE */}
-      <div style={{ backgroundColor: 'blue', color: 'yellow', padding: '30px', fontSize: '28px', fontWeight: 'bold', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 99999 }}>
-        TOP LEVEL DEBUG - COMPONENT IS RENDERING
-      </div>
       {/* Sidebar Navigation */}
       <div
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
@@ -928,28 +924,10 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
-      {/* YELLOW DEBUG - RIGHT BEFORE DESKTOP */}
-      <div style={{ backgroundColor: 'yellow', color: 'black', padding: '20px', fontSize: '20px', position: 'fixed', top: '200px', left: 0, right: 0, zIndex: 99997 }}>
-        YELLOW - BEFORE DESKTOP LAYOUT
-      </div>
-
-      {/* Desktop Layout - REMOVED */}
-      <div style={{ display: "none" }}></div>
-
-
-      {/* DEBUG BETWEEN LAYOUTS */}
-      <div style={{ backgroundColor: 'green', color: 'white', padding: '20px', fontSize: '20px', position: 'fixed', top: '100px', left: 0, right: 0, zIndex: 99998 }}>
-        BETWEEN DESKTOP AND MOBILE - GREEN
-      </div>
-
-      {/* Mobile Layout - FORCED VISIBLE FOR DEBUG */}
+      {/* Mobile Layout */}
       <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
-        {/* DEBUG BANNER */}
-        <div style={{ backgroundColor: 'red', color: 'white', padding: '20px', fontSize: '24px', fontWeight: 'bold', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
-          MOBILE LAYOUT IS RENDERING - IF YOU SEE THIS IT WORKS
-        </div>
         {/* Header - Always visible */}
-        <div style={{ padding: '16px', paddingTop: '80px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
+        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', background: 'transparent', border: 'none' }}
