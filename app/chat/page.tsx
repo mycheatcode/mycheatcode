@@ -587,11 +587,12 @@ export default function ChatPage() {
       if (storedTopic) {
         try {
           const topic = JSON.parse(storedTopic);
+          console.log('📌 Setting selected topic from localStorage:', topic);
           setSelectedTopic(topic);
+          // DON'T clear it - keep it for the entire chat session
         } catch (error) {
-          // Error parsing selectedTopic handled silently
+          console.error('Error parsing selectedTopic:', error);
         }
-      } else {
       }
 
       // Try to restore prior chat from localStorage first
@@ -1526,8 +1527,8 @@ export default function ChatPage() {
   };
 
   const handleCloseGameModal = async () => {
-    // Get the game result from the CheatCodeGame component if available
-    const gameResult = gameCheatCodeId; // We'll need to pass result data differently
+    // CRITICAL: Capture the code ID BEFORE clearing it
+    const completedGameCodeId = gameCheatCodeId;
 
     setShowGameModal(false);
     setGameCheatCodeId(null);
@@ -1536,7 +1537,7 @@ export default function ChatPage() {
     // Only when closing (not when playing again)
     setTimeout(async () => {
       // Check if there was a completed game session
-      if (userId && gameCheatCodeId) {
+      if (userId && completedGameCodeId) {
         try {
           // Fetch the most recent game session for this cheat code
           const supabase = createClient();
@@ -1544,7 +1545,7 @@ export default function ChatPage() {
             .from('game_sessions')
             .select('score, total_questions, is_first_play, momentum_awarded')
             .eq('user_id', userId)
-            .eq('cheat_code_id', gameCheatCodeId)
+            .eq('cheat_code_id', completedGameCodeId)
             .order('created_at', { ascending: false })
             .limit(1);
 

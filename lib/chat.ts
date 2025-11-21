@@ -46,6 +46,7 @@ export async function saveChat(
       return { chatId };
     } else {
       // Create new chat
+      console.log('💾 Creating new chat with selected_topic:', selectedTopic);
       const { data, error } = await supabase
         .from('chats')
         .insert({
