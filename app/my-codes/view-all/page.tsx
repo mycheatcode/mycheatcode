@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
@@ -29,7 +29,7 @@ interface CheatCode {
   topicId?: string;
 }
 
-export default function ViewAllCodesPage() {
+function ViewAllCodesPageContent() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
@@ -1215,5 +1215,14 @@ export default function ViewAllCodesPage() {
       {/* Feedback Modal */}
       <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
     </div>
+  );
+}
+
+// Wrap in Suspense for useSearchParams
+export default function ViewAllCodesPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center"><div className="text-white">Loading...</div></div>}>
+      <ViewAllCodesPageContent />
+    </Suspense>
   );
 }
