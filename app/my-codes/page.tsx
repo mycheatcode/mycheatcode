@@ -44,14 +44,6 @@ function MyCodesRedesignPageContent() {
   const [cheatCodes, setCheatCodes] = useState<CheatCode[]>([]);
   const [userProgress, setUserProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // Debug: Log loading state changes
-  useEffect(() => {
-    console.log('🔍 MOBILE DEBUG - Loading state:', loading);
-    console.log('🔍 MOBILE DEBUG - Cheat codes count:', cheatCodes.length);
-    console.log('🔍 MOBILE DEBUG - User ID:', userId);
-    console.log('🔍 MOBILE DEBUG - User progress:', userProgress);
-  }, [loading, cheatCodes, userId, userProgress]);
   const [todaysFocusCodes, setTodaysFocusCodes] = useState<CheatCode[]>([]);
   const [currentFocusIndex, setCurrentFocusIndex] = useState(0);
   const [completedToday, setCompletedToday] = useState<Set<string>>(new Set());
@@ -836,22 +828,7 @@ function MyCodesRedesignPageContent() {
   }).slice(0, 5);
 
   return (
-    <div className="min-h-screen font-sans" style={{ color: '#fff', backgroundColor: '#0000ff', position: 'relative', zIndex: 9999 }}>
-      {/* EMERGENCY TEST DIV */}
-      <div style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: '#ff0000',
-        color: '#ffffff',
-        padding: '20px',
-        fontSize: '24px',
-        zIndex: 99999,
-        border: '5px solid yellow'
-      }}>
-        🚨 EMERGENCY TEST - CAN YOU SEE THIS? Loading: {loading ? 'YES' : 'NO'} | Codes: {cheatCodes.length}
-      </div>
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
       {/* Sidebar Navigation */}
       <div
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
@@ -932,7 +909,7 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative" style={{ display: 'none' }}>
+      <div className="hidden lg:flex min-h-screen relative">
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1331,24 +1308,13 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div style={{
-        backgroundColor: '#000000',
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'relative',
-        paddingTop: '80px'
-      }}>
-        {/* DEBUG BANNER */}
-        <div style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px', fontSize: '12px', marginBottom: '20px' }}>
-          DEBUG: Loading={loading ? 'true' : 'false'} | Codes={cheatCodes.length} | UserId={userId ? 'set' : 'null'}
-        </div>
-
+      <div className="lg:hidden min-h-screen relative flex flex-col">
         {/* Header - Always visible */}
-        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: '#222' }}>
+        <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', border: '1px solid #00ff41' }}
+            className="p-2 rounded-lg transition-colors"
+            style={{ color: 'var(--accent-color)' }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1356,51 +1322,25 @@ function MyCodesRedesignPageContent() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div style={{ fontSize: '18px', fontWeight: '600', color: '#00ff41' }}>MYCHEATCODE</div>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1a1a1a', padding: '20px' }}>
-          {/* TEST CONTENT */}
-          <div style={{ backgroundColor: '#ff00ff', padding: '20px', marginBottom: '20px', color: '#fff' }}>
-            <h1 style={{ fontSize: '24px', marginBottom: '10px' }}>MY CHEAT CODES TEST</h1>
-            <p>Active Codes: {activeCodes.length}</p>
-            <p>Recent Codes: {recentlyCreated.length}</p>
-          </div>
-
-          {/* Recent Codes List */}
-          <div style={{ backgroundColor: '#2a2a2a', padding: '20px', borderRadius: '12px' }}>
-            <h2 style={{ color: '#00ff41', fontSize: '20px', marginBottom: '16px' }}>Your Codes</h2>
-            {recentlyCreated.map((code) => (
-              <div key={code.id} style={{
-                backgroundColor: '#333',
-                padding: '16px',
-                marginBottom: '12px',
-                borderRadius: '8px',
-                color: '#fff'
-              }}>
-                <h3 style={{ fontSize: '18px', marginBottom: '8px' }}>{code.title}</h3>
-                <p style={{ fontSize: '12px', color: '#999' }}>
-                  Last: {formatLastSession(code.lastUsedDaysAgo)} | Used {code.timesUsed || 0}x
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* OLD Header */}
-          <div style={{ padding: '16px', borderBottom: '1px solid #333', backgroundColor: '#2a2a2a', marginTop: '20px' }}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', overflow: 'visible' }}>
-              <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: '135px' }}>
+        <div className="flex-1 flex flex-col">
+          {/* Header */}
+          <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
+            <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
+              <div className="flex flex-col justify-end" style={{ minHeight: '135px' }}>
                 {userProgress && userProgress.streak !== undefined && (
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: '#333', borderColor: '#444', width: 'fit-content' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="#00ff41">
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', width: 'fit-content' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)">
                       <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
                     </svg>
-                    <span className="text-xs font-semibold" style={{ color: '#fff' }}>{userProgress.streak} DAY STREAK</span>
+                    <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{userProgress.streak} DAY STREAK</span>
                   </div>
                 )}
                 <div>
-                  <div className="text-3xl font-bold" style={{ color: '#fff' }}>My Cheat Codes</div>
-                  <div className="text-sm mt-1" style={{ color: '#999' }}>Create, save and practice your personalized cheat codes</div>
+                  <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Create, save and practice your personalized cheat codes</div>
                 </div>
               </div>
               {userProgress && (
