@@ -2345,8 +2345,49 @@ export default function ChatPage() {
         </div>
       )}
 
+      {/* Momentum Notification (shows after saving code) */}
+      {showSaveSuccess && momentumGain > 0 && (
+        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[150] animate-slideDown">
+          <div
+            className="px-8 py-4 rounded-2xl shadow-2xl border-2"
+            style={{
+              backgroundColor: 'rgba(0, 0, 0, 0.95)',
+              borderColor: '#00ff41',
+              boxShadow: '0 0 30px rgba(0, 255, 65, 0.3)'
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">⚡</div>
+              <div>
+                <div className="text-xs uppercase tracking-wider" style={{ color: '#00ff41' }}>
+                  Code Saved
+                </div>
+                <div className="text-xl font-bold" style={{ color: '#00ff41' }}>
+                  +{momentumGain.toFixed(1)}% Momentum
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Animation Styles */}
       <style jsx global>{`
+        @keyframes slideDown {
+          from {
+            transform: translate(-50%, -100%);
+            opacity: 0;
+          }
+          to {
+            transform: translate(-50%, 0);
+            opacity: 1;
+          }
+        }
+
+        .animate-slideDown {
+          animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
         /* Prevent overscroll/rubber band effect on mobile */
         html, body {
           overscroll-behavior: none;
