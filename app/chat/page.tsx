@@ -982,9 +982,15 @@ export default function ChatPage() {
       return;
     }
 
+    // CRITICAL: Update currentChatId immediately if this is a new chat
+    // This prevents race conditions where multiple saves create multiple chats
     if (chatId && !currentChatId) {
       setCurrentChatId(chatId);
+      // Also return the chatId so calling code can use it immediately
+      return chatId;
     }
+
+    return chatId;
 
     // Also update localStorage chatHistory so page refreshes restore the latest messages
     if (typeof window !== 'undefined') {

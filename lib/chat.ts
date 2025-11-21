@@ -26,8 +26,9 @@ export async function saveChat(
         messages: messages,
       };
 
-      // Only update selected_topic if it's provided (don't overwrite with undefined)
-      if (selectedTopic !== undefined) {
+      // Only update selected_topic if it's provided and not null (don't overwrite existing topic)
+      // This prevents null from overwriting an existing topic when navigating away and back
+      if (selectedTopic !== undefined && selectedTopic !== null) {
         updateData.selected_topic = selectedTopic;
       }
 
