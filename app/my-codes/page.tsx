@@ -836,20 +836,255 @@ function MyCodesRedesignPageContent() {
     return timeB - timeA;
   }).slice(0, 5);
 
-  // Mobile-specific simple render for debugging
+  // Mobile Layout - Early return for proper rendering
   if (isMobile) {
     return (
-      <div style={{ backgroundColor: '#000', color: '#00ff41', padding: '20px', minHeight: '100vh' }}>
-        <h1 style={{ fontSize: '24px', marginBottom: '20px' }}>My Cheat Codes (Mobile)</h1>
-        <p>isMobile: {String(isMobile)}</p>
-        <p>Codes loaded: {cheatCodes.length}</p>
-        <p>Active codes: {activeCodes.length}</p>
-        {activeCodes.map(code => (
-          <div key={code.id} style={{ padding: '10px', margin: '10px 0', border: '1px solid #00ff41', borderRadius: '8px' }}>
-            <strong>{code.title}</strong>
-            <p style={{ fontSize: '14px', opacity: 0.7 }}>{code.category}</p>
+      <div className="min-h-screen font-sans flex flex-col" style={{ backgroundColor: 'var(--background)', color: 'var(--text-primary)' }}>
+        {/* Sidebar Navigation */}
+        <div
+          className={`fixed top-0 left-0 h-full w-72 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+          style={{ backgroundColor: '#000000' }}
+        >
+          <div className="p-6 border-b" style={{ borderColor: 'var(--card-border)' }}>
+            <div className="text-xl font-bold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
           </div>
-        ))}
+          <nav className="flex-1 p-4">
+            <Link href="/my-codes" className="flex items-center gap-3 px-4 py-3 rounded-xl mb-2 font-medium" style={{ backgroundColor: 'rgba(0, 255, 65, 0.1)', color: 'var(--accent-color)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+              My Codes
+            </Link>
+            <Link href="/chat-history" className="flex items-center gap-3 px-4 py-3 rounded-xl mb-2 font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Chat History
+            </Link>
+            <Link href="/relatable-topics" className="flex items-center gap-3 px-4 py-3 rounded-xl mb-2 font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              Relatable Topics
+            </Link>
+          </nav>
+          <div className="p-4 border-t" style={{ borderColor: 'var(--card-border)' }}>
+            <Link href="/profile" className="flex items-center gap-3 px-4 py-3 rounded-xl font-medium" style={{ color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Profile
+            </Link>
+          </div>
+        </div>
+
+        {/* Overlay when sidebar is open */}
+        {menuOpen && (
+          <div className="fixed inset-0 bg-black/60 z-20" onClick={() => setMenuOpen(false)}></div>
+        )}
+
+        {/* Header */}
+        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+          <button onClick={() => setMenuOpen(!menuOpen)} className="p-2 rounded-lg transition-colors" style={{ color: 'var(--accent-color)' }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div className="text-lg font-semibold" style={{ color: 'var(--accent-color)' }}>MYCHEATCODE</div>
+        </div>
+
+        {/* Main Content */}
+        <div className="flex-1 flex flex-col">
+          {/* Header Section */}
+          <div className="p-4 border-b" style={{ borderColor: 'var(--card-border)' }}>
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col justify-end" style={{ minHeight: '135px' }}>
+                {userProgress && userProgress.streak !== undefined && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-3" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', width: 'fit-content' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--accent-color)">
+                      <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                    </svg>
+                    <span className="text-xs font-semibold" style={{ color: 'var(--text-primary)' }}>{userProgress.streak} DAY STREAK</span>
+                  </div>
+                )}
+                <div>
+                  <div className="text-3xl font-bold" style={{ color: 'var(--text-primary)' }}>My Cheat Codes</div>
+                  <div className="text-sm mt-1" style={{ color: 'var(--text-tertiary)' }}>Create, save and practice your personalized cheat codes</div>
+                </div>
+              </div>
+              {userProgress && (
+                <div className="flex flex-col items-center gap-1">
+                  <div className="w-[100px] aspect-square overflow-visible">
+                    <ProgressCircles theme="dark" progress={userProgress.progress} onProgressUpdate={() => {}} />
+                  </div>
+                  <div className="text-xl font-bold" style={{ color: 'var(--text-primary)' }}>{userProgress.progress}%</div>
+                  <div className="text-xs font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>MOMENTUM</div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Today's Focus */}
+          {todaysFocusCodes.length > 0 && (
+            <div className="p-4 pb-3 border-b" style={{ borderColor: 'var(--card-border)' }}>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                  </svg>
+                  <span className="text-sm font-bold uppercase tracking-wider" style={{ color: 'var(--accent-color)' }}>Today's Focus</span>
+                </div>
+                <div className="text-xs font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                  {completedToday.size}/{todaysFocusCodes.length} completed
+                </div>
+              </div>
+              <div className="relative rounded-2xl border p-5" style={{ backgroundColor: 'rgba(0, 255, 65, 0.05)', borderColor: 'rgba(0, 255, 65, 0.2)' }}>
+                <p className="text-xs mb-2" style={{ color: 'var(--text-tertiary)' }}>Your coach recommends practicing:</p>
+                <h3 className="text-xl font-bold mb-3 leading-tight" style={{ color: 'var(--text-primary)' }}>
+                  {todaysFocusCodes[currentFocusIndex]?.title}
+                </h3>
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => {
+                      const code = todaysFocusCodes[currentFocusIndex];
+                      setGameCheatCodeId(code.id);
+                      setGameCheatCodeTitle(code.title);
+                      setGameOnboardingScenarioId(code.onboardingScenarioId);
+                      setShowGameModal(true);
+                    }}
+                    className="flex-1 py-3 px-3 rounded-xl font-bold text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                    style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                  >
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                    Start Practice
+                  </button>
+                  <button
+                    onClick={() => setSelectedCode(todaysFocusCodes[currentFocusIndex])}
+                    className="flex-1 border py-3 px-3 rounded-xl font-medium text-xs transition-all"
+                    style={{ backgroundColor: 'transparent', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+                  >
+                    View Code
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Quick Actions */}
+          <div className="px-4 py-3 border-b" style={{ borderColor: 'var(--card-border)' }}>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => {
+                  if (activeCodes.length > 0) {
+                    const randomCode = activeCodes[Math.floor(Math.random() * activeCodes.length)];
+                    setGameCheatCodeId(randomCode.id);
+                    setGameCheatCodeTitle(randomCode.title);
+                    setShowGameModal(true);
+                  }
+                }}
+                disabled={activeCodes.length < 2}
+                className="rounded-xl p-4 border text-left transition-all active:scale-[0.98] disabled:opacity-50"
+                style={{ backgroundColor: 'rgba(0, 255, 65, 0.15)', borderColor: 'rgba(0, 255, 65, 0.3)', color: 'var(--accent-color)' }}
+              >
+                <div className="text-sm font-bold mb-1">Quick Game</div>
+                <div className="text-xs opacity-80">{activeCodes.length < 2 ? 'Need 2+ codes' : 'Random code practice'}</div>
+              </button>
+              <button
+                onClick={() => router.push('/chat')}
+                className="rounded-xl p-4 border text-left transition-colors"
+                style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}
+              >
+                <div className="text-sm font-bold mb-1" style={{ color: 'var(--text-primary)' }}>Create New</div>
+                <div className="text-xs" style={{ color: 'var(--text-tertiary)' }}>Chat now</div>
+              </button>
+            </div>
+          </div>
+
+          {/* Recent Codes */}
+          <div className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>Recent Codes</h2>
+              <Link href="/my-codes/view-all" className="text-xs font-medium" style={{ color: 'var(--text-tertiary)' }}>View All →</Link>
+            </div>
+            <div className="space-y-3">
+              {recentlyCreated.map((code) => (
+                <div
+                  key={code.id}
+                  onClick={() => setSelectedCode(code)}
+                  className="rounded-2xl p-5 min-h-[180px] flex flex-col justify-between relative transition-all active:scale-[0.98]"
+                  style={{ backgroundColor: 'var(--card-bg)', border: '1px solid var(--card-border)' }}
+                >
+                  <button
+                    onClick={(e) => toggleFavorite(code.id, e)}
+                    className="absolute top-3 right-3 p-1.5 rounded-full transition-all z-10"
+                    style={{ backgroundColor: code.isFavorite ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 255, 255, 0.05)' }}
+                  >
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill={code.isFavorite ? '#00ff41' : 'none'} stroke={code.isFavorite ? '#00ff41' : 'rgba(255, 255, 255, 0.3)'} strokeWidth="1.5">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  </button>
+                  <div className="space-y-3 flex-1 flex flex-col justify-center text-center">
+                    <h1 className="text-2xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>{code.title}</h1>
+                  </div>
+                  <div className="flex items-center justify-between text-[10px] pt-3 border-t" style={{ color: 'var(--text-tertiary)', borderColor: 'var(--card-border)' }}>
+                    <span className="font-medium">Last: {formatLastSession(code.lastUsedDaysAgo)}</span>
+                    <span className="font-medium">Completed {code.timesUsed || 0}x</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Empty State */}
+          {activeCodes.length === 0 && !loading && (
+            <div className="flex-1 flex items-center justify-center p-8">
+              <div className="text-center max-w-sm">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--accent-color)" strokeWidth="2" className="mx-auto mb-4"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <h3 className="text-2xl font-bold mb-3" style={{ color: 'var(--text-primary)' }}>Ready to Build Confidence?</h3>
+                <p className="text-sm mb-6 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>Create your first cheat code by chatting with your coach.</p>
+                <button onClick={() => router.push('/chat')} className="px-8 py-3.5 rounded-xl font-bold transition-all active:scale-95" style={{ backgroundColor: '#00ff41', color: '#000000' }}>
+                  Start Your First Chat
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Game Modal */}
+        {showGameModal && gameCheatCodeId && (
+          <CheatCodeGame
+            cheatCodeId={gameCheatCodeId}
+            cheatCodeTitle={gameCheatCodeTitle}
+            onClose={() => { setShowGameModal(false); setGameCheatCodeId(null); }}
+            onComplete={handleGameComplete}
+            onboardingScenarioId={gameOnboardingScenarioId}
+          />
+        )}
+
+        {/* Code Detail Modal */}
+        {selectedCode && (
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+            <button onClick={handleCloseModal} className="absolute top-4 right-4 p-2 rounded-full border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+            </button>
+            <div className="w-full max-w-lg rounded-2xl p-6 min-h-[400px] flex flex-col border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+              <h2 className="text-2xl font-bold mb-4 text-center" style={{ color: 'var(--text-primary)' }}>{selectedCode.title}</h2>
+              <p className="text-sm text-center mb-6" style={{ color: 'var(--text-secondary)' }}>{selectedCode.summary || selectedCode.category}</p>
+              <div className="flex gap-3 mt-auto">
+                <button
+                  onClick={() => {
+                    setGameCheatCodeId(selectedCode.id);
+                    setGameCheatCodeTitle(selectedCode.title);
+                    setGameOnboardingScenarioId(selectedCode.onboardingScenarioId);
+                    setShowGameModal(true);
+                    handleCloseModal();
+                  }}
+                  className="flex-1 py-3 rounded-xl font-bold text-sm"
+                  style={{ backgroundColor: '#00ff41', color: '#000000' }}
+                >
+                  Practice Now
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <FeedbackButton />
+        <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
       </div>
     );
   }
