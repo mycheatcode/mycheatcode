@@ -333,10 +333,10 @@ export const ONBOARDING_GAME_SCENARIOS: Record<string, GameScenario[]> = {
       cheat_code_id: 'mistake_replaying',
       user_id: 'onboarding',
       situation: "You made a bad pass that led to a fast-break turnover.",
-      current_thought: "I need to replay that and understand what I did wrong",
+      current_thought: "I keep seeing that turnover in my head, I can't stop replaying it",
       options: [
         { text: "Check defender position first, then move on", type: 'optimal', feedback: "Perfect! You got the lesson (check defender) and released it. Noted, next." },
-        { text: "Replay it in my head to understand", type: 'negative', feedback: "Replaying is dwelling. Extract the lesson: Noted, next." },
+        { text: "Keep replaying it to understand every detail", type: 'negative', feedback: "Replaying is dwelling. Extract the lesson: Noted, next." },
         { text: "Analyze every detail of the play", type: 'negative', feedback: "Over-analysis is dwelling. One lesson: Noted, next." },
         { text: "Learn from it", type: 'helpful', feedback: "Learning is right, but 'noted + specific lesson + move on' is the complete process." }
       ],

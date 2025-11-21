@@ -103,8 +103,8 @@ export const ONBOARDING_CODES: Record<string, OnboardingCode> = {
     title: 'Learn & Release',
     phrase: 'Noted, next',
     category: 'Noted, next',
-    what: 'This helps you extract the lesson from a mistake without dwelling on it, so you actually get better while also protecting your confidence.',
-    when: 'Use this when you made a mistake that has something to teach you, but you don\'t want to get stuck in your head analyzing it forever.',
+    what: 'This helps you extract the lesson from a mistake without dwelling on it, so you get better while also protecting your confidence.',
+    when: 'Use this right after any mistake - there\'s always something to learn, but you don\'t want to get stuck replaying it in your head.',
     how: [
       'Ask yourself: "What\'s the one thing this mistake teaches me?" - frame it as information for future you, not judgment on current you',
       'Reframe replaying the mistake: your brain wants to learn from it, but once you extract the lesson, the replay has no more value',
