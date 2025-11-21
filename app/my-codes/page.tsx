@@ -1327,6 +1327,11 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
+      {/* DEBUG BETWEEN LAYOUTS */}
+      <div style={{ backgroundColor: 'green', color: 'white', padding: '20px', fontSize: '20px', position: 'fixed', top: '100px', left: 0, right: 0, zIndex: 99998 }}>
+        BETWEEN DESKTOP AND MOBILE - GREEN
+      </div>
+
       {/* Mobile Layout - FORCED VISIBLE FOR DEBUG */}
       <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
         {/* DEBUG BANNER */}
