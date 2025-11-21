@@ -928,8 +928,8 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
-      {/* Desktop Layout - JS controlled */}
-      <div style={{ display: 'none', minHeight: '100vh', position: 'relative' }}>
+      {/* Desktop Layout - COMPLETELY REMOVED FOR DEBUG */}
+      <div style={{ display: 'none' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
