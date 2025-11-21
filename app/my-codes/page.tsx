@@ -925,7 +925,7 @@ function MyCodesRedesignPageContent() {
       )}
 
       {/* Desktop Layout - JS controlled */}
-      <div style={{ display: isMobile ? 'none' : 'flex', minHeight: '100vh', position: 'relative' }}>
+      <div style={{ display: 'none', minHeight: '100vh', position: 'relative' }}>
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1323,8 +1323,8 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
-      {/* Mobile Layout - JS controlled */}
-      <div style={{ display: isMobile ? 'flex' : 'none', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
+      {/* Mobile Layout - FORCED VISIBLE FOR DEBUG */}
+      <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
         {/* Header - Always visible */}
         <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
           <button
