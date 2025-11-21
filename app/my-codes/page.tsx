@@ -908,8 +908,20 @@ function MyCodesRedesignPageContent() {
         ></div>
       )}
 
+      {/* CSS to fix responsive layouts */}
+      <style>{`
+        @media (max-width: 1023px) {
+          .desktop-layout-fix { display: none !important; }
+          .mobile-layout-fix { display: flex !important; }
+        }
+        @media (min-width: 1024px) {
+          .desktop-layout-fix { display: flex !important; }
+          .mobile-layout-fix { display: none !important; }
+        }
+      `}</style>
+
       {/* Desktop Layout */}
-      <div className="hidden lg:flex min-h-screen relative">
+      <div className="desktop-layout-fix min-h-screen relative">
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1307,10 +1319,10 @@ function MyCodesRedesignPageContent() {
         </div>
       </div>
 
-      {/* Mobile Layout - Force visible on mobile */}
-      <div className="min-h-screen relative flex flex-col" style={{ backgroundColor: 'red', display: 'flex' }}>
+      {/* Mobile Layout */}
+      <div className="mobile-layout-fix min-h-screen relative flex-col">
         {/* Header - Always visible */}
-        <div className="p-4 flex items-center gap-4 flex-shrink-0" style={{ backgroundColor: 'blue' }}>
+        <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="p-2 rounded-lg transition-colors"
