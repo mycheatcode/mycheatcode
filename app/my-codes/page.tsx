@@ -1200,15 +1200,27 @@ function MyCodesRedesignPageContent() {
                   Momentum Gained
                 </div>
                 <div
-                  className="text-7xl font-bold"
+                  className="text-7xl font-bold momentum-glow"
                   style={{
                     color: '#00ff41',
-                    textShadow: '0 0 20px rgba(0,255,65,0.3)',
                     fontFamily: 'system-ui, -apple-system, sans-serif'
                   }}
                 >
                   +{Math.floor(momentumGain)}%
                 </div>
+                <style>{`
+                  @keyframes momentumGlow {
+                    0%, 100% {
+                      text-shadow: 0 0 20px rgba(0, 255, 65, 0.6), 0 0 40px rgba(0, 255, 65, 0.3);
+                    }
+                    50% {
+                      text-shadow: 0 0 30px rgba(0, 255, 65, 0.9), 0 0 60px rgba(0, 255, 65, 0.5);
+                    }
+                  }
+                  .momentum-glow {
+                    animation: momentumGlow 1.5s ease-in-out infinite;
+                  }
+                `}</style>
                 <div
                   className="text-lg font-medium"
                   style={{
@@ -1218,6 +1230,154 @@ function MyCodesRedesignPageContent() {
                 >
                   Keep practicing! 🔥
                 </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Cheat Code Cue Cards Modal - Mobile */}
+        {selectedCode && (
+          <div className="fixed inset-0 bg-black/95 backdrop-blur-sm z-[110] flex items-center justify-center p-4">
+            {/* Close Button */}
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-4 right-4 p-2 transition-colors z-[120] rounded-full border"
+              style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)', color: 'var(--text-secondary)' }}
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+              </svg>
+            </button>
+
+            {/* Card Container */}
+            <div className="w-full max-w-lg">
+              <div className="rounded-2xl p-6 min-h-[400px] flex relative border" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                {/* Left Arrow */}
+                <button
+                  onClick={prevCard}
+                  disabled={currentCard === 0}
+                  className={`absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                    currentCard === 0 ? 'cursor-not-allowed opacity-30' : 'active:scale-95 hover:bg-white/5'
+                  }`}
+                  style={{ color: currentCard === 0 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+
+                {/* Right Arrow */}
+                <button
+                  onClick={nextCard}
+                  disabled={currentCard === buildCards(selectedCode).length - 1}
+                  className={`absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full transition-all ${
+                    currentCard === buildCards(selectedCode).length - 1 ? 'cursor-not-allowed opacity-30' : 'active:scale-95 hover:bg-white/5'
+                  }`}
+                  style={{ color: currentCard === buildCards(selectedCode).length - 1 ? 'var(--text-tertiary)' : 'var(--text-primary)' }}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+
+                {/* Card Content */}
+                <div className="flex-1 flex flex-col justify-between px-4 py-4 pb-3">
+                  <div className="flex-1 flex flex-col items-center justify-center text-center">
+                    {(() => {
+                      const cards = buildCards(selectedCode);
+                      const card = cards[currentCard];
+
+                      if (!card) return null;
+
+                      if (card.type === 'title') {
+                        return (
+                          <div className="space-y-6">
+                            <h1 className="text-3xl font-bold leading-tight" style={{ color: 'var(--text-primary)' }}>
+                              {card.title}
+                            </h1>
+                            <div className="h-px w-16 mx-auto" style={{ backgroundColor: 'var(--card-border)' }}></div>
+                            <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+                              {card.category}
+                            </p>
+                          </div>
+                        );
+                      }
+
+                      if (card.type === 'section') {
+                        return (
+                          <div className="space-y-6 max-w-md">
+                            <div className="text-[10px] uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              {card.heading}
+                            </div>
+                            <p className="text-xl font-medium leading-[1.4]" style={{ color: 'var(--text-primary)' }}>
+                              {card.content}
+                            </p>
+                          </div>
+                        );
+                      }
+
+                      if (card.type === 'step') {
+                        return (
+                          <div className="space-y-6 w-full max-w-lg">
+                            <div className="space-y-2">
+                              <div className="text-[10px] uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                                {card.heading}
+                              </div>
+                              <div className="text-xs font-semibold" style={{ color: 'var(--text-tertiary)' }}>
+                                Step {card.stepNumber} of {card.totalSteps}
+                              </div>
+                            </div>
+                            <div className="flex items-start gap-4">
+                              <div className="flex-shrink-0 w-12 h-12 rounded-xl border flex items-center justify-center" style={{ backgroundColor: 'var(--card-bg)', borderColor: 'var(--card-border)' }}>
+                                <span className="font-bold text-lg" style={{ color: 'var(--text-primary)' }}>{card.stepNumber}</span>
+                              </div>
+                              <p className="text-lg font-medium leading-[1.5] text-left flex-1" style={{ color: 'var(--text-primary)' }}>
+                                {card.content}
+                              </p>
+                            </div>
+                          </div>
+                        );
+                      }
+
+                      if (card.type === 'phrase') {
+                        return (
+                          <div className="space-y-8 w-full max-w-md">
+                            <div className="text-[10px] uppercase font-bold tracking-[0.2em]" style={{ color: 'var(--accent-color)' }}>
+                              {card.heading}
+                            </div>
+                            <p className="text-2xl font-bold leading-[1.2]" style={{ color: 'var(--text-primary)' }}>
+                              "{card.content}"
+                            </p>
+                          </div>
+                        );
+                      }
+
+                      return null;
+                    })()}
+                  </div>
+
+                  {/* Footer */}
+                  <div className="pt-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                    <div className="flex items-center justify-between text-[9px] font-semibold tracking-wider" style={{ color: 'var(--text-tertiary)' }}>
+                      <span>MYCHEATCODE</span>
+                      <span>Card {currentCard + 1} of {buildCards(selectedCode).length}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress Indicator */}
+              <div className="flex justify-center gap-2 mt-6">
+                {buildCards(selectedCode).map((_, index) => (
+                  <div
+                    key={index}
+                    className="h-1.5 rounded-full transition-all"
+                    style={{
+                      width: index === currentCard ? '2rem' : '0.375rem',
+                      backgroundColor: index === currentCard ? '#ffffff' : '#2a2a2a'
+                    }}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -2407,10 +2567,9 @@ function MyCodesRedesignPageContent() {
 
               {/* Momentum Number - Larger */}
               <div
-                className="text-7xl font-bold"
+                className="text-7xl font-bold momentum-glow"
                 style={{
                   color: '#00ff41',
-                  textShadow: '0 0 20px rgba(0,255,65,0.3)',
                   fontFamily: 'system-ui, -apple-system, sans-serif'
                 }}
               >

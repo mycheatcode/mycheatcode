@@ -72,13 +72,22 @@ Generate exactly ${scenarioCount} practice scenarios that are DIRECTLY RELATED t
 You MUST tailor scenarios AND answer options to match the player's level and age. Use the player context above to determine appropriate scenarios and answers.
 
 🚨 CRITICAL - AGE-APPROPRIATE ANSWER OPTIONS:
-- **Youth players (13-17)**: Can use phrases like "I'm learning", "I'm still developing", "I'm working on it"
+- **Youth players ONLY (age 13-17, NOT high school/college)**: Can use phrases like "I'm learning", "I'm still developing", "I'm working on it"
+- **High school players**: NEVER use "I'm learning" language. Use performance-focused language like:
+  - ✅ "Execute my training" (not "I'm learning")
+  - ✅ "Trust my preparation" (not "I'm still developing")
+  - ✅ "Attack the moment" (not "I'm trying my best")
+  - ✅ "Next play" (not "I'll get better")
+- **College players**: NEVER use "I'm learning" language. Use competitive, performance-based language like:
+  - ✅ "Focus on execution" (not "I'm learning")
+  - ✅ "Trust my skills" (not "I'm still developing")
+  - ✅ "Attack the opportunity" (not "I'm trying my best")
 - **Adult players (18+, recreational, men's league)**: NEVER use youth phrases. Use mature, experience-based language like:
   - ✅ "Focus on execution" (not "I'm learning")
   - ✅ "Trust my training" (not "I'm still developing")
   - ✅ "Attack the opportunity" (not "I'm trying my best")
   - ✅ "Next play" (not "I'll get better")
-- **High school/college/pro players**: Use performance-focused language without developmental framing
+- **Pro players**: Use elite performance language without any developmental framing
 
 🚨 CRITICAL - LANGUAGE TONE (MUST FOLLOW):
 Use supportive, encouraging language that builds confidence. AVOID harsh or extreme scenarios:
