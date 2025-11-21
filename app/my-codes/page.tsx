@@ -1331,18 +1331,24 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="min-h-screen relative flex flex-col" style={{ backgroundColor: '#000000', display: 'flex !important' }}>
+      <div style={{
+        backgroundColor: '#000000',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'relative',
+        paddingTop: '80px'
+      }}>
         {/* DEBUG BANNER */}
-        <div style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px', fontSize: '12px' }}>
+        <div style={{ backgroundColor: '#ff0000', color: '#fff', padding: '10px', fontSize: '12px', marginBottom: '20px' }}>
           DEBUG: Loading={loading ? 'true' : 'false'} | Codes={cheatCodes.length} | UserId={userId ? 'set' : 'null'}
         </div>
 
         {/* Header - Always visible */}
-        <div className="p-4 flex items-center gap-4 flex-shrink-0">
+        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', backgroundColor: '#222' }}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 rounded-lg transition-colors"
-            style={{ color: '#00ff41' }}
+            style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', border: '1px solid #00ff41' }}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -1350,10 +1356,10 @@ function MyCodesRedesignPageContent() {
               <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg>
           </button>
-          <div className="text-lg font-semibold" style={{ color: '#00ff41' }}>MYCHEATCODE</div>
+          <div style={{ fontSize: '18px', fontWeight: '600', color: '#00ff41' }}>MYCHEATCODE</div>
         </div>
 
-        <div className="flex-1 flex flex-col" style={{ backgroundColor: '#1a1a1a' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', backgroundColor: '#1a1a1a', padding: '20px' }}>
           {/* Header */}
           <div className="p-4 border-b" style={{ borderColor: '#333', backgroundColor: '#2a2a2a' }}>
             <div className="flex items-start justify-between" style={{ overflow: 'visible' }}>
