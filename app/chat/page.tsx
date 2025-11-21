@@ -1529,6 +1529,8 @@ export default function ChatPage() {
   const handleCloseGameModal = async () => {
     // CRITICAL: Capture the code ID BEFORE clearing it
     const completedGameCodeId = gameCheatCodeId;
+    console.log('🎮 Closing game modal - completedGameCodeId:', completedGameCodeId);
+    console.log('🎮 userId:', userId);
 
     setShowGameModal(false);
     setGameCheatCodeId(null);
@@ -1536,8 +1538,10 @@ export default function ChatPage() {
     // Trigger coach follow-up message about their performance
     // Only when closing (not when playing again)
     setTimeout(async () => {
+      console.log('⏰ setTimeout callback fired - userId:', userId, 'completedGameCodeId:', completedGameCodeId);
       // Check if there was a completed game session
       if (userId && completedGameCodeId) {
+        console.log('✅ Fetching game session...');
         try {
           // Fetch the most recent game session for this cheat code
           const supabase = createClient();
