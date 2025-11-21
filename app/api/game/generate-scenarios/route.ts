@@ -68,6 +68,23 @@ export async function POST(request: NextRequest) {
 
 Generate exactly ${scenarioCount} practice scenarios that are DIRECTLY RELATED to this specific cheat code and the mental block it addresses.
 
+🚨 🚨 🚨 CRITICAL - SCENARIO RELEVANCE (MOST IMPORTANT RULE):
+Every single scenario MUST be about the EXACT situation this cheat code addresses. Do NOT create scenarios about unrelated basketball situations.
+
+**Examples of what TO DO:**
+- If the cheat code is about "trusting your shot" → ALL scenarios must be about shooting situations (open looks, taking shots, shot selection)
+- If the cheat code is about "driving to the basket" → ALL scenarios must be about attacking the rim, finishing at the hoop
+- If the cheat code is about "staying aggressive after mistakes" → ALL scenarios must be about recovering from errors and staying confident
+- If the cheat code is about "not comparing to teammates" → ALL scenarios must be about comparison situations, stats, playing time
+
+**Examples of what NOT TO DO:**
+- ❌ Code about "trusting your shot" → Scenario about getting benched (WRONG - not about shooting)
+- ❌ Code about "trusting your shot" → Scenario about technical fouls (WRONG - not about shooting)
+- ❌ Code about "driving confidence" → Scenario about missing free throws (WRONG - not about driving)
+- ❌ Code about "post-game reflection" → Scenario about pre-game nerves (WRONG - different timing)
+
+Read the "When", "What", "Original Situation" fields carefully to understand the EXACT context where this code should be used, and create scenarios that match that EXACT context.
+
 🚨 CRITICAL - CONTEXTUAL APPROPRIATENESS:
 You MUST tailor scenarios AND answer options to match the player's level and age. Use the player context above to determine appropriate scenarios and answers.
 
@@ -110,28 +127,23 @@ Use supportive, encouraging language that builds confidence. AVOID harsh or extr
 **TYPE 2: EXTERNAL BELIEF (40% of scenarios)**
 - Tests the player's understanding of what OTHERS are actually thinking about them
 - Challenges false beliefs about judgment, expectations, letting others down
-- 🚨 CRITICAL: These MUST be directly related to THIS player's specific situation and cheat code
-- If the cheat code addresses fear of missing shots, external scenarios should involve:
-  * Missing shots and worrying about teammates' reactions
-  * Coach's response to missed shots
-  * Playing in clutch moments with fear of judgment
-- If the cheat code addresses proving yourself/comparison:
-  * Comparing to a better player and assuming they're better liked
-  * Not getting the ball and thinking teammates don't trust you
-  * Seeing teammates succeed and feeling inadequate
-- If the cheat code addresses performance anxiety:
-  * Playing in front of scouts/parents and assuming they're judging
-  * Mistakes in important moments and fear of letting team down
-  * Coach benching them and what that means
-- HUGE VARIETY of contexts for external beliefs, but ALL must connect to the SAME core issue this cheat code addresses:
-  * Teammate reactions and glances
-  * Coach feedback and body language
-  * Comparison situations with better players
-  * Clutch moments and team expectations
-  * Getting benched or reduced playing time
-  * Film room and mistake analysis
-  * Being excluded from plays or strategy
-  * Leadership pressure when not feeling ready
+- 🚨 CRITICAL: These MUST be about the EXACT SAME situation as the cheat code, just testing beliefs about others' reactions
+
+**How to create external belief scenarios:**
+1. Take the EXACT situation from the cheat code (e.g., "taking a shot when open")
+2. Add a layer of worrying about what others think in THAT EXACT situation
+3. DO NOT change the situation to something different
+
+**Examples:**
+- ✅ Code about "trusting your shot" → External scenario: "You're open for a shot but hesitate because you think teammates will judge you if you miss" (CORRECT - same situation, adds external worry)
+- ❌ Code about "trusting your shot" → External scenario: "Coach benches you after a bad performance" (WRONG - completely different situation)
+- ✅ Code about "driving confidence" → External scenario: "You have a lane to attack but worry the defender will think you're reckless" (CORRECT - same situation, adds external worry)
+- ❌ Code about "driving confidence" → External scenario: "You miss a free throw and teammates react" (WRONG - free throws aren't drives)
+
+**The formula:**
+[Cheat code situation] + [worry about others' judgment in THAT situation] = External belief scenario
+
+NEVER create scenarios about getting benched, technical fouls, or other situations UNLESS the cheat code itself is specifically about those situations.
 
 🚨 MATCH SCENARIOS TO PLAYER LEVEL:
 - **High school/college/pro players**: Can include scouts, college coaches, recruitment pressure, film room analysis
