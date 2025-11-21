@@ -1325,8 +1325,12 @@ function MyCodesRedesignPageContent() {
 
       {/* Mobile Layout - FORCED VISIBLE FOR DEBUG */}
       <div style={{ display: 'flex', minHeight: '100vh', position: 'relative', flexDirection: 'column', backgroundColor: '#000000' }}>
+        {/* DEBUG BANNER */}
+        <div style={{ backgroundColor: 'red', color: 'white', padding: '20px', fontSize: '24px', fontWeight: 'bold', textAlign: 'center', position: 'fixed', top: 0, left: 0, right: 0, zIndex: 9999 }}>
+          MOBILE LAYOUT IS RENDERING - IF YOU SEE THIS IT WORKS
+        </div>
         {/* Header - Always visible */}
-        <div style={{ padding: '16px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
+        <div style={{ padding: '16px', paddingTop: '80px', display: 'flex', alignItems: 'center', gap: '16px', flexShrink: 0 }}>
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             style={{ padding: '8px', borderRadius: '8px', color: '#00ff41', background: 'transparent', border: 'none' }}
