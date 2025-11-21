@@ -836,8 +836,14 @@ function MyCodesRedesignPageContent() {
     return timeB - timeA;
   }).slice(0, 5);
 
+  // DEBUG: Log render
+  console.log('RENDER: isMobile =', isMobile);
+
   return (
-    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)', backgroundColor: 'purple' }}>
+      <div style={{ padding: '50px', backgroundColor: 'yellow', color: 'black', fontSize: '30px' }}>
+        DEBUG: Page is rendering! isMobile = {String(isMobile)}
+      </div>
       <style>{`
         .show-on-mobile { display: flex !important; flex-direction: column; }
         .show-on-desktop { display: none !important; }
