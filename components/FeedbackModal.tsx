@@ -22,6 +22,10 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [practiceGames, setPracticeGames] = useState<number | null>(null);
   const [topicVariety, setTopicVariety] = useState<number | null>(null);
 
+  // Pricing feedback
+  const [willingToPay, setWillingToPay] = useState<'yes' | 'no' | 'maybe' | null>(null);
+  const [suggestedPrice, setSuggestedPrice] = useState('');
+
   // Screenshot upload
   const [screenshot, setScreenshot] = useState<File | null>(null);
   const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
@@ -127,6 +131,8 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
           rating_ease_of_use: practiceGames,
           rating_feature_value: topicVariety,
           screenshot_url: screenshotUrl,
+          willing_to_pay: willingToPay,
+          suggested_price: suggestedPrice.trim() || null,
         });
 
       if (insertError) throw insertError;
@@ -144,6 +150,8 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
         setCheatCodeAdvice(null);
         setPracticeGames(null);
         setTopicVariety(null);
+        setWillingToPay(null);
+        setSuggestedPrice('');
         setScreenshot(null);
         setScreenshotPreview(null);
       }, 2000);
@@ -348,6 +356,66 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
                     ))}
                   </div>
                 </div>
+              </div>
+
+              {/* Pricing Feedback */}
+              <div className="space-y-3 py-2 border-t" style={{ borderColor: 'var(--card-border)' }}>
+                <div className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
+                  💰 Pricing Feedback (Optional)
+                </div>
+                <div>
+                  <label className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                    Would you pay $7.99/month for this app?
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      { value: 'yes', label: 'Yes', emoji: '✅' },
+                      { value: 'no', label: 'No', emoji: '❌' },
+                      { value: 'maybe', label: 'Maybe', emoji: '🤔' },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        type="button"
+                        onClick={() => setWillingToPay(option.value as typeof willingToPay)}
+                        className={`p-3 rounded-xl border transition-all text-sm font-medium ${
+                          willingToPay === option.value
+                            ? 'border-[var(--accent-color)] bg-[var(--accent-color)]/10'
+                            : 'border-[var(--card-border)] hover:border-[var(--accent-color)]/50'
+                        }`}
+                        style={{
+                          color: willingToPay === option.value ? 'var(--accent-color)' : 'var(--text-secondary)',
+                        }}
+                        disabled={loading}
+                      >
+                        <div className="text-lg">{option.emoji}</div>
+                        <div className="mt-1">{option.label}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {(willingToPay === 'no' || willingToPay === 'maybe') && (
+                  <div>
+                    <label htmlFor="suggested-price" className="block text-xs font-medium mb-2" style={{ color: 'var(--text-secondary)' }}>
+                      What would you pay per month? (Optional)
+                    </label>
+                    <input
+                      id="suggested-price"
+                      type="text"
+                      value={suggestedPrice}
+                      onChange={(e) => setSuggestedPrice(e.target.value)}
+                      className="w-full rounded-xl p-3 text-sm focus:outline-none focus:ring-2"
+                      style={{
+                        backgroundColor: 'var(--bg-primary)',
+                        border: '1px solid var(--card-border)',
+                        color: 'var(--text-primary)',
+                        '--tw-ring-color': 'var(--accent-color)',
+                      } as React.CSSProperties}
+                      placeholder="e.g., $4.99, $2.99, or $0 (free only)"
+                      disabled={loading}
+                    />
+                  </div>
+                )}
               </div>
 
               <div>
