@@ -1068,6 +1068,24 @@ export default function ChatPage() {
         // Show success animation (momentum already displayed in the success message)
         setShowSaveSuccess(true);
 
+        // Close the modal
+        setSelectedCheatCode(null);
+        resetCards();
+
+        // Add coach message with "Get Reps In" button after a short delay
+        setTimeout(() => {
+          const followUpMessage: Message = {
+            id: `coach-practice-${Date.now()}`,
+            text: `Great! Your cheat code "${cheatCodeData.title}" has been saved. Ready to practice it?`,
+            sender: 'coach',
+            timestamp: new Date(),
+            gameButtonCodeId: cheatCodeId,
+            gameButtonCodeTitle: cheatCodeData.title
+          };
+
+          setMessages(prev => [...prev, followUpMessage]);
+        }, 500);
+
         // Hide success animation after 2 seconds (no redirect)
         setTimeout(() => {
           setShowSaveSuccess(false);

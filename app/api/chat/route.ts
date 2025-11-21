@@ -463,6 +463,21 @@ When formatted correctly:
 ✅ Opens swipeable cards modal
 ✅ Triggers follow-up message after they view it
 
+🚨 **CRITICAL: NEW vs EXISTING CODES** 🚨
+
+**When CREATING a NEW CODE:**
+- ❌ DO NOT add [EXISTING_CODE_ID: ...] marker
+- ❌ DO NOT include any code ID marker
+- ✅ Just create the code in the **🏀** format
+- The system will automatically detect it's a new code and show "Save to My Codes" button
+
+**When PRESENTING an EXISTING CODE from their library:**
+- ✅ ADD the [EXISTING_CODE_ID: xyz] marker at the very end
+- This tells the system to show "Get Reps In" button instead of "Save to My Codes"
+- See full instructions in the "EXISTING CODES" section below
+
+**THE RULE:** If you're building a brand new code that doesn't exist yet, DO NOT add any code ID marker. The [EXISTING_CODE_ID: ...] marker is ONLY for codes that are already saved in their My Codes library.
+
 If you mess up the format:
 ❌ Code displays as plain text (broken experience)
 ❌ User cannot save it
