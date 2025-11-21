@@ -916,7 +916,7 @@ function MyCodesRedesignPageContent() {
 
       {/* Responsive Layout CSS */}
       {/* Desktop Layout */}
-      <div className="min-h-screen relative flex" style={{ display: isMobile === false ? 'flex' : 'none' }}>
+      <div className="hidden lg:flex min-h-screen relative">
         {/* Main Content */}
         <div className="flex-1 flex flex-col">
           {/* Header - Always visible */}
@@ -1315,7 +1315,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="min-h-screen relative flex flex-col" style={{ display: isMobile === true ? 'flex' : 'none' }}>
+      <div className="lg:hidden min-h-screen relative flex flex-col">
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
