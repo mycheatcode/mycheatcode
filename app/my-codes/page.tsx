@@ -1110,6 +1110,74 @@ function MyCodesRedesignPageContent() {
           </div>
         )}
 
+        {/* Center-Screen Momentum Animation */}
+        {showCenterAnimation && (
+          <div
+            className="fixed inset-0 z-[200] flex items-center justify-center pointer-events-none"
+            style={{
+              backgroundColor: centerAnimationPhase === 'enter' ? 'rgba(0, 0, 0, 0.85)' : 'transparent',
+              transition: 'background-color 0.5s ease-out'
+            }}
+          >
+            <div
+              className="relative flex flex-col items-center justify-center gap-6 px-8"
+              style={{
+                transform: centerAnimationPhase === 'enter'
+                  ? 'scale(1)'
+                  : centerAnimationPhase === 'shrink'
+                    ? 'scale(0.5)'
+                    : 'scale(0.2) translate(0, -50vh)',
+                opacity: centerAnimationPhase === 'move' ? 0 : 1,
+                transition: centerAnimationPhase === 'enter'
+                  ? 'none'
+                  : centerAnimationPhase === 'shrink'
+                    ? 'transform 0.6s ease-out'
+                    : 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)'
+              }}
+            >
+              <div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle, rgba(0,255,65,0.12) 0%, rgba(0,255,65,0.06) 40%, transparent 70%)',
+                  filter: 'blur(30px)',
+                  transform: 'scale(1.5)'
+                }}
+              />
+              <div className="relative z-10 flex flex-col items-center gap-4 text-center max-w-md">
+                <div
+                  className="text-sm font-semibold tracking-widest uppercase"
+                  style={{
+                    color: '#00ff41',
+                    textShadow: '0 0 8px rgba(0,255,65,0.2)',
+                    letterSpacing: '0.2em'
+                  }}
+                >
+                  Momentum Gained
+                </div>
+                <div
+                  className="text-7xl font-bold"
+                  style={{
+                    color: '#00ff41',
+                    textShadow: '0 0 20px rgba(0,255,65,0.3)',
+                    fontFamily: 'system-ui, -apple-system, sans-serif'
+                  }}
+                >
+                  +{Math.floor(momentumGain)}%
+                </div>
+                <div
+                  className="text-lg font-medium"
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  Keep practicing! 🔥
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <FeedbackButton />
         <FeedbackModal isOpen={feedbackModalOpen} onClose={() => setFeedbackModalOpen(false)} />
       </div>
