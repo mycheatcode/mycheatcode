@@ -1285,7 +1285,7 @@ function MyCodesRedesignPageContent() {
                   <div className="flex-1 flex flex-col items-center justify-center text-center">
                     {(() => {
                       const cards = buildCards(selectedCode);
-                      const card = cards[currentCard];
+                      const card = cards[currentCard] as any;
 
                       if (!card) return null;
 
