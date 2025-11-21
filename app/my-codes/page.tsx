@@ -67,17 +67,17 @@ function MyCodesRedesignPageContent() {
   const [pendingGameResult, setPendingGameResult] = useState<GameSessionResult | null>(null);
   const [showCenterAnimation, setShowCenterAnimation] = useState(false);
   const [centerAnimationPhase, setCenterAnimationPhase] = useState<'enter' | 'shrink' | 'move'>('enter');
-  const [isMobile, setIsMobile] = useState(true); // Default to mobile
+  const [isMobile, setIsMobile] = useState(true); // Default to mobile for SSR
   const router = useRouter();
   const searchParams = useSearchParams();
   const supabase = createClient();
 
-  // Detect viewport on client side
+  // Detect viewport size for mobile/desktop rendering
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 1024);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Load data function (can be called on mount or to refresh)
@@ -836,14 +836,9 @@ function MyCodesRedesignPageContent() {
     return timeB - timeA;
   }).slice(0, 5);
 
-  // DEBUG: Log render
-  console.log('RENDER: isMobile =', isMobile);
-
   return (
-    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)', backgroundColor: 'purple' }}>
-      <div style={{ padding: '50px', backgroundColor: 'yellow', color: 'black', fontSize: '30px' }}>
-        DEBUG: Page is rendering! isMobile = {String(isMobile)}
-      </div>
+    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+      {/* Responsive CSS embedded */}
       <style>{`
         .show-on-mobile { display: flex !important; flex-direction: column; }
         .show-on-desktop { display: none !important; }
@@ -1331,10 +1326,7 @@ function MyCodesRedesignPageContent() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none', backgroundColor: 'red' }}>
-        <div style={{ backgroundColor: 'cyan', padding: '30px', color: 'black', fontSize: '24px' }}>
-          MOBILE LAYOUT CONTAINER - If you see this cyan box, mobile layout is rendering
-        </div>
+      <div className="min-h-screen relative flex-col" style={{ display: isMobile ? 'flex' : 'none' }}>
         {/* Header - Always visible */}
         <div className="p-4 flex items-center gap-4 flex-shrink-0">
           <button
