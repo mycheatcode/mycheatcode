@@ -836,7 +836,22 @@ function MyCodesRedesignPageContent() {
   }).slice(0, 5);
 
   return (
-    <div className="min-h-screen font-sans" style={{ color: 'var(--text-primary)' }}>
+    <div className="min-h-screen font-sans" style={{ color: '#fff', backgroundColor: '#0000ff', position: 'relative', zIndex: 9999 }}>
+      {/* EMERGENCY TEST DIV */}
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: '#ff0000',
+        color: '#ffffff',
+        padding: '20px',
+        fontSize: '24px',
+        zIndex: 99999,
+        border: '5px solid yellow'
+      }}>
+        🚨 EMERGENCY TEST - CAN YOU SEE THIS? Loading: {loading ? 'YES' : 'NO'} | Codes: {cheatCodes.length}
+      </div>
       {/* Sidebar Navigation */}
       <div
         className={`fixed top-0 left-0 h-full w-72 lg:w-80 flex flex-col transform transition-transform duration-300 z-30 ${menuOpen ? 'translate-x-0' : '-translate-x-full'}`}
