@@ -75,9 +75,9 @@ export async function middleware(request: NextRequest) {
   )
   const isAuthRoute = authRoutes.includes(request.nextUrl.pathname)
 
-  // Redirect to login if trying to access protected route without auth
+  // Redirect to signup if trying to access protected route without auth
   if (isProtectedRoute && !user) {
-    return NextResponse.redirect(new URL('/login', request.url))
+    return NextResponse.redirect(new URL('/signup', request.url))
   }
 
   // Redirect to home if trying to access auth routes while logged in
